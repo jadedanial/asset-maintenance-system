@@ -1,0 +1,325 @@
+@font-face {
+  font-family: ralewaylight;
+  src: url("/public/fonts/ralewaylight.ttf");
+}
+
+@font-face {
+  font-family: ralewayregular;
+  src: url("/public/fonts/ralewayregular.ttf");
+}
+
+@font-face {
+  font-family: ralewaymedium;
+  src: url("/public/fonts/ralewaymedium.ttf");
+}
+
+h1 {
+  margin: 0 !important;
+}
+
+.logo {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  margin: 25px 20px 30px 20px;
+}
+
+.logo img {
+  width: 80%;
+}
+
+.ant-menu-submenu-arrow {
+  display: none;
+}
+
+.ant-menu-title-content {
+  color: #FFF;
+  font-family: ralewayregular;
+  font-size: 14px;
+}
+
+#components-layout-demo-custom-trigger .trigger {
+  padding: 0 24px;
+  font-size: 18px;
+  line-height: 64px;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+#components-layout-demo-custom-trigger .trigger:hover {
+  color: #1890FF;
+}
+
+#components-layout-demo-custom-trigger {
+  height: 32px;
+  margin: 16px;
+  background: #F0F2F5;
+}
+
+.site-layout .site-layout-background {
+  min-height: 100vh;
+  background: #F0F2F5;
+}
+
+.trigger svg {
+  width: 1.5em;
+  height: 1.5em;
+}
+
+h1.ant-typography {
+  font-weight: 500 !important;
+}
+
+.justified-row {
+  display: flex;
+  justify-content: center;
+}
+
+.ant-btn {
+  font-weight: 800 !important;
+}
+
+.ant-btn-icon-only {
+  border: none !important;
+}
+
+.ant-card-custom-hover {
+  margin: 0 !important;
+}
+
+.ant-card-custom-hover:hover p {
+  color: #FFF !important;
+}
+
+.ant-card-custom-hover:hover .ant-tag-blue {
+  background: #318CE7;
+  border-color: #318CE7;
+}
+
+.ant-card-custom-hover:hover {
+  background: #318CE7;
+}
+
+.ant-card-custom .ant-card-head, .ant-card-custom .ant-card-head-title {
+  padding: 0;
+}
+
+.ant-card-custom .ant-card-body {
+  padding: 20px 0 0 0;
+}
+
+.header-menu {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 20px;
+}
+
+.biggest-card-title, .bigger-card-title, .big-card-title, .large-card-title, .medium-card-title, .small-card-title {
+  color: #318CE7;
+  font-family: ralewaymedium !important;
+  font-weight: 500 !important;
+  text-align: left;
+  margin: 0 !important;
+}
+
+.bigger-card-title {
+  font-size: 50px !important;
+}
+
+.biggest-card-title {
+  font-size: 80px !important;
+}
+
+.big-card-title {
+  font-size: 24px !important;
+}
+
+.large-card-title {
+  font-size: 20px !important;
+}
+
+.medium-card-title {
+  font-size: 16px !important;
+}
+
+.small-card-title {
+  font-size: 14px !important;
+}
+
+.big-font, .medium-font, .small-font, .extra-small-font {
+  color: #000;
+  font-family: ralewayregular !important;
+  text-align: left !important;
+  margin: 0 !important;
+}
+
+.big-font {
+  font-size: 20px !important;
+}
+
+.medium-font {
+  font-size: 16px !important;
+}
+
+.small-font {
+  font-size: 14px !important;
+}
+
+.extra-small-font {
+  font-size: 12px !important;
+}
+
+.box-style {
+  box-shadow: rgba(57, 34, 187, 0.15) 0 48px 100px 0;
+}
+
+.ant-table-thead .ant-table-cell {
+  color: #FFF;
+  font-family: ralewaymedium;
+  font-size: 14px;
+  text-align: center;
+  background-color: #318CE7;
+}
+
+.ant-table-thead th.ant-table-column-has-sorters {
+  color: #FFF !important;
+  background-color: #318CE7 !important;
+}
+
+.light-color-header-table .ant-table-thead .ant-table-cell {
+  color: #318CE7;
+  background-color: #FFF;
+}
+
+.ant-table-tbody tr td {
+  border-top: 16px solid #FFF !important;
+}
+
+.table-row {
+  color: #000;
+  font-family: ralewayregular;
+  font-size: 14px;
+  font-weight: 500;
+  text-align: center;
+  background-color: #E6F7FF;
+  line-height: 18px;
+  cursor: pointer;
+}
+
+.table-row:hover td {
+  color: #FFF;
+  background-color: #1890FF !important;
+}
+
+td.ant-table-column-sort {
+  background-color: #E6F7FF !important;
+}
+
+.ant-pagination {
+  margin: 30px !important;
+  font-family: ralewayregular;
+  font-size: 16px;
+}
+
+.ant-statistic {
+  text-align: center;
+}
+
+.ant-statistic-content-value {
+  color: #318CE7;
+  font-family: ralewayregular;
+  font-size: 30px;
+}
+
+.small-font-statistic .ant-statistic-content-value {
+  font-size: 18px;
+}
+
+.ant-tabs-tab {
+  padding-top: 0 !important;
+}
+
+.ant-tabs-nav {
+  margin-bottom: 0 !important;
+}
+
+.ant-tabs-ink-bar {
+  visibility: hidden;
+}
+
+.ant-tabs-tab-btn {
+  color: #318CE7;
+  font-family: ralewayregular;
+  font-size: 14px;
+  padding: 10px;
+}
+
+.ant-drawer-header {
+  padding: 0 !important;
+}
+
+.ant-drawer-close {
+  display: none !important;
+}
+
+.ant-form-item-explain-error {
+  color: #D90909A9 !important;
+  font-family: ralewayregular;
+  font-size: 12px;
+  margin: 5px 0 10px 0;
+}
+
+.ant-form-item-label label {
+  color: #318CE7 !important;
+  font-size: 14px !important;
+  font-family: ralewayregular !important;
+  height: 0 !important;
+}
+
+.ant-picker, .ant-picker-calendar, .ant-picker-dropdown {
+  font-family: ralewayregular;
+}
+
+.ant-picker-calendar-header {
+  padding-top: 0;
+}
+
+.ant-picker-panel {
+  padding-top: 20px;
+}
+
+.ant-picker-calendar-date-content {
+  height: 40px !important;
+}
+
+.ant-picker-calendar-mode-switch {
+  display: none !important;
+}
+
+.ant-timeline-item-head {
+  background: none !important;
+}
+
+.ant-timeline-item-tail {
+  border-left: 1px solid #1890FF !important;
+}
+
+.ant-select {
+  font-family: ralewayregular !important;
+  font-size: 16px !important;
+}
+
+.ant-list-custom .ant-list-item {
+  padding: 6px 0;
+}
+
+.ant-list-item-meta-title {
+  margin: 0 !important;
+}
