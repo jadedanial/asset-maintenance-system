@@ -47,7 +47,7 @@ Generate reports to monitor work order status, employee productivity, spare part
 
 # Screenshots
 
-![This is an image](https://github.com/jadedanial/asset-maintenance-system/blob/main/ui2.png)
+![This is an image](https://github.com/jadedanial/asset-maintenance-system/blob/main/ui1.png)
 
 ![This is an image](https://github.com/jadedanial/asset-maintenance-system/blob/main/ui2.png)
 
