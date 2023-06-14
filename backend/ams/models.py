@@ -94,7 +94,7 @@ class Employee(models.Model):
     emp_address = models.CharField(max_length = 100, blank = True, null = True, verbose_name = 'Address')
     emp_hired = models.DateField(blank = True, null = True, verbose_name = 'Date Hired')
     emp_position = models.CharField(max_length = 100, blank = True, null = True, verbose_name = 'Position')
-    emp_salary = models.PositiveIntegerField(blank = True, null = True, verbose_name = 'Monthly Salary')
+    emp_salary = models.FloatField(blank = True, null = True, verbose_name = 'Monthly Salary')
     emp_sched = models.ForeignKey(Schedule, blank = True, null = True, on_delete = models.CASCADE, verbose_name = 'Schedule')
 
     def __str__(self):
@@ -175,10 +175,34 @@ class Position(models.Model):
 
 class Salary(models.Model):
 
-    salary = models.PositiveIntegerField(blank = False, null = False, verbose_name = 'Salary')
+    salary = models.FloatField(blank = False, null = False, verbose_name = 'Salary')
 
     def __int__(self):
         return self.salary
+
+class Item(models.Model):
+
+    id = models.AutoField(primary_key = True)
+    item_code = models.CharField(max_length = 500, blank = True, null = True, verbose_name = 'Item Code')
+    item_name = models.TextField(blank = False, null = False, verbose_name = 'Name')
+    item_cost = models.FloatField(blank = False, null = False, verbose_name = 'Unit Cost')
+    item_description = models.TextField(blank = False, null = False, verbose_name = 'Description')
+    item_category = models.CharField(max_length = 500, blank = False, null = False, verbose_name = 'Category')
+    item_measurement = models.CharField(max_length = 500, blank = False, null = False, verbose_name = 'Unit Of Measurement')
+    item_location = models.CharField(max_length = 300, blank = False, null = False, verbose_name = 'Physical Location')
+    item_onhand = models.FloatField(blank = False, null = False, verbose_name = 'Quantity On Hand')
+    item_reorder = models.FloatField(blank = False, null = False, verbose_name = 'Reorder Quantity')
+
+    def __str__(self):
+        return self.item_name
+    
+    def update_model(self):
+        test_id = Item.objects.get(item_code = self.item_code).id
+        Item.objects.filter(id = test_id).update(item_code = 'ITM00' + str(self.id))
+
+    def save(self, *args, **kwargs):
+        super(Item, self).save(*args, **kwargs)
+        self.update_model()
 
 
 

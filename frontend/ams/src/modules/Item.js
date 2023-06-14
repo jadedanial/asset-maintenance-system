@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Col, Row, Card, Button, Select, Tooltip, Table,  } from 'antd';
-import { UserAddOutlined, } from '@ant-design/icons';
+import { ShoppingOutlined, } from '@ant-design/icons';
 import DrawerEvents from '../components/Drawer';
 
 const cardlayout = {
@@ -11,18 +11,18 @@ const cardlayout = {
   style:{width: "100%"},
 };
 
-const Employee = (props) => {
+const Item = (props) => {
 
   const [openDrawer, setOpenDrawer] = useState(false);
   const [compItem, setCompItem] = useState(0);
-  const [employees, setEmployees] = useState([]);
-  const [empID, setEmpID] = useState(0);
+  const [items, setItems] = useState([]);
+  const [itemID, setItemID] = useState(0);
 
   const columns = [
     {
-      title: 'Employee ID',
-      dataIndex: 'employee',
-      key: 'employee',
+      title: 'Item Code',
+      dataIndex: 'item',
+      key: 'item',
     },
     {
       title: 'Name',
@@ -30,34 +30,46 @@ const Employee = (props) => {
       key: 'name',
     },
     {
-      title: 'Position',
-      dataIndex: 'position',
-      key: 'position',
+      title: 'Unit Cost',
+      dataIndex: 'cost',
+      key: 'cost',
     },
     {
-      title: 'Phone',
-      dataIndex: 'phone',
-      key: 'phone',
+      title: 'Category',
+      dataIndex: 'category',
+      key: 'category',
     },
     {
-      title: 'Email',
-      dataIndex: 'email',
-      key: 'email',
+      title: 'Unit Of Measurement',
+      dataIndex: 'measurement',
+      key: 'measurement',
+    },
+    {
+      title: 'Physical Location',
+      dataIndex: 'location',
+      key: 'location',
+    },
+    {
+      title: 'Reorder Quantity',
+      dataIndex: 'reorder',
+      key: 'reorder',
     },
   ];
 
   useEffect(() => {
-    axios.get('http://localhost:8000/api/employees')
+    axios.get('http://localhost:8000/api/items')
     .then(response => {
-      setEmployees([]);
+      setItems([]);
       response.data.map(res => (
-        setEmployees(employees => [...employees,
+        setItems(items => [...items,
           {
-            employee: res.emp_id,
-            name: res.emp_name,
-            position: res.emp_position,
-            phone: res.emp_phone,
-            email: res.emp_email,
+            item: res.item_code,
+            name: res.item_name,
+            cost: res.item_cost,
+            category: res.item_category,
+            measurement: res.item_measurement,
+            location: res.item_location,
+            reorder: res.item_reorder,
           }
         ])
       ))
@@ -81,7 +93,7 @@ const Employee = (props) => {
               <Card size="small" style={{background: "#318CE7", width: "100%"}}>
                 <Row>
                   <Col span={2}>
-                    <Tooltip title="Add Employee"><Button type="primary" shape="circle" className="custom-hover" style={{margin: "0 20px"}} onClick={() => {showDrawer(); setCompItem("AddEmployee")}} icon={<UserAddOutlined />} /></Tooltip>
+                    <Tooltip title="Add Item"><Button type="primary" shape="circle" className="custom-hover" style={{margin: "0 20px"}} onClick={() => {showDrawer(); setCompItem("AddItem")}} icon={<ShoppingOutlined />} /></Tooltip>
                   </Col>
                   <Col span={19}>
                     <Select className="small-font" showSearch style={{width: "100%"}} optionFilterProp="children" filterOption={(input, option) => (option?.label ?? '').includes(input)}
@@ -97,17 +109,17 @@ const Employee = (props) => {
           </Row>
           <Row style={{marginTop: "20px"}}>
             <Col span={24}>
-              <Table className="light-color-header-table" rowClassName={() => "table-row"} columns={columns} dataSource={employees}
-              onRow={(rowIndex) => {return {onClick: (event) => {showDrawer(); setEmpID(rowIndex.employee); setCompItem("Profile")},};}} pagination={{pageSize: 10, showSizeChanger: true,
+              <Table className="light-color-header-table" rowClassName={() => "table-row"} columns={columns} dataSource={items}
+              onRow={(rowIndex) => {return {onClick: (event) => {showDrawer(); setItemID(rowIndex.item); setCompItem("ItemDetail")},};}} pagination={{pageSize: 10, showSizeChanger: true,
               pageSizeOptions: ['10', '20', '30']}} size="small" />
             </Col>
           </Row>
         </Card>
       </Row>
-      <DrawerEvents showDrawer={openDrawer} onCloseDrawer={onCloseDrawer} empid={empID} col={props.col} comp={compItem}></DrawerEvents>
+      <DrawerEvents showDrawer={openDrawer} onCloseDrawer={onCloseDrawer} itemid={itemID} col={props.col} comp={compItem}></DrawerEvents>
     </>
   );
 
 };
 
-export default Employee;
+export default Item;

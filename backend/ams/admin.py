@@ -55,10 +55,10 @@ class AssetAdmin(admin.ModelAdmin):
 
 class RequestAdmin(admin.ModelAdmin):
 
-	readonly_fields = ('id',)
-	list_display = ('req_id', 'asset_id', 'req_createby', 'req_checkby', 'req_date', 'req_workshop', 'req_physloc', 'req_status', 'req_maint', 'req_repair', 'req_km', 'req_enghr', 'req_fuel', 'req_desc',)
-	list_filter = ('req_id', 'asset_id', 'req_createby', 'req_checkby', 'req_date', 'req_workshop', 'req_physloc', 'req_status', 'req_maint', 'req_repair', 'req_km', 'req_enghr', 'req_fuel', 'req_desc',)
-	search_fields = ('req_id', 'asset_id', 'req_createby', 'req_checkby', 'req_date', 'req_workshop', 'req_physloc', 'req_status', 'req_maint', 'req_repair', 'req_km', 'req_enghr', 'req_fuel', 'req_desc',)
+	readonly_fields = ('id', 'req_id')
+	list_display = ('asset_id', 'req_createby', 'req_checkby', 'req_date', 'req_workshop', 'req_physloc', 'req_status', 'req_maint', 'req_repair', 'req_km', 'req_enghr', 'req_fuel', 'req_desc',)
+	list_filter = ('asset_id', 'req_createby', 'req_checkby', 'req_date', 'req_workshop', 'req_physloc', 'req_status', 'req_maint', 'req_repair', 'req_km', 'req_enghr', 'req_fuel', 'req_desc',)
+	search_fields = ('asset_id', 'req_createby', 'req_checkby', 'req_date', 'req_workshop', 'req_physloc', 'req_status', 'req_maint', 'req_repair', 'req_km', 'req_enghr', 'req_fuel', 'req_desc',)
 
 class NationalityAdmin(admin.ModelAdmin):
 
@@ -78,6 +78,13 @@ class SalaryAdmin(admin.ModelAdmin):
 	list_filter = ('salary',)
 	search_fields = ('salary',)
 
+class ItemAdmin(admin.ModelAdmin):
+
+	readonly_fields = ('id', 'item_code',)
+	list_display = ('item_name', 'item_cost', 'item_description', 'item_category', 'item_measurement', 'item_location', 'item_onhand', 'item_reorder',)
+	list_filter = ('item_name', 'item_cost', 'item_description', 'item_category', 'item_measurement', 'item_location', 'item_onhand', 'item_reorder',)
+	search_fields = ('item_name', 'item_cost', 'item_description', 'item_category', 'item_measurement', 'item_location', 'item_onhand', 'item_reorder',)
+
 admin.site.register(Section, SectionAdmin)
 admin.site.register(Module, ModuleAdmin)
 admin.site.register(User, UserAdmin)
@@ -90,3 +97,4 @@ admin.site.register(Request, RequestAdmin)
 admin.site.register(Nationality, NationalityAdmin)
 admin.site.register(Position, PositionAdmin)
 admin.site.register(Salary, SalaryAdmin)
+admin.site.register(Item, ItemAdmin)

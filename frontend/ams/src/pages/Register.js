@@ -63,7 +63,7 @@ const RegisterPage = () => {
       <NavigationMenu />
       <Layout style={{height: "90vh"}} >
         <div className="justified-row">
-          <div className="site-card-border-less-wrapper" style={{margin: "40px", marginTop: "5%", width: "30%"}}>
+          <div style={{margin: "40px", marginTop: "5%", width: "30%"}}>
             <Card size="large" title={<Title><p className="big-card-title" style={{color: color}}>{label}</p></Title>} hoverable>
               <Form name="register" className="login-form" size="large" initialValues={{remember: true,}} onFinish={onFinish} onFinishFailed={onFinishFailed} onFieldsChange={onFieldsChange}>
                 <Form.Item name="id" rules={[{required: true, message: 'Please input employee ID!',},]}>

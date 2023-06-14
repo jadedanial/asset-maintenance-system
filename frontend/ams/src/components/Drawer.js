@@ -3,15 +3,21 @@ import { Drawer, Tooltip, Button } from 'antd';
 import { CloseOutlined } from '@ant-design/icons';
 import Profile from './Profile';
 import AddEmployee from './AddEmployee';
+import ItemDetail from './ItemDetail';
+import AddItem from './AddItem';
 
 const DrawerEvents = (props) => {
 
   function drawerSwitch(key) {
     switch (key) {
-      case 1:
+      case "Profile":
         return (<><Profile empid={props.empid}></Profile></>);
-      case 2:
+      case "AddEmployee":
         return (<><AddEmployee></AddEmployee></>);
+      case "ItemDetail":
+        return (<><ItemDetail itemid={props.itemid}></ItemDetail></>);
+      case "AddItem":
+        return (<><AddItem></AddItem></>);
       default:
         break;
     }

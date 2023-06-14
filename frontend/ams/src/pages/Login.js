@@ -85,7 +85,7 @@ const LoginPage = () => {
       <NavigationMenu />
       <Layout style={{height: "90vh"}}>
         <div className="justified-row">
-          <div className="site-card-border-less-wrapper" style={{margin: "40px", marginTop: "5%", width: "30%"}}>
+          <div style={{margin: "40px", marginTop: "5%", width: "30%"}}>
             <Card size="large" title={<Title><p className="big-card-title">Authenticate User</p></Title>} hoverable>
               <Form name="login" className="login-form" size="large" initialValues={{remember: true,}}>
                 <Form.Item name="username" rules={[{required: inputReq, message: 'Please input employee username!',},]}>

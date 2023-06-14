@@ -19,4 +19,5 @@ urlpatterns = [
     path('nationality', NationalityListView.as_view()),
     path('position', PositionListView.as_view()),
     path('salary', SalaryListView.as_view()),
+    path('items', ItemListView.as_view()),
 ]

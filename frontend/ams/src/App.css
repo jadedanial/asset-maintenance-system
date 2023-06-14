@@ -323,3 +323,7 @@ td.ant-table-column-sort {
 .ant-list-item-meta-title {
   margin: 0 !important;
 }
+
+.ant-descriptions-item {
+  padding: 0 !important;
+}
