@@ -89,7 +89,7 @@ const Employee = (props) => {
                     />  
                   </Col>
                   <Col span={2}>
-                    <Button type="primary" size="default" className="custom-hover" style={{margin: "0 20px"}} block>SEARCH</Button>
+                    <Button size="middle" type="primary" className="custom-hover" style={{margin: "0 20px"}} block>SEARCH</Button>
                   </Col>
                 </Row>
               </Card>

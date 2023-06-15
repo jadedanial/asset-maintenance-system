@@ -25,9 +25,9 @@ const WorkRequest = () => {
               <Col span={8}>
                 <Divider orientation="right" orientationMargin={0} style={{borderBlockColor: "white"}}>
                   <Space size="small">
-                    <Button type="primary" size="default">SAVE</Button>
-                    <Button type="primary" size="default">APPROVE</Button>
-                    <Button type="primary" size="default">CLEAR</Button>
+                    <Button size="large" type="primary">SAVE</Button>
+                    <Button size="large" type="primary">APPROVE</Button>
+                    <Button size="large" type="primary">CLEAR</Button>
                   </Space>
                 </Divider>
               </Col>

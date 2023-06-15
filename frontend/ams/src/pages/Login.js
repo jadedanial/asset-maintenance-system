@@ -98,7 +98,7 @@ const LoginPage = () => {
                   <Checkbox className="medium-font" checked={isCheck} onClick={toggleChecked} onChange={e => setRemember(e.target.checked)}>Remember Me</Checkbox>
                 </Form.Item>
                 <Form.Item>
-                  <Button type="primary" htmlType="submit" style={{marginTop: "24px"}} icon={<LoginOutlined />} onClick={handleSubmit} block>LOGIN</Button>
+                  <Button size="large" type="primary" htmlType="submit" style={{marginTop: "24px"}} icon={<LoginOutlined />} onClick={handleSubmit} block>LOGIN</Button>
                 </Form.Item>
               </Form>
             </Card>

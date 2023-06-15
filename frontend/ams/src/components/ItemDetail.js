@@ -37,8 +37,8 @@ const ItemDetail = (props) => {
                       <Descriptions.Item label="Reorder Quantity">{item.item_reorder}</Descriptions.Item>
                     </Descriptions>
                   </Col>
-                  <Col span={6}>
-                    <QRCode size={256} style={{height: "auto", width: "100%", margin: "0 0 0 60px"}} value={item.item_code} />
+                  <Col span={9}>
+                    <QRCode size={256} style={{height: "auto", width: "100%"}} value={item.item_code} />
                   </Col>
                 </Row>
                 <Row style={{margin: "20px 0 10px 0"}}><Tag color="blue"><p className="medium-font" style={{color: "#318CE7"}}>{item.item_category}</p></Tag></Row>

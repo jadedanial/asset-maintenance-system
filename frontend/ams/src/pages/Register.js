@@ -88,7 +88,7 @@ const RegisterPage = () => {
                   <Input className="medium-font" prefix={<LockOutlined className="site-form-item-icon" />} type="password" placeholder="Confirm Password" />
                 </Form.Item>
                 <Form.Item>
-                  <Button type="primary" htmlType="submit" style={{marginTop: "24px"}} icon={<UserAddOutlined />} block>REGISTER</Button>
+                  <Button size="large" type="primary" htmlType="submit" style={{marginTop: "24px"}} icon={<UserAddOutlined />} block>REGISTER</Button>
                 </Form.Item>
               </Form>
             </Card>
