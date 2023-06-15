@@ -81,7 +81,7 @@ const Employee = (props) => {
               <Card size="small" style={{background: "#318CE7", width: "100%"}}>
                 <Row>
                   <Col span={2}>
-                    <Tooltip title="Add Employee"><Button type="primary" shape="circle" className="custom-hover" style={{margin: "0 20px"}} onClick={() => {showDrawer(); setCompItem("AddEmployee")}} icon={<UserAddOutlined />} /></Tooltip>
+                    <Tooltip title="Add New Employee"><Button type="primary" shape="circle" className="custom-hover" style={{margin: "0 20px"}} onClick={() => {showDrawer(); setCompItem("AddEmployee")}} icon={<UserAddOutlined />} /></Tooltip>
                   </Col>
                   <Col span={19}>
                     <Select className="small-font" showSearch style={{width: "100%"}} optionFilterProp="children" filterOption={(input, option) => (option?.label ?? '').includes(input)}

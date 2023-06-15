@@ -185,13 +185,13 @@ class Item(models.Model):
     id = models.AutoField(primary_key = True)
     item_code = models.CharField(max_length = 500, blank = True, null = True, verbose_name = 'Item Code')
     item_name = models.TextField(blank = False, null = False, verbose_name = 'Name')
+    item_category = models.CharField(max_length = 500, blank = False, null = False, verbose_name = 'Category')
+    item_location = models.CharField(max_length = 300, blank = False, null = False, verbose_name = 'Physical Location')
+    item_measurement = models.CharField(max_length = 500, blank = False, null = False, verbose_name = 'Unit Of Measurement')
+    item_reorder = models.FloatField(blank = False, null = False, verbose_name = 'Reorder Quantity')
+    item_onhand = models.FloatField(blank = False, null = False, verbose_name = 'Quantity On Hand')
     item_cost = models.FloatField(blank = False, null = False, verbose_name = 'Unit Cost')
     item_description = models.TextField(blank = False, null = False, verbose_name = 'Description')
-    item_category = models.CharField(max_length = 500, blank = False, null = False, verbose_name = 'Category')
-    item_measurement = models.CharField(max_length = 500, blank = False, null = False, verbose_name = 'Unit Of Measurement')
-    item_location = models.CharField(max_length = 300, blank = False, null = False, verbose_name = 'Physical Location')
-    item_onhand = models.FloatField(blank = False, null = False, verbose_name = 'Quantity On Hand')
-    item_reorder = models.FloatField(blank = False, null = False, verbose_name = 'Reorder Quantity')
 
     def __str__(self):
         return self.item_name

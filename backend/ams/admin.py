@@ -81,9 +81,9 @@ class SalaryAdmin(admin.ModelAdmin):
 class ItemAdmin(admin.ModelAdmin):
 
 	readonly_fields = ('id', 'item_code',)
-	list_display = ('item_name', 'item_cost', 'item_description', 'item_category', 'item_measurement', 'item_location', 'item_onhand', 'item_reorder',)
-	list_filter = ('item_name', 'item_cost', 'item_description', 'item_category', 'item_measurement', 'item_location', 'item_onhand', 'item_reorder',)
-	search_fields = ('item_name', 'item_cost', 'item_description', 'item_category', 'item_measurement', 'item_location', 'item_onhand', 'item_reorder',)
+	list_display = ('item_name', 'item_category', 'item_location', 'item_measurement', 'item_reorder', 'item_onhand', 'item_cost', 'item_description',)
+	list_filter = ('item_name', 'item_category', 'item_location', 'item_measurement', 'item_reorder', 'item_onhand', 'item_cost', 'item_description',)
+	search_fields = ('item_name', 'item_category', 'item_location', 'item_measurement', 'item_reorder', 'item_onhand', 'item_cost', 'item_description',)
 
 admin.site.register(Section, SectionAdmin)
 admin.site.register(Module, ModuleAdmin)

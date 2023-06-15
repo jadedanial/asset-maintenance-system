@@ -11,7 +11,7 @@ const cardlayout = {
   style:{width: "100%"},
 };
 
-const Item = (props) => {
+const CurrentStock = (props) => {
 
   const [openDrawer, setOpenDrawer] = useState(false);
   const [compItem, setCompItem] = useState(0);
@@ -30,19 +30,9 @@ const Item = (props) => {
       key: 'name',
     },
     {
-      title: 'Unit Cost',
-      dataIndex: 'cost',
-      key: 'cost',
-    },
-    {
       title: 'Category',
       dataIndex: 'category',
       key: 'category',
-    },
-    {
-      title: 'Unit Of Measurement',
-      dataIndex: 'measurement',
-      key: 'measurement',
     },
     {
       title: 'Physical Location',
@@ -50,9 +40,29 @@ const Item = (props) => {
       key: 'location',
     },
     {
+      title: 'Unit Of Measurement',
+      dataIndex: 'measurement',
+      key: 'measurement',
+    },
+    {
       title: 'Reorder Quantity',
       dataIndex: 'reorder',
       key: 'reorder',
+    },
+    {
+      title: 'Quantity On Hand',
+      dataIndex: 'onhand',
+      key: 'onhand',
+    },
+    {
+      title: 'Unit Cost',
+      dataIndex: 'cost',
+      key: 'cost',
+    },
+    {
+      title: 'Inventory Value',
+      dataIndex: 'value',
+      key: 'value',
     },
   ];
 
@@ -65,11 +75,13 @@ const Item = (props) => {
           {
             item: res.item_code,
             name: res.item_name,
-            cost: res.item_cost,
             category: res.item_category,
-            measurement: res.item_measurement,
             location: res.item_location,
+            measurement: res.item_measurement,
             reorder: res.item_reorder,
+            onhand: res.item_onhand,
+            cost: res.item_cost,
+            value: res.item_cost * res.item_onhand,
           }
         ])
       ))
@@ -93,7 +105,7 @@ const Item = (props) => {
               <Card size="small" style={{background: "#318CE7", width: "100%"}}>
                 <Row>
                   <Col span={2}>
-                    <Tooltip title="Add Item"><Button type="primary" shape="circle" className="custom-hover" style={{margin: "0 20px"}} onClick={() => {showDrawer(); setCompItem("AddItem")}} icon={<ShoppingOutlined />} /></Tooltip>
+                    <Tooltip title="Add New Item"><Button type="primary" shape="circle" className="custom-hover" style={{margin: "0 20px"}} onClick={() => {showDrawer(); setCompItem("AddItem")}} icon={<ShoppingOutlined />} /></Tooltip>
                   </Col>
                   <Col span={19}>
                     <Select className="small-font" showSearch style={{width: "100%"}} optionFilterProp="children" filterOption={(input, option) => (option?.label ?? '').includes(input)}
@@ -122,4 +134,4 @@ const Item = (props) => {
 
 };
 
-export default Item;
+export default CurrentStock;

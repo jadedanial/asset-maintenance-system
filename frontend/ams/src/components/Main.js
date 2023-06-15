@@ -5,7 +5,7 @@ import { Layout, Menu, Space, Dropdown, Badge, Row, Col, Avatar } from 'antd';
 import { UserOutlined, UnlockOutlined, SettingOutlined, BarChartOutlined, TeamOutlined, ShoppingCartOutlined, CarOutlined, MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons';
 import WorkRequest from '../modules/WorkRequest';
 import Employee from '../modules/Employee';
-import Item from '../modules/Item';
+import CurrentStock from '../modules/CurrentStock';
 import DrawerEvents from '../components/Drawer';
 
 const { Header, Sider, Content } = Layout;
@@ -97,8 +97,8 @@ const MainPage = (props) => {
         return (<><WorkRequest></WorkRequest></>);
       case "Employee":
         return (<><Employee col={collapsed}></Employee></>);
-      case "Item":
-        return (<><Item col={collapsed}></Item></>);
+      case "Current Stock":
+        return (<><CurrentStock col={collapsed}></CurrentStock></>);
       default:
         break;
     }

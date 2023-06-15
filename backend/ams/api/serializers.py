@@ -84,4 +84,4 @@ class SalarySerializer(serializers.ModelSerializer):
 class ItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = Item
-        fields = ['id', 'item_code', 'item_name', 'item_cost', 'item_description', 'item_category', 'item_measurement', 'item_location', 'item_onhand', 'item_reorder',]
+        fields = ['id', 'item_code', 'item_name', 'item_category', 'item_location', 'item_measurement', 'item_reorder', 'item_onhand', 'item_cost', 'item_description',]
