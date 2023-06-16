@@ -17,7 +17,7 @@ const DrawerEvents = (props) => {
       case "ItemDetail":
         return (<><ItemDetail itemid={props.itemid}></ItemDetail></>);
       case "AddItem":
-        return (<><AddItem></AddItem></>);
+        return (<><AddItem setItems={props.setItems}></AddItem></>);
       default:
         break;
     }

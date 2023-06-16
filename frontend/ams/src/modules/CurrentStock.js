@@ -128,7 +128,7 @@ const CurrentStock = (props) => {
           </Row>
         </Card>
       </Row>
-      <DrawerEvents showDrawer={openDrawer} onCloseDrawer={onCloseDrawer} itemid={itemID} col={props.col} comp={compItem}></DrawerEvents>
+      <DrawerEvents showDrawer={openDrawer} onCloseDrawer={onCloseDrawer} itemid={itemID} col={props.col} comp={compItem} setItems={setItems}></DrawerEvents>
     </>
   );
 

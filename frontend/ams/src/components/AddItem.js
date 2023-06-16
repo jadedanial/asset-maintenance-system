@@ -25,7 +25,7 @@ const validateMessages = {
 };
 /* eslint-enable no-template-curly-in-string */
 
-const AddItem = () => {
+const AddItem = (props) => {
 
   const [categories, setCategories] = useState([]);
   const [measurements, setMeasurements] = useState([]);
@@ -51,13 +51,36 @@ const AddItem = () => {
     });
   },[]);
 
-  function onFinish(placement) {
+  useEffect(() => {
+    axios.get('http://localhost:8000/api/items')
+    .then(response => {
+      props.setItems([]);
+      response.data.map(res => (
+        props.setItems(items => [...items,
+          {
+            item: res.item_code,
+            name: res.item_name,
+            category: res.item_category,
+            location: res.item_location,
+            measurement: res.item_measurement,
+            reorder: res.item_reorder,
+            onhand: res.item_onhand,
+            cost: res.item_cost,
+            value: res.item_cost * res.item_onhand,
+          }
+        ])
+      ))
+    });
+  },[props]);
+
+  function onFinish() {
     var itemData = {
       item_name: itemName,
       item_category: itemCategory,
       item_location: itemLocation,
       item_measurement: itemMeasurement,
       item_reorder: itemReorder,
+      item_onhand: "0",
       item_cost: itemCost,
       item_description: itemDescription,
     };
