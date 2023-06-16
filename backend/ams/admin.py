@@ -78,6 +78,18 @@ class SalaryAdmin(admin.ModelAdmin):
 	list_filter = ('salary',)
 	search_fields = ('salary',)
 
+class CategoryAdmin(admin.ModelAdmin):
+
+	list_display = ('category',)
+	list_filter = ('category',)
+	search_fields = ('category',)
+
+class MeasurementAdmin(admin.ModelAdmin):
+
+	list_display = ('measurement',)
+	list_filter = ('measurement',)
+	search_fields = ('measurement',)
+
 class ItemAdmin(admin.ModelAdmin):
 
 	readonly_fields = ('id', 'item_code',)
@@ -97,4 +109,6 @@ admin.site.register(Request, RequestAdmin)
 admin.site.register(Nationality, NationalityAdmin)
 admin.site.register(Position, PositionAdmin)
 admin.site.register(Salary, SalaryAdmin)
+admin.site.register(Category, CategoryAdmin)
+admin.site.register(Measurement, MeasurementAdmin)
 admin.site.register(Item, ItemAdmin)

@@ -185,6 +185,26 @@ class SalaryListView(ListAPIView):
     queryset = Salary.objects.all()
     serializer_class = SalarySerializer
 
+class CategoryListView(ListAPIView):
+
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+
+class MeasurementListView(ListAPIView):
+
+    queryset = Measurement.objects.all()
+    serializer_class = MeasurementSerializer
+
+class ItemView(APIView):
+
+    def post(self, request):
+        serializer = ItemSerializer(data = request.data)
+        print(request.data)
+        serializer.is_valid(raise_exception = True)
+        serializer.save()
+
+        return Response(serializer.data)
+
 class ItemListView(ListAPIView):
 
     queryset = Item.objects.all()

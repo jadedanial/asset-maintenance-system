@@ -127,7 +127,7 @@ class Asset(models.Model):
     asset_serial = models.CharField(max_length = 200, blank = False, null = False, verbose_name = 'Serial')
     asset_plate = models.CharField(max_length = 100, blank = True, null = True, verbose_name = 'Plate Number')
 
-    def __str__(self):
+    def __int__(self):
         return self.asset_id
 
 class Request(models.Model):
@@ -180,6 +180,20 @@ class Salary(models.Model):
     def __int__(self):
         return self.salary
 
+class Category(models.Model):
+
+    category = models.CharField(max_length = 300, blank = False, null = False, verbose_name = 'Category')
+
+    def __str__(self):
+        return self.category
+
+class Measurement(models.Model):
+
+    measurement = models.CharField(max_length = 300, blank = False, null = False, verbose_name = 'Measurement')
+
+    def __str__(self):
+        return self.measurement
+
 class Item(models.Model):
 
     id = models.AutoField(primary_key = True)
@@ -189,7 +203,7 @@ class Item(models.Model):
     item_location = models.CharField(max_length = 300, blank = False, null = False, verbose_name = 'Physical Location')
     item_measurement = models.CharField(max_length = 500, blank = False, null = False, verbose_name = 'Unit Of Measurement')
     item_reorder = models.FloatField(blank = False, null = False, verbose_name = 'Reorder Quantity')
-    item_onhand = models.FloatField(blank = False, null = False, verbose_name = 'Quantity On Hand')
+    item_onhand = models.FloatField(blank = True, null = True, verbose_name = 'Quantity On Hand')
     item_cost = models.FloatField(blank = False, null = False, verbose_name = 'Unit Cost')
     item_description = models.TextField(blank = False, null = False, verbose_name = 'Description')
 
