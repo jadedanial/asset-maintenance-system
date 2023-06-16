@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import QRCode from "react-qr-code";
-import { Card, Typography, Tag, Col, Row, Descriptions, Button, } from 'antd';
+import { Card, Typography, Tag, Col, Row, Descriptions, Button } from 'antd';
 
 const { Title } = Typography;
 

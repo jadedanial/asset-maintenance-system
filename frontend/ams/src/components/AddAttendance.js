@@ -147,11 +147,15 @@ const AddAttendance = (props) => {
       attend_excuse: attend_excuse,
       attend_status: attend_status,
     };
-    axios({
-      method: apiMethod,
-      url: 'http://localhost:8000/api/emp_attendance/',
-      data: attendData,
-    });
+    try {
+      axios({
+        method: apiMethod,
+        url: 'http://localhost:8000/api/emp_attendance/',
+        data: attendData,
+      });
+    } catch (err) {
+      console.log(err.response.data[0]);
+    }
   };
 
   function onFinish() {

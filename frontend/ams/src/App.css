@@ -78,6 +78,11 @@ h1.ant-typography {
   justify-content: center;
 }
 
+.space-between-row {
+  display: flex;
+  justify-content: space-between;
+}
+
 .ant-btn {
   font-weight: 800 !important;
 }
@@ -270,7 +275,7 @@ td.ant-table-column-sort {
 }
 
 .ant-form-item {
-  margin: 18px 0 0 0 !important;
+  margin: 30px 0 0 0 !important;
 }
 
 .ant-form-item-explain-error {
@@ -315,7 +320,7 @@ td.ant-table-column-sort {
   border-left: 1px solid #1890FF !important;
 }
 
-.ant-select {
+.ant-select, .ant-select-item-option-content, .ant-input, .ant-input-number-input {
   font-family: ralewayregular !important;
   font-size: 16px !important;
 }
@@ -330,4 +335,8 @@ td.ant-table-column-sort {
 
 .ant-descriptions-item {
   padding: 0 !important;
+}
+
+.ant-input-number {
+  width: 100% !important;
 }

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Col, Row, Card, Button, Select, Tooltip, Table,  } from 'antd';
+import { Col, Row, Card, Button, Select, Tooltip, Table } from 'antd';
 import { UserAddOutlined, } from '@ant-design/icons';
 import DrawerEvents from '../components/Drawer';
 
@@ -95,7 +95,7 @@ const Employee = (props) => {
               </Card>
             </Col>
           </Row>
-          <Row style={{marginTop: "20px"}}>
+          <Row style={{marginTop: "50px"}}>
             <Col span={24}>
               <Table className="light-color-header-table" rowClassName={() => "table-row"} columns={columns} dataSource={employees}
               onRow={(rowIndex) => {return {onClick: (event) => {showDrawer(); setEmpID(rowIndex.employee); setCompItem("Profile")},};}} pagination={{pageSize: 10, showSizeChanger: true,

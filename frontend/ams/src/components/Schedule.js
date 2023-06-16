@@ -44,16 +44,20 @@ const Schedule = (props) => {
       empID: empID,
       schedid: schedid,
     };
-    const response = axios.patch('http://localhost:8000/api/emp_schedule/', empData);
-    const content = response.json();
-    setSchedId(content.emp_sched);
-    api.success({
-      message: <p className="medium-card-title">Notification</p>,
-      description: <p className="small-font">Schedule successfully changed.</p>,
-      placement,
-      duration: 2,
-      icon: <CheckSquareOutlined style={{color: "#318CE7"}} />,
-    });
+    try {
+      const response = axios.patch('http://localhost:8000/api/emp_schedule/', empData);
+      const content = response.json();
+      setSchedId(content.emp_sched);
+      api.success({
+        message: <p className="medium-card-title">Notification</p>,
+        description: <p className="small-font">Schedule successfully changed.</p>,
+        placement,
+        duration: 2,
+        icon: <CheckSquareOutlined style={{color: "#318CE7"}} />,
+      });
+    } catch (err) {
+      console.log(err.response.data[0]);
+    }
   };
 
   function onChange(value) {

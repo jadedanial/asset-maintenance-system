@@ -45,11 +45,15 @@ const MainPage = (props) => {
   },[]);
 
   function logout() {
-    axios.post('http://localhost:8000/api/logout', {},{
-      headers: {'Content-Type' : 'application/json'},
-      withCredentials: true,
-    });
-    navigate("/login");
+    try {
+      axios.post('http://localhost:8000/api/logout', {},{
+        headers: {'Content-Type' : 'application/json'},
+        withCredentials: true,
+      });
+      navigate("/login");
+    } catch (err) {
+      console.log(err.response.data[0]);
+    }
   };
 
   function onClick({ key }) {

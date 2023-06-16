@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Col, Row, Card, Button, Select, Tooltip, Table,  } from 'antd';
+import { Col, Row, Card, Button, Select, Tooltip, Table } from 'antd';
 import { ShoppingOutlined, } from '@ant-design/icons';
 import DrawerEvents from '../components/Drawer';
 
@@ -119,7 +119,7 @@ const CurrentStock = (props) => {
               </Card>
             </Col>
           </Row>
-          <Row style={{marginTop: "20px"}}>
+          <Row style={{marginTop: "50px"}}>
             <Col span={24}>
               <Table className="light-color-header-table" rowClassName={() => "table-row"} columns={columns} dataSource={items}
               onRow={(rowIndex) => {return {onClick: (event) => {showDrawer(); setItemID(rowIndex.item); setCompItem("ItemDetail")},};}} pagination={{pageSize: 10, showSizeChanger: true,
