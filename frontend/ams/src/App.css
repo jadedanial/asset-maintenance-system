@@ -13,6 +13,10 @@
   src: url("/public/fonts/ralewaymedium.ttf");
 }
 
+body {
+  background-color: #F0F2F5 !important;
+}
+
 h1 {
   margin: 0 !important;
 }
@@ -84,6 +88,9 @@ h1.ant-typography {
 }
 
 .ant-btn {
+  color: #FFF !important;
+  font-family: ralewayregular !important;
+  font-size: 15px !important;
   font-weight: 800 !important;
 }
 
@@ -188,7 +195,7 @@ h1.ant-typography {
 .ant-table-thead .ant-table-cell {
   color: #FFF;
   font-family: ralewayregular;
-  font-size: 16px;
+  font-size: 14px;
   text-align: center;
   background-color: #318CE7;
 }
@@ -204,7 +211,7 @@ h1.ant-typography {
 }
 
 .ant-table-tbody tr td {
-  border-top: 16px solid #FFF !important;
+  border-top: 18px solid #FFF !important;
 }
 
 .table-row {
@@ -214,7 +221,7 @@ h1.ant-typography {
   font-weight: 500;
   text-align: center;
   background-color: #E6F7FF;
-  line-height: 18px;
+  line-height: 25px;
   cursor: pointer;
 }
 
@@ -275,7 +282,7 @@ td.ant-table-column-sort {
 }
 
 .ant-form-item {
-  margin: 30px 0 0 0 !important;
+  margin: 15px 0 0 0 !important;
 }
 
 .ant-form-item-explain-error {
@@ -339,4 +346,16 @@ td.ant-table-column-sort {
 
 .ant-input-number {
   width: 100% !important;
+}
+
+.ant-result-title {
+  color: #000000 !important;
+  font-family: ralewayregular !important;
+  font-size: 20px !important;
+}
+
+.ant-result-subtitle {
+  color: #318CE7 !important;
+  font-family: ralewayregular !important;
+  font-size: 14px !important;
 }

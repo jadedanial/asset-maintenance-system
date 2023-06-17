@@ -83,7 +83,7 @@ const LoginPage = () => {
   return (
     <>
       <NavigationMenu />
-      <Layout style={{height: "90vh"}}>
+      <Layout style={{height: "100%"}}>
         <div className="justified-row">
           <div style={{margin: "40px", marginTop: "5%", width: "30%"}}>
             <Card size="large" title={<Title><p className="big-card-title">Authenticate User</p></Title>} hoverable>

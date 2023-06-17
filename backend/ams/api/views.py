@@ -199,7 +199,11 @@ class ItemView(APIView):
 
     def post(self, request):
         serializer = ItemSerializer(data = request.data)
-        print(request.data)
+        item = Item.objects.filter(item_name = request.data['item_name']).first()
+
+        if item:
+            raise ValidationError('Item already exist!')
+
         serializer.is_valid(raise_exception = True)
         serializer.save()
 

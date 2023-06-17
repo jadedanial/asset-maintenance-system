@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { LoginOutlined } from '@ant-design/icons';
+import { Button } from 'antd';
+import { LoginOutlined, FrownOutlined } from '@ant-design/icons';
 import MainPage from '../components/Main';
 import ResultPage from '../components/Result';
 import NavigationMenu from '../components/Navigation';
@@ -35,7 +36,8 @@ const HomePage = () => {
         showunauthorized ?
         <>
           <NavigationMenu />
-          <ResultPage style={{display: "none"}} icon="" status="403" title="Unauthorized User" subTitle="Sorry, you are not authorized to access this page. Please login." btnIcon={<LoginOutlined />} href="/login" />
+          <ResultPage icon={<FrownOutlined style={{color: "#318CE7"}} />} status="403" title="Unauthorized User!" subTitle="Sorry, you are not authorized to access this page. Please login."
+          extra={<Button size="large" type="primary" icon={<LoginOutlined />} href="/login">Login</Button>} />
         </>:<><MainPage username={username} empid={empid} /></>
       }
     </>

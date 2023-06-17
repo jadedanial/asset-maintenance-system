@@ -53,7 +53,8 @@ const RegisterPage = () => {
     return (
       <>
         <NavigationMenu />
-        <ResultPage icon={<SmileTwoTone />} status="success" title="Successfully Added New User" subTitle={"Username: " + username + " Email: " + email} btnIcon={<LoginOutlined />} href="/login" />
+        <ResultPage icon={<SmileTwoTone style={{color: "#318CE7"}} />} status="success" title="Successfully added new User!" subTitle={"Username: " + username + " Email: " + email}
+        extra={<Button size="large" type="primary" icon={<LoginOutlined />} href="/login">Login</Button>} />
       </>
     );
   }
@@ -61,7 +62,7 @@ const RegisterPage = () => {
   return (
     <>
       <NavigationMenu />
-      <Layout style={{height: "90vh"}} >
+      <Layout style={{height: "100%"}}>
         <div className="justified-row">
           <div style={{margin: "40px", marginTop: "5%", width: "30%"}}>
             <Card size="large" title={<Title><p className="big-card-title" style={{color: color}}>{label}</p></Title>} hoverable>
