@@ -25,8 +25,8 @@ const DrawerEvents = (props) => {
 
   return (
     <>
-      <Drawer width="100%" height="fit-content" placement="right" style={{marginTop: "85px", marginLeft: props.col ? "100px" : "220px", marginRight: "35px", transition: "0.2s ease-in-out"}} open={props.showDrawer} extra={
-        <Tooltip title="Close Profile">
+      <Drawer width="100%" height="fit-content" placement="right" style={{marginTop: "85px", marginLeft: props.col ? "100px" : "220px", marginRight: "35px", transition: "0.2s ease-in-out"}} open={props.showDrawer} destroyOnClose extra={
+        <Tooltip title={"Close"}>
           <Button onClick={props.onCloseDrawer} icon={<CloseOutlined style={{color: "#318CE7", fontSize: "22px"}} />} />
         </Tooltip>}>
         {drawerSwitch(props.comp)}

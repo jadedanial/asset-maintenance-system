@@ -53,7 +53,7 @@ const RegisterPage = () => {
     return (
       <>
         <NavigationMenu />
-        <ResultPage icon={<SmileTwoTone style={{color: "#318CE7"}} />} status="success" title="Successfully added new User!" subTitle={"Username: " + username + " Email: " + email}
+        <ResultPage icon={<SmileTwoTone style={{color: "#318CE7"}} />} status="success" title="Successfully added new User!" subTitle={"Username: " + username + "   Email: " + email}
         extra={<Button size="large" type="primary" icon={<LoginOutlined />} href="/login">Login</Button>} />
       </>
     );
