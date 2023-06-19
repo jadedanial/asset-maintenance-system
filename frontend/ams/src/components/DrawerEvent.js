@@ -4,9 +4,9 @@ import { CloseOutlined } from '@ant-design/icons';
 import Profile from './Profile';
 import AddEmployee from './AddEmployee';
 import ItemDetail from './ItemDetail';
-import AddItem from './AddItem';
+import AddUpdateItem from './AddUpdateItem';
 
-const DrawerEvents = (props) => {
+const DrawerEvent = (props) => {
 
   function drawerSwitch(key) {
     switch (key) {
@@ -15,9 +15,9 @@ const DrawerEvents = (props) => {
       case "AddEmployee":
         return (<><AddEmployee></AddEmployee></>);
       case "ItemDetail":
-        return (<><ItemDetail itemid={props.itemid}></ItemDetail></>);
-      case "AddItem":
-        return (<><AddItem setItems={props.setItems}></AddItem></>);
+        return (<><ItemDetail itemcode={props.itemcode}></ItemDetail></>);
+      case "AddUpdateItem":
+        return (<><AddUpdateItem update={false}></AddUpdateItem></>);
       default:
         break;
     }
@@ -36,4 +36,4 @@ const DrawerEvents = (props) => {
 
 };
 
-export default DrawerEvents;
+export default DrawerEvent;

@@ -5,7 +5,7 @@ import { LoginOutlined, UserAddOutlined } from '@ant-design/icons';
 
 const { Header } = Layout;
 
-const NavigationMenu = () => {
+const NavigationEvent = () => {
 
   return (
     <>
@@ -36,4 +36,4 @@ const NavigationMenu = () => {
 
 };
 
-export default NavigationMenu;
+export default NavigationEvent;

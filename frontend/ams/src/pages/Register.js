@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { Layout, Form, Button, Input, Card, Typography } from 'antd';
 import { UserOutlined, UserAddOutlined, MailOutlined, LockOutlined, SmileTwoTone, LoginOutlined, IdcardOutlined } from '@ant-design/icons';
-import ResultPage from '../components/Result';
-import NavigationMenu from '../components/Navigation';
+import ResultEvent from '../components/ResultEvent';
+import NavigationEvent from '../components/NavigationEvent';
 
 const { Title } = Typography;
 
@@ -52,8 +52,10 @@ const RegisterPage = () => {
   if (success && redirect) {
     return (
       <>
-        <NavigationMenu />
-        <ResultPage icon={<SmileTwoTone style={{color: "#318CE7"}} />} status="success" title="Successfully added new User!" subTitle={"Username: " + username + "   Email: " + email}
+        <NavigationEvent />
+        <ResultEvent icon={<SmileTwoTone style={{color: "#318CE7"}} />} status="success"
+        title="Successfully added new User!"
+        subTitle={"Username: " + username + "   Email: " + email}
         extra={<Button size="large" type="primary" icon={<LoginOutlined />} href="/login">Login</Button>} />
       </>
     );
@@ -61,7 +63,7 @@ const RegisterPage = () => {
 
   return (
     <>
-      <NavigationMenu />
+      <NavigationEvent />
       <Layout style={{height: "100%"}}>
         <div className="justified-row">
           <div style={{margin: "40px", marginTop: "5%", width: "30%"}}>

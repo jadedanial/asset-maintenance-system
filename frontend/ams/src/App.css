@@ -282,7 +282,7 @@ td.ant-table-column-sort {
 }
 
 .ant-form-item {
-  margin: 15px 0 0 0 !important;
+  margin: 0 0 10px 0 !important;
 }
 
 .ant-form-item-explain-error {

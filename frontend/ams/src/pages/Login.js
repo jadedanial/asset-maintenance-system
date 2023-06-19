@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Navigate } from "react-router-dom";
 import { Layout, Form, Checkbox, Button, Input, Card, Typography } from 'antd';
 import { UserOutlined, LockOutlined, LoginOutlined } from '@ant-design/icons';
-import NavigationMenu from '../components/Navigation';
+import NavigationEvent from '../components/NavigationEvent';
 import HomePage from './Home';
 
 const { Title } = Typography;
@@ -82,7 +82,7 @@ const LoginPage = () => {
 
   return (
     <>
-      <NavigationMenu />
+      <NavigationEvent />
       <Layout style={{height: "100%"}}>
         <div className="justified-row">
           <div style={{margin: "40px", marginTop: "5%", width: "30%"}}>

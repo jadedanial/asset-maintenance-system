@@ -5,8 +5,8 @@ import { Layout, Menu, Space, Dropdown, Badge, Row, Col, Avatar } from 'antd';
 import { UserOutlined, UnlockOutlined, SettingOutlined, BarChartOutlined, TeamOutlined, ShoppingCartOutlined, CarOutlined, MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons';
 import WorkRequest from '../modules/WorkRequest';
 import Employee from '../modules/Employee';
-import CurrentStock from '../modules/CurrentStock';
-import DrawerEvents from '../components/Drawer';
+import Stock from '../modules/Stock';
+import DrawerEvent from '../components/DrawerEvent';
 
 const { Header, Sider, Content } = Layout;
 
@@ -96,13 +96,13 @@ const MainPage = (props) => {
   function componentSwitch(key) {
     switch (key) {
       case 0:
-        return (<><DrawerEvents showDrawer={openDrawer} onCloseDrawer={onCloseDrawer} empid={props.empid} col={collapsed} comp={"Profile"}></DrawerEvents></>);
+        return (<><DrawerEvent showDrawer={openDrawer} onCloseDrawer={onCloseDrawer} empid={props.empid} col={collapsed} comp={"Profile"}></DrawerEvent></>);
       case "Work Request":
         return (<><WorkRequest></WorkRequest></>);
       case "Employee":
         return (<><Employee col={collapsed}></Employee></>);
-      case "Current Stock":
-        return (<><CurrentStock col={collapsed}></CurrentStock></>);
+      case "Stock":
+        return (<><Stock col={collapsed}></Stock></>);
       default:
         break;
     }

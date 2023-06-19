@@ -1,7 +1,7 @@
 import React from 'react';
 import { Result } from 'antd';
 
-const ResultPage = (props) => {
+const ResultEvent = (props) => {
 
   return (
     <>
@@ -13,4 +13,4 @@ const ResultPage = (props) => {
 
 };
 
-export default ResultPage;
+export default ResultEvent;

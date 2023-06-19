@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Col, Row, Card, Button, Select, Tooltip, Table } from 'antd';
 import { UserAddOutlined, } from '@ant-design/icons';
-import DrawerEvents from '../components/Drawer';
+import DrawerEvent from '../components/DrawerEvent';
 
 const cardlayout = {
   bordered: true,
@@ -104,7 +104,7 @@ const Employee = (props) => {
           </Row>
         </Card>
       </Row>
-      <DrawerEvents showDrawer={openDrawer} onCloseDrawer={onCloseDrawer} empid={empID} col={props.col} comp={compItem}></DrawerEvents>
+      <DrawerEvent showDrawer={openDrawer} onCloseDrawer={onCloseDrawer} empid={empID} col={props.col} comp={compItem}></DrawerEvent>
     </>
   );
 

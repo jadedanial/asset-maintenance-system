@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Col, Row, Card, Button, Select, Tooltip, Table } from 'antd';
 import { ShoppingOutlined, } from '@ant-design/icons';
-import DrawerEvents from '../components/Drawer';
+import DrawerEvent from '../components/DrawerEvent';
 
 const cardlayout = {
   bordered: true,
@@ -11,12 +11,12 @@ const cardlayout = {
   style:{width: "100%"},
 };
 
-const CurrentStock = (props) => {
+const Stock = (props) => {
 
   const [openDrawer, setOpenDrawer] = useState(false);
   const [compItem, setCompItem] = useState(0);
   const [items, setItems] = useState([]);
-  const [itemID, setItemID] = useState(0);
+  const [itemCode, setItemCode] = useState(0);
 
   const columns = [
     {
@@ -67,6 +67,10 @@ const CurrentStock = (props) => {
   ];
 
   useEffect(() => {
+    loadItems();
+  },[]);
+
+  function loadItems() {
     axios.get('http://localhost:8000/api/items')
     .then(response => {
       setItems([]);
@@ -86,7 +90,7 @@ const CurrentStock = (props) => {
         ])
       ))
     });
-  },[]);
+  };
 
   function showDrawer() {
     setOpenDrawer(true);
@@ -94,6 +98,7 @@ const CurrentStock = (props) => {
 
   function onCloseDrawer() {
     setOpenDrawer(false);
+    loadItems();
   };
 
   return (
@@ -105,7 +110,7 @@ const CurrentStock = (props) => {
               <Card size="small" style={{background: "#318CE7", width: "100%"}}>
                 <Row>
                   <Col span={2}>
-                    <Tooltip title="Add New Item"><Button type="primary" shape="circle" className="custom-hover" style={{margin: "0 20px"}} onClick={() => {showDrawer(); setCompItem("AddItem")}} icon={<ShoppingOutlined />} /></Tooltip>
+                    <Tooltip title="Add New Item"><Button type="primary" shape="circle" className="custom-hover" style={{margin: "0 20px"}} onClick={() => {showDrawer(); setCompItem("AddUpdateItem")}} icon={<ShoppingOutlined />} /></Tooltip>
                   </Col>
                   <Col span={19}>
                     <Select className="small-font" showSearch style={{width: "100%"}} optionFilterProp="children" filterOption={(input, option) => (option?.label ?? '').includes(input)}
@@ -122,16 +127,16 @@ const CurrentStock = (props) => {
           <Row style={{marginTop: "50px"}}>
             <Col span={24}>
               <Table className="light-color-header-table" rowClassName={() => "table-row"} columns={columns} dataSource={items}
-              onRow={(rowIndex) => {return {onClick: (event) => {showDrawer(); setItemID(rowIndex.item); setCompItem("ItemDetail")},};}} pagination={{pageSize: 10, showSizeChanger: true,
+              onRow={(rowIndex) => {return {onClick: (event) => {showDrawer(); setItemCode(rowIndex.item); setCompItem("ItemDetail")},};}} pagination={{pageSize: 10, showSizeChanger: true,
               pageSizeOptions: ['10', '20', '30']}} size="small" />
             </Col>
           </Row>
         </Card>
       </Row>
-      <DrawerEvents showDrawer={openDrawer} onCloseDrawer={onCloseDrawer} itemid={itemID} col={props.col} comp={compItem} setItems={setItems}></DrawerEvents>
+      <DrawerEvent showDrawer={openDrawer} onCloseDrawer={onCloseDrawer} itemcode={itemCode} col={props.col} comp={compItem}></DrawerEvent>
     </>
   );
 
 };
 
-export default CurrentStock;
+export default Stock;
