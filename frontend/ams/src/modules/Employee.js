@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Col, Row, Card, Button, Select, Tooltip, Table } from 'antd';
+import { Col, Row, Card, Button, Input, Tooltip, Table } from 'antd';
 import { UserAddOutlined, } from '@ant-design/icons';
 import DrawerEvent from '../components/DrawerEvent';
 
@@ -13,16 +13,37 @@ const cardlayout = {
 
 const Employee = (props) => {
 
+  const [searchedtext, setSearchedText] = useState("");
   const [openDrawer, setOpenDrawer] = useState(false);
-  const [compItem, setCompItem] = useState(0);
+  const [compItem, setCompItem] = useState("");
   const [employees, setEmployees] = useState([]);
   const [empID, setEmpID] = useState(0);
 
   const columns = [
     {
       title: 'Employee ID',
-      dataIndex: 'employee',
-      key: 'employee',
+      dataIndex: 'id',
+      key: 'id',
+      filteredValue: [searchedtext],
+      onFilter: (value, record) => {
+        return (
+          String(record.id)
+            .toLowerCase()
+            .includes(value.toLowerCase()) ||
+          String(record.name)
+            .toLowerCase()
+            .includes(value.toLowerCase()) ||
+          String(record.position)
+            .toLowerCase()
+            .includes(value.toLowerCase()) ||
+          String(record.phone)
+            .toLowerCase()
+            .includes(value.toLowerCase()) ||
+          String(record.email)
+            .toLowerCase()
+            .includes(value.toLowerCase())
+        );
+      },
     },
     {
       title: 'Name',
@@ -53,7 +74,7 @@ const Employee = (props) => {
       response.data.map(res => (
         setEmployees(employees => [...employees,
           {
-            employee: res.emp_id,
+            id: res.emp_id,
             name: res.emp_name,
             position: res.emp_position,
             phone: res.emp_phone,
@@ -83,13 +104,8 @@ const Employee = (props) => {
                   <Col span={2}>
                     <Tooltip title="Add New Employee"><Button type="primary" shape="circle" className="custom-hover" style={{margin: "0 20px"}} onClick={() => {showDrawer(); setCompItem("AddEmployee")}} icon={<UserAddOutlined />} /></Tooltip>
                   </Col>
-                  <Col span={19}>
-                    <Select className="small-font" showSearch style={{width: "100%"}} optionFilterProp="children" filterOption={(input, option) => (option?.label ?? '').includes(input)}
-                    filterSort={(optionA, optionB) => (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())}
-                    />  
-                  </Col>
-                  <Col span={2}>
-                    <Button size="middle" type="primary" className="custom-hover" style={{margin: "0 20px"}} block>SEARCH</Button>
+                  <Col span={21}>
+                    <Input.Search size="large" placeholder="Search Employee" enterButton={<Button type="primary" className="custom-hover">SEARCH</Button>} onSearch={(value) => {setSearchedText(value)}} onChange={(e) => setSearchedText(e.target.value)} /> 
                   </Col>
                 </Row>
               </Card>
@@ -98,7 +114,7 @@ const Employee = (props) => {
           <Row style={{marginTop: "50px"}}>
             <Col span={24}>
               <Table className="light-color-header-table" rowClassName={() => "table-row"} columns={columns} dataSource={employees}
-              onRow={(rowIndex) => {return {onClick: (event) => {showDrawer(); setEmpID(rowIndex.employee); setCompItem("Profile")},};}} pagination={{pageSize: 10, showSizeChanger: true,
+              onRow={(rowIndex) => {return {onClick: (event) => {showDrawer(); setEmpID(rowIndex.id); setCompItem("Profile")},};}} pagination={{pageSize: 10, showSizeChanger: true,
               pageSizeOptions: ['10', '20', '30']}} size="small" />
             </Col>
           </Row>

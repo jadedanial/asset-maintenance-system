@@ -32,6 +32,7 @@ const AddUpdateItem = (props) => {
   const [itemDescription, setItemDescription] = useState(props.update ? props.description:"");
   const [submit, setSubmit] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [nameReq, setNameReq] = useState(false);
   const [categoryReq, setCategoryReq] = useState(false);
   const [locationReq, setLocationReq] = useState(false);
   const [measurementReq, setMeasurementReq] = useState(false);
@@ -75,6 +76,7 @@ const AddUpdateItem = (props) => {
 
   function onNameChange(value) {
     setItemName(value);
+    setNameReq(true);
   };
 
   function onCategoryChange(value) {
@@ -112,6 +114,7 @@ const AddUpdateItem = (props) => {
     setLabel(props.update ? "Update Item":"Add New Item");
     setColor("#318CE7");
     var itemData = {
+      item_code: itemCode,
       item_name: itemName,
       item_category: itemCategory,
       item_location: itemLocation,
@@ -161,8 +164,8 @@ const AddUpdateItem = (props) => {
             <Form {...layout} layout="vertical" size="large" name="add-new-item" onFinish={onFinish}>
               <Row>
                 <Col span={24}>
-                  <Form.Item name={['name',]} label="Item Name" initialValue={itemName} rules={[{required: props.update ? false:true, message: 'Please input item name!',},]}>
-                    <Input value={itemName} readOnly={props.update ? true:false} onChange={e => onNameChange(e.target.value)} />
+                  <Form.Item name={['name',]} label="Item Name" initialValue={itemName} rules={[{required: props.update ? nameReq:true, message: 'Please input item name!',},]}>
+                    <Input value={itemName} onChange={e => onNameChange(e.target.value)} />
                   </Form.Item>
                 </Col>
               </Row>

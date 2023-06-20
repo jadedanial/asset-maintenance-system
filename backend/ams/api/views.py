@@ -210,7 +210,7 @@ class ItemView(APIView):
         return Response(serializer.data)
     
     def patch(self, request, *args, **kwargs):
-        item = Item.objects.filter(item_name = request.data['item_name']).first()
+        item = Item.objects.filter(item_code = request.data['item_code']).first()
         serializer = ItemSerializer(item, data = request.data)
 
         serializer.is_valid(raise_exception = True)

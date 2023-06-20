@@ -328,6 +328,7 @@ td.ant-table-column-sort {
 }
 
 .ant-select, .ant-select-item-option-content, .ant-input, .ant-input-number-input {
+  color: #000 !important;
   font-family: ralewayregular !important;
   font-size: 16px !important;
 }
@@ -349,7 +350,7 @@ td.ant-table-column-sort {
 }
 
 .ant-result-title {
-  color: #000000 !important;
+  color: #000 !important;
   font-family: ralewayregular !important;
   font-size: 20px !important;
 }

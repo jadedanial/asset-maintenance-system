@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Col, Row, Card, Button, Select, Tooltip, Table } from 'antd';
+import { Col, Row, Card, Button, Input, Tooltip, Table } from 'antd';
 import { ShoppingOutlined, } from '@ant-design/icons';
 import DrawerEvent from '../components/DrawerEvent';
 
@@ -13,16 +13,37 @@ const cardlayout = {
 
 const Stock = (props) => {
 
+  const [searchedtext, setSearchedText] = useState("");
   const [openDrawer, setOpenDrawer] = useState(false);
-  const [compItem, setCompItem] = useState(0);
+  const [compItem, setCompItem] = useState("");
   const [items, setItems] = useState([]);
   const [itemCode, setItemCode] = useState(0);
 
   const columns = [
     {
       title: 'Item Code',
-      dataIndex: 'item',
-      key: 'item',
+      dataIndex: 'code',
+      key: 'code',
+      filteredValue: [searchedtext],
+      onFilter: (value, record) => {
+        return (
+          String(record.code)
+            .toLowerCase()
+            .includes(value.toLowerCase()) ||
+          String(record.name)
+            .toLowerCase()
+            .includes(value.toLowerCase()) ||
+          String(record.category)
+            .toLowerCase()
+            .includes(value.toLowerCase()) ||
+          String(record.location)
+            .toLowerCase()
+            .includes(value.toLowerCase()) ||
+          String(record.measurement)
+            .toLowerCase()
+            .includes(value.toLowerCase())
+        );
+      },
     },
     {
       title: 'Name',
@@ -77,7 +98,7 @@ const Stock = (props) => {
       response.data.map(res => (
         setItems(items => [...items,
           {
-            item: res.item_code,
+            code: res.item_code,
             name: res.item_name,
             category: res.item_category,
             location: res.item_location,
@@ -112,13 +133,8 @@ const Stock = (props) => {
                   <Col span={2}>
                     <Tooltip title="Add New Item"><Button type="primary" shape="circle" className="custom-hover" style={{margin: "0 20px"}} onClick={() => {showDrawer(); setCompItem("AddUpdateItem")}} icon={<ShoppingOutlined />} /></Tooltip>
                   </Col>
-                  <Col span={19}>
-                    <Select className="small-font" showSearch style={{width: "100%"}} optionFilterProp="children" filterOption={(input, option) => (option?.label ?? '').includes(input)}
-                    filterSort={(optionA, optionB) => (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())}
-                    />  
-                  </Col>
-                  <Col span={2}>
-                    <Button size="middle" type="primary" className="custom-hover" style={{margin: "0 20px"}} block>SEARCH</Button>
+                  <Col span={21}>
+                    <Input.Search size="large" placeholder="Search Item" enterButton={<Button type="primary" className="custom-hover">SEARCH</Button>} onSearch={(value) => {setSearchedText(value)}} onChange={(e) => setSearchedText(e.target.value)} /> 
                   </Col>
                 </Row>
               </Card>
@@ -127,7 +143,7 @@ const Stock = (props) => {
           <Row style={{marginTop: "50px"}}>
             <Col span={24}>
               <Table className="light-color-header-table" rowClassName={() => "table-row"} columns={columns} dataSource={items}
-              onRow={(rowIndex) => {return {onClick: (event) => {showDrawer(); setItemCode(rowIndex.item); setCompItem("ItemDetail")},};}} pagination={{pageSize: 10, showSizeChanger: true,
+              onRow={(rowIndex) => {return {onClick: (event) => {showDrawer(); setItemCode(rowIndex.code); setCompItem("ItemDetail")},};}} pagination={{pageSize: 10, showSizeChanger: true,
               pageSizeOptions: ['10', '20', '30']}} size="small" />
             </Col>
           </Row>
