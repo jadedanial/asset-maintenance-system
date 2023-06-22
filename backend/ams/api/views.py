@@ -199,9 +199,9 @@ class ItemView(APIView):
 
     def post(self, request):
         serializer = ItemSerializer(data = request.data)
-        item = Item.objects.filter(item_name = request.data['item_name']).first()
+        name = Item.objects.filter(item_name = request.data['item_name']).first()
 
-        if item:
+        if name:
             raise ValidationError('Item already exist!')
 
         serializer.is_valid(raise_exception = True)
@@ -210,8 +210,13 @@ class ItemView(APIView):
         return Response(serializer.data)
     
     def patch(self, request, *args, **kwargs):
-        item = Item.objects.filter(item_code = request.data['item_code']).first()
-        serializer = ItemSerializer(item, data = request.data)
+        code = Item.objects.filter(item_code = request.data['item_code']).first()
+        name = Item.objects.filter(item_name = request.data['item_name']).first()
+        serializer = ItemSerializer(code, data = request.data)
+
+        if name:
+            if (str(name.item_code) != str(code.item_code)):
+                raise ValidationError('Item already exist!')
 
         serializer.is_valid(raise_exception = True)
         serializer.save()

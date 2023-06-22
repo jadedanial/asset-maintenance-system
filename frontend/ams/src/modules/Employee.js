@@ -105,7 +105,7 @@ const Employee = (props) => {
                     <Tooltip title="Add New Employee"><Button type="primary" shape="circle" className="custom-hover" style={{margin: "0 20px"}} onClick={() => {showDrawer(); setCompItem("AddEmployee")}} icon={<UserAddOutlined />} /></Tooltip>
                   </Col>
                   <Col span={21}>
-                    <Input.Search size="large" placeholder="Search Employee" enterButton={<Button type="primary" className="custom-hover">SEARCH</Button>} onSearch={(value) => {setSearchedText(value)}} onChange={(e) => setSearchedText(e.target.value)} /> 
+                    <Input.Search size="large" placeholder="Search Employee" enterButton={<Button type="primary" className="custom-hover">SEARCH</Button>} onSearch={(value) => {setSearchedText(value)}} onChange={(e) => setSearchedText(e.target.value)} />
                   </Col>
                 </Row>
               </Card>

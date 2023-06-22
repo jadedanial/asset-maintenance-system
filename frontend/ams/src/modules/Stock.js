@@ -134,7 +134,7 @@ const Stock = (props) => {
                     <Tooltip title="Add New Item"><Button type="primary" shape="circle" className="custom-hover" style={{margin: "0 20px"}} onClick={() => {showDrawer(); setCompItem("AddUpdateItem")}} icon={<ShoppingOutlined />} /></Tooltip>
                   </Col>
                   <Col span={21}>
-                    <Input.Search size="large" placeholder="Search Item" enterButton={<Button type="primary" className="custom-hover">SEARCH</Button>} onSearch={(value) => {setSearchedText(value)}} onChange={(e) => setSearchedText(e.target.value)} /> 
+                    <Input.Search size="large" placeholder="Search Item" enterButton={<Button type="primary" className="custom-hover">SEARCH</Button>} onSearch={(value) => {setSearchedText(value)}} onChange={(e) => setSearchedText(e.target.value)} />
                   </Col>
                 </Row>
               </Card>

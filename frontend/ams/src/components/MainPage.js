@@ -6,6 +6,7 @@ import { UserOutlined, UnlockOutlined, SettingOutlined, BarChartOutlined, TeamOu
 import WorkRequest from '../modules/WorkRequest';
 import Employee from '../modules/Employee';
 import Stock from '../modules/Stock';
+import Reorder from '../modules/Reorder';
 import DrawerEvent from '../components/DrawerEvent';
 
 const { Header, Sider, Content } = Layout;
@@ -82,12 +83,12 @@ const MainPage = (props) => {
         return (<SettingOutlined style={{fontSize: "20px", color: "#08c"}}/>);
       case "TeamOutlined":
         return (<TeamOutlined style={{fontSize: "20px", color: "#08c"}}/>);
-      case "BarChartOutlined":
-        return (<BarChartOutlined  style={{fontSize: "20px", color: "#08c"}}/>);
       case "ShoppingCartOutlined":
         return (<ShoppingCartOutlined style={{fontSize: "20px", color: "#08c"}}/>);
       case "CarOutlined":
         return (<CarOutlined style={{fontSize: "20px", color: "#08c"}}/>);
+      case "BarChartOutlined":
+        return (<BarChartOutlined  style={{fontSize: "20px", color: "#08c"}}/>);
       default:
         break;
     }
@@ -103,6 +104,8 @@ const MainPage = (props) => {
         return (<><Employee col={collapsed}></Employee></>);
       case "Stock":
         return (<><Stock col={collapsed}></Stock></>);
+      case "Reorder":
+        return (<><Reorder col={collapsed}></Reorder></>);
       default:
         break;
     }

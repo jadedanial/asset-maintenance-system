@@ -35,6 +35,10 @@ h1 {
   width: 80%;
 }
 
+.text-align-left {
+  text-align: left !important;
+}
+
 .ant-menu-submenu-arrow {
   display: none;
 }
@@ -64,7 +68,6 @@ h1 {
 }
 
 .site-layout .site-layout-background {
-  min-height: 100vh;
   background: #F0F2F5;
 }
 
@@ -78,11 +81,13 @@ h1.ant-typography {
 }
 
 .justified-row {
+  width: 100%;
   display: flex;
   justify-content: center;
 }
 
 .space-between-row {
+  width: 100%;
   display: flex;
   justify-content: space-between;
 }
@@ -200,6 +205,10 @@ h1.ant-typography {
   background-color: #318CE7;
 }
 
+#thead-text-align-left .ant-table-cell {
+  text-align: left;
+}
+
 .ant-table-thead th.ant-table-column-has-sorters {
   color: #FFF !important;
   background-color: #318CE7 !important;
@@ -214,7 +223,7 @@ h1.ant-typography {
   border-top: 18px solid #FFF !important;
 }
 
-.table-row {
+.table-row, .table-row-no-color {
   color: #000;
   font-family: ralewayregular;
   font-size: 14px;
@@ -228,6 +237,15 @@ h1.ant-typography {
 .table-row:hover td {
   color: #FFF;
   background-color: #1890FF !important;
+}
+
+.table-row-no-color {
+  background-color: #FFF;
+}
+
+.table-row-no-color:hover td {
+  color: #000;
+  background-color: #FFF !important;
 }
 
 td.ant-table-column-sort {
@@ -279,6 +297,10 @@ td.ant-table-column-sort {
 
 .ant-drawer-close {
   display: none !important;
+}
+
+.ant-drawer-body {
+  overflow: auto !important;
 }
 
 .ant-form-item {
@@ -355,7 +377,7 @@ td.ant-table-column-sort {
   font-size: 20px !important;
 }
 
-.ant-result-subtitle {
+.ant-result-subtitle, .ant-steps-item-title {
   color: #318CE7 !important;
   font-family: ralewayregular !important;
   font-size: 14px !important;
