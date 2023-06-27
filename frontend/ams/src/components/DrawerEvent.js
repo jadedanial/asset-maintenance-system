@@ -5,6 +5,7 @@ import Profile from './Profile';
 import AddEmployee from './AddEmployee';
 import ItemDetail from './ItemDetail';
 import AddUpdateItem from './AddUpdateItem';
+import CartItem from './CartItem';
 
 const DrawerEvent = (props) => {
 
@@ -18,6 +19,8 @@ const DrawerEvent = (props) => {
         return (<><ItemDetail itemcode={props.itemcode}></ItemDetail></>);
       case "AddUpdateItem":
         return (<><AddUpdateItem update={false}></AddUpdateItem></>);
+      case "CartItem":
+        return (<><CartItem></CartItem></>);
       default:
         break;
     }

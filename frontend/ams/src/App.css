@@ -121,11 +121,15 @@ h1.ant-typography {
 }
 
 .ant-card-custom .ant-card-head, .ant-card-custom .ant-card-head-title {
-  padding: 0;
+  padding: 0 !important;
 }
 
 .ant-card-custom .ant-card-body {
-  padding: 20px 0 0 0;
+  padding: 20px 0 0 0 !important;
+}
+
+.card-no-top-padding .ant-card-body {
+  padding: 0 24px 24px 24px !important;
 }
 
 .header-menu {
@@ -170,7 +174,7 @@ h1.ant-typography {
   font-size: 14px !important;
 }
 
-.big-font, .medium-font, .small-font, .extra-small-font {
+.big-font, .large-font, .medium-font, .small-font, .extra-small-font {
   color: #000;
   font-family: ralewayregular !important;
   text-align: left !important;
@@ -179,6 +183,10 @@ h1.ant-typography {
 
 .big-font {
   font-size: 20px !important;
+}
+
+.large-font {
+  font-size: 18px !important;
 }
 
 .medium-font {
@@ -207,6 +215,14 @@ h1.ant-typography {
 
 #thead-text-align-left .ant-table-cell {
   text-align: left;
+}
+
+#thead-text-align-left .ant-table-cell {
+  padding: 5px 20px !important;
+}
+
+#thead-text-align-left .ant-table-cell:first-child {
+  padding: 5px 35px 5px 0 !important;
 }
 
 .ant-table-thead th.ant-table-column-has-sorters {
@@ -246,6 +262,10 @@ h1.ant-typography {
 .table-row-no-color:hover td {
   color: #000;
   background-color: #FFF !important;
+}
+
+.table-row-no-color .ant-table-cell {
+  border-top: 0 !important;
 }
 
 td.ant-table-column-sort {
@@ -353,6 +373,10 @@ td.ant-table-column-sort {
   color: #000 !important;
   font-family: ralewayregular !important;
   font-size: 16px !important;
+}
+
+.ant-input-number-input {
+  font-size: 18px !important;
 }
 
 .ant-list-custom .ant-list-item {

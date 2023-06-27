@@ -8,8 +8,8 @@ const { Title } = Typography;
 const cardlayout = {
   bordered: true,
   hoverable: true,
-  size: "small",
-  style:{width: "100%"},
+  size: "large",
+  style:{width: "100%", minHeight: "calc(100vh - 106px)"},
 };
 
 const Schedule = (props) => {

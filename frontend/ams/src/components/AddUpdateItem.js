@@ -195,13 +195,13 @@ const AddUpdateItem = (props) => {
                     </Form.Item>
                   </Col>
                   <Col span={7}>
-                    <Form.Item name={['reorder',]} label="Reorder Quantity" initialValue={itemReorder} rules={[{required: props.update ? reorderReq:true, message: 'Please input a valid reorder quantity!', type: 'number', min: 1, max: 1000000,},]}>
-                      <InputNumber value={itemReorder} onChange={onReorderChange} />
+                    <Form.Item name={['reorder',]} label="Reorder Quantity" initialValue={itemReorder} rules={[{required: props.update ? reorderReq:true, message: 'Please input a valid reorder quantity!', type: 'number',},]}>
+                      <InputNumber min={1} max={1000000} value={itemReorder} onChange={onReorderChange} />
                     </Form.Item>
                   </Col>
                   <Col span={7}>
-                    <Form.Item name={['cost',]} label="Unit Cost" initialValue={itemCost} rules={[{required: props.update ? costReq:true, message: 'Please input a valid unit cost!', type: 'number', min: 1, max: 1000000,},]}>
-                      <InputNumber value={itemCost} onChange={onCostChange} />
+                    <Form.Item name={['cost',]} label="Unit Cost" initialValue={itemCost} rules={[{required: props.update ? costReq:true, message: 'Please input a valid unit cost!', type: 'number',},]}>
+                      <InputNumber min={1} max={1000000} value={itemCost} onChange={onCostChange} />
                     </Form.Item>
                   </Col>
                 </div>

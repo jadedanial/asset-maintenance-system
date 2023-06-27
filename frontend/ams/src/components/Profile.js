@@ -11,7 +11,7 @@ const { Title } = Typography;
 const cardlayout = {
   bordered: true,
   hoverable: true,
-  size: "large",
+  size: "small",
   style:{width: "100%"},
 };
 

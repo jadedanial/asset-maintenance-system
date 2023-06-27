@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Col, Row, Card, Button, Input, Tooltip, Table } from 'antd';
-import { ShoppingOutlined, } from '@ant-design/icons';
+import { SearchOutlined, ShoppingOutlined } from '@ant-design/icons';
 import DrawerEvent from '../components/DrawerEvent';
 
 const cardlayout = {
   bordered: true,
   hoverable: true,
   size: "large",
-  style:{width: "100%"},
+  style:{width: "100%", minHeight: "calc(100vh - 106px)"},
 };
 
 const Stock = (props) => {
@@ -133,8 +133,8 @@ const Stock = (props) => {
                   <Col span={2}>
                     <Tooltip title="Add New Item"><Button type="primary" shape="circle" className="custom-hover" style={{margin: "0 20px"}} onClick={() => {showDrawer(); setCompItem("AddUpdateItem")}} icon={<ShoppingOutlined />} /></Tooltip>
                   </Col>
-                  <Col span={21}>
-                    <Input.Search size="large" placeholder="Search Item" enterButton={<Button type="primary" className="custom-hover">SEARCH</Button>} onSearch={(value) => {setSearchedText(value)}} onChange={(e) => setSearchedText(e.target.value)} />
+                  <Col span={22}>
+                    <Input size="large" placeholder="Search Employee" suffix={<SearchOutlined style={{fontSize: "26px", color: "#318CE7"}} />} onChange={(e) => setSearchedText(e.target.value)} />
                   </Col>
                 </Row>
               </Card>
