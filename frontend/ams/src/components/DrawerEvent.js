@@ -20,7 +20,7 @@ const DrawerEvent = (props) => {
       case "AddUpdateItem":
         return (<><AddUpdateItem update={false}></AddUpdateItem></>);
       case "CartItem":
-        return (<><CartItem></CartItem></>);
+        return (<><CartItem orderList={props.orderList}></CartItem></>);
       default:
         break;
     }

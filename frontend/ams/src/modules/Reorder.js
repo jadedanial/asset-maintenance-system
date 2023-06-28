@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Button, Steps, Row, Card, Typography, Input, List, Table, InputNumber, Tooltip, Empty, Col, Badge, Avatar } from 'antd';
-import { AppstoreAddOutlined, ShoppingCartOutlined } from '@ant-design/icons';
+import { PlusOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 import DrawerEvent from '../components/DrawerEvent';
 
 const { Title } = Typography;
@@ -17,10 +17,12 @@ const Reorder = (props) => {
 
   const [itemDetails, setItemDetails] = useState({"0":{"code":"", "name":"", "cost":""}});
   const [totalCost, setTotalCost] = useState("");
-  const [current, setCurrent] = useState(0);
+  const [quantity, setQuantity] = useState("");
   const [itemList, setItemList] = useState([]);
+  const [orderList, setOrderList] = useState([]);
   const [itemCount, setItemCount] = useState(0);
   const [inputStatus, setInputStatus] = useState("");
+  const [current, setCurrent] = useState(0);
   const next = () => {setCurrent(current + 1);};
   const prev = () => {setCurrent(current - 1);};
   const [openDrawer, setOpenDrawer] = useState(false);
@@ -69,7 +71,8 @@ const Reorder = (props) => {
       cost: <p className="big-font" style={{fontWeight: "500"}}>{totalCost}</p>,
       action:
         <Tooltip title="Add To Cart">
-          <Button shape="circle" icon={<AppstoreAddOutlined className="big-card-title" style={{color:"#318CE7", fontWeight: "700",}} onClick={() => addItems(itemDetails["0"]["code"])} />} />
+          <Button shape="circle" icon={<PlusOutlined className="big-card-title" style={{color:"#318CE7", fontWeight: "700",}}
+          onClick={() => addItems(itemDetails["0"]["name"], itemDetails["0"]["code"], itemDetails["0"]["measurement"], quantity)} />} />
         </Tooltip>,
     },
   ];
@@ -81,7 +84,8 @@ const Reorder = (props) => {
         <Row>
           <div style={{flexDirection: "column", width: "100%"}}>
             <Card>
-              <Input.Search size="large" placeholder="Search Item Code" onChange={clearSearch} onSearch={searchItem} enterButton={<Button type="primary" className="custom-hover">SEARCH</Button>} />
+              <Input.Search size="large" placeholder="Search Item Code" onChange={clearSearch} onSearch={searchItem}
+              enterButton={<Button type="primary" className="custom-hover">SEARCH</Button>} />
             </Card>
             <Card className="card-no-top-padding" style={{marginTop: "10px"}}>
               {componentSwitch(checkResult())}
@@ -114,6 +118,7 @@ const Reorder = (props) => {
           code : res.item_code,
           name : res.item_name,
           cost : res.item_cost,
+          measurement : res.item_measurement,
         }]):{}
       ))
     });
@@ -128,14 +133,21 @@ const Reorder = (props) => {
     }
   };
 
-  function addItems(item) {
+  function addItems(name, code, measurement, quantity) {
     if (totalCost !== "") {
-      const newItemList = itemList;
-      if (!newItemList.includes(item)) {
-        newItemList.push(item);
+      const newItem = itemList;
+      const newOrder = orderList;
+      if (!newItem.includes(code)) {
+        newItem.push(code);
+      } else {
+        const matchItem = newOrder.find(order => order.code === code);
+        var index = newOrder.indexOf(matchItem);
+        if (index > -1) {newOrder.splice(index, 1);}
       }
-      setItemList(newItemList);
-      setItemCount(newItemList.length);
+      newOrder.push({"name": name, "code": code, "cost": totalCost, "quantity": "Qty. " + quantity + " " + measurement})
+      setItemList(newItem);
+      setOrderList(newOrder);
+      setItemCount(newItem.length);
       setInputStatus("");
     } else {
       setInputStatus("error");
@@ -148,17 +160,28 @@ const Reorder = (props) => {
   };
 
   function onQuantityChange(value) {
-    setTotalCost(parseFloat(itemDetails["0"]["cost"]) * value);
+    setTotalCost((parseFloat(itemDetails["0"]["cost"]) * value).toFixed(2));
+    setQuantity(value);
   };
 
   function componentSwitch(key) {
     switch (key) {
       case true:
-        return (<><Table className="light-color-header-table" id="thead-text-align-left" rowClassName={() => "table-row-no-color text-align-left"} style={{marginTop: "43px"}} columns={columns} dataSource={items} size="small" pagination={false} /></>);
+        return (<><Table className="light-color-header-table" id="thead-text-align-left"
+          rowClassName={() => "table-row-no-color text-align-left"} style={{margin: "21px 0"}}
+          columns={columns} dataSource={items} size="small" pagination={false} /></>);
       case false:
         return (<><Empty image={Empty.PRESENTED_IMAGE_SIMPLE} /></>);
       default:
         break;
+    }
+  };
+
+  function orderLength() {
+    if (itemCount > 1) {
+      return "Cart Items";
+    } else {
+      return "Cart Item";
     }
   };
 
@@ -189,10 +212,11 @@ const Reorder = (props) => {
                         {current === steps.length - 1 && (<Button size="large" type="primary" style={{margin: "10px 10px 0 0"}}>SUBMIT</Button>)}
                         {current > 0 && (<Button size="large" type="primary" style={{margin: "10px 0 0 10px"}} onClick={() => prev()}>PREVIOUS</Button>)}
                       </Col>
-                      <Col span={4} style={{display: "flex", justifyContent: "flex-end", alignItems: "flex-end"}}>
-                        <Tooltip title="Cart Item">
+                      <Col span={4} className="flex-end-row" style={{alignItems: "flex-end"}}>
+                        <Tooltip title={orderLength()}>
                           <Badge count={itemCount} color="#318CE7">
-                            <Avatar shape="square" size="large" style={{backgroundColor: "#318CE7"}} icon={<ShoppingCartOutlined className="big-card-title" style={{color:"#FFF", fontWeight: "800",}} onClick={showDrawer} />} />
+                            <Avatar shape="square" size="large" style={{backgroundColor: "#318CE7"}} icon={<ShoppingCartOutlined
+                            className="big-card-title" style={{color:"#FFF", fontWeight: "800",}} onClick={showDrawer} />} />
                           </Badge>
                         </Tooltip>
                       </Col>
@@ -204,7 +228,7 @@ const Reorder = (props) => {
           </Row>
         </Card>
       </Row>
-      <DrawerEvent showDrawer={openDrawer} onCloseDrawer={onCloseDrawer} itemcode="" col={props.col} comp="CartItem"></DrawerEvent>
+      <DrawerEvent showDrawer={openDrawer} onCloseDrawer={onCloseDrawer} orderList={orderList} col={props.col} comp="CartItem"></DrawerEvent>
     </>
   );
 

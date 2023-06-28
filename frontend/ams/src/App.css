@@ -82,14 +82,20 @@ h1.ant-typography {
 
 .justified-row {
   width: 100%;
-  display: flex;
-  justify-content: center;
+  display: flex !important;
+  justify-content: center !important;
 }
 
 .space-between-row {
   width: 100%;
-  display: flex;
-  justify-content: space-between;
+  display: flex !important;
+  justify-content: space-between !important;
+}
+
+.flex-end-row {
+  width: 100%;
+  display: flex !important;
+  justify-content: flex-end !important;
 }
 
 .ant-btn {
