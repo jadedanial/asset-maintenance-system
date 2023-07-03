@@ -39,15 +39,17 @@ const Schedule = (props) => {
     });
   },[schedid]);
 
-  function handleSubmit(placement) {
+  async function handleSubmit(placement) {
     var empData = {
       empID: empID,
       schedid: schedid,
     };
     try {
-      const response = axios.patch('http://localhost:8000/api/emp_schedule/', empData);
-      const content = response.json();
-      setSchedId(content.emp_sched);
+      await axios({
+        method: "PATCH",
+        url: 'http://localhost:8000/api/emp_schedule/',
+        data: empData,
+      });
       api.success({
         message: <p className="medium-card-title">Notification</p>,
         description: <p className="small-font">Schedule successfully changed.</p>,
@@ -118,7 +120,7 @@ const Schedule = (props) => {
         <Card size="small" style={{width: "100%"}}>
           <Row>
             <Col span={4} style={{margin: "10px 3px 10px 17px"}}>
-              <Button size="large" type="primary" onClick={() => handleSubmit('bottomRight')} block>APPLY SCHEDULE</Button>
+              <Button size="large" type="primary" onClick={() => handleSubmit('topRight')} block>APPLY SCHEDULE</Button>
             </Col>
             <Col span={19} style={{margin: "10px 10px 10px 2px", marginLeft: "3px"}}>
               <Select size="large" showSearch className="small-font" placeholder="Search Schedule" style={{width: "100%"}} optionFilterProp="children" filterOption={(input, option) => (option?.label ?? '').includes(input)}

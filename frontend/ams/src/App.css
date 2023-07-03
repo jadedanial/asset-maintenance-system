@@ -109,6 +109,23 @@ h1.ant-typography {
   border: none !important;
 }
 
+.card-custom-size {
+  margin: 40px !important;
+  margin-top: 2% !important;
+  width: 70% !important;
+}
+
+.ant-card-head-title {
+  width: 70% !important;
+  margin-right: 50px !important;
+}
+
+.ant-card-extra {
+  width: 20% !important;
+  display: flex !important;
+  justify-content: flex-end !important;
+}
+
 .ant-card-custom-hover {
   margin: 0 !important;
 }

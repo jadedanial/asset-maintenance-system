@@ -199,7 +199,7 @@ class ItemView(APIView):
 
     def post(self, request):
         serializer = ItemSerializer(data = request.data)
-        name = Item.objects.filter(item_name = request.data['item_name']).first()
+        name = Item.objects.filter(item_name__iexact = request.data['item_name']).first()
 
         if name:
             raise ValidationError('Item already exist!')
@@ -211,7 +211,7 @@ class ItemView(APIView):
     
     def patch(self, request, *args, **kwargs):
         code = Item.objects.filter(item_code = request.data['item_code']).first()
-        name = Item.objects.filter(item_name = request.data['item_name']).first()
+        name = Item.objects.filter(item_name__iexact = request.data['item_name']).first()
         serializer = ItemSerializer(code, data = request.data)
 
         if name:

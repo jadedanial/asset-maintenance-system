@@ -16,7 +16,7 @@ const CartItem = (props) => {
   return (
     <>
       <div className="justified-row">
-        <div style={{margin: "40px", marginTop: "2%", width: "65%"}}>
+        <div className="card-custom-size">
           <Card size="large" title={<Title><p className="big-card-title" style={{color: "#318CE7"}}>{orderLength()}</p></Title>} hoverable>
             <List itemLayout="horizontal" dataSource={props.orderList} renderItem={(item, index) => (
               <List.Item>

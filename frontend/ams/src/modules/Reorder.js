@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Button, Steps, Row, Card, Typography, Input, List, Table, InputNumber, Tooltip, Empty, Col, Badge, Avatar } from 'antd';
+import { Button, Row, Card, Typography, Input, List, Table, InputNumber, Tooltip, Empty, Badge, Avatar } from 'antd';
 import { PlusOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 import DrawerEvent from '../components/DrawerEvent';
 
@@ -22,9 +22,6 @@ const Reorder = (props) => {
   const [orderList, setOrderList] = useState([]);
   const [itemCount, setItemCount] = useState(0);
   const [inputStatus, setInputStatus] = useState("");
-  const [current, setCurrent] = useState(0);
-  const next = () => {setCurrent(current + 1);};
-  const prev = () => {setCurrent(current - 1);};
   const [openDrawer, setOpenDrawer] = useState(false);
 
   const data = [
@@ -77,32 +74,6 @@ const Reorder = (props) => {
     },
   ];
 
-  const steps = [
-    {
-      title: 'Add Item',
-      content:
-        <Row>
-          <div style={{flexDirection: "column", width: "100%"}}>
-            <Card>
-              <Input.Search size="large" placeholder="Search Item Code" onChange={clearSearch} onSearch={searchItem}
-              enterButton={<Button type="primary" className="custom-hover">SEARCH</Button>} />
-            </Card>
-            <Card className="card-no-top-padding" style={{marginTop: "10px"}}>
-              {componentSwitch(checkResult())}
-            </Card>
-          </div>
-        </Row>,
-    },
-    {
-      title: 'Confirm',
-      content: '',
-    },
-    {
-      title: 'Submit',
-      content: '',
-    },
-  ];
-  
   const contentStyle = {
     lineHeight: "260px",
     color: "#FFF",
@@ -199,27 +170,28 @@ const Reorder = (props) => {
         <Card {...cardlayout}>
           <Row>
             <div className="justified-row">
-              <div style={{margin: "40px", marginTop: "2%", width: "70%"}}>
-                <Card size="large" extra={<Steps current={current} />} title={
+              <div className="card-custom-size">
+                <Card size="large" extra={
+                  <Tooltip title={orderLength()}>
+                    <Badge count={itemCount} color="#318CE7">
+                      <Avatar shape="square" size="middle" style={{backgroundColor: "#318CE7"}} icon={<ShoppingCartOutlined
+                      className="large-card-title" style={{color:"#FFF"}} onClick={showDrawer} />} />
+                    </Badge>
+                  </Tooltip>} title={
                   <Title>
-                    <Row><p className="big-card-title">Reorder Stock</p></Row>
+                    <Row><p className="big-card-title" style={{width: "60%", textWrap: "wrap"}}>Reorder Stock</p></Row>
                   </Title>} hoverable>
-                  <div style={contentStyle}>{steps[current].content}</div>
-                  <div style={{marginTop: 24}}>
+                  <div style={contentStyle}>
                     <Row>
-                      <Col span={19}>
-                        {current < steps.length - 1 && (<Button size="large" type="primary" style={{margin: "10px 10px 0 0"}} onClick={() => next()}>NEXT</Button>)}
-                        {current === steps.length - 1 && (<Button size="large" type="primary" style={{margin: "10px 10px 0 0"}}>SUBMIT</Button>)}
-                        {current > 0 && (<Button size="large" type="primary" style={{margin: "10px 0 0 10px"}} onClick={() => prev()}>PREVIOUS</Button>)}
-                      </Col>
-                      <Col span={4} className="flex-end-row" style={{alignItems: "flex-end"}}>
-                        <Tooltip title={orderLength()}>
-                          <Badge count={itemCount} color="#318CE7">
-                            <Avatar shape="square" size="large" style={{backgroundColor: "#318CE7"}} icon={<ShoppingCartOutlined
-                            className="big-card-title" style={{color:"#FFF", fontWeight: "800",}} onClick={showDrawer} />} />
-                          </Badge>
-                        </Tooltip>
-                      </Col>
+                      <div style={{flexDirection: "column", width: "100%"}}>
+                        <Card>
+                          <Input.Search size="large" placeholder="Search Item Code" onChange={clearSearch} onSearch={searchItem}
+                          enterButton={<Button type="primary" className="custom-hover">SEARCH</Button>} />
+                        </Card>
+                        <Card className="card-no-top-padding" style={{marginTop: "10px"}}>
+                          {componentSwitch(checkResult())}
+                        </Card>
+                      </div>
                     </Row>
                   </div>
                 </Card>
