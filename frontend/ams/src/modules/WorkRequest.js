@@ -1,38 +1,60 @@
-import React from 'react';
-import { Card, Divider, Space, Tag, Row, Col, Form, Typography, Button } from 'antd';
-import AssetDetail from '../components/AssetDetail';
-import DescriptionField from '../components/DescriptionField';
-import RequestInfoField from '../components/RequestInfoField';
-import RepairTypeField from '../components/RepairTypeField';
+import React from "react";
+import {
+  Card,
+  Divider,
+  Space,
+  Tag,
+  Row,
+  Col,
+  Form,
+  Typography,
+  Button,
+} from "antd";
+import AssetDetail from "../components/AssetDetail";
+import DescriptionField from "../components/DescriptionField";
+import RequestInfoField from "../components/RequestInfoField";
+import RepairTypeField from "../components/RepairTypeField";
 
 const { Title } = Typography;
 
 const WorkRequest = () => {
-
   return (
     <>
       <Form size="large">
-        <Card title={
-          <Title>
-            <Row>
-              <Col span={16}>
-                <Divider orientation="left" orientationMargin={0}>
-                  <Space size="large" style={{fontSize: "22px"}}>
-                    Work Request ID<Tag color="blue">CWO5558550</Tag>
-                  </Space>
-                </Divider>
-              </Col>
-              <Col span={8}>
-                <Divider orientation="right" orientationMargin={0} style={{borderBlockColor: "white"}}>
-                  <Space size="small">
-                    <Button size="large" type="primary">SAVE</Button>
-                    <Button size="large" type="primary">APPROVE</Button>
-                    <Button size="large" type="primary">CLEAR</Button>
-                  </Space>
-                </Divider>
-              </Col>
-            </Row>
-          </Title>}>
+        <Card
+          title={
+            <Title>
+              <Row>
+                <Col span={16}>
+                  <Divider orientation="left" orientationMargin={0}>
+                    <Space size="large" style={{ fontSize: "22px" }}>
+                      Work Request ID<Tag color="blue">CWO5558550</Tag>
+                    </Space>
+                  </Divider>
+                </Col>
+                <Col span={8}>
+                  <Divider
+                    orientation="right"
+                    orientationMargin={0}
+                    style={{ borderBlockColor: "white" }}
+                  >
+                    <Space size="small">
+                      <Button size="large" type="primary">
+                        SAVE
+                      </Button>
+                      <Button size="large" type="primary">
+                        APPROVE
+                      </Button>
+                      <Button size="large" type="primary">
+                        CLEAR
+                      </Button>
+                    </Space>
+                  </Divider>
+                </Col>
+              </Row>
+            </Title>
+          }
+        >
           <Row gutter={16}>
             <Col span={8}>
               <AssetDetail></AssetDetail>
@@ -47,7 +69,6 @@ const WorkRequest = () => {
       </Form>
     </>
   );
-
 };
 
 export default WorkRequest;

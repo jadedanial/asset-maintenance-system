@@ -14,7 +14,7 @@
 }
 
 body {
-  background-color: #F0F2F5 !important;
+  background-color: #f0f2f5 !important;
 }
 
 h1 {
@@ -44,7 +44,7 @@ h1 {
 }
 
 .ant-menu-title-content {
-  color: #FFF;
+  color: #fff;
   font-family: ralewayregular;
   font-size: 14px;
 }
@@ -58,17 +58,17 @@ h1 {
 }
 
 #components-layout-demo-custom-trigger .trigger:hover {
-  color: #1890FF;
+  color: #1890ff;
 }
 
 #components-layout-demo-custom-trigger {
   height: 32px;
   margin: 16px;
-  background: #F0F2F5;
+  background: #f0f2f5;
 }
 
 .site-layout .site-layout-background {
-  background: #F0F2F5;
+  background: #f0f2f5;
 }
 
 .trigger svg {
@@ -99,7 +99,7 @@ h1.ant-typography {
 }
 
 .ant-btn {
-  color: #FFF !important;
+  color: #fff !important;
   font-family: ralewayregular !important;
   font-size: 15px !important;
   font-weight: 800 !important;
@@ -131,19 +131,20 @@ h1.ant-typography {
 }
 
 .ant-card-custom-hover:hover p {
-  color: #FFF !important;
+  color: #fff !important;
 }
 
 .ant-card-custom-hover:hover .ant-tag-blue {
-  background: #318CE7;
-  border-color: #318CE7;
+  background: #318ce7;
+  border-color: #318ce7;
 }
 
 .ant-card-custom-hover:hover {
-  background: #318CE7;
+  background: #318ce7;
 }
 
-.ant-card-custom .ant-card-head, .ant-card-custom .ant-card-head-title {
+.ant-card-custom .ant-card-head,
+.ant-card-custom .ant-card-head-title {
   padding: 0 !important;
 }
 
@@ -153,6 +154,10 @@ h1.ant-typography {
 
 .card-no-top-padding .ant-card-body {
   padding: 0 24px 24px 24px !important;
+}
+
+.card-zero-padding .ant-card-body {
+  padding: 0 !important;
 }
 
 .header-menu {
@@ -165,8 +170,13 @@ h1.ant-typography {
   margin: 0 20px;
 }
 
-.biggest-card-title, .bigger-card-title, .big-card-title, .large-card-title, .medium-card-title, .small-card-title {
-  color: #318CE7;
+.biggest-card-title,
+.bigger-card-title,
+.big-card-title,
+.large-card-title,
+.medium-card-title,
+.small-card-title {
+  color: #318ce7;
   font-family: ralewaymedium !important;
   font-weight: 500 !important;
   text-align: left;
@@ -197,7 +207,11 @@ h1.ant-typography {
   font-size: 14px !important;
 }
 
-.big-font, .large-font, .medium-font, .small-font, .extra-small-font {
+.big-font,
+.large-font,
+.medium-font,
+.small-font,
+.extra-small-font {
   color: #000;
   font-family: ralewayregular !important;
   text-align: left !important;
@@ -229,11 +243,11 @@ h1.ant-typography {
 }
 
 .ant-table-thead .ant-table-cell {
-  color: #FFF;
+  color: #fff;
   font-family: ralewayregular;
   font-size: 14px;
   text-align: center;
-  background-color: #318CE7;
+  background-color: #318ce7;
 }
 
 #thead-text-align-left .ant-table-cell {
@@ -249,42 +263,43 @@ h1.ant-typography {
 }
 
 .ant-table-thead th.ant-table-column-has-sorters {
-  color: #FFF !important;
-  background-color: #318CE7 !important;
+  color: #fff !important;
+  background-color: #318ce7 !important;
 }
 
 .light-color-header-table .ant-table-thead .ant-table-cell {
-  color: #318CE7;
-  background-color: #FFF;
+  color: #318ce7;
+  background-color: #fff;
 }
 
 .ant-table-tbody tr td {
-  border-top: 18px solid #FFF !important;
+  border-top: 18px solid #fff !important;
 }
 
-.table-row, .table-row-no-color {
+.table-row,
+.table-row-no-color {
   color: #000;
   font-family: ralewayregular;
   font-size: 14px;
   font-weight: 500;
   text-align: center;
-  background-color: #E6F7FF;
+  background-color: #e6f7ff;
   line-height: 25px;
   cursor: pointer;
 }
 
 .table-row:hover td {
-  color: #FFF;
-  background-color: #1890FF !important;
+  color: #fff;
+  background-color: #1890ff !important;
 }
 
 .table-row-no-color {
-  background-color: #FFF;
+  background-color: #fff;
 }
 
 .table-row-no-color:hover td {
   color: #000;
-  background-color: #FFF !important;
+  background-color: #fff !important;
 }
 
 .table-row-no-color .ant-table-cell {
@@ -292,7 +307,7 @@ h1.ant-typography {
 }
 
 td.ant-table-column-sort {
-  background-color: #E6F7FF !important;
+  background-color: #e6f7ff !important;
 }
 
 .ant-pagination {
@@ -306,7 +321,7 @@ td.ant-table-column-sort {
 }
 
 .ant-statistic-content-value {
-  color: #318CE7;
+  color: #318ce7;
   font-family: ralewayregular;
   font-size: 30px;
 }
@@ -328,7 +343,7 @@ td.ant-table-column-sort {
 }
 
 .ant-tabs-tab-btn {
-  color: #318CE7;
+  color: #318ce7;
   font-family: ralewayregular;
   font-size: 14px;
   padding: 10px;
@@ -351,20 +366,22 @@ td.ant-table-column-sort {
 }
 
 .ant-form-item-explain-error {
-  color: #D90909A9 !important;
+  color: #d90909a9 !important;
   font-family: ralewayregular;
   font-size: 12px;
   margin: 5px 0 10px 0;
 }
 
 .ant-form-item label {
-  color: #318CE7 !important;
+  color: #318ce7 !important;
   font-family: ralewayregular !important;
   font-size: 15px !important;
   height: 0 !important;
 }
 
-.ant-picker, .ant-picker-calendar, .ant-picker-dropdown {
+.ant-picker,
+.ant-picker-calendar,
+.ant-picker-dropdown {
   font-family: ralewayregular;
 }
 
@@ -389,10 +406,13 @@ td.ant-table-column-sort {
 }
 
 .ant-timeline-item-tail {
-  border-left: 1px solid #1890FF !important;
+  border-left: 1px solid #1890ff !important;
 }
 
-.ant-select, .ant-select-item-option-content, .ant-input, .ant-input-number-input {
+.ant-select,
+.ant-select-item-option-content,
+.ant-input,
+.ant-input-number-input {
   color: #000 !important;
   font-family: ralewayregular !important;
   font-size: 16px !important;
@@ -424,8 +444,9 @@ td.ant-table-column-sort {
   font-size: 20px !important;
 }
 
-.ant-result-subtitle, .ant-steps-item-title {
-  color: #318CE7 !important;
+.ant-result-subtitle,
+.ant-steps-item-title {
+  color: #318ce7 !important;
   font-family: ralewayregular !important;
   font-size: 14px !important;
 }
