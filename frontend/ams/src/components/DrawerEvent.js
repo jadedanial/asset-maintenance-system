@@ -37,7 +37,12 @@ const DrawerEvent = (props) => {
       case "CartItem":
         return (
           <>
-            <CartItem orderList={props.orderList} destroy={false}></CartItem>
+            <CartItem
+              orderList={props.orderList}
+              totalOrder={props.totalOrder}
+              minusItemCount={props.minusItemCount}
+              destroy={false}
+            ></CartItem>
           </>
         );
       default:

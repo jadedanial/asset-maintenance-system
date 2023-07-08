@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import axios from "axios";
 import {
   Button,
-  Row,
   Card,
   Typography,
   Input,
@@ -39,6 +38,7 @@ const Reorder = (props) => {
   const [quantity, setQuantity] = useState("");
   const [itemList, setItemList] = useState([]);
   const [orderList, setOrderList] = useState([]);
+  const [totalOrder, setTotalOrder] = useState(0.0);
   const [itemCount, setItemCount] = useState(0);
   const [inputStatus, setInputStatus] = useState("");
   const [openDrawer, setOpenDrawer] = useState(false);
@@ -160,6 +160,15 @@ const Reorder = (props) => {
     }
   }
 
+  function sumOrder() {
+    setTotalOrder(0);
+    const sum = orderList.reduce(
+      (acc, item) => parseFloat(acc) + parseFloat(item.total),
+      0
+    );
+    setTotalOrder(sum.toFixed(2));
+  }
+
   function addItems(id, code, name, cost, measurement, quantity, placement) {
     if (total !== "") {
       const newItem = itemList;
@@ -199,6 +208,13 @@ const Reorder = (props) => {
     } else {
       setInputStatus("error");
     }
+    sumOrder();
+  }
+
+  function minusItemCount() {
+    var count = itemCount;
+    count -= 1;
+    setItemCount(count);
   }
 
   function clearSearch() {
@@ -250,6 +266,7 @@ const Reorder = (props) => {
   }
 
   function showDrawer() {
+    sumOrder();
     setOpenDrawer(true);
   }
 
@@ -260,80 +277,74 @@ const Reorder = (props) => {
   return (
     <>
       {contextHolder}
-      <Row>
-        <Card {...cardlayout}>
-          <Row>
-            <div className="justified-row">
-              <div className="card-custom-size">
-                <Card
-                  size="large"
-                  extra={
-                    <Tooltip title={orderLength()}>
-                      <Badge count={itemCount} color="#318CE7">
-                        <Avatar
-                          shape="square"
-                          size="middle"
-                          style={{ backgroundColor: "#318CE7" }}
-                          icon={
-                            <ShoppingCartOutlined
-                              className="large-card-title"
-                              style={{ color: "#FFF" }}
-                              onClick={showDrawer}
-                            />
-                          }
+      <Card {...cardlayout}>
+        <div className="justified-row">
+          <div className="card-custom-size">
+            <Card
+              size="large"
+              extra={
+                <Tooltip title={orderLength()}>
+                  <Badge count={itemCount} color="#318CE7">
+                    <Avatar
+                      shape="square"
+                      size="middle"
+                      style={{ backgroundColor: "#318CE7" }}
+                      icon={
+                        <ShoppingCartOutlined
+                          className="large-card-title"
+                          style={{ color: "#FFF" }}
+                          onClick={showDrawer}
                         />
-                      </Badge>
-                    </Tooltip>
-                  }
-                  title={
-                    <Title>
-                      <Row>
-                        <p
-                          className="big-card-title"
-                          style={{ width: "60%", textWrap: "wrap" }}
-                        >
-                          Reorder Stock
-                        </p>
-                      </Row>
-                    </Title>
-                  }
-                  hoverable
-                >
-                  <div style={contentStyle}>
-                    <Row>
-                      <div style={{ flexDirection: "column", width: "100%" }}>
-                        <Card>
-                          <Input.Search
-                            size="large"
-                            placeholder="Search Item Code"
-                            onChange={clearSearch}
-                            onSearch={searchItem}
-                            enterButton={
-                              <Button type="primary" className="custom-hover">
-                                SEARCH
-                              </Button>
-                            }
-                          />
-                        </Card>
-                        <Card
-                          className="card-no-top-padding"
-                          style={{ marginTop: "10px" }}
-                        >
-                          {componentSwitch(checkResult())}
-                        </Card>
-                      </div>
-                    </Row>
-                  </div>
-                </Card>
+                      }
+                    />
+                  </Badge>
+                </Tooltip>
+              }
+              title={
+                <Title>
+                  <p
+                    className="big-card-title"
+                    style={{ width: "60%", textWrap: "wrap" }}
+                  >
+                    Reorder Stock
+                  </p>
+                </Title>
+              }
+              hoverable
+            >
+              <div style={contentStyle}>
+                <div style={{ flexDirection: "column", width: "100%" }}>
+                  <Card>
+                    <Input.Search
+                      size="large"
+                      placeholder="Search Item Code"
+                      onChange={clearSearch}
+                      onSearch={searchItem}
+                      enterButton={
+                        <Button type="primary" className="custom-hover">
+                          SEARCH
+                        </Button>
+                      }
+                    />
+                  </Card>
+                  <Card
+                    className="card-no-top-padding"
+                    style={{ marginTop: "10px" }}
+                  >
+                    {componentSwitch(checkResult())}
+                  </Card>
+                </div>
               </div>
-            </div>
-          </Row>
-        </Card>
-      </Row>
+            </Card>
+          </div>
+        </div>
+      </Card>
       <DrawerEvent
         showDrawer={openDrawer}
         onCloseDrawer={onCloseDrawer}
         orderList={orderList}
+        totalOrder={totalOrder}
+        minusItemCount={minusItemCount}
         col={props.col}
         comp="CartItem"
       ></DrawerEvent>

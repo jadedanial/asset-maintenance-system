@@ -109,6 +109,18 @@ h1.ant-typography {
   border: none !important;
 }
 
+#card-content-justify-center .ant-card-head {
+  border-bottom: 0 !important;
+}
+
+#card-content-justify-center .ant-card-head-title {
+  padding-bottom: 0 !important;
+}
+
+#card-content-justify-center .ant-card-body {
+  padding-top: 0 !important;
+}
+
 .card-custom-size {
   margin: 40px !important;
   margin-top: 2% !important;

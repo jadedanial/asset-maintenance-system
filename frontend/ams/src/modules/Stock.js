@@ -113,73 +113,66 @@ const Stock = (props) => {
 
   return (
     <>
-      <Row>
-        <Card {...cardlayout}>
-          <Row>
-            <Col span={24}>
-              <Card
-                size="small"
-                style={{ background: "#318CE7", width: "100%" }}
-              >
-                <Row>
-                  <Col span={2}>
-                    <Tooltip title="Add New Item">
-                      <Button
-                        type="primary"
-                        shape="circle"
-                        className="custom-hover"
-                        style={{ margin: "0 20px" }}
-                        onClick={() => {
-                          showDrawer();
-                          setCompItem("AddUpdateItem");
-                        }}
-                        icon={<ShoppingOutlined />}
-                      />
-                    </Tooltip>
-                  </Col>
-                  <Col span={22}>
-                    <Input
-                      size="large"
-                      placeholder="Search Employee"
-                      suffix={
-                        <SearchOutlined
-                          style={{ fontSize: "26px", color: "#318CE7" }}
-                        />
-                      }
-                      onChange={(e) => setSearchedText(e.target.value)}
-                    />
-                  </Col>
-                </Row>
-              </Card>
-            </Col>
-          </Row>
-          <Row style={{ marginTop: "50px" }}>
-            <Col span={24}>
-              <Table
-                className="light-color-header-table"
-                rowClassName={() => "table-row"}
-                columns={columns}
-                dataSource={items}
-                onRow={(rowIndex) => {
-                  return {
-                    onClick: (event) => {
+      <Card {...cardlayout}>
+        <Col span={24}>
+          <Card size="small" style={{ background: "#318CE7", width: "100%" }}>
+            <Row>
+              <Col span={2}>
+                <Tooltip title="Add New Item">
+                  <Button
+                    type="primary"
+                    shape="circle"
+                    className="custom-hover"
+                    style={{ margin: "0 20px" }}
+                    onClick={() => {
                       showDrawer();
-                      setItemCode(rowIndex.code);
-                      setCompItem("ItemDetail");
-                    },
-                  };
-                }}
-                pagination={{
-                  pageSize: 10,
-                  showSizeChanger: true,
-                  pageSizeOptions: ["10", "20", "30"],
-                }}
-                size="small"
-              />
-            </Col>
-          </Row>
-        </Card>
-      </Row>
+                      setCompItem("AddUpdateItem");
+                    }}
+                    icon={<ShoppingOutlined />}
+                  />
+                </Tooltip>
+              </Col>
+              <Col span={22}>
+                <Input
+                  size="large"
+                  placeholder="Search Employee"
+                  suffix={
+                    <SearchOutlined
+                      style={{ fontSize: "26px", color: "#318CE7" }}
+                    />
+                  }
+                  onChange={(e) => setSearchedText(e.target.value)}
+                />
+              </Col>
+            </Row>
+          </Card>
+        </Col>
+        <Row style={{ marginTop: "20px" }}>
+          <Col span={24}>
+            <Table
+              className="light-color-header-table"
+              rowClassName={() => "table-row"}
+              columns={columns}
+              dataSource={items}
+              onRow={(rowIndex) => {
+                return {
+                  onClick: (event) => {
+                    showDrawer();
+                    setItemCode(rowIndex.code);
+                    setCompItem("ItemDetail");
+                  },
+                };
+              }}
+              pagination={{
+                pageSize: 10,
+                showSizeChanger: true,
+                pageSizeOptions: ["10", "20", "30"],
+              }}
+              size="small"
+            />
+          </Col>
+        </Row>
+      </Card>
       <DrawerEvent
         showDrawer={openDrawer}
         onCloseDrawer={onCloseDrawer}

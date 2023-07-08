@@ -217,36 +217,34 @@ const MainPage = (props) => {
                   >
                     <span className="avatar-item">
                       <Badge size="small">
-                        <Row>
-                          <Space size="middle">
-                            <Col span={12}>
-                              <p
-                                className="small-font"
-                                style={{ cursor: "pointer", color: "#318CE7" }}
-                              >
-                                {props.empid}
-                              </p>
-                            </Col>
-                            <Col span={12}>
-                              <p
-                                className="small-font"
-                                style={{ cursor: "pointer", color: "#318CE7" }}
-                              >
-                                {props.username}
-                              </p>
-                            </Col>
-                            <Col span={12}>
-                              <Avatar
-                                size="small"
-                                style={{
-                                  backgroundColor: "#108ee9",
-                                  cursor: "pointer",
-                                }}
-                                icon={<UserOutlined />}
-                              />
-                            </Col>
-                          </Space>
-                        </Row>
+                        <Space size="middle">
+                          <Col span={12}>
+                            <p
+                              className="small-font"
+                              style={{ cursor: "pointer", color: "#318CE7" }}
+                            >
+                              {props.empid}
+                            </p>
+                          </Col>
+                          <Col span={12}>
+                            <p
+                              className="small-font"
+                              style={{ cursor: "pointer", color: "#318CE7" }}
+                            >
+                              {props.username}
+                            </p>
+                          </Col>
+                          <Col span={12}>
+                            <Avatar
+                              size="small"
+                              style={{
+                                backgroundColor: "#108ee9",
+                                cursor: "pointer",
+                              }}
+                              icon={<UserOutlined />}
+                            />
+                          </Col>
+                        </Space>
                       </Badge>
                     </span>
                   </Dropdown>

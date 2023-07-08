@@ -216,228 +216,214 @@ const AddUpdateItem = (props) => {
               }
               title={
                 <Title>
-                  <Row>
-                    <p
-                      className="big-card-title"
-                      style={{ textWrap: "wrap", color: color }}
-                    >
-                      {label}
-                    </p>
-                  </Row>
+                  <p
+                    className="big-card-title"
+                    style={{ textWrap: "wrap", color: color }}
+                  >
+                    {label}
+                  </p>
                 </Title>
               }
               hoverable
             >
-              <Row>
-                <Col span={24}>
-                  <Row>
+              <Col span={24}>
+                <div className="space-between-row">
+                  <Col span={12}>
+                    <Row>
+                      <Col span={24}>
+                        <Form.Item
+                          name={["name"]}
+                          label="Item Name"
+                          initialValue={itemName}
+                          rules={[
+                            {
+                              required: update ? nameReq : true,
+                              message: "Required!",
+                            },
+                          ]}
+                        >
+                          <Input
+                            value={itemName}
+                            onChange={(e) => onNameChange(e.target.value)}
+                          />
+                        </Form.Item>
+                      </Col>
+                    </Row>
+                  </Col>
+                  <Col span={11}>
                     <div className="space-between-row">
                       <Col span={12}>
-                        <Row>
-                          <Col span={24}>
-                            <Form.Item
-                              name={["name"]}
-                              label="Item Name"
-                              initialValue={itemName}
-                              rules={[
-                                {
-                                  required: update ? nameReq : true,
-                                  message: "Required!",
-                                },
-                              ]}
-                            >
-                              <Input
-                                value={itemName}
-                                onChange={(e) => onNameChange(e.target.value)}
-                              />
-                            </Form.Item>
-                          </Col>
-                        </Row>
+                        <Form.Item
+                          name={["category"]}
+                          label="Category"
+                          initialValue={itemCategory}
+                          rules={[
+                            {
+                              required: update ? categoryReq : true,
+                              message: "Required!",
+                            },
+                          ]}
+                        >
+                          <Select
+                            size="large"
+                            showSearch
+                            className="small-font"
+                            style={{ width: "100%" }}
+                            optionFilterProp="children"
+                            filterOption={(input, option) =>
+                              (option?.label ?? "").includes(input)
+                            }
+                            filterSort={(optionA, optionB) =>
+                              (optionA?.label ?? "")
+                                .toLowerCase()
+                                .localeCompare(
+                                  (optionB?.label ?? "").toLowerCase()
+                                )
+                            }
+                            value={itemCategory}
+                            options={categories.map((cat) => {
+                              return {
+                                value: cat.category,
+                                label: cat.category,
+                              };
+                            })}
+                            onChange={onCategoryChange}
+                          />
+                        </Form.Item>
                       </Col>
-                      <Col span={11}>
-                        <Row>
-                          <div className="space-between-row">
-                            <Col span={12}>
-                              <Form.Item
-                                name={["category"]}
-                                label="Category"
-                                initialValue={itemCategory}
-                                rules={[
-                                  {
-                                    required: update ? categoryReq : true,
-                                    message: "Required!",
-                                  },
-                                ]}
-                              >
-                                <Select
-                                  size="large"
-                                  showSearch
-                                  className="small-font"
-                                  style={{ width: "100%" }}
-                                  optionFilterProp="children"
-                                  filterOption={(input, option) =>
-                                    (option?.label ?? "").includes(input)
-                                  }
-                                  filterSort={(optionA, optionB) =>
-                                    (optionA?.label ?? "")
-                                      .toLowerCase()
-                                      .localeCompare(
-                                        (optionB?.label ?? "").toLowerCase()
-                                      )
-                                  }
-                                  value={itemCategory}
-                                  options={categories.map((cat) => {
-                                    return {
-                                      value: cat.category,
-                                      label: cat.category,
-                                    };
-                                  })}
-                                  onChange={onCategoryChange}
-                                />
-                              </Form.Item>
-                            </Col>
-                            <Col span={10}>
-                              <Form.Item
-                                name={["cost"]}
-                                label="Unit Cost"
-                                initialValue={itemCost}
-                                rules={[
-                                  {
-                                    required: update ? costReq : true,
-                                    message: "Required numeric!",
-                                    type: "number",
-                                  },
-                                ]}
-                              >
-                                <InputNumber
-                                  min={1}
-                                  max={1000000}
-                                  value={itemCost}
-                                  onChange={onCostChange}
-                                />
-                              </Form.Item>
-                            </Col>
-                          </div>
-                        </Row>
+                      <Col span={10}>
+                        <Form.Item
+                          name={["cost"]}
+                          label="Unit Cost"
+                          initialValue={itemCost}
+                          rules={[
+                            {
+                              required: update ? costReq : true,
+                              message: "Required numeric!",
+                              type: "number",
+                            },
+                          ]}
+                        >
+                          <InputNumber
+                            min={1}
+                            max={1000000}
+                            value={itemCost}
+                            onChange={onCostChange}
+                          />
+                        </Form.Item>
                       </Col>
                     </div>
-                  </Row>
-                  <Row>
+                  </Col>
+                </div>
+                <div className="space-between-row">
+                  <Col span={12}>
+                    <Row>
+                      <Col span={24}>
+                        <Form.Item
+                          name={["measurement"]}
+                          label="Unit Of Measurement"
+                          initialValue={itemMeasurement}
+                          rules={[
+                            {
+                              required: update ? measurementReq : true,
+                              message: "Required!",
+                            },
+                          ]}
+                        >
+                          <Select
+                            size="large"
+                            showSearch
+                            className="small-font"
+                            style={{ width: "100%" }}
+                            optionFilterProp="children"
+                            filterOption={(input, option) =>
+                              (option?.label ?? "").includes(input)
+                            }
+                            filterSort={(optionA, optionB) =>
+                              (optionA?.label ?? "")
+                                .toLowerCase()
+                                .localeCompare(
+                                  (optionB?.label ?? "").toLowerCase()
+                                )
+                            }
+                            value={itemMeasurement}
+                            options={measurements.map((mes) => {
+                              return {
+                                value: mes.measurement,
+                                label: mes.measurement,
+                              };
+                            })}
+                            onChange={onMeasurementChange}
+                          />
+                        </Form.Item>
+                      </Col>
+                    </Row>
+                  </Col>
+                  <Col span={11}>
                     <div className="space-between-row">
                       <Col span={12}>
-                        <Row>
-                          <Col span={24}>
-                            <Form.Item
-                              name={["measurement"]}
-                              label="Unit Of Measurement"
-                              initialValue={itemMeasurement}
-                              rules={[
-                                {
-                                  required: update ? measurementReq : true,
-                                  message: "Required!",
-                                },
-                              ]}
-                            >
-                              <Select
-                                size="large"
-                                showSearch
-                                className="small-font"
-                                style={{ width: "100%" }}
-                                optionFilterProp="children"
-                                filterOption={(input, option) =>
-                                  (option?.label ?? "").includes(input)
-                                }
-                                filterSort={(optionA, optionB) =>
-                                  (optionA?.label ?? "")
-                                    .toLowerCase()
-                                    .localeCompare(
-                                      (optionB?.label ?? "").toLowerCase()
-                                    )
-                                }
-                                value={itemMeasurement}
-                                options={measurements.map((mes) => {
-                                  return {
-                                    value: mes.measurement,
-                                    label: mes.measurement,
-                                  };
-                                })}
-                                onChange={onMeasurementChange}
-                              />
-                            </Form.Item>
-                          </Col>
-                        </Row>
+                        <Form.Item
+                          name={["location"]}
+                          label="Physical Location"
+                          initialValue={itemLocation}
+                          rules={[
+                            {
+                              required: update ? locationReq : true,
+                              message: "Required!",
+                            },
+                          ]}
+                        >
+                          <Input
+                            value={itemLocation}
+                            onChange={(e) => onLocationChange(e.target.value)}
+                          />
+                        </Form.Item>
                       </Col>
-                      <Col span={11}>
-                        <Row>
-                          <div className="space-between-row">
-                            <Col span={12}>
-                              <Form.Item
-                                name={["location"]}
-                                label="Physical Location"
-                                initialValue={itemLocation}
-                                rules={[
-                                  {
-                                    required: update ? locationReq : true,
-                                    message: "Required!",
-                                  },
-                                ]}
-                              >
-                                <Input
-                                  value={itemLocation}
-                                  onChange={(e) =>
-                                    onLocationChange(e.target.value)
-                                  }
-                                />
-                              </Form.Item>
-                            </Col>
-                            <Col span={10}>
-                              <Form.Item
-                                name={["reorder"]}
-                                label="Reorder Quantity"
-                                initialValue={itemReorder}
-                                rules={[
-                                  {
-                                    required: update ? reorderReq : true,
-                                    message: "Required numeric!",
-                                    type: "number",
-                                  },
-                                ]}
-                              >
-                                <InputNumber
-                                  min={1}
-                                  max={1000000}
-                                  value={itemReorder}
-                                  onChange={onReorderChange}
-                                />
-                              </Form.Item>
-                            </Col>
-                          </div>
-                        </Row>
+                      <Col span={10}>
+                        <Form.Item
+                          name={["reorder"]}
+                          label="Reorder Quantity"
+                          initialValue={itemReorder}
+                          rules={[
+                            {
+                              required: update ? reorderReq : true,
+                              message: "Required numeric!",
+                              type: "number",
+                            },
+                          ]}
+                        >
+                          <InputNumber
+                            min={1}
+                            max={1000000}
+                            value={itemReorder}
+                            onChange={onReorderChange}
+                          />
+                        </Form.Item>
                       </Col>
                     </div>
-                  </Row>
-                  <Row>
-                    <Col span={24}>
-                      <Form.Item
-                        name={["description"]}
-                        label="Description"
-                        initialValue={itemDescription}
-                        rules={[
-                          {
-                            required: update ? descriptionReq : true,
-                            message: "Required!",
-                          },
-                        ]}
-                      >
-                        <Input.TextArea
-                          value={itemDescription}
-                          onChange={(e) => onDescriptionChange(e.target.value)}
-                        />
-                      </Form.Item>
-                    </Col>
-                  </Row>
-                </Col>
-              </Row>
+                  </Col>
+                </div>
+                <Row>
+                  <Col span={24}>
+                    <Form.Item
+                      name={["description"]}
+                      label="Description"
+                      initialValue={itemDescription}
+                      rules={[
+                        {
+                          required: update ? descriptionReq : true,
+                          message: "Required!",
+                        },
+                      ]}
+                    >
+                      <Input.TextArea
+                        value={itemDescription}
+                        onChange={(e) => onDescriptionChange(e.target.value)}
+                      />
+                    </Form.Item>
+                  </Col>
+                </Row>
+              </Col>
             </Card>
           </Form>
         </div>
