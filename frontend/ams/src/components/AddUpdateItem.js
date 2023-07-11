@@ -43,7 +43,7 @@ const AddUpdateItem = (props) => {
     update ? props.measurement : ""
   );
   const [itemReorder, setItemReorder] = useState(update ? props.reorder : "");
-  const itemOnHand = update ? props.onhand : 0;
+  const itemOnHand = update ? props.onhand : 0.0;
   const [itemCost, setItemCost] = useState(update ? props.cost : "");
   const [itemDescription, setItemDescription] = useState(
     update ? props.description : ""

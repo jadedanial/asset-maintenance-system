@@ -114,9 +114,9 @@ const MainPage = (props) => {
         return (
           <>
             <DrawerEvent
+              empid={props.empid}
               showDrawer={openDrawer}
               onCloseDrawer={onCloseDrawer}
-              empid={props.empid}
               col={collapsed}
               comp={"Profile"}
             ></DrawerEvent>

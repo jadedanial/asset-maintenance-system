@@ -36,9 +36,7 @@ const Reorder = (props) => {
   });
   const [total, setTotal] = useState("");
   const [quantity, setQuantity] = useState("");
-  const [itemList, setItemList] = useState([]);
   const [orderList, setOrderList] = useState([]);
-  const [totalOrder, setTotalOrder] = useState(0.0);
   const [itemCount, setItemCount] = useState(0);
   const [inputStatus, setInputStatus] = useState("");
   const [openDrawer, setOpenDrawer] = useState(false);
@@ -46,8 +44,11 @@ const Reorder = (props) => {
 
   const data = [
     {
-      name: <p className="medium-font">{itemDetails["0"]["name"]}</p>,
-      code: <p className="small-font">{itemDetails["0"]["code"]}</p>,
+      name: (
+        <p className="medium-font" style={{ textAlign: "center" }}>
+          {itemDetails["0"]["name"]}
+        </p>
+      ),
     },
   ];
 
@@ -99,7 +100,11 @@ const Reorder = (props) => {
           onChange={onQuantityChange}
         />
       ),
-      cost: <p className="big-font">{total}</p>,
+      cost: (
+        <p className="big-font" style={{ textAlign: "center" }}>
+          {total}
+        </p>
+      ),
       action: (
         <Tooltip title="Add To Cart">
           <Button
@@ -108,7 +113,7 @@ const Reorder = (props) => {
                 className="bigger-card-title"
                 style={{ color: "#318CE7" }}
                 onClick={() =>
-                  addItems(
+                  newItem(
                     itemDetails["0"]["id"],
                     itemDetails["0"]["code"],
                     itemDetails["0"]["name"],
@@ -160,47 +165,51 @@ const Reorder = (props) => {
     }
   }
 
-  function sumOrder() {
-    setTotalOrder(0);
-    const sum = orderList.reduce(
-      (acc, item) => parseFloat(acc) + parseFloat(item.total),
-      0
-    );
-    setTotalOrder(sum.toFixed(2));
+  function clearOrder() {
+    setOrderList([]);
+    setItemCount(0);
   }
 
-  function addItems(id, code, name, cost, measurement, quantity, placement) {
+  function addItem(id, code, name, cost, measurement, quantity, tot) {
+    const newOrder = orderList;
+    newOrder.push({
+      id: id,
+      item_code: code,
+      item_name: name,
+      item_cost: cost,
+      item_measurement: measurement,
+      item_onhand: quantity,
+      total: tot,
+    });
+    setOrderList(newOrder);
+    orderList.sort(function (a, b) {
+      return a.id - b.id;
+    });
+    setItemCount(orderList.length);
+  }
+
+  function removeItem(code) {
+    const newOrder = orderList;
+    const matchItem = newOrder.find((order) => order.item_code === code);
+    var index = newOrder.indexOf(matchItem);
+    if (index > -1) {
+      newOrder.splice(index, 1);
+    }
+    setOrderList(newOrder);
+    orderList.sort(function (a, b) {
+      return a.id - b.id;
+    });
+    setItemCount(orderList.length);
+  }
+
+  function newItem(id, code, name, cost, measurement, quantity, placement) {
     if (total !== "") {
-      const newItem = itemList;
-      const newOrder = orderList;
-      if (!newItem.includes(code)) {
-        newItem.push(code);
-      } else {
-        const matchItem = newOrder.find((order) => order.code === code);
-        var index = newOrder.indexOf(matchItem);
-        if (index > -1) {
-          newOrder.splice(index, 1);
-        }
-      }
-      newOrder.push({
-        id: id,
-        code: code,
-        name: name,
-        cost: cost,
-        measurement: measurement,
-        quantity: quantity,
-        total: total,
-      });
-      setOrderList(newOrder);
-      orderList.sort(function (a, b) {
-        return a.id - b.id;
-      });
-      setItemList(newItem);
-      setItemCount(newItem.length);
+      removeItem(code);
+      addItem(id, code, name, cost, measurement, quantity, total);
       setInputStatus("");
       api.success({
         message: <p className="medium-card-title">Notification</p>,
-        description: <p className="small-font">Item added to Cart.</p>,
+        description: <p className="small-font">Item {code} added to Cart.</p>,
         placement,
         duration: 2,
         icon: <CheckSquareOutlined style={{ color: "#318CE7" }} />,
@@ -208,13 +217,6 @@ const Reorder = (props) => {
     } else {
       setInputStatus("error");
     }
-    sumOrder();
-  }
-
-  function minusItemCount() {
-    var count = itemCount;
-    count -= 1;
-    setItemCount(count);
   }
 
   function clearSearch() {
@@ -236,7 +238,7 @@ const Reorder = (props) => {
           <>
             <Table
               className="light-color-header-table"
-              id="thead-text-align-left"
+              id="reorder-item-center"
               rowClassName={() => "table-row-no-color text-align-left"}
               style={{ margin: "21px 0" }}
               columns={columns}
@@ -257,16 +259,7 @@ const Reorder = (props) => {
     }
   }
 
-  function orderLength() {
-    if (itemCount > 1) {
-      return "Cart Items";
-    } else {
-      return "Cart Item";
-    }
-  }
-
   function showDrawer() {
-    sumOrder();
     setOpenDrawer(true);
   }
 
@@ -283,7 +276,13 @@ const Reorder = (props) => {
             <Card
               size="large"
               extra={
-                <Tooltip title={orderLength()}>
+                <Tooltip
+                  title={
+                    itemCount > 1
+                      ? "Cart (" + itemCount.toString() + " Items)"
+                      : "Cart (" + itemCount.toString() + " Item)"
+                  }
+                >
                   <Badge count={itemCount} color="#318CE7">
                     <Avatar
                       shape="square"
@@ -340,11 +339,13 @@ const Reorder = (props) => {
         </div>
       </Card>
       <DrawerEvent
+        addItem={addItem}
+        removeItem={removeItem}
+        itemCount={itemCount}
+        orderList={orderList}
+        clearOrder={clearOrder}
         showDrawer={openDrawer}
         onCloseDrawer={onCloseDrawer}
-        orderList={orderList}
-        totalOrder={totalOrder}
-        minusItemCount={minusItemCount}
         col={props.col}
         comp="CartItem"
       ></DrawerEvent>

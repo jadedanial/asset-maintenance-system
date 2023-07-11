@@ -39,6 +39,10 @@ h1 {
   text-align: left !important;
 }
 
+.text-align-center {
+  text-align: center !important;
+}
+
 .ant-menu-submenu-arrow {
   display: none;
 }
@@ -110,15 +114,17 @@ h1.ant-typography {
 }
 
 #card-content-justify-center .ant-card-head {
+  padding: 0 !important;
   border-bottom: 0 !important;
+  min-height: auto;
 }
 
 #card-content-justify-center .ant-card-head-title {
-  padding-bottom: 0 !important;
+  padding: 0 !important;
 }
 
 #card-content-justify-center .ant-card-body {
-  padding-top: 0 !important;
+  padding: 0 !important;
 }
 
 .card-custom-size {
@@ -128,12 +134,12 @@ h1.ant-typography {
 }
 
 .ant-card-head-title {
-  width: 70% !important;
+  width: 60% !important;
   margin-right: 50px !important;
 }
 
 .ant-card-extra {
-  width: 20% !important;
+  width: 35% !important;
   display: flex !important;
   justify-content: flex-end !important;
 }
@@ -226,7 +232,7 @@ h1.ant-typography {
 .extra-small-font {
   color: #000;
   font-family: ralewayregular !important;
-  text-align: left !important;
+  text-align: left;
   margin: 0 !important;
 }
 
@@ -260,18 +266,6 @@ h1.ant-typography {
   font-size: 14px;
   text-align: center;
   background-color: #318ce7;
-}
-
-#thead-text-align-left .ant-table-cell {
-  text-align: left;
-}
-
-#thead-text-align-left .ant-table-cell {
-  padding: 5px 20px !important;
-}
-
-#thead-text-align-left .ant-table-cell:first-child {
-  padding: 5px 35px 5px 0 !important;
 }
 
 .ant-table-thead th.ant-table-column-has-sorters {
@@ -461,4 +455,16 @@ td.ant-table-column-sort {
   color: #318ce7 !important;
   font-family: ralewayregular !important;
   font-size: 14px !important;
+}
+
+#reorder-item-center .ant-table-cell {
+  text-align: center !important;
+}
+
+#reorder-item-center .ant-table-cell {
+  padding: 5px 20px !important;
+}
+
+#reorder-item-center .ant-table-cell:first-child {
+  padding: 5px 35px 5px 0 !important;
 }

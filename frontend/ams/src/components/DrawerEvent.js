@@ -13,7 +13,7 @@ const DrawerEvent = (props) => {
       case "Profile":
         return (
           <>
-            <Profile empid={props.empid} destroy={true}></Profile>
+            <Profile empid={props.empid}></Profile>
           </>
         );
       case "AddEmployee":
@@ -25,23 +25,24 @@ const DrawerEvent = (props) => {
       case "ItemDetail":
         return (
           <>
-            <ItemDetail itemcode={props.itemcode} destroy={true}></ItemDetail>
+            <ItemDetail itemcode={props.itemcode}></ItemDetail>
           </>
         );
       case "AddUpdateItem":
         return (
           <>
-            <AddUpdateItem update={false} destroy={true}></AddUpdateItem>
+            <AddUpdateItem update={false}></AddUpdateItem>
           </>
         );
       case "CartItem":
         return (
           <>
             <CartItem
+              addItem={props.addItem}
+              removeItem={props.removeItem}
+              itemCount={props.itemCount}
               orderList={props.orderList}
-              totalOrder={props.totalOrder}
-              minusItemCount={props.minusItemCount}
-              destroy={false}
+              clearOrder={props.clearOrder}
             ></CartItem>
           </>
         );
@@ -63,7 +64,7 @@ const DrawerEvent = (props) => {
           transition: "0.2s ease-in-out",
         }}
         open={props.showDrawer}
-        destroyOnClose={props.destroy}
+        destroyOnClose={true}
         extra={
           <Tooltip title={"Close"}>
             <Button

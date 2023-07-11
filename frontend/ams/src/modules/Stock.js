@@ -174,9 +174,9 @@ const Stock = (props) => {
         </Row>
       </Card>
       <DrawerEvent
+        itemcode={itemCode}
         showDrawer={openDrawer}
         onCloseDrawer={onCloseDrawer}
-        itemcode={itemCode}
         col={props.col}
         comp={compItem}
       ></DrawerEvent>

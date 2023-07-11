@@ -145,9 +145,9 @@ const Employee = (props) => {
         </Row>
       </Card>
       <DrawerEvent
+        empid={empID}
         showDrawer={openDrawer}
         onCloseDrawer={onCloseDrawer}
-        empid={empID}
         col={props.col}
         comp={compItem}
       ></DrawerEvent>

@@ -1,28 +1,27 @@
 import React, { useState, useEffect } from "react";
-import { Typography, Card, Row, Col, List, Button, Tooltip } from "antd";
-import { PlusOutlined, MinusOutlined, CloseOutlined } from "@ant-design/icons";
+import axios from "axios";
+import { Typography, Card, Col, List, Button, Tooltip } from "antd";
+import {
+  PlusOutlined,
+  MinusOutlined,
+  CloseOutlined,
+  CheckCircleOutlined,
+} from "@ant-design/icons";
+import ResultEvent from "../components/ResultEvent";
 
 const { Title } = Typography;
 
 const CartItem = (props) => {
-  const [orderList, setOrderList] = useState(props.orderList);
-  const [totalOrder, setTotalOrder] = useState(0);
+  const [totalOrder, setTotalOrder] = useState(0.0);
+  const [itemCount, setItemCount] = useState(0);
+  const [success, setSuccess] = useState(false);
 
   useEffect(() => {
-    setTotalOrder(props.totalOrder);
-  }, [props.totalOrder]);
-
-  function orderLength() {
-    if (props.orderList.length > 1) {
-      return "Cart Items";
-    } else {
-      return "Cart Item";
-    }
-  }
+    sumOrder();
+  });
 
   function changeQuantity(action, id, code, name, cost, measurement, quantity) {
     if (quantity >= 1) {
-      setTotalOrder(0);
       if (action === "add") {
         quantity += 1;
       } else {
@@ -30,52 +29,62 @@ const CartItem = (props) => {
           quantity -= 1;
         }
       }
-      const newOrder = orderList;
-      const matchItem = newOrder.find((order) => order.code === code);
-      var index = newOrder.indexOf(matchItem);
-      if (index > -1) {
-        newOrder.splice(index, 1);
-      }
-      const total = parseFloat(cost * quantity).toFixed(2);
-      newOrder.push({
-        id: id,
-        code: code,
-        name: name,
-        cost: cost,
-        measurement: measurement,
-        quantity: quantity,
-        total: total,
-      });
-      setOrderList(newOrder);
-      orderList.sort(function (a, b) {
-        return a.id - b.id;
-      });
-      const sum = orderList.reduce(
-        (acc, item) => parseFloat(acc) + parseFloat(item.total),
-        0
-      );
-      setTotalOrder(sum.toFixed(2));
+      var total = parseFloat(cost * quantity).toFixed(2);
+      props.removeItem(code);
+      props.addItem(id, code, name, cost, measurement, quantity, total);
     }
+    sumOrder();
   }
 
-  function removeItem(code) {
-    setTotalOrder(0);
-    const newOrder = orderList;
-    const matchItem = newOrder.find((order) => order.code === code);
-    var index = newOrder.indexOf(matchItem);
-    if (index > -1) {
-      newOrder.splice(index, 1);
-    }
-    setOrderList(newOrder);
-    orderList.sort(function (a, b) {
-      return a.id - b.id;
-    });
-    const sum = orderList.reduce(
+  function deleteItem(code) {
+    props.removeItem(code);
+    sumOrder();
+  }
+
+  function sumOrder() {
+    setTotalOrder(0.0);
+    const sum = props.orderList.reduce(
       (acc, item) => parseFloat(acc) + parseFloat(item.total),
       0
     );
     setTotalOrder(sum.toFixed(2));
-    props.minusItemCount();
+  }
+
+  async function applyOrder() {
+    try {
+      await axios({
+        method: "PUT",
+        url: "http://localhost:8000/api/item/",
+        data: props.orderList,
+      });
+      setItemCount(props.itemCount);
+      setSuccess(true);
+      props.clearOrder();
+    } catch (err) {
+      console.log(err.response.data[0]);
+      setSuccess(false);
+    }
+  }
+
+  if (success) {
+    return (
+      <>
+        <ResultEvent
+          icon={<CheckCircleOutlined style={{ color: "#318CE7" }} />}
+          status="success"
+          title={
+            itemCount > 1
+              ? "Successfully added " +
+                itemCount.toString() +
+                " Items to inventory!"
+              : "Successfully added " +
+                itemCount.toString() +
+                " Item to inventory!"
+          }
+          subTitle={"Transaction ID 0587864"}
+        />
+      </>
+    );
   }
 
   return (
@@ -84,18 +93,53 @@ const CartItem = (props) => {
         <div className="card-custom-size">
           <Card
             size="large"
+            extra={
+              totalOrder > 0.0 ? (
+                <Button
+                  size="middle"
+                  type="primary"
+                  onClick={() => applyOrder()}
+                >
+                  APPLY
+                </Button>
+              ) : (
+                ""
+              )
+            }
             title={
               <Title>
                 <p className="big-card-title" style={{ color: "#318CE7" }}>
-                  {orderLength()}
+                  Cart ({props.itemCount}
+                  {props.itemCount > 1 ? " Items" : " Item"})
                 </p>
               </Title>
             }
             hoverable
           >
+            {totalOrder > 0.0 ? (
+              <Card
+                size="small"
+                id="card-content-justify-center"
+                style={{ width: "100%", padding: "10px 20px" }}
+              >
+                <div
+                  style={{
+                    alignItems: "center",
+                    display: "flex",
+                    justifyContent: "flex-start",
+                  }}
+                >
+                  <p className="medium-font" style={{ marginRight: "20px" }}>
+                    Total Cost {totalOrder}
+                  </p>
+                </div>
+              </Card>
+            ) : (
+              ""
+            )}
             <List
               itemLayout="horizontal"
-              dataSource={orderList}
+              dataSource={props.orderList}
               renderItem={(item, index) => (
                 <List.Item>
                   <Card
@@ -104,34 +148,22 @@ const CartItem = (props) => {
                     title={
                       <Title>
                         <p className="medium-font" style={{ color: "#318CE7" }}>
-                          {item.name}
+                          {item.item_code}
                         </p>
                       </Title>
                     }
-                    style={{ width: "100%" }}
-                    extra={
-                      <Tooltip title="Remove Item">
-                        <Button
-                          danger
-                          type="link"
-                          onClick={() => removeItem(item.code)}
-                        >
-                          <CloseOutlined
-                            className="large-card-title"
-                            style={{ color: "#FF4D4F" }}
-                          />
-                        </Button>
-                      </Tooltip>
-                    }
+                    style={{ width: "100%", padding: "20px" }}
                     hoverable
                   >
                     <div
                       className="space-between-row"
                       style={{ alignItems: "center" }}
                     >
-                      <Col span={5}>
+                      <Col span={8} style={{ marginRight: "30px" }}>
                         <List.Item.Meta
-                          title={<p className="medium-font">{item.code}</p>}
+                          title={
+                            <p className="medium-font">{item.item_name}</p>
+                          }
                         />
                       </Col>
                       <Col span={4}>
@@ -141,27 +173,26 @@ const CartItem = (props) => {
                           }
                         />
                       </Col>
-                      <Col span={6}>
+                      <Col span={5}>
                         <p className="medium-font">
-                          Qty. {item.quantity}{" "}
-                          {item.quantity > 1
-                            ? item.measurement + "s"
-                            : item.measurement}
+                          Qty. {item.item_onhand}{" "}
+                          {item.item_onhand > 1
+                            ? item.item_measurement + "s"
+                            : item.item_measurement}
                         </p>
                       </Col>
                       <Col
-                        span={3}
+                        span={4}
                         className="flex-end-row"
                         style={{
                           alignItems: "center",
-                          marginRight: "130px",
                         }}
                       >
                         <div
                           className="space-between-row"
                           style={{ marginTop: "5px" }}
                         >
-                          <Col span={11}>
+                          <Col span={8}>
                             <Tooltip title="Add Quantity">
                               <Button
                                 icon={
@@ -172,11 +203,11 @@ const CartItem = (props) => {
                                       changeQuantity(
                                         "add",
                                         item.id,
-                                        item.code,
-                                        item.name,
-                                        item.cost,
-                                        item.measurement,
-                                        item.quantity
+                                        item.item_code,
+                                        item.item_name,
+                                        item.item_cost,
+                                        item.item_measurement,
+                                        item.item_onhand
                                       )
                                     }
                                   />
@@ -185,7 +216,7 @@ const CartItem = (props) => {
                               />
                             </Tooltip>
                           </Col>
-                          <Col span={11}>
+                          <Col span={8}>
                             <Tooltip title="Less Quantity">
                               <Button
                                 icon={
@@ -196,17 +227,31 @@ const CartItem = (props) => {
                                       changeQuantity(
                                         "less",
                                         item.id,
-                                        item.code,
-                                        item.name,
-                                        item.cost,
-                                        item.measurement,
-                                        item.quantity
+                                        item.item_code,
+                                        item.item_name,
+                                        item.item_cost,
+                                        item.item_measurement,
+                                        item.item_onhand
                                       )
                                     }
                                   />
                                 }
                                 block
                               />
+                            </Tooltip>
+                          </Col>
+                          <Col span={8}>
+                            <Tooltip title="Remove Item">
+                              <Button
+                                danger
+                                type="link"
+                                onClick={() => deleteItem(item.item_code)}
+                              >
+                                <CloseOutlined
+                                  className="large-card-title"
+                                  style={{ color: "#FF4D4F" }}
+                                />
+                              </Button>
                             </Tooltip>
                           </Col>
                         </div>
@@ -216,9 +261,6 @@ const CartItem = (props) => {
                 </List.Item>
               )}
             />
-            <Row>
-              <p className="big-font">{totalOrder}</p>
-            </Row>
           </Card>
         </div>
       </div>
