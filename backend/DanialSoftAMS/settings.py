@@ -36,7 +36,11 @@ SECRET_KEY = "fbokfh-b!ggl&rs67lc@=p5m65pyy4q*387zez)q*gi6ep)*uu"
 
 DEBUG = True
 
-ALLOWED_HOSTS = ["localhost", "danialsoftams.onrender.com"]
+ALLOWED_HOSTS = [
+    "localhost",
+    "danialsoftams-back.onrender.com",
+    "danialsoftams-front.onrender.com",
+]
 
 
 # Application definition
