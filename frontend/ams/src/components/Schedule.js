@@ -30,20 +30,28 @@ const Schedule = (props) => {
   const [api, contextHolder] = notification.useNotification();
 
   useEffect(() => {
-    axios.get("http://localhost:8000/api/employees").then((response) => {
-      response.data.map((res) =>
-        res.emp_id === props.empid ? setSchedId(res.emp_sched) : {}
-      );
-    });
+    try {
+      axios.get("http://localhost:8000/api/employees").then((response) => {
+        response.data.map((res) =>
+          res.emp_id === props.empid ? setSchedId(res.emp_sched) : {}
+        );
+      });
+    } catch (err) {
+      console.log(err.response.data[0]);
+    }
   }, [props.empid]);
 
   useEffect(() => {
-    axios.get("http://localhost:8000/api/schedule").then((response) => {
-      setSchedules(response.data);
-      response.data.map((res) =>
-        res.id === schedid ? setSchedName(res.sched_name) : {}
-      );
-    });
+    try {
+      axios.get("http://localhost:8000/api/schedule").then((response) => {
+        setSchedules(response.data);
+        response.data.map((res) =>
+          res.id === schedid ? setSchedName(res.sched_name) : {}
+        );
+      });
+    } catch (err) {
+      console.log(err.response.data[0]);
+    }
   }, [schedid]);
 
   async function handleSubmit(placement) {

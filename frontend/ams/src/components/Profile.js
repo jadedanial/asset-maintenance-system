@@ -49,9 +49,13 @@ const Profile = (props) => {
   ];
 
   useEffect(() => {
-    axios.get("http://localhost:8000/api/employees").then((response) => {
-      setEmployees(response.data);
-    });
+    try {
+      axios.get("http://localhost:8000/api/employees").then((response) => {
+        setEmployees(response.data);
+      });
+    } catch (err) {
+      console.log(err.response.data[0]);
+    }
   }, []);
 
   function expYears(yearHired) {

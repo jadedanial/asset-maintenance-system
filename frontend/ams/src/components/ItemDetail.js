@@ -11,9 +11,13 @@ const ItemDetail = (props) => {
   const [update, setUpdate] = useState(false);
 
   useEffect(() => {
-    axios.get("http://localhost:8000/api/items").then((response) => {
-      setItem(response.data);
-    });
+    try {
+      axios.get("http://localhost:8000/api/items").then((response) => {
+        setItem(response.data);
+      });
+    } catch (err) {
+      console.log(err.response.data[0]);
+    }
   }, []);
 
   return (

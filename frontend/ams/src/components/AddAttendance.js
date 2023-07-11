@@ -28,31 +28,39 @@ const AddAttendance = (props) => {
   const [api, contextHolder] = notification.useNotification();
 
   useEffect(() => {
-    axios.get("http://localhost:8000/api/employees").then((response) => {
-      response.data.map((res) =>
-        res.emp_id === props.empid ? setSchedId(res.emp_sched) : {}
-      );
-    });
+    try {
+      axios.get("http://localhost:8000/api/employees").then((response) => {
+        response.data.map((res) =>
+          res.emp_id === props.empid ? setSchedId(res.emp_sched) : {}
+        );
+      });
+    } catch (err) {
+      console.log(err.response.data[0]);
+    }
   }, [props.empid]);
 
   useEffect(() => {
-    axios.get("http://localhost:8000/api/schedule").then((response) => {
-      response.data.map((res) =>
-        res.id === schedid
-          ? setSchedules([
-              {
-                sched_sun: res.sched_sun,
-                sched_mon: res.sched_mon,
-                sched_tue: res.sched_tue,
-                sched_wed: res.sched_wed,
-                sched_thu: res.sched_thu,
-                sched_fri: res.sched_fri,
-                sched_sat: res.sched_sat,
-              },
-            ])
-          : {}
-      );
-    });
+    try {
+      axios.get("http://localhost:8000/api/schedule").then((response) => {
+        response.data.map((res) =>
+          res.id === schedid
+            ? setSchedules([
+                {
+                  sched_sun: res.sched_sun,
+                  sched_mon: res.sched_mon,
+                  sched_tue: res.sched_tue,
+                  sched_wed: res.sched_wed,
+                  sched_thu: res.sched_thu,
+                  sched_fri: res.sched_fri,
+                  sched_sat: res.sched_sat,
+                },
+              ])
+            : {}
+        );
+      });
+    } catch (err) {
+      console.log(err.response.data[0]);
+    }
   }, [schedid]);
 
   function dayOfTheWeek(day) {
@@ -199,7 +207,7 @@ const AddAttendance = (props) => {
     return status;
   }
 
-  function addAttendance(
+  async function addAttendance(
     apiMethod,
     emp_id,
     attend_date,
@@ -229,7 +237,7 @@ const AddAttendance = (props) => {
       attend_status: attend_status,
     };
     try {
-      axios({
+      await axios({
         method: apiMethod,
         url: "http://localhost:8000/api/emp_attendance/",
         data: attendData,

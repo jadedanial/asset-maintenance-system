@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { Layout, Menu, Space, Dropdown, Badge, Row, Col, Avatar } from "antd";
+import { Layout, Menu, Space, Dropdown, Badge, Col, Avatar } from "antd";
 import {
   UserOutlined,
   UnlockOutlined,
@@ -43,19 +43,23 @@ const MainPage = (props) => {
   ];
 
   useEffect(() => {
-    axios.get("http://localhost:8000/api/module").then((response) => {
-      setModules(response.data);
-      setModules((modules) => {
-        return modules.map((module) => {
-          return { ...module, icon: iconsSwitch(module.icon) };
+    try {
+      axios.get("http://localhost:8000/api/module").then((response) => {
+        setModules(response.data);
+        setModules((modules) => {
+          return modules.map((module) => {
+            return { ...module, icon: iconsSwitch(module.icon) };
+          });
         });
       });
-    });
+    } catch (err) {
+      console.log(err.response.data[0]);
+    }
   }, []);
 
-  function logout() {
+  async function logout() {
     try {
-      axios.post(
+      await axios.post(
         "http://localhost:8000/api/logout",
         {},
         {

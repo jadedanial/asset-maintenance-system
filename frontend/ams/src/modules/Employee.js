@@ -57,21 +57,25 @@ const Employee = (props) => {
   ];
 
   useEffect(() => {
-    axios.get("http://localhost:8000/api/employees").then((response) => {
-      setEmployees([]);
-      response.data.map((res) =>
-        setEmployees((employees) => [
-          ...employees,
-          {
-            id: res.emp_id,
-            name: res.emp_name,
-            position: res.emp_position,
-            phone: res.emp_phone,
-            email: res.emp_email,
-          },
-        ])
-      );
-    });
+    try {
+      axios.get("http://localhost:8000/api/employees").then((response) => {
+        setEmployees([]);
+        response.data.map((res) =>
+          setEmployees((employees) => [
+            ...employees,
+            {
+              id: res.emp_id,
+              name: res.emp_name,
+              position: res.emp_position,
+              phone: res.emp_phone,
+              email: res.emp_email,
+            },
+          ])
+        );
+      });
+    } catch (err) {
+      console.log(err.response.data[0]);
+    }
   }, []);
 
   function showDrawer() {

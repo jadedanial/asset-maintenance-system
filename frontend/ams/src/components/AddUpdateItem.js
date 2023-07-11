@@ -60,23 +60,35 @@ const AddUpdateItem = (props) => {
   const [displayItemCode, setDisplayItemCode] = useState("");
 
   useEffect(() => {
-    axios.get("http://localhost:8000/api/category").then((response) => {
-      setCategories(response.data);
-    });
+    try {
+      axios.get("http://localhost:8000/api/category").then((response) => {
+        setCategories(response.data);
+      });
+    } catch (err) {
+      console.log(err.response.data[0]);
+    }
   }, []);
 
   useEffect(() => {
-    axios.get("http://localhost:8000/api/measurement").then((response) => {
-      setMeasurements(response.data);
-    });
+    try {
+      axios.get("http://localhost:8000/api/measurement").then((response) => {
+        setMeasurements(response.data);
+      });
+    } catch (err) {
+      console.log(err.response.data[0]);
+    }
   }, []);
 
-  function getItemCode(name) {
-    axios.get("http://localhost:8000/api/items").then((response) => {
-      response.data.map((res) =>
-        res.item_name === name ? setDisplayItemCode(res.item_code) : {}
-      );
-    });
+  async function getItemCode(name) {
+    try {
+      await axios.get("http://localhost:8000/api/items").then((response) => {
+        response.data.map((res) =>
+          res.item_name === name ? setDisplayItemCode(res.item_code) : {}
+        );
+      });
+    } catch (err) {
+      console.log(err.response.data[0]);
+    }
   }
 
   function newItem() {

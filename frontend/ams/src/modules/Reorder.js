@@ -138,23 +138,27 @@ const Reorder = (props) => {
     marginTop: 16,
   };
 
-  function searchItem(value) {
-    axios.get("http://localhost:8000/api/items").then((response) => {
-      response.data.map((res) =>
-        res.item_code === value.toUpperCase()
-          ? setItemDetails([
-              {
-                id: res.id,
-                code: res.item_code,
-                name: res.item_name,
-                cost: res.item_cost,
-                measurement: res.item_measurement,
-              },
-            ])
-          : {}
-      );
-    });
-    checkResult();
+  async function searchItem(value) {
+    try {
+      await axios.get("http://localhost:8000/api/items").then((response) => {
+        response.data.map((res) =>
+          res.item_code === value.toUpperCase()
+            ? setItemDetails([
+                {
+                  id: res.id,
+                  code: res.item_code,
+                  name: res.item_name,
+                  cost: res.item_cost,
+                  measurement: res.item_measurement,
+                },
+              ])
+            : {}
+        );
+      });
+      checkResult();
+    } catch (err) {
+      console.log(err.response.data[0]);
+    }
   }
 
   function checkResult() {

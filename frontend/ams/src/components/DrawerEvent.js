@@ -60,7 +60,7 @@ const DrawerEvent = (props) => {
         style={{
           marginTop: "85px",
           marginLeft: props.col ? "100px" : "220px",
-          marginRight: "35px",
+          marginRight: "20px",
           transition: "0.2s ease-in-out",
         }}
         open={props.showDrawer}
