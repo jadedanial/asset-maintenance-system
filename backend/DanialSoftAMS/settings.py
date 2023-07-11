@@ -28,6 +28,7 @@ load_dotenv(BASE_DIR / ".env")
 
 # SECURITY WARNING: keep the secret key used in production secret!
 
+# SECRET_KEY = os.getenv('SECRET_KEY')
 SECRET_KEY = "fbokfh-b!ggl&rs67lc@=p5m65pyy4q*387zez)q*gi6ep)*uu"
 
 
