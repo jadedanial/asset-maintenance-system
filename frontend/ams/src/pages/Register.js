@@ -17,7 +17,7 @@ const { Title } = Typography;
 
 const RegisterPage = () => {
   const [label, setLabel] = useState("Add New User");
-  const [color, setColor] = useState("#318CE7");
+  const [color, setColor] = useState("#318ce7");
   const [empID, setEmployeeID] = useState("");
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -57,7 +57,7 @@ const RegisterPage = () => {
 
   function onFieldsChange() {
     setLabel("Add New User");
-    setColor("#318CE7");
+    setColor("#318ce7");
   }
 
   if (success && redirect) {
@@ -65,7 +65,7 @@ const RegisterPage = () => {
       <>
         <NavigationEvent />
         <ResultEvent
-          icon={<SmileTwoTone style={{ color: "#318CE7" }} />}
+          icon={<SmileTwoTone style={{ color: "#318ce7" }} />}
           status="success"
           title="Successfully added new User!"
           subTitle={"Username: " + username + "   Email: " + email}

@@ -70,7 +70,7 @@ const DrawerEvent = (props) => {
             <Button
               onClick={props.onCloseDrawer}
               icon={
-                <CloseOutlined style={{ color: "#318CE7", fontSize: "22px" }} />
+                <CloseOutlined style={{ color: "#318ce7", fontSize: "22px" }} />
               }
             />
           </Tooltip>

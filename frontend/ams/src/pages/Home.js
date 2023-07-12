@@ -35,7 +35,7 @@ const HomePage = () => {
         <>
           <NavigationEvent />
           <ResultEvent
-            icon={<FrownOutlined style={{ color: "#318CE7" }} />}
+            icon={<FrownOutlined style={{ color: "#318ce7" }} />}
             status="403"
             title="Unauthorized User!"
             subTitle="Sorry, you are not authorized to access this page. Please login."

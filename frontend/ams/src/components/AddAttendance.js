@@ -320,7 +320,7 @@ const AddAttendance = (props) => {
       description: <p className="small-font">Attendance successfully saved.</p>,
       placement,
       duration: 2,
-      icon: <CheckSquareOutlined style={{ color: "#318CE7" }} />,
+      icon: <CheckSquareOutlined style={{ color: "#318ce7" }} />,
     });
   }
 
@@ -329,7 +329,7 @@ const AddAttendance = (props) => {
       {contextHolder}
       <Modal
         width="350px"
-        closeIcon={<CloseOutlined style={{ color: "#318CE7" }} />}
+        closeIcon={<CloseOutlined style={{ color: "#318ce7" }} />}
         centered
         maskClosable={false}
         title={

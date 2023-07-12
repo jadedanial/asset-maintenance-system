@@ -107,7 +107,7 @@ const Profile = (props) => {
                       <UserOutlined
                         style={{
                           fontSize: "20px",
-                          color: "#318CE7",
+                          color: "#318ce7",
                           paddingRight: "10px",
                         }}
                       />
@@ -117,7 +117,7 @@ const Profile = (props) => {
                       <IdcardOutlined
                         style={{
                           fontSize: "20px",
-                          color: "#318CE7",
+                          color: "#318ce7",
                           paddingRight: "10px",
                         }}
                       />
@@ -127,7 +127,7 @@ const Profile = (props) => {
                       <CalendarOutlined
                         style={{
                           fontSize: "20px",
-                          color: "#318CE7",
+                          color: "#318ce7",
                           paddingRight: "10px",
                         }}
                       />
@@ -140,7 +140,7 @@ const Profile = (props) => {
                       <HeartOutlined
                         style={{
                           fontSize: "20px",
-                          color: "#318CE7",
+                          color: "#318ce7",
                           paddingRight: "10px",
                         }}
                       />
@@ -154,7 +154,7 @@ const Profile = (props) => {
                       <MailOutlined
                         style={{
                           fontSize: "20px",
-                          color: "#318CE7",
+                          color: "#318ce7",
                           paddingRight: "10px",
                         }}
                       />
@@ -164,7 +164,7 @@ const Profile = (props) => {
                       <PhoneOutlined
                         style={{
                           fontSize: "20px",
-                          color: "#318CE7",
+                          color: "#318ce7",
                           paddingRight: "10px",
                         }}
                       />
@@ -174,7 +174,7 @@ const Profile = (props) => {
                       <EnvironmentOutlined
                         style={{
                           fontSize: "20px",
-                          color: "#318CE7",
+                          color: "#318ce7",
                           paddingRight: "10px",
                         }}
                       />
@@ -192,7 +192,7 @@ const Profile = (props) => {
                           </Title>
                         }
                         value={expYears(employee.emp_hired)}
-                        prefix={<TrophyOutlined style={{ color: "#318CE7" }} />}
+                        prefix={<TrophyOutlined style={{ color: "#318ce7" }} />}
                       />
                     </Row>
                     <Row>
@@ -207,7 +207,7 @@ const Profile = (props) => {
                   <Col>
                     <p
                       className="biggest-card-title"
-                      style={{ color: "#318CE7", textAlign: "right" }}
+                      style={{ color: "#318ce7", textAlign: "right" }}
                     >
                       {getInitials(employee.emp_name)}
                     </p>
@@ -220,7 +220,7 @@ const Profile = (props) => {
                 <Col span={24}>
                   <Tabs
                     type="card"
-                    style={{ background: "#FFF" }}
+                    style={{ background: "#fff" }}
                     defaultActiveKey="1"
                     size="large"
                     tabBarGutter={4}

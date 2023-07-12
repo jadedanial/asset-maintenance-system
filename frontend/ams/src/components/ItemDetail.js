@@ -95,7 +95,7 @@ const ItemDetail = (props) => {
                             <Tag color="blue">
                               <p
                                 className="medium-font"
-                                style={{ color: "#318CE7" }}
+                                style={{ color: "#318ce7" }}
                               >
                                 {i.item_category}
                               </p>

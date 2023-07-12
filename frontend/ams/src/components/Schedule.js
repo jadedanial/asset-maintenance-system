@@ -72,7 +72,7 @@ const Schedule = (props) => {
         ),
         placement,
         duration: 2,
-        icon: <CheckSquareOutlined style={{ color: "#318CE7" }} />,
+        icon: <CheckSquareOutlined style={{ color: "#318ce7" }} />,
       });
     } catch (err) {
       console.log(err.response.data[0]);

@@ -111,7 +111,7 @@ const Reorder = (props) => {
             icon={
               <AppstoreAddOutlined
                 className="bigger-card-title"
-                style={{ color: "#318CE7" }}
+                style={{ color: "#318ce7" }}
                 onClick={() =>
                   newItem(
                     itemDetails["0"]["id"],
@@ -133,8 +133,8 @@ const Reorder = (props) => {
 
   const contentStyle = {
     lineHeight: "260px",
-    color: "#FFF",
-    backgroundColor: "#FFF",
+    color: "#fff",
+    backgroundColor: "#fff",
     marginTop: 16,
   };
 
@@ -216,7 +216,7 @@ const Reorder = (props) => {
         description: <p className="small-font">Item {code} added to Cart.</p>,
         placement,
         duration: 2,
-        icon: <CheckSquareOutlined style={{ color: "#318CE7" }} />,
+        icon: <CheckSquareOutlined style={{ color: "#318ce7" }} />,
       });
     } else {
       setInputStatus("error");
@@ -287,15 +287,15 @@ const Reorder = (props) => {
                       : "Cart (" + itemCount.toString() + " Item)"
                   }
                 >
-                  <Badge count={itemCount} color="#318CE7">
+                  <Badge count={itemCount} color="#318ce7">
                     <Avatar
                       shape="square"
                       size="middle"
-                      style={{ backgroundColor: "#318CE7" }}
+                      style={{ backgroundColor: "#318ce7" }}
                       icon={
                         <ShoppingCartOutlined
                           className="large-card-title"
-                          style={{ color: "#FFF" }}
+                          style={{ color: "#fff" }}
                           onClick={showDrawer}
                         />
                       }

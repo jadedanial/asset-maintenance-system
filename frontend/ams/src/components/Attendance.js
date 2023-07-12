@@ -110,7 +110,7 @@ const Attendance = (props, ref) => {
       case "Attended Today":
         return (
           <>
-            <CheckOutlined style={{ color: "#318CE7" }} />
+            <CheckOutlined style={{ color: "#318ce7" }} />
           </>
         );
       case "Absent Today":
@@ -122,19 +122,19 @@ const Attendance = (props, ref) => {
       case "Dayoff Today":
         return (
           <>
-            <CheckSquareOutlined style={{ color: "#318CE7" }} />
+            <CheckSquareOutlined style={{ color: "#318ce7" }} />
           </>
         );
       case "Holiday Today":
         return (
           <>
-            <CarryOutOutlined style={{ color: "#318CE7" }} />
+            <CarryOutOutlined style={{ color: "#318ce7" }} />
           </>
         );
       case "Vacation Today":
         return (
           <>
-            <CheckCircleOutlined style={{ color: "#318CE7" }} />
+            <CheckCircleOutlined style={{ color: "#318ce7" }} />
           </>
         );
       case "Incomplete Attendance":
@@ -233,42 +233,42 @@ const Attendance = (props, ref) => {
           {
             title: "Work Days",
             value: workdays,
-            icon: <CheckOutlined style={{ color: "#318CE7" }} />,
+            icon: <CheckOutlined style={{ color: "#318ce7" }} />,
           },
           {
             title: "Absences",
             value: absences,
-            icon: <CloseOutlined style={{ color: "#318CE7" }} />,
+            icon: <CloseOutlined style={{ color: "#318ce7" }} />,
           },
           {
             title: "Dayoffs",
             value: dayoffs,
-            icon: <CheckSquareOutlined style={{ color: "#318CE7" }} />,
+            icon: <CheckSquareOutlined style={{ color: "#318ce7" }} />,
           },
           {
             title: "Holidays",
             value: holidays,
-            icon: <CarryOutOutlined style={{ color: "#318CE7" }} />,
+            icon: <CarryOutOutlined style={{ color: "#318ce7" }} />,
           },
           {
             title: "Vacations",
             value: vacations,
-            icon: <CheckCircleOutlined style={{ color: "#318CE7" }} />,
+            icon: <CheckCircleOutlined style={{ color: "#318ce7" }} />,
           },
           {
             title: "Hours Worked",
             value: hoursworked.toFixed(2),
-            icon: <ClockCircleOutlined style={{ color: "#318CE7" }} />,
+            icon: <ClockCircleOutlined style={{ color: "#318ce7" }} />,
           },
           {
             title: "Hours Required",
             value: hoursrequired.toFixed(2),
-            icon: <HourglassOutlined style={{ color: "#318CE7" }} />,
+            icon: <HourglassOutlined style={{ color: "#318ce7" }} />,
           },
           {
             title: "Hours Excused",
             value: hoursexcused.toFixed(2),
-            icon: <MinusCircleOutlined style={{ color: "#318CE7" }} />,
+            icon: <MinusCircleOutlined style={{ color: "#318ce7" }} />,
           },
         ].map((item) => (
           <Col>

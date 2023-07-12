@@ -119,7 +119,7 @@ const Stock = (props) => {
     <>
       <Card {...cardlayout}>
         <Col span={24}>
-          <Card size="small" style={{ background: "#318CE7", width: "100%" }}>
+          <Card size="small" style={{ background: "#318ce7", width: "100%" }}>
             <Row>
               <Col span={2}>
                 <Tooltip title="Add New Item">
@@ -142,7 +142,7 @@ const Stock = (props) => {
                   placeholder="Search Employee"
                   suffix={
                     <SearchOutlined
-                      style={{ fontSize: "26px", color: "#318CE7" }}
+                      style={{ fontSize: "26px", color: "#318ce7" }}
                     />
                   }
                   onChange={(e) => setSearchedText(e.target.value)}

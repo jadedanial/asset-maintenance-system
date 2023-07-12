@@ -28,7 +28,7 @@ const layout = {
 const AddUpdateItem = (props) => {
   const [update, setUpdate] = useState(props.update);
   const [label, setLabel] = useState(update ? "Update Item" : "Add New Item");
-  const [color, setColor] = useState("#318CE7");
+  const [color, setColor] = useState("#318ce7");
   const [categories, setCategories] = useState([]);
   const [measurements, setMeasurements] = useState([]);
   const [itemCode, setItemCode] = useState(update ? props.code : "");
@@ -95,7 +95,7 @@ const AddUpdateItem = (props) => {
     setUpdate(false);
     setSubmit(false);
     setLabel("Add New Item");
-    setColor("#318CE7");
+    setColor("#318ce7");
     setItemCode("");
     setItemName("");
     setItemCategory("");
@@ -151,7 +151,7 @@ const AddUpdateItem = (props) => {
   async function onFinish() {
     setSubmit(true);
     setLabel(update ? "Update Item" : "Add New Item");
-    setColor("#318CE7");
+    setColor("#318ce7");
     var itemData = {
       item_code: itemCode,
       item_name: itemName,
@@ -184,7 +184,7 @@ const AddUpdateItem = (props) => {
       return (
         <>
           <ResultEvent
-            icon={<CheckCircleOutlined style={{ color: "#318CE7" }} />}
+            icon={<CheckCircleOutlined style={{ color: "#318ce7" }} />}
             status="success"
             title={
               update

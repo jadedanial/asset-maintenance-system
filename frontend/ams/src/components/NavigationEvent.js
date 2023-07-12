@@ -1,59 +1,62 @@
 import React from "react";
 import { Link, Outlet } from "react-router-dom";
 import { Menu, Layout, Row, Col } from "antd";
-import { LoginOutlined, UserAddOutlined } from "@ant-design/icons";
 
 const { Header } = Layout;
 
 const NavigationEvent = () => {
   return (
     <>
-      <Layout style={{ position: "sticky", top: "0", zIndex: "1" }}>
-        <Header style={{ padding: "0", background: "#000", height: "63px" }}>
-          <Row>
-            <Col span={3}>
-              <div style={{ padding: "0 0 0 25px" }}>
-                <img
-                  src="images/danialsoft.png"
-                  alt="logo"
-                  style={{ width: "100px" }}
-                />
-              </div>
-            </Col>
-            <Col span={21}>
+      <Header
+        style={{
+          padding: "0",
+          background: "#fff",
+          height: "65px",
+          borderBottom: "1px solid #318ce7",
+          position: "sticky",
+          top: "0",
+          zIndex: "1",
+        }}
+      >
+        <Row>
+          <Col span={4}>
+            <div style={{ padding: "0 0 0 50px" }}>
+              <img
+                src="images/danialsoft.png"
+                alt="logo"
+                style={{ width: "50%" }}
+              />
+            </div>
+          </Col>
+          <Col span={20} style={{ paddingRight: "20px" }}>
+            <div className="flex-end-row">
               <Menu
                 mode="horizontal"
-                style={{ padding: "0", background: "#000" }}
+                style={{ padding: "0", background: "#fff" }}
               >
-                <Menu.Item
-                  key="login"
-                  icon={<LoginOutlined style={{ color: "#FFF" }} />}
-                >
+                <Menu.Item key="login">
                   <Link
                     to="/login"
-                    className="small-font"
-                    style={{ color: "#FFF" }}
+                    className="medium-card-title"
+                    style={{ color: "#318ce7" }}
                   >
                     Login
                   </Link>
                 </Menu.Item>
-                <Menu.Item
-                  key="register"
-                  icon={<UserAddOutlined style={{ color: "#FFF" }} />}
-                >
+                <Menu.Item key="register">
                   <Link
                     to="/register"
-                    className="small-font"
-                    style={{ color: "#FFF" }}
+                    className="medium-card-title"
+                    style={{ color: "#318ce7" }}
                   >
                     Register
                   </Link>
                 </Menu.Item>
               </Menu>
-            </Col>
-          </Row>
-        </Header>
-      </Layout>
+            </div>
+          </Col>
+        </Row>
+      </Header>
       <Outlet />
     </>
   );

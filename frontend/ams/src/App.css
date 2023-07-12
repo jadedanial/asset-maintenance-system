@@ -28,11 +28,11 @@ h1 {
   align-content: center;
   justify-content: center;
   align-items: center;
-  margin: 25px 20px 30px 20px;
+  margin: 25px 0;
 }
 
 .logo img {
-  width: 80%;
+  width: 50%;
 }
 
 .text-align-left {
@@ -43,14 +43,26 @@ h1 {
   text-align: center !important;
 }
 
+.ant-layout-sider {
+  margin-top: 65px !important;
+}
+
+.ant-menu-sub {
+  background-color: #fff !important;
+}
+
 .ant-menu-submenu-arrow {
-  display: none;
+  display: none !important;
 }
 
 .ant-menu-title-content {
-  color: #fff;
+  color: #318ce7;
   font-family: ralewayregular;
   font-size: 14px;
+}
+
+.ant-menu-item-selected {
+  background-color: #e6f7ff !important;
 }
 
 #components-layout-demo-custom-trigger .trigger {
@@ -176,16 +188,6 @@ h1.ant-typography {
 
 .card-zero-padding .ant-card-body {
   padding: 0 !important;
-}
-
-.header-menu {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  align-content: center;
-  justify-content: space-between;
-  align-items: center;
-  margin: 0 20px;
 }
 
 .biggest-card-title,

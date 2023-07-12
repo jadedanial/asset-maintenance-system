@@ -70,7 +70,7 @@ const CartItem = (props) => {
     return (
       <>
         <ResultEvent
-          icon={<CheckCircleOutlined style={{ color: "#318CE7" }} />}
+          icon={<CheckCircleOutlined style={{ color: "#318ce7" }} />}
           status="success"
           title={
             itemCount > 1
@@ -108,7 +108,7 @@ const CartItem = (props) => {
             }
             title={
               <Title>
-                <p className="big-card-title" style={{ color: "#318CE7" }}>
+                <p className="big-card-title" style={{ color: "#318ce7" }}>
                   Cart ({props.itemCount}
                   {props.itemCount > 1 ? " Items" : " Item"})
                 </p>
@@ -147,7 +147,7 @@ const CartItem = (props) => {
                     id="card-content-justify-center"
                     title={
                       <Title>
-                        <p className="medium-font" style={{ color: "#318CE7" }}>
+                        <p className="medium-font" style={{ color: "#318ce7" }}>
                           {item.item_code}
                         </p>
                       </Title>
@@ -198,7 +198,7 @@ const CartItem = (props) => {
                                 icon={
                                   <PlusOutlined
                                     className="medium-card-title"
-                                    style={{ color: "#318CE7" }}
+                                    style={{ color: "#318ce7" }}
                                     onClick={() =>
                                       changeQuantity(
                                         "add",
@@ -222,7 +222,7 @@ const CartItem = (props) => {
                                 icon={
                                   <MinusOutlined
                                     className="medium-card-title"
-                                    style={{ color: "#318CE7" }}
+                                    style={{ color: "#318ce7" }}
                                     onClick={() =>
                                       changeQuantity(
                                         "less",
