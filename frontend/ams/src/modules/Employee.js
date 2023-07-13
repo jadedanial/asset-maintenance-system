@@ -88,9 +88,17 @@ const Employee = (props) => {
 
   return (
     <>
-      <Card {...cardlayout}>
-        <Col span={24}>
-          <Card size="small" style={{ background: "#318ce7", width: "100%" }}>
+      <Card {...cardlayout} className="card-no-top-padding">
+        <Col span={24} style={{ position: "sticky", top: "87px", zIndex: "1" }}>
+          <div style={{ height: "24px", backgroundColor: "#fff" }}></div>
+          <div
+            style={{
+              background: "#318ce7",
+              width: "100%",
+              height: "65px",
+              padding: "12px",
+            }}
+          >
             <Row>
               <Col span={2}>
                 <Tooltip title="Add New Employee">
@@ -120,33 +128,40 @@ const Employee = (props) => {
                 />
               </Col>
             </Row>
-          </Card>
+          </div>
         </Col>
-        <Row style={{ marginTop: "20px" }}>
-          <Col span={24}>
-            <Table
-              className="light-color-header-table"
-              rowClassName={() => "table-row"}
-              columns={columns}
-              dataSource={employees}
-              onRow={(rowIndex) => {
-                return {
-                  onClick: (event) => {
-                    showDrawer();
-                    setEmpID(rowIndex.id);
-                    setCompItem("Profile");
-                  },
-                };
-              }}
-              pagination={{
-                pageSize: 10,
-                showSizeChanger: true,
-                pageSizeOptions: ["10", "20", "30"],
-              }}
-              size="small"
-            />
-          </Col>
-        </Row>
+        <Col span={24}>
+          <div
+            style={{
+              height: "20px",
+              backgroundColor: "#fff",
+              position: "sticky",
+              top: "176px",
+              zIndex: "1",
+            }}
+          ></div>
+          <Table
+            className="light-color-header-table"
+            rowClassName={() => "table-row"}
+            columns={columns}
+            dataSource={employees}
+            onRow={(rowIndex) => {
+              return {
+                onClick: (event) => {
+                  showDrawer();
+                  setEmpID(rowIndex.id);
+                  setCompItem("Profile");
+                },
+              };
+            }}
+            pagination={{
+              pageSize: 10,
+              showSizeChanger: true,
+              pageSizeOptions: ["10", "20", "30"],
+            }}
+            size="small"
+          />
+        </Col>
       </Card>
       <DrawerEvent
         empid={empID}

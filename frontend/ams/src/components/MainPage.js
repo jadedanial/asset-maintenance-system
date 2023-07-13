@@ -180,7 +180,7 @@ const MainPage = (props) => {
               <img
                 src="images/danialsoft.png"
                 alt="logo"
-                style={{ width: "50%" }}
+                style={{ width: "65%" }}
               />
             </div>
           </Col>

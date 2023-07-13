@@ -28,7 +28,6 @@ const Stock = (props) => {
         return (
           String(record.code).toLowerCase().includes(value.toLowerCase()) ||
           String(record.name).toLowerCase().includes(value.toLowerCase()) ||
-          String(record.category).toLowerCase().includes(value.toLowerCase()) ||
           String(record.location).toLowerCase().includes(value.toLowerCase()) ||
           String(record.measurement).toLowerCase().includes(value.toLowerCase())
         );
@@ -38,11 +37,6 @@ const Stock = (props) => {
       title: "Name",
       dataIndex: "name",
       key: "name",
-    },
-    {
-      title: "Category",
-      dataIndex: "category",
-      key: "category",
     },
     {
       title: "Physical Location",
@@ -90,7 +84,6 @@ const Stock = (props) => {
             {
               code: res.item_code,
               name: res.item_name,
-              category: res.item_category,
               location: res.item_location,
               measurement: res.item_measurement,
               reorder: res.item_reorder,
@@ -117,9 +110,17 @@ const Stock = (props) => {
 
   return (
     <>
-      <Card {...cardlayout}>
-        <Col span={24}>
-          <Card size="small" style={{ background: "#318ce7", width: "100%" }}>
+      <Card {...cardlayout} className="card-no-top-padding">
+        <Col span={24} style={{ position: "sticky", top: "87px", zIndex: "1" }}>
+          <div style={{ height: "24px", backgroundColor: "#fff" }}></div>
+          <div
+            style={{
+              background: "#318ce7",
+              width: "100%",
+              height: "65px",
+              padding: "12px",
+            }}
+          >
             <Row>
               <Col span={2}>
                 <Tooltip title="Add New Item">
@@ -139,7 +140,7 @@ const Stock = (props) => {
               <Col span={22}>
                 <Input
                   size="large"
-                  placeholder="Search Employee"
+                  placeholder="Search Item"
                   suffix={
                     <SearchOutlined
                       style={{ fontSize: "26px", color: "#318ce7" }}
@@ -149,33 +150,40 @@ const Stock = (props) => {
                 />
               </Col>
             </Row>
-          </Card>
+          </div>
         </Col>
-        <Row style={{ marginTop: "20px" }}>
-          <Col span={24}>
-            <Table
-              className="light-color-header-table"
-              rowClassName={() => "table-row"}
-              columns={columns}
-              dataSource={items}
-              onRow={(rowIndex) => {
-                return {
-                  onClick: (event) => {
-                    showDrawer();
-                    setItemCode(rowIndex.code);
-                    setCompItem("ItemDetail");
-                  },
-                };
-              }}
-              pagination={{
-                pageSize: 10,
-                showSizeChanger: true,
-                pageSizeOptions: ["10", "20", "30"],
-              }}
-              size="small"
-            />
-          </Col>
-        </Row>
+        <Col span={24}>
+          <div
+            style={{
+              height: "20px",
+              backgroundColor: "#fff",
+              position: "sticky",
+              top: "176px",
+              zIndex: "1",
+            }}
+          ></div>
+          <Table
+            className="light-color-header-table"
+            rowClassName={() => "table-row"}
+            columns={columns}
+            dataSource={items}
+            onRow={(rowIndex) => {
+              return {
+                onClick: (event) => {
+                  showDrawer();
+                  setItemCode(rowIndex.code);
+                  setCompItem("ItemDetail");
+                },
+              };
+            }}
+            pagination={{
+              pageSize: 10,
+              showSizeChanger: true,
+              pageSizeOptions: ["10", "20", "30"],
+            }}
+            size="small"
+          />
+        </Col>
       </Card>
       <DrawerEvent
         itemcode={itemCode}
