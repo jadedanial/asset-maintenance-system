@@ -3,6 +3,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.exceptions import ValidationError, AuthenticationFailed
 import jwt, datetime
+from .permissions import IsAuthenticatedWithJWT
 from ams.models import *
 from .serializers import *
 
@@ -10,11 +11,13 @@ from .serializers import *
 class SectionListView(ListAPIView):
     queryset = Section.objects.all()
     serializer_class = SectionSerializer
+    permission_classes = [IsAuthenticatedWithJWT]
 
 
 class ModuleListView(ListAPIView):
     queryset = Module.objects.all()
     serializer_class = ModuleSerializer
+    permission_classes = [IsAuthenticatedWithJWT]
 
 
 class UserView(APIView):
@@ -103,14 +106,18 @@ class LogoutView(APIView):
 class ShiftListView(ListAPIView):
     queryset = Shift.objects.all()
     serializer_class = ShiftSerializer
+    permission_classes = [IsAuthenticatedWithJWT]
 
 
 class ScheduleListView(ListAPIView):
     queryset = Schedule.objects.all()
     serializer_class = ScheduleSerializer
+    permission_classes = [IsAuthenticatedWithJWT]
 
 
 class EmployeeView(APIView):
+    permission_classes = [IsAuthenticatedWithJWT]
+
     def post(self, request):
         serializer = EmployeeSerializer(data=request.data)
 
@@ -123,9 +130,12 @@ class EmployeeView(APIView):
 class EmployeeListView(ListAPIView):
     queryset = Employee.objects.all()
     serializer_class = EmployeeSerializer
+    permission_classes = [IsAuthenticatedWithJWT]
 
 
 class EmployeeScheduleView(APIView):
+    permission_classes = [IsAuthenticatedWithJWT]
+
     def patch(self, request, *args, **kwargs):
         data = request.data
         emp_object = Employee.objects.filter(emp_id=request.data["empID"]).first()
@@ -141,9 +151,12 @@ class EmployeeScheduleView(APIView):
 class AttendanceListView(ListAPIView):
     queryset = Attendance.objects.all()
     serializer_class = AttendanceSerializer
+    permission_classes = [IsAuthenticatedWithJWT]
 
 
 class EmployeeAttendance(APIView):
+    permission_classes = [IsAuthenticatedWithJWT]
+
     def post(self, request):
         serializer = AttendanceSerializer(data=request.data)
 
@@ -167,34 +180,42 @@ class EmployeeAttendance(APIView):
 class AssetListView(ListAPIView):
     queryset = Asset.objects.all()
     serializer_class = AssetSerializer
+    permission_classes = [IsAuthenticatedWithJWT]
 
 
 class NationalityListView(ListAPIView):
     queryset = Nationality.objects.all()
     serializer_class = NationalitySerializer
+    permission_classes = [IsAuthenticatedWithJWT]
 
 
 class PositionListView(ListAPIView):
     queryset = Position.objects.all()
     serializer_class = PositionSerializer
+    permission_classes = [IsAuthenticatedWithJWT]
 
 
 class SalaryListView(ListAPIView):
     queryset = Salary.objects.all()
     serializer_class = SalarySerializer
+    permission_classes = [IsAuthenticatedWithJWT]
 
 
 class CategoryListView(ListAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
+    permission_classes = [IsAuthenticatedWithJWT]
 
 
 class MeasurementListView(ListAPIView):
     queryset = Measurement.objects.all()
     serializer_class = MeasurementSerializer
+    permission_classes = [IsAuthenticatedWithJWT]
 
 
 class ItemView(APIView):
+    permission_classes = [IsAuthenticatedWithJWT]
+
     def post(self, request):
         serializer = ItemSerializer(data=request.data)
         name = Item.objects.filter(item_name__iexact=request.data["item_name"]).first()
@@ -234,3 +255,4 @@ class ItemView(APIView):
 class ItemListView(ListAPIView):
     queryset = Item.objects.all()
     serializer_class = ItemSerializer
+    permission_classes = [IsAuthenticatedWithJWT]

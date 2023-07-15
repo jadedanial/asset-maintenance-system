@@ -61,9 +61,14 @@ const AddUpdateItem = (props) => {
 
   useEffect(() => {
     try {
-      axios.get("http://localhost:8000/api/category").then((response) => {
-        setCategories(response.data);
-      });
+      axios
+        .get("http://localhost:8000/api/category", {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        })
+        .then((response) => {
+          setCategories(response.data);
+        });
     } catch (err) {
       console.log(err.response.data[0]);
     }
@@ -71,9 +76,14 @@ const AddUpdateItem = (props) => {
 
   useEffect(() => {
     try {
-      axios.get("http://localhost:8000/api/measurement").then((response) => {
-        setMeasurements(response.data);
-      });
+      axios
+        .get("http://localhost:8000/api/measurement", {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        })
+        .then((response) => {
+          setMeasurements(response.data);
+        });
     } catch (err) {
       console.log(err.response.data[0]);
     }
@@ -81,11 +91,16 @@ const AddUpdateItem = (props) => {
 
   async function getItemCode(name) {
     try {
-      await axios.get("http://localhost:8000/api/items").then((response) => {
-        response.data.map((res) =>
-          res.item_name === name ? setDisplayItemCode(res.item_code) : {}
-        );
-      });
+      await axios
+        .get("http://localhost:8000/api/items", {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        })
+        .then((response) => {
+          response.data.map((res) =>
+            res.item_name === name ? setDisplayItemCode(res.item_code) : {}
+          );
+        });
     } catch (err) {
       console.log(err.response.data[0]);
     }
@@ -168,6 +183,8 @@ const AddUpdateItem = (props) => {
         method: update ? "PATCH" : "POST",
         url: "http://localhost:8000/api/item/",
         data: itemData,
+        headers: { "Content-Type": "application/json" },
+        withCredentials: true,
       });
       setSuccess(true);
       getItemCode(itemName);

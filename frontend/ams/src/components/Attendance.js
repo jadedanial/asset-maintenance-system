@@ -42,33 +42,38 @@ const Attendance = (props, ref) => {
 
   useEffect(() => {
     try {
-      axios.get("http://localhost:8000/api/attendance").then((response) => {
-        setAttendances([]);
-        response.data.map((res) =>
-          res.emp_id === props.empid
-            ? setAttendances((attendances) => [
-                ...attendances,
-                {
-                  Date: res.attend_date,
-                  "Check In": res.attend_checkin
-                    ? res.attend_checkin
-                    : "--:--:--",
-                  "Check Out": res.attend_checkout
-                    ? res.attend_checkout
-                    : "--:--:--",
-                  "Late In": res.attend_latein.toFixed(2),
-                  "Early Out": res.attend_earlyout.toFixed(2),
-                  Worked: res.attend_work.toFixed(2),
-                  Required: res.attend_req.toFixed(2),
-                  Undertime: res.attend_under.toFixed(2),
-                  Overtime: res.attend_over.toFixed(2),
-                  Excuse: res.attend_excuse.toFixed(2),
-                  Status: res.attend_status,
-                },
-              ])
-            : []
-        );
-      });
+      axios
+        .get("http://localhost:8000/api/attendance", {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        })
+        .then((response) => {
+          setAttendances([]);
+          response.data.map((res) =>
+            res.emp_id === props.empid
+              ? setAttendances((attendances) => [
+                  ...attendances,
+                  {
+                    Date: res.attend_date,
+                    "Check In": res.attend_checkin
+                      ? res.attend_checkin
+                      : "--:--:--",
+                    "Check Out": res.attend_checkout
+                      ? res.attend_checkout
+                      : "--:--:--",
+                    "Late In": res.attend_latein.toFixed(2),
+                    "Early Out": res.attend_earlyout.toFixed(2),
+                    Worked: res.attend_work.toFixed(2),
+                    Required: res.attend_req.toFixed(2),
+                    Undertime: res.attend_under.toFixed(2),
+                    Overtime: res.attend_over.toFixed(2),
+                    Excuse: res.attend_excuse.toFixed(2),
+                    Status: res.attend_status,
+                  },
+                ])
+              : []
+          );
+        });
     } catch (err) {
       console.log(err.response.data[0]);
     }

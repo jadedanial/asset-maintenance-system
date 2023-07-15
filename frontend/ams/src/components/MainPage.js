@@ -44,14 +44,19 @@ const MainPage = (props) => {
 
   useEffect(() => {
     try {
-      axios.get("http://localhost:8000/api/module").then((response) => {
-        setModules(response.data);
-        setModules((modules) => {
-          return modules.map((module) => {
-            return { ...module, icon: iconsSwitch(module.icon) };
+      axios
+        .get("http://localhost:8000/api/module", {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        })
+        .then((response) => {
+          setModules(response.data);
+          setModules((modules) => {
+            return modules.map((module) => {
+              return { ...module, icon: iconsSwitch(module.icon) };
+            });
           });
         });
-      });
     } catch (err) {
       console.log(err.response.data[0]);
     }
@@ -59,14 +64,10 @@ const MainPage = (props) => {
 
   async function logout() {
     try {
-      await axios.post(
-        "http://localhost:8000/api/logout",
-        {},
-        {
-          headers: { "Content-Type": "application/json" },
-          withCredentials: true,
-        }
-      );
+      await axios.post("http://localhost:8000/api/logout", {
+        headers: { "Content-Type": "application/json" },
+        withCredentials: true,
+      });
       navigate("/login");
     } catch (err) {
       console.log(err.response.data[0]);

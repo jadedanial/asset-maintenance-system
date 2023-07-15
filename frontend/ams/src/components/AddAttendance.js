@@ -29,11 +29,16 @@ const AddAttendance = (props) => {
 
   useEffect(() => {
     try {
-      axios.get("http://localhost:8000/api/employees").then((response) => {
-        response.data.map((res) =>
-          res.emp_id === props.empid ? setSchedId(res.emp_sched) : {}
-        );
-      });
+      axios
+        .get("http://localhost:8000/api/employees", {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        })
+        .then((response) => {
+          response.data.map((res) =>
+            res.emp_id === props.empid ? setSchedId(res.emp_sched) : {}
+          );
+        });
     } catch (err) {
       console.log(err.response.data[0]);
     }
@@ -41,23 +46,28 @@ const AddAttendance = (props) => {
 
   useEffect(() => {
     try {
-      axios.get("http://localhost:8000/api/schedule").then((response) => {
-        response.data.map((res) =>
-          res.id === schedid
-            ? setSchedules([
-                {
-                  sched_sun: res.sched_sun,
-                  sched_mon: res.sched_mon,
-                  sched_tue: res.sched_tue,
-                  sched_wed: res.sched_wed,
-                  sched_thu: res.sched_thu,
-                  sched_fri: res.sched_fri,
-                  sched_sat: res.sched_sat,
-                },
-              ])
-            : {}
-        );
-      });
+      axios
+        .get("http://localhost:8000/api/schedule", {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        })
+        .then((response) => {
+          response.data.map((res) =>
+            res.id === schedid
+              ? setSchedules([
+                  {
+                    sched_sun: res.sched_sun,
+                    sched_mon: res.sched_mon,
+                    sched_tue: res.sched_tue,
+                    sched_wed: res.sched_wed,
+                    sched_thu: res.sched_thu,
+                    sched_fri: res.sched_fri,
+                    sched_sat: res.sched_sat,
+                  },
+                ])
+              : {}
+          );
+        });
     } catch (err) {
       console.log(err.response.data[0]);
     }
@@ -241,6 +251,8 @@ const AddAttendance = (props) => {
         method: apiMethod,
         url: "http://localhost:8000/api/emp_attendance/",
         data: attendData,
+        headers: { "Content-Type": "application/json" },
+        withCredentials: true,
       });
     } catch (err) {
       console.log(err.response.data[0]);

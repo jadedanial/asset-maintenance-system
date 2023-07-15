@@ -76,24 +76,29 @@ const Stock = (props) => {
 
   async function loadItems() {
     try {
-      await axios.get("http://localhost:8000/api/items").then((response) => {
-        setItems([]);
-        response.data.map((res) =>
-          setItems((items) => [
-            ...items,
-            {
-              code: res.item_code,
-              name: res.item_name,
-              location: res.item_location,
-              measurement: res.item_measurement,
-              reorder: res.item_reorder,
-              onhand: res.item_onhand,
-              cost: res.item_cost,
-              value: (res.item_cost * res.item_onhand).toFixed(2),
-            },
-          ])
-        );
-      });
+      await axios
+        .get("http://localhost:8000/api/items", {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        })
+        .then((response) => {
+          setItems([]);
+          response.data.map((res) =>
+            setItems((items) => [
+              ...items,
+              {
+                code: res.item_code,
+                name: res.item_name,
+                location: res.item_location,
+                measurement: res.item_measurement,
+                reorder: res.item_reorder,
+                onhand: res.item_onhand,
+                cost: res.item_cost,
+                value: (res.item_cost * res.item_onhand).toFixed(2),
+              },
+            ])
+          );
+        });
     } catch (err) {
       console.log(err.response.data[0]);
     }

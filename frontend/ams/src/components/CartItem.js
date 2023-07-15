@@ -56,6 +56,8 @@ const CartItem = (props) => {
         method: "PUT",
         url: "http://localhost:8000/api/item/",
         data: props.orderList,
+        headers: { "Content-Type": "application/json" },
+        withCredentials: true,
       });
       setItemCount(props.itemCount);
       setSuccess(true);
