@@ -114,7 +114,7 @@ const Employee = (props) => {
                     style={{ margin: "0 20px" }}
                     onClick={() => {
                       showDrawer();
-                      setCompItem("AddEmployee");
+                      setCompItem("AddUpdateEmployee");
                     }}
                     icon={<UserAddOutlined />}
                   />

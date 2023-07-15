@@ -160,14 +160,14 @@ class Employee(models.Model):
     emp_nation = models.CharField(
         max_length=100, blank=True, null=True, verbose_name="Nationality"
     )
+    emp_address = models.CharField(
+        max_length=100, blank=True, null=True, verbose_name="Address"
+    )
     emp_email = models.CharField(
         max_length=100, blank=True, null=True, verbose_name="Email"
     )
     emp_phone = models.CharField(
         max_length=100, blank=True, null=True, verbose_name="Phone"
-    )
-    emp_address = models.CharField(
-        max_length=100, blank=True, null=True, verbose_name="Address"
     )
     emp_hired = models.DateField(blank=True, null=True, verbose_name="Date Hired")
     emp_position = models.CharField(

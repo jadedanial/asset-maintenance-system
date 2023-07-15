@@ -105,7 +105,10 @@ const Profile = (props) => {
                 {...cardlayout}
               >
                 <Row
-                  style={{ justifyContent: "space-between", padding: "0 20px" }}
+                  style={{
+                    justifyContent: "space-between",
+                    padding: "20px 20px 0 20px",
+                  }}
                 >
                   <Col>
                     <Row style={{ marginBottom: "6px" }}>

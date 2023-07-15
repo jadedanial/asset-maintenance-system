@@ -8,7 +8,6 @@ import {
   InputNumber,
   Card,
   Select,
-  Row,
   Col,
 } from "antd";
 import { CheckCircleOutlined } from "@ant-design/icons";
@@ -258,26 +257,24 @@ const AddUpdateItem = (props) => {
               <Col span={24}>
                 <div className="space-between-row">
                   <Col span={12}>
-                    <Row>
-                      <Col span={24}>
-                        <Form.Item
-                          name={["name"]}
-                          label="Item Name"
-                          initialValue={itemName}
-                          rules={[
-                            {
-                              required: update ? nameReq : true,
-                              message: "Required!",
-                            },
-                          ]}
-                        >
-                          <Input
-                            value={itemName}
-                            onChange={(e) => onNameChange(e.target.value)}
-                          />
-                        </Form.Item>
-                      </Col>
-                    </Row>
+                    <Col span={24}>
+                      <Form.Item
+                        name={["name"]}
+                        label="Item Name"
+                        initialValue={itemName}
+                        rules={[
+                          {
+                            required: update ? nameReq : true,
+                            message: "Required!",
+                          },
+                        ]}
+                      >
+                        <Input
+                          value={itemName}
+                          onChange={(e) => onNameChange(e.target.value)}
+                        />
+                      </Form.Item>
+                    </Col>
                   </Col>
                   <Col span={11}>
                     <div className="space-between-row">
@@ -338,6 +335,7 @@ const AddUpdateItem = (props) => {
                             max={1000000}
                             value={itemCost}
                             onChange={onCostChange}
+                            readOnly={update ? true : false}
                           />
                         </Form.Item>
                       </Col>
@@ -346,47 +344,45 @@ const AddUpdateItem = (props) => {
                 </div>
                 <div className="space-between-row">
                   <Col span={12}>
-                    <Row>
-                      <Col span={24}>
-                        <Form.Item
-                          name={["measurement"]}
-                          label="Unit Of Measurement"
-                          initialValue={itemMeasurement}
-                          rules={[
-                            {
-                              required: update ? measurementReq : true,
-                              message: "Required!",
-                            },
-                          ]}
-                        >
-                          <Select
-                            size="large"
-                            showSearch
-                            className="small-font"
-                            style={{ width: "100%" }}
-                            optionFilterProp="children"
-                            filterOption={(input, option) =>
-                              (option?.label ?? "").includes(input)
-                            }
-                            filterSort={(optionA, optionB) =>
-                              (optionA?.label ?? "")
-                                .toLowerCase()
-                                .localeCompare(
-                                  (optionB?.label ?? "").toLowerCase()
-                                )
-                            }
-                            value={itemMeasurement}
-                            options={measurements.map((mes) => {
-                              return {
-                                value: mes.measurement,
-                                label: mes.measurement,
-                              };
-                            })}
-                            onChange={onMeasurementChange}
-                          />
-                        </Form.Item>
-                      </Col>
-                    </Row>
+                    <Col span={24}>
+                      <Form.Item
+                        name={["measurement"]}
+                        label="Unit Of Measurement"
+                        initialValue={itemMeasurement}
+                        rules={[
+                          {
+                            required: update ? measurementReq : true,
+                            message: "Required!",
+                          },
+                        ]}
+                      >
+                        <Select
+                          size="large"
+                          showSearch
+                          className="small-font"
+                          style={{ width: "100%" }}
+                          optionFilterProp="children"
+                          filterOption={(input, option) =>
+                            (option?.label ?? "").includes(input)
+                          }
+                          filterSort={(optionA, optionB) =>
+                            (optionA?.label ?? "")
+                              .toLowerCase()
+                              .localeCompare(
+                                (optionB?.label ?? "").toLowerCase()
+                              )
+                          }
+                          value={itemMeasurement}
+                          options={measurements.map((mes) => {
+                            return {
+                              value: mes.measurement,
+                              label: mes.measurement,
+                            };
+                          })}
+                          onChange={onMeasurementChange}
+                        />
+                      </Form.Item>
+                    </Col>
                   </Col>
                   <Col span={11}>
                     <div className="space-between-row">
@@ -432,26 +428,25 @@ const AddUpdateItem = (props) => {
                     </div>
                   </Col>
                 </div>
-                <Row>
-                  <Col span={24}>
-                    <Form.Item
-                      name={["description"]}
-                      label="Description"
-                      initialValue={itemDescription}
-                      rules={[
-                        {
-                          required: update ? descriptionReq : true,
-                          message: "Required!",
-                        },
-                      ]}
-                    >
-                      <Input.TextArea
-                        value={itemDescription}
-                        onChange={(e) => onDescriptionChange(e.target.value)}
-                      />
-                    </Form.Item>
-                  </Col>
-                </Row>
+
+                <Col span={24}>
+                  <Form.Item
+                    name={["description"]}
+                    label="Description"
+                    initialValue={itemDescription}
+                    rules={[
+                      {
+                        required: update ? descriptionReq : true,
+                        message: "Required!",
+                      },
+                    ]}
+                  >
+                    <Input.TextArea
+                      value={itemDescription}
+                      onChange={(e) => onDescriptionChange(e.target.value)}
+                    />
+                  </Form.Item>
+                </Col>
               </Col>
             </Card>
           </Form>

@@ -2,7 +2,7 @@ import React from "react";
 import { Drawer, Tooltip, Button } from "antd";
 import { CloseOutlined } from "@ant-design/icons";
 import Profile from "./Profile";
-import AddEmployee from "./AddEmployee";
+import AddUpdateEmployee from "./AddUpdateEmployee";
 import ItemDetail from "./ItemDetail";
 import AddUpdateItem from "./AddUpdateItem";
 import CartItem from "./CartItem";
@@ -16,10 +16,10 @@ const DrawerEvent = (props) => {
             <Profile empid={props.empid}></Profile>
           </>
         );
-      case "AddEmployee":
+      case "AddUpdateEmployee":
         return (
           <>
-            <AddEmployee></AddEmployee>
+            <AddUpdateEmployee update={false}></AddUpdateEmployee>
           </>
         );
       case "ItemDetail":
