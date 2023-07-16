@@ -225,16 +225,14 @@ const Profile = (props) => {
             </Row>
             <Row style={{ marginTop: "20px" }}>
               <Card {...cardlayout}>
-                <Col span={24}>
-                  <Tabs
-                    type="card"
-                    style={{ background: "#fff" }}
-                    defaultActiveKey="1"
-                    size="large"
-                    tabBarGutter={4}
-                    items={items}
-                  />
-                </Col>
+                <Tabs
+                  type="card"
+                  style={{ background: "#fff" }}
+                  defaultActiveKey="1"
+                  size="large"
+                  tabBarGutter={4}
+                  items={items}
+                />
               </Card>
             </Row>
           </>

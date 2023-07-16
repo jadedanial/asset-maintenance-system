@@ -57,8 +57,12 @@ const Employee = (props) => {
   ];
 
   useEffect(() => {
+    loadEmployees();
+  }, []);
+
+  async function loadEmployees() {
     try {
-      axios
+      await axios
         .get("http://localhost:8000/api/employees", {
           headers: { "Content-Type": "application/json" },
           withCredentials: true,
@@ -81,7 +85,7 @@ const Employee = (props) => {
     } catch (err) {
       console.log(err.response.data[0]);
     }
-  }, []);
+  }
 
   function showDrawer() {
     setOpenDrawer(true);
@@ -89,12 +93,13 @@ const Employee = (props) => {
 
   function onCloseDrawer() {
     setOpenDrawer(false);
+    loadEmployees();
   }
 
   return (
     <>
       <Card {...cardlayout} className="card-no-top-padding">
-        <Col span={24} style={{ position: "sticky", top: "87px", zIndex: "1" }}>
+        <div span={24} style={{ position: "sticky", top: "87px", zIndex: "1" }}>
           <div style={{ height: "24px", backgroundColor: "#fff" }}></div>
           <div
             style={{
@@ -134,39 +139,37 @@ const Employee = (props) => {
               </Col>
             </Row>
           </div>
-        </Col>
-        <Col span={24}>
-          <div
-            style={{
-              height: "20px",
-              backgroundColor: "#fff",
-              position: "sticky",
-              top: "176px",
-              zIndex: "1",
-            }}
-          ></div>
-          <Table
-            className="light-color-header-table"
-            rowClassName={() => "table-row"}
-            columns={columns}
-            dataSource={employees}
-            onRow={(rowIndex) => {
-              return {
-                onClick: (event) => {
-                  showDrawer();
-                  setEmpID(rowIndex.id);
-                  setCompItem("Profile");
-                },
-              };
-            }}
-            pagination={{
-              pageSize: 10,
-              showSizeChanger: true,
-              pageSizeOptions: ["10", "20", "30"],
-            }}
-            size="small"
-          />
-        </Col>
+        </div>
+        <div
+          style={{
+            height: "20px",
+            backgroundColor: "#fff",
+            position: "sticky",
+            top: "176px",
+            zIndex: "1",
+          }}
+        ></div>
+        <Table
+          className="light-color-header-table"
+          rowClassName={() => "table-row"}
+          columns={columns}
+          dataSource={employees}
+          onRow={(rowIndex) => {
+            return {
+              onClick: (event) => {
+                showDrawer();
+                setEmpID(rowIndex.id);
+                setCompItem("Profile");
+              },
+            };
+          }}
+          pagination={{
+            pageSize: 10,
+            showSizeChanger: true,
+            pageSizeOptions: ["10", "20", "30"],
+          }}
+          size="small"
+        />
       </Card>
       <DrawerEvent
         empid={empID}

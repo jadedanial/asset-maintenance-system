@@ -53,7 +53,7 @@ const ItemDetail = (props) => {
                       size="large"
                       extra={
                         <Button
-                          size="middle"
+                          size="large"
                           type="primary"
                           onClick={() => setUpdate(true)}
                         >

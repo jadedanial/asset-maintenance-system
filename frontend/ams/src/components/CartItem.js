@@ -98,7 +98,7 @@ const CartItem = (props) => {
             extra={
               totalOrder > 0.0 ? (
                 <Button
-                  size="middle"
+                  size="large"
                   type="primary"
                   onClick={() => applyOrder()}
                 >

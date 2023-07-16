@@ -195,7 +195,7 @@ const MainPage = (props) => {
                 >
                   <span className="avatar-item">
                     <Badge size="small">
-                      <Space size="middle">
+                      <Space size="large">
                         <Col span={12}>
                           <p
                             className="small-font"

@@ -120,6 +120,12 @@ class EmployeeView(APIView):
 
     def post(self, request):
         serializer = EmployeeSerializer(data=request.data)
+        name = Employee.objects.filter(
+            emp_name__iexact=request.data["emp_name"]
+        ).first()
+
+        if name:
+            raise ValidationError("Employee name already exist!")
 
         serializer.is_valid(raise_exception=True)
         serializer.save()
@@ -221,7 +227,7 @@ class ItemView(APIView):
         name = Item.objects.filter(item_name__iexact=request.data["item_name"]).first()
 
         if name:
-            raise ValidationError("Item already exist!")
+            raise ValidationError("Item name already exist!")
 
         serializer.is_valid(raise_exception=True)
         serializer.save()

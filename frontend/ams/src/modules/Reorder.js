@@ -295,7 +295,7 @@ const Reorder = (props) => {
                   <Badge count={itemCount} color="#318ce7">
                     <Avatar
                       shape="square"
-                      size="middle"
+                      size="large"
                       style={{ backgroundColor: "#318ce7" }}
                       icon={
                         <ShoppingCartOutlined

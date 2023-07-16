@@ -116,7 +116,7 @@ const Stock = (props) => {
   return (
     <>
       <Card {...cardlayout} className="card-no-top-padding">
-        <Col span={24} style={{ position: "sticky", top: "87px", zIndex: "1" }}>
+        <div span={24} style={{ position: "sticky", top: "87px", zIndex: "1" }}>
           <div style={{ height: "24px", backgroundColor: "#fff" }}></div>
           <div
             style={{
@@ -156,39 +156,37 @@ const Stock = (props) => {
               </Col>
             </Row>
           </div>
-        </Col>
-        <Col span={24}>
-          <div
-            style={{
-              height: "20px",
-              backgroundColor: "#fff",
-              position: "sticky",
-              top: "176px",
-              zIndex: "1",
-            }}
-          ></div>
-          <Table
-            className="light-color-header-table"
-            rowClassName={() => "table-row"}
-            columns={columns}
-            dataSource={items}
-            onRow={(rowIndex) => {
-              return {
-                onClick: (event) => {
-                  showDrawer();
-                  setItemCode(rowIndex.code);
-                  setCompItem("ItemDetail");
-                },
-              };
-            }}
-            pagination={{
-              pageSize: 10,
-              showSizeChanger: true,
-              pageSizeOptions: ["10", "20", "30"],
-            }}
-            size="small"
-          />
-        </Col>
+        </div>
+        <div
+          style={{
+            height: "20px",
+            backgroundColor: "#fff",
+            position: "sticky",
+            top: "176px",
+            zIndex: "1",
+          }}
+        ></div>
+        <Table
+          className="light-color-header-table"
+          rowClassName={() => "table-row"}
+          columns={columns}
+          dataSource={items}
+          onRow={(rowIndex) => {
+            return {
+              onClick: (event) => {
+                showDrawer();
+                setItemCode(rowIndex.code);
+                setCompItem("ItemDetail");
+              },
+            };
+          }}
+          pagination={{
+            pageSize: 10,
+            showSizeChanger: true,
+            pageSizeOptions: ["10", "20", "30"],
+          }}
+          size="small"
+        />
       </Card>
       <DrawerEvent
         itemcode={itemCode}
