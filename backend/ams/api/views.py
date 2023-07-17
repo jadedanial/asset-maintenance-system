@@ -132,6 +132,22 @@ class EmployeeView(APIView):
 
         return Response(serializer.data)
 
+    def patch(self, request, *args, **kwargs):
+        id = Employee.objects.filter(emp_id=request.data["emp_id"]).first()
+        name = Employee.objects.filter(
+            emp_name__iexact=request.data["emp_name"]
+        ).first()
+        serializer = EmployeeSerializer(id, data=request.data)
+
+        if name:
+            if str(name.emp_id) != str(id.emp_id):
+                raise ValidationError("Employee already exist!")
+
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response(serializer.data)
+
 
 class EmployeeListView(ListAPIView):
     queryset = Employee.objects.all()

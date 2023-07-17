@@ -1,6 +1,15 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Col, Row, Card, Typography, Tabs, Statistic, Rate } from "antd";
+import {
+  Col,
+  Row,
+  Card,
+  Typography,
+  Tabs,
+  Statistic,
+  Rate,
+  Button,
+} from "antd";
 import {
   UserOutlined,
   PhoneOutlined,
@@ -13,19 +22,14 @@ import {
 } from "@ant-design/icons";
 import Attendance from "../components/Attendance";
 import Schedule from "../components/Schedule";
+import AddUpdateEmployee from "./AddUpdateEmployee";
 import moment from "moment";
 
 const { Title } = Typography;
 
-const cardlayout = {
-  bordered: true,
-  hoverable: true,
-  size: "small",
-  style: { width: "100%" },
-};
-
 const Profile = (props) => {
   const [employees, setEmployees] = useState([]);
+  const [update, setUpdate] = useState(false);
 
   const items = [
     {
@@ -85,159 +89,197 @@ const Profile = (props) => {
 
   return (
     <>
-      {employees.map((employee) =>
-        employee.emp_id === props.empid ? (
+      {employees.map((e) =>
+        e.emp_id === props.empid ? (
           <>
-            <Row>
-              <Card
-                title={
-                  <Title>
-                    <Row style={{ paddingLeft: "20px" }}>
-                      <p
-                        className="big-card-title"
-                        style={{ textTransform: "capitalize" }}
+            {update ? (
+              <>
+                <AddUpdateEmployee
+                  update={true}
+                  id={e.emp_id}
+                  name={e.emp_name}
+                  birthdate={e.emp_bdate}
+                  nationality={e.emp_nation}
+                  address={e.emp_address}
+                  email={e.emp_email}
+                  phone={e.emp_phone}
+                  datehired={e.emp_hired}
+                  position={e.emp_position}
+                  salary={e.emp_salary}
+                ></AddUpdateEmployee>
+              </>
+            ) : (
+              <>
+                <Row>
+                  <Card
+                    size="large"
+                    extra={
+                      <Button
+                        size="large"
+                        type="primary"
+                        onClick={() => setUpdate(true)}
                       >
-                        {employee.emp_name}
-                      </p>
-                    </Row>
-                  </Title>
-                }
-                {...cardlayout}
-              >
-                <Row
-                  style={{
-                    justifyContent: "space-between",
-                    padding: "20px 20px 0 20px",
-                  }}
-                >
-                  <Col>
-                    <Row style={{ marginBottom: "6px" }}>
-                      <UserOutlined
-                        style={{
-                          fontSize: "20px",
-                          color: "#318ce7",
-                          paddingRight: "10px",
-                        }}
-                      />
-                      <p className="medium-font">{employee.emp_position}</p>
-                    </Row>
-                    <Row style={{ marginBottom: "6px" }}>
-                      <IdcardOutlined
-                        style={{
-                          fontSize: "20px",
-                          color: "#318ce7",
-                          paddingRight: "10px",
-                        }}
-                      />
-                      <p className="small-font">{employee.emp_id}</p>
-                    </Row>
-                    <Row style={{ marginBottom: "6px" }}>
-                      <CalendarOutlined
-                        style={{
-                          fontSize: "20px",
-                          color: "#318ce7",
-                          paddingRight: "10px",
-                        }}
-                      />
-                      <p className="small-font">
-                        Hired{" "}
-                        {moment(employee.emp_hired).format("MMMM DD, YYYY")}
-                      </p>
-                    </Row>
-                    <Row style={{ marginBottom: "6px" }}>
-                      <HeartOutlined
-                        style={{
-                          fontSize: "20px",
-                          color: "#318ce7",
-                          paddingRight: "10px",
-                        }}
-                      />
-                      <p className="small-font">
-                        {expYears(employee.emp_bdate)} years old
-                      </p>
-                    </Row>
-                  </Col>
-                  <Col>
-                    <Row style={{ marginBottom: "6px" }}>
-                      <MailOutlined
-                        style={{
-                          fontSize: "20px",
-                          color: "#318ce7",
-                          paddingRight: "10px",
-                        }}
-                      />
-                      <p className="small-font">{employee.emp_email}</p>
-                    </Row>
-                    <Row style={{ marginBottom: "6px" }}>
-                      <PhoneOutlined
-                        style={{
-                          fontSize: "20px",
-                          color: "#318ce7",
-                          paddingRight: "10px",
-                        }}
-                      />
-                      <p className="small-font">{employee.emp_phone}</p>
-                    </Row>
-                    <Row style={{ marginBottom: "6px" }}>
-                      <EnvironmentOutlined
-                        style={{
-                          fontSize: "20px",
-                          color: "#318ce7",
-                          paddingRight: "10px",
-                        }}
-                      />
-                      <p className="small-font">{employee.emp_address}</p>
-                    </Row>
-                  </Col>
-                  <Col>
-                    <Row>
-                      <Statistic
-                        title={
-                          <Title style={{ margin: 0 }}>
-                            <p className="small-font" style={{ margin: 0 }}>
-                              Years of Experience
-                            </p>
-                          </Title>
-                        }
-                        value={expYears(employee.emp_hired)}
-                        prefix={<TrophyOutlined style={{ color: "#318ce7" }} />}
-                      />
-                    </Row>
-                    <Row>
-                      <Rate
-                        disabled
-                        allowHalf
-                        count={5}
-                        value={star(expYears(employee.emp_hired))}
-                      />
-                    </Row>
-                  </Col>
-                  <Col>
-                    <p
-                      className="biggest-card-title"
-                      style={{ color: "#318ce7", textAlign: "right" }}
+                        UPDATE
+                      </Button>
+                    }
+                    title={
+                      <Title>
+                        <Row style={{ paddingLeft: "20px" }}>
+                          <p
+                            className="big-card-title"
+                            style={{ textTransform: "capitalize" }}
+                          >
+                            {e.emp_name}
+                          </p>
+                        </Row>
+                      </Title>
+                    }
+                    style={{ width: "100%" }}
+                    bordered
+                    hoverable
+                  >
+                    <Row
+                      style={{
+                        justifyContent: "space-between",
+                        padding: "20px 20px 0 20px",
+                      }}
                     >
-                      {getInitials(employee.emp_name)}
-                    </p>
-                  </Col>
+                      <Col>
+                        <Row style={{ marginBottom: "6px" }}>
+                          <UserOutlined
+                            style={{
+                              fontSize: "20px",
+                              color: "#318ce7",
+                              paddingRight: "10px",
+                            }}
+                          />
+                          <p className="medium-font">{e.emp_position}</p>
+                        </Row>
+                        <Row style={{ marginBottom: "6px" }}>
+                          <IdcardOutlined
+                            style={{
+                              fontSize: "20px",
+                              color: "#318ce7",
+                              paddingRight: "10px",
+                            }}
+                          />
+                          <p className="small-font">{e.emp_id}</p>
+                        </Row>
+                        <Row style={{ marginBottom: "6px" }}>
+                          <CalendarOutlined
+                            style={{
+                              fontSize: "20px",
+                              color: "#318ce7",
+                              paddingRight: "10px",
+                            }}
+                          />
+                          <p className="small-font">
+                            Hired {moment(e.emp_hired).format("MMMM DD, YYYY")}
+                          </p>
+                        </Row>
+                        <Row style={{ marginBottom: "6px" }}>
+                          <HeartOutlined
+                            style={{
+                              fontSize: "20px",
+                              color: "#318ce7",
+                              paddingRight: "10px",
+                            }}
+                          />
+                          <p className="small-font">
+                            {expYears(e.emp_bdate)} years old
+                          </p>
+                        </Row>
+                      </Col>
+                      <Col>
+                        <Row style={{ marginBottom: "6px" }}>
+                          <MailOutlined
+                            style={{
+                              fontSize: "20px",
+                              color: "#318ce7",
+                              paddingRight: "10px",
+                            }}
+                          />
+                          <p className="small-font">{e.emp_email}</p>
+                        </Row>
+                        <Row style={{ marginBottom: "6px" }}>
+                          <PhoneOutlined
+                            style={{
+                              fontSize: "20px",
+                              color: "#318ce7",
+                              paddingRight: "10px",
+                            }}
+                          />
+                          <p className="small-font">{e.emp_phone}</p>
+                        </Row>
+                        <Row style={{ marginBottom: "6px" }}>
+                          <EnvironmentOutlined
+                            style={{
+                              fontSize: "20px",
+                              color: "#318ce7",
+                              paddingRight: "10px",
+                            }}
+                          />
+                          <p className="small-font">{e.emp_address}</p>
+                        </Row>
+                      </Col>
+                      <Col>
+                        <Row>
+                          <Statistic
+                            title={
+                              <Title style={{ margin: 0 }}>
+                                <p className="small-font" style={{ margin: 0 }}>
+                                  Years of Experience
+                                </p>
+                              </Title>
+                            }
+                            value={expYears(e.emp_hired)}
+                            prefix={
+                              <TrophyOutlined style={{ color: "#318ce7" }} />
+                            }
+                          />
+                        </Row>
+                        <Row>
+                          <Rate
+                            disabled
+                            allowHalf
+                            count={5}
+                            value={star(expYears(e.emp_hired))}
+                          />
+                        </Row>
+                      </Col>
+                      <Col>
+                        <p
+                          className="biggest-card-title"
+                          style={{ color: "#318ce7", textAlign: "right" }}
+                        >
+                          {getInitials(e.emp_name)}
+                        </p>
+                      </Col>
+                    </Row>
+                  </Card>
                 </Row>
-              </Card>
-            </Row>
-            <Row style={{ marginTop: "20px" }}>
-              <Card {...cardlayout}>
-                <Tabs
-                  type="card"
-                  style={{ background: "#fff" }}
-                  defaultActiveKey="1"
-                  size="large"
-                  tabBarGutter={4}
-                  items={items}
-                />
-              </Card>
-            </Row>
+                <Row style={{ marginTop: "20px" }}>
+                  <Card
+                    size="large"
+                    style={{ width: "100%" }}
+                    bordered
+                    hoverable
+                  >
+                    <Tabs
+                      type="card"
+                      style={{ background: "#fff" }}
+                      defaultActiveKey="1"
+                      size="large"
+                      tabBarGutter={4}
+                      items={items}
+                    />
+                  </Card>
+                </Row>
+              </>
+            )}
           </>
         ) : (
-          <></>
+          <> </>
         )
       )}
     </>

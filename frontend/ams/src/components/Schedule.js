@@ -15,13 +15,6 @@ import { CheckSquareOutlined } from "@ant-design/icons";
 
 const { Title } = Typography;
 
-const cardlayout = {
-  bordered: true,
-  hoverable: true,
-  size: "large",
-  style: { width: "100%", minHeight: "calc(100vh - 106px)" },
-};
-
 const Schedule = (props) => {
   const empID = props.empid;
   const [schedules, setSchedules] = useState([]);
@@ -135,14 +128,16 @@ const Schedule = (props) => {
               renderItem={(item) => (
                 <List.Item>
                   <Card
+                    size="small"
                     title={
                       <Title>
                         <p className="medium-card-title">{item.title}</p>
                       </Title>
                     }
-                    {...cardlayout}
                     style={{ margin: "10px" }}
                     className="ant-card-custom-hover"
+                    bordered
+                    hoverable
                   >
                     <Tag color="blue" style={{ width: "100%" }}>
                       <p className="small-font" style={{ padding: "10px" }}>

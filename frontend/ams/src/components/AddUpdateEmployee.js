@@ -26,6 +26,7 @@ const layout = {
 };
 
 const AddUpdateEmployee = (props) => {
+  const dateFormat = "YYYY-MM-DD";
   const [update, setUpdate] = useState(props.update);
   const [label, setLabel] = useState(
     update ? "Update Employee" : "Add New Employee"
@@ -34,6 +35,7 @@ const AddUpdateEmployee = (props) => {
   const [nationalities, setNationalities] = useState([]);
   const [positions, setPositions] = useState([]);
   const [salaries, setSalaries] = useState([]);
+  const [employeeID, setEmployeeID] = useState(update ? props.id : "");
   const [employeeName, setEmployeeName] = useState(update ? props.name : "");
   const [employeeBirthdate, setEmployeeBirthdate] = useState(
     update ? props.birthdate : ""
@@ -135,6 +137,7 @@ const AddUpdateEmployee = (props) => {
     setSubmit(false);
     setLabel("Add New Employee");
     setColor("#318ce7");
+    setEmployeeID("");
     setEmployeeName("");
     setEmployeeBirthdate("");
     setEmployeeNationality("");
@@ -205,13 +208,14 @@ const AddUpdateEmployee = (props) => {
     setLabel(update ? "Update Employee" : "Add New Employee");
     setColor("#318ce7");
     var employeeData = {
+      emp_id: employeeID,
       emp_name: employeeName,
-      emp_bdate: moment(employeeBirthdate).format("YYYY-MM-DD"),
+      emp_bdate: moment(employeeBirthdate).format(dateFormat),
       emp_nation: employeeNationality,
       emp_address: employeeAddress,
       emp_email: employeeEmail,
       emp_phone: employeePhone,
-      emp_hired: moment(employeeDateHired).format("YYYY-MM-DD"),
+      emp_hired: moment(employeeDateHired).format(dateFormat),
       emp_position: employeePosition,
       emp_salary: employeeSalary,
     };
@@ -249,12 +253,7 @@ const AddUpdateEmployee = (props) => {
               "Employee name " + employeeName + " with ID " + displayEmployeeID
             }
             extra={
-              <Button
-                size="large"
-                type="primary"
-                icon=""
-                onClick={() => newEmployee()}
-              >
+              <Button size="large" type="primary" onClick={() => newEmployee()}>
                 ADD NEW EMPLOYEE
               </Button>
             }
@@ -319,7 +318,11 @@ const AddUpdateEmployee = (props) => {
                       <Form.Item
                         name={["birthdate"]}
                         label="Birthdate"
-                        initialValue={employeeBirthdate}
+                        initialValue={
+                          employeeBirthdate === ""
+                            ? ""
+                            : moment(employeeBirthdate)
+                        }
                         rules={[
                           {
                             required: update ? birthdateReq : true,
@@ -328,6 +331,11 @@ const AddUpdateEmployee = (props) => {
                         ]}
                       >
                         <DatePicker
+                          value={
+                            employeeBirthdate === ""
+                              ? ""
+                              : moment(employeeBirthdate)
+                          }
                           onChange={onBirthdateChange}
                           inputReadOnly
                         />
@@ -440,7 +448,9 @@ const AddUpdateEmployee = (props) => {
                   <Form.Item
                     name={["datehired"]}
                     label="Date Hired"
-                    initialValue={employeeDateHired}
+                    initialValue={
+                      employeeDateHired === "" ? "" : moment(employeeDateHired)
+                    }
                     rules={[
                       {
                         required: update ? datehiredReq : true,
@@ -448,7 +458,15 @@ const AddUpdateEmployee = (props) => {
                       },
                     ]}
                   >
-                    <DatePicker onChange={onDateHiredChange} inputReadOnly />
+                    <DatePicker
+                      value={
+                        employeeDateHired === ""
+                          ? ""
+                          : moment(employeeDateHired)
+                      }
+                      onChange={onDateHiredChange}
+                      inputReadOnly
+                    />
                   </Form.Item>
                 </Col>
                 <Col span={6}>

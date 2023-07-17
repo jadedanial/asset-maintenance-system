@@ -4,13 +4,6 @@ import { Col, Row, Card, Button, Input, Tooltip, Table } from "antd";
 import { SearchOutlined, ShoppingOutlined } from "@ant-design/icons";
 import DrawerEvent from "../components/DrawerEvent";
 
-const cardlayout = {
-  bordered: true,
-  hoverable: true,
-  size: "large",
-  style: { width: "100%", minHeight: "calc(100vh - 106px)" },
-};
-
 const Stock = (props) => {
   const [searchedtext, setSearchedText] = useState("");
   const [openDrawer, setOpenDrawer] = useState(false);
@@ -115,7 +108,12 @@ const Stock = (props) => {
 
   return (
     <>
-      <Card {...cardlayout} className="card-no-top-padding">
+      <Card
+        size="large"
+        className="card-no-top-padding card-main-layout"
+        bordered
+        hoverable
+      >
         <div span={24} style={{ position: "sticky", top: "87px", zIndex: "1" }}>
           <div style={{ height: "24px", backgroundColor: "#fff" }}></div>
           <div

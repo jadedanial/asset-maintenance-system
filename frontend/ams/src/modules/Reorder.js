@@ -23,13 +23,6 @@ import DrawerEvent from "../components/DrawerEvent";
 
 const { Title } = Typography;
 
-const cardlayout = {
-  bordered: true,
-  hoverable: true,
-  size: "large",
-  style: { width: "100%", minHeight: "calc(100vh - 106px)" },
-};
-
 const Reorder = (props) => {
   const [itemDetails, setItemDetails] = useState({
     0: { id: "", code: "", name: "", cost: "", measurement: "" },
@@ -279,7 +272,7 @@ const Reorder = (props) => {
   return (
     <>
       {contextHolder}
-      <Card {...cardlayout}>
+      <Card size="large" className="card-main-layout" bordered hoverable>
         <div className="justified-row">
           <div className="card-custom-size">
             <Card
