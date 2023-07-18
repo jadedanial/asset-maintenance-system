@@ -10,6 +10,7 @@ import {
   Typography,
   Space,
   Button,
+  notification,
 } from "antd";
 import {
   CarryOutOutlined,
@@ -21,6 +22,7 @@ import {
   CheckCircleOutlined,
   CloseOutlined,
   IssuesCloseOutlined,
+  CloseSquareOutlined,
 } from "@ant-design/icons";
 import moment from "moment";
 import AddAttendance from "./AddAttendance";
@@ -31,14 +33,16 @@ const Attendance = (props, ref) => {
   const [selectedDate, setSelectedDate] = useState(
     String(moment().format("MMMM DD, YYYY"))
   );
+  const [schedid, setSchedId] = useState(0);
   const [attendances, setAttendances] = useState([]);
   const [attendStatus, setAttendStatus] = useState("");
   const [attendanceData, setAttendanceData] = useState([]);
-  const [attendanceMode, setAttendanceMode] = useState("ADD ATTENDANCE");
+  const [attendanceMode, setAttendanceMode] = useState("Add Attendance");
   const [checkInTime, setCheckInTime] = useState("--:--:--");
   const [checkOutTime, setCheckOutTime] = useState("--:--:--");
   const [attendButton, setAttendButton] = useState("none");
   const [openModal, setOpenModal] = useState(false);
+  const [api, contextHolder] = notification.useNotification();
 
   useEffect(() => {
     (async () => {
@@ -81,6 +85,25 @@ const Attendance = (props, ref) => {
     })();
   }, [props.empid]);
 
+  async function getSchedule() {
+    let sched;
+    try {
+      await axios
+        .get("http://localhost:8000/api/employees", {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        })
+        .then((response) => {
+          response.data.map((res) =>
+            res.emp_id === props.empid ? (sched = res.emp_sched) : ""
+          );
+        });
+    } catch (err) {
+      console.log(err.response.data[0]);
+    }
+    return sched;
+  }
+
   function updateAttendances(newAttendances) {
     setAttendances(newAttendances);
   }
@@ -94,7 +117,7 @@ const Attendance = (props, ref) => {
   function onSelect(newValue) {
     setAttendButton("");
     setSelectedDate(String(moment(newValue).format("MMMM DD, YYYY")));
-    updateStatus("No Attendance Data", [], "ADD ATTENDANCE");
+    updateStatus("No Attendance Data", [], "Add Attendance");
     setCheckInTime("--:--:--");
     setCheckOutTime("--:--:--");
     for (const [, value] of Object.entries(attendances)) {
@@ -105,7 +128,7 @@ const Attendance = (props, ref) => {
         for (let key in value) {
           attendData.push(key + " : " + value[key]);
         }
-        updateStatus(String(value["Status"]), attendData, "UPDATE ATTENDANCE");
+        updateStatus(String(value["Status"]), attendData, "Update Attendance");
         setCheckInTime(String(value["Check In"]));
         setCheckOutTime(String(value["Check Out"]));
       }
@@ -304,6 +327,7 @@ const Attendance = (props, ref) => {
           <>
             <AddAttendance
               empid={props.empid}
+              schedid={schedid}
               showModal={openModal}
               onCloseModal={onCloseModal}
               mode={attendanceMode}
@@ -322,7 +346,32 @@ const Attendance = (props, ref) => {
   }
 
   function showModal() {
-    setOpenModal(true);
+    getSchedule().then((schedule) => {
+      if (schedule) {
+        setSchedId(schedule);
+        setOpenModal(true);
+      } else {
+        var placement = "BottomRight";
+        var color = "#ff0000";
+        var icon = <CloseSquareOutlined style={{ color: color }} />;
+        var description = "Employee no shift schedule assigned!";
+        api.info({
+          message: (
+            <p className="medium-card-title" style={{ color: color }}>
+              Notification
+            </p>
+          ),
+          description: (
+            <p className="small-font" style={{ color: color }}>
+              {description}
+            </p>
+          ),
+          placement,
+          duration: 3,
+          icon: icon,
+        });
+      }
+    });
   }
 
   function onCloseModal() {
@@ -332,6 +381,7 @@ const Attendance = (props, ref) => {
 
   return (
     <>
+      {contextHolder}
       <Row style={{ marginTop: "20px" }}>
         <Card size="small" style={{ width: "100%" }}>
           <Row style={{ justifyContent: "center", marginBottom: "20px" }}>

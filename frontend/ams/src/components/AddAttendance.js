@@ -23,28 +23,8 @@ const AddAttendance = (props) => {
   const attendDate = moment(props.attenddate).format(dateFormat);
   const [attendCheckin, setAttendCheckIn] = useState(props.checkInTime);
   const [attendCheckout, setAttendCheckOut] = useState(props.checkOutTime);
-  const [schedid, setSchedId] = useState(0);
   const [schedules, setSchedules] = useState([]);
   const [api, contextHolder] = notification.useNotification();
-
-  useEffect(() => {
-    (async () => {
-      try {
-        await axios
-          .get("http://localhost:8000/api/employees", {
-            headers: { "Content-Type": "application/json" },
-            withCredentials: true,
-          })
-          .then((response) => {
-            response.data.map((res) =>
-              res.emp_id === props.empid ? setSchedId(res.emp_sched) : {}
-            );
-          });
-      } catch (err) {
-        console.log(err.response.data[0]);
-      }
-    })();
-  }, [props.empid]);
 
   useEffect(() => {
     (async () => {
@@ -56,7 +36,7 @@ const AddAttendance = (props) => {
           })
           .then((response) => {
             response.data.map((res) =>
-              res.id === schedid
+              res.id === props.schedid
                 ? setSchedules([
                     {
                       sched_sun: res.sched_sun,
@@ -75,7 +55,7 @@ const AddAttendance = (props) => {
         console.log(err.response.data[0]);
       }
     })();
-  }, [schedid]);
+  }, [props.schedid]);
 
   function dayOfTheWeek(day) {
     return schedules.map((schedule) => schedule[day]);
@@ -294,7 +274,7 @@ const AddAttendance = (props) => {
     var excuse = 0.0;
     var status = checkStatus(work, shiftStart, shiftEnd);
     var apiMethod = "";
-    if (props.mode === "ADD ATTENDANCE") {
+    if (props.mode === "Add Attendance") {
       apiMethod = "POST";
     } else {
       apiMethod = "PATCH";
@@ -330,13 +310,24 @@ const AddAttendance = (props) => {
     });
     props.updateAttendances(attendItem);
     props.updateOnSelect(date);
-    const placement = "BottomRight";
-    api.success({
-      message: <p className="medium-card-title">Notification</p>,
-      description: <p className="small-font">Attendance successfully saved.</p>,
+    var placement = "BottomRight";
+    var color = "#318ce7";
+    var icon = <CheckSquareOutlined style={{ color: color }} />;
+    var description = "Attendance saved successfully!";
+    api.info({
+      message: (
+        <p className="medium-card-title" style={{ color: color }}>
+          Notification
+        </p>
+      ),
+      description: (
+        <p className="small-font" style={{ color: color }}>
+          {description}
+        </p>
+      ),
       placement,
-      duration: 2,
-      icon: <CheckSquareOutlined style={{ color: "#318ce7" }} />,
+      duration: 3,
+      icon: icon,
     });
   }
 
@@ -358,7 +349,12 @@ const AddAttendance = (props) => {
         footer={""}
       >
         <Row style={{ marginTop: "0" }}>
-          <Form size="large" layout="vertical" onFinish={onFinish}>
+          <Form
+            size="large"
+            layout="vertical"
+            className="ant-form-item-space-bottom-normal"
+            onFinish={onFinish}
+          >
             <Row>
               <Col span={24}>
                 <Form.Item
@@ -375,33 +371,29 @@ const AddAttendance = (props) => {
             <Row>
               <Space>
                 <Col>
-                  <Form.Item
-                    label="Check In"
-                    initialValue={
-                      props.checkInTime !== "--:--:--"
-                        ? moment(props.checkInTime, timeFormat)
-                        : null
-                    }
-                  >
+                  <Form.Item label="Check In">
                     <TimePicker
                       onChange={(value) =>
                         setAttendCheckIn(moment(value).format(timeFormat))
+                      }
+                      value={
+                        attendCheckin !== "--:--:--"
+                          ? moment(attendCheckin, timeFormat)
+                          : null
                       }
                     />
                   </Form.Item>
                 </Col>
                 <Col>
-                  <Form.Item
-                    label="Check Out"
-                    initialValue={
-                      props.checkOutTime !== "--:--:--"
-                        ? moment(props.checkOutTime, timeFormat)
-                        : null
-                    }
-                  >
+                  <Form.Item label="Check Out">
                     <TimePicker
                       onChange={(value) =>
                         setAttendCheckOut(moment(value).format(timeFormat))
+                      }
+                      value={
+                        attendCheckout !== "--:--:--"
+                          ? moment(attendCheckout, timeFormat)
+                          : null
                       }
                     />
                   </Form.Item>
