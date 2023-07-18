@@ -28,49 +28,53 @@ const AddAttendance = (props) => {
   const [api, contextHolder] = notification.useNotification();
 
   useEffect(() => {
-    try {
-      axios
-        .get("http://localhost:8000/api/employees", {
-          headers: { "Content-Type": "application/json" },
-          withCredentials: true,
-        })
-        .then((response) => {
-          response.data.map((res) =>
-            res.emp_id === props.empid ? setSchedId(res.emp_sched) : {}
-          );
-        });
-    } catch (err) {
-      console.log(err.response.data[0]);
-    }
+    (async () => {
+      try {
+        await axios
+          .get("http://localhost:8000/api/employees", {
+            headers: { "Content-Type": "application/json" },
+            withCredentials: true,
+          })
+          .then((response) => {
+            response.data.map((res) =>
+              res.emp_id === props.empid ? setSchedId(res.emp_sched) : {}
+            );
+          });
+      } catch (err) {
+        console.log(err.response.data[0]);
+      }
+    })();
   }, [props.empid]);
 
   useEffect(() => {
-    try {
-      axios
-        .get("http://localhost:8000/api/schedule", {
-          headers: { "Content-Type": "application/json" },
-          withCredentials: true,
-        })
-        .then((response) => {
-          response.data.map((res) =>
-            res.id === schedid
-              ? setSchedules([
-                  {
-                    sched_sun: res.sched_sun,
-                    sched_mon: res.sched_mon,
-                    sched_tue: res.sched_tue,
-                    sched_wed: res.sched_wed,
-                    sched_thu: res.sched_thu,
-                    sched_fri: res.sched_fri,
-                    sched_sat: res.sched_sat,
-                  },
-                ])
-              : {}
-          );
-        });
-    } catch (err) {
-      console.log(err.response.data[0]);
-    }
+    (async () => {
+      try {
+        await axios
+          .get("http://localhost:8000/api/schedule", {
+            headers: { "Content-Type": "application/json" },
+            withCredentials: true,
+          })
+          .then((response) => {
+            response.data.map((res) =>
+              res.id === schedid
+                ? setSchedules([
+                    {
+                      sched_sun: res.sched_sun,
+                      sched_mon: res.sched_mon,
+                      sched_tue: res.sched_tue,
+                      sched_wed: res.sched_wed,
+                      sched_thu: res.sched_thu,
+                      sched_fri: res.sched_fri,
+                      sched_sat: res.sched_sat,
+                    },
+                  ])
+                : {}
+            );
+          });
+      } catch (err) {
+        console.log(err.response.data[0]);
+      }
+    })();
   }, [schedid]);
 
   function dayOfTheWeek(day) {
@@ -357,27 +361,29 @@ const AddAttendance = (props) => {
           <Form size="large" layout="vertical" onFinish={onFinish}>
             <Row>
               <Col span={24}>
-                <Form.Item name="date" label="Date">
-                  <Input
-                    className="medium-font"
-                    defaultValue={String(
-                      moment(props.attenddate).format(dateFormat)
-                    )}
-                    readOnly
-                  />
+                <Form.Item
+                  name="date"
+                  label="Date"
+                  initialValue={String(
+                    moment(props.attenddate).format(dateFormat)
+                  )}
+                >
+                  <Input className="medium-font" readOnly />
                 </Form.Item>
               </Col>
             </Row>
             <Row>
               <Space>
                 <Col>
-                  <Form.Item label="Check In">
+                  <Form.Item
+                    label="Check In"
+                    initialValue={
+                      props.checkInTime !== "--:--:--"
+                        ? moment(props.checkInTime, timeFormat)
+                        : null
+                    }
+                  >
                     <TimePicker
-                      defaultValue={
-                        props.checkInTime !== "--:--:--"
-                          ? moment(props.checkInTime, timeFormat)
-                          : null
-                      }
                       onChange={(value) =>
                         setAttendCheckIn(moment(value).format(timeFormat))
                       }
@@ -385,13 +391,15 @@ const AddAttendance = (props) => {
                   </Form.Item>
                 </Col>
                 <Col>
-                  <Form.Item label="Check Out">
+                  <Form.Item
+                    label="Check Out"
+                    initialValue={
+                      props.checkOutTime !== "--:--:--"
+                        ? moment(props.checkOutTime, timeFormat)
+                        : null
+                    }
+                  >
                     <TimePicker
-                      defaultValue={
-                        props.checkOutTime !== "--:--:--"
-                          ? moment(props.checkOutTime, timeFormat)
-                          : null
-                      }
                       onChange={(value) =>
                         setAttendCheckOut(moment(value).format(timeFormat))
                       }

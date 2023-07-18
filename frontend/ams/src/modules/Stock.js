@@ -64,7 +64,9 @@ const Stock = (props) => {
   ];
 
   useEffect(() => {
-    loadItems();
+    (async () => {
+      await loadItems();
+    })();
   }, []);
 
   async function loadItems() {

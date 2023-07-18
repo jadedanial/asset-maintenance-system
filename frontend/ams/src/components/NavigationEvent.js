@@ -5,6 +5,33 @@ import { Menu, Layout, Row, Col } from "antd";
 const { Header } = Layout;
 
 const NavigationEvent = () => {
+  const items = [
+    {
+      label: (
+        <Link
+          to="/login"
+          className="medium-card-title"
+          style={{ color: "#318ce7" }}
+        >
+          Login
+        </Link>
+      ),
+      key: "login",
+    },
+    {
+      label: (
+        <Link
+          to="/register"
+          className="medium-card-title"
+          style={{ color: "#318ce7" }}
+        >
+          Register
+        </Link>
+      ),
+      key: "register",
+    },
+  ];
+
   return (
     <>
       <Header
@@ -32,27 +59,9 @@ const NavigationEvent = () => {
             <div className="flex-end-row">
               <Menu
                 mode="horizontal"
+                items={items}
                 style={{ padding: "0", background: "#fff" }}
-              >
-                <Menu.Item key="login">
-                  <Link
-                    to="/login"
-                    className="medium-card-title"
-                    style={{ color: "#318ce7" }}
-                  >
-                    Login
-                  </Link>
-                </Menu.Item>
-                <Menu.Item key="register">
-                  <Link
-                    to="/register"
-                    className="medium-card-title"
-                    style={{ color: "#318ce7" }}
-                  >
-                    Register
-                  </Link>
-                </Menu.Item>
-              </Menu>
+              />
             </div>
           </Col>
         </Row>

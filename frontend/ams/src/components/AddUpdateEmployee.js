@@ -71,48 +71,54 @@ const AddUpdateEmployee = (props) => {
   const [displayEmployeeID, setDisplayEmployeeID] = useState("");
 
   useEffect(() => {
-    try {
-      axios
-        .get("http://localhost:8000/api/nationality", {
-          headers: { "Content-Type": "application/json" },
-          withCredentials: true,
-        })
-        .then((response) => {
-          setNationalities(response.data);
-        });
-    } catch (err) {
-      console.log(err.response.data[0]);
-    }
+    (async () => {
+      try {
+        await axios
+          .get("http://localhost:8000/api/nationality", {
+            headers: { "Content-Type": "application/json" },
+            withCredentials: true,
+          })
+          .then((response) => {
+            setNationalities(response.data);
+          });
+      } catch (err) {
+        console.log(err.response.data[0]);
+      }
+    })();
   }, []);
 
   useEffect(() => {
-    try {
-      axios
-        .get("http://localhost:8000/api/position", {
-          headers: { "Content-Type": "application/json" },
-          withCredentials: true,
-        })
-        .then((response) => {
-          setPositions(response.data);
-        });
-    } catch (err) {
-      console.log(err.response.data[0]);
-    }
+    (async () => {
+      try {
+        await axios
+          .get("http://localhost:8000/api/position", {
+            headers: { "Content-Type": "application/json" },
+            withCredentials: true,
+          })
+          .then((response) => {
+            setPositions(response.data);
+          });
+      } catch (err) {
+        console.log(err.response.data[0]);
+      }
+    })();
   }, []);
 
   useEffect(() => {
-    try {
-      axios
-        .get("http://localhost:8000/api/salary", {
-          headers: { "Content-Type": "application/json" },
-          withCredentials: true,
-        })
-        .then((response) => {
-          setSalaries(response.data);
-        });
-    } catch (err) {
-      console.log(err.response.data[0]);
-    }
+    (async () => {
+      try {
+        await axios
+          .get("http://localhost:8000/api/salary", {
+            headers: { "Content-Type": "application/json" },
+            withCredentials: true,
+          })
+          .then((response) => {
+            setSalaries(response.data);
+          });
+      } catch (err) {
+        console.log(err.response.data[0]);
+      }
+    })();
   }, []);
 
   async function getEmployeeID(name) {
@@ -161,6 +167,8 @@ const AddUpdateEmployee = (props) => {
   function onNameChange(value) {
     setEmployeeName(value);
     setNameReq(true);
+    setLabel(update ? "Update Employee" : "Add New Employee");
+    setColor("#318ce7");
   }
 
   function onBirthdateChange(value) {
@@ -233,7 +241,7 @@ const AddUpdateEmployee = (props) => {
       console.log(err.response.data[0]);
       setSuccess(false);
       setLabel(err.response.data[0]);
-      setColor("#F50");
+      setColor("#ff0000");
     }
   }
 

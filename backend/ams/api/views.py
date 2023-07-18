@@ -141,7 +141,7 @@ class EmployeeView(APIView):
 
         if name:
             if str(name.emp_id) != str(id.emp_id):
-                raise ValidationError("Employee already exist!")
+                raise ValidationError("Employee name already exist!")
 
         serializer.is_valid(raise_exception=True)
         serializer.save()
@@ -257,7 +257,7 @@ class ItemView(APIView):
 
         if name:
             if str(name.item_code) != str(code.item_code):
-                raise ValidationError("Item already exist!")
+                raise ValidationError("Item name already exist!")
 
         serializer.is_valid(raise_exception=True)
         serializer.save()

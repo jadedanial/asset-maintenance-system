@@ -59,33 +59,37 @@ const AddUpdateItem = (props) => {
   const [displayItemCode, setDisplayItemCode] = useState("");
 
   useEffect(() => {
-    try {
-      axios
-        .get("http://localhost:8000/api/category", {
-          headers: { "Content-Type": "application/json" },
-          withCredentials: true,
-        })
-        .then((response) => {
-          setCategories(response.data);
-        });
-    } catch (err) {
-      console.log(err.response.data[0]);
-    }
+    (async () => {
+      try {
+        await axios
+          .get("http://localhost:8000/api/category", {
+            headers: { "Content-Type": "application/json" },
+            withCredentials: true,
+          })
+          .then((response) => {
+            setCategories(response.data);
+          });
+      } catch (err) {
+        console.log(err.response.data[0]);
+      }
+    })();
   }, []);
 
   useEffect(() => {
-    try {
-      axios
-        .get("http://localhost:8000/api/measurement", {
-          headers: { "Content-Type": "application/json" },
-          withCredentials: true,
-        })
-        .then((response) => {
-          setMeasurements(response.data);
-        });
-    } catch (err) {
-      console.log(err.response.data[0]);
-    }
+    (async () => {
+      try {
+        await axios
+          .get("http://localhost:8000/api/measurement", {
+            headers: { "Content-Type": "application/json" },
+            withCredentials: true,
+          })
+          .then((response) => {
+            setMeasurements(response.data);
+          });
+      } catch (err) {
+        console.log(err.response.data[0]);
+      }
+    })();
   }, []);
 
   async function getItemCode(name) {
@@ -130,6 +134,8 @@ const AddUpdateItem = (props) => {
   function onNameChange(value) {
     setItemName(value);
     setNameReq(true);
+    setLabel(update ? "Update Item" : "Add New Item");
+    setColor("#318ce7");
   }
 
   function onCategoryChange(value) {
@@ -191,7 +197,7 @@ const AddUpdateItem = (props) => {
       console.log(err.response.data[0]);
       setSuccess(false);
       setLabel(err.response.data[0]);
-      setColor("#F50");
+      setColor("#ff0000");
     }
   }
 

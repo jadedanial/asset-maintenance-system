@@ -53,18 +53,20 @@ const Profile = (props) => {
   ];
 
   useEffect(() => {
-    try {
-      axios
-        .get("http://localhost:8000/api/employees", {
-          headers: { "Content-Type": "application/json" },
-          withCredentials: true,
-        })
-        .then((response) => {
-          setEmployees(response.data);
-        });
-    } catch (err) {
-      console.log(err.response.data[0]);
-    }
+    (async () => {
+      try {
+        await axios
+          .get("http://localhost:8000/api/employees", {
+            headers: { "Content-Type": "application/json" },
+            withCredentials: true,
+          })
+          .then((response) => {
+            setEmployees(response.data);
+          });
+      } catch (err) {
+        console.log(err.response.data[0]);
+      }
+    })();
   }, []);
 
   function expYears(yearHired) {

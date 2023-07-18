@@ -24,10 +24,8 @@ const LoginPage = () => {
           headers: { "Content-Type": "application/json" },
           withCredentials: true,
         });
-        setRedirect(true);
       } catch (err) {
         console.log(err.response.data[0]);
-        setRedirect(false);
       }
     })();
   });
@@ -72,6 +70,8 @@ const LoginPage = () => {
       setInputReq(false);
       setIsCheck(true);
       return remUser;
+    } else {
+      return "";
     }
   }
 
@@ -108,7 +108,7 @@ const LoginPage = () => {
             >
               <Form
                 name="login"
-                className="login-form"
+                className="login-form ant-form-item-space-bottom-normal"
                 size="large"
                 initialValues={{ remember: true }}
               >
@@ -125,7 +125,7 @@ const LoginPage = () => {
                     className="medium-font"
                     prefix={<UserOutlined className="site-form-item-icon" />}
                     placeholder="Username"
-                    defaultValue={rememberUser}
+                    initialValue={rememberUser}
                     onChange={(e) => setUsername(e.target.value)}
                   />
                 </Form.Item>

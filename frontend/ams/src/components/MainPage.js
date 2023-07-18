@@ -43,23 +43,25 @@ const MainPage = (props) => {
   ];
 
   useEffect(() => {
-    try {
-      axios
-        .get("http://localhost:8000/api/module", {
-          headers: { "Content-Type": "application/json" },
-          withCredentials: true,
-        })
-        .then((response) => {
-          setModules(response.data);
-          setModules((modules) => {
-            return modules.map((module) => {
-              return { ...module, icon: iconsSwitch(module.icon) };
+    (async () => {
+      try {
+        await axios
+          .get("http://localhost:8000/api/module", {
+            headers: { "Content-Type": "application/json" },
+            withCredentials: true,
+          })
+          .then((response) => {
+            setModules(response.data);
+            setModules((modules) => {
+              return modules.map((module) => {
+                return { ...module, icon: iconsSwitch(module.icon) };
+              });
             });
           });
-        });
-    } catch (err) {
-      console.log(err.response.data[0]);
-    }
+      } catch (err) {
+        console.log(err.response.data[0]);
+      }
+    })();
   }, []);
 
   async function logout() {

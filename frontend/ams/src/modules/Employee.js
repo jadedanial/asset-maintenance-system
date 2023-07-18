@@ -50,7 +50,9 @@ const Employee = (props) => {
   ];
 
   useEffect(() => {
-    loadEmployees();
+    (async () => {
+      await loadEmployees();
+    })();
   }, []);
 
   async function loadEmployees() {

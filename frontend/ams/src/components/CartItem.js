@@ -17,7 +17,9 @@ const CartItem = (props) => {
   const [success, setSuccess] = useState(false);
 
   useEffect(() => {
-    sumOrder();
+    (async () => {
+      await sumOrder();
+    })();
   });
 
   function changeQuantity(action, id, code, name, cost, measurement, quantity) {

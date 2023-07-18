@@ -103,7 +103,7 @@ const RegisterPage = () => {
             >
               <Form
                 name="register"
-                className="login-form"
+                className="login-form ant-form-item-space-bottom-normal"
                 size="large"
                 initialValues={{ remember: true }}
                 onFinish={onFinish}

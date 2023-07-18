@@ -385,6 +385,10 @@ td.ant-table-column-sort {
   margin: 0 0 35px 0 !important;
 }
 
+.ant-form-item-space-bottom-normal .ant-form-item {
+  margin: 0 0 10px 0 !important;
+}
+
 .ant-form-item-explain-error {
   color: #d90909a9 !important;
   font-family: ralewayregular;
