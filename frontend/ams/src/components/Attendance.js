@@ -22,10 +22,10 @@ import {
   CheckCircleOutlined,
   CloseOutlined,
   IssuesCloseOutlined,
-  CloseSquareOutlined,
 } from "@ant-design/icons";
 import moment from "moment";
 import AddAttendance from "./AddAttendance";
+import NotificationEvent from "./NotificationEvent";
 
 const { Title } = Typography;
 
@@ -351,25 +351,9 @@ const Attendance = (props, ref) => {
         setSchedId(schedule);
         setOpenModal(true);
       } else {
-        var placement = "BottomRight";
-        var color = "#ff0000";
-        var icon = <CloseSquareOutlined style={{ color: color }} />;
-        var description = "Employee no shift schedule assigned!";
-        api.info({
-          message: (
-            <p className="medium-card-title" style={{ color: color }}>
-              Notification
-            </p>
-          ),
-          description: (
-            <p className="small-font" style={{ color: color }}>
-              {description}
-            </p>
-          ),
-          placement,
-          duration: 3,
-          icon: icon,
-        });
+        api.info(
+          NotificationEvent(false, "Employee no shift schedule assigned!")
+        );
       }
     });
   }

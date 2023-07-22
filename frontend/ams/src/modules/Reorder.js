@@ -14,12 +14,9 @@ import {
   Avatar,
   notification,
 } from "antd";
-import {
-  AppstoreAddOutlined,
-  ShoppingCartOutlined,
-  CheckSquareOutlined,
-} from "@ant-design/icons";
+import { AppstoreAddOutlined, ShoppingCartOutlined } from "@ant-design/icons";
 import DrawerEvent from "../components/DrawerEvent";
+import NotificationEvent from "../components/NotificationEvent";
 
 const { Title } = Typography;
 
@@ -204,18 +201,12 @@ const Reorder = (props) => {
     setItemCount(orderList.length);
   }
 
-  function newItem(id, code, name, cost, measurement, quantity, placement) {
+  function newItem(id, code, name, cost, measurement, quantity) {
     if (total !== "") {
       removeItem(code);
       addItem(id, code, name, cost, measurement, quantity, total);
       setInputStatus("");
-      api.success({
-        message: <p className="medium-card-title">Notification</p>,
-        description: <p className="small-font">Item {code} added to Cart.</p>,
-        placement,
-        duration: 2,
-        icon: <CheckSquareOutlined style={{ color: "#318ce7" }} />,
-      });
+      api.info(NotificationEvent(true, "Item " + code + " added to Cart."));
     } else {
       setInputStatus("error");
     }

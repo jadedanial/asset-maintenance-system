@@ -12,8 +12,9 @@ import {
   Input,
   notification,
 } from "antd";
-import { CheckSquareOutlined, CloseOutlined } from "@ant-design/icons";
+import { CloseOutlined } from "@ant-design/icons";
 import moment from "moment";
+import NotificationEvent from "./NotificationEvent";
 
 const { Title } = Typography;
 
@@ -310,25 +311,7 @@ const AddAttendance = (props) => {
     });
     props.updateAttendances(attendItem);
     props.updateOnSelect(date);
-    var placement = "BottomRight";
-    var color = "#318ce7";
-    var icon = <CheckSquareOutlined style={{ color: color }} />;
-    var description = "Attendance saved successfully!";
-    api.info({
-      message: (
-        <p className="medium-card-title" style={{ color: color }}>
-          Notification
-        </p>
-      ),
-      description: (
-        <p className="small-font" style={{ color: color }}>
-          {description}
-        </p>
-      ),
-      placement,
-      duration: 3,
-      icon: icon,
-    });
+    api.info(NotificationEvent(true, "Attendance saved successfully."));
   }
 
   return (

@@ -11,7 +11,7 @@ import {
   Tag,
   notification,
 } from "antd";
-import { CheckSquareOutlined } from "@ant-design/icons";
+import NotificationEvent from "./NotificationEvent";
 
 const { Title } = Typography;
 
@@ -61,7 +61,7 @@ const Schedule = (props) => {
     })();
   }, [schedid]);
 
-  async function handleSubmit(placement) {
+  async function handleSubmit() {
     var empData = {
       empID: empID,
       schedid: schedid,
@@ -74,15 +74,7 @@ const Schedule = (props) => {
         headers: { "Content-Type": "application/json" },
         withCredentials: true,
       });
-      api.success({
-        message: <p className="medium-card-title">Notification</p>,
-        description: (
-          <p className="small-font">Schedule successfully changed.</p>
-        ),
-        placement,
-        duration: 2,
-        icon: <CheckSquareOutlined style={{ color: "#318ce7" }} />,
-      });
+      api.info(NotificationEvent(true, "Schedule successfully updated."));
     } catch (err) {
       console.log(err.response.data[0]);
     }

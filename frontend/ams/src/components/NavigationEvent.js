@@ -51,7 +51,7 @@ const NavigationEvent = () => {
               <img
                 src="images/danialsoft.png"
                 alt="logo"
-                style={{ width: "65%" }}
+                style={{ width: "60%" }}
               />
             </div>
           </Col>
