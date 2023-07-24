@@ -132,6 +132,7 @@ const Stock = (props) => {
                   <Button
                     type="primary"
                     shape="circle"
+                    size="large"
                     className="custom-hover"
                     style={{ margin: "0 20px" }}
                     onClick={() => {

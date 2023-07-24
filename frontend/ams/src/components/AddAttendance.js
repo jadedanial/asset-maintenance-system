@@ -67,14 +67,13 @@ const AddAttendance = (props) => {
       .duration(
         moment(shiftEnd, timeFormat).diff(moment(shiftStart, timeFormat))
       )
-      .asHours()
-      .toFixed(2);
+      .asHours();
     return req;
   }
 
   function checkIfLateIn(shiftStart, shiftEnd) {
-    var late = (0).toFixed(2);
-    if (parseFloat(totalRequired(shiftStart, shiftEnd)) > parseFloat(0.0)) {
+    var late = 0;
+    if (parseFloat(totalRequired(shiftStart, shiftEnd)) > parseFloat(0)) {
       if (
         moment(attendCheckin, timeFormat).isAfter(
           moment(shiftStart, timeFormat)
@@ -86,20 +85,19 @@ const AddAttendance = (props) => {
               moment(shiftStart, timeFormat)
             )
           )
-          .asHours()
-          .toFixed(2);
+          .asHours();
       } else {
-        late = (0).toFixed(2);
+        late = 0;
       }
     } else {
-      late = (0).toFixed(2);
+      late = 0;
     }
     return late;
   }
 
   function checkIfEarlyOut(shiftStart, shiftEnd) {
-    var early = (0).toFixed(2);
-    if (parseFloat(totalRequired(shiftStart, shiftEnd)) > parseFloat(0.0)) {
+    var early = 0;
+    if (parseFloat(totalRequired(shiftStart, shiftEnd)) > parseFloat(0)) {
       if (
         moment(attendCheckout, timeFormat).isBefore(
           moment(shiftEnd, timeFormat)
@@ -111,20 +109,19 @@ const AddAttendance = (props) => {
               moment(attendCheckout, timeFormat)
             )
           )
-          .asHours()
-          .toFixed(2);
+          .asHours();
       } else {
-        early = (0).toFixed(2);
+        early = 0;
       }
     } else {
-      early = (0).toFixed(2);
+      early = 0;
     }
     return early;
   }
 
   function totalWorked(shiftStart, shiftEnd) {
-    var work = (0).toFixed(2);
-    if (parseFloat(totalRequired(shiftStart, shiftEnd)) > parseFloat(0.0)) {
+    var work = 0;
+    if (parseFloat(totalRequired(shiftStart, shiftEnd)) > parseFloat(0)) {
       if (
         moment(attendCheckin, timeFormat).isAfter(
           moment(shiftStart, timeFormat)
@@ -136,8 +133,7 @@ const AddAttendance = (props) => {
               moment(attendCheckin, timeFormat)
             )
           )
-          .asHours()
-          .toFixed(2);
+          .asHours();
       } else {
         work = moment
           .duration(
@@ -145,8 +141,7 @@ const AddAttendance = (props) => {
               moment(shiftStart, timeFormat)
             )
           )
-          .asHours()
-          .toFixed(2);
+          .asHours();
       }
     } else {
       work = moment
@@ -155,38 +150,37 @@ const AddAttendance = (props) => {
             moment(attendCheckin, timeFormat)
           )
         )
-        .asHours()
-        .toFixed(2);
+        .asHours();
     }
     return work;
   }
 
   function totalUndertime(work, shiftStart, shiftEnd) {
-    var under = (0).toFixed(2);
+    var under = 0;
     if (parseFloat(work) < parseFloat(totalRequired(shiftStart, shiftEnd))) {
-      under = (totalRequired(shiftStart, shiftEnd) - work).toFixed(2);
+      under = totalRequired(shiftStart, shiftEnd) - work;
     } else {
-      under = (0).toFixed(2);
+      under = 0;
     }
     return under;
   }
 
   function totalOvertime(work, shiftStart, shiftEnd) {
-    var over = (0).toFixed(2);
+    var over = 0;
     if (parseFloat(work) > parseFloat(totalRequired(shiftStart, shiftEnd))) {
-      over = (work - totalRequired(shiftStart, shiftEnd)).toFixed(2);
+      over = work - totalRequired(shiftStart, shiftEnd);
     } else {
-      over = (0).toFixed(2);
+      over = 0;
     }
     return over;
   }
 
   function checkStatus(work, shiftStart, shiftEnd) {
     var status = "No Attendance Data";
-    if (parseFloat(work) > parseFloat(0.0)) {
+    if (parseFloat(work) > parseFloat(0)) {
       status = "Attended Today";
     } else {
-      if (parseFloat(totalRequired(shiftStart, shiftEnd)) === parseFloat(0.0)) {
+      if (parseFloat(totalRequired(shiftStart, shiftEnd)) === parseFloat(0)) {
         status = "Dayoff Today";
       } else {
         if (
@@ -245,73 +239,84 @@ const AddAttendance = (props) => {
   }
 
   function onFinish() {
-    var shiftStart = String(
-      dayOfTheWeek(
-        "sched_" + String(moment(attendDate).format("ddd")).toLowerCase()
-      )
-    ).split(" To ")[0];
-    var shiftEnd = String(
-      dayOfTheWeek(
-        "sched_" + String(moment(attendDate).format("ddd")).toLowerCase()
-      )
-    ).split(" To ")[1];
-    var date = attendDate;
-    var checkin = attendCheckin;
-    var checkout = attendCheckout;
-    var latein = checkIfLateIn(shiftStart, shiftEnd);
-    var earlyout = checkIfEarlyOut(shiftStart, shiftEnd);
-    var work = totalWorked(shiftStart, shiftEnd);
-    var req = totalRequired(shiftStart, shiftEnd);
-    if (isNaN(moment(checkin, timeFormat))) {
-      checkin = "";
-      work = (0).toFixed(2);
-    }
-    if (isNaN(moment(checkout, timeFormat))) {
-      checkout = "";
-      work = (0).toFixed(2);
-    }
-    var under = totalUndertime(work, shiftStart, shiftEnd);
-    var over = totalOvertime(work, shiftStart, shiftEnd);
-    var excuse = 0.0;
-    var status = checkStatus(work, shiftStart, shiftEnd);
-    var apiMethod = "";
-    if (props.mode === "Add Attendance") {
-      apiMethod = "POST";
+    if (attendCheckin < attendCheckout) {
+      var shiftStart = String(
+        dayOfTheWeek(
+          "sched_" + String(moment(attendDate).format("ddd")).toLowerCase()
+        )
+      ).split(" To ")[0];
+      var shiftEnd = String(
+        dayOfTheWeek(
+          "sched_" + String(moment(attendDate).format("ddd")).toLowerCase()
+        )
+      ).split(" To ")[1];
+      var date = attendDate;
+      var checkin = attendCheckin;
+      var checkout = attendCheckout;
+      var latein = checkIfLateIn(shiftStart, shiftEnd);
+      var earlyout = checkIfEarlyOut(shiftStart, shiftEnd);
+      var work = totalWorked(shiftStart, shiftEnd);
+      var req = totalRequired(shiftStart, shiftEnd);
+      if (isNaN(moment(checkin, timeFormat))) {
+        checkin = "";
+        work = 0;
+      }
+      if (isNaN(moment(checkout, timeFormat))) {
+        checkout = "";
+        work = 0;
+      }
+      var under = totalUndertime(work, shiftStart, shiftEnd);
+      var over = totalOvertime(work, shiftStart, shiftEnd);
+      var excuse = 0;
+      var status = checkStatus(work, shiftStart, shiftEnd);
+      var apiMethod = "";
+      if (props.mode === "Add Attendance") {
+        apiMethod = "POST";
+      } else {
+        apiMethod = "PATCH";
+      }
+      addAttendance(
+        apiMethod,
+        props.empid,
+        date,
+        checkin !== "" ? checkin : moment("", timeFormat),
+        checkout !== "" ? checkout : moment("", timeFormat),
+        latein,
+        earlyout,
+        work,
+        req,
+        under,
+        over,
+        excuse,
+        status
+      );
+      const attendItem = props.attendances;
+      const matchItem = attendItem.find((attend) => attend.Date === date);
+      var index = attendItem.indexOf(matchItem);
+      if (index > -1) {
+        attendItem.splice(index, 1);
+      }
+      attendItem.push({
+        Date: date,
+        "Check In": checkin ? checkin : "--:--:--",
+        "Check Out": checkout ? checkout : "--:--:--",
+        "Late In": latein,
+        "Early Out": earlyout,
+        Worked: work,
+        Required: req,
+        Undertime: under,
+        Overtime: over,
+        Excuse: excuse,
+        Status: status,
+      });
+      props.updateAttendances(attendItem);
+      props.updateOnSelect(date);
+      api.info(NotificationEvent(true, "Attendance saved successfully."));
     } else {
-      apiMethod = "PATCH";
+      api.info(
+        NotificationEvent(false, "Check In must less than Check Out time.")
+      );
     }
-    addAttendance(
-      apiMethod,
-      props.empid,
-      date,
-      checkin !== "" ? checkin : moment("", timeFormat),
-      checkout !== "" ? checkout : moment("", timeFormat),
-      latein,
-      earlyout,
-      work,
-      req,
-      under,
-      over,
-      excuse,
-      status
-    );
-    const attendItem = props.attendances;
-    attendItem.push({
-      Date: date,
-      "Check In": checkin ? checkin : "--:--:--",
-      "Check Out": checkout ? checkout : "--:--:--",
-      "Late In": latein,
-      "Early Out": earlyout,
-      Worked: work,
-      Required: req,
-      Undertime: under,
-      Overtime: over,
-      Excuse: excuse,
-      Status: status,
-    });
-    props.updateAttendances(attendItem);
-    props.updateOnSelect(date);
-    api.info(NotificationEvent(true, "Attendance saved successfully."));
   }
 
   return (

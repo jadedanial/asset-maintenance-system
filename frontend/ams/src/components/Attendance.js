@@ -66,13 +66,13 @@ const Attendance = (props, ref) => {
                       "Check Out": res.attend_checkout
                         ? res.attend_checkout
                         : "--:--:--",
-                      "Late In": res.attend_latein.toFixed(2),
-                      "Early Out": res.attend_earlyout.toFixed(2),
-                      Worked: res.attend_work.toFixed(2),
-                      Required: res.attend_req.toFixed(2),
-                      Undertime: res.attend_under.toFixed(2),
-                      Overtime: res.attend_over.toFixed(2),
-                      Excuse: res.attend_excuse.toFixed(2),
+                      "Late In": res.attend_latein,
+                      "Early Out": res.attend_earlyout,
+                      Worked: res.attend_work,
+                      Required: res.attend_req,
+                      Undertime: res.attend_under,
+                      Overtime: res.attend_over,
+                      Excuse: res.attend_excuse,
                       Status: res.attend_status,
                     },
                   ])
