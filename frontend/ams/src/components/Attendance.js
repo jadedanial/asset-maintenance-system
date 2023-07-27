@@ -19,7 +19,6 @@ import {
   ClockCircleOutlined,
   CheckOutlined,
   CheckSquareOutlined,
-  CheckCircleOutlined,
   CloseOutlined,
   IssuesCloseOutlined,
 } from "@ant-design/icons";
@@ -155,16 +154,10 @@ const Attendance = (props, ref) => {
             <CheckSquareOutlined style={{ color: "#318ce7" }} />
           </>
         );
-      case "Holiday Today":
-        return (
-          <>
-            <CarryOutOutlined style={{ color: "#318ce7" }} />
-          </>
-        );
       case "Vacation Today":
         return (
           <>
-            <CheckCircleOutlined style={{ color: "#318ce7" }} />
+            <CarryOutOutlined style={{ color: "#318ce7" }} />
           </>
         );
       case "Incomplete Attendance":
@@ -228,7 +221,6 @@ const Attendance = (props, ref) => {
     var workdays = 0,
       absences = 0,
       dayoffs = 0,
-      holidays = 0,
       vacations = 0,
       hoursworked = 0,
       hoursrequired = 0,
@@ -248,8 +240,6 @@ const Attendance = (props, ref) => {
             return absences++;
           case "Dayoff Today":
             return dayoffs++;
-          case "Holiday Today":
-            return holidays++;
           case "Vacation Today":
             return vacations++;
           default:
@@ -276,14 +266,9 @@ const Attendance = (props, ref) => {
             icon: <CheckSquareOutlined style={{ color: "#318ce7" }} />,
           },
           {
-            title: "Holidays",
-            value: holidays,
-            icon: <CarryOutOutlined style={{ color: "#318ce7" }} />,
-          },
-          {
             title: "Vacations",
             value: vacations,
-            icon: <CheckCircleOutlined style={{ color: "#318ce7" }} />,
+            icon: <CarryOutOutlined style={{ color: "#318ce7" }} />,
           },
           {
             title: "Hours Worked",
@@ -370,15 +355,15 @@ const Attendance = (props, ref) => {
         <Card size="small" style={{ width: "100%" }}>
           <Row style={{ justifyContent: "center", marginBottom: "20px" }}>
             <p className="medium-card-title">
-              {String(moment(selectedDate).format("MMMM YYYY"))} Total Hours
+              {String(moment(selectedDate).format("MMMM YYYY"))} Attendance
+              Summary
             </p>
           </Row>
           <Row className="justified-row">
-            <Space size={50}>{monthlyAttendanceData(selectedDate)}</Space>
+            <Space size={70}>{monthlyAttendanceData(selectedDate)}</Space>
           </Row>
         </Card>
       </Row>
-      <Row></Row>
       <Row style={{ marginTop: "40px" }}>
         <Col span={7}>
           <Card
@@ -422,9 +407,6 @@ const Attendance = (props, ref) => {
         <Col span={1}></Col>
         <Col span={16}>
           <Card>
-            <p className="medium-card-title" style={{ textAlign: "center" }}>
-              Please select date
-            </p>
             <Calendar
               fullscreen={true}
               mode="month"

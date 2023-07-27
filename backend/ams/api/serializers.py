@@ -194,6 +194,14 @@ class MeasurementSerializer(serializers.ModelSerializer):
         ]
 
 
+class VacationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Vacation
+        fields = [
+            "vacation",
+        ]
+
+
 class ItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = Item

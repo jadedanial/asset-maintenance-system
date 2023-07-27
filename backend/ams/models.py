@@ -334,6 +334,15 @@ class Measurement(models.Model):
         return self.measurement
 
 
+class Vacation(models.Model):
+    vacation = models.CharField(
+        max_length=500, blank=False, null=False, verbose_name="Vacation"
+    )
+
+    def __str__(self):
+        return self.vacation
+
+
 class Item(models.Model):
     id = models.AutoField(primary_key=True)
     item_code = models.CharField(

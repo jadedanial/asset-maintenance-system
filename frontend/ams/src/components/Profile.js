@@ -20,9 +20,10 @@ import {
   IdcardOutlined,
   CalendarOutlined,
 } from "@ant-design/icons";
+import AddUpdateEmployee from "./AddUpdateEmployee";
 import Attendance from "../components/Attendance";
 import Schedule from "../components/Schedule";
-import AddUpdateEmployee from "./AddUpdateEmployee";
+import Vacation from "../components/Vacation";
 import moment from "moment";
 
 const { Title } = Typography;
@@ -47,6 +48,15 @@ const Profile = (props) => {
       children: (
         <>
           <Schedule empid={props.empid}></Schedule>
+        </>
+      ),
+    },
+    {
+      label: <>VACATION</>,
+      key: "3",
+      children: (
+        <>
+          <Vacation empid={props.empid}></Vacation>
         </>
       ),
     },

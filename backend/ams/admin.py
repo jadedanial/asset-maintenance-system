@@ -298,6 +298,12 @@ class MeasurementAdmin(admin.ModelAdmin):
     search_fields = ("measurement",)
 
 
+class VacationAdmin(admin.ModelAdmin):
+    list_display = ("vacation",)
+    list_filter = ("vacation",)
+    search_fields = ("vacation",)
+
+
 class ItemAdmin(admin.ModelAdmin):
     readonly_fields = (
         "id",
@@ -352,4 +358,5 @@ admin.site.register(Position, PositionAdmin)
 admin.site.register(Salary, SalaryAdmin)
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Measurement, MeasurementAdmin)
+admin.site.register(Vacation, VacationAdmin)
 admin.site.register(Item, ItemAdmin)

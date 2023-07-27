@@ -146,7 +146,7 @@ h1.ant-typography {
 
 .card-custom-size {
   margin: 40px !important;
-  margin-top: 2% !important;
+  margin-top: 40px !important;
   width: 70% !important;
 }
 
@@ -485,4 +485,8 @@ td.ant-table-column-sort {
 
 #reorder-item-center .ant-table-cell:first-child {
   padding: 5px 35px 5px 0 !important;
+}
+
+.no-margin {
+  margin: 0 !important;
 }
