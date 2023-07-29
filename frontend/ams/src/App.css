@@ -96,6 +96,12 @@ h1.ant-typography {
   font-weight: 500 !important;
 }
 
+.align-items-center {
+  width: 100%;
+  display: flex !important;
+  align-items: center !important;
+}
+
 .justified-row {
   width: 100%;
   display: flex !important;
@@ -106,6 +112,12 @@ h1.ant-typography {
   width: 100%;
   display: flex !important;
   justify-content: space-between !important;
+}
+
+.flex-start-row {
+  width: 100%;
+  display: flex !important;
+  justify-content: flex-start !important;
 }
 
 .flex-end-row {
@@ -206,6 +218,7 @@ h1.ant-typography {
   font-weight: 500 !important;
   text-align: left;
   margin: 0 !important;
+  line-height: 1.2 !important;
 }
 
 .biggest-card-title {
@@ -232,6 +245,7 @@ h1.ant-typography {
   font-size: 14px !important;
 }
 
+.bigger-font,
 .big-font,
 .large-font,
 .medium-font,
@@ -241,6 +255,11 @@ h1.ant-typography {
   font-family: ralewayregular !important;
   text-align: left;
   margin: 0 !important;
+  line-height: 1.2 !important;
+}
+
+.bigger-font {
+  font-size: 23px !important;
 }
 
 .big-font {

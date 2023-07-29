@@ -1,9 +1,18 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Navigate } from "react-router-dom";
-import { Layout, Form, Checkbox, Button, Input, Card, Typography } from "antd";
+import { Navigate, Link } from "react-router-dom";
+import {
+  Layout,
+  Form,
+  Checkbox,
+  Button,
+  Input,
+  Card,
+  Typography,
+  Col,
+  Row,
+} from "antd";
 import { UserOutlined, LockOutlined, LoginOutlined } from "@ant-design/icons";
-import NavigationEvent from "../components/NavigationEvent";
 import HomePage from "./Home";
 
 const { Title } = Typography;
@@ -93,85 +102,114 @@ const LoginPage = () => {
 
   return (
     <>
-      <NavigationEvent />
       <Layout style={{ height: "100%" }}>
-        <div className="justified-row">
-          <div style={{ margin: "40px", marginTop: "5%", width: "30%" }}>
-            <Card
-              size="large"
-              title={
-                <Title>
-                  <p className="big-card-title">Authenticate User</p>
-                </Title>
-              }
-              hoverable
-            >
-              <Form
-                name="login"
-                className="login-form ant-form-item-space-bottom-normal"
-                size="large"
-                initialValues={{ remember: true }}
+        <div className="space-between-row" style={{ marginTop: "100px" }}>
+          <Col span={11}>
+            <div className="flex-end-row">
+              <Card
+                style={{
+                  background: "#f0f2f5",
+                  width: "450px",
+                  marginTop: "55px",
+                }}
               >
-                <Form.Item
-                  name="username"
-                  rules={[
-                    {
-                      required: inputReq,
-                      message: "Please input employee username!",
-                    },
-                  ]}
-                >
-                  <Input
-                    className="medium-font"
-                    prefix={<UserOutlined className="site-form-item-icon" />}
-                    placeholder="Username"
-                    initialValue={rememberUser}
-                    onChange={(e) => setUsername(e.target.value)}
+                <Row>
+                  <img
+                    src="images/danialsoft.png"
+                    alt="logo"
+                    style={{ width: "60%" }}
                   />
-                </Form.Item>
-                <Form.Item
-                  name="password"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please input employee password!",
-                    },
-                  ]}
+                </Row>
+                <Row style={{ marginTop: "20px" }}>
+                  <p className="bigger-font">
+                    Keeping your assets in top shape for optimal performance.
+                  </p>
+                </Row>
+              </Card>
+            </div>
+          </Col>
+          <Col span={11}>
+            <div className="flex-start-row">
+              <Card
+                size="large"
+                title={
+                  <Title>
+                    <p className="big-card-title">Authenticate User</p>
+                  </Title>
+                }
+                style={{ width: "400px" }}
+                hoverable
+              >
+                <Form
+                  name="login"
+                  className="login-form ant-form-item-space-bottom-normal"
+                  size="large"
+                  initialValues={{ remember: true }}
                 >
-                  <Input
-                    className="medium-font"
-                    prefix={<LockOutlined className="site-form-item-icon" />}
-                    type="password"
-                    placeholder="Password"
-                    onChange={(e) => setPassword(e.target.value)}
-                  />
-                </Form.Item>
-                <Form.Item name="remember" style={{ marginBottom: "20px" }}>
-                  <Checkbox
-                    className="medium-font"
-                    checked={isCheck}
-                    onClick={toggleChecked}
-                    onChange={(e) => setRemember(e.target.checked)}
+                  <Form.Item
+                    name="username"
+                    rules={[
+                      {
+                        required: inputReq,
+                        message: "Please input employee username!",
+                      },
+                    ]}
                   >
-                    Remember Me
-                  </Checkbox>
-                </Form.Item>
-                <Form.Item>
-                  <Button
-                    size="large"
-                    type="primary"
-                    htmlType="submit"
-                    style={{ marginTop: "24px" }}
-                    icon={<LoginOutlined />}
-                    onClick={handleSubmit}
-                    block
+                    <Input
+                      className="medium-font"
+                      prefix={<UserOutlined className="site-form-item-icon" />}
+                      placeholder="Username"
+                      initialValue={rememberUser}
+                      onChange={(e) => setUsername(e.target.value)}
+                    />
+                  </Form.Item>
+                  <Form.Item
+                    name="password"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please input employee password!",
+                      },
+                    ]}
                   >
-                    LOGIN
-                  </Button>
-                </Form.Item>
-              </Form>
-            </Card>
-          </div>
+                    <Input
+                      className="medium-font"
+                      prefix={<LockOutlined className="site-form-item-icon" />}
+                      type="password"
+                      placeholder="Password"
+                      onChange={(e) => setPassword(e.target.value)}
+                    />
+                  </Form.Item>
+                  <Form.Item name="remember" style={{ marginBottom: "20px" }}>
+                    <Checkbox
+                      className="medium-font"
+                      checked={isCheck}
+                      onClick={toggleChecked}
+                      onChange={(e) => setRemember(e.target.checked)}
+                    >
+                      Remember Me
+                    </Checkbox>
+                  </Form.Item>
+                  <Form.Item>
+                    <Button
+                      size="large"
+                      type="primary"
+                      htmlType="submit"
+                      style={{ marginTop: "24px" }}
+                      icon={<LoginOutlined />}
+                      onClick={handleSubmit}
+                      block
+                    >
+                      LOGIN
+                    </Button>
+                  </Form.Item>
+                </Form>
+                <Link to="/register" className="justified-row medium-font">
+                  Create a new account
+                </Link>
+              </Card>
+            </div>
+          </Col>
         </div>
       </Layout>
     </>
