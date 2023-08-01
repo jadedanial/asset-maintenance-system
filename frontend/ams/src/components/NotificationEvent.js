@@ -24,7 +24,7 @@ function NotificationEvent(status, desc) {
   return {
     message: message,
     description: description,
-    placement: "bottomRight",
+    placement: "topRight",
     duration: 3,
     icon: icon,
   };

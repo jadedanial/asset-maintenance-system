@@ -239,7 +239,20 @@ const AddAttendance = (props) => {
   }
 
   function onFinish() {
-    if (attendCheckin < attendCheckout) {
+    var validdate = true;
+
+    if (
+      !isNaN(moment(attendCheckin, timeFormat)) &&
+      !isNaN(moment(attendCheckout, timeFormat))
+    ) {
+      if (attendCheckin < attendCheckout) {
+        validdate = true;
+      } else {
+        validdate = false;
+      }
+    }
+
+    if (validdate) {
       var shiftStart = String(
         dayOfTheWeek(
           "sched_" + String(moment(attendDate).format("ddd")).toLowerCase()

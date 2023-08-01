@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Button } from "antd";
-import { LoginOutlined, FrownOutlined } from "@ant-design/icons";
+import {
+  LoginOutlined,
+  FrownOutlined,
+  UserAddOutlined,
+} from "@ant-design/icons";
 import MainPage from "../components/MainPage";
 import ResultEvent from "../components/ResultEvent";
-import NavigationEvent from "../components/NavigationEvent";
 
 const HomePage = () => {
   const [username, setUsername] = useState("");
@@ -33,22 +36,29 @@ const HomePage = () => {
     <>
       {showunauthorized ? (
         <>
-          <NavigationEvent />
           <ResultEvent
             icon={<FrownOutlined style={{ color: "#318ce7" }} />}
             status="403"
             title="Unauthorized User!"
-            subTitle="Sorry, you are not authorized to access this page. Please login."
-            extra={
+            subTitle="Sorry, you are not authorized to access this page. Please login or register."
+            extra={[
               <Button
                 size="large"
                 type="primary"
                 icon={<LoginOutlined />}
                 href="/login"
               >
-                Login
-              </Button>
-            }
+                LOGIN
+              </Button>,
+              <Button
+                size="large"
+                type="primary"
+                icon={<UserAddOutlined />}
+                href="/register"
+              >
+                REGISTER
+              </Button>,
+            ]}
           />
         </>
       ) : (

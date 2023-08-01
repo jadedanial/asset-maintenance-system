@@ -74,7 +74,7 @@ const Schedule = (props) => {
         headers: { "Content-Type": "application/json" },
         withCredentials: true,
       });
-      api.info(NotificationEvent(true, "Schedule successfully updated."));
+      api.info(NotificationEvent(true, "Employee shift schedule updated."));
     } catch (err) {
       console.log(err.response.data[0]);
     }

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
-import { Layout, Menu, Space, Dropdown, Badge, Col, Avatar, Row } from "antd";
+import { Layout, Menu, Space, Dropdown, Badge, Col, Avatar } from "antd";
 import {
   UserOutlined,
   UnlockOutlined,
@@ -64,16 +65,9 @@ const MainPage = (props) => {
     })();
   }, []);
 
-  async function logout() {
-    try {
-      await axios.post("http://localhost:8000/api/logout", {
-        headers: { "Content-Type": "application/json" },
-        withCredentials: true,
-      });
-      navigate("/login");
-    } catch (err) {
-      console.log(err.response.data[0]);
-    }
+  function logout() {
+    Cookies.remove("jwt");
+    navigate("/login");
   }
 
   function onClick({ key }) {
@@ -177,61 +171,57 @@ const MainPage = (props) => {
           zIndex: "1",
         }}
       >
-        <Row>
-          <Col span={4}>
-            <div style={{ padding: "0 0 0 50px" }}>
-              <img
-                src="images/danialsoft.png"
-                alt="logo"
-                style={{ width: "60%" }}
-              />
+        <div className="space-between-row" style={{ padding: "0 20px 0 35px" }}>
+          <Col>
+            <div>
+              {React.createElement(
+                collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
+                {
+                  className: "trigger",
+                  onClick: () => setCollapsed(!collapsed),
+                }
+              )}
             </div>
           </Col>
-          <Col span={20} style={{ paddingRight: "20px" }}>
-            <div className="flex-end-row">
-              <Space size="large">
-                <Dropdown
-                  menu={{ items, onClick }}
-                  placement="bottomRight"
-                  arrow
-                >
-                  <span className="avatar-item">
-                    <Badge size="small">
-                      <Space size="large">
-                        <Col span={12}>
-                          <p
-                            className="small-font"
-                            style={{ cursor: "pointer", color: "#318ce7" }}
-                          >
-                            {props.empid}
-                          </p>
-                        </Col>
-                        <Col span={12}>
-                          <p
-                            className="small-font"
-                            style={{ cursor: "pointer", color: "#318ce7" }}
-                          >
-                            {props.username}
-                          </p>
-                        </Col>
-                        <Col span={12}>
-                          <Avatar
-                            size="small"
-                            style={{
-                              backgroundColor: "#318ce7",
-                              cursor: "pointer",
-                            }}
-                            icon={<UserOutlined />}
-                          />
-                        </Col>
-                      </Space>
-                    </Badge>
-                  </span>
-                </Dropdown>
-              </Space>
-            </div>
+          <Col>
+            <Space size="large">
+              <Dropdown menu={{ items, onClick }} placement="bottomRight" arrow>
+                <span className="avatar-item">
+                  <Badge size="small">
+                    <Space size="large">
+                      <Col span={12}>
+                        <p
+                          className="small-font"
+                          style={{ cursor: "pointer", color: "#318ce7" }}
+                        >
+                          {props.empid}
+                        </p>
+                      </Col>
+                      <Col span={12}>
+                        <p
+                          className="small-font"
+                          style={{ cursor: "pointer", color: "#318ce7" }}
+                        >
+                          {props.username}
+                        </p>
+                      </Col>
+                      <Col span={12}>
+                        <Avatar
+                          size="small"
+                          style={{
+                            backgroundColor: "#318ce7",
+                            cursor: "pointer",
+                          }}
+                          icon={<UserOutlined />}
+                        />
+                      </Col>
+                    </Space>
+                  </Badge>
+                </span>
+              </Dropdown>
+            </Space>
           </Col>
-        </Row>
+        </div>
         <div
           style={{
             marginTop: "1px",
@@ -253,25 +243,14 @@ const MainPage = (props) => {
             position: "fixed",
             left: 0,
             top: 0,
-            bottom: 0,
-            paddingTop: "50px",
             background: "#fff",
           }}
         >
-          <div className="justified-row" style={{ marginBottom: "30px" }}>
-            {React.createElement(
-              collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
-              {
-                className: "trigger",
-                onClick: () => setCollapsed(!collapsed),
-              }
-            )}
-          </div>
           <Menu
             defaultSelectedKeys={[1]}
             mode="inline"
             items={modules}
-            style={{ fontSize: "12px", background: "#fff" }}
+            style={{ fontSize: "12px", background: "#fff", marginTop: "20px" }}
             onClick={(e) => setSelectedMenuItem(e.key)}
           />
         </Sider>

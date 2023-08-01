@@ -4,7 +4,7 @@ import { Result } from "antd";
 const ResultEvent = (props) => {
   return (
     <>
-      <div style={{ marginTop: 40 }}>
+      <div>
         <Result
           icon={props.icon}
           status={props.status}

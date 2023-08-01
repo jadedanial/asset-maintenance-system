@@ -7,12 +7,11 @@ import {
   UserAddOutlined,
   MailOutlined,
   LockOutlined,
-  SmileTwoTone,
+  CheckCircleOutlined,
   LoginOutlined,
   IdcardOutlined,
 } from "@ant-design/icons";
 import ResultEvent from "../components/ResultEvent";
-import NavigationEvent from "../components/NavigationEvent";
 
 const { Title } = Typography;
 
@@ -24,10 +23,8 @@ const RegisterPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [success, setSuccess] = useState(false);
-  const [redirect, setRedirect] = useState(false);
 
   async function onFinish() {
-    setRedirect(true);
     setLabel("");
     try {
       await axios.post(
@@ -52,43 +49,15 @@ const RegisterPage = () => {
     }
   }
 
-  function onFinishFailed() {
-    setRedirect(false);
-  }
-
   function onFieldsChange() {
     setLabel("Add New User");
     setColor("#318ce7");
   }
 
-  if (success && redirect) {
-    return (
-      <>
-        <NavigationEvent />
-        <ResultEvent
-          icon={<SmileTwoTone style={{ color: "#318ce7" }} />}
-          status="success"
-          title="Successfully added new User!"
-          subTitle={"Username: " + username + "   Email: " + email}
-          extra={
-            <Button
-              size="large"
-              type="primary"
-              icon={<LoginOutlined />}
-              href="/login"
-            >
-              Login
-            </Button>
-          }
-        />
-      </>
-    );
-  }
-
   return (
     <>
       <Layout style={{ height: "100%" }}>
-        <div className="space-between-row" style={{ marginTop: "100px" }}>
+        <div className="space-between-row" style={{ marginTop: "80px" }}>
           <Col span={11}>
             <div className="flex-end-row">
               <Card
@@ -106,7 +75,7 @@ const RegisterPage = () => {
                   />
                 </Row>
                 <Row style={{ marginTop: "20px" }}>
-                  <p className="bigger-font">
+                  <p className="big-font">
                     Keeping your assets in top shape for optimal performance.
                   </p>
                 </Row>
@@ -115,147 +84,175 @@ const RegisterPage = () => {
           </Col>
           <Col span={11}>
             <div className="flex-start-row">
-              <Card
-                size="large"
-                title={
-                  <Title>
-                    <p className="big-card-title" style={{ color: color }}>
-                      {label}
-                    </p>
-                  </Title>
-                }
-                style={{ width: "400px" }}
-                hoverable
-              >
-                <Form
-                  name="register"
-                  className="login-form ant-form-item-space-bottom-normal"
+              {success ? (
+                <Card size="large" style={{ width: "400px" }} hoverable>
+                  <ResultEvent
+                    icon={<CheckCircleOutlined style={{ color: "#318ce7" }} />}
+                    status="success"
+                    title="Successfully added new User!"
+                    subTitle={"Username: " + username + "   Email: " + email}
+                    extra={
+                      <Button
+                        size="large"
+                        type="primary"
+                        icon={<LoginOutlined />}
+                        href="/login"
+                      >
+                        Login
+                      </Button>
+                    }
+                  />
+                </Card>
+              ) : (
+                <Card
                   size="large"
-                  initialValues={{ remember: true }}
-                  onFinish={onFinish}
-                  onFinishFailed={onFinishFailed}
-                  onFieldsChange={onFieldsChange}
+                  title={
+                    <Title>
+                      <p className="big-card-title" style={{ color: color }}>
+                        {label}
+                      </p>
+                    </Title>
+                  }
+                  style={{ width: "400px" }}
+                  hoverable
                 >
-                  <Form.Item
-                    name="id"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please input employee ID!",
-                      },
-                    ]}
+                  <Form
+                    name="register"
+                    className="login-form ant-form-item-space-bottom-normal"
+                    size="large"
+                    initialValues={{ remember: true }}
+                    onFinish={onFinish}
+                    onFieldsChange={onFieldsChange}
                   >
-                    <Input
-                      className="medium-font"
-                      prefix={
-                        <IdcardOutlined className="site-form-item-icon" />
-                      }
-                      placeholder="Employee ID"
-                      onChange={(e) => setEmployeeID(e.target.value)}
-                    />
-                  </Form.Item>
-                  <Form.Item
-                    name="username"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please input employee username!",
-                      },
-                    ]}
-                  >
-                    <Input
-                      className="medium-font"
-                      prefix={<UserOutlined className="site-form-item-icon" />}
-                      placeholder="Username"
-                      onChange={(e) => setUsername(e.target.value)}
-                    />
-                  </Form.Item>
-                  <Form.Item
-                    name="email"
-                    rules={[
-                      {
-                        type: "email",
-                        message: "The input is not valid Email!",
-                      },
-                      {
-                        required: true,
-                        message: "Please input employee email!",
-                      },
-                    ]}
-                  >
-                    <Input
-                      className="medium-font"
-                      prefix={<MailOutlined className="site-form-item-icon" />}
-                      type="email"
-                      placeholder="Email"
-                      onChange={(e) => setEmail(e.target.value)}
-                    />
-                  </Form.Item>
-                  <Form.Item
-                    name="password"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please input employee password!",
-                      },
-                    ]}
-                    hasFeedback
-                  >
-                    <Input
-                      className="medium-font"
-                      prefix={<LockOutlined className="site-form-item-icon" />}
-                      type="password"
-                      placeholder="Password"
-                      onChange={(e) => setPassword(e.target.value)}
-                    />
-                  </Form.Item>
-                  <Form.Item
-                    name="confirm"
-                    dependencies={["password"]}
-                    hasFeedback
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please confirm employee password!",
-                      },
-                      ({ getFieldValue }) => ({
-                        validator(_, value) {
-                          if (!value || getFieldValue("password") === value) {
-                            return Promise.resolve();
-                          }
-                          return Promise.reject(
-                            new Error(
-                              "The two Passwords that you entered do not match!"
-                            )
-                          );
+                    <Form.Item
+                      name="id"
+                      rules={[
+                        {
+                          required: true,
+                          message: "Please input employee ID!",
                         },
-                      }),
-                    ]}
-                  >
-                    <Input
-                      className="medium-font"
-                      prefix={<LockOutlined className="site-form-item-icon" />}
-                      type="password"
-                      placeholder="Confirm Password"
-                    />
-                  </Form.Item>
-                  <Form.Item>
-                    <Button
-                      size="large"
-                      type="primary"
-                      htmlType="submit"
-                      style={{ marginTop: "24px" }}
-                      icon={<UserAddOutlined />}
-                      block
+                      ]}
                     >
-                      REGISTER
-                    </Button>
-                  </Form.Item>
-                </Form>
-                <Link to="/login" className="justified-row medium-font">
-                  Already have an account
-                </Link>
-              </Card>
+                      <Input
+                        className="medium-font"
+                        prefix={
+                          <IdcardOutlined className="site-form-item-icon" />
+                        }
+                        placeholder="Employee ID"
+                        onChange={(e) => setEmployeeID(e.target.value)}
+                      />
+                    </Form.Item>
+                    <Form.Item
+                      name="username"
+                      rules={[
+                        {
+                          required: true,
+                          message: "Please input employee username!",
+                        },
+                      ]}
+                    >
+                      <Input
+                        className="medium-font"
+                        prefix={
+                          <UserOutlined className="site-form-item-icon" />
+                        }
+                        placeholder="Username"
+                        onChange={(e) => setUsername(e.target.value)}
+                      />
+                    </Form.Item>
+                    <Form.Item
+                      name="email"
+                      rules={[
+                        {
+                          type: "email",
+                          message: "The input is not valid Email!",
+                        },
+                        {
+                          required: true,
+                          message: "Please input employee email!",
+                        },
+                      ]}
+                    >
+                      <Input
+                        className="medium-font"
+                        prefix={
+                          <MailOutlined className="site-form-item-icon" />
+                        }
+                        type="email"
+                        placeholder="Email"
+                        onChange={(e) => setEmail(e.target.value)}
+                      />
+                    </Form.Item>
+                    <Form.Item
+                      name="password"
+                      rules={[
+                        {
+                          required: true,
+                          message: "Please input employee password!",
+                        },
+                      ]}
+                      hasFeedback
+                    >
+                      <Input
+                        className="medium-font"
+                        prefix={
+                          <LockOutlined className="site-form-item-icon" />
+                        }
+                        type="password"
+                        placeholder="Password"
+                        onChange={(e) => setPassword(e.target.value)}
+                      />
+                    </Form.Item>
+                    <Form.Item
+                      name="confirm"
+                      dependencies={["password"]}
+                      hasFeedback
+                      rules={[
+                        {
+                          required: true,
+                          message: "Please confirm employee password!",
+                        },
+                        ({ getFieldValue }) => ({
+                          validator(_, value) {
+                            if (!value || getFieldValue("password") === value) {
+                              return Promise.resolve();
+                            }
+                            return Promise.reject(
+                              new Error(
+                                "The two Passwords that you entered do not match!"
+                              )
+                            );
+                          },
+                        }),
+                      ]}
+                    >
+                      <Input
+                        className="medium-font"
+                        prefix={
+                          <LockOutlined className="site-form-item-icon" />
+                        }
+                        type="password"
+                        placeholder="Confirm Password"
+                      />
+                    </Form.Item>
+                    <Form.Item>
+                      <Button
+                        size="large"
+                        type="primary"
+                        htmlType="submit"
+                        style={{ marginTop: "24px" }}
+                        icon={<UserAddOutlined />}
+                        block
+                      >
+                        REGISTER
+                      </Button>
+                    </Form.Item>
+                  </Form>
+                  <Link to="/login" className="justified-row medium-font">
+                    Already have an account
+                  </Link>
+                </Card>
+              )}
             </div>
           </Col>
         </div>

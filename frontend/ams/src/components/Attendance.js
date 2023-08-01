@@ -36,7 +36,7 @@ const Attendance = (props, ref) => {
   const [attendances, setAttendances] = useState([]);
   const [attendStatus, setAttendStatus] = useState("");
   const [attendanceData, setAttendanceData] = useState([]);
-  const [attendanceMode, setAttendanceMode] = useState("Add Attendance");
+  const [attendanceMode, setAttendanceMode] = useState("ADD ATTENDANCE");
   const [checkInTime, setCheckInTime] = useState("--:--:--");
   const [checkOutTime, setCheckOutTime] = useState("--:--:--");
   const [attendButton, setAttendButton] = useState("none");
@@ -116,7 +116,7 @@ const Attendance = (props, ref) => {
   function onSelect(newValue) {
     setAttendButton("");
     setSelectedDate(String(moment(newValue).format("MMMM DD, YYYY")));
-    updateStatus("No Attendance Data", [], "Add Attendance");
+    updateStatus("No Attendance Data", [], "ADD ATTENDANCE");
     setCheckInTime("--:--:--");
     setCheckOutTime("--:--:--");
     for (const [, value] of Object.entries(attendances)) {
@@ -127,7 +127,7 @@ const Attendance = (props, ref) => {
         for (let key in value) {
           attendData.push(key + " : " + value[key]);
         }
-        updateStatus(String(value["Status"]), attendData, "Update Attendance");
+        updateStatus(String(value["Status"]), attendData, "UPDATE ATTENDANCE");
         setCheckInTime(String(value["Check In"]));
         setCheckOutTime(String(value["Check Out"]));
       }

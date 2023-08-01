@@ -1,17 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { Navigate, Link } from "react-router-dom";
-import {
-  Layout,
-  Form,
-  Checkbox,
-  Button,
-  Input,
-  Card,
-  Typography,
-  Col,
-  Row,
-} from "antd";
+import { Layout, Form, Button, Input, Card, Typography, Col, Row } from "antd";
 import { UserOutlined, LockOutlined, LoginOutlined } from "@ant-design/icons";
 import HomePage from "./Home";
 
@@ -20,76 +10,29 @@ const { Title } = Typography;
 const LoginPage = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [remember, setRemember] = useState(false);
-  const [inputReq, setInputReq] = useState(true);
-  const [isCheck, setIsCheck] = useState(false);
-  const [redirect, setRedirect] = useState(false);
   const [showunauthorized, setShowunauthorized] = useState(false);
+  const [redirect, setRedirect] = useState(false);
 
-  useEffect(() => {
-    (async () => {
-      try {
-        await axios.get("http://localhost:8000/api/user", {
+  async function onFinish() {
+    try {
+      await axios.post(
+        "http://localhost:8000/api/login",
+        {
+          username: username,
+          password: password,
+        },
+        {
           headers: { "Content-Type": "application/json" },
           withCredentials: true,
-        });
-      } catch (err) {
-        console.log(err.response.data[0]);
-      }
-    })();
-  });
-
-  async function handleSubmit() {
-    if (username !== "" && password !== "") {
-      try {
-        await axios.post(
-          "http://localhost:8000/api/login",
-          {
-            username: username,
-            password: password,
-          },
-          {
-            headers: { "Content-Type": "application/json" },
-            withCredentials: true,
-          }
-        );
-        setShowunauthorized(false);
-        setRedirect(true);
-        if (remember) {
-          localStorage.setItem("RememberMe", JSON.stringify(username));
-        } else {
-          localStorage.removeItem("RememberMe");
         }
-      } catch (err) {
-        console.log(err.response.data[0]);
-        setShowunauthorized(true);
-        setRedirect(false);
-      }
+      );
+      setShowunauthorized(false);
+      setRedirect(true);
+    } catch (err) {
+      console.log(err.response.data[0]);
+      setShowunauthorized(true);
+      setRedirect(false);
     }
-  }
-
-  function toggleChecked() {
-    setIsCheck(!isCheck);
-  }
-
-  function rememberUser() {
-    if (localStorage.getItem("RememberMe") !== null) {
-      const remUser = JSON.parse(localStorage.getItem("RememberMe"));
-      setUsername(remUser);
-      setInputReq(false);
-      setIsCheck(true);
-      return remUser;
-    } else {
-      return "";
-    }
-  }
-
-  if (redirect) {
-    return (
-      <>
-        <Navigate to="/" />
-      </>
-    );
   }
 
   if (showunauthorized) {
@@ -100,10 +43,18 @@ const LoginPage = () => {
     );
   }
 
+  if (redirect) {
+    return (
+      <>
+        <Navigate to="/" />
+      </>
+    );
+  }
+
   return (
     <>
       <Layout style={{ height: "100%" }}>
-        <div className="space-between-row" style={{ marginTop: "100px" }}>
+        <div className="space-between-row" style={{ marginTop: "80px" }}>
           <Col span={11}>
             <div className="flex-end-row">
               <Card
@@ -121,7 +72,7 @@ const LoginPage = () => {
                   />
                 </Row>
                 <Row style={{ marginTop: "20px" }}>
-                  <p className="bigger-font">
+                  <p className="big-font">
                     Keeping your assets in top shape for optimal performance.
                   </p>
                 </Row>
@@ -145,13 +96,14 @@ const LoginPage = () => {
                   className="login-form ant-form-item-space-bottom-normal"
                   size="large"
                   initialValues={{ remember: true }}
+                  onFinish={onFinish}
                 >
                   <Form.Item
                     name="username"
                     rules={[
                       {
-                        required: inputReq,
-                        message: "Please input employee username!",
+                        required: true,
+                        message: "Please input username!",
                       },
                     ]}
                   >
@@ -159,7 +111,6 @@ const LoginPage = () => {
                       className="medium-font"
                       prefix={<UserOutlined className="site-form-item-icon" />}
                       placeholder="Username"
-                      initialValue={rememberUser}
                       onChange={(e) => setUsername(e.target.value)}
                     />
                   </Form.Item>
@@ -168,7 +119,7 @@ const LoginPage = () => {
                     rules={[
                       {
                         required: true,
-                        message: "Please input employee password!",
+                        message: "Please input password!",
                       },
                     ]}
                   >
@@ -180,16 +131,6 @@ const LoginPage = () => {
                       onChange={(e) => setPassword(e.target.value)}
                     />
                   </Form.Item>
-                  <Form.Item name="remember" style={{ marginBottom: "20px" }}>
-                    <Checkbox
-                      className="medium-font"
-                      checked={isCheck}
-                      onClick={toggleChecked}
-                      onChange={(e) => setRemember(e.target.checked)}
-                    >
-                      Remember Me
-                    </Checkbox>
-                  </Form.Item>
                   <Form.Item>
                     <Button
                       size="large"
@@ -197,7 +138,6 @@ const LoginPage = () => {
                       htmlType="submit"
                       style={{ marginTop: "24px" }}
                       icon={<LoginOutlined />}
-                      onClick={handleSubmit}
                       block
                     >
                       LOGIN
