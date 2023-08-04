@@ -170,6 +170,9 @@ const Employee = (props) => {
             pageSizeOptions: ["10", "20", "30"],
           }}
           size="small"
+          scroll={{
+            y: "50vh",
+          }}
         />
       </Card>
       <DrawerEvent

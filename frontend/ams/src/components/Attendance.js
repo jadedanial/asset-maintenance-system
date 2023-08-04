@@ -41,6 +41,7 @@ const Attendance = (props, ref) => {
   const [checkOutTime, setCheckOutTime] = useState("--:--:--");
   const [attendButton, setAttendButton] = useState("none");
   const [openModal, setOpenModal] = useState(false);
+  const [withData, setWithData] = useState(false);
   const [api, contextHolder] = notification.useNotification();
 
   useEffect(() => {
@@ -114,6 +115,7 @@ const Attendance = (props, ref) => {
   }
 
   function onSelect(newValue) {
+    setWithData(true);
     setAttendButton("");
     setSelectedDate(String(moment(newValue).format("MMMM DD, YYYY")));
     updateStatus("No Attendance Data", [], "ADD ATTENDANCE");
@@ -365,56 +367,57 @@ const Attendance = (props, ref) => {
         </Card>
       </Row>
       <Row style={{ marginTop: "40px" }}>
-        <Col span={7}>
-          <Card
-            style={{
-              background: "#E6F7FF",
-              borderColor: "#91D5FF",
-              height: "100%",
-              padding: "0 10px",
-            }}
-          >
-            <Row>
-              <p className="medium-card-title">{attendStatus}</p>
-            </Row>
-            <Row style={{ marginTop: "10px" }}>
-              <Button
-                size="large"
-                type="primary"
-                className="custom-hover"
-                style={{ margin: "0", display: attendButton }}
-                onClick={() => showModal()}
-              >
-                {attendanceMode}
-              </Button>
-            </Row>
-            <Row style={{ marginTop: "38px" }}>
-              <Timeline>
-                {attendanceData.map((data) => (
-                  <div>
-                    <Timeline.Item
-                      dot={<ClockCircleOutlined style={{ fontSize: "" }} />}
-                      className="small-font"
-                    >
-                      {data}
-                    </Timeline.Item>
-                  </div>
-                ))}
-              </Timeline>
-            </Row>
-          </Card>
-        </Col>
-        <Col span={1}></Col>
-        <Col span={16}>
-          <Card>
-            <Calendar
-              fullscreen={true}
-              mode="month"
-              onSelect={onSelect}
-              dateCellRender={dateCellRender}
-            />
-          </Card>
-        </Col>
+        <div className="space-between-row">
+          <Col span={withData ? 7 : 0}>
+            <Card
+              style={{
+                background: "#e6f7ff",
+                borderColor: "#91d5ff",
+                height: "100%",
+                padding: "0 10px",
+              }}
+            >
+              <Row>
+                <p className="medium-card-title">{attendStatus}</p>
+              </Row>
+              <Row style={{ marginTop: "10px" }}>
+                <Button
+                  size="large"
+                  type="primary"
+                  className="custom-hover"
+                  style={{ margin: "0", display: attendButton }}
+                  onClick={() => showModal()}
+                >
+                  {attendanceMode}
+                </Button>
+              </Row>
+              <Row style={{ marginTop: "38px" }}>
+                <Timeline>
+                  {attendanceData.map((data) => (
+                    <div>
+                      <Timeline.Item
+                        dot={<ClockCircleOutlined style={{ fontSize: "" }} />}
+                        className="small-font"
+                      >
+                        {data}
+                      </Timeline.Item>
+                    </div>
+                  ))}
+                </Timeline>
+              </Row>
+            </Card>
+          </Col>
+          <Col span={withData ? 16 : 24}>
+            <Card>
+              <Calendar
+                fullscreen={true}
+                mode="month"
+                onSelect={onSelect}
+                dateCellRender={dateCellRender}
+              />
+            </Card>
+          </Col>
+        </div>
       </Row>
       {componentSwitch(openModal)}
     </>

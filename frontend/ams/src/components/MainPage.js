@@ -93,23 +93,17 @@ const MainPage = (props) => {
   function iconsSwitch(icon) {
     switch (icon) {
       case "SettingOutlined":
-        return (
-          <SettingOutlined style={{ fontSize: "20px", color: "#318ce7" }} />
-        );
+        return <SettingOutlined style={{ fontSize: "20px", color: "#fff" }} />;
       case "TeamOutlined":
-        return <TeamOutlined style={{ fontSize: "20px", color: "#318ce7" }} />;
+        return <TeamOutlined style={{ fontSize: "20px", color: "#fff" }} />;
       case "ShoppingCartOutlined":
         return (
-          <ShoppingCartOutlined
-            style={{ fontSize: "20px", color: "#318ce7" }}
-          />
+          <ShoppingCartOutlined style={{ fontSize: "20px", color: "#fff" }} />
         );
       case "CarOutlined":
-        return <CarOutlined style={{ fontSize: "20px", color: "#318ce7" }} />;
+        return <CarOutlined style={{ fontSize: "20px", color: "#fff" }} />;
       case "BarChartOutlined":
-        return (
-          <BarChartOutlined style={{ fontSize: "20px", color: "#318ce7" }} />
-        );
+        return <BarChartOutlined style={{ fontSize: "20px", color: "#fff" }} />;
       default:
         break;
     }
@@ -160,113 +154,110 @@ const MainPage = (props) => {
 
   return (
     <>
-      <Header
-        style={{
-          padding: "0",
-          background: "#fff",
-          height: "65px",
-          borderBottom: "1px solid #318ce7",
-          position: "sticky",
-          top: "0",
-          zIndex: "1",
-        }}
-      >
-        <div className="space-between-row" style={{ padding: "0 20px 0 35px" }}>
-          <Col>
-            <div>
-              {React.createElement(
-                collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
-                {
-                  className: "trigger",
-                  onClick: () => setCollapsed(!collapsed),
-                }
-              )}
-            </div>
-          </Col>
-          <Col>
-            <Space size="large">
-              <Dropdown menu={{ items, onClick }} placement="bottomRight" arrow>
-                <span className="avatar-item">
-                  <Badge size="small">
-                    <Space size="large">
-                      <Col span={12}>
-                        <p
-                          className="small-font"
-                          style={{ cursor: "pointer", color: "#318ce7" }}
-                        >
-                          {props.empid}
-                        </p>
-                      </Col>
-                      <Col span={12}>
-                        <p
-                          className="small-font"
-                          style={{ cursor: "pointer", color: "#318ce7" }}
-                        >
-                          {props.username}
-                        </p>
-                      </Col>
-                      <Col span={12}>
-                        <Avatar
-                          size="small"
-                          style={{
-                            backgroundColor: "#318ce7",
-                            cursor: "pointer",
-                          }}
-                          icon={<UserOutlined />}
-                        />
-                      </Col>
-                    </Space>
-                  </Badge>
-                </span>
-              </Dropdown>
-            </Space>
-          </Col>
-        </div>
-        <div
-          style={{
-            marginTop: "1px",
-            marginLeft: collapsed ? "80px" : "200px",
-            transition: "0.2s ease-in-out",
-            height: "22px",
-            background: "#F0F2F5",
-          }}
-        ></div>
-      </Header>
-      <Layout hasSider>
+      <Layout>
         <Sider
           trigger={null}
           collapsible
           collapsed={collapsed}
           style={{
-            overflow: "auto",
             height: "100vh",
-            position: "fixed",
-            left: 0,
-            top: 0,
-            background: "#fff",
+            background: "#108ee9",
           }}
         >
           <Menu
             defaultSelectedKeys={[1]}
             mode="inline"
             items={modules}
-            style={{ fontSize: "12px", background: "#fff", marginTop: "20px" }}
+            style={{
+              fontSize: "12px",
+              background: "#108ee9",
+              marginTop: "85px",
+            }}
             onClick={(e) => setSelectedMenuItem(e.key)}
           />
         </Sider>
-        <Layout
-          className="site-layout"
-          style={{
-            marginLeft: collapsed ? "80px" : "200px",
-            transition: "0.2s ease-in-out",
-          }}
-        >
-          <Content
-            className="site-layout-background"
-            style={{ margin: "20px" }}
+        <Layout>
+          <Header
+            style={{
+              padding: "0",
+              background: "#fff",
+              height: "65px",
+              position: "sticky",
+              top: "0",
+              zIndex: "1",
+            }}
           >
-            {componentSwitch(selectedMenuItem)}
-          </Content>
+            <div className="space-between-row" style={{ padding: "0 20px" }}>
+              <Col>
+                <div>
+                  {React.createElement(
+                    collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
+                    {
+                      className: "trigger",
+                      onClick: () => setCollapsed(!collapsed),
+                    }
+                  )}
+                </div>
+              </Col>
+              <Col>
+                <Space size="large">
+                  <Dropdown
+                    menu={{ items, onClick }}
+                    placement="bottomRight"
+                    arrow
+                  >
+                    <span className="avatar-item">
+                      <Badge size="small">
+                        <Space size="large">
+                          <Col span={12}>
+                            <p
+                              className="small-font"
+                              style={{ cursor: "pointer", color: "#318ce7" }}
+                            >
+                              {props.empid}
+                            </p>
+                          </Col>
+                          <Col span={12}>
+                            <p
+                              className="small-font"
+                              style={{ cursor: "pointer", color: "#318ce7" }}
+                            >
+                              {props.username}
+                            </p>
+                          </Col>
+                          <Col span={12}>
+                            <Avatar
+                              size="small"
+                              style={{
+                                backgroundColor: "#318ce7",
+                                cursor: "pointer",
+                              }}
+                              icon={<UserOutlined />}
+                            />
+                          </Col>
+                        </Space>
+                      </Badge>
+                    </span>
+                  </Dropdown>
+                </Space>
+              </Col>
+            </div>
+            <div
+              style={{
+                marginTop: "1px",
+                height: "22px",
+                background: "#F0F2F5",
+              }}
+            ></div>
+          </Header>
+          <Layout className="site-layout">
+            <Content
+              className="site-layout-background"
+              style={{ margin: "20px" }}
+            >
+              {componentSwitch(selectedMenuItem)}
+            </Content>
+          </Layout>
         </Layout>
       </Layout>
     </>

@@ -14,6 +14,7 @@
 }
 
 body {
+  overflow: hidden;
   background-color: #f0f2f5 !important;
 }
 
@@ -43,12 +44,12 @@ h1 {
   text-align: center !important;
 }
 
-.ant-layout-sider {
-  margin-top: 65px !important;
+.ant-menu {
+  border-right: 1px solid #108ee9 !important;
 }
 
 .ant-menu-sub {
-  background-color: #fff !important;
+  background-color: #108ee9 !important;
 }
 
 .ant-menu-submenu-arrow {
@@ -56,13 +57,17 @@ h1 {
 }
 
 .ant-menu-title-content {
-  color: #318ce7;
+  color: #fff;
   font-family: ralewayregular;
   font-size: 16px;
 }
 
 .ant-menu-item-selected {
-  background-color: #e6f7ff !important;
+  background-color: #0a73d5 !important;
+}
+
+.ant-menu-item:after {
+  border: 0 !important;
 }
 
 #components-layout-demo-custom-trigger .trigger {
@@ -288,7 +293,7 @@ h1.ant-typography {
 
 .ant-table-thead {
   position: sticky !important;
-  top: 196px !important;
+  top: 109px !important;
   z-index: 1 !important;
 }
 
@@ -398,6 +403,12 @@ td.ant-table-column-sort {
 
 .ant-drawer-body {
   overflow: auto !important;
+  padding: 0 !important;
+}
+
+.ant-drawer-content-wrapper {
+  width: 100% !important;
+  transform: translateX(0) !important;
 }
 
 .ant-form-item {

@@ -4,7 +4,6 @@ import {
   Form,
   Col,
   Row,
-  Typography,
   Space,
   Button,
   Modal,
@@ -15,8 +14,6 @@ import {
 import { CloseOutlined } from "@ant-design/icons";
 import moment from "moment";
 import NotificationEvent from "./NotificationEvent";
-
-const { Title } = Typography;
 
 const AddAttendance = (props) => {
   const timeFormat = "HH:mm:ss";
@@ -340,11 +337,6 @@ const AddAttendance = (props) => {
         closeIcon={<CloseOutlined style={{ color: "#318ce7" }} />}
         centered
         maskClosable={false}
-        title={
-          <Title>
-            <p className="large-card-title">{props.mode}</p>
-          </Title>
-        }
         open={props.showModal}
         onCancel={props.onCloseModal}
         footer={""}
