@@ -164,6 +164,19 @@ const MainPage = (props) => {
             background: "#108ee9",
           }}
         >
+          <div
+            className="flex-start-row"
+            style={{ margin: "15px 0 15px 32px" }}
+          >
+            <img
+              src={collapsed ? "images/d.png" : "images/danialsoft.png"}
+              alt="logo"
+              style={{
+                width: collapsed ? "30%" : "50%",
+                filter: "brightness(0) invert(1)",
+              }}
+            />
+          </div>
           <Menu
             defaultSelectedKeys={[1]}
             mode="inline"
@@ -171,7 +184,7 @@ const MainPage = (props) => {
             style={{
               fontSize: "12px",
               background: "#108ee9",
-              marginTop: "85px",
+              marginTop: "30px",
             }}
             onClick={(e) => setSelectedMenuItem(e.key)}
           />
@@ -189,7 +202,7 @@ const MainPage = (props) => {
           >
             <div className="space-between-row" style={{ padding: "0 20px" }}>
               <Col>
-                <div>
+                <div style={{ color: "#318ce7" }}>
                   {React.createElement(
                     collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
                     {
