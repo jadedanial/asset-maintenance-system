@@ -216,6 +216,36 @@ class AttendanceAdmin(admin.ModelAdmin):
     )
 
 
+class VacationAdmin(admin.ModelAdmin):
+    list_display = (
+        "emp_id",
+        "vac_type",
+        "vac_start",
+        "vac_end",
+        "vac_reason",
+        "vac_attachment",
+        "vac_total",
+    )
+    list_filter = (
+        "emp_id",
+        "vac_type",
+        "vac_start",
+        "vac_end",
+        "vac_reason",
+        "vac_attachment",
+        "vac_total",
+    )
+    search_fields = (
+        "emp_id",
+        "vac_type",
+        "vac_start",
+        "vac_end",
+        "vac_reason",
+        "vac_attachment",
+        "vac_total",
+    )
+
+
 class ItemAdmin(admin.ModelAdmin):
     readonly_fields = (
         "id",
@@ -265,4 +295,5 @@ admin.site.register(Shift, ShiftAdmin)
 admin.site.register(Schedule, ScheduleAdmin)
 admin.site.register(Employee, EmployeeAdmin)
 admin.site.register(Attendance, AttendanceAdmin)
+admin.site.register(Vacation, VacationAdmin)
 admin.site.register(Item, ItemAdmin)

@@ -211,6 +211,18 @@ class AttendanceListView(ListAPIView):
     permission_classes = [IsAuthenticatedWithJWT]
 
 
+class VacationView(APIView):
+    permission_classes = [IsAuthenticatedWithJWT]
+
+    def post(self, request):
+        serializer = VacationSerializer(data=request.data)
+        print(request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response(serializer.data)
+
+
 class ItemView(APIView):
     permission_classes = [IsAuthenticatedWithJWT]
 

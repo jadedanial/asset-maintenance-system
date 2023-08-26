@@ -29,6 +29,7 @@ const layout = {
 
 const Vacation = (props) => {
   const dateFormat = "YYYY-MM-DD";
+  const empID = props.empid;
   const [vactypes, setVacationType] = useState([]);
   const [vacation, setVacation] = useState("");
   const [startdate, setStartDate] = useState("");
@@ -324,8 +325,30 @@ const Vacation = (props) => {
     setCurrent(current - 1);
   }
 
-  function apply() {
-    setSuccess(true);
+  async function apply() {
+    var vacData = {
+      emp_id: empID,
+      vac_type: vacation,
+      vac_start: startdate,
+      vac_end: enddate,
+      vac_reason: reason,
+      vac_attachment: attachment,
+      vac_total: days,
+    };
+    try {
+      await axios({
+        method: "POST",
+        url: "http://localhost:8000/api/vacation/",
+        data: vacData,
+        headers: { "Content-Type": "application/json" },
+        withCredentials: true,
+      });
+      setSuccess(true);
+    } catch (err) {
+      console.log(err.response.data[0]);
+      setSuccess(false);
+      api.info(NotificationEvent(false, "Employee vacation failed to add!"));
+    }
   }
 
   function newVacation() {

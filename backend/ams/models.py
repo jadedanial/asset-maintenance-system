@@ -59,7 +59,6 @@ class Option(models.Model):
         Category,
         blank=True,
         null=True,
-        related_name="opt_category",
         on_delete=models.CASCADE,
         verbose_name="Category",
     )
@@ -187,7 +186,7 @@ class Employee(models.Model):
     )
     emp_bdate = models.DateField(blank=True, null=True, verbose_name="Birthdate")
     emp_nation = models.CharField(
-        max_length=100, blank=True, null=True, verbose_name="Nationality"
+        max_length=300, blank=True, null=True, verbose_name="Nationality"
     )
     emp_address = models.CharField(
         max_length=100, blank=True, null=True, verbose_name="Address"
@@ -200,10 +199,10 @@ class Employee(models.Model):
     )
     emp_hired = models.DateField(blank=True, null=True, verbose_name="Date Hired")
     emp_position = models.CharField(
-        max_length=100, blank=True, null=True, verbose_name="Position"
+        max_length=300, blank=True, null=True, verbose_name="Position"
     )
     emp_salary = models.CharField(
-        max_length=100, blank=True, null=True, verbose_name="Salary Grade"
+        max_length=300, blank=True, null=True, verbose_name="Salary Grade"
     )
     emp_sched = models.ForeignKey(
         Schedule,
@@ -243,6 +242,31 @@ class Attendance(models.Model):
         return str(self.attend_date)
 
 
+class Vacation(models.Model):
+    emp_id = models.ForeignKey(
+        Employee,
+        blank=False,
+        null=False,
+        on_delete=models.CASCADE,
+        verbose_name="Employee ID",
+    )
+    vac_type = models.CharField(
+        max_length=300, blank=True, null=True, verbose_name="Vacation Type"
+    )
+    vac_start = models.DateField(blank=True, null=True, verbose_name="Start Date")
+    vac_end = models.DateField(blank=True, null=True, verbose_name="End Date")
+    vac_reason = models.TextField(blank=True, null=True, verbose_name="Reason")
+    vac_attachment = models.CharField(
+        max_length=500, blank=True, null=True, verbose_name="Attachment"
+    )
+    vac_total = models.CharField(
+        max_length=100, blank=True, null=True, verbose_name="Total"
+    )
+
+    def __str__(self):
+        return str(self.emp_id)
+
+
 class Item(models.Model):
     id = models.AutoField(primary_key=True)
     item_code = models.CharField(
@@ -250,13 +274,13 @@ class Item(models.Model):
     )
     item_name = models.TextField(blank=False, null=False, verbose_name="Name")
     item_category = models.CharField(
-        max_length=500, blank=False, null=False, verbose_name="Category"
+        max_length=300, blank=False, null=False, verbose_name="Category"
     )
     item_location = models.CharField(
         max_length=300, blank=False, null=False, verbose_name="Physical Location"
     )
     item_measurement = models.CharField(
-        max_length=500, blank=False, null=False, verbose_name="Unit Of Measurement"
+        max_length=300, blank=False, null=False, verbose_name="Unit Of Measurement"
     )
     item_reorder = models.FloatField(
         blank=False, null=False, verbose_name="Reorder Quantity"

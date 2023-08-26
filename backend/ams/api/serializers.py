@@ -139,6 +139,20 @@ class AttendanceSerializer(serializers.ModelSerializer):
         ]
 
 
+class VacationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Vacation
+        fields = [
+            "emp_id",
+            "vac_type",
+            "vac_start",
+            "vac_end",
+            "vac_reason",
+            "vac_attachment",
+            "vac_total",
+        ]
+
+
 class ItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = Item
