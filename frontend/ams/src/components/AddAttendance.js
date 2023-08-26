@@ -236,20 +236,18 @@ const AddAttendance = (props) => {
   }
 
   function onFinish() {
-    var validdate = true;
-
+    var valid = true;
     if (
       !isNaN(moment(attendCheckin, timeFormat)) &&
       !isNaN(moment(attendCheckout, timeFormat))
     ) {
       if (attendCheckin < attendCheckout) {
-        validdate = true;
+        valid = true;
       } else {
-        validdate = false;
+        valid = false;
       }
     }
-
-    if (validdate) {
+    if (valid) {
       var shiftStart = String(
         dayOfTheWeek(
           "sched_" + String(moment(attendDate).format("ddd")).toLowerCase()
@@ -324,7 +322,7 @@ const AddAttendance = (props) => {
       api.info(NotificationEvent(true, "Attendance saved successfully."));
     } else {
       api.info(
-        NotificationEvent(false, "Check In must less than Check Out time.")
+        NotificationEvent(false, "Check In must less than Check Out time!")
       );
     }
   }

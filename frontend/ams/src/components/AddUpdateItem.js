@@ -210,8 +210,8 @@ const AddUpdateItem = (props) => {
             status="success"
             title={
               update
-                ? "Successfully updated Item!"
-                : "Successfully added new Item!"
+                ? "Successfully updated Item."
+                : "Successfully added new Item."
             }
             subTitle={"Item name " + itemName + " with code " + displayItemCode}
             extra={

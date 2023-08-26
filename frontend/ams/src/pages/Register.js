@@ -89,7 +89,7 @@ const RegisterPage = () => {
                   <ResultEvent
                     icon={<CheckCircleOutlined style={{ color: "#318ce7" }} />}
                     status="success"
-                    title="Successfully added new User!"
+                    title="Successfully added new User."
                     subTitle={"Username: " + username + "   Email: " + email}
                     extra={
                       <Button

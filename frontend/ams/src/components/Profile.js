@@ -158,45 +158,21 @@ const Profile = (props) => {
                     >
                       <Col>
                         <Row style={{ marginBottom: "6px" }}>
-                          <UserOutlined
-                            style={{
-                              fontSize: "20px",
-                              color: "#318ce7",
-                              paddingRight: "10px",
-                            }}
-                          />
+                          <UserOutlined className="detail-icon-label" />
                           <p className="medium-font">{e.emp_position}</p>
                         </Row>
                         <Row style={{ marginBottom: "6px" }}>
-                          <IdcardOutlined
-                            style={{
-                              fontSize: "20px",
-                              color: "#318ce7",
-                              paddingRight: "10px",
-                            }}
-                          />
+                          <IdcardOutlined className="detail-icon-label" />
                           <p className="small-font">{e.emp_id}</p>
                         </Row>
                         <Row style={{ marginBottom: "6px" }}>
-                          <CalendarOutlined
-                            style={{
-                              fontSize: "20px",
-                              color: "#318ce7",
-                              paddingRight: "10px",
-                            }}
-                          />
+                          <CalendarOutlined className="detail-icon-label" />
                           <p className="small-font">
                             Hired {moment(e.emp_hired).format("MMMM DD, YYYY")}
                           </p>
                         </Row>
                         <Row style={{ marginBottom: "6px" }}>
-                          <HeartOutlined
-                            style={{
-                              fontSize: "20px",
-                              color: "#318ce7",
-                              paddingRight: "10px",
-                            }}
-                          />
+                          <HeartOutlined className="detail-icon-label" />
                           <p className="small-font">
                             {expYears(e.emp_bdate)} years old
                           </p>
@@ -204,33 +180,15 @@ const Profile = (props) => {
                       </Col>
                       <Col>
                         <Row style={{ marginBottom: "6px" }}>
-                          <MailOutlined
-                            style={{
-                              fontSize: "20px",
-                              color: "#318ce7",
-                              paddingRight: "10px",
-                            }}
-                          />
+                          <MailOutlined className="detail-icon-label" />
                           <p className="small-font">{e.emp_email}</p>
                         </Row>
                         <Row style={{ marginBottom: "6px" }}>
-                          <PhoneOutlined
-                            style={{
-                              fontSize: "20px",
-                              color: "#318ce7",
-                              paddingRight: "10px",
-                            }}
-                          />
+                          <PhoneOutlined className="detail-icon-label" />
                           <p className="small-font">{e.emp_phone}</p>
                         </Row>
                         <Row style={{ marginBottom: "6px" }}>
-                          <EnvironmentOutlined
-                            style={{
-                              fontSize: "20px",
-                              color: "#318ce7",
-                              paddingRight: "10px",
-                            }}
-                          />
+                          <EnvironmentOutlined className="detail-icon-label" />
                           <p className="small-font">{e.emp_address}</p>
                         </Row>
                       </Col>
@@ -256,6 +214,7 @@ const Profile = (props) => {
                             allowHalf
                             count={5}
                             value={star(expYears(e.emp_hired))}
+                            style={{ color: "#318ce7" }}
                           />
                         </Row>
                       </Col>

@@ -80,10 +80,10 @@ const CartItem = (props) => {
             itemCount > 1
               ? "Successfully added " +
                 itemCount.toString() +
-                " Items to inventory!"
+                " Items to inventory."
               : "Successfully added " +
                 itemCount.toString() +
-                " Item to inventory!"
+                " Item to inventory."
           }
           subTitle={"Transaction ID 0587864"}
         />

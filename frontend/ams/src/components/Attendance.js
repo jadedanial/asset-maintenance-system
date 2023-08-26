@@ -294,7 +294,7 @@ const Attendance = (props, ref) => {
               title={
                 <Title>
                   <Row className="justified-row">
-                    <p className="extra-small-font">{item.title}</p>
+                    <p className="small-font">{item.title}</p>
                   </Row>
                 </Title>
               }

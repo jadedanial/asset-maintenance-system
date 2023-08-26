@@ -217,7 +217,8 @@ h1.ant-typography {
 .big-card-title,
 .large-card-title,
 .medium-card-title,
-.small-card-title {
+.small-card-title,
+.extra-small-card-title {
   color: #318ce7;
   font-family: ralewaymedium !important;
   font-weight: 500 !important;
@@ -235,7 +236,7 @@ h1.ant-typography {
 }
 
 .big-card-title {
-  font-size: 22px !important;
+  font-size: 24px !important;
 }
 
 .large-card-title {
@@ -248,6 +249,10 @@ h1.ant-typography {
 
 .small-card-title {
   font-size: 14px !important;
+}
+
+.extra-small-card-title {
+  font-size: 12px !important;
 }
 
 .bigger-font,
@@ -408,11 +413,10 @@ td.ant-table-column-sort {
 
 .ant-drawer-content-wrapper {
   width: 100% !important;
-  transform: translateX(0) !important;
 }
 
 .ant-form-item {
-  margin: 0 0 35px 0 !important;
+  margin: 0 0 25px 0 !important;
 }
 
 .ant-form-item-space-bottom-normal .ant-form-item {
@@ -476,6 +480,10 @@ td.ant-table-column-sort {
   font-size: 18px !important;
 }
 
+.ant-list-item-meta-content {
+  font-family: ralewayregular !important;
+}
+
 .ant-list-custom .ant-list-item {
   padding: 6px 0;
 }
@@ -517,6 +525,15 @@ td.ant-table-column-sort {
   padding: 5px 35px 5px 0 !important;
 }
 
-.no-margin {
-  margin: 0 !important;
+.detail-icon-label {
+  font-size: 22px;
+  color: #318ce7 !important;
+  padding-right: 10px;
+}
+
+input::file-selector-button {
+  font-size: 14px !important;
+  color: #318ce7 !important;
+  background: none;
+  border: 0;
 }

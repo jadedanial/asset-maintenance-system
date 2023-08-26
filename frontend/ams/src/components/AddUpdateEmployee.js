@@ -254,8 +254,8 @@ const AddUpdateEmployee = (props) => {
             status="success"
             title={
               update
-                ? "Successfully updated Employee!"
-                : "Successfully added new Employee!"
+                ? "Successfully updated Employee."
+                : "Successfully added new Employee."
             }
             subTitle={
               "Employee name " + employeeName + " with ID " + displayEmployeeID
@@ -339,6 +339,7 @@ const AddUpdateEmployee = (props) => {
                         ]}
                       >
                         <DatePicker
+                          placeholder=""
                           value={
                             employeeBirthdate === ""
                               ? ""
@@ -467,6 +468,7 @@ const AddUpdateEmployee = (props) => {
                     ]}
                   >
                     <DatePicker
+                      placeholder=""
                       value={
                         employeeDateHired === ""
                           ? ""

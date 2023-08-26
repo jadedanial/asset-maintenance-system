@@ -14,7 +14,11 @@ import {
   Avatar,
   notification,
 } from "antd";
-import { AppstoreAddOutlined, ShoppingCartOutlined } from "@ant-design/icons";
+import {
+  AppstoreAddOutlined,
+  ShoppingCartOutlined,
+  SearchOutlined,
+} from "@ant-design/icons";
 import DrawerEvent from "../components/DrawerEvent";
 import NotificationEvent from "../components/NotificationEvent";
 
@@ -62,7 +66,7 @@ const Reorder = (props) => {
       width: "20%",
     },
     {
-      title: "",
+      title: "Add",
       dataIndex: "action",
       key: "action",
       width: "2%",
@@ -129,6 +133,7 @@ const Reorder = (props) => {
   };
 
   async function searchItem(value) {
+    clearSearch();
     try {
       await axios
         .get("http://localhost:8000/api/items", {
@@ -276,16 +281,15 @@ const Reorder = (props) => {
                       : "Cart (" + itemCount.toString() + " Item)"
                   }
                 >
-                  <Badge count={itemCount} color="#318ce7">
+                  <Badge count={itemCount} color="#318ce7" onClick={showDrawer}>
                     <Avatar
                       shape="square"
                       size="large"
                       style={{ backgroundColor: "#318ce7" }}
                       icon={
                         <ShoppingCartOutlined
-                          className="large-card-title"
+                          className="big-card-title"
                           style={{ color: "#fff" }}
-                          onClick={showDrawer}
                         />
                       }
                     />
@@ -307,16 +311,15 @@ const Reorder = (props) => {
               <div style={contentStyle}>
                 <div style={{ flexDirection: "column", width: "100%" }}>
                   <Card>
-                    <Input.Search
+                    <Input
                       size="large"
                       placeholder="Search Item Code"
-                      onChange={clearSearch}
-                      onSearch={searchItem}
-                      enterButton={
-                        <Button type="primary" className="custom-hover">
-                          SEARCH
-                        </Button>
+                      suffix={
+                        <SearchOutlined
+                          style={{ fontSize: "26px", color: "#318ce7" }}
+                        />
                       }
+                      onChange={(e) => searchItem(e.target.value)}
                     />
                   </Card>
                   <Card
