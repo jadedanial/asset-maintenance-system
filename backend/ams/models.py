@@ -42,6 +42,35 @@ class Module(models.Model):
         self.update_model()
 
 
+class Category(models.Model):
+    cat_name = models.CharField(
+        max_length=300, blank=False, null=False, verbose_name="Category"
+    )
+
+    def __str__(self):
+        return self.cat_name
+
+
+class Option(models.Model):
+    opt_name = models.CharField(
+        max_length=300, blank=False, null=False, verbose_name="Option Name"
+    )
+    opt_category = models.ForeignKey(
+        Category,
+        blank=True,
+        null=True,
+        related_name="opt_category",
+        on_delete=models.CASCADE,
+        verbose_name="Category",
+    )
+    opt_value = models.CharField(
+        max_length=200, blank=True, null=True, verbose_name="Value"
+    )
+
+    def __str__(self):
+        return self.opt_name
+
+
 class User(AbstractUser):
     empID = models.PositiveIntegerField(
         blank=True, null=True, verbose_name="Employee ID"
@@ -173,7 +202,9 @@ class Employee(models.Model):
     emp_position = models.CharField(
         max_length=100, blank=True, null=True, verbose_name="Position"
     )
-    emp_salary = models.FloatField(blank=True, null=True, verbose_name="Monthly Salary")
+    emp_salary = models.CharField(
+        max_length=100, blank=True, null=True, verbose_name="Salary Grade"
+    )
     emp_sched = models.ForeignKey(
         Schedule,
         blank=True,
@@ -210,137 +241,6 @@ class Attendance(models.Model):
 
     def __str__(self):
         return str(self.attend_date)
-
-
-class Asset(models.Model):
-    asset_id = models.PositiveIntegerField(
-        primary_key=True, blank=False, null=False, verbose_name="Asset ID"
-    )
-    asset_model = models.CharField(
-        max_length=100, blank=False, null=False, verbose_name="Model"
-    )
-    asset_sector = models.CharField(
-        max_length=100, blank=False, null=False, verbose_name="Sector"
-    )
-    asset_area = models.CharField(
-        max_length=100, blank=False, null=False, verbose_name="Area"
-    )
-    asset_serial = models.CharField(
-        max_length=200, blank=False, null=False, verbose_name="Serial"
-    )
-    asset_plate = models.CharField(
-        max_length=100, blank=True, null=True, verbose_name="Plate Number"
-    )
-
-    def __int__(self):
-        return self.asset_id
-
-
-class Request(models.Model):
-    id = models.AutoField(primary_key=True)
-    req_id = models.CharField(
-        max_length=500, blank=True, null=True, verbose_name="Work Request ID"
-    )
-    asset_id = models.CharField(
-        max_length=100, blank=False, null=False, verbose_name="Asset ID"
-    )
-    req_createby = models.CharField(
-        max_length=500, blank=False, null=False, verbose_name="Created By"
-    )
-    req_checkby = models.CharField(
-        max_length=500, blank=False, null=False, verbose_name="Checked By"
-    )
-    req_date = models.CharField(
-        max_length=100, blank=False, null=False, verbose_name="Date"
-    )
-    req_status = models.CharField(
-        max_length=300, blank=False, null=False, verbose_name="Request Status"
-    )
-    req_workshop = models.CharField(
-        max_length=300, blank=False, null=False, verbose_name="Workshop"
-    )
-    req_physloc = models.CharField(
-        max_length=500, blank=False, null=False, verbose_name="Physical Location"
-    )
-    req_maint = models.CharField(
-        max_length=300, blank=False, null=False, verbose_name="Maintenance Type"
-    )
-    req_repair = models.CharField(
-        max_length=300, blank=False, null=False, verbose_name="Repair Type"
-    )
-    req_km = models.CharField(
-        max_length=100, blank=False, null=False, verbose_name="Kilometer"
-    )
-    req_enghr = models.CharField(
-        max_length=100, blank=True, null=True, verbose_name="Engine Hour"
-    )
-    req_fuel = models.CharField(
-        max_length=100, blank=True, null=True, verbose_name="Fuel Quantity"
-    )
-    req_desc = models.TextField(blank=True, null=True, verbose_name="Description")
-
-    def __str__(self):
-        return self.req_asset
-
-    def update_model(self):
-        test_id = Request.objects.get(req_id=self.req_id).id
-        Request.objects.filter(id=test_id).update(req_id="WR" + str(self.id))
-
-    def save(self, *args, **kwargs):
-        super(Request, self).save(*args, **kwargs)
-        self.update_model()
-
-
-class Nationality(models.Model):
-    nationality = models.CharField(
-        max_length=300, blank=False, null=False, verbose_name="Nationality"
-    )
-
-    def __str__(self):
-        return self.nationality
-
-
-class Position(models.Model):
-    position = models.CharField(
-        max_length=300, blank=False, null=False, verbose_name="Position"
-    )
-
-    def __str__(self):
-        return self.position
-
-
-class Salary(models.Model):
-    salary = models.FloatField(blank=False, null=False, verbose_name="Salary")
-
-    def __int__(self):
-        return self.salary
-
-
-class Category(models.Model):
-    category = models.CharField(
-        max_length=300, blank=False, null=False, verbose_name="Category"
-    )
-
-    def __str__(self):
-        return self.category
-
-
-class Measurement(models.Model):
-    measurement = models.CharField(
-        max_length=300, blank=False, null=False, verbose_name="Measurement"
-    )
-
-    def __str__(self):
-        return self.measurement
-
-
-class Vacation(models.Model):
-    vacation = models.CharField(
-        max_length=500, blank=False, null=False, verbose_name="Vacation"
-    )
-
-    def __str__(self):
-        return self.vacation
 
 
 class Item(models.Model):

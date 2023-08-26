@@ -20,6 +20,18 @@ class ModuleListView(ListAPIView):
     permission_classes = [IsAuthenticatedWithJWT]
 
 
+class CategoryListView(ListAPIView):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+    permission_classes = [IsAuthenticatedWithJWT]
+
+
+class OptionListView(ListAPIView):
+    queryset = Option.objects.all()
+    serializer_class = OptionSerializer
+    permission_classes = [IsAuthenticatedWithJWT]
+
+
 class UserView(APIView):
     def get(self, request):
         token = request.COOKIES.get("jwt")
@@ -170,12 +182,6 @@ class EmployeeScheduleView(APIView):
         return Response(serializer.data)
 
 
-class AttendanceListView(ListAPIView):
-    queryset = Attendance.objects.all()
-    serializer_class = AttendanceSerializer
-    permission_classes = [IsAuthenticatedWithJWT]
-
-
 class EmployeeAttendance(APIView):
     permission_classes = [IsAuthenticatedWithJWT]
 
@@ -199,45 +205,9 @@ class EmployeeAttendance(APIView):
         return Response(serializer.data)
 
 
-class AssetListView(ListAPIView):
-    queryset = Asset.objects.all()
-    serializer_class = AssetSerializer
-    permission_classes = [IsAuthenticatedWithJWT]
-
-
-class NationalityListView(ListAPIView):
-    queryset = Nationality.objects.all()
-    serializer_class = NationalitySerializer
-    permission_classes = [IsAuthenticatedWithJWT]
-
-
-class PositionListView(ListAPIView):
-    queryset = Position.objects.all()
-    serializer_class = PositionSerializer
-    permission_classes = [IsAuthenticatedWithJWT]
-
-
-class SalaryListView(ListAPIView):
-    queryset = Salary.objects.all()
-    serializer_class = SalarySerializer
-    permission_classes = [IsAuthenticatedWithJWT]
-
-
-class CategoryListView(ListAPIView):
-    queryset = Category.objects.all()
-    serializer_class = CategorySerializer
-    permission_classes = [IsAuthenticatedWithJWT]
-
-
-class MeasurementListView(ListAPIView):
-    queryset = Measurement.objects.all()
-    serializer_class = MeasurementSerializer
-    permission_classes = [IsAuthenticatedWithJWT]
-
-
-class VacationListView(ListAPIView):
-    queryset = Vacation.objects.all()
-    serializer_class = VacationSerializer
+class AttendanceListView(ListAPIView):
+    queryset = Attendance.objects.all()
+    serializer_class = AttendanceSerializer
     permission_classes = [IsAuthenticatedWithJWT]
 
 

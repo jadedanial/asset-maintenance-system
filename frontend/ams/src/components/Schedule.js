@@ -180,7 +180,7 @@ const Schedule = (props) => {
                 style={{ width: "100%" }}
                 optionFilterProp="children"
                 filterOption={(input, option) =>
-                  (option?.label ?? "").includes(input)
+                  (option?.label ?? "").toLowerCase().includes(input)
                 }
                 filterSort={(optionA, optionB) =>
                   (optionA?.label ?? "")

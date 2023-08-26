@@ -78,19 +78,21 @@ const Vacation = (props) => {
                       style={{ width: "100%" }}
                       optionFilterProp="children"
                       filterOption={(input, option) =>
-                        (option?.label ?? "").includes(input)
+                        (option?.label ?? "").toLowerCase().includes(input)
                       }
                       filterSort={(optionA, optionB) =>
                         (optionA?.label ?? "")
                           .toLowerCase()
                           .localeCompare((optionB?.label ?? "").toLowerCase())
                       }
-                      options={vactypes.map((vac) => {
-                        return {
-                          value: vac.vacation,
-                          label: vac.vacation,
-                        };
-                      })}
+                      options={vactypes
+                        .filter((res) => res.opt_category === "Vacation")
+                        .map((vac) => {
+                          return {
+                            value: vac.opt_name,
+                            label: vac.opt_name,
+                          };
+                        })}
                       onChange={onVacationChange}
                     />
                   </Form.Item>
@@ -258,7 +260,7 @@ const Vacation = (props) => {
     (async () => {
       try {
         await axios
-          .get("http://localhost:8000/api/vacation", {
+          .get("http://localhost:8000/api/option", {
             headers: { "Content-Type": "application/json" },
             withCredentials: true,
           })

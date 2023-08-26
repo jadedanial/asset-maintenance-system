@@ -27,6 +27,26 @@ class ModuleSerializer(serializers.ModelSerializer):
         depth = 2
 
 
+class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = [
+            "cat_name",
+        ]
+
+
+class OptionSerializer(serializers.ModelSerializer):
+    opt_category = serializers.ReadOnlyField(source="opt_category.cat_name")
+
+    class Meta:
+        model = Option
+        fields = [
+            "opt_name",
+            "opt_category",
+            "opt_value",
+        ]
+
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -116,89 +136,6 @@ class AttendanceSerializer(serializers.ModelSerializer):
             "attend_over",
             "attend_excuse",
             "attend_status",
-        ]
-
-
-class AssetSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Asset
-        fields = [
-            "asset_id",
-            "asset_model",
-            "asset_sector",
-            "asset_area",
-            "asset_serial",
-            "asset_plate",
-        ]
-
-
-class RequestSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Request
-        fields = [
-            "id",
-            "req_id",
-            "asset_id",
-            "req_createby",
-            "req_checkby",
-            "req_date",
-            "req_workshop",
-            "req_physloc",
-            "req_status",
-            "req_maint",
-            "req_repair",
-            "req_km",
-            "req_enghr",
-            "req_fuel",
-            "req_desc",
-        ]
-
-
-class NationalitySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Nationality
-        fields = [
-            "nationality",
-        ]
-
-
-class PositionSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Position
-        fields = [
-            "position",
-        ]
-
-
-class SalarySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Salary
-        fields = [
-            "salary",
-        ]
-
-
-class CategorySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Category
-        fields = [
-            "category",
-        ]
-
-
-class MeasurementSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Measurement
-        fields = [
-            "measurement",
-        ]
-
-
-class VacationSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Vacation
-        fields = [
-            "vacation",
         ]
 
 

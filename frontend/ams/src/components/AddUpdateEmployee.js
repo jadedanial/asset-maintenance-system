@@ -74,7 +74,7 @@ const AddUpdateEmployee = (props) => {
     (async () => {
       try {
         await axios
-          .get("http://localhost:8000/api/nationality", {
+          .get("http://localhost:8000/api/option", {
             headers: { "Content-Type": "application/json" },
             withCredentials: true,
           })
@@ -91,7 +91,7 @@ const AddUpdateEmployee = (props) => {
     (async () => {
       try {
         await axios
-          .get("http://localhost:8000/api/position", {
+          .get("http://localhost:8000/api/option", {
             headers: { "Content-Type": "application/json" },
             withCredentials: true,
           })
@@ -108,7 +108,7 @@ const AddUpdateEmployee = (props) => {
     (async () => {
       try {
         await axios
-          .get("http://localhost:8000/api/salary", {
+          .get("http://localhost:8000/api/option", {
             headers: { "Content-Type": "application/json" },
             withCredentials: true,
           })
@@ -369,7 +369,7 @@ const AddUpdateEmployee = (props) => {
                           style={{ width: "100%" }}
                           optionFilterProp="children"
                           filterOption={(input, option) =>
-                            (option?.label ?? "").includes(input)
+                            (option?.label ?? "").toLowerCase().includes(input)
                           }
                           filterSort={(optionA, optionB) =>
                             (optionA?.label ?? "")
@@ -379,12 +379,14 @@ const AddUpdateEmployee = (props) => {
                               )
                           }
                           value={employeeNationality}
-                          options={nationalities.map((nas) => {
-                            return {
-                              value: nas.nationality,
-                              label: nas.nationality,
-                            };
-                          })}
+                          options={nationalities
+                            .filter((res) => res.opt_category === "Nationality")
+                            .map((nat) => {
+                              return {
+                                value: nat.opt_name,
+                                label: nat.opt_name,
+                              };
+                            })}
                           onChange={onNationalityChange}
                         />
                       </Form.Item>
@@ -498,7 +500,7 @@ const AddUpdateEmployee = (props) => {
                       style={{ width: "100%" }}
                       optionFilterProp="children"
                       filterOption={(input, option) =>
-                        (option?.label ?? "").includes(input)
+                        (option?.label ?? "").toLowerCase().includes(input)
                       }
                       filterSort={(optionA, optionB) =>
                         (optionA?.label ?? "")
@@ -506,12 +508,14 @@ const AddUpdateEmployee = (props) => {
                           .localeCompare((optionB?.label ?? "").toLowerCase())
                       }
                       value={employeePosition}
-                      options={positions.map((pos) => {
-                        return {
-                          value: pos.position,
-                          label: pos.position,
-                        };
-                      })}
+                      options={positions
+                        .filter((res) => res.opt_category === "Position")
+                        .map((pos) => {
+                          return {
+                            value: pos.opt_name,
+                            label: pos.opt_name,
+                          };
+                        })}
                       onChange={onPositionChange}
                     />
                   </Form.Item>
@@ -534,12 +538,22 @@ const AddUpdateEmployee = (props) => {
                       className="small-font"
                       style={{ width: "100%" }}
                       value={employeeSalary}
-                      options={salaries.map((sal) => {
-                        return {
-                          value: sal.salary,
-                          label: sal.salary,
-                        };
-                      })}
+                      filterOption={(input, option) =>
+                        (option?.label ?? "").toLowerCase().includes(input)
+                      }
+                      filterSort={(optionA, optionB) =>
+                        (optionA?.label ?? "")
+                          .toLowerCase()
+                          .localeCompare((optionB?.label ?? "").toLowerCase())
+                      }
+                      options={salaries
+                        .filter((res) => res.opt_category === "Salary")
+                        .map((sal) => {
+                          return {
+                            value: sal.opt_name,
+                            label: sal.opt_name,
+                          };
+                        })}
                       onChange={onSalaryChange}
                     />
                   </Form.Item>

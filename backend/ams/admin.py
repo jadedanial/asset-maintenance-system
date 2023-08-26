@@ -31,6 +31,30 @@ class ModuleAdmin(admin.ModelAdmin):
     )
 
 
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ("cat_name",)
+    list_filter = ("cat_name",)
+    search_fields = ("cat_name",)
+
+
+class OptionAdmin(admin.ModelAdmin):
+    list_display = (
+        "opt_name",
+        "opt_category",
+        "opt_value",
+    )
+    list_filter = (
+        "opt_name",
+        "opt_category",
+        "opt_value",
+    )
+    search_fields = (
+        "opt_name",
+        "opt_category",
+        "opt_value",
+    )
+
+
 class UserAdmin(admin.ModelAdmin):
     list_display = (
         "empID",
@@ -192,118 +216,6 @@ class AttendanceAdmin(admin.ModelAdmin):
     )
 
 
-class AssetAdmin(admin.ModelAdmin):
-    list_display = (
-        "asset_id",
-        "asset_model",
-        "asset_sector",
-        "asset_area",
-        "asset_serial",
-        "asset_plate",
-    )
-    list_filter = (
-        "asset_id",
-        "asset_model",
-        "asset_sector",
-        "asset_area",
-        "asset_serial",
-        "asset_plate",
-    )
-    search_fields = (
-        "asset_id",
-        "asset_model",
-        "asset_sector",
-        "asset_area",
-        "asset_serial",
-        "asset_plate",
-    )
-
-
-class RequestAdmin(admin.ModelAdmin):
-    readonly_fields = ("id", "req_id")
-    list_display = (
-        "asset_id",
-        "req_createby",
-        "req_checkby",
-        "req_date",
-        "req_workshop",
-        "req_physloc",
-        "req_status",
-        "req_maint",
-        "req_repair",
-        "req_km",
-        "req_enghr",
-        "req_fuel",
-        "req_desc",
-    )
-    list_filter = (
-        "asset_id",
-        "req_createby",
-        "req_checkby",
-        "req_date",
-        "req_workshop",
-        "req_physloc",
-        "req_status",
-        "req_maint",
-        "req_repair",
-        "req_km",
-        "req_enghr",
-        "req_fuel",
-        "req_desc",
-    )
-    search_fields = (
-        "asset_id",
-        "req_createby",
-        "req_checkby",
-        "req_date",
-        "req_workshop",
-        "req_physloc",
-        "req_status",
-        "req_maint",
-        "req_repair",
-        "req_km",
-        "req_enghr",
-        "req_fuel",
-        "req_desc",
-    )
-
-
-class NationalityAdmin(admin.ModelAdmin):
-    list_display = ("nationality",)
-    list_filter = ("nationality",)
-    search_fields = ("nationality",)
-
-
-class PositionAdmin(admin.ModelAdmin):
-    list_display = ("position",)
-    list_filter = ("position",)
-    search_fields = ("position",)
-
-
-class SalaryAdmin(admin.ModelAdmin):
-    list_display = ("salary",)
-    list_filter = ("salary",)
-    search_fields = ("salary",)
-
-
-class CategoryAdmin(admin.ModelAdmin):
-    list_display = ("category",)
-    list_filter = ("category",)
-    search_fields = ("category",)
-
-
-class MeasurementAdmin(admin.ModelAdmin):
-    list_display = ("measurement",)
-    list_filter = ("measurement",)
-    search_fields = ("measurement",)
-
-
-class VacationAdmin(admin.ModelAdmin):
-    list_display = ("vacation",)
-    list_filter = ("vacation",)
-    search_fields = ("vacation",)
-
-
 class ItemAdmin(admin.ModelAdmin):
     readonly_fields = (
         "id",
@@ -346,17 +258,11 @@ class ItemAdmin(admin.ModelAdmin):
 
 admin.site.register(Section, SectionAdmin)
 admin.site.register(Module, ModuleAdmin)
+admin.site.register(Category, CategoryAdmin)
+admin.site.register(Option, OptionAdmin)
 admin.site.register(User, UserAdmin)
 admin.site.register(Shift, ShiftAdmin)
 admin.site.register(Schedule, ScheduleAdmin)
 admin.site.register(Employee, EmployeeAdmin)
 admin.site.register(Attendance, AttendanceAdmin)
-admin.site.register(Asset, AssetAdmin)
-admin.site.register(Request, RequestAdmin)
-admin.site.register(Nationality, NationalityAdmin)
-admin.site.register(Position, PositionAdmin)
-admin.site.register(Salary, SalaryAdmin)
-admin.site.register(Category, CategoryAdmin)
-admin.site.register(Measurement, MeasurementAdmin)
-admin.site.register(Vacation, VacationAdmin)
 admin.site.register(Item, ItemAdmin)

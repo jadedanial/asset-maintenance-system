@@ -62,7 +62,7 @@ const AddUpdateItem = (props) => {
     (async () => {
       try {
         await axios
-          .get("http://localhost:8000/api/category", {
+          .get("http://localhost:8000/api/option", {
             headers: { "Content-Type": "application/json" },
             withCredentials: true,
           })
@@ -79,7 +79,7 @@ const AddUpdateItem = (props) => {
     (async () => {
       try {
         await axios
-          .get("http://localhost:8000/api/measurement", {
+          .get("http://localhost:8000/api/option", {
             headers: { "Content-Type": "application/json" },
             withCredentials: true,
           })
@@ -300,7 +300,7 @@ const AddUpdateItem = (props) => {
                           style={{ width: "100%" }}
                           optionFilterProp="children"
                           filterOption={(input, option) =>
-                            (option?.label ?? "").includes(input)
+                            (option?.label ?? "").toLowerCase().includes(input)
                           }
                           filterSort={(optionA, optionB) =>
                             (optionA?.label ?? "")
@@ -310,12 +310,14 @@ const AddUpdateItem = (props) => {
                               )
                           }
                           value={itemCategory}
-                          options={categories.map((cat) => {
-                            return {
-                              value: cat.category,
-                              label: cat.category,
-                            };
-                          })}
+                          options={categories
+                            .filter((res) => res.opt_category === "Category")
+                            .map((cat) => {
+                              return {
+                                value: cat.opt_name,
+                                label: cat.opt_name,
+                              };
+                            })}
                           onChange={onCategoryChange}
                         />
                       </Form.Item>
@@ -365,7 +367,7 @@ const AddUpdateItem = (props) => {
                       style={{ width: "100%" }}
                       optionFilterProp="children"
                       filterOption={(input, option) =>
-                        (option?.label ?? "").includes(input)
+                        (option?.label ?? "").toLowerCase().includes(input)
                       }
                       filterSort={(optionA, optionB) =>
                         (optionA?.label ?? "")
@@ -373,12 +375,14 @@ const AddUpdateItem = (props) => {
                           .localeCompare((optionB?.label ?? "").toLowerCase())
                       }
                       value={itemMeasurement}
-                      options={measurements.map((mes) => {
-                        return {
-                          value: mes.measurement,
-                          label: mes.measurement,
-                        };
-                      })}
+                      options={measurements
+                        .filter((res) => res.opt_category === "Measurement")
+                        .map((mes) => {
+                          return {
+                            value: mes.opt_name,
+                            label: mes.opt_name,
+                          };
+                        })}
                       onChange={onMeasurementChange}
                     />
                   </Form.Item>
