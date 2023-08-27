@@ -11,6 +11,7 @@ import {
   Button,
   Steps,
   List,
+  Table,
   notification,
 } from "antd";
 import { CloseOutlined, CheckCircleOutlined } from "@ant-design/icons";
@@ -30,6 +31,7 @@ const layout = {
 const Vacation = (props) => {
   const dateFormat = "YYYY-MM-DD";
   const empID = props.empid;
+  const [vacations, setVacations] = useState([]);
   const [vactypes, setVacationType] = useState([]);
   const [vacation, setVacation] = useState("");
   const [startdate, setStartDate] = useState("");
@@ -38,13 +40,10 @@ const Vacation = (props) => {
   const [attachment, setAttachment] = useState("");
   const [showAttachment, setShowAttachment] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [add, setAdd] = useState(false);
   const [days, setDays] = useState(0);
   const [api, contextHolder] = notification.useNotification();
   const [current, setCurrent] = useState(0);
-
-  const contentStyle = {
-    lineHeight: "260px",
-  };
 
   const steps = [
     {
@@ -257,6 +256,39 @@ const Vacation = (props) => {
     title: item.title,
   }));
 
+  const columns = [
+    {
+      title: "Vacation Type",
+      dataIndex: "type",
+      key: "type",
+    },
+    {
+      title: "Start Date",
+      dataIndex: "start",
+      key: "start",
+    },
+    {
+      title: "End Date",
+      dataIndex: "end",
+      key: "end",
+    },
+    {
+      title: "Reason",
+      dataIndex: "reason",
+      key: "reason",
+    },
+    {
+      title: "Attachment",
+      dataIndex: "attach",
+      key: "attach",
+    },
+    {
+      title: addVactionButton,
+      dataIndex: "total",
+      key: "total",
+    },
+  ];
+
   useEffect(() => {
     (async () => {
       try {
@@ -273,6 +305,41 @@ const Vacation = (props) => {
       }
     })();
   }, []);
+
+  useEffect(() => {
+    (async () => {
+      await loadVacations();
+    })();
+  }, []);
+
+  async function loadVacations() {
+    try {
+      await axios
+        .get("http://localhost:8000/api/vacations", {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        })
+        .then((response) => {
+          setVacations([]);
+          response.data.map((res) =>
+            setVacations((vacations) => [
+              ...vacations,
+              {
+                id: res.emp_id,
+                type: res.vac_type,
+                start: res.vac_start,
+                end: res.vac_end,
+                reason: res.vac_reason,
+                attach: res.vac_attachment,
+                total: res.vac_total,
+              },
+            ])
+          );
+        });
+    } catch (err) {
+      console.log(err.response.data[0]);
+    }
+  }
 
   function onVacationChange(value) {
     setVacation(value);
@@ -325,14 +392,31 @@ const Vacation = (props) => {
     setCurrent(current - 1);
   }
 
+  function newVacation() {
+    setSuccess(false);
+    setCurrent(0);
+    setVacation("");
+    setStartDate("");
+    setEndDate("");
+    setReason("");
+    setAttachment("");
+    setShowAttachment(false);
+    setAdd(true);
+  }
+
+  function viewVacation() {
+    setAdd(false);
+    setSuccess(false);
+  }
+
   async function apply() {
     var vacData = {
       emp_id: empID,
       vac_type: vacation,
       vac_start: startdate,
       vac_end: enddate,
-      vac_reason: reason,
-      vac_attachment: attachment,
+      vac_reason: reason === "" ? "No reason specified" : reason,
+      vac_attachment: attachment === "" ? "No document attached" : attachment,
       vac_total: days,
     };
     try {
@@ -343,6 +427,7 @@ const Vacation = (props) => {
         headers: { "Content-Type": "application/json" },
         withCredentials: true,
       });
+      loadVacations();
       setSuccess(true);
     } catch (err) {
       console.log(err.response.data[0]);
@@ -351,15 +436,12 @@ const Vacation = (props) => {
     }
   }
 
-  function newVacation() {
-    setSuccess(false);
-    setCurrent(0);
-    setVacation("");
-    setStartDate("");
-    setEndDate("");
-    setReason("");
-    setAttachment("");
-    setShowAttachment(false);
+  function addVactionButton() {
+    return (
+      <Button size="large" type="primary" onClick={newVacation}>
+        ADD VACATION
+      </Button>
+    );
   }
 
   if (success) {
@@ -370,11 +452,14 @@ const Vacation = (props) => {
           status="success"
           title={"Successfully applied employee vacation."}
           subTitle={`From ${startdate} To ${enddate} (${days})`}
-          extra={
+          extra={[
             <Button size="large" type="primary" onClick={newVacation}>
-              APPLY NEW VACATION
-            </Button>
-          }
+              ADD NEW VACATION
+            </Button>,
+            <Button size="large" type="primary" onClick={viewVacation}>
+              VIEW VACATIONS
+            </Button>,
+          ]}
         />
       </>
     );
@@ -385,43 +470,81 @@ const Vacation = (props) => {
       {contextHolder}
       <Row style={{ marginTop: "20px" }}>
         <Card size="small" style={{ width: "100%" }}>
-          <Row style={{ justifyContent: "center", marginBottom: "20px" }}>
-            <div className="card-custom-size">
-              <Card
-                size="large"
-                extra={
-                  <div>
-                    {current < steps.length - 1 && (
-                      <Button size="large" type="primary" onClick={next}>
-                        NEXT
-                      </Button>
-                    )}
-                    {current === steps.length - 1 && (
-                      <Button size="large" type="primary" onClick={apply}>
-                        APPLY
-                      </Button>
-                    )}
-                    {current > 0 && (
+          {add ? (
+            <Row style={{ justifyContent: "center" }}>
+              <div className="card-custom-size">
+                <Card
+                  size="large"
+                  extra={
+                    <div>
                       <Button
                         size="large"
                         type="primary"
-                        onClick={prev}
-                        style={{ margin: "0 0 0 8px" }}
+                        style={{
+                          marginRight: "8px",
+                          display: current > 0 ? "none" : "inline",
+                        }}
+                        onClick={viewVacation}
                       >
-                        BACK
+                        CANCEL
                       </Button>
-                    )}
-                  </div>
-                }
-                title={<Steps current={current} items={items} />}
-                hoverable
-              >
-                <div className="justified-row" style={contentStyle}>
-                  {steps[current].content}
-                </div>
-              </Card>
-            </div>
-          </Row>
+                      {current < steps.length - 1 && (
+                        <Button size="large" type="primary" onClick={next}>
+                          NEXT
+                        </Button>
+                      )}
+                      {current > 0 && (
+                        <Button
+                          size="large"
+                          type="primary"
+                          onClick={prev}
+                          style={{ marginRight: "8px" }}
+                        >
+                          BACK
+                        </Button>
+                      )}
+                      {current === steps.length - 1 && (
+                        <Button size="large" type="primary" onClick={apply}>
+                          APPLY
+                        </Button>
+                      )}
+                    </div>
+                  }
+                  title={<Steps current={current} items={items} />}
+                  hoverable
+                >
+                  <div className="justified-row">{steps[current].content}</div>
+                </Card>
+              </div>
+            </Row>
+          ) : (
+            <Table
+              className="light-color-header-table"
+              rowClassName={() => "table-row"}
+              columns={columns}
+              dataSource={vacations
+                .filter((res) => res.id === empID)
+                .map((vac) => {
+                  return {
+                    type: vac.type,
+                    start: vac.start,
+                    end: vac.end,
+                    reason: vac.reason,
+                    attach: vac.attach,
+                    total: vac.total,
+                  };
+                })}
+              pagination={{
+                pageSize: 10,
+                showSizeChanger: true,
+                pageSizeOptions: ["10", "20", "30"],
+              }}
+              size="small"
+              scroll={{
+                y: "50vh",
+              }}
+            />
+          )}
         </Card>
       </Row>
     </>

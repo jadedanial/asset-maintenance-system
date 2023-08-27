@@ -18,6 +18,7 @@ urlpatterns = [
     path("emp_attendance/", EmployeeAttendance.as_view()),
     path("attendance", AttendanceListView.as_view()),
     path("vacation/", VacationView.as_view()),
+    path("vacations", VacationListView.as_view()),
     path("item/", ItemView.as_view()),
     path("items", ItemListView.as_view()),
 ]

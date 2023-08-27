@@ -223,6 +223,12 @@ class VacationView(APIView):
         return Response(serializer.data)
 
 
+class VacationListView(ListAPIView):
+    queryset = Vacation.objects.all()
+    serializer_class = VacationSerializer
+    permission_classes = [IsAuthenticatedWithJWT]
+
+
 class ItemView(APIView):
     permission_classes = [IsAuthenticatedWithJWT]
 
