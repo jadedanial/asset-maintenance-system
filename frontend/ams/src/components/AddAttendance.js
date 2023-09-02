@@ -4,24 +4,37 @@ import {
   Form,
   Col,
   Row,
-  Space,
   Button,
-  Modal,
-  TimePicker,
+  Typography,
+  DatePicker,
   Input,
+  Card,
   notification,
 } from "antd";
-import { CloseOutlined } from "@ant-design/icons";
+import { CheckCircleOutlined } from "@ant-design/icons";
 import moment from "moment";
 import NotificationEvent from "./NotificationEvent";
+import ResultEvent from "../components/ResultEvent";
+
+const { Title } = Typography;
+
+const layout = {
+  labelCol: {
+    span: 24,
+  },
+  wrapperCol: {
+    span: 24,
+  },
+};
 
 const AddAttendance = (props) => {
-  const timeFormat = "HH:mm:ss";
+  const dateTimeFormat = "YYYY-MM-DD HH:mm:ss";
   const dateFormat = "YYYY-MM-DD";
   const attendDate = moment(props.attenddate).format(dateFormat);
   const [attendCheckin, setAttendCheckIn] = useState(props.checkInTime);
   const [attendCheckout, setAttendCheckOut] = useState(props.checkOutTime);
   const [schedules, setSchedules] = useState([]);
+  const [success, setSuccess] = useState(false);
   const [api, contextHolder] = notification.useNotification();
 
   useEffect(() => {
@@ -62,7 +75,9 @@ const AddAttendance = (props) => {
   function totalRequired(shiftStart, shiftEnd) {
     var req = moment
       .duration(
-        moment(shiftEnd, timeFormat).diff(moment(shiftStart, timeFormat))
+        moment(shiftEnd, dateTimeFormat).diff(
+          moment(shiftStart, dateTimeFormat)
+        )
       )
       .asHours();
     return req;
@@ -72,14 +87,14 @@ const AddAttendance = (props) => {
     var late = 0;
     if (parseFloat(totalRequired(shiftStart, shiftEnd)) > parseFloat(0)) {
       if (
-        moment(attendCheckin, timeFormat).isAfter(
-          moment(shiftStart, timeFormat)
+        moment(attendCheckin, dateTimeFormat).isAfter(
+          moment(shiftStart, dateTimeFormat)
         )
       ) {
         late = moment
           .duration(
-            moment(attendCheckin, timeFormat).diff(
-              moment(shiftStart, timeFormat)
+            moment(attendCheckin, dateTimeFormat).diff(
+              moment(shiftStart, dateTimeFormat)
             )
           )
           .asHours();
@@ -96,14 +111,14 @@ const AddAttendance = (props) => {
     var early = 0;
     if (parseFloat(totalRequired(shiftStart, shiftEnd)) > parseFloat(0)) {
       if (
-        moment(attendCheckout, timeFormat).isBefore(
-          moment(shiftEnd, timeFormat)
+        moment(attendCheckout, dateTimeFormat).isBefore(
+          moment(shiftEnd, dateTimeFormat)
         )
       ) {
         early = moment
           .duration(
-            moment(shiftEnd, timeFormat).diff(
-              moment(attendCheckout, timeFormat)
+            moment(shiftEnd, dateTimeFormat).diff(
+              moment(attendCheckout, dateTimeFormat)
             )
           )
           .asHours();
@@ -120,22 +135,22 @@ const AddAttendance = (props) => {
     var work = 0;
     if (parseFloat(totalRequired(shiftStart, shiftEnd)) > parseFloat(0)) {
       if (
-        moment(attendCheckin, timeFormat).isAfter(
-          moment(shiftStart, timeFormat)
+        moment(attendCheckin, dateTimeFormat).isAfter(
+          moment(shiftStart, dateTimeFormat)
         )
       ) {
         work = moment
           .duration(
-            moment(attendCheckout, timeFormat).diff(
-              moment(attendCheckin, timeFormat)
+            moment(attendCheckout, dateTimeFormat).diff(
+              moment(attendCheckin, dateTimeFormat)
             )
           )
           .asHours();
       } else {
         work = moment
           .duration(
-            moment(attendCheckout, timeFormat).diff(
-              moment(shiftStart, timeFormat)
+            moment(attendCheckout, dateTimeFormat).diff(
+              moment(shiftStart, dateTimeFormat)
             )
           )
           .asHours();
@@ -143,8 +158,8 @@ const AddAttendance = (props) => {
     } else {
       work = moment
         .duration(
-          moment(attendCheckout, timeFormat).diff(
-            moment(attendCheckin, timeFormat)
+          moment(attendCheckout, dateTimeFormat).diff(
+            moment(attendCheckin, dateTimeFormat)
           )
         )
         .asHours();
@@ -181,8 +196,8 @@ const AddAttendance = (props) => {
         status = "Dayoff Today";
       } else {
         if (
-          isNaN(moment(attendCheckin, timeFormat)) &&
-          isNaN(moment(attendCheckout, timeFormat))
+          isNaN(moment(attendCheckin, dateTimeFormat)) &&
+          isNaN(moment(attendCheckout, dateTimeFormat))
         ) {
           status = "Absent Today";
         } else {
@@ -235,29 +250,60 @@ const AddAttendance = (props) => {
     }
   }
 
-  function onFinish() {
+  function applyAttendance() {
     var valid = true;
+    var err = 0;
     if (
-      !isNaN(moment(attendCheckin, timeFormat)) &&
-      !isNaN(moment(attendCheckout, timeFormat))
+      !isNaN(moment(attendCheckin, dateTimeFormat)) &&
+      !isNaN(moment(attendCheckout, dateTimeFormat))
     ) {
-      if (attendCheckin < attendCheckout) {
-        valid = true;
-      } else {
+      if (attendCheckin > attendCheckout) {
         valid = false;
+        err = 0;
       }
     }
+    if (!isNaN(moment(attendCheckin, dateTimeFormat))) {
+      if (
+        moment(attendCheckin).format("YYYY-MM-DD") !==
+        moment(attendDate).format("YYYY-MM-DD")
+      ) {
+        valid = false;
+        err = 1;
+      }
+    }
+    if (
+      isNaN(moment(attendCheckin, dateTimeFormat)) &&
+      !isNaN(moment(attendCheckout, dateTimeFormat))
+    ) {
+      if (
+        moment(attendCheckout).format("YYYY-MM-DD") !==
+        moment(attendDate).format("YYYY-MM-DD")
+      ) {
+        valid = false;
+        err = 2;
+      }
+    }
+
     if (valid) {
-      var shiftStart = String(
-        dayOfTheWeek(
-          "sched_" + String(moment(attendDate).format("ddd")).toLowerCase()
-        )
-      ).split(" To ")[0];
-      var shiftEnd = String(
-        dayOfTheWeek(
-          "sched_" + String(moment(attendDate).format("ddd")).toLowerCase()
-        )
-      ).split(" To ")[1];
+      var shiftStart =
+        attendDate +
+        " " +
+        String(
+          dayOfTheWeek(
+            "sched_" + String(moment(attendDate).format("ddd")).toLowerCase()
+          )
+        ).split(" To ")[0];
+      var shiftEnd =
+        attendDate +
+        " " +
+        String(
+          dayOfTheWeek(
+            "sched_" + String(moment(attendDate).format("ddd")).toLowerCase()
+          )
+        ).split(" To ")[1];
+      if (shiftStart > shiftEnd) {
+        shiftEnd = moment(shiftEnd).add(1, "days");
+      }
       var date = attendDate;
       var checkin = attendCheckin;
       var checkout = attendCheckout;
@@ -265,11 +311,11 @@ const AddAttendance = (props) => {
       var earlyout = checkIfEarlyOut(shiftStart, shiftEnd);
       var work = totalWorked(shiftStart, shiftEnd);
       var req = totalRequired(shiftStart, shiftEnd);
-      if (isNaN(moment(checkin, timeFormat))) {
+      if (isNaN(moment(checkin, dateTimeFormat))) {
         checkin = "";
         work = 0;
       }
-      if (isNaN(moment(checkout, timeFormat))) {
+      if (isNaN(moment(checkout, dateTimeFormat))) {
         checkout = "";
         work = 0;
       }
@@ -287,8 +333,8 @@ const AddAttendance = (props) => {
         apiMethod,
         props.empid,
         date,
-        checkin !== "" ? checkin : moment("", timeFormat),
-        checkout !== "" ? checkout : moment("", timeFormat),
+        checkin !== "" ? checkin : moment("", dateTimeFormat),
+        checkout !== "" ? checkout : moment("", dateTimeFormat),
         latein,
         earlyout,
         work,
@@ -319,93 +365,138 @@ const AddAttendance = (props) => {
       });
       props.updateAttendances(attendItem);
       props.updateOnSelect(date);
-      api.info(NotificationEvent(true, "Attendance saved successfully."));
+      setSuccess(true);
     } else {
+      setSuccess(false);
       api.info(
-        NotificationEvent(false, "Check In must less than Check Out time!")
+        NotificationEvent(
+          false,
+          err === 0
+            ? "Check In time must less than Check Out time!"
+            : err === 1
+            ? "Check In date must equal to Attendance date!"
+            : err === 2
+            ? "Check Out date must equal to Attendance date!"
+            : ""
+        )
       );
     }
+  }
+
+  if (success) {
+    return (
+      <>
+        <ResultEvent
+          icon={<CheckCircleOutlined style={{ color: "#318ce7" }} />}
+          status="success"
+          title={"Successfully applied employee attendance."}
+          subTitle={`Date ${String(
+            moment(props.attenddate).format(dateFormat)
+          )} From ${String(
+            moment(attendCheckin).format("HH:mm:ss")
+          )} To ${String(moment(attendCheckout).format("HH:mm:ss"))} `}
+          extra={[
+            <Button size="large" type="primary" onClick={props.viewAttendance}>
+              VIEW ATTENDANCES
+            </Button>,
+          ]}
+        />
+      </>
+    );
   }
 
   return (
     <>
       {contextHolder}
-      <Modal
-        width="350px"
-        closeIcon={<CloseOutlined style={{ color: "#318ce7" }} />}
-        centered
-        maskClosable={false}
-        open={props.showModal}
-        onCancel={props.onCloseModal}
-        footer={""}
-      >
-        <Row style={{ marginTop: "0" }}>
+      <Row className="justified-row">
+        <div className="card-custom-size">
           <Form
-            size="large"
+            {...layout}
             layout="vertical"
-            className="ant-form-item-space-bottom-normal"
-            onFinish={onFinish}
+            size="large"
+            name="add-new-attendance"
           >
-            <Row>
+            <Card
+              size="large"
+              extra={
+                <div>
+                  <Button
+                    size="large"
+                    type="primary"
+                    style={{
+                      marginRight: "8px",
+                    }}
+                    onClick={props.viewAttendance}
+                  >
+                    CANCEL
+                  </Button>
+                  <Button size="large" type="primary" onClick={applyAttendance}>
+                    APPLY
+                  </Button>
+                </div>
+              }
+              title={
+                <Title>
+                  <p className="big-card-title">Attendance</p>
+                </Title>
+              }
+              hoverable
+            >
               <Col span={24}>
-                <Form.Item
-                  name="date"
-                  label="Date"
-                  initialValue={String(
-                    moment(props.attenddate).format(dateFormat)
-                  )}
-                >
-                  <Input className="medium-font" readOnly />
-                </Form.Item>
+                <div className="space-between-row">
+                  <Col span={7}>
+                    <Form.Item
+                      name="date"
+                      label="Date"
+                      initialValue={String(
+                        moment(props.attenddate).format(dateFormat)
+                      )}
+                    >
+                      <Input readOnly />
+                    </Form.Item>
+                  </Col>
+                  <Col span={8}>
+                    <Form.Item label="Check In">
+                      <DatePicker
+                        placeholder=""
+                        onChange={(value) =>
+                          setAttendCheckIn(moment(value).format(dateTimeFormat))
+                        }
+                        value={
+                          attendCheckin !== "--:--:--"
+                            ? moment(attendCheckin, dateTimeFormat)
+                            : null
+                        }
+                        showTime
+                        inputReadOnly
+                      />
+                    </Form.Item>
+                  </Col>
+                  <Col span={8}>
+                    <Form.Item label="Check Out">
+                      <DatePicker
+                        placeholder=""
+                        onChange={(value) =>
+                          setAttendCheckOut(
+                            moment(value).format(dateTimeFormat)
+                          )
+                        }
+                        value={
+                          attendCheckout !== "--:--:--"
+                            ? moment(attendCheckout, dateTimeFormat)
+                            : null
+                        }
+                        showTime
+                        inputReadOnly
+                      />
+                    </Form.Item>
+                  </Col>
+                </div>
               </Col>
-            </Row>
-            <Row>
-              <Space>
-                <Col>
-                  <Form.Item label="Check In">
-                    <TimePicker
-                      onChange={(value) =>
-                        setAttendCheckIn(moment(value).format(timeFormat))
-                      }
-                      value={
-                        attendCheckin !== "--:--:--"
-                          ? moment(attendCheckin, timeFormat)
-                          : null
-                      }
-                    />
-                  </Form.Item>
-                </Col>
-                <Col>
-                  <Form.Item label="Check Out">
-                    <TimePicker
-                      onChange={(value) =>
-                        setAttendCheckOut(moment(value).format(timeFormat))
-                      }
-                      value={
-                        attendCheckout !== "--:--:--"
-                          ? moment(attendCheckout, timeFormat)
-                          : null
-                      }
-                    />
-                  </Form.Item>
-                </Col>
-              </Space>
-            </Row>
-            <Row>
-              <Form.Item style={{ margin: "20px 0 0 0" }}>
-                <Button
-                  size="large"
-                  type="primary"
-                  htmlType="submit"
-                  style={{ width: "300px" }}
-                >
-                  SAVE
-                </Button>
-              </Form.Item>
-            </Row>
+            </Card>
           </Form>
-        </Row>
-      </Modal>
+        </div>
+      </Row>
     </>
   );
 };

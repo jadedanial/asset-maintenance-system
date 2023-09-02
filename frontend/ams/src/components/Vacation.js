@@ -9,15 +9,17 @@ import {
   Row,
   Card,
   Button,
-  Steps,
+  Typography,
   List,
   Table,
   notification,
 } from "antd";
 import { CloseOutlined, CheckCircleOutlined } from "@ant-design/icons";
-import ResultEvent from "../components/ResultEvent";
 import moment from "moment";
 import NotificationEvent from "./NotificationEvent";
+import ResultEvent from "../components/ResultEvent";
+
+const { Title } = Typography;
 
 const layout = {
   labelCol: {
@@ -251,11 +253,6 @@ const Vacation = (props) => {
     },
   ];
 
-  const items = steps.map((item) => ({
-    key: item.title,
-    title: item.title,
-  }));
-
   const columns = [
     {
       title: "Vacation Type",
@@ -373,7 +370,7 @@ const Vacation = (props) => {
       api.info(NotificationEvent(false, "No End Date selected!"));
     } else if (startdate > enddate) {
       valid = false;
-      api.info(NotificationEvent(false, "Invalid date duration!"));
+      api.info(NotificationEvent(false, "Start date must less than End date!"));
     }
 
     if (valid) {
@@ -471,7 +468,7 @@ const Vacation = (props) => {
       <Row style={{ marginTop: "20px" }}>
         <Card size="small" style={{ width: "100%" }}>
           {add ? (
-            <Row style={{ justifyContent: "center" }}>
+            <Row className="justified-row">
               <div className="card-custom-size">
                 <Card
                   size="large"
@@ -510,7 +507,11 @@ const Vacation = (props) => {
                       )}
                     </div>
                   }
-                  title={<Steps current={current} items={items} />}
+                  title={
+                    <Title>
+                      <p className="big-card-title">Vacation Application</p>
+                    </Title>
+                  }
                   hoverable
                 >
                   <div className="justified-row">{steps[current].content}</div>

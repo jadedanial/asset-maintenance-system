@@ -3,12 +3,10 @@ import axios from "axios";
 import {
   Card,
   Select,
-  Col,
   Row,
   Button,
   Typography,
   List,
-  Tag,
   notification,
 } from "antd";
 import NotificationEvent from "./NotificationEvent";
@@ -90,56 +88,42 @@ const Schedule = (props) => {
         <>
           <Row style={{ paddingTop: "20px", flexWrap: "wrap" }}>
             <List
-              grid={{ gutter: 16, column: 4 }}
+              grid={{ gutter: 16, column: 3 }}
               dataSource={[
                 {
-                  title: "Sunday",
+                  title: "SUN",
                   description: schedule.sched_sun,
                 },
                 {
-                  title: "Monday",
+                  title: "MON",
                   description: schedule.sched_mon,
                 },
                 {
-                  title: "Tuesday",
+                  title: "TUE",
                   description: schedule.sched_tue,
                 },
                 {
-                  title: "Wednesday",
+                  title: "WED",
                   description: schedule.sched_wed,
                 },
                 {
-                  title: "Thursday",
+                  title: "THU",
                   description: schedule.sched_thu,
                 },
                 {
-                  title: "Friday",
+                  title: "FRI",
                   description: schedule.sched_fri,
                 },
                 {
-                  title: "Saturday",
+                  title: "SAT",
                   description: schedule.sched_sat,
                 },
               ]}
               renderItem={(item) => (
                 <List.Item>
-                  <Card
-                    size="small"
-                    title={
-                      <Title>
-                        <p className="medium-card-title">{item.title}</p>
-                      </Title>
-                    }
-                    style={{ margin: "10px" }}
-                    className="ant-card-custom-hover"
-                    bordered
-                    hoverable
-                  >
-                    <Tag color="blue" style={{ width: "100%" }}>
-                      <p className="small-font" style={{ padding: "10px" }}>
-                        {item.description}
-                      </p>
-                    </Tag>
+                  <Card size="small" className="ant-card-custom-hover">
+                    <p className="medium-card-title">{item.title}</p>
+                    <p className="small-font">{item.description}</p>
                   </Card>
                 </List.Item>
               )}
@@ -157,47 +141,58 @@ const Schedule = (props) => {
       {contextHolder}
       <Row style={{ marginTop: "20px" }}>
         <Card size="small" style={{ width: "100%" }}>
-          <Row>
-            <Col span={4} style={{ margin: "10px 3px 10px 17px" }}>
-              <Button
+          <Row className="justified-row">
+            <div className="card-custom-size">
+              <Card
                 size="large"
-                type="primary"
-                onClick={() => handleSubmit("topRight")}
-                block
+                extra={
+                  <Button
+                    size="large"
+                    type="primary"
+                    onClick={() => handleSubmit("topRight")}
+                  >
+                    APPLY
+                  </Button>
+                }
+                title={
+                  <Title>
+                    <p className="big-card-title">Shift Schedule</p>
+                  </Title>
+                }
+                hoverable
               >
-                APPLY SCHEDULE
-              </Button>
-            </Col>
-            <Col
-              span={19}
-              style={{ margin: "10px 10px 10px 2px", marginLeft: "3px" }}
-            >
-              <Select
-                size="large"
-                showSearch
-                className="small-font"
-                placeholder="Search Schedule"
-                style={{ width: "100%" }}
-                optionFilterProp="children"
-                filterOption={(input, option) =>
-                  (option?.label ?? "").toLowerCase().includes(input)
-                }
-                filterSort={(optionA, optionB) =>
-                  (optionA?.label ?? "")
-                    .toLowerCase()
-                    .localeCompare((optionB?.label ?? "").toLowerCase())
-                }
-                value={schedname}
-                options={schedules.map((schedule) => {
-                  return { value: schedule.id, label: schedule.sched_name };
-                })}
-                onChange={onChange}
-              />
-            </Col>
+                <Row style={{ marginBottom: "10px" }}>
+                  <Select
+                    size="large"
+                    showSearch
+                    className="small-font"
+                    placeholder="Search Schedule"
+                    style={{ width: "100%" }}
+                    optionFilterProp="children"
+                    filterOption={(input, option) =>
+                      (option?.label ?? "").toLowerCase().includes(input)
+                    }
+                    filterSort={(optionA, optionB) =>
+                      (optionA?.label ?? "")
+                        .toLowerCase()
+                        .localeCompare((optionB?.label ?? "").toLowerCase())
+                    }
+                    value={schedname}
+                    options={schedules.map((schedule) => {
+                      return {
+                        value: schedule.id,
+                        label: schedule.sched_name,
+                      };
+                    })}
+                    onChange={onChange}
+                  />
+                </Row>
+                <Row>{scheduleSwitch(schedid)}</Row>
+              </Card>
+            </div>
           </Row>
         </Card>
       </Row>
-      <Row style={{ marginTop: "20px" }}>{scheduleSwitch(schedid)}</Row>
     </>
   );
 };

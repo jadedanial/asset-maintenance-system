@@ -29,8 +29,9 @@ import NotificationEvent from "./NotificationEvent";
 const { Title } = Typography;
 
 const Attendance = (props, ref) => {
+  const dateTimeFormat = "YYYY-MM-DD HH:mm:ss";
   const [selectedDate, setSelectedDate] = useState(
-    String(moment().format("MMMM DD, YYYY"))
+    String(moment().format("YYYY-MM-DD"))
   );
   const [schedid, setSchedId] = useState(0);
   const [attendances, setAttendances] = useState([]);
@@ -40,7 +41,7 @@ const Attendance = (props, ref) => {
   const [checkInTime, setCheckInTime] = useState("--:--:--");
   const [checkOutTime, setCheckOutTime] = useState("--:--:--");
   const [attendButton, setAttendButton] = useState("none");
-  const [openModal, setOpenModal] = useState(false);
+  const [add, setAdd] = useState(false);
   const [withData, setWithData] = useState(false);
   const [api, contextHolder] = notification.useNotification();
 
@@ -60,11 +61,19 @@ const Attendance = (props, ref) => {
                     ...attendances,
                     {
                       Date: res.attend_date,
-                      "Check In": res.attend_checkin
-                        ? res.attend_checkin
+                      "Check In": String(
+                        moment(res.attend_checkin).format(dateTimeFormat)
+                      )
+                        ? String(
+                            moment(res.attend_checkin).format(dateTimeFormat)
+                          )
                         : "--:--:--",
-                      "Check Out": res.attend_checkout
-                        ? res.attend_checkout
+                      "Check Out": String(
+                        moment(res.attend_checkout).format(dateTimeFormat)
+                      )
+                        ? String(
+                            moment(res.attend_checkout).format(dateTimeFormat)
+                          )
                         : "--:--:--",
                       "Late In": res.attend_latein,
                       "Early Out": res.attend_earlyout,
@@ -307,36 +316,11 @@ const Attendance = (props, ref) => {
     );
   }
 
-  function componentSwitch(key) {
-    switch (key) {
-      case true:
-        return (
-          <>
-            <AddAttendance
-              empid={props.empid}
-              schedid={schedid}
-              showModal={openModal}
-              onCloseModal={onCloseModal}
-              mode={attendanceMode}
-              attenddate={selectedDate}
-              attendances={attendances}
-              updateAttendances={updateAttendances}
-              updateOnSelect={onSelect}
-              checkInTime={checkInTime}
-              checkOutTime={checkOutTime}
-            ></AddAttendance>
-          </>
-        );
-      default:
-        break;
-    }
-  }
-
-  function showModal() {
+  function newAttendance() {
     getSchedule().then((schedule) => {
       if (schedule) {
         setSchedId(schedule);
-        setOpenModal(true);
+        setAdd(true);
       } else {
         api.info(
           NotificationEvent(false, "Employee no shift schedule assigned!")
@@ -345,9 +329,8 @@ const Attendance = (props, ref) => {
     });
   }
 
-  function onCloseModal() {
-    setOpenModal(false);
-    setAttendances(attendances);
+  function viewAttendance() {
+    setAdd(false);
   }
 
   return (
@@ -355,71 +338,91 @@ const Attendance = (props, ref) => {
       {contextHolder}
       <Row style={{ marginTop: "20px" }}>
         <Card size="small" style={{ width: "100%" }}>
-          <Row style={{ justifyContent: "center", marginBottom: "20px" }}>
-            <p className="medium-card-title">
-              {String(moment(selectedDate).format("MMMM YYYY"))} Attendance
-              Summary
-            </p>
-          </Row>
-          <Row className="justified-row">
-            <Space size={70}>{monthlyAttendanceData(selectedDate)}</Space>
-          </Row>
+          {add ? (
+            <AddAttendance
+              empid={props.empid}
+              schedid={schedid}
+              mode={attendanceMode}
+              attenddate={selectedDate}
+              attendances={attendances}
+              updateAttendances={updateAttendances}
+              updateOnSelect={onSelect}
+              checkInTime={checkInTime}
+              checkOutTime={checkOutTime}
+              viewAttendance={viewAttendance}
+            ></AddAttendance>
+          ) : (
+            <>
+              <Row className="justified-row" style={{ marginBottom: "30px" }}>
+                <p className="medium-card-title">
+                  {String(moment(selectedDate).format("MMMM YYYY"))} Attendance
+                  Summary
+                </p>
+              </Row>
+              <Row className="justified-row">
+                <Space size={70}>{monthlyAttendanceData(selectedDate)}</Space>
+              </Row>
+              <Row style={{ marginTop: "40px" }}>
+                <div className="space-between-row">
+                  <Col span={withData ? 9 : 0}>
+                    <Card
+                      style={{
+                        background: "#e6f7ff",
+                        borderColor: "#91d5ff",
+                        height: "100%",
+                        padding: "0 10px",
+                      }}
+                    >
+                      <Row>
+                        <p className="medium-card-title">{attendStatus}</p>
+                      </Row>
+                      <Row style={{ marginTop: "10px" }}>
+                        <Button
+                          size="large"
+                          type="primary"
+                          className="custom-hover"
+                          style={{ margin: "0", display: attendButton }}
+                          onClick={newAttendance}
+                        >
+                          {attendanceMode}
+                        </Button>
+                      </Row>
+                      <Row style={{ marginTop: "38px" }}>
+                        <Timeline>
+                          {attendanceData.map((data) => (
+                            <div>
+                              <Timeline.Item
+                                dot={
+                                  <ClockCircleOutlined
+                                    style={{ fontSize: "" }}
+                                  />
+                                }
+                                className="small-font"
+                              >
+                                {data}
+                              </Timeline.Item>
+                            </div>
+                          ))}
+                        </Timeline>
+                      </Row>
+                    </Card>
+                  </Col>
+                  <Col span={withData ? 14 : 24}>
+                    <Card>
+                      <Calendar
+                        fullscreen={true}
+                        mode="month"
+                        onSelect={onSelect}
+                        dateCellRender={dateCellRender}
+                      />
+                    </Card>
+                  </Col>
+                </div>
+              </Row>
+            </>
+          )}
         </Card>
       </Row>
-      <Row style={{ marginTop: "40px" }}>
-        <div className="space-between-row">
-          <Col span={withData ? 7 : 0}>
-            <Card
-              style={{
-                background: "#e6f7ff",
-                borderColor: "#91d5ff",
-                height: "100%",
-                padding: "0 10px",
-              }}
-            >
-              <Row>
-                <p className="medium-card-title">{attendStatus}</p>
-              </Row>
-              <Row style={{ marginTop: "10px" }}>
-                <Button
-                  size="large"
-                  type="primary"
-                  className="custom-hover"
-                  style={{ margin: "0", display: attendButton }}
-                  onClick={() => showModal()}
-                >
-                  {attendanceMode}
-                </Button>
-              </Row>
-              <Row style={{ marginTop: "38px" }}>
-                <Timeline>
-                  {attendanceData.map((data) => (
-                    <div>
-                      <Timeline.Item
-                        dot={<ClockCircleOutlined style={{ fontSize: "" }} />}
-                        className="small-font"
-                      >
-                        {data}
-                      </Timeline.Item>
-                    </div>
-                  ))}
-                </Timeline>
-              </Row>
-            </Card>
-          </Col>
-          <Col span={withData ? 16 : 24}>
-            <Card>
-              <Calendar
-                fullscreen={true}
-                mode="month"
-                onSelect={onSelect}
-                dateCellRender={dateCellRender}
-              />
-            </Card>
-          </Col>
-        </div>
-      </Row>
-      {componentSwitch(openModal)}
     </>
   );
 };

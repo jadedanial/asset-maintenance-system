@@ -225,8 +225,12 @@ class Attendance(models.Model):
         verbose_name="Employee ID",
     )
     attend_date = models.DateField(blank=False, null=False, verbose_name="Date")
-    attend_checkin = models.TimeField(blank=True, null=True, verbose_name="Check In")
-    attend_checkout = models.TimeField(blank=True, null=True, verbose_name="Check Out")
+    attend_checkin = models.DateTimeField(
+        blank=True, null=True, verbose_name="Check In"
+    )
+    attend_checkout = models.DateTimeField(
+        blank=True, null=True, verbose_name="Check Out"
+    )
     attend_latein = models.FloatField(blank=True, null=True, verbose_name="Late In")
     attend_earlyout = models.FloatField(blank=True, null=True, verbose_name="Early Out")
     attend_work = models.FloatField(blank=True, null=True, verbose_name="Worked")

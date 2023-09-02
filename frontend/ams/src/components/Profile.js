@@ -147,8 +147,6 @@ const Profile = (props) => {
                       </Title>
                     }
                     style={{ width: "100%" }}
-                    bordered
-                    hoverable
                   >
                     <Row
                       style={{
@@ -229,13 +227,8 @@ const Profile = (props) => {
                     </Row>
                   </Card>
                 </Row>
-                <Row style={{ marginTop: "20px" }}>
-                  <Card
-                    size="large"
-                    style={{ width: "100%" }}
-                    bordered
-                    hoverable
-                  >
+                <Row>
+                  <Card size="large" style={{ width: "100%" }}>
                     <Tabs
                       type="card"
                       style={{ background: "#fff" }}
