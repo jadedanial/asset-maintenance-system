@@ -61,16 +61,12 @@ const Attendance = (props, ref) => {
                     ...attendances,
                     {
                       Date: res.attend_date,
-                      "Check In": String(
-                        moment(res.attend_checkin).format(dateTimeFormat)
-                      )
+                      "Check In": res.attend_checkin
                         ? String(
                             moment(res.attend_checkin).format(dateTimeFormat)
                           )
                         : "--:--:--",
-                      "Check Out": String(
-                        moment(res.attend_checkout).format(dateTimeFormat)
-                      )
+                      "Check Out": res.attend_checkout
                         ? String(
                             moment(res.attend_checkout).format(dateTimeFormat)
                           )
@@ -323,7 +319,10 @@ const Attendance = (props, ref) => {
         setAdd(true);
       } else {
         api.info(
-          NotificationEvent(false, "Employee no shift schedule assigned!")
+          NotificationEvent(
+            false,
+            "No shift schedule assigned to this employee!"
+          )
         );
       }
     });

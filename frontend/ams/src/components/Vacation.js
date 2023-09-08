@@ -32,7 +32,6 @@ const layout = {
 
 const Vacation = (props) => {
   const dateFormat = "YYYY-MM-DD";
-  const empID = props.empid;
   const [vacations, setVacations] = useState([]);
   const [vactypes, setVacationType] = useState([]);
   const [vacation, setVacation] = useState("");
@@ -356,39 +355,6 @@ const Vacation = (props) => {
     setAttachment("");
   }
 
-  function next() {
-    var valid = true;
-
-    if (vacation === "") {
-      valid = false;
-      api.info(NotificationEvent(false, "No Vacation Type selected!"));
-    } else if (startdate === "") {
-      valid = false;
-      api.info(NotificationEvent(false, "No Start Date selected!"));
-    } else if (enddate === "") {
-      valid = false;
-      api.info(NotificationEvent(false, "No End Date selected!"));
-    } else if (startdate > enddate) {
-      valid = false;
-      api.info(NotificationEvent(false, "Start date must less than End date!"));
-    }
-
-    if (valid) {
-      var d =
-        moment
-          .duration(
-            moment(enddate, "YYYY-MM-DD").diff(moment(startdate, "YYYY-MM-DD"))
-          )
-          .asDays() + 1;
-      setDays(d > 1 ? d + " days" : d + " day");
-      setCurrent(current + 1);
-    }
-  }
-
-  function prev() {
-    setCurrent(current - 1);
-  }
-
   function newVacation() {
     setSuccess(false);
     setCurrent(0);
@@ -406,9 +372,84 @@ const Vacation = (props) => {
     setSuccess(false);
   }
 
+  function addVactionButton() {
+    return (
+      <Button size="large" type="primary" onClick={newVacation}>
+        ADD VACATION
+      </Button>
+    );
+  }
+
+  function checkVacation() {
+    var onVacation = false;
+    var vacs = vacations
+      .filter((res) => res.id === props.empid)
+      .map((vac) => {
+        return {
+          start: vac.start,
+          end: vac.end,
+        };
+      });
+    for (var i = 0; i < vacs.length; i++) {
+      var startVac = vacs[i]["start"];
+      var endVac = vacs[i]["end"];
+      if (
+        moment(startdate).isBetween(startVac, endVac, undefined, []) ||
+        moment(enddate).isBetween(startVac, endVac, undefined, [])
+      ) {
+        onVacation = true;
+        break;
+      } else {
+        onVacation = false;
+      }
+    }
+    return onVacation;
+  }
+
+  function next() {
+    var valid = true;
+    if (vacation === "") {
+      valid = false;
+      api.info(NotificationEvent(false, "No Vacation Type selected!"));
+    } else if (startdate === "") {
+      valid = false;
+      api.info(NotificationEvent(false, "No Start Date selected!"));
+    } else if (enddate === "") {
+      valid = false;
+      api.info(NotificationEvent(false, "No End Date selected!"));
+    } else if (startdate > enddate) {
+      valid = false;
+      api.info(
+        NotificationEvent(false, "End Date must greater than Start Date!")
+      );
+    } else if (startdate < moment().format(dateFormat)) {
+      valid = false;
+      api.info(
+        NotificationEvent(false, "Cannot apply vacation for previous date!")
+      );
+    } else if (checkVacation()) {
+      valid = false;
+      api.info(NotificationEvent(false, "Vacation exist for this date!"));
+    }
+    if (valid) {
+      var d =
+        moment
+          .duration(
+            moment(enddate, "YYYY-MM-DD").diff(moment(startdate, "YYYY-MM-DD"))
+          )
+          .asDays() + 1;
+      setDays(d > 1 ? d + " days" : d + " day");
+      setCurrent(current + 1);
+    }
+  }
+
+  function prev() {
+    setCurrent(current - 1);
+  }
+
   async function apply() {
     var vacData = {
-      emp_id: empID,
+      emp_id: props.empid,
       vac_type: vacation,
       vac_start: startdate,
       vac_end: enddate,
@@ -429,16 +470,8 @@ const Vacation = (props) => {
     } catch (err) {
       console.log(err.response.data[0]);
       setSuccess(false);
-      api.info(NotificationEvent(false, "Employee vacation failed to add!"));
+      api.info(NotificationEvent(false, "Employee vacation failed to apply!"));
     }
-  }
-
-  function addVactionButton() {
-    return (
-      <Button size="large" type="primary" onClick={newVacation}>
-        ADD VACATION
-      </Button>
-    );
   }
 
   if (success) {
@@ -524,7 +557,7 @@ const Vacation = (props) => {
               rowClassName={() => "table-row"}
               columns={columns}
               dataSource={vacations
-                .filter((res) => res.id === empID)
+                .filter((res) => res.id === props.empid)
                 .map((vac) => {
                   return {
                     type: vac.type,

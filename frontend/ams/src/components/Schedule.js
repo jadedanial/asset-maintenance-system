@@ -14,7 +14,6 @@ import NotificationEvent from "./NotificationEvent";
 const { Title } = Typography;
 
 const Schedule = (props) => {
-  const empID = props.empid;
   const [schedules, setSchedules] = useState([]);
   const [schedid, setSchedId] = useState(0);
   const [schedname, setSchedName] = useState("");
@@ -61,7 +60,7 @@ const Schedule = (props) => {
 
   async function handleSubmit() {
     var empData = {
-      empID: empID,
+      empID: props.empid,
       schedid: schedid,
     };
     try {

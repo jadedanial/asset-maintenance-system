@@ -30,43 +30,76 @@ const layout = {
 const AddAttendance = (props) => {
   const dateTimeFormat = "YYYY-MM-DD HH:mm:ss";
   const dateFormat = "YYYY-MM-DD";
+  const timeFormat = "HH:mm:ss";
   const attendDate = moment(props.attenddate).format(dateFormat);
   const [attendCheckin, setAttendCheckIn] = useState(props.checkInTime);
   const [attendCheckout, setAttendCheckOut] = useState(props.checkOutTime);
   const [schedules, setSchedules] = useState([]);
+  const [vacations, setVacations] = useState([]);
   const [success, setSuccess] = useState(false);
   const [api, contextHolder] = notification.useNotification();
 
   useEffect(() => {
     (async () => {
-      try {
-        await axios
-          .get("http://localhost:8000/api/schedule", {
-            headers: { "Content-Type": "application/json" },
-            withCredentials: true,
-          })
-          .then((response) => {
-            response.data.map((res) =>
-              res.id === props.schedid
-                ? setSchedules([
-                    {
-                      sched_sun: res.sched_sun,
-                      sched_mon: res.sched_mon,
-                      sched_tue: res.sched_tue,
-                      sched_wed: res.sched_wed,
-                      sched_thu: res.sched_thu,
-                      sched_fri: res.sched_fri,
-                      sched_sat: res.sched_sat,
-                    },
-                  ])
-                : {}
-            );
-          });
-      } catch (err) {
-        console.log(err.response.data[0]);
-      }
+      await loadSchedules();
+      await loadVacations();
     })();
-  }, [props.schedid]);
+  });
+
+  async function loadSchedules() {
+    try {
+      await axios
+        .get("http://localhost:8000/api/schedule", {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        })
+        .then((response) => {
+          response.data.map((res) =>
+            res.id === props.schedid
+              ? setSchedules([
+                  {
+                    sched_sun: res.sched_sun,
+                    sched_mon: res.sched_mon,
+                    sched_tue: res.sched_tue,
+                    sched_wed: res.sched_wed,
+                    sched_thu: res.sched_thu,
+                    sched_fri: res.sched_fri,
+                    sched_sat: res.sched_sat,
+                  },
+                ])
+              : {}
+          );
+        });
+    } catch (err) {
+      console.log(err.response.data[0]);
+    }
+  }
+
+  async function loadVacations() {
+    try {
+      await axios
+        .get("http://localhost:8000/api/vacations", {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        })
+        .then((response) => {
+          setVacations([]);
+          response.data.map((res) =>
+            setVacations((vacations) => [
+              ...vacations,
+              {
+                id: res.emp_id,
+                type: res.vac_type,
+                start: res.vac_start,
+                end: res.vac_end,
+              },
+            ])
+          );
+        });
+    } catch (err) {
+      console.log(err.response.data[0]);
+    }
+  }
 
   function dayOfTheWeek(day) {
     return schedules.map((schedule) => schedule[day]);
@@ -80,6 +113,9 @@ const AddAttendance = (props) => {
         )
       )
       .asHours();
+    if (checkVacation()) {
+      req = 0;
+    }
     return req;
   }
 
@@ -187,21 +223,49 @@ const AddAttendance = (props) => {
     return over;
   }
 
+  function checkVacation() {
+    var onVacation = false;
+    var vacs = vacations
+      .filter((res) => res.id === props.empid)
+      .map((vac) => {
+        return {
+          type: vac.type,
+          start: vac.start,
+          end: vac.end,
+        };
+      });
+    for (var i = 0; i < vacs.length; i++) {
+      var startVac = vacs[i]["start"];
+      var endVac = vacs[i]["end"];
+      if (moment(attendDate).isBetween(startVac, endVac, undefined, [])) {
+        onVacation = true;
+        break;
+      } else {
+        onVacation = false;
+      }
+    }
+    return onVacation;
+  }
+
   function checkStatus(work, shiftStart, shiftEnd) {
     var status = "No Attendance Data";
-    if (parseFloat(work) > parseFloat(0)) {
-      status = "Attended Today";
+    if (checkVacation()) {
+      status = "Vacation Today";
     } else {
-      if (parseFloat(totalRequired(shiftStart, shiftEnd)) === parseFloat(0)) {
-        status = "Dayoff Today";
+      if (parseFloat(work) > parseFloat(0)) {
+        status = "Attended Today";
       } else {
-        if (
-          isNaN(moment(attendCheckin, dateTimeFormat)) &&
-          isNaN(moment(attendCheckout, dateTimeFormat))
-        ) {
-          status = "Absent Today";
+        if (parseFloat(totalRequired(shiftStart, shiftEnd)) === parseFloat(0)) {
+          status = "Dayoff Today";
         } else {
-          status = "Incomplete Attendance";
+          if (
+            isNaN(moment(attendCheckin, dateTimeFormat)) &&
+            isNaN(moment(attendCheckout, dateTimeFormat))
+          ) {
+            status = "Absent Today";
+          } else {
+            status = "Incomplete Attendance";
+          }
         }
       }
     }
@@ -251,6 +315,8 @@ const AddAttendance = (props) => {
   }
 
   function applyAttendance() {
+    loadSchedules();
+    loadVacations();
     var valid = true;
     var err = 0;
     if (
@@ -283,7 +349,6 @@ const AddAttendance = (props) => {
         err = 2;
       }
     }
-
     if (valid) {
       var shiftStart =
         attendDate +
@@ -372,7 +437,7 @@ const AddAttendance = (props) => {
         NotificationEvent(
           false,
           err === 0
-            ? "Check In time must less than Check Out time!"
+            ? "Check Out time must greater than Check In time!"
             : err === 1
             ? "Check In date must equal to Attendance date!"
             : err === 2
@@ -391,10 +456,10 @@ const AddAttendance = (props) => {
           status="success"
           title={"Successfully applied employee attendance."}
           subTitle={`Date ${String(
-            moment(props.attenddate).format(dateFormat)
+            moment(attendDate).format(dateFormat)
           )} From ${String(
-            moment(attendCheckin).format("HH:mm:ss")
-          )} To ${String(moment(attendCheckout).format("HH:mm:ss"))} `}
+            moment(attendCheckin).format(timeFormat)
+          )} To ${String(moment(attendCheckout).format(timeFormat))} `}
           extra={[
             <Button size="large" type="primary" onClick={props.viewAttendance}>
               VIEW ATTENDANCES
@@ -462,7 +527,7 @@ const AddAttendance = (props) => {
                         onChange={(value) =>
                           setAttendCheckIn(moment(value).format(dateTimeFormat))
                         }
-                        value={
+                        defaultValue={
                           attendCheckin !== "--:--:--"
                             ? moment(attendCheckin, dateTimeFormat)
                             : null
@@ -481,7 +546,7 @@ const AddAttendance = (props) => {
                             moment(value).format(dateTimeFormat)
                           )
                         }
-                        value={
+                        defaultValue={
                           attendCheckout !== "--:--:--"
                             ? moment(attendCheckout, dateTimeFormat)
                             : null
