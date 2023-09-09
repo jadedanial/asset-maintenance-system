@@ -462,7 +462,7 @@ const AddAttendance = (props) => {
           )} To ${String(moment(attendCheckout).format(timeFormat))} `}
           extra={[
             <Button size="large" type="primary" onClick={props.viewAttendance}>
-              VIEW ATTENDANCES
+              VIEW ATTENDANCE
             </Button>,
           ]}
         />
