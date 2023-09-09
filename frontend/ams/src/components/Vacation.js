@@ -447,7 +447,7 @@ const Vacation = (props) => {
     setCurrent(current - 1);
   }
 
-  async function apply() {
+  async function applyVacation() {
     var vacData = {
       emp_id: props.empid,
       vac_type: vacation,
@@ -534,7 +534,11 @@ const Vacation = (props) => {
                         </Button>
                       )}
                       {current === steps.length - 1 && (
-                        <Button size="large" type="primary" onClick={apply}>
+                        <Button
+                          size="large"
+                          type="primary"
+                          onClick={applyVacation}
+                        >
                           APPLY
                         </Button>
                       )}

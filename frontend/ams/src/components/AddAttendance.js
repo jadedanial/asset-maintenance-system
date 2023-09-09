@@ -320,30 +320,30 @@ const AddAttendance = (props) => {
     var valid = true;
     var err = 0;
     if (
-      !isNaN(moment(attendCheckin, dateTimeFormat)) &&
-      !isNaN(moment(attendCheckout, dateTimeFormat))
+      moment(attendCheckin, dateTimeFormat).isValid() === true &&
+      moment(attendCheckout, dateTimeFormat).isValid() === true
     ) {
       if (attendCheckin > attendCheckout) {
         valid = false;
         err = 0;
       }
     }
-    if (!isNaN(moment(attendCheckin, dateTimeFormat))) {
+    if (moment(attendCheckin, dateTimeFormat).isValid() === true) {
       if (
-        moment(attendCheckin).format("YYYY-MM-DD") !==
-        moment(attendDate).format("YYYY-MM-DD")
+        moment(attendCheckin).format(dateFormat) !==
+        moment(attendDate).format(dateFormat)
       ) {
         valid = false;
         err = 1;
       }
     }
     if (
-      isNaN(moment(attendCheckin, dateTimeFormat)) &&
-      !isNaN(moment(attendCheckout, dateTimeFormat))
+      moment(attendCheckin, dateTimeFormat).isValid() === false &&
+      moment(attendCheckout, dateTimeFormat).isValid() === true
     ) {
       if (
-        moment(attendCheckout).format("YYYY-MM-DD") !==
-        moment(attendDate).format("YYYY-MM-DD")
+        moment(attendCheckout).format(dateFormat) !==
+        moment(attendDate).format(dateFormat)
       ) {
         valid = false;
         err = 2;
@@ -455,11 +455,22 @@ const AddAttendance = (props) => {
           icon={<CheckCircleOutlined style={{ color: "#318ce7" }} />}
           status="success"
           title={"Successfully applied employee attendance."}
-          subTitle={`Date ${String(
-            moment(attendDate).format(dateFormat)
-          )} From ${String(
-            moment(attendCheckin).format(timeFormat)
-          )} To ${String(moment(attendCheckout).format(timeFormat))} `}
+          subTitle={
+            "Date " +
+            String(moment(attendDate).format(dateFormat)) +
+            " From " +
+            String(
+              moment(attendCheckin).isValid()
+                ? moment(attendCheckin).format(timeFormat)
+                : "--:--:--"
+            ) +
+            " To " +
+            String(
+              moment(attendCheckout).isValid()
+                ? moment(attendCheckout).format(timeFormat)
+                : "--:--:--"
+            )
+          }
           extra={[
             <Button size="large" type="primary" onClick={props.viewAttendance}>
               VIEW ATTENDANCE

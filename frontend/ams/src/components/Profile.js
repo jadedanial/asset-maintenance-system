@@ -24,6 +24,7 @@ import AddUpdateEmployee from "./AddUpdateEmployee";
 import Attendance from "../components/Attendance";
 import Schedule from "../components/Schedule";
 import Vacation from "../components/Vacation";
+import Excuse from "../components/Excuse";
 import moment from "moment";
 
 const { Title } = Typography;
@@ -57,6 +58,15 @@ const Profile = (props) => {
       children: (
         <>
           <Vacation empid={props.empid}></Vacation>
+        </>
+      ),
+    },
+    {
+      label: <>EXCUSE</>,
+      key: "4",
+      children: (
+        <>
+          <Excuse empid={props.empid}></Excuse>
         </>
       ),
     },

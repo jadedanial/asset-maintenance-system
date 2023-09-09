@@ -352,7 +352,7 @@ const Attendance = (props, ref) => {
             ></AddAttendance>
           ) : (
             <>
-              <Row className="justified-row" style={{ marginBottom: "30px" }}>
+              <Row className="justified-row" style={{ margin: "30px 0" }}>
                 <p className="medium-card-title">
                   {String(moment(selectedDate).format("MMMM YYYY"))} Attendance
                   Summary
