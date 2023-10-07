@@ -68,10 +68,10 @@ const DrawerEvent = (props) => {
         extra={
           <Tooltip title={"Close"}>
             <Button
-              onClick={props.onCloseDrawer}
               icon={
                 <CloseOutlined style={{ color: "#318ce7", fontSize: "22px" }} />
               }
+              onClick={props.onCloseDrawer}
             />
           </Tooltip>
         }

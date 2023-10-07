@@ -246,6 +246,7 @@ const Profile = (props) => {
                       size="large"
                       tabBarGutter={4}
                       items={items}
+                      destroyInactiveTabPane
                     />
                   </Card>
                 </Row>

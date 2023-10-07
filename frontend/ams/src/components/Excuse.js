@@ -11,9 +11,10 @@ import {
   Button,
   Typography,
   List,
+  Table,
   notification,
 } from "antd";
-import { CheckCircleOutlined } from "@ant-design/icons";
+import { CheckCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import moment from "moment";
 import NotificationEvent from "./NotificationEvent";
 import ResultEvent from "../components/ResultEvent";
@@ -30,11 +31,17 @@ const layout = {
 };
 
 const Excuse = (props) => {
+  const dateFormat = "YYYY-MM-DD";
+  const timeFormat = "HH:mm:ss";
+  const [attendances, setAttendances] = useState([]);
+  const [excuses, setExcuses] = useState([]);
   const [excusedate, setExcuseDate] = useState("");
   const [starttime, setStartTime] = useState("");
   const [endtime, setEndTime] = useState("");
   const [reason, setReason] = useState("");
   const [success, setSuccess] = useState(false);
+  const [add, setAdd] = useState(false);
+  const [hours, setHours] = useState(0);
   const [api, contextHolder] = notification.useNotification();
   const [current, setCurrent] = useState(0);
 
@@ -52,7 +59,7 @@ const Excuse = (props) => {
           >
             <Col span={24}>
               <div className="space-between-row">
-                <Col span={7}>
+                <Col span={5}>
                   <Form.Item
                     name={["excusedate"]}
                     label="Excuse Date"
@@ -71,7 +78,7 @@ const Excuse = (props) => {
                     />
                   </Form.Item>
                 </Col>
-                <Col span={6}>
+                <Col span={4}>
                   <Form.Item
                     name={["starttime"]}
                     label="Start Time"
@@ -90,7 +97,7 @@ const Excuse = (props) => {
                     />
                   </Form.Item>
                 </Col>
-                <Col span={6}>
+                <Col span={4}>
                   <Form.Item
                     name={["endtime"]}
                     label="End Time"
@@ -109,29 +116,26 @@ const Excuse = (props) => {
                     />
                   </Form.Item>
                 </Col>
-                <Col span={3}>
-                  <Form.Item name="total" label="Total Hour">
-                    <Input readOnly />
+                <Col span={9}>
+                  <Form.Item
+                    name={["reason"]}
+                    label="Reason"
+                    initialValue={reason}
+                    rules={[
+                      {
+                        required: true,
+                        message: "Required!",
+                      },
+                    ]}
+                  >
+                    <Input
+                      value={reason}
+                      onChange={(e) => setReason(e.target.value)}
+                    />
                   </Form.Item>
                 </Col>
               </div>
             </Col>
-            <Form.Item
-              name={["reason"]}
-              label="Reason"
-              initialValue={reason}
-              rules={[
-                {
-                  required: true,
-                  message: "Required!",
-                },
-              ]}
-            >
-              <Input.TextArea
-                value={reason}
-                onChange={(e) => setReason(e.target.value)}
-              />
-            </Form.Item>
           </Form>
         </>
       ),
@@ -140,32 +144,34 @@ const Excuse = (props) => {
       title: "Confirm",
       content: (
         <List
-          style={{ width: "90%" }}
+          style={{ width: "100%" }}
           itemLayout="horizontal"
           dataSource={[
             {
               title: (
                 <p className="small-font" style={{ color: "#318ce7" }}>
-                  Excuse Date
+                  Date
                 </p>
               ),
-              description: <p className="small-font">{excusedate}</p>,
+              description: (
+                <p className="medium-font">
+                  {moment(excusedate).format(dateFormat)}
+                </p>
+              ),
             },
             {
               title: (
                 <p className="small-font" style={{ color: "#318ce7" }}>
-                  Start Time
+                  Time
                 </p>
               ),
-              description: <p className="small-font">{starttime}</p>,
-            },
-            {
-              title: (
-                <p className="small-font" style={{ color: "#318ce7" }}>
-                  End Time
+              description: (
+                <p className="medium-font">
+                  From {moment(starttime).format(timeFormat)} To{" "}
+                  {moment(endtime).format(timeFormat)} (
+                  {hours > 1 ? hours + " hours" : hours + " hour"})
                 </p>
               ),
-              description: <p className="small-font">{endtime}</p>,
             },
             {
               title: (
@@ -173,7 +179,7 @@ const Excuse = (props) => {
                   Reason
                 </p>
               ),
-              description: <p className="small-font">{reason}</p>,
+              description: <p className="medium-font">{reason}</p>,
             },
           ]}
           renderItem={(item, index) => (
@@ -189,6 +195,93 @@ const Excuse = (props) => {
     },
   ];
 
+  const columns = [
+    {
+      title: "Excuse Date",
+      dataIndex: "date",
+      key: "date",
+    },
+    {
+      title: "Start Time",
+      dataIndex: "start",
+      key: "start",
+    },
+    {
+      title: "End Time",
+      dataIndex: "end",
+      key: "end",
+    },
+    {
+      title: "Reason",
+      dataIndex: "reason",
+      key: "reason",
+    },
+    {
+      title: addExcuseButton,
+      dataIndex: "total",
+      key: "total",
+    },
+  ];
+
+  useEffect(() => {
+    (async () => {
+      await loadExcuses();
+    })();
+  }, []);
+
+  async function loadExcuses() {
+    try {
+      await axios
+        .get("http://localhost:8000/api/excuses", {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        })
+        .then((response) => {
+          setExcuses([]);
+          response.data.map((res) =>
+            setExcuses((excuses) => [
+              ...excuses,
+              {
+                id: res.emp_id,
+                date: res.exc_date,
+                start: res.exc_start,
+                end: res.exc_end,
+                reason: res.exc_reason,
+                total: res.exc_total,
+              },
+            ])
+          );
+        });
+    } catch (err) {
+      console.log(err.response.data[0]);
+    }
+  }
+
+  async function loadAttendances() {
+    try {
+      await axios
+        .get("http://localhost:8000/api/attendance", {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        })
+        .then((response) => {
+          setAttendances([]);
+          response.data.map((res) =>
+            setAttendances((attendances) => [
+              ...attendances,
+              {
+                id: res.emp_id,
+                date: res.attend_date,
+                status: res.attend_status,
+              },
+            ])
+          );
+        });
+    } catch (err) {
+      console.log(err.response.data[0]);
+    }
+  }
+
   function newExcuse() {
     setSuccess(false);
     setCurrent(0);
@@ -196,26 +289,126 @@ const Excuse = (props) => {
     setStartTime("");
     setEndTime("");
     setReason("");
+    setAdd(true);
+    loadExcuses();
+    loadAttendances();
+  }
+
+  function viewExcuse() {
+    setAdd(false);
+    setSuccess(false);
+  }
+
+  function addExcuseButton() {
+    return (
+      <Button
+        icon={<PlusOutlined />}
+        size="medium"
+        type="primary"
+        onClick={newExcuse}
+      >
+        ADD
+      </Button>
+    );
+  }
+
+  function checkExcuse() {
+    var onExcuse = false;
+    var excs = excuses
+      .filter((res) => res.id === props.empid)
+      .map((exc) => {
+        return {
+          start: exc.start,
+          end: exc.end,
+        };
+      });
+    for (var i = 0; i < excs.length; i++) {
+      var dateExc = excs[i]["date"];
+      if (
+        excusedate.format(dateFormat) === moment(dateExc).format(dateFormat)
+      ) {
+        onExcuse = true;
+        break;
+      } else {
+        onExcuse = false;
+      }
+    }
+    return onExcuse;
+  }
+
+  function checkAttendance() {
+    var onAttend = false;
+    var attends = attendances
+      .filter((res) => res.id === props.empid)
+      .map((attend) => {
+        return {
+          date: attend.date,
+          status: attend.status,
+        };
+      });
+    if (attends.length < 1) {
+      onAttend = true;
+    }
+    for (var i = 0; i < attends.length; i++) {
+      var dateAttend = attends[i]["date"];
+      var statusAttend = attends[i]["status"];
+      if (
+        excusedate.format(dateFormat) !== moment(dateAttend).format(dateFormat)
+      ) {
+        onAttend = true;
+      } else {
+        if (statusAttend === "Incomplete Attendance") {
+          onAttend = true;
+          break;
+        } else {
+          onAttend = false;
+        }
+      }
+    }
+    return onAttend;
   }
 
   function next() {
     var valid = true;
-    if (moment(excusedate).isValid() === false) {
+    if (excusedate === "") {
       valid = false;
       api.info(NotificationEvent(false, "No Excuse Date selected!!"));
-    } else if (moment(starttime).isValid() === false) {
+    } else if (starttime === "") {
       valid = false;
       api.info(NotificationEvent(false, "No Start Time selected!"));
-    } else if (moment(endtime).isValid() === false) {
+    } else if (endtime === "") {
       valid = false;
       api.info(NotificationEvent(false, "No End Time selected!"));
-    } else if (starttime > endtime) {
+    } else if (starttime > endtime || starttime === endtime) {
       valid = false;
       api.info(
         NotificationEvent(false, "End Time must greater than Start Time!")
       );
+    } else if (reason === "") {
+      valid = false;
+      api.info(NotificationEvent(false, "Provide a valid Reason!"));
+    } else if (excusedate.format(dateFormat) !== moment().format(dateFormat)) {
+      valid = false;
+      api.info(
+        NotificationEvent(false, "Cannot apply excuse for past or future date!")
+      );
+    } else if (checkExcuse()) {
+      valid = false;
+      api.info(NotificationEvent(false, "Excuse exist for this date!"));
+    } else if (checkAttendance()) {
+      valid = false;
+      api.info(
+        NotificationEvent(
+          false,
+          "Cannot apply excuse when attendance is Incomplete!"
+        )
+      );
     }
     if (valid) {
+      var h = moment
+        .duration(moment(endtime).diff(moment(starttime)))
+        .asHours();
+      setHours(parseFloat(h).toFixed(2));
       setCurrent(current + 1);
     }
   }
@@ -224,7 +417,31 @@ const Excuse = (props) => {
     setCurrent(current - 1);
   }
 
-  async function applyExcuse() {}
+  async function applyExcuse() {
+    var excData = {
+      emp_id: props.empid,
+      exc_date: moment(excusedate).format(dateFormat),
+      exc_start: moment(starttime).format(timeFormat),
+      exc_end: moment(endtime).format(timeFormat),
+      exc_reason: reason,
+      exc_total: hours,
+    };
+    try {
+      await axios({
+        method: "POST",
+        url: "http://localhost:8000/api/excuse/",
+        data: excData,
+        headers: { "Content-Type": "application/json" },
+        withCredentials: true,
+      });
+      loadExcuses();
+      setSuccess(true);
+    } catch (err) {
+      console.log(err.response.data[0]);
+      setSuccess(false);
+      api.info(NotificationEvent(false, "Employee vacation failed to apply!"));
+    }
+  }
 
   if (success) {
     return (
@@ -233,10 +450,17 @@ const Excuse = (props) => {
           icon={<CheckCircleOutlined style={{ color: "#318ce7" }} />}
           status="success"
           title={"Successfully applied employee excuse."}
-          subTitle={`Date ${excusedate}} From ${starttime} To ${endtime}`}
+          subTitle={`From ${moment(starttime).format(timeFormat)} To ${moment(
+            endtime
+          ).format(timeFormat)} (${
+            hours > 1 ? hours + " hours" : hours + " hour"
+          })`}
           extra={[
             <Button size="large" type="primary" onClick={newExcuse}>
               ADD NEW EXCUSE
+            </Button>,
+            <Button size="large" type="primary" onClick={viewExcuse}>
+              VIEW EXCUSES
             </Button>,
           ]}
         />
@@ -249,45 +473,88 @@ const Excuse = (props) => {
       {contextHolder}
       <Row style={{ marginTop: "20px" }}>
         <Card size="small" style={{ width: "100%" }}>
-          <Row className="justified-row">
-            <div className="card-custom-size">
-              <Card
-                size="large"
-                extra={
-                  <div>
-                    {current < steps.length - 1 && (
-                      <Button size="large" type="primary" onClick={next}>
-                        NEXT
-                      </Button>
-                    )}
-                    {current > 0 && (
+          {add ? (
+            <Row className="justified-row">
+              <div className="card-custom-size">
+                <Card
+                  size="large"
+                  extra={
+                    <div>
                       <Button
                         size="large"
                         type="primary"
-                        onClick={prev}
-                        style={{ marginRight: "8px" }}
+                        style={{
+                          marginRight: "8px",
+                          display: current > 0 ? "none" : "inline",
+                        }}
+                        onClick={viewExcuse}
                       >
-                        BACK
+                        CANCEL
                       </Button>
-                    )}
-                    {current === steps.length - 1 && (
-                      <Button size="large" type="primary" onClick={applyExcuse}>
-                        APPLY
-                      </Button>
-                    )}
-                  </div>
-                }
-                title={
-                  <Title>
-                    <p className="big-card-title">Excuse Application</p>
-                  </Title>
-                }
-                hoverable
-              >
-                <div className="justified-row">{steps[current].content}</div>
-              </Card>
-            </div>
-          </Row>
+                      {current < steps.length - 1 && (
+                        <Button size="large" type="primary" onClick={next}>
+                          NEXT
+                        </Button>
+                      )}
+                      {current > 0 && (
+                        <Button
+                          size="large"
+                          type="primary"
+                          onClick={prev}
+                          style={{ marginRight: "8px" }}
+                        >
+                          BACK
+                        </Button>
+                      )}
+                      {current === steps.length - 1 && (
+                        <Button
+                          size="large"
+                          type="primary"
+                          onClick={applyExcuse}
+                        >
+                          APPLY
+                        </Button>
+                      )}
+                    </div>
+                  }
+                  title={
+                    <Title>
+                      <p className="big-card-title">Excuse Application</p>
+                    </Title>
+                  }
+                  hoverable
+                >
+                  <div className="justified-row">{steps[current].content}</div>
+                </Card>
+              </div>
+            </Row>
+          ) : (
+            <Table
+              className="light-color-header-table"
+              rowClassName={() => "table-row"}
+              columns={columns}
+              dataSource={excuses
+                .filter((res) => res.id === props.empid)
+                .map((exc) => {
+                  return {
+                    date: exc.date,
+                    start: exc.start,
+                    end: exc.end,
+                    reason: exc.reason,
+                    total: exc.total,
+                  };
+                })}
+              pagination={{
+                pageSize: 10,
+                showSizeChanger: true,
+                pageSizeOptions: ["10", "20", "30"],
+              }}
+              size="small"
+              scroll={{
+                y: "50vh",
+              }}
+            />
+          )}
         </Card>
       </Row>
     </>

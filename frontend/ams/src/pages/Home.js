@@ -36,30 +36,32 @@ const HomePage = () => {
     <>
       {showunauthorized ? (
         <>
-          <ResultEvent
-            icon={<FrownOutlined style={{ color: "#318ce7" }} />}
-            status="403"
-            title="Unauthorized User!"
-            subTitle="Sorry, you are not authorized to access this page. Please login or register."
-            extra={[
-              <Button
-                size="large"
-                type="primary"
-                icon={<LoginOutlined />}
-                href="/login"
-              >
-                LOGIN
-              </Button>,
-              <Button
-                size="large"
-                type="primary"
-                icon={<UserAddOutlined />}
-                href="/register"
-              >
-                REGISTER
-              </Button>,
-            ]}
-          />
+          <div style={{ paddingTop: "80px" }}>
+            <ResultEvent
+              icon={<FrownOutlined style={{ color: "#318ce7" }} />}
+              status="403"
+              title="Unauthorized User!"
+              subTitle="Sorry, you are not authorized to access this page. Please login or register."
+              extra={[
+                <Button
+                  icon={<LoginOutlined />}
+                  size="large"
+                  type="primary"
+                  href="/login"
+                >
+                  LOGIN
+                </Button>,
+                <Button
+                  icon={<UserAddOutlined />}
+                  size="large"
+                  type="primary"
+                  href="/register"
+                >
+                  REGISTER
+                </Button>,
+              ]}
+            />
+          </div>
         </>
       ) : (
         <>

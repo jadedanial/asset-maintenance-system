@@ -14,7 +14,11 @@ import {
   Table,
   notification,
 } from "antd";
-import { CloseOutlined, CheckCircleOutlined } from "@ant-design/icons";
+import {
+  CloseOutlined,
+  CheckCircleOutlined,
+  PlusOutlined,
+} from "@ant-design/icons";
 import moment from "moment";
 import NotificationEvent from "./NotificationEvent";
 import ResultEvent from "../components/ResultEvent";
@@ -112,9 +116,7 @@ const Vacation = (props) => {
                   >
                     <DatePicker
                       placeholder=""
-                      onChange={(value) =>
-                        setStartDate(moment(value).format(dateFormat))
-                      }
+                      onChange={(value) => setStartDate(moment(value))}
                       inputReadOnly
                     />
                   </Form.Item>
@@ -133,9 +135,7 @@ const Vacation = (props) => {
                   >
                     <DatePicker
                       placeholder=""
-                      onChange={(value) =>
-                        setEndDate(moment(value).format(dateFormat))
-                      }
+                      onChange={(value) => setEndDate(moment(value))}
                       inputReadOnly
                     />
                   </Form.Item>
@@ -199,7 +199,7 @@ const Vacation = (props) => {
       title: "Confirm",
       content: (
         <List
-          style={{ width: "90%" }}
+          style={{ width: "100%" }}
           itemLayout="horizontal"
           dataSource={[
             {
@@ -208,17 +208,19 @@ const Vacation = (props) => {
                   Vacation Type
                 </p>
               ),
-              description: <p className="small-font">{vacation}</p>,
+              description: <p className="medium-font">{vacation}</p>,
             },
             {
               title: (
                 <p className="small-font" style={{ color: "#318ce7" }}>
-                  Date Duration
+                  Date
                 </p>
               ),
               description: (
-                <p className="small-font">
-                  From {startdate} To {enddate} ({days})
+                <p className="medium-font">
+                  From {moment(startdate).format(dateFormat)} To{" "}
+                  {moment(enddate).format(dateFormat)} (
+                  {days > 1 ? days + " days" : days + " day"})
                 </p>
               ),
             },
@@ -228,7 +230,9 @@ const Vacation = (props) => {
                   Reason
                 </p>
               ),
-              description: <p className="small-font">{reason}</p>,
+              description: (
+                <p className="medium-font">{reason ? reason : "No Reason"}</p>
+              ),
             },
             {
               title: (
@@ -236,7 +240,11 @@ const Vacation = (props) => {
                   Attachment
                 </p>
               ),
-              description: <p className="small-font">{attachment}</p>,
+              description: (
+                <p className="medium-font">
+                  {attachment ? attachment : "No Attachment"}
+                </p>
+              ),
             },
           ]}
           renderItem={(item, index) => (
@@ -365,6 +373,7 @@ const Vacation = (props) => {
     setAttachment("");
     setShowAttachment(false);
     setAdd(true);
+    loadVacations();
   }
 
   function viewVacation() {
@@ -374,8 +383,13 @@ const Vacation = (props) => {
 
   function addVactionButton() {
     return (
-      <Button size="large" type="primary" onClick={newVacation}>
-        ADD VACATION
+      <Button
+        icon={<PlusOutlined />}
+        size="medium"
+        type="primary"
+        onClick={newVacation}
+      >
+        ADD
       </Button>
     );
   }
@@ -394,8 +408,18 @@ const Vacation = (props) => {
       var startVac = vacs[i]["start"];
       var endVac = vacs[i]["end"];
       if (
-        moment(startdate).isBetween(startVac, endVac, undefined, []) ||
-        moment(enddate).isBetween(startVac, endVac, undefined, [])
+        moment(moment(startdate).format(dateFormat)).isBetween(
+          startVac,
+          endVac,
+          undefined,
+          []
+        ) ||
+        moment(moment(enddate).format(dateFormat)).isBetween(
+          startVac,
+          endVac,
+          undefined,
+          []
+        )
       ) {
         onVacation = true;
         break;
@@ -438,7 +462,7 @@ const Vacation = (props) => {
             moment(enddate, "YYYY-MM-DD").diff(moment(startdate, "YYYY-MM-DD"))
           )
           .asDays() + 1;
-      setDays(d > 1 ? d + " days" : d + " day");
+      setDays(parseFloat(d).toFixed(0));
       setCurrent(current + 1);
     }
   }
@@ -451,10 +475,10 @@ const Vacation = (props) => {
     var vacData = {
       emp_id: props.empid,
       vac_type: vacation,
-      vac_start: startdate,
-      vac_end: enddate,
-      vac_reason: reason === "" ? "No reason specified" : reason,
-      vac_attachment: attachment === "" ? "No document attached" : attachment,
+      vac_start: moment(startdate).format(dateFormat),
+      vac_end: moment(enddate).format(dateFormat),
+      vac_reason: reason ? reason : "No Reason",
+      vac_attachment: attachment ? attachment : "No Attachment",
       vac_total: days,
     };
     try {
@@ -481,7 +505,9 @@ const Vacation = (props) => {
           icon={<CheckCircleOutlined style={{ color: "#318ce7" }} />}
           status="success"
           title={"Successfully applied employee vacation."}
-          subTitle={`From ${startdate} To ${enddate} (${days})`}
+          subTitle={`From ${moment(startdate).format(dateFormat)} To ${moment(
+            enddate
+          ).format(dateFormat)} (${days > 1 ? days + " days" : days + " day"})`}
           extra={[
             <Button size="large" type="primary" onClick={newVacation}>
               ADD NEW VACATION
@@ -525,10 +551,10 @@ const Vacation = (props) => {
                       )}
                       {current > 0 && (
                         <Button
+                          style={{ marginRight: "8px" }}
                           size="large"
                           type="primary"
                           onClick={prev}
-                          style={{ marginRight: "8px" }}
                         >
                           BACK
                         </Button>

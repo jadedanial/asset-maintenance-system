@@ -246,6 +246,33 @@ class VacationAdmin(admin.ModelAdmin):
     )
 
 
+class ExcuseAdmin(admin.ModelAdmin):
+    list_display = (
+        "emp_id",
+        "exc_date",
+        "exc_start",
+        "exc_end",
+        "exc_reason",
+        "exc_total",
+    )
+    list_filter = (
+        "emp_id",
+        "exc_date",
+        "exc_start",
+        "exc_end",
+        "exc_reason",
+        "exc_total",
+    )
+    search_fields = (
+        "emp_id",
+        "exc_date",
+        "exc_start",
+        "exc_end",
+        "exc_reason",
+        "exc_total",
+    )
+
+
 class ItemAdmin(admin.ModelAdmin):
     readonly_fields = (
         "id",
@@ -296,4 +323,5 @@ admin.site.register(Schedule, ScheduleAdmin)
 admin.site.register(Employee, EmployeeAdmin)
 admin.site.register(Attendance, AttendanceAdmin)
 admin.site.register(Vacation, VacationAdmin)
+admin.site.register(Excuse, ExcuseAdmin)
 admin.site.register(Item, ItemAdmin)

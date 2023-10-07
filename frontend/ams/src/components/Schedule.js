@@ -90,38 +90,38 @@ const Schedule = (props) => {
               grid={{ gutter: 16, column: 3 }}
               dataSource={[
                 {
-                  title: "SUN",
+                  title: "SUNDAY",
                   description: schedule.sched_sun,
                 },
                 {
-                  title: "MON",
+                  title: "MONDAY",
                   description: schedule.sched_mon,
                 },
                 {
-                  title: "TUE",
+                  title: "TUESDAY",
                   description: schedule.sched_tue,
                 },
                 {
-                  title: "WED",
+                  title: "WEDNESDAY",
                   description: schedule.sched_wed,
                 },
                 {
-                  title: "THU",
+                  title: "THURSDAY",
                   description: schedule.sched_thu,
                 },
                 {
-                  title: "FRI",
+                  title: "FRIDAY",
                   description: schedule.sched_fri,
                 },
                 {
-                  title: "SAT",
+                  title: "SATURDAY",
                   description: schedule.sched_sat,
                 },
               ]}
               renderItem={(item) => (
                 <List.Item>
                   <Card size="small" className="ant-card-custom-hover">
-                    <p className="medium-card-title">{item.title}</p>
+                    <p className="small-card-title">{item.title}</p>
                     <p className="small-font">{item.description}</p>
                   </Card>
                 </List.Item>

@@ -153,6 +153,19 @@ class VacationSerializer(serializers.ModelSerializer):
         ]
 
 
+class ExcuseSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Excuse
+        fields = [
+            "emp_id",
+            "exc_date",
+            "exc_start",
+            "exc_end",
+            "exc_reason",
+            "exc_total",
+        ]
+
+
 class ItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = Item

@@ -216,7 +216,6 @@ class VacationView(APIView):
 
     def post(self, request):
         serializer = VacationSerializer(data=request.data)
-        print(request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
 
@@ -226,6 +225,23 @@ class VacationView(APIView):
 class VacationListView(ListAPIView):
     queryset = Vacation.objects.all()
     serializer_class = VacationSerializer
+    permission_classes = [IsAuthenticatedWithJWT]
+
+
+class ExcuseView(APIView):
+    permission_classes = [IsAuthenticatedWithJWT]
+
+    def post(self, request):
+        serializer = ExcuseSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response(serializer.data)
+
+
+class ExcuseListView(ListAPIView):
+    queryset = Excuse.objects.all()
+    serializer_class = ExcuseSerializer
     permission_classes = [IsAuthenticatedWithJWT]
 
 

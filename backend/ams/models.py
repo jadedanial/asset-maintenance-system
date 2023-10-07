@@ -271,6 +271,26 @@ class Vacation(models.Model):
         return str(self.emp_id)
 
 
+class Excuse(models.Model):
+    emp_id = models.ForeignKey(
+        Employee,
+        blank=False,
+        null=False,
+        on_delete=models.CASCADE,
+        verbose_name="Employee ID",
+    )
+    exc_date = models.DateField(blank=True, null=True, verbose_name="Excuse Date")
+    exc_start = models.TimeField(blank=True, null=True, verbose_name="Start Time")
+    exc_end = models.TimeField(blank=True, null=True, verbose_name="End Time")
+    exc_reason = models.TextField(blank=True, null=True, verbose_name="Reason")
+    exc_total = models.CharField(
+        max_length=100, blank=True, null=True, verbose_name="Total"
+    )
+
+    def __str__(self):
+        return str(self.emp_id)
+
+
 class Item(models.Model):
     id = models.AutoField(primary_key=True)
     item_code = models.CharField(

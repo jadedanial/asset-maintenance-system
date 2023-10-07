@@ -130,11 +130,11 @@ const Stock = (props) => {
               <Col span={2}>
                 <Tooltip title="Add New Item">
                   <Button
-                    type="primary"
-                    shape="circle"
-                    size="large"
                     className="custom-hover"
                     style={{ margin: "0 20px" }}
+                    shape="circle"
+                    size="large"
+                    type="primary"
                     onClick={() => {
                       showDrawer();
                       setCompItem("AddUpdateItem");
