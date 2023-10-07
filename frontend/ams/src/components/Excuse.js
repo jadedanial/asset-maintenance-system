@@ -42,6 +42,7 @@ const Excuse = (props) => {
   const [success, setSuccess] = useState(false);
   const [add, setAdd] = useState(false);
   const [hours, setHours] = useState(0);
+  const [under, setUnder] = useState(0);
   const [api, contextHolder] = notification.useNotification();
   const [current, setCurrent] = useState(0);
 
@@ -217,9 +218,14 @@ const Excuse = (props) => {
       key: "reason",
     },
     {
-      title: addExcuseButton,
+      title: "Total",
       dataIndex: "total",
       key: "total",
+    },
+    {
+      title: addExcuseButton,
+      dataIndex: "addExcuseButton",
+      key: "addExcuseButton",
     },
   ];
 
@@ -272,11 +278,32 @@ const Excuse = (props) => {
               {
                 id: res.emp_id,
                 date: res.attend_date,
+                under: res.attend_under,
                 status: res.attend_status,
               },
             ])
           );
         });
+    } catch (err) {
+      console.log(err.response.data[0]);
+    }
+  }
+
+  async function updateAttendance() {
+    var attendData = {
+      emp_id: props.empid,
+      attend_date: excusedate.format(dateFormat),
+      attend_under: under - hours,
+      attend_excuse: hours,
+    };
+    try {
+      await axios({
+        method: "PATCH",
+        url: "http://localhost:8000/api/emp_attendance/",
+        data: attendData,
+        headers: { "Content-Type": "application/json" },
+        withCredentials: true,
+      });
     } catch (err) {
       console.log(err.response.data[0]);
     }
@@ -290,6 +317,8 @@ const Excuse = (props) => {
     setEndTime("");
     setReason("");
     setAdd(true);
+    setHours(0);
+    setUnder(0);
     loadExcuses();
     loadAttendances();
   }
@@ -318,6 +347,7 @@ const Excuse = (props) => {
       .filter((res) => res.id === props.empid)
       .map((exc) => {
         return {
+          date: exc.date,
           start: exc.start,
           end: exc.end,
         };
@@ -343,6 +373,7 @@ const Excuse = (props) => {
       .map((attend) => {
         return {
           date: attend.date,
+          under: attend.under,
           status: attend.status,
         };
       });
@@ -351,17 +382,19 @@ const Excuse = (props) => {
     }
     for (var i = 0; i < attends.length; i++) {
       var dateAttend = attends[i]["date"];
+      var underAttend = attends[i]["under"];
       var statusAttend = attends[i]["status"];
       if (
         excusedate.format(dateFormat) !== moment(dateAttend).format(dateFormat)
       ) {
         onAttend = true;
       } else {
-        if (statusAttend === "Incomplete Attendance") {
+        if (statusAttend === "Attended Today") {
+          onAttend = false;
+          setUnder(underAttend);
+        } else {
           onAttend = true;
           break;
-        } else {
-          onAttend = false;
         }
       }
     }
@@ -386,11 +419,17 @@ const Excuse = (props) => {
       );
     } else if (reason === "") {
       valid = false;
-      api.info(NotificationEvent(false, "Provide a valid Reason!"));
-    } else if (excusedate.format(dateFormat) !== moment().format(dateFormat)) {
+      api.info(NotificationEvent(false, "No valid Reason!"));
+    } else if (
+      excusedate.format(dateFormat) === moment().format(dateFormat) ||
+      excusedate.format(dateFormat) > moment().format(dateFormat)
+    ) {
       valid = false;
       api.info(
-        NotificationEvent(false, "Cannot apply excuse for past or future date!")
+        NotificationEvent(
+          false,
+          "Cannot apply excuse for current or future date!"
+        )
       );
     } else if (checkExcuse()) {
       valid = false;
@@ -400,7 +439,7 @@ const Excuse = (props) => {
       api.info(
         NotificationEvent(
           false,
-          "Cannot apply excuse when attendance is Incomplete!"
+          "Cannot apply excuse when attendance status is not Attended!"
         )
       );
     }
@@ -434,6 +473,7 @@ const Excuse = (props) => {
         headers: { "Content-Type": "application/json" },
         withCredentials: true,
       });
+      updateAttendance();
       loadExcuses();
       setSuccess(true);
     } catch (err) {

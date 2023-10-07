@@ -287,9 +287,14 @@ const Vacation = (props) => {
       key: "attach",
     },
     {
-      title: addVactionButton,
+      title: "Total",
       dataIndex: "total",
       key: "total",
+    },
+    {
+      title: addVactionButton,
+      dataIndex: "addVactionButton",
+      key: "addVactionButton",
     },
   ];
 
@@ -373,6 +378,7 @@ const Vacation = (props) => {
     setAttachment("");
     setShowAttachment(false);
     setAdd(true);
+    setDays(0);
     loadVacations();
   }
 

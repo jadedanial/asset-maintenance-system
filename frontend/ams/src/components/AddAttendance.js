@@ -275,31 +275,31 @@ const AddAttendance = (props) => {
   async function addAttendance(
     apiMethod,
     emp_id,
-    attend_date,
-    attend_checkin,
-    attend_checkout,
-    attend_latein,
-    attend_earlyout,
-    attend_work,
-    attend_req,
-    attend_under,
-    attend_over,
-    attend_excuse,
-    attend_status
+    date,
+    checkin,
+    checkout,
+    latein,
+    earlyout,
+    work,
+    req,
+    under,
+    over,
+    excuse,
+    status
   ) {
     var attendData = {
       emp_id: emp_id,
-      attend_date: attend_date,
-      attend_checkin: attend_checkin,
-      attend_checkout: attend_checkout,
-      attend_latein: attend_latein,
-      attend_earlyout: attend_earlyout,
-      attend_work: attend_work,
-      attend_req: attend_req,
-      attend_under: attend_under,
-      attend_over: attend_over,
-      attend_excuse: attend_excuse,
-      attend_status: attend_status,
+      attend_date: date,
+      attend_checkin: checkin,
+      attend_checkout: checkout,
+      attend_latein: latein,
+      attend_earlyout: earlyout,
+      attend_work: work,
+      attend_req: req,
+      attend_under: under,
+      attend_over: over,
+      attend_excuse: excuse,
+      attend_status: status,
     };
     try {
       await axios({
@@ -372,21 +372,27 @@ const AddAttendance = (props) => {
       var date = attendDate;
       var checkin = attendCheckin;
       var checkout = attendCheckout;
-      var latein = checkIfLateIn(shiftStart, shiftEnd);
-      var earlyout = checkIfEarlyOut(shiftStart, shiftEnd);
-      var work = totalWorked(shiftStart, shiftEnd);
-      var req = totalRequired(shiftStart, shiftEnd);
+      var latein = parseFloat(checkIfLateIn(shiftStart, shiftEnd)).toFixed(2);
+      var earlyout = parseFloat(checkIfEarlyOut(shiftStart, shiftEnd)).toFixed(
+        2
+      );
+      var work = parseFloat(totalWorked(shiftStart, shiftEnd)).toFixed(2);
+      var req = parseFloat(totalRequired(shiftStart, shiftEnd)).toFixed(2);
       if (isNaN(moment(checkin, dateTimeFormat))) {
         checkin = "";
-        work = 0;
+        work = "0.00";
       }
       if (isNaN(moment(checkout, dateTimeFormat))) {
         checkout = "";
-        work = 0;
+        work = "0.00";
       }
-      var under = totalUndertime(work, shiftStart, shiftEnd);
-      var over = totalOvertime(work, shiftStart, shiftEnd);
-      var excuse = 0;
+      var under = parseFloat(
+        totalUndertime(work, shiftStart, shiftEnd)
+      ).toFixed(2);
+      var over = parseFloat(totalOvertime(work, shiftStart, shiftEnd)).toFixed(
+        2
+      );
+      var excuse = "0.00";
       var status = checkStatus(work, shiftStart, shiftEnd);
       var apiMethod = "";
       if (props.mode === "Add Attendance") {
