@@ -166,13 +166,13 @@ const MainPage = (props) => {
         >
           <div
             className="flex-start-row"
-            style={{ margin: "15px 0 15px 32px" }}
+            style={{ margin: "20px 0 15px 32px" }}
           >
             <img
-              src={collapsed ? "images/d.png" : "images/danialsoft.png"}
+              src={collapsed ? "images/ams.png" : "images/ams.png"}
               alt="logo"
               style={{
-                width: collapsed ? "30%" : "50%",
+                width: "35%",
                 filter: "brightness(0) invert(1)",
               }}
             />

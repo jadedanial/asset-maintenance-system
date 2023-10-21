@@ -1,4 +1,4 @@
-import { Col, Card, Row } from "antd";
+import { Col, Card } from "antd";
 
 const Slogan = () => {
   return (
@@ -11,16 +11,7 @@ const Slogan = () => {
               background: "#f0f2f5",
             }}
           >
-            <img
-              src="images/danialsoft.png"
-              alt="logo"
-              style={{ width: "60%" }}
-            />
-            <Row style={{ marginTop: "20px", width: "75%" }}>
-              <p className="big-font">
-                Keeping your assets in top shape for optimal performance.
-              </p>
-            </Row>
+            <img src="images/ams.png" alt="logo" style={{ width: "60%" }} />
           </Card>
         </div>
       </Col>
