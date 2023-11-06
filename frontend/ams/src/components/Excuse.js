@@ -5,7 +5,6 @@ import {
   Input,
   DatePicker,
   TimePicker,
-  Col,
   Row,
   Card,
   Button,
@@ -51,93 +50,70 @@ const Excuse = (props) => {
       title: "Details",
       content: (
         <>
-          <Form
-            {...layout}
-            layout="vertical"
-            size="large"
-            name="add-excuse"
-            style={{ width: "100%" }}
+          <Form.Item
+            name={["excusedate"]}
+            label="Excuse Date"
+            initialValue={excusedate === "" ? "" : moment(excusedate)}
+            rules={[
+              {
+                required: true,
+                message: "Required!",
+              },
+            ]}
           >
-            <Col span={24}>
-              <div className="space-between-row">
-                <Col span={5}>
-                  <Form.Item
-                    name={["excusedate"]}
-                    label="Excuse Date"
-                    initialValue={excusedate === "" ? "" : moment(excusedate)}
-                    rules={[
-                      {
-                        required: true,
-                        message: "Required!",
-                      },
-                    ]}
-                  >
-                    <DatePicker
-                      placeholder=""
-                      onChange={(value) => setExcuseDate(moment(value))}
-                      inputReadOnly
-                    />
-                  </Form.Item>
-                </Col>
-                <Col span={4}>
-                  <Form.Item
-                    name={["starttime"]}
-                    label="Start Time"
-                    initialValue={starttime === "" ? "" : moment(starttime)}
-                    rules={[
-                      {
-                        required: true,
-                        message: "Required!",
-                      },
-                    ]}
-                  >
-                    <TimePicker
-                      placeholder=""
-                      onChange={(value) => setStartTime(moment(value))}
-                      inputReadOnly
-                    />
-                  </Form.Item>
-                </Col>
-                <Col span={4}>
-                  <Form.Item
-                    name={["endtime"]}
-                    label="End Time"
-                    initialValue={endtime === "" ? "" : moment(endtime)}
-                    rules={[
-                      {
-                        required: true,
-                        message: "Required!",
-                      },
-                    ]}
-                  >
-                    <TimePicker
-                      placeholder=""
-                      onChange={(value) => setEndTime(moment(value))}
-                      inputReadOnly
-                    />
-                  </Form.Item>
-                </Col>
-                <Col span={9}>
-                  <Form.Item
-                    name={["reason"]}
-                    label="Reason"
-                    initialValue={reason}
-                    rules={[
-                      {
-                        required: true,
-                        message: "Required!",
-                      },
-                    ]}
-                  >
-                    <Input
-                      value={reason}
-                      onChange={(e) => setReason(e.target.value)}
-                    />
-                  </Form.Item>
-                </Col>
-              </div>
-            </Col>
-          </Form>
+            <DatePicker
+              placeholder=""
+              onChange={(value) => setExcuseDate(moment(value))}
+              inputReadOnly
+            />
+          </Form.Item>
+          <Form.Item
+            name={["starttime"]}
+            label="Start Time"
+            initialValue={starttime === "" ? "" : moment(starttime)}
+            rules={[
+              {
+                required: true,
+                message: "Required!",
+              },
+            ]}
+          >
+            <TimePicker
+              placeholder=""
+              onChange={(value) => setStartTime(moment(value))}
+              inputReadOnly
+            />
+          </Form.Item>
+          <Form.Item
+            name={["endtime"]}
+            label="End Time"
+            initialValue={endtime === "" ? "" : moment(endtime)}
+            rules={[
+              {
+                required: true,
+                message: "Required!",
+              },
+            ]}
+          >
+            <TimePicker
+              placeholder=""
+              onChange={(value) => setEndTime(moment(value))}
+              inputReadOnly
+            />
+          </Form.Item>
+          <Form.Item
+            name={["reason"]}
+            label="Reason"
+            initialValue={reason}
+            rules={[
+              {
+                required: true,
+                message: "Required!",
+              },
+            ]}
+          >
+            <Input value={reason} onChange={(e) => setReason(e.target.value)} />
+          </Form.Item>
         </>
       ),
     },
@@ -516,15 +492,33 @@ const Excuse = (props) => {
           {add ? (
             <Row className="justified-row">
               <div className="card-custom-size">
-                <Card
+                <Form
+                  {...layout}
+                  layout="vertical"
                   size="large"
-                  extra={
-                    <div>
+                  name="add-vacation"
+                  style={{ width: "100%" }}
+                >
+                  <Card
+                    size="large"
+                    title={
+                      <Title>
+                        <p className="big-card-title">Excuse Application</p>
+                      </Title>
+                    }
+                    hoverable
+                  >
+                    <div>{steps[current].content}</div>
+                    <div
+                      className="space-between-row"
+                      style={{ paddingTop: "30px" }}
+                    >
                       <Button
                         size="large"
                         type="primary"
                         style={{
-                          marginRight: "8px",
+                          marginRight: "10px",
+                          width: "100%",
                           display: current > 0 ? "none" : "inline",
                         }}
                         onClick={viewExcuse}
@@ -532,7 +526,14 @@ const Excuse = (props) => {
                         CANCEL
                       </Button>
                       {current < steps.length - 1 && (
-                        <Button size="large" type="primary" onClick={next}>
+                        <Button
+                          size="large"
+                          type="primary"
+                          style={{
+                            width: "100%",
+                          }}
+                          onClick={next}
+                        >
                           NEXT
                         </Button>
                       )}
@@ -540,8 +541,8 @@ const Excuse = (props) => {
                         <Button
                           size="large"
                           type="primary"
+                          style={{ marginRight: "10px", width: "100%" }}
                           onClick={prev}
-                          style={{ marginRight: "8px" }}
                         >
                           BACK
                         </Button>
@@ -550,22 +551,17 @@ const Excuse = (props) => {
                         <Button
                           size="large"
                           type="primary"
+                          style={{
+                            width: "100%",
+                          }}
                           onClick={applyExcuse}
                         >
                           APPLY
                         </Button>
                       )}
                     </div>
-                  }
-                  title={
-                    <Title>
-                      <p className="big-card-title">Excuse Application</p>
-                    </Title>
-                  }
-                  hoverable
-                >
-                  <div className="justified-row">{steps[current].content}</div>
-                </Card>
+                  </Card>
+                </Form>
               </div>
             </Row>
           ) : (

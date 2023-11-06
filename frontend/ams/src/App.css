@@ -133,9 +133,8 @@ h1.ant-typography {
 
 .ant-btn {
   color: #fff !important;
-  font-family: ralewayregular !important;
+  font-family: ralewaylight !important;
   font-size: 15px !important;
-  font-weight: 800 !important;
 }
 
 .ant-btn-icon-only {
@@ -164,18 +163,18 @@ h1.ant-typography {
 .card-custom-size {
   margin: 40px !important;
   margin-top: 40px !important;
-  width: 70% !important;
+  width: 50% !important;
 }
 
 .ant-card-head-title {
   width: 60% !important;
-  margin-right: 50px !important;
 }
 
 .ant-card-extra {
   width: 35% !important;
   display: flex !important;
   justify-content: flex-end !important;
+  margin-left: 50px !important;
 }
 
 .ant-card-custom-hover {
@@ -220,8 +219,7 @@ h1.ant-typography {
 .small-card-title,
 .extra-small-card-title {
   color: #318ce7;
-  font-family: ralewaymedium !important;
-  font-weight: 500 !important;
+  font-family: ralewaylight !important;
   text-align: left;
   margin: 0 !important;
   line-height: 1.2 !important;
@@ -436,6 +434,10 @@ td.ant-table-column-sort {
   height: 0 !important;
 }
 
+.ant-picker {
+  width: 100% !important;
+}
+
 .ant-picker,
 .ant-picker-calendar,
 .ant-picker-dropdown {
@@ -472,7 +474,7 @@ td.ant-table-column-sort {
 .ant-input-number-input {
   color: #000 !important;
   font-family: ralewayregular !important;
-  font-size: 16px !important;
+  font-size: 18px !important;
 }
 
 .ant-input-number-input {

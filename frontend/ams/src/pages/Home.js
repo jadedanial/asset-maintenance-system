@@ -30,7 +30,7 @@ const HomePage = () => {
         setShowunauthorized(true);
       }
     })();
-  });
+  }, []);
 
   return (
     <>

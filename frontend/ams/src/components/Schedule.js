@@ -87,7 +87,7 @@ const Schedule = (props) => {
         <>
           <Row style={{ paddingTop: "20px", flexWrap: "wrap" }}>
             <List
-              grid={{ gutter: 16, column: 3 }}
+              grid={{ gutter: 16, column: 2 }}
               dataSource={[
                 {
                   title: "SUNDAY",
@@ -144,15 +144,6 @@ const Schedule = (props) => {
             <div className="card-custom-size">
               <Card
                 size="large"
-                extra={
-                  <Button
-                    size="large"
-                    type="primary"
-                    onClick={() => handleSubmit("topRight")}
-                  >
-                    APPLY
-                  </Button>
-                }
                 title={
                   <Title>
                     <p className="big-card-title">Shift Schedule</p>
@@ -187,6 +178,21 @@ const Schedule = (props) => {
                   />
                 </Row>
                 <Row>{scheduleSwitch(schedid)}</Row>
+                <div
+                  className="space-between-row"
+                  style={{ paddingTop: "30px" }}
+                >
+                  <Button
+                    size="large"
+                    type="primary"
+                    style={{
+                      width: "100%",
+                    }}
+                    onClick={() => handleSubmit("topRight")}
+                  >
+                    APPLY
+                  </Button>
+                </div>
               </Card>
             </div>
           </Row>

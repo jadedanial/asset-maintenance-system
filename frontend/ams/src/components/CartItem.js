@@ -20,7 +20,7 @@ const CartItem = (props) => {
     (async () => {
       await sumOrder();
     })();
-  });
+  }, []);
 
   function changeQuantity(action, id, code, name, cost, measurement, quantity) {
     if (quantity >= 1) {

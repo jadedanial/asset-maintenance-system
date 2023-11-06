@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import {
   Form,
-  Col,
   Row,
   Button,
   Typography,
@@ -44,7 +43,7 @@ const AddAttendance = (props) => {
       await loadSchedules();
       await loadVacations();
     })();
-  });
+  }, []);
 
   async function loadSchedules() {
     try {
@@ -500,81 +499,75 @@ const AddAttendance = (props) => {
           >
             <Card
               size="large"
-              extra={
-                <div>
-                  <Button
-                    size="large"
-                    type="primary"
-                    style={{
-                      marginRight: "8px",
-                    }}
-                    onClick={props.viewAttendance}
-                  >
-                    CANCEL
-                  </Button>
-                  <Button size="large" type="primary" onClick={applyAttendance}>
-                    APPLY
-                  </Button>
-                </div>
-              }
               title={
                 <Title>
-                  <p className="big-card-title">Attendance</p>
+                  <p className="big-card-title">Update Attendance</p>
                 </Title>
               }
               hoverable
             >
-              <Col span={24}>
-                <div className="space-between-row">
-                  <Col span={7}>
-                    <Form.Item
-                      name="date"
-                      label="Date"
-                      initialValue={String(
-                        moment(props.attenddate).format(dateFormat)
-                      )}
-                    >
-                      <Input readOnly />
-                    </Form.Item>
-                  </Col>
-                  <Col span={8}>
-                    <Form.Item label="Check In">
-                      <DatePicker
-                        placeholder=""
-                        onChange={(value) =>
-                          setAttendCheckIn(moment(value).format(dateTimeFormat))
-                        }
-                        defaultValue={
-                          attendCheckin !== "--:--:--"
-                            ? moment(attendCheckin, dateTimeFormat)
-                            : null
-                        }
-                        showTime
-                        inputReadOnly
-                      />
-                    </Form.Item>
-                  </Col>
-                  <Col span={8}>
-                    <Form.Item label="Check Out">
-                      <DatePicker
-                        placeholder=""
-                        onChange={(value) =>
-                          setAttendCheckOut(
-                            moment(value).format(dateTimeFormat)
-                          )
-                        }
-                        defaultValue={
-                          attendCheckout !== "--:--:--"
-                            ? moment(attendCheckout, dateTimeFormat)
-                            : null
-                        }
-                        showTime
-                        inputReadOnly
-                      />
-                    </Form.Item>
-                  </Col>
-                </div>
-              </Col>
+              <Form.Item
+                name="date"
+                label="Date"
+                initialValue={String(
+                  moment(props.attenddate).format(dateFormat)
+                )}
+              >
+                <Input readOnly />
+              </Form.Item>
+              <Form.Item label="Check In">
+                <DatePicker
+                  placeholder=""
+                  onChange={(value) =>
+                    setAttendCheckIn(moment(value).format(dateTimeFormat))
+                  }
+                  defaultValue={
+                    attendCheckin !== "--:--:--"
+                      ? moment(attendCheckin, dateTimeFormat)
+                      : null
+                  }
+                  showTime
+                  inputReadOnly
+                />
+              </Form.Item>
+              <Form.Item label="Check Out">
+                <DatePicker
+                  placeholder=""
+                  onChange={(value) =>
+                    setAttendCheckOut(moment(value).format(dateTimeFormat))
+                  }
+                  defaultValue={
+                    attendCheckout !== "--:--:--"
+                      ? moment(attendCheckout, dateTimeFormat)
+                      : null
+                  }
+                  showTime
+                  inputReadOnly
+                />
+              </Form.Item>
+              <div className="space-between-row" style={{ paddingTop: "30px" }}>
+                <Button
+                  size="large"
+                  type="primary"
+                  style={{
+                    marginRight: "10px",
+                    width: "100%",
+                  }}
+                  onClick={props.viewAttendance}
+                >
+                  CANCEL
+                </Button>
+                <Button
+                  size="large"
+                  type="primary"
+                  style={{
+                    width: "100%",
+                  }}
+                  onClick={applyAttendance}
+                >
+                  APPLY
+                </Button>
+              </div>
             </Card>
           </Form>
         </div>

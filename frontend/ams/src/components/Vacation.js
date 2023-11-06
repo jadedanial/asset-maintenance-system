@@ -5,7 +5,6 @@ import {
   Input,
   DatePicker,
   Select,
-  Col,
   Row,
   Card,
   Button,
@@ -55,143 +54,113 @@ const Vacation = (props) => {
       title: "Details",
       content: (
         <>
-          <Form
-            {...layout}
-            layout="vertical"
-            size="large"
-            name="add-vacation"
-            style={{ width: "100%" }}
+          <Form.Item
+            name={["vacation"]}
+            label="Type"
+            initialValue={vacation}
+            rules={[
+              {
+                required: true,
+                message: "Required!",
+              },
+            ]}
           >
-            <Col span={24}>
-              <div className="space-between-row">
-                <Col span={10}>
-                  <Form.Item
-                    name={["vacation"]}
-                    label="Type"
-                    initialValue={vacation}
-                    rules={[
-                      {
-                        required: true,
-                        message: "Required!",
-                      },
-                    ]}
-                  >
-                    <Select
-                      size="large"
-                      showSearch
-                      className="small-font"
-                      style={{ width: "100%" }}
-                      optionFilterProp="children"
-                      filterOption={(input, option) =>
-                        (option?.label ?? "").toLowerCase().includes(input)
-                      }
-                      filterSort={(optionA, optionB) =>
-                        (optionA?.label ?? "")
-                          .toLowerCase()
-                          .localeCompare((optionB?.label ?? "").toLowerCase())
-                      }
-                      options={vactypes
-                        .filter((res) => res.opt_category === "Vacation")
-                        .map((vac) => {
-                          return {
-                            value: vac.opt_name,
-                            label: vac.opt_name,
-                          };
-                        })}
-                      onChange={onVacationChange}
-                    />
-                  </Form.Item>
-                </Col>
-                <Col span={6}>
-                  <Form.Item
-                    name={["startdate"]}
-                    label="Start Date"
-                    initialValue={startdate === "" ? "" : moment(startdate)}
-                    rules={[
-                      {
-                        required: true,
-                        message: "Required!",
-                      },
-                    ]}
-                  >
-                    <DatePicker
-                      placeholder=""
-                      onChange={(value) => setStartDate(moment(value))}
-                      inputReadOnly
-                    />
-                  </Form.Item>
-                </Col>
-                <Col span={6}>
-                  <Form.Item
-                    name={["enddate"]}
-                    label="End Date"
-                    initialValue={enddate === "" ? "" : moment(enddate)}
-                    rules={[
-                      {
-                        required: true,
-                        message: "Required!",
-                      },
-                    ]}
-                  >
-                    <DatePicker
-                      placeholder=""
-                      onChange={(value) => setEndDate(moment(value))}
-                      inputReadOnly
-                    />
-                  </Form.Item>
-                </Col>
-              </div>
-            </Col>
-            <Col span={24}>
-              <div className="space-between-row">
-                <Col span={10}>
-                  <Form.Item
-                    name={["reason"]}
-                    label="Reason"
-                    initialValue={reason}
-                  >
-                    <Input onChange={(e) => onReasonChange(e.target.value)} />
-                  </Form.Item>
-                </Col>
-                <Col span={13}>
-                  {showAttachment ? (
-                    <Form.Item
-                      name={["attachment"]}
-                      label="Attachment"
-                      initialValue={attachment}
-                    >
-                      <Input
-                        readOnly
-                        suffix={
-                          <Button
-                            className="align-items-center "
-                            icon={
-                              <CloseOutlined
-                                className="medium-card-title"
-                                style={{ color: "#318ce7" }}
-                              />
-                            }
-                            style={{
-                              width: "16px",
-                              height: "16px",
-                            }}
-                            onClick={removeAttachment}
-                          />
-                        }
+            <Select
+              size="large"
+              showSearch
+              className="small-font"
+              style={{ width: "100%" }}
+              optionFilterProp="children"
+              filterOption={(input, option) =>
+                (option?.label ?? "").toLowerCase().includes(input)
+              }
+              filterSort={(optionA, optionB) =>
+                (optionA?.label ?? "")
+                  .toLowerCase()
+                  .localeCompare((optionB?.label ?? "").toLowerCase())
+              }
+              options={vactypes
+                .filter((res) => res.opt_category === "Vacation")
+                .map((vac) => {
+                  return {
+                    value: vac.opt_name,
+                    label: vac.opt_name,
+                  };
+                })}
+              onChange={onVacationChange}
+            />
+          </Form.Item>
+          <Form.Item
+            name={["startdate"]}
+            label="Start Date"
+            initialValue={startdate === "" ? "" : moment(startdate)}
+            rules={[
+              {
+                required: true,
+                message: "Required!",
+              },
+            ]}
+          >
+            <DatePicker
+              placeholder=""
+              onChange={(value) => setStartDate(moment(value))}
+              inputReadOnly
+            />
+          </Form.Item>
+          <Form.Item
+            name={["enddate"]}
+            label="End Date"
+            initialValue={enddate === "" ? "" : moment(enddate)}
+            rules={[
+              {
+                required: true,
+                message: "Required!",
+              },
+            ]}
+          >
+            <DatePicker
+              placeholder=""
+              onChange={(value) => setEndDate(moment(value))}
+              inputReadOnly
+            />
+          </Form.Item>
+          <Form.Item name={["reason"]} label="Reason" initialValue={reason}>
+            <Input onChange={(e) => onReasonChange(e.target.value)} />
+          </Form.Item>
+          {showAttachment ? (
+            <Form.Item
+              name={["attachment"]}
+              label="Attachment"
+              initialValue={attachment}
+            >
+              <Input
+                readOnly
+                suffix={
+                  <Button
+                    className="align-items-center "
+                    icon={
+                      <CloseOutlined
+                        className="medium-card-title"
+                        style={{ color: "#318ce7" }}
                       />
-                    </Form.Item>
-                  ) : (
-                    <Form.Item name={["select_attachment"]} label="Attachment">
-                      <Input
-                        type="file"
-                        onChange={(e) => onAttachmentChange(e.target.value)}
-                      />
-                    </Form.Item>
-                  )}
-                </Col>
-              </div>
-            </Col>
-          </Form>
+                    }
+                    style={{
+                      width: "16px",
+                      height: "16px",
+                    }}
+                    onClick={removeAttachment}
+                  />
+                }
+              />
+            </Form.Item>
+          ) : (
+            <Form.Item name={["select_attachment"]} label="Attachment">
+              <Input
+                type="file"
+                onChange={(e) => onAttachmentChange(e.target.value)}
+              />
+            </Form.Item>
+          )}
         </>
       ),
     },
@@ -535,15 +504,33 @@ const Vacation = (props) => {
           {add ? (
             <Row className="justified-row">
               <div className="card-custom-size">
-                <Card
+                <Form
+                  {...layout}
+                  layout="vertical"
                   size="large"
-                  extra={
-                    <div>
+                  name="add-vacation"
+                  style={{ width: "100%" }}
+                >
+                  <Card
+                    size="large"
+                    title={
+                      <Title>
+                        <p className="big-card-title">Vacation Application</p>
+                      </Title>
+                    }
+                    hoverable
+                  >
+                    <div>{steps[current].content}</div>
+                    <div
+                      className="space-between-row"
+                      style={{ paddingTop: "30px" }}
+                    >
                       <Button
                         size="large"
                         type="primary"
                         style={{
-                          marginRight: "8px",
+                          marginRight: "10px",
+                          width: "100%",
                           display: current > 0 ? "none" : "inline",
                         }}
                         onClick={viewVacation}
@@ -551,13 +538,20 @@ const Vacation = (props) => {
                         CANCEL
                       </Button>
                       {current < steps.length - 1 && (
-                        <Button size="large" type="primary" onClick={next}>
+                        <Button
+                          size="large"
+                          type="primary"
+                          style={{
+                            width: "100%",
+                          }}
+                          onClick={next}
+                        >
                           NEXT
                         </Button>
                       )}
                       {current > 0 && (
                         <Button
-                          style={{ marginRight: "8px" }}
+                          style={{ marginRight: "10px", width: "100%" }}
                           size="large"
                           type="primary"
                           onClick={prev}
@@ -569,22 +563,17 @@ const Vacation = (props) => {
                         <Button
                           size="large"
                           type="primary"
+                          style={{
+                            width: "100%",
+                          }}
                           onClick={applyVacation}
                         >
                           APPLY
                         </Button>
                       )}
                     </div>
-                  }
-                  title={
-                    <Title>
-                      <p className="big-card-title">Vacation Application</p>
-                    </Title>
-                  }
-                  hoverable
-                >
-                  <div className="justified-row">{steps[current].content}</div>
-                </Card>
+                  </Card>
+                </Form>
               </div>
             </Row>
           ) : (
