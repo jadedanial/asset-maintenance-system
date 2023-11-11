@@ -52,6 +52,10 @@ class UserView(APIView):
 
 class RegisterView(APIView):
     def post(self, request):
+
+        if (not request.data["empID"].isnumeric()):
+            raise ValidationError("Employee ID not exist!")
+           
         serializer = UserSerializer(data=request.data)
         empid = User.objects.filter(empID=request.data["empID"]).first()
         employeeID = Employee.objects.filter(emp_id=request.data["empID"]).first()
@@ -287,4 +291,21 @@ class ItemView(APIView):
 class ItemListView(ListAPIView):
     queryset = Item.objects.all()
     serializer_class = ItemSerializer
+    permission_classes = [IsAuthenticatedWithJWT]
+
+
+class TransactionView(APIView):
+    permission_classes = [IsAuthenticatedWithJWT]
+
+    def post(self, request):
+        serializer = TransactionSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        
+        return Response(serializer.data)
+
+
+class TransactionListView(ListAPIView):
+    queryset = Transaction.objects.all()
+    serializer_class = TransactionSerializer
     permission_classes = [IsAuthenticatedWithJWT]

@@ -23,4 +23,6 @@ urlpatterns = [
     path("excuses", ExcuseListView.as_view()),
     path("item/", ItemView.as_view()),
     path("items", ItemListView.as_view()),
+    path("transaction/", TransactionView.as_view()),
+    path("transactions", TransactionView.as_view()),
 ]

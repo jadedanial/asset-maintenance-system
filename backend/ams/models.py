@@ -327,3 +327,20 @@ class Item(models.Model):
     def save(self, *args, **kwargs):
         super(Item, self).save(*args, **kwargs)
         self.update_model()
+
+class Transaction(models.Model):
+    trans_id = models.AutoField(primary_key=True, verbose_name="Transaction ID")
+    trans_type = models.CharField(
+        max_length=300, blank=True, null=True, verbose_name="Type"
+    )
+    trans_action = models.CharField(
+        max_length=200, blank=True, null=True, verbose_name="Action"
+    )
+    trans_date = models.DateTimeField(blank=True, null=True, verbose_name="Date")
+    trans_user = models.CharField(
+        max_length=200, blank=True, null=True, verbose_name="User"
+    )
+    trans_detail = models.TextField(blank=True, null=True, verbose_name="Detail")
+
+    def __str__(self):
+        return str(self.trans_id)

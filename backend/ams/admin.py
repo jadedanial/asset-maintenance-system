@@ -313,6 +313,41 @@ class ItemAdmin(admin.ModelAdmin):
     )
 
 
+class TransactionAdmin(admin.ModelAdmin):
+    readonly_fields = (
+        "trans_id",
+        "trans_type",
+        "trans_action",
+        "trans_date",
+        "trans_user",
+        "trans_detail",
+    )
+    list_display = (
+        "trans_id",
+        "trans_type",
+        "trans_action",
+        "trans_date",
+        "trans_user",
+        "trans_detail",
+    )
+    list_filter = (
+        "trans_id",
+        "trans_type",
+        "trans_action",
+        "trans_date",
+        "trans_user",
+        "trans_detail",
+    )
+    search_fields = (
+        "trans_id",
+        "trans_type",
+        "trans_action",
+        "trans_date",
+        "trans_user",
+        "trans_detail",
+    )
+
+
 admin.site.register(Section, SectionAdmin)
 admin.site.register(Module, ModuleAdmin)
 admin.site.register(Category, CategoryAdmin)
@@ -325,3 +360,4 @@ admin.site.register(Attendance, AttendanceAdmin)
 admin.site.register(Vacation, VacationAdmin)
 admin.site.register(Excuse, ExcuseAdmin)
 admin.site.register(Item, ItemAdmin)
+admin.site.register(Transaction, TransactionAdmin)

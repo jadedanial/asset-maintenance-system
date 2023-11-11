@@ -181,3 +181,16 @@ class ItemSerializer(serializers.ModelSerializer):
             "item_cost",
             "item_description",
         ]
+
+
+class TransactionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Transaction
+        fields = [
+            "trans_id",
+            "trans_type",
+            "trans_action",
+            "trans_date",
+            "trans_user",
+            "trans_detail",
+        ]
