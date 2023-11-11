@@ -212,55 +212,55 @@ const Excuse = (props) => {
 
   async function loadExcuses() {
     try {
-      await axios
-        .get("http://localhost:8000/api/excuses", {
-          headers: { "Content-Type": "application/json" },
-          withCredentials: true,
-        })
-        .then((response) => {
-          setExcuses([]);
-          response.data.map((res) =>
-            setExcuses((excuses) => [
-              ...excuses,
-              {
-                id: res.emp_id,
-                date: res.exc_date,
-                start: res.exc_start,
-                end: res.exc_end,
-                reason: res.exc_reason,
-                total: res.exc_total,
-              },
-            ])
-          );
-        });
+      await axios({
+        method: "GET",
+        url: "http://localhost:8000/api/excuses",
+        headers: { "Content-Type": "application/json" },
+        withCredentials: true,
+      }).then((response) => {
+        setExcuses([]);
+        response.data.map((res) =>
+          setExcuses((excuses) => [
+            ...excuses,
+            {
+              id: res.emp_id,
+              date: res.exc_date,
+              start: res.exc_start,
+              end: res.exc_end,
+              reason: res.exc_reason,
+              total: res.exc_total,
+            },
+          ])
+        );
+      });
     } catch (err) {
-      console.log(err.response.data[0]);
+      console.log(err);
     }
   }
 
   async function loadAttendances() {
     try {
-      await axios
-        .get("http://localhost:8000/api/attendance", {
-          headers: { "Content-Type": "application/json" },
-          withCredentials: true,
-        })
-        .then((response) => {
-          setAttendances([]);
-          response.data.map((res) =>
-            setAttendances((attendances) => [
-              ...attendances,
-              {
-                id: res.emp_id,
-                date: res.attend_date,
-                under: res.attend_under,
-                status: res.attend_status,
-              },
-            ])
-          );
-        });
+      await axios({
+        method: "GET",
+        url: "http://localhost:8000/api/attendance",
+        headers: { "Content-Type": "application/json" },
+        withCredentials: true,
+      }).then((response) => {
+        setAttendances([]);
+        response.data.map((res) =>
+          setAttendances((attendances) => [
+            ...attendances,
+            {
+              id: res.emp_id,
+              date: res.attend_date,
+              under: res.attend_under,
+              status: res.attend_status,
+            },
+          ])
+        );
+      });
     } catch (err) {
-      console.log(err.response.data[0]);
+      console.log(err);
     }
   }
 
@@ -280,7 +280,7 @@ const Excuse = (props) => {
         withCredentials: true,
       });
     } catch (err) {
-      console.log(err.response.data[0]);
+      console.log(err);
     }
   }
 
@@ -454,7 +454,7 @@ const Excuse = (props) => {
       loadExcuses();
       setSuccess(true);
     } catch (err) {
-      console.log(err.response.data[0]);
+      console.log(err);
       setSuccess(false);
       api.info(NotificationEvent(false, "Employee vacation failed to apply!"));
     }
@@ -477,7 +477,7 @@ const Excuse = (props) => {
               size="large"
               type="primary"
               style={{
-                marginRight: "20px",
+                marginRight: "10px",
               }}
               onClick={newExcuse}
             >
@@ -525,7 +525,7 @@ const Excuse = (props) => {
                         size="large"
                         type="default"
                         style={{
-                          marginRight: "20px",
+                          marginRight: "10px",
                           display: current > 0 ? "none" : "inline",
                         }}
                         onClick={viewExcuse}

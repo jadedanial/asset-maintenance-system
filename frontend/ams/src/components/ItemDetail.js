@@ -13,16 +13,16 @@ const ItemDetail = (props) => {
   useEffect(() => {
     (async () => {
       try {
-        await axios
-          .get("http://localhost:8000/api/items", {
-            headers: { "Content-Type": "application/json" },
-            withCredentials: true,
-          })
-          .then((response) => {
-            setItem(response.data);
-          });
+        await axios({
+          method: "GET",
+          url: "http://localhost:8000/api/items",
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        }).then((response) => {
+          setItem(response.data);
+        });
       } catch (err) {
-        console.log(err.response.data[0]);
+        console.log(err);
       }
     })();
   }, []);

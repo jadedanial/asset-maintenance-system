@@ -68,75 +68,25 @@ const AddUpdateEmployee = (props) => {
   const [datehiredReq, setDateHiredReq] = useState(false);
   const [positionReq, setPositionReq] = useState(false);
   const [salaryReq, setSalaryReq] = useState(false);
-  const [displayEmployeeID, setDisplayEmployeeID] = useState("");
 
   useEffect(() => {
     (async () => {
       try {
-        await axios
-          .get("http://localhost:8000/api/option", {
-            headers: { "Content-Type": "application/json" },
-            withCredentials: true,
-          })
-          .then((response) => {
-            setNationalities(response.data);
-          });
-      } catch (err) {
-        console.log(err.response.data[0]);
-      }
-    })();
-  }, []);
-
-  useEffect(() => {
-    (async () => {
-      try {
-        await axios
-          .get("http://localhost:8000/api/option", {
-            headers: { "Content-Type": "application/json" },
-            withCredentials: true,
-          })
-          .then((response) => {
-            setPositions(response.data);
-          });
-      } catch (err) {
-        console.log(err.response.data[0]);
-      }
-    })();
-  }, []);
-
-  useEffect(() => {
-    (async () => {
-      try {
-        await axios
-          .get("http://localhost:8000/api/option", {
-            headers: { "Content-Type": "application/json" },
-            withCredentials: true,
-          })
-          .then((response) => {
-            setSalaries(response.data);
-          });
-      } catch (err) {
-        console.log(err.response.data[0]);
-      }
-    })();
-  }, []);
-
-  async function getEmployeeID(name) {
-    try {
-      await axios
-        .get("http://localhost:8000/api/employees", {
+        await axios({
+          method: "GET",
+          url: "http://localhost:8000/api/option",
           headers: { "Content-Type": "application/json" },
           withCredentials: true,
-        })
-        .then((response) => {
-          response.data.map((res) =>
-            res.emp_name === name ? setDisplayEmployeeID(res.emp_id) : {}
-          );
+        }).then((response) => {
+          setNationalities(response.data);
+          setPositions(response.data);
+          setSalaries(response.data);
         });
-    } catch (err) {
-      console.log(err.response.data[0]);
-    }
-  }
+      } catch (err) {
+        console.log(err);
+      }
+    })();
+  }, []);
 
   function newEmployee() {
     setUpdate(false);
@@ -234,11 +184,12 @@ const AddUpdateEmployee = (props) => {
         data: employeeData,
         headers: { "Content-Type": "application/json" },
         withCredentials: true,
+      }).then((response) => {
+        setEmployeeID(response.data["emp_id"]);
       });
       setSuccess(true);
-      getEmployeeID(employeeName);
     } catch (err) {
-      console.log(err.response.data[0]);
+      console.log(err);
       setSuccess(false);
       setLabel(err.response.data[0]);
       setColor("#ff0000");
@@ -258,7 +209,7 @@ const AddUpdateEmployee = (props) => {
                 : "Successfully added new Employee."
             }
             subTitle={
-              "Employee name " + employeeName + " with ID " + displayEmployeeID
+              "Employee name " + employeeName + " with ID " + employeeID
             }
             extra={
               <Button size="large" type="primary" onClick={() => newEmployee()}>

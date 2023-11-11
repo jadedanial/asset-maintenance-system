@@ -46,56 +46,56 @@ const AddAttendance = (props) => {
 
   async function loadSchedules() {
     try {
-      await axios
-        .get("http://localhost:8000/api/schedule", {
-          headers: { "Content-Type": "application/json" },
-          withCredentials: true,
-        })
-        .then((response) => {
-          response.data.map((res) =>
-            res.id === props.schedid
-              ? setSchedules([
-                  {
-                    sched_sun: res.sched_sun,
-                    sched_mon: res.sched_mon,
-                    sched_tue: res.sched_tue,
-                    sched_wed: res.sched_wed,
-                    sched_thu: res.sched_thu,
-                    sched_fri: res.sched_fri,
-                    sched_sat: res.sched_sat,
-                  },
-                ])
-              : {}
-          );
-        });
+      await axios({
+        method: "GET",
+        url: "http://localhost:8000/api/schedule",
+        headers: { "Content-Type": "application/json" },
+        withCredentials: true,
+      }).then((response) => {
+        response.data.map((res) =>
+          res.id === props.schedid
+            ? setSchedules([
+                {
+                  sched_sun: res.sched_sun,
+                  sched_mon: res.sched_mon,
+                  sched_tue: res.sched_tue,
+                  sched_wed: res.sched_wed,
+                  sched_thu: res.sched_thu,
+                  sched_fri: res.sched_fri,
+                  sched_sat: res.sched_sat,
+                },
+              ])
+            : {}
+        );
+      });
     } catch (err) {
-      console.log(err.response.data[0]);
+      console.log(err);
     }
   }
 
   async function loadVacations() {
     try {
-      await axios
-        .get("http://localhost:8000/api/vacations", {
-          headers: { "Content-Type": "application/json" },
-          withCredentials: true,
-        })
-        .then((response) => {
-          setVacations([]);
-          response.data.map((res) =>
-            setVacations((vacations) => [
-              ...vacations,
-              {
-                id: res.emp_id,
-                type: res.vac_type,
-                start: res.vac_start,
-                end: res.vac_end,
-              },
-            ])
-          );
-        });
+      await axios({
+        method: "GET",
+        url: "http://localhost:8000/api/vacations",
+        headers: { "Content-Type": "application/json" },
+        withCredentials: true,
+      }).then((response) => {
+        setVacations([]);
+        response.data.map((res) =>
+          setVacations((vacations) => [
+            ...vacations,
+            {
+              id: res.emp_id,
+              type: res.vac_type,
+              start: res.vac_start,
+              end: res.vac_end,
+            },
+          ])
+        );
+      });
     } catch (err) {
-      console.log(err.response.data[0]);
+      console.log(err);
     }
   }
 
@@ -308,7 +308,7 @@ const AddAttendance = (props) => {
         withCredentials: true,
       });
     } catch (err) {
-      console.log(err.response.data[0]);
+      console.log(err);
     }
   }
 
@@ -547,7 +547,7 @@ const AddAttendance = (props) => {
                   size="large"
                   type="default"
                   style={{
-                    marginRight: "20px",
+                    marginRight: "10px",
                   }}
                   onClick={props.viewAttendance}
                   block

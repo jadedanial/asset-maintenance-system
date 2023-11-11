@@ -46,6 +46,7 @@ const Employee = (props) => {
       title: "Email",
       dataIndex: "email",
       key: "email",
+      width: "30%",
     },
   ];
 
@@ -57,28 +58,28 @@ const Employee = (props) => {
 
   async function loadEmployees() {
     try {
-      await axios
-        .get("http://localhost:8000/api/employees", {
-          headers: { "Content-Type": "application/json" },
-          withCredentials: true,
-        })
-        .then((response) => {
-          setEmployees([]);
-          response.data.map((res) =>
-            setEmployees((employees) => [
-              ...employees,
-              {
-                id: res.emp_id,
-                name: res.emp_name,
-                position: res.emp_position,
-                phone: res.emp_phone,
-                email: res.emp_email,
-              },
-            ])
-          );
-        });
+      await axios({
+        method: "GET",
+        url: "http://localhost:8000/api/employees",
+        headers: { "Content-Type": "application/json" },
+        withCredentials: true,
+      }).then((response) => {
+        setEmployees([]);
+        response.data.map((res) =>
+          setEmployees((employees) => [
+            ...employees,
+            {
+              id: res.emp_id,
+              name: res.emp_name,
+              position: res.emp_position,
+              phone: res.emp_phone,
+              email: res.emp_email,
+            },
+          ])
+        );
+      });
     } catch (err) {
-      console.log(err.response.data[0]);
+      console.log(err);
     }
   }
 

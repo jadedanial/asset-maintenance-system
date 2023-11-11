@@ -27,20 +27,20 @@ const RegisterPage = () => {
 
   async function onFinish() {
     setLabel("");
+    var registerData = {
+      empID: empID,
+      username: username,
+      email: email,
+      password: password,
+    };
     try {
-      await axios.post(
-        "http://localhost:8000/api/register/",
-        {
-          empID: empID,
-          username: username,
-          email: email,
-          password: password,
-        },
-        {
-          headers: { "Content-Type": "application/json" },
-          withCredentials: true,
-        }
-      );
+      await axios({
+        method: "POST",
+        url: "http://localhost:8000/api/register/",
+        data: registerData,
+        headers: { "Content-Type": "application/json" },
+        withCredentials: true,
+      });
       setSuccess(true);
     } catch (err) {
       console.log(err.response.data[0]);

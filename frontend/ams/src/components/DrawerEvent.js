@@ -38,6 +38,8 @@ const DrawerEvent = (props) => {
         return (
           <>
             <CartItem
+              empid={props.empid}
+              username={props.username}
               searchItem={props.searchItem}
               item={props.item}
               addItem={props.addItem}
@@ -63,7 +65,7 @@ const DrawerEvent = (props) => {
         style={{
           marginTop: "85px",
           marginLeft: props.col ? "100px" : "220px",
-          marginRight: "20px",
+          marginRight: "10px",
           transition: "0.2s ease-in-out",
         }}
         open={props.showDrawer}

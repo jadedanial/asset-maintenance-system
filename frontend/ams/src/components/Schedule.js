@@ -14,18 +14,18 @@ const Schedule = (props) => {
   useEffect(() => {
     (async () => {
       try {
-        await axios
-          .get("http://localhost:8000/api/employees", {
-            headers: { "Content-Type": "application/json" },
-            withCredentials: true,
-          })
-          .then((response) => {
-            response.data.map((res) =>
-              res.emp_id === props.empid ? setSchedId(res.emp_sched) : {}
-            );
-          });
+        await axios({
+          method: "GET",
+          url: "http://localhost:8000/api/employees",
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        }).then((response) => {
+          response.data.map((res) =>
+            res.emp_id === props.empid ? setSchedId(res.emp_sched) : {}
+          );
+        });
       } catch (err) {
-        console.log(err.response.data[0]);
+        console.log(err);
       }
     })();
   }, [props.empid]);
@@ -33,19 +33,19 @@ const Schedule = (props) => {
   useEffect(() => {
     (async () => {
       try {
-        await axios
-          .get("http://localhost:8000/api/schedule", {
-            headers: { "Content-Type": "application/json" },
-            withCredentials: true,
-          })
-          .then((response) => {
-            setSchedules(response.data);
-            response.data.map((res) =>
-              res.id === schedid ? setSchedName(res.sched_name) : {}
-            );
-          });
+        await axios({
+          method: "GET",
+          url: "http://localhost:8000/api/schedule",
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        }).then((response) => {
+          setSchedules(response.data);
+          response.data.map((res) =>
+            res.id === schedid ? setSchedName(res.sched_name) : {}
+          );
+        });
       } catch (err) {
-        console.log(err.response.data[0]);
+        console.log(err);
       }
     })();
   }, [schedid]);
@@ -65,7 +65,7 @@ const Schedule = (props) => {
       });
       api.info(NotificationEvent(true, "Employee shift schedule updated."));
     } catch (err) {
-      console.log(err.response.data[0]);
+      console.log(err);
     }
   }
 

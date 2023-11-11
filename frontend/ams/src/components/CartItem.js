@@ -8,18 +8,18 @@ import {
   CheckCircleOutlined,
 } from "@ant-design/icons";
 import ResultEvent from "../components/ResultEvent";
+import moment from "moment";
 
 const { Title } = Typography;
 
 const CartItem = (props) => {
-  const [totalOrder, setTotalOrder] = useState(0.0);
+  const [totalOrder, setTotalOrder] = useState("0.00");
   const [itemCount, setItemCount] = useState(0);
   const [success, setSuccess] = useState(false);
+  const [transactionID, setTransactionID] = useState("");
 
   useEffect(() => {
-    (async () => {
-      await sumOrder();
-    })();
+    sumOrder();
   }, []);
 
   function changeQuantity(action, id, code, name, cost, measurement, quantity) {
@@ -44,12 +44,57 @@ const CartItem = (props) => {
   }
 
   function sumOrder() {
-    setTotalOrder(0.0);
+    setTotalOrder("0.00");
     const sum = props.orderList.reduce(
       (acc, item) => parseFloat(acc) + parseFloat(item.total),
       0
     );
     setTotalOrder(sum.toFixed(2));
+  }
+
+  function transactionDetail() {
+    var details = "";
+    Object.values(props.orderList).forEach(
+      (val) =>
+        (details +=
+          "Item: " +
+          val["item_code"] +
+          ", Name: " +
+          val["item_name"] +
+          ", Cost: " +
+          val["item_cost"] +
+          ", Quantity: " +
+          val["item_onhand"] +
+          ", Total: " +
+          val["total"] +
+          "\n")
+    );
+    return details;
+  }
+
+  async function addTransaction() {
+    var transactionData = {
+      trans_id: "",
+      trans_type: "Reorder Item",
+      trans_action: "Add",
+      trans_date: moment().format("YYYY-MM-DD HH:mm:ss"),
+      trans_user: String(props.empid) + " - " + props.username,
+      trans_detail: transactionDetail(),
+    };
+    try {
+      await axios({
+        method: "POST",
+        url: "http://localhost:8000/api/transaction/",
+        data: transactionData,
+        headers: { "Content-Type": "application/json" },
+        withCredentials: true,
+      }).then((response) => {
+        setTransactionID(response.data["trans_id"]);
+      });
+    } catch (err) {
+      console.log(err);
+      setSuccess(false);
+    }
   }
 
   async function checkoutOrder() {
@@ -63,10 +108,11 @@ const CartItem = (props) => {
       });
       setItemCount(props.itemCount);
       setSuccess(true);
+      addTransaction();
       props.clearOrder();
       props.searchItem(props.item);
     } catch (err) {
-      console.log(err.response.data[0]);
+      console.log(err);
       setSuccess(false);
     }
   }
@@ -82,7 +128,7 @@ const CartItem = (props) => {
               ? "Successfully added Items to inventory."
               : "Successfully added Item to inventory."
           }
-          subTitle={"Transaction ID 0545684"}
+          subTitle={"Transaction ID " + String(transactionID)}
           extra={[
             <Button size="large" type="primary" onClick={props.onCloseDrawer}>
               REORDER ANOTHER ITEM
@@ -106,7 +152,7 @@ const CartItem = (props) => {
                     size="large"
                     type="default"
                     style={{
-                      marginRight: "20px",
+                      marginRight: "10px",
                     }}
                     onClick={props.onCloseDrawer}
                     block

@@ -75,16 +75,16 @@ const Profile = (props) => {
   useEffect(() => {
     (async () => {
       try {
-        await axios
-          .get("http://localhost:8000/api/employees", {
-            headers: { "Content-Type": "application/json" },
-            withCredentials: true,
-          })
-          .then((response) => {
-            setEmployees(response.data);
-          });
+        await axios({
+          method: "GET",
+          url: "http://localhost:8000/api/employees",
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        }).then((response) => {
+          setEmployees(response.data);
+        });
       } catch (err) {
-        console.log(err.response.data[0]);
+        console.log(err);
       }
     })();
   }, []);

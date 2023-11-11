@@ -30,6 +30,7 @@ const AddUpdateItem = (props) => {
   const [color, setColor] = useState("#318ce7");
   const [categories, setCategories] = useState([]);
   const [measurements, setMeasurements] = useState([]);
+  const [idCode, setIDCode] = useState(update ? props.code : "");
   const [itemCode, setItemCode] = useState(update ? props.code : "");
   const [itemName, setItemName] = useState(update ? props.name : "");
   const [itemCategory, setItemCategory] = useState(
@@ -56,58 +57,24 @@ const AddUpdateItem = (props) => {
   const [reorderReq, setReorderReq] = useState(false);
   const [costReq, setCostReq] = useState(false);
   const [descriptionReq, setDescriptionReq] = useState(false);
-  const [displayItemCode, setDisplayItemCode] = useState("");
 
   useEffect(() => {
     (async () => {
       try {
-        await axios
-          .get("http://localhost:8000/api/option", {
-            headers: { "Content-Type": "application/json" },
-            withCredentials: true,
-          })
-          .then((response) => {
-            setCategories(response.data);
-          });
-      } catch (err) {
-        console.log(err.response.data[0]);
-      }
-    })();
-  }, []);
-
-  useEffect(() => {
-    (async () => {
-      try {
-        await axios
-          .get("http://localhost:8000/api/option", {
-            headers: { "Content-Type": "application/json" },
-            withCredentials: true,
-          })
-          .then((response) => {
-            setMeasurements(response.data);
-          });
-      } catch (err) {
-        console.log(err.response.data[0]);
-      }
-    })();
-  }, []);
-
-  async function getItemCode(name) {
-    try {
-      await axios
-        .get("http://localhost:8000/api/items", {
+        await axios({
+          method: "GET",
+          url: "http://localhost:8000/api/option",
           headers: { "Content-Type": "application/json" },
           withCredentials: true,
-        })
-        .then((response) => {
-          response.data.map((res) =>
-            res.item_name === name ? setDisplayItemCode(res.item_code) : {}
-          );
+        }).then((response) => {
+          setCategories(response.data);
+          setMeasurements(response.data);
         });
-    } catch (err) {
-      console.log(err.response.data[0]);
-    }
-  }
+      } catch (err) {
+        console.log(err);
+      }
+    })();
+  }, []);
 
   function newItem() {
     setUpdate(false);
@@ -190,11 +157,12 @@ const AddUpdateItem = (props) => {
         data: itemData,
         headers: { "Content-Type": "application/json" },
         withCredentials: true,
+      }).then((response) => {
+        setIDCode("ITM00" + response.data["id"]);
       });
       setSuccess(true);
-      getItemCode(itemName);
     } catch (err) {
-      console.log(err.response.data[0]);
+      console.log(err);
       setSuccess(false);
       setLabel(err.response.data[0]);
       setColor("#ff0000");
@@ -213,7 +181,7 @@ const AddUpdateItem = (props) => {
                 ? "Successfully updated Item."
                 : "Successfully added new Item."
             }
-            subTitle={"Item name " + itemName + " with code " + displayItemCode}
+            subTitle={"Item name " + itemName + " with code " + String(idCode)}
             extra={
               <Button
                 size="large"

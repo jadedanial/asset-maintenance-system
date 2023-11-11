@@ -1,6 +1,9 @@
 {
   "[python]": {
-    "editor.defaultFormatter": "ms-python.black-formatter"
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "python.formatting.provider": "none"
+  "python.formatting.provider": "none",
+  "editor.formatOnSave": true,
+  "python.analysis.autoImportCompletions": true,
+  "python.analysis.typeCheckingMode": "basic"
 }

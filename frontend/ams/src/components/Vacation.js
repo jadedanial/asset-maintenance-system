@@ -268,53 +268,53 @@ const Vacation = (props) => {
 
   useEffect(() => {
     (async () => {
-      try {
-        await axios
-          .get("http://localhost:8000/api/option", {
-            headers: { "Content-Type": "application/json" },
-            withCredentials: true,
-          })
-          .then((response) => {
-            setVacationType(response.data);
-          });
-      } catch (err) {
-        console.log(err.response.data[0]);
-      }
+      await loadVacations();
     })();
   }, []);
 
   useEffect(() => {
     (async () => {
-      await loadVacations();
+      try {
+        await axios({
+          method: "GET",
+          url: "http://localhost:8000/api/option",
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        }).then((response) => {
+          setVacationType(response.data);
+        });
+      } catch (err) {
+        console.log(err);
+      }
     })();
   }, []);
 
   async function loadVacations() {
     try {
-      await axios
-        .get("http://localhost:8000/api/vacations", {
-          headers: { "Content-Type": "application/json" },
-          withCredentials: true,
-        })
-        .then((response) => {
-          setVacations([]);
-          response.data.map((res) =>
-            setVacations((vacations) => [
-              ...vacations,
-              {
-                id: res.emp_id,
-                type: res.vac_type,
-                start: res.vac_start,
-                end: res.vac_end,
-                reason: res.vac_reason,
-                attach: res.vac_attachment,
-                total: res.vac_total,
-              },
-            ])
-          );
-        });
+      await axios({
+        method: "GET",
+        url: "http://localhost:8000/api/vacations",
+        headers: { "Content-Type": "application/json" },
+        withCredentials: true,
+      }).then((response) => {
+        setVacations([]);
+        response.data.map((res) =>
+          setVacations((vacations) => [
+            ...vacations,
+            {
+              id: res.emp_id,
+              type: res.vac_type,
+              start: res.vac_start,
+              end: res.vac_end,
+              reason: res.vac_reason,
+              attach: res.vac_attachment,
+              total: res.vac_total,
+            },
+          ])
+        );
+      });
     } catch (err) {
-      console.log(err.response.data[0]);
+      console.log(err);
     }
   }
 
@@ -468,7 +468,7 @@ const Vacation = (props) => {
       loadVacations();
       setSuccess(true);
     } catch (err) {
-      console.log(err.response.data[0]);
+      console.log(err);
       setSuccess(false);
       api.info(NotificationEvent(false, "Employee vacation failed to apply!"));
     }
@@ -489,7 +489,7 @@ const Vacation = (props) => {
               size="large"
               type="primary"
               style={{
-                marginRight: "20px",
+                marginRight: "10px",
               }}
               onClick={newVacation}
             >
@@ -537,7 +537,7 @@ const Vacation = (props) => {
                         size="large"
                         type="default"
                         style={{
-                          marginRight: "20px",
+                          marginRight: "10px",
                           display: current > 0 ? "none" : "inline",
                         }}
                         onClick={viewVacation}

@@ -17,16 +17,18 @@ const HomePage = () => {
   useEffect(() => {
     (async () => {
       try {
-        const response = await axios.get("http://localhost:8000/api/user", {
+        await axios({
+          method: "GET",
+          url: "http://localhost:8000/api/user",
           headers: { "Content-Type": "application/json" },
           withCredentials: true,
+        }).then((response) => {
+          setShowunauthorized(false);
+          setUsername(response.data.username);
+          setEmpID(response.data.empID);
         });
-        const content = await response.data;
-        setShowunauthorized(false);
-        setUsername(content.username);
-        setEmpID(content.empID);
       } catch (err) {
-        console.log(err.response.data[0]);
+        console.log(err.response.data.detail);
         setShowunauthorized(true);
       }
     })();
@@ -49,7 +51,7 @@ const HomePage = () => {
                   type="primary"
                   href="/login"
                   style={{
-                    marginRight: "20px",
+                    marginRight: "10px",
                   }}
                 >
                   LOGIN
@@ -68,7 +70,7 @@ const HomePage = () => {
         </>
       ) : (
         <>
-          <MainPage username={username} empid={empid} />
+          <MainPage empid={empid} username={username} />
         </>
       )}
     </>

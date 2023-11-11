@@ -38,29 +38,29 @@ const Reorder = (props) => {
     setItem(value);
     clearSearch();
     try {
-      await axios
-        .get("http://localhost:8000/api/items", {
-          headers: { "Content-Type": "application/json" },
-          withCredentials: true,
-        })
-        .then((response) => {
-          response.data.map((res) =>
-            res.item_code === value.toUpperCase()
-              ? setItemDetails([
-                  {
-                    id: res.id,
-                    code: res.item_code,
-                    name: res.item_name,
-                    cost: res.item_cost,
-                    measurement: res.item_measurement,
-                  },
-                ])
-              : {}
-          );
-        });
+      await axios({
+        method: "GET",
+        url: "http://localhost:8000/api/items",
+        headers: { "Content-Type": "application/json" },
+        withCredentials: true,
+      }).then((response) => {
+        response.data.map((res) =>
+          res.item_code === value.toUpperCase()
+            ? setItemDetails([
+                {
+                  id: res.id,
+                  code: res.item_code,
+                  name: res.item_name,
+                  cost: res.item_cost,
+                  measurement: res.item_measurement,
+                },
+              ])
+            : {}
+        );
+      });
       checkResult();
     } catch (err) {
-      console.log(err.response.data[0]);
+      console.log(err);
     }
   }
 
@@ -267,6 +267,8 @@ const Reorder = (props) => {
         </div>
       </Card>
       <DrawerEvent
+        empid={props.empid}
+        username={props.username}
         searchItem={searchItem}
         item={item}
         addItem={addItem}

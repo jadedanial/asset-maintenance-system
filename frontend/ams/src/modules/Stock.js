@@ -20,9 +20,7 @@ const Stock = (props) => {
       onFilter: (value, record) => {
         return (
           String(record.code).toLowerCase().includes(value.toLowerCase()) ||
-          String(record.name).toLowerCase().includes(value.toLowerCase()) ||
-          String(record.location).toLowerCase().includes(value.toLowerCase()) ||
-          String(record.measurement).toLowerCase().includes(value.toLowerCase())
+          String(record.name).toLowerCase().includes(value.toLowerCase())
         );
       },
     },
@@ -30,21 +28,7 @@ const Stock = (props) => {
       title: "Name",
       dataIndex: "name",
       key: "name",
-    },
-    {
-      title: "Physical Location",
-      dataIndex: "location",
-      key: "location",
-    },
-    {
-      title: "Unit Of Measurement",
-      dataIndex: "measurement",
-      key: "measurement",
-    },
-    {
-      title: "Reorder Quantity",
-      dataIndex: "reorder",
-      key: "reorder",
+      width: "40%",
     },
     {
       title: "On Hand",
@@ -71,31 +55,28 @@ const Stock = (props) => {
 
   async function loadItems() {
     try {
-      await axios
-        .get("http://localhost:8000/api/items", {
-          headers: { "Content-Type": "application/json" },
-          withCredentials: true,
-        })
-        .then((response) => {
-          setItems([]);
-          response.data.map((res) =>
-            setItems((items) => [
-              ...items,
-              {
-                code: res.item_code,
-                name: res.item_name,
-                location: res.item_location,
-                measurement: res.item_measurement,
-                reorder: res.item_reorder,
-                onhand: res.item_onhand,
-                cost: res.item_cost,
-                value: (res.item_cost * res.item_onhand).toFixed(2),
-              },
-            ])
-          );
-        });
+      await axios({
+        method: "GET",
+        url: "http://localhost:8000/api/items",
+        headers: { "Content-Type": "application/json" },
+        withCredentials: true,
+      }).then((response) => {
+        setItems([]);
+        response.data.map((res) =>
+          setItems((items) => [
+            ...items,
+            {
+              code: res.item_code,
+              name: res.item_name,
+              onhand: res.item_onhand,
+              cost: res.item_cost,
+              value: (res.item_cost * res.item_onhand).toFixed(2),
+            },
+          ])
+        );
+      });
     } catch (err) {
-      console.log(err.response.data[0]);
+      console.log(err);
     }
   }
 
