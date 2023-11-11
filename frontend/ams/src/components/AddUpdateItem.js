@@ -63,7 +63,7 @@ const AddUpdateItem = (props) => {
       try {
         await axios({
           method: "GET",
-          url: "http://localhost:8000/api/option",
+          url: "http://localhost:8000/api/options",
           headers: { "Content-Type": "application/json" },
           withCredentials: true,
         }).then((response) => {

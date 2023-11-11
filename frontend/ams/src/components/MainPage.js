@@ -48,7 +48,7 @@ const MainPage = (props) => {
       try {
         await axios({
           method: "GET",
-          url: "http://localhost:8000/api/module",
+          url: "http://localhost:8000/api/modules",
           headers: { "Content-Type": "application/json" },
           withCredentials: true,
         }).then((response) => {

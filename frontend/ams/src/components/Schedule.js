@@ -35,7 +35,7 @@ const Schedule = (props) => {
       try {
         await axios({
           method: "GET",
-          url: "http://localhost:8000/api/schedule",
+          url: "http://localhost:8000/api/schedules",
           headers: { "Content-Type": "application/json" },
           withCredentials: true,
         }).then((response) => {

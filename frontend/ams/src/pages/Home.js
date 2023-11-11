@@ -19,7 +19,7 @@ const HomePage = () => {
       try {
         await axios({
           method: "GET",
-          url: "http://localhost:8000/api/user",
+          url: "http://localhost:8000/api/users",
           headers: { "Content-Type": "application/json" },
           withCredentials: true,
         }).then((response) => {

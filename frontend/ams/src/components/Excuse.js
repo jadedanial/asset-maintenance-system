@@ -242,7 +242,7 @@ const Excuse = (props) => {
     try {
       await axios({
         method: "GET",
-        url: "http://localhost:8000/api/attendance",
+        url: "http://localhost:8000/api/attendances",
         headers: { "Content-Type": "application/json" },
         withCredentials: true,
       }).then((response) => {
