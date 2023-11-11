@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Col, Row, Card, Button, Input, Tooltip, Table } from "antd";
-import { SearchOutlined, UserAddOutlined } from "@ant-design/icons";
+import { UserAddOutlined } from "@ant-design/icons";
 import DrawerEvent from "../components/DrawerEvent";
 
 const Employee = (props) => {
@@ -130,11 +130,6 @@ const Employee = (props) => {
                 <Input
                   size="large"
                   placeholder="Search Employee"
-                  suffix={
-                    <SearchOutlined
-                      style={{ fontSize: "26px", color: "#318ce7" }}
-                    />
-                  }
                   onChange={(e) => setSearchedText(e.target.value)}
                 />
               </Col>
@@ -166,8 +161,7 @@ const Employee = (props) => {
           }}
           pagination={{
             pageSize: 10,
-            showSizeChanger: true,
-            pageSizeOptions: ["10", "20", "30"],
+            showSizeChanger: false,
           }}
           size="small"
           scroll={{

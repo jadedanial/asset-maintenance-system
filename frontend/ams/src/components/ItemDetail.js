@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import QRCode from "react-qr-code";
-import { Card, Typography, Tag, Col, Row, Descriptions, Button } from "antd";
+import { Card, Typography, Tag, Col, Descriptions, Button } from "antd";
 import AddUpdateItem from "./AddUpdateItem";
 
 const { Title } = Typography;
@@ -27,6 +27,84 @@ const ItemDetail = (props) => {
     })();
   }, []);
 
+  function itemDetails(i) {
+    return (
+      <>
+        <div className="space-between-row align-items-end">
+          <Col span={13} style={{ height: "fit-content" }}>
+            <p className="medium-font" style={{ paddingBottom: "18px" }}>
+              {i.item_name}
+            </p>
+            <p className="large-card-title" style={{ paddingBottom: "8px" }}>
+              Php. {i.item_cost}
+            </p>
+            <Descriptions layout="horizontal" column={1} className="small-font">
+              <Descriptions.Item label="On Hand">
+                {i.item_onhand}
+              </Descriptions.Item>
+              <Descriptions.Item
+                label="Unit Of Measurement"
+                style={{
+                  display: props.mode === "view" ? "none" : "block",
+                }}
+              >
+                {i.item_measurement}
+              </Descriptions.Item>
+              <Descriptions.Item
+                label="Physical Location"
+                style={{
+                  display: props.mode === "view" ? "none" : "block",
+                }}
+              >
+                {i.item_location}
+              </Descriptions.Item>
+              <Descriptions.Item
+                label="Reorder Quantity"
+                style={{
+                  display: props.mode === "view" ? "none" : "block",
+                }}
+              >
+                {i.item_reorder}
+              </Descriptions.Item>
+            </Descriptions>
+            <div
+              style={{
+                marginTop: "10px",
+              }}
+            >
+              <Tag color="blue">
+                <p
+                  className="small-font"
+                  style={{ color: "#318ce7", padding: "2px" }}
+                >
+                  {i.item_category}
+                </p>
+              </Tag>
+            </div>
+          </Col>
+          <Col span={9}>
+            <QRCode
+              value={i.item_code}
+              style={{
+                height: "auto",
+                width: "100%",
+              }}
+            />
+          </Col>
+        </div>
+        <p
+          className="medium-font"
+          style={{
+            paddingTop: "20px",
+            display: props.mode === "view" ? "none" : "block",
+          }}
+        >
+          {i.item_description}
+        </p>
+      </>
+    );
+  }
+
   return (
     <>
       {item.map((i) =>
@@ -50,81 +128,48 @@ const ItemDetail = (props) => {
             ) : (
               <>
                 <div className="justified-row">
-                  <div className="card-custom-size">
+                  {props.mode === "view" ? (
                     <Card
-                      size="large"
-                      extra={
-                        <Button
-                          size="large"
-                          type="primary"
-                          onClick={() => setUpdate(true)}
-                        >
-                          UPDATE
-                        </Button>
-                      }
-                      title={
-                        <Title>
-                          <p
-                            className="big-card-title"
-                            style={{ textWrap: "wrap" }}
-                          >
-                            {i.item_name}
-                          </p>
-                        </Title>
-                      }
-                      hoverable
+                      className="card-no-padding"
+                      style={{
+                        padding: "0 20px 0 0",
+                        borderTop: "0",
+                        borderLeft: "0",
+                        borderBottom: "0",
+                        width: "100%",
+                      }}
                     >
-                      <div className="space-between-row">
-                        <Col span={13}>
-                          <p className="big-font">{i.item_code}</p>
-                          <p className="medium-card-title">
-                            {i.item_cost} Php.
-                          </p>
-                          <Descriptions
-                            layout="horizontal"
-                            column={1}
-                            className="small-font"
-                          >
-                            <Descriptions.Item label="Quantity On Hand">
-                              {i.item_onhand}
-                            </Descriptions.Item>
-                            <Descriptions.Item label="Unit Of Measurement">
-                              {i.item_measurement}
-                            </Descriptions.Item>
-                            <Descriptions.Item label="Physical Location">
-                              {i.item_location}
-                            </Descriptions.Item>
-                            <Descriptions.Item label="Reorder Quantity">
-                              {i.item_reorder}
-                            </Descriptions.Item>
-                          </Descriptions>
-                          <Row style={{ margin: "20px 0 10px 0" }}>
-                            <Tag color="blue">
-                              <p
-                                className="medium-font"
-                                style={{ color: "#318ce7" }}
-                              >
-                                {i.item_category}
-                              </p>
-                            </Tag>
-                          </Row>
-                          <p className="medium-font">{i.item_description}</p>
-                        </Col>
-                        <Col span={9}>
-                          <div
-                            className="flex-end-row"
-                            style={{ alignItems: "flex-end" }}
-                          >
-                            <QRCode
-                              size={256}
-                              style={{ height: "auto", width: "80%" }}
-                              value={i.item_code}
-                            />
-                          </div>
-                        </Col>
-                      </div>
+                      {itemDetails(i)}
                     </Card>
-                  </div>
+                  ) : (
+                    <div className="card-custom-size">
+                      <Card
+                        size="large"
+                        extra={
+                          <Button
+                            size="large"
+                            type="primary"
+                            onClick={() => setUpdate(true)}
+                          >
+                            UPDATE
+                          </Button>
+                        }
+                        title={
+                          <Title>
+                            <p
+                              className="big-card-title"
+                              style={{ textWrap: "wrap" }}
+                            >
+                              {i.item_code}
+                            </p>
+                          </Title>
+                        }
+                        hoverable
+                      >
+                        {itemDetails(i)}
+                      </Card>
+                    </div>
+                  )}
                 </div>
               </>
             )}

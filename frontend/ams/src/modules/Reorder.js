@@ -5,8 +5,8 @@ import {
   Card,
   Typography,
   Input,
-  List,
-  Table,
+  Row,
+  Col,
   InputNumber,
   Tooltip,
   Empty,
@@ -14,12 +14,9 @@ import {
   Avatar,
   notification,
 } from "antd";
-import {
-  AppstoreAddOutlined,
-  ShoppingCartOutlined,
-  SearchOutlined,
-} from "@ant-design/icons";
+import { ShoppingCartOutlined } from "@ant-design/icons";
 import DrawerEvent from "../components/DrawerEvent";
+import ItemDetail from "../components/ItemDetail";
 import NotificationEvent from "../components/NotificationEvent";
 
 const { Title } = Typography;
@@ -30,109 +27,15 @@ const Reorder = (props) => {
   });
   const [total, setTotal] = useState("");
   const [quantity, setQuantity] = useState("");
+  const [item, setItem] = useState("");
   const [orderList, setOrderList] = useState([]);
   const [itemCount, setItemCount] = useState(0);
   const [inputStatus, setInputStatus] = useState("");
   const [openDrawer, setOpenDrawer] = useState(false);
   const [api, contextHolder] = notification.useNotification();
 
-  const data = [
-    {
-      name: (
-        <p className="medium-font" style={{ textAlign: "center" }}>
-          {itemDetails["0"]["name"]}
-        </p>
-      ),
-    },
-  ];
-
-  const columns = [
-    {
-      title: "Item",
-      dataIndex: "item",
-      key: "item",
-      width: "52%",
-    },
-    {
-      title: "Quantity",
-      dataIndex: "quantity",
-      key: "quantity",
-      width: "26%",
-    },
-    {
-      title: "Cost",
-      dataIndex: "cost",
-      key: "cost",
-      width: "20%",
-    },
-    {
-      title: "Add",
-      dataIndex: "action",
-      key: "action",
-      width: "2%",
-    },
-  ];
-
-  const items = [
-    {
-      item: (
-        <List
-          itemLayout="horizontal"
-          dataSource={data}
-          renderItem={(item, index) => (
-            <List.Item style={{ padding: "0" }}>
-              <List.Item.Meta title={item.name} description={item.code} />
-            </List.Item>
-          )}
-        />
-      ),
-      quantity: (
-        <InputNumber
-          status={inputStatus}
-          min={1}
-          max={1000000}
-          onChange={onQuantityChange}
-        />
-      ),
-      cost: (
-        <p className="big-font" style={{ textAlign: "center" }}>
-          {total}
-        </p>
-      ),
-      action: (
-        <Tooltip title="Add To Cart">
-          <Button
-            icon={
-              <AppstoreAddOutlined
-                className="bigger-card-title"
-                style={{ color: "#318ce7" }}
-                onClick={() =>
-                  newItem(
-                    itemDetails["0"]["id"],
-                    itemDetails["0"]["code"],
-                    itemDetails["0"]["name"],
-                    itemDetails["0"]["cost"],
-                    itemDetails["0"]["measurement"],
-                    quantity,
-                    "topRight"
-                  )
-                }
-              />
-            }
-          />
-        </Tooltip>
-      ),
-    },
-  ];
-
-  const contentStyle = {
-    lineHeight: "260px",
-    color: "#fff",
-    backgroundColor: "#fff",
-    marginTop: 16,
-  };
-
   async function searchItem(value) {
+    setItem(value);
     clearSearch();
     try {
       await axios
@@ -207,7 +110,7 @@ const Reorder = (props) => {
   }
 
   function newItem(id, code, name, cost, measurement, quantity) {
-    if (total !== "") {
+    if (total !== "0.00") {
       removeItem(code);
       addItem(id, code, name, cost, measurement, quantity, total);
       setInputStatus("");
@@ -221,7 +124,7 @@ const Reorder = (props) => {
     setItemDetails({
       0: { id: "", code: "", name: "", cost: "", measurement: "" },
     });
-    setTotal("");
+    setTotal("0.00");
   }
 
   function onQuantityChange(value) {
@@ -234,16 +137,55 @@ const Reorder = (props) => {
       case true:
         return (
           <>
-            <Table
-              className="light-color-header-table"
-              id="reorder-item-center"
-              rowClassName={() => "table-row-no-color text-align-left"}
-              style={{ margin: "21px 0" }}
-              columns={columns}
-              dataSource={items}
-              size="small"
-              pagination={false}
-            />
+            <Row>
+              <Col span={16} style={{ paddingTop: "20px" }}>
+                <ItemDetail
+                  itemcode={itemDetails["0"]["code"]}
+                  mode={"view"}
+                ></ItemDetail>
+              </Col>
+              <Col
+                span={8}
+                className="flex-end-col align-items-start"
+                style={{
+                  padding: "0 0 0 20px",
+                }}
+              >
+                <p
+                  className="big-font"
+                  style={{ fontWeight: "800", paddingBottom: "20px" }}
+                >
+                  Php. {total}
+                </p>
+                <InputNumber
+                  status={inputStatus}
+                  min={1}
+                  max={1000000}
+                  onChange={onQuantityChange}
+                  addonBefore={<p className="medium-card-title">Qty.</p>}
+                />
+              </Col>
+            </Row>
+            <div style={{ paddingTop: "30px" }}>
+              <Button
+                size="large"
+                type="primary"
+                onClick={() =>
+                  newItem(
+                    itemDetails["0"]["id"],
+                    itemDetails["0"]["code"],
+                    itemDetails["0"]["name"],
+                    itemDetails["0"]["cost"],
+                    itemDetails["0"]["measurement"],
+                    quantity,
+                    "topRight"
+                  )
+                }
+                block
+              >
+                ADD TO CART
+              </Button>
+            </div>
           </>
         );
       case false:
@@ -270,7 +212,7 @@ const Reorder = (props) => {
       {contextHolder}
       <Card size="large" className="card-main-layout" bordered hoverable>
         <div className="justified-row">
-          <div className="card-custom-size">
+          <div className="card-custom-size" style={{ marginBottom: "0" }}>
             <Card
               size="large"
               extra={
@@ -283,9 +225,15 @@ const Reorder = (props) => {
                 >
                   <Badge count={itemCount} color="#318ce7" onClick={showDrawer}>
                     <Avatar
+                      className="avatar-btn"
                       shape="square"
                       size="large"
-                      style={{ backgroundColor: "#318ce7" }}
+                      style={{
+                        backgroundColor: "#318ce7",
+                        cursor: "pointer",
+                        width: "50px",
+                        borderRadius: "5px",
+                      }}
                       icon={
                         <ShoppingCartOutlined
                           className="big-card-title"
@@ -302,39 +250,25 @@ const Reorder = (props) => {
                     className="big-card-title"
                     style={{ width: "60%", textWrap: "wrap" }}
                   >
-                    Reorder Stock
+                    Reorder
                   </p>
                 </Title>
               }
               hoverable
             >
-              <div style={contentStyle}>
-                <div style={{ flexDirection: "column", width: "100%" }}>
-                  <Card>
-                    <Input
-                      size="large"
-                      placeholder="Search Item Code"
-                      suffix={
-                        <SearchOutlined
-                          style={{ fontSize: "26px", color: "#318ce7" }}
-                        />
-                      }
-                      onChange={(e) => searchItem(e.target.value)}
-                    />
-                  </Card>
-                  <Card
-                    className="card-no-top-padding"
-                    style={{ marginTop: "10px" }}
-                  >
-                    {componentSwitch(checkResult())}
-                  </Card>
-                </div>
-              </div>
+              <Input
+                size="large"
+                placeholder="Search Item Code"
+                onChange={(e) => searchItem(e.target.value)}
+              />
+              {componentSwitch(checkResult())}
             </Card>
           </div>
         </div>
       </Card>
       <DrawerEvent
+        searchItem={searchItem}
+        item={item}
         addItem={addItem}
         removeItem={removeItem}
         itemCount={itemCount}

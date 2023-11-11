@@ -164,10 +164,7 @@ const MainPage = (props) => {
             background: "#108ee9",
           }}
         >
-          <div
-            className="flex-start-row"
-            style={{ margin: "20px 0 15px 32px" }}
-          >
+          <div style={{ margin: "20px 0 15px 32px" }}>
             <img
               src={collapsed ? "images/ams.png" : "images/ams.png"}
               alt="logo"
@@ -201,16 +198,14 @@ const MainPage = (props) => {
             }}
           >
             <div className="space-between-row" style={{ padding: "0 20px" }}>
-              <Col>
-                <div style={{ color: "#318ce7" }}>
-                  {React.createElement(
-                    collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
-                    {
-                      className: "trigger",
-                      onClick: () => setCollapsed(!collapsed),
-                    }
-                  )}
-                </div>
+              <Col style={{ color: "#318ce7" }}>
+                {React.createElement(
+                  collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
+                  {
+                    className: "trigger",
+                    onClick: () => setCollapsed(!collapsed),
+                  }
+                )}
               </Col>
               <Col>
                 <Space size="large">
@@ -224,7 +219,7 @@ const MainPage = (props) => {
                         <Space size="large">
                           <Col span={12}>
                             <p
-                              className="small-font"
+                              className="medium-font"
                               style={{ cursor: "pointer", color: "#318ce7" }}
                             >
                               {props.empid}
@@ -232,7 +227,7 @@ const MainPage = (props) => {
                           </Col>
                           <Col span={12}>
                             <p
-                              className="small-font"
+                              className="medium-font"
                               style={{ cursor: "pointer", color: "#318ce7" }}
                             >
                               {props.username}

@@ -48,6 +48,9 @@ const HomePage = () => {
                   size="large"
                   type="primary"
                   href="/login"
+                  style={{
+                    marginRight: "20px",
+                  }}
                 >
                   LOGIN
                 </Button>,

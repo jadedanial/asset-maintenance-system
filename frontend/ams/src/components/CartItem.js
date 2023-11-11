@@ -52,7 +52,7 @@ const CartItem = (props) => {
     setTotalOrder(sum.toFixed(2));
   }
 
-  async function applyOrder() {
+  async function checkoutOrder() {
     try {
       await axios({
         method: "PUT",
@@ -64,6 +64,7 @@ const CartItem = (props) => {
       setItemCount(props.itemCount);
       setSuccess(true);
       props.clearOrder();
+      props.searchItem(props.item);
     } catch (err) {
       console.log(err.response.data[0]);
       setSuccess(false);
@@ -78,14 +79,15 @@ const CartItem = (props) => {
           status="success"
           title={
             itemCount > 1
-              ? "Successfully added " +
-                itemCount.toString() +
-                " Items to inventory."
-              : "Successfully added " +
-                itemCount.toString() +
-                " Item to inventory."
+              ? "Successfully added Items to inventory."
+              : "Successfully added Item to inventory."
           }
-          subTitle={"Transaction ID 0587864"}
+          subTitle={"Transaction ID 0545684"}
+          extra={[
+            <Button size="large" type="primary" onClick={props.onCloseDrawer}>
+              REORDER ANOTHER ITEM
+            </Button>,
+          ]}
         />
       </>
     );
@@ -99,13 +101,27 @@ const CartItem = (props) => {
             size="large"
             extra={
               totalOrder > 0.0 ? (
-                <Button
-                  size="large"
-                  type="primary"
-                  onClick={() => applyOrder()}
-                >
-                  APPLY
-                </Button>
+                <div className="space-between-row">
+                  <Button
+                    size="large"
+                    type="default"
+                    style={{
+                      marginRight: "20px",
+                    }}
+                    onClick={props.onCloseDrawer}
+                    block
+                  >
+                    ADD ITEM
+                  </Button>
+                  <Button
+                    size="large"
+                    type="primary"
+                    onClick={() => checkoutOrder()}
+                    block
+                  >
+                    CHECK OUT
+                  </Button>
+                </div>
               ) : (
                 ""
               )
@@ -124,18 +140,14 @@ const CartItem = (props) => {
               <Card
                 size="small"
                 id="card-content-justify-center"
-                style={{ width: "100%", padding: "10px 20px" }}
+                style={{
+                  padding: "10px 20px",
+                  fontWeight: "800",
+                }}
               >
-                <div
-                  style={{
-                    alignItems: "center",
-                    display: "flex",
-                    justifyContent: "flex-start",
-                  }}
-                >
-                  <p className="medium-font" style={{ marginRight: "20px" }}>
-                    Total Cost {totalOrder}
-                  </p>
+                <div className="space-between-row">
+                  <p className="large-font">Total Cost</p>
+                  <p className="large-font">Php. {totalOrder}</p>
                 </div>
               </Card>
             ) : (
@@ -151,12 +163,86 @@ const CartItem = (props) => {
                     id="card-content-justify-center"
                     title={
                       <Title>
-                        <p className="medium-font" style={{ color: "#318ce7" }}>
-                          {item.item_code}
-                        </p>
+                        <div
+                          className="space-between-row align-items-center"
+                          style={{ height: "25px" }}
+                        >
+                          <Col span={10}>
+                            <p className="medium-card-title">
+                              {item.item_code}
+                            </p>
+                          </Col>
+                          <Col span={8}>
+                            <p className="medium-card-title">Quantity</p>
+                          </Col>
+                          <Col
+                            span={6}
+                            className="space-between-row"
+                            style={{ paddingBottom: "15px" }}
+                          >
+                            <Col span={8}>
+                              <Tooltip>
+                                <Button
+                                  className="btn-blue"
+                                  type="link"
+                                  onClick={() =>
+                                    changeQuantity(
+                                      "add",
+                                      item.id,
+                                      item.item_code,
+                                      item.item_name,
+                                      item.item_cost,
+                                      item.item_measurement,
+                                      item.item_onhand
+                                    )
+                                  }
+                                >
+                                  <PlusOutlined className="medium-card-title" />
+                                </Button>
+                              </Tooltip>
+                            </Col>
+                            <Col span={8}>
+                              <Tooltip>
+                                <Button
+                                  className="btn-blue"
+                                  type="link"
+                                  onClick={() =>
+                                    changeQuantity(
+                                      "less",
+                                      item.id,
+                                      item.item_code,
+                                      item.item_name,
+                                      item.item_cost,
+                                      item.item_measurement,
+                                      item.item_onhand
+                                    )
+                                  }
+                                >
+                                  <MinusOutlined className="medium-card-title" />
+                                </Button>
+                              </Tooltip>
+                            </Col>
+                            <Col span={8}>
+                              <Tooltip>
+                                <Button
+                                  className="btn-blue"
+                                  danger
+                                  type="link"
+                                  onClick={() => deleteItem(item.item_code)}
+                                >
+                                  <CloseOutlined className="large-card-title" />
+                                </Button>
+                              </Tooltip>
+                            </Col>
+                          </Col>
+                        </div>
                       </Title>
                     }
-                    style={{ width: "100%", padding: "20px" }}
+                    style={{
+                      width: "100%",
+                      padding: "20px",
+                      background: "#e6fcff",
+                    }}
                     hoverable
                   >
                     <div
@@ -164,101 +250,29 @@ const CartItem = (props) => {
                       style={{ alignItems: "center" }}
                     >
                       <Col span={8} style={{ marginRight: "30px" }}>
-                        <List.Item.Meta
-                          title={
-                            <p className="medium-font">{item.item_name}</p>
-                          }
-                        />
+                        <p className="medium-font">{item.item_name}</p>
                       </Col>
-                      <Col span={4}>
-                        <List.Item.Meta
-                          avatar={
-                            <p className="medium-card-title">{item.total}</p>
-                          }
-                        />
-                      </Col>
-                      <Col span={5}>
+                      <Col span={7}>
                         <p className="medium-font">
-                          Qty. {item.item_onhand}{" "}
+                          {item.item_onhand}{" "}
                           {item.item_onhand > 1
                             ? item.item_measurement + "s"
                             : item.item_measurement}
                         </p>
                       </Col>
                       <Col
-                        span={4}
+                        span={6}
                         className="flex-end-row"
                         style={{
                           alignItems: "center",
                         }}
                       >
-                        <div
-                          className="space-between-row"
-                          style={{ marginTop: "5px" }}
+                        <p
+                          className="medium-font"
+                          style={{ textAlign: "right" }}
                         >
-                          <Col span={8}>
-                            <Tooltip title="Add Quantity">
-                              <Button
-                                icon={
-                                  <PlusOutlined
-                                    className="medium-card-title"
-                                    style={{ color: "#318ce7" }}
-                                    onClick={() =>
-                                      changeQuantity(
-                                        "add",
-                                        item.id,
-                                        item.item_code,
-                                        item.item_name,
-                                        item.item_cost,
-                                        item.item_measurement,
-                                        item.item_onhand
-                                      )
-                                    }
-                                  />
-                                }
-                                block
-                              />
-                            </Tooltip>
-                          </Col>
-                          <Col span={8}>
-                            <Tooltip title="Less Quantity">
-                              <Button
-                                icon={
-                                  <MinusOutlined
-                                    className="medium-card-title"
-                                    style={{ color: "#318ce7" }}
-                                    onClick={() =>
-                                      changeQuantity(
-                                        "less",
-                                        item.id,
-                                        item.item_code,
-                                        item.item_name,
-                                        item.item_cost,
-                                        item.item_measurement,
-                                        item.item_onhand
-                                      )
-                                    }
-                                  />
-                                }
-                                block
-                              />
-                            </Tooltip>
-                          </Col>
-                          <Col span={8}>
-                            <Tooltip title="Remove Item">
-                              <Button
-                                danger
-                                type="link"
-                                onClick={() => deleteItem(item.item_code)}
-                              >
-                                <CloseOutlined
-                                  className="large-card-title"
-                                  style={{ color: "#FF4D4F" }}
-                                />
-                              </Button>
-                            </Tooltip>
-                          </Col>
-                        </div>
+                          {item.total}
+                        </p>
                       </Col>
                     </div>
                   </Card>

@@ -1,14 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import {
-  Card,
-  Select,
-  Row,
-  Button,
-  Typography,
-  List,
-  notification,
-} from "antd";
+import { Card, Select, Button, Typography, List, notification } from "antd";
 import NotificationEvent from "./NotificationEvent";
 
 const { Title } = Typography;
@@ -85,7 +77,7 @@ const Schedule = (props) => {
     return schedules.map((schedule) =>
       schedule.id === id ? (
         <>
-          <Row style={{ paddingTop: "20px", flexWrap: "wrap" }}>
+          <div style={{ paddingTop: "20px", flexWrap: "wrap" }}>
             <List
               grid={{ gutter: 16, column: 2 }}
               dataSource={[
@@ -127,7 +119,7 @@ const Schedule = (props) => {
                 </List.Item>
               )}
             />
-          </Row>
+          </div>
         </>
       ) : (
         <></>
@@ -138,9 +130,9 @@ const Schedule = (props) => {
   return (
     <>
       {contextHolder}
-      <Row style={{ marginTop: "20px" }}>
+      <div style={{ marginTop: "20px" }}>
         <Card size="small" style={{ width: "100%" }}>
-          <Row className="justified-row">
+          <div className="justified-row">
             <div className="card-custom-size">
               <Card
                 size="large"
@@ -151,7 +143,7 @@ const Schedule = (props) => {
                 }
                 hoverable
               >
-                <Row style={{ marginBottom: "10px" }}>
+                <div style={{ marginBottom: "10px" }}>
                   <Select
                     size="large"
                     showSearch
@@ -176,8 +168,8 @@ const Schedule = (props) => {
                     })}
                     onChange={onChange}
                   />
-                </Row>
-                <Row>{scheduleSwitch(schedid)}</Row>
+                </div>
+                <div>{scheduleSwitch(schedid)}</div>
                 <div
                   className="space-between-row"
                   style={{ paddingTop: "30px" }}
@@ -185,19 +177,17 @@ const Schedule = (props) => {
                   <Button
                     size="large"
                     type="primary"
-                    style={{
-                      width: "100%",
-                    }}
                     onClick={() => handleSubmit("topRight")}
+                    block
                   >
                     APPLY
                   </Button>
                 </div>
               </Card>
             </div>
-          </Row>
+          </div>
         </Card>
-      </Row>
+      </div>
     </>
   );
 };

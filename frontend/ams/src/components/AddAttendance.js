@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import {
   Form,
-  Row,
   Button,
   Typography,
   DatePicker,
@@ -489,7 +488,7 @@ const AddAttendance = (props) => {
   return (
     <>
       {contextHolder}
-      <Row className="justified-row">
+      <div className="justified-row">
         <div className="card-custom-size">
           <Form
             {...layout}
@@ -517,7 +516,6 @@ const AddAttendance = (props) => {
               </Form.Item>
               <Form.Item label="Check In">
                 <DatePicker
-                  placeholder=""
                   onChange={(value) =>
                     setAttendCheckIn(moment(value).format(dateTimeFormat))
                   }
@@ -532,7 +530,6 @@ const AddAttendance = (props) => {
               </Form.Item>
               <Form.Item label="Check Out">
                 <DatePicker
-                  placeholder=""
                   onChange={(value) =>
                     setAttendCheckOut(moment(value).format(dateTimeFormat))
                   }
@@ -548,22 +545,20 @@ const AddAttendance = (props) => {
               <div className="space-between-row" style={{ paddingTop: "30px" }}>
                 <Button
                   size="large"
-                  type="primary"
+                  type="default"
                   style={{
-                    marginRight: "10px",
-                    width: "100%",
+                    marginRight: "20px",
                   }}
                   onClick={props.viewAttendance}
+                  block
                 >
                   CANCEL
                 </Button>
                 <Button
                   size="large"
                   type="primary"
-                  style={{
-                    width: "100%",
-                  }}
                   onClick={applyAttendance}
+                  block
                 >
                   APPLY
                 </Button>
@@ -571,7 +566,7 @@ const AddAttendance = (props) => {
             </Card>
           </Form>
         </div>
-      </Row>
+      </div>
     </>
   );
 };

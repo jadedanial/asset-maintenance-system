@@ -5,7 +5,6 @@ import {
   Input,
   DatePicker,
   Select,
-  Row,
   Card,
   Button,
   Typography,
@@ -358,14 +357,16 @@ const Vacation = (props) => {
 
   function addVactionButton() {
     return (
-      <Button
-        icon={<PlusOutlined />}
-        size="medium"
-        type="primary"
-        onClick={newVacation}
-      >
-        ADD
-      </Button>
+      <div className="flex-end-row">
+        <Button
+          icon={<PlusOutlined />}
+          size="medium"
+          type="primary"
+          onClick={newVacation}
+        >
+          ADD
+        </Button>
+      </div>
     );
   }
 
@@ -484,7 +485,14 @@ const Vacation = (props) => {
             enddate
           ).format(dateFormat)} (${days > 1 ? days + " days" : days + " day"})`}
           extra={[
-            <Button size="large" type="primary" onClick={newVacation}>
+            <Button
+              size="large"
+              type="primary"
+              style={{
+                marginRight: "20px",
+              }}
+              onClick={newVacation}
+            >
               ADD NEW VACATION
             </Button>,
             <Button size="large" type="primary" onClick={viewVacation}>
@@ -499,10 +507,10 @@ const Vacation = (props) => {
   return (
     <>
       {contextHolder}
-      <Row style={{ marginTop: "20px" }}>
+      <div style={{ marginTop: "20px" }}>
         <Card size="small" style={{ width: "100%" }}>
           {add ? (
-            <Row className="justified-row">
+            <div className="justified-row">
               <div className="card-custom-size">
                 <Form
                   {...layout}
@@ -527,13 +535,13 @@ const Vacation = (props) => {
                     >
                       <Button
                         size="large"
-                        type="primary"
+                        type="default"
                         style={{
-                          marginRight: "10px",
-                          width: "100%",
+                          marginRight: "20px",
                           display: current > 0 ? "none" : "inline",
                         }}
                         onClick={viewVacation}
+                        block
                       >
                         CANCEL
                       </Button>
@@ -541,20 +549,19 @@ const Vacation = (props) => {
                         <Button
                           size="large"
                           type="primary"
-                          style={{
-                            width: "100%",
-                          }}
                           onClick={next}
+                          block
                         >
                           NEXT
                         </Button>
                       )}
                       {current > 0 && (
                         <Button
-                          style={{ marginRight: "10px", width: "100%" }}
+                          style={{ marginRight: "20px" }}
                           size="large"
-                          type="primary"
+                          type="default"
                           onClick={prev}
+                          block
                         >
                           BACK
                         </Button>
@@ -563,10 +570,8 @@ const Vacation = (props) => {
                         <Button
                           size="large"
                           type="primary"
-                          style={{
-                            width: "100%",
-                          }}
                           onClick={applyVacation}
+                          block
                         >
                           APPLY
                         </Button>
@@ -575,7 +580,7 @@ const Vacation = (props) => {
                   </Card>
                 </Form>
               </div>
-            </Row>
+            </div>
           ) : (
             <Table
               className="light-color-header-table"
@@ -595,8 +600,7 @@ const Vacation = (props) => {
                 })}
               pagination={{
                 pageSize: 10,
-                showSizeChanger: true,
-                pageSizeOptions: ["10", "20", "30"],
+                showSizeChanger: false,
               }}
               size="small"
               scroll={{
@@ -605,7 +609,7 @@ const Vacation = (props) => {
             />
           )}
         </Card>
-      </Row>
+      </div>
     </>
   );
 };

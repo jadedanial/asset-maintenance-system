@@ -5,7 +5,6 @@ import {
   Input,
   DatePicker,
   TimePicker,
-  Row,
   Card,
   Button,
   Typography,
@@ -306,14 +305,16 @@ const Excuse = (props) => {
 
   function addExcuseButton() {
     return (
-      <Button
-        icon={<PlusOutlined />}
-        size="medium"
-        type="primary"
-        onClick={newExcuse}
-      >
-        ADD
-      </Button>
+      <div className="flex-end-row">
+        <Button
+          icon={<PlusOutlined />}
+          size="medium"
+          type="primary"
+          onClick={newExcuse}
+        >
+          ADD
+        </Button>
+      </div>
     );
   }
 
@@ -472,7 +473,14 @@ const Excuse = (props) => {
             hours > 1 ? hours + " hours" : hours + " hour"
           })`}
           extra={[
-            <Button size="large" type="primary" onClick={newExcuse}>
+            <Button
+              size="large"
+              type="primary"
+              style={{
+                marginRight: "20px",
+              }}
+              onClick={newExcuse}
+            >
               ADD NEW EXCUSE
             </Button>,
             <Button size="large" type="primary" onClick={viewExcuse}>
@@ -487,10 +495,10 @@ const Excuse = (props) => {
   return (
     <>
       {contextHolder}
-      <Row style={{ marginTop: "20px" }}>
+      <div style={{ marginTop: "20px" }}>
         <Card size="small" style={{ width: "100%" }}>
           {add ? (
-            <Row className="justified-row">
+            <div className="justified-row">
               <div className="card-custom-size">
                 <Form
                   {...layout}
@@ -515,13 +523,13 @@ const Excuse = (props) => {
                     >
                       <Button
                         size="large"
-                        type="primary"
+                        type="default"
                         style={{
-                          marginRight: "10px",
-                          width: "100%",
+                          marginRight: "20px",
                           display: current > 0 ? "none" : "inline",
                         }}
                         onClick={viewExcuse}
+                        block
                       >
                         CANCEL
                       </Button>
@@ -529,10 +537,8 @@ const Excuse = (props) => {
                         <Button
                           size="large"
                           type="primary"
-                          style={{
-                            width: "100%",
-                          }}
                           onClick={next}
+                          block
                         >
                           NEXT
                         </Button>
@@ -540,9 +546,10 @@ const Excuse = (props) => {
                       {current > 0 && (
                         <Button
                           size="large"
-                          type="primary"
-                          style={{ marginRight: "10px", width: "100%" }}
+                          type="default"
+                          style={{ marginRight: "20px" }}
                           onClick={prev}
+                          block
                         >
                           BACK
                         </Button>
@@ -551,10 +558,8 @@ const Excuse = (props) => {
                         <Button
                           size="large"
                           type="primary"
-                          style={{
-                            width: "100%",
-                          }}
                           onClick={applyExcuse}
+                          block
                         >
                           APPLY
                         </Button>
@@ -563,7 +568,7 @@ const Excuse = (props) => {
                   </Card>
                 </Form>
               </div>
-            </Row>
+            </div>
           ) : (
             <Table
               className="light-color-header-table"
@@ -582,8 +587,7 @@ const Excuse = (props) => {
                 })}
               pagination={{
                 pageSize: 10,
-                showSizeChanger: true,
-                pageSizeOptions: ["10", "20", "30"],
+                showSizeChanger: false,
               }}
               size="small"
               scroll={{
@@ -592,7 +596,7 @@ const Excuse = (props) => {
             />
           )}
         </Card>
-      </Row>
+      </div>
     </>
   );
 };

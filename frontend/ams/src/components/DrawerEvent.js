@@ -25,7 +25,7 @@ const DrawerEvent = (props) => {
       case "ItemDetail":
         return (
           <>
-            <ItemDetail itemcode={props.itemcode}></ItemDetail>
+            <ItemDetail itemcode={props.itemcode} mode="update"></ItemDetail>
           </>
         );
       case "AddUpdateItem":
@@ -38,11 +38,14 @@ const DrawerEvent = (props) => {
         return (
           <>
             <CartItem
+              searchItem={props.searchItem}
+              item={props.item}
               addItem={props.addItem}
               removeItem={props.removeItem}
               itemCount={props.itemCount}
               orderList={props.orderList}
               clearOrder={props.clearOrder}
+              onCloseDrawer={props.onCloseDrawer}
             ></CartItem>
           </>
         );
@@ -68,9 +71,8 @@ const DrawerEvent = (props) => {
         extra={
           <Tooltip title={"Close"}>
             <Button
-              icon={
-                <CloseOutlined style={{ color: "#318ce7", fontSize: "22px" }} />
-              }
+              className="btn-blue"
+              icon={<CloseOutlined className="bigger-font" />}
               onClick={props.onCloseDrawer}
             />
           </Tooltip>

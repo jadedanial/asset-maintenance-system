@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import {
   Col,
-  Row,
   Calendar,
   Card,
   Timeline,
@@ -204,19 +203,17 @@ const Attendance = (props, ref) => {
       return (
         <>
           {listData.map((item) => (
-            <Col span={24} key={item.status} style={{}}>
-              <Row style={{ marginTop: "0" }}>
-                <p
-                  style={{
-                    margin: "0",
-                    fontSize: "24px",
-                    textAlign: "center",
-                    width: "100%",
-                  }}
-                >
-                  {attendanceStatus(item.status)}
-                </p>
-              </Row>
+            <Col span={24} key={item.status} style={{ marginTop: "0" }}>
+              <p
+                style={{
+                  margin: "0",
+                  fontSize: "24px",
+                  textAlign: "center",
+                  width: "100%",
+                }}
+              >
+                {attendanceStatus(item.status)}
+              </p>
             </Col>
           ))}
         </>
@@ -298,9 +295,9 @@ const Attendance = (props, ref) => {
               className="small-font-statistic"
               title={
                 <Title>
-                  <Row className="justified-row">
+                  <div className="justified-row">
                     <p className="small-font">{item.title}</p>
-                  </Row>
+                  </div>
                 </Title>
               }
               value={item.value}
@@ -335,7 +332,7 @@ const Attendance = (props, ref) => {
   return (
     <>
       {contextHolder}
-      <Row style={{ marginTop: "20px" }}>
+      <div style={{ marginTop: "20px" }}>
         <Card size="small" style={{ width: "100%" }}>
           {add ? (
             <AddAttendance
@@ -352,16 +349,16 @@ const Attendance = (props, ref) => {
             ></AddAttendance>
           ) : (
             <>
-              <Row className="justified-row" style={{ margin: "30px 0" }}>
+              <div className="justified-row" style={{ margin: "30px 0" }}>
                 <p className="medium-card-title">
                   {String(moment(selectedDate).format("MMMM YYYY"))} Attendance
                   Summary
                 </p>
-              </Row>
-              <Row className="justified-row">
+              </div>
+              <div className="justified-row">
                 <Space size={70}>{monthlyAttendanceData(selectedDate)}</Space>
-              </Row>
-              <Row style={{ marginTop: "40px" }}>
+              </div>
+              <div style={{ marginTop: "40px" }}>
                 <div className="space-between-row">
                   <Col span={withData ? 9 : 0}>
                     <Card
@@ -372,10 +369,10 @@ const Attendance = (props, ref) => {
                         padding: "0 10px",
                       }}
                     >
-                      <Row>
+                      <div>
                         <p className="medium-card-title">{attendStatus}</p>
-                      </Row>
-                      <Row style={{ marginTop: "10px" }}>
+                      </div>
+                      <div style={{ marginTop: "10px" }}>
                         <Button
                           size="large"
                           type="primary"
@@ -385,8 +382,8 @@ const Attendance = (props, ref) => {
                         >
                           {attendanceMode}
                         </Button>
-                      </Row>
-                      <Row style={{ marginTop: "38px" }}>
+                      </div>
+                      <div style={{ marginTop: "38px" }}>
                         <Timeline>
                           {attendanceData.map((data) => (
                             <div>
@@ -403,7 +400,7 @@ const Attendance = (props, ref) => {
                             </div>
                           ))}
                         </Timeline>
-                      </Row>
+                      </div>
                     </Card>
                   </Col>
                   <Col span={withData ? 14 : 24}>
@@ -417,11 +414,11 @@ const Attendance = (props, ref) => {
                     </Card>
                   </Col>
                 </div>
-              </Row>
+              </div>
             </>
           )}
         </Card>
-      </Row>
+      </div>
     </>
   );
 };

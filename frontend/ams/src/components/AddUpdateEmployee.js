@@ -284,11 +284,6 @@ const AddUpdateEmployee = (props) => {
           >
             <Card
               size="large"
-              extra={
-                <Button size="large" type="primary" htmlType="submit">
-                  SAVE
-                </Button>
-              }
               title={
                 <Title>
                   <p
@@ -301,187 +296,60 @@ const AddUpdateEmployee = (props) => {
               }
               hoverable
             >
+              <Form.Item
+                name={["name"]}
+                label="Employee Name"
+                initialValue={employeeName}
+                rules={[
+                  {
+                    required: update ? nameReq : true,
+                    message: "Required!",
+                  },
+                ]}
+              >
+                <Input
+                  value={employeeName}
+                  onChange={(e) => onNameChange(e.target.value)}
+                />
+              </Form.Item>
               <div className="space-between-row">
-                <Col span={12}>
+                <Col span={14}>
                   <Form.Item
-                    name={["name"]}
-                    label="Employee Name"
-                    initialValue={employeeName}
+                    name={["salary"]}
+                    label="Monthly Salary"
+                    initialValue={employeeSalary}
                     rules={[
                       {
-                        required: update ? nameReq : true,
+                        required: update ? salaryReq : true,
                         message: "Required!",
                       },
                     ]}
                   >
-                    <Input
-                      value={employeeName}
-                      onChange={(e) => onNameChange(e.target.value)}
-                    />
-                  </Form.Item>
-                </Col>
-                <Col span={11}>
-                  <div className="space-between-row">
-                    <Col span={12}>
-                      <Form.Item
-                        name={["birthdate"]}
-                        label="Birthdate"
-                        initialValue={
-                          employeeBirthdate === ""
-                            ? ""
-                            : moment(employeeBirthdate)
-                        }
-                        rules={[
-                          {
-                            required: update ? birthdateReq : true,
-                            message: "Required!",
-                          },
-                        ]}
-                      >
-                        <DatePicker
-                          placeholder=""
-                          value={
-                            employeeBirthdate === ""
-                              ? ""
-                              : moment(employeeBirthdate)
-                          }
-                          onChange={onBirthdateChange}
-                          inputReadOnly
-                        />
-                      </Form.Item>
-                    </Col>
-                    <Col span={10}>
-                      <Form.Item
-                        name={["nationality"]}
-                        label="Nationality"
-                        initialValue={employeeNationality}
-                        rules={[
-                          {
-                            required: update ? nationalityReq : true,
-                            message: "Required!",
-                          },
-                        ]}
-                      >
-                        <Select
-                          size="large"
-                          showSearch
-                          className="small-font"
-                          style={{ width: "100%" }}
-                          optionFilterProp="children"
-                          filterOption={(input, option) =>
-                            (option?.label ?? "").toLowerCase().includes(input)
-                          }
-                          filterSort={(optionA, optionB) =>
-                            (optionA?.label ?? "")
-                              .toLowerCase()
-                              .localeCompare(
-                                (optionB?.label ?? "").toLowerCase()
-                              )
-                          }
-                          value={employeeNationality}
-                          options={nationalities
-                            .filter((res) => res.opt_category === "Nationality")
-                            .map((nat) => {
-                              return {
-                                value: nat.opt_name,
-                                label: nat.opt_name,
-                              };
-                            })}
-                          onChange={onNationalityChange}
-                        />
-                      </Form.Item>
-                    </Col>
-                  </div>
-                </Col>
-              </div>
-              <div className="space-between-row">
-                <Col span={12}>
-                  <Form.Item
-                    name={["address"]}
-                    label="Address"
-                    initialValue={employeeAddress}
-                    rules={[
-                      {
-                        required: update ? addressReq : true,
-                        message: "Required!",
-                      },
-                    ]}
-                  >
-                    <Input
-                      value={employeeAddress}
-                      onChange={(e) => onAddressChange(e.target.value)}
-                    />
-                  </Form.Item>
-                </Col>
-                <Col span={11}>
-                  <Form.Item
-                    name={["email"]}
-                    label="Email"
-                    initialValue={employeeEmail}
-                    rules={[
-                      {
-                        type: "email",
-                        message: "Invalid!",
-                      },
-                      {
-                        required: update ? emailReq : true,
-                        message: "Required!",
-                      },
-                    ]}
-                  >
-                    <Input
-                      value={employeeEmail}
-                      onChange={(e) => onEmailChange(e.target.value)}
-                    />
-                  </Form.Item>
-                </Col>
-              </div>
-              <div className="space-between-row">
-                <Col span={5}>
-                  <Form.Item
-                    name={["phone"]}
-                    label="Phone"
-                    initialValue={employeePhone}
-                    rules={[
-                      {
-                        required: update ? phoneReq : true,
-                        message: "Required!",
-                      },
-                    ]}
-                  >
-                    <Input
-                      value={employeePhone}
-                      onChange={(e) => onPhoneChange(e.target.value)}
-                    />
-                  </Form.Item>
-                </Col>
-                <Col span={5}>
-                  <Form.Item
-                    name={["datehired"]}
-                    label="Date Hired"
-                    initialValue={
-                      employeeDateHired === "" ? "" : moment(employeeDateHired)
-                    }
-                    rules={[
-                      {
-                        required: update ? datehiredReq : true,
-                        message: "Required!",
-                      },
-                    ]}
-                  >
-                    <DatePicker
-                      placeholder=""
-                      value={
-                        employeeDateHired === ""
-                          ? ""
-                          : moment(employeeDateHired)
+                    <Select
+                      size="large"
+                      showSearch
+                      className="small-font"
+                      style={{ width: "100%" }}
+                      value={employeeSalary}
+                      filterOption={(input, option) =>
+                        (option?.label ?? "").toLowerCase().includes(input)
                       }
-                      onChange={onDateHiredChange}
-                      inputReadOnly
+                      filterSort={(optionA, optionB) =>
+                        (optionA?.label ?? "")
+                          .toLowerCase()
+                          .localeCompare((optionB?.label ?? "").toLowerCase())
+                      }
+                      options={salaries
+                        .filter((res) => res.opt_category === "Salary")
+                        .map((sal) => {
+                          return {
+                            value: sal.opt_name,
+                            label: sal.opt_name,
+                          };
+                        })}
+                      onChange={onSalaryChange}
                     />
                   </Form.Item>
-                </Col>
-                <Col span={6}>
                   <Form.Item
                     name={["position"]}
                     label="Position"
@@ -519,15 +387,75 @@ const AddUpdateEmployee = (props) => {
                       onChange={onPositionChange}
                     />
                   </Form.Item>
-                </Col>
-                <Col span={5}>
                   <Form.Item
-                    name={["salary"]}
-                    label="Monthly Salary"
-                    initialValue={employeeSalary}
+                    name={["address"]}
+                    label="Address"
+                    initialValue={employeeAddress}
                     rules={[
                       {
-                        required: update ? salaryReq : true,
+                        required: update ? addressReq : true,
+                        message: "Required!",
+                      },
+                    ]}
+                  >
+                    <Input
+                      value={employeeAddress}
+                      onChange={(e) => onAddressChange(e.target.value)}
+                    />
+                  </Form.Item>
+                  <Form.Item
+                    name={["email"]}
+                    label="Email"
+                    initialValue={employeeEmail}
+                    rules={[
+                      {
+                        type: "email",
+                        message: "Invalid!",
+                      },
+                      {
+                        required: update ? emailReq : true,
+                        message: "Required!",
+                      },
+                    ]}
+                  >
+                    <Input
+                      value={employeeEmail}
+                      onChange={(e) => onEmailChange(e.target.value)}
+                    />
+                  </Form.Item>
+                </Col>
+                <Col span={9}>
+                  <Form.Item
+                    name={["datehired"]}
+                    label="Date Hired"
+                    initialValue={
+                      employeeDateHired === "" ? "" : moment(employeeDateHired)
+                    }
+                    rules={[
+                      {
+                        required: update ? datehiredReq : true,
+                        message: "Required!",
+                      },
+                    ]}
+                  >
+                    <DatePicker
+                      placeholder=""
+                      value={
+                        employeeDateHired === ""
+                          ? ""
+                          : moment(employeeDateHired)
+                      }
+                      onChange={onDateHiredChange}
+                      inputReadOnly
+                    />
+                  </Form.Item>
+                  <Form.Item
+                    name={["nationality"]}
+                    label="Nationality"
+                    initialValue={employeeNationality}
+                    rules={[
+                      {
+                        required: update ? nationalityReq : true,
                         message: "Required!",
                       },
                     ]}
@@ -537,7 +465,7 @@ const AddUpdateEmployee = (props) => {
                       showSearch
                       className="small-font"
                       style={{ width: "100%" }}
-                      value={employeeSalary}
+                      optionFilterProp="children"
                       filterOption={(input, option) =>
                         (option?.label ?? "").toLowerCase().includes(input)
                       }
@@ -546,18 +474,71 @@ const AddUpdateEmployee = (props) => {
                           .toLowerCase()
                           .localeCompare((optionB?.label ?? "").toLowerCase())
                       }
-                      options={salaries
-                        .filter((res) => res.opt_category === "Salary")
-                        .map((sal) => {
+                      value={employeeNationality}
+                      options={nationalities
+                        .filter((res) => res.opt_category === "Nationality")
+                        .map((nat) => {
                           return {
-                            value: sal.opt_name,
-                            label: sal.opt_name,
+                            value: nat.opt_name,
+                            label: nat.opt_name,
                           };
                         })}
-                      onChange={onSalaryChange}
+                      onChange={onNationalityChange}
+                    />
+                  </Form.Item>
+                  <Form.Item
+                    name={["birthdate"]}
+                    label="Birthdate"
+                    initialValue={
+                      employeeBirthdate === "" ? "" : moment(employeeBirthdate)
+                    }
+                    rules={[
+                      {
+                        required: update ? birthdateReq : true,
+                        message: "Required!",
+                      },
+                    ]}
+                  >
+                    <DatePicker
+                      placeholder=""
+                      value={
+                        employeeBirthdate === ""
+                          ? ""
+                          : moment(employeeBirthdate)
+                      }
+                      onChange={onBirthdateChange}
+                      inputReadOnly
+                    />
+                  </Form.Item>
+                  <Form.Item
+                    name={["phone"]}
+                    label="Phone"
+                    initialValue={employeePhone}
+                    rules={[
+                      {
+                        required: update ? phoneReq : true,
+                        message: "Required!",
+                      },
+                    ]}
+                  >
+                    <Input
+                      value={employeePhone}
+                      onChange={(e) => onPhoneChange(e.target.value)}
                     />
                   </Form.Item>
                 </Col>
+              </div>
+              <div style={{ paddingTop: "30px" }}>
+                <Button
+                  size="large"
+                  type="primary"
+                  style={{
+                    width: "100%",
+                  }}
+                  htmlType="submit"
+                >
+                  SAVE
+                </Button>
               </div>
             </Card>
           </Form>
