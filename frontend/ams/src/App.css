@@ -110,7 +110,7 @@ h1.ant-typography {
 .align-items-end {
   width: 100%;
   display: flex !important;
-  align-items: end !important;
+  align-items: flex-end !important;
 }
 
 .justified-row {
@@ -562,4 +562,8 @@ input::file-selector-button {
   color: #318ce7 !important;
   background: none;
   border: 0;
+}
+
+.hover-underline:hover {
+  text-decoration: underline;
 }

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { Navigate, Link } from "react-router-dom";
 import { Form, Button, Input, Card, Typography, Col } from "antd";
-import { UserOutlined, LockOutlined, LoginOutlined } from "@ant-design/icons";
+import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import HomePage from "./Home";
 import Slogan from "../components/Slogan";
 
@@ -109,7 +109,6 @@ const LoginPage = () => {
               </Form.Item>
               <Form.Item>
                 <Button
-                  icon={<LoginOutlined />}
                   style={{ marginTop: "24px" }}
                   size="large"
                   type="primary"
@@ -120,7 +119,10 @@ const LoginPage = () => {
                 </Button>
               </Form.Item>
             </Form>
-            <Link to="/register" className="justified-row medium-font">
+            <Link
+              to="/register"
+              className="justified-row large-card-title hover-underline"
+            >
               Create a new account
             </Link>
           </Card>

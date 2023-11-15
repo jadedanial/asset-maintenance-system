@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import { Form, Button, Input, Card, Typography, Col } from "antd";
 import {
   UserOutlined,
-  UserAddOutlined,
   MailOutlined,
   LockOutlined,
   CheckCircleOutlined,
@@ -203,7 +202,6 @@ const RegisterPage = () => {
                 </Form.Item>
                 <Form.Item>
                   <Button
-                    icon={<UserAddOutlined />}
                     style={{ marginTop: "24px" }}
                     size="large"
                     type="primary"
@@ -214,7 +212,10 @@ const RegisterPage = () => {
                   </Button>
                 </Form.Item>
               </Form>
-              <Link to="/login" className="justified-row medium-font">
+              <Link
+                to="/login"
+                className="justified-row large-card-title hover-underline"
+              >
                 Already have an account
               </Link>
             </Card>
