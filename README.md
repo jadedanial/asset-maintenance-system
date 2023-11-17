@@ -1,6 +1,6 @@
 # General Information
 
-A system designed to optimize the asset's performance by ensuring all assets are well maintained.
+An asset performance optimization system that aims to enhance the efficiency and effectiveness of an organization’s assets. This system is designed to ensure that all assets are well-maintained and functioning at their optimal capacity.
 
 # Technology Used
 
