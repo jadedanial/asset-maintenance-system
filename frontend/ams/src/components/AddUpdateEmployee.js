@@ -9,9 +9,11 @@ import {
   Card,
   Select,
   Col,
+  notification,
 } from "antd";
 import { CheckCircleOutlined } from "@ant-design/icons";
 import ResultEvent from "../components/ResultEvent";
+import NotificationEvent from "./NotificationEvent";
 import moment from "moment";
 
 const { Title } = Typography;
@@ -68,6 +70,7 @@ const AddUpdateEmployee = (props) => {
   const [datehiredReq, setDateHiredReq] = useState(false);
   const [positionReq, setPositionReq] = useState(false);
   const [salaryReq, setSalaryReq] = useState(false);
+  const [api, contextHolder] = notification.useNotification();
 
   useEffect(() => {
     (async () => {
@@ -189,10 +192,9 @@ const AddUpdateEmployee = (props) => {
       });
       setSuccess(true);
     } catch (err) {
-      console.log(err);
+      console.log(err.response.data[0]);
       setSuccess(false);
-      setLabel(err.response.data[0]);
-      setColor("#ff0000");
+      api.info(NotificationEvent(false, err.response.data[0]));
     }
   }
 
@@ -224,6 +226,7 @@ const AddUpdateEmployee = (props) => {
 
   return (
     <>
+      {contextHolder}
       <div className="justified-row">
         <div className="card-custom-size">
           <Form

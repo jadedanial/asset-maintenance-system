@@ -119,6 +119,34 @@ class LogoutView(APIView):
         return response
 
 
+class ShiftView(APIView):
+    permission_classes = [IsAuthenticatedWithJWT]
+
+    def post(self, request):
+        serializer = ShiftSerializer(data=request.data)
+        name = Shift.objects.filter(shift_name__iexact="From " + request.data["shift_from"] + " To " + request.data["shift_to"]).first()
+
+        if name:
+            raise ValidationError("Shift already exist!")
+
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response(serializer.data)
+
+    def patch(self, request, *args, **kwargs):
+        name = Shift.objects.filter(shift_name__iexact="From " + request.data["shift_from"] + " To " + request.data["shift_to"]).first()
+        serializer = ShiftSerializer(data=request.data)
+
+        if name:
+            raise ValidationError("Shift already exist!")
+
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response(serializer.data)
+
+
 class ShiftListView(ListAPIView):
     queryset = Shift.objects.all()
     serializer_class = ShiftSerializer

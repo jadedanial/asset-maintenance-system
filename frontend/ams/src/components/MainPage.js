@@ -16,6 +16,7 @@ import {
 } from "@ant-design/icons";
 import WorkRequest from "../modules/WorkRequest";
 import Employee from "../modules/Employee";
+import Shift from "../modules/Shift";
 import Stock from "../modules/Stock";
 import Reorder from "../modules/Reorder";
 import DrawerEvent from "../components/DrawerEvent";
@@ -133,6 +134,12 @@ const MainPage = (props) => {
         return (
           <>
             <Employee col={collapsed}></Employee>
+          </>
+        );
+      case "Shift":
+        return (
+          <>
+            <Shift col={collapsed}></Shift>
           </>
         );
       case "Stock":

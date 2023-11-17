@@ -11,6 +11,7 @@ urlpatterns = [
     path("login", LoginView.as_view()),
     path("logout", LogoutView.as_view()),
     path("shifts", ShiftListView.as_view()),
+    path("shift/", ShiftView.as_view()),
     path("schedules", ScheduleListView.as_view()),
     path("employee/", EmployeeView.as_view()),
     path("employees", EmployeeListView.as_view()),

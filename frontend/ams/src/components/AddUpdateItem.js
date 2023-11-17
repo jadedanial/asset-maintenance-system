@@ -162,7 +162,7 @@ const AddUpdateItem = (props) => {
       });
       setSuccess(true);
     } catch (err) {
-      console.log(err);
+      console.log(err.response.data[0]);
       setSuccess(false);
       setLabel(err.response.data[0]);
       setColor("#ff0000");

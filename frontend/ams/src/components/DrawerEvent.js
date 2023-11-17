@@ -6,6 +6,7 @@ import AddUpdateEmployee from "./AddUpdateEmployee";
 import ItemDetail from "./ItemDetail";
 import AddUpdateItem from "./AddUpdateItem";
 import CartItem from "./CartItem";
+import AddUpdateShift from "./AddUpdateShift";
 
 const DrawerEvent = (props) => {
   function drawerSwitch(key) {
@@ -49,6 +50,12 @@ const DrawerEvent = (props) => {
               clearOrder={props.clearOrder}
               onCloseDrawer={props.onCloseDrawer}
             ></CartItem>
+          </>
+        );
+      case "AddUpdateShift":
+        return (
+          <>
+            <AddUpdateShift update={false}></AddUpdateShift>
           </>
         );
       default:

@@ -105,7 +105,7 @@ class Shift(models.Model):
     def update_model(self):
         test_id = Shift.objects.get(id=self.id).id
         Shift.objects.filter(id=test_id).update(
-            shift_name=str(self.shift_from) + " To " + str(self.shift_to)
+            shift_name="From " + str(self.shift_from) + " To " + str(self.shift_to)
         )
 
     def save(self, *args, **kwargs):
