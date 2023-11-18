@@ -2,7 +2,8 @@ from rest_framework.generics import ListAPIView, UpdateAPIView
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.exceptions import ValidationError, AuthenticationFailed
-import jwt, datetime
+import jwt
+import datetime
 from .permissions import IsAuthenticatedWithJWT
 from ams.models import *
 from .serializers import *
@@ -55,10 +56,11 @@ class RegisterView(APIView):
 
         if (not request.data["empID"].isnumeric()):
             raise ValidationError("Employee ID not exist!")
-           
+
         serializer = UserSerializer(data=request.data)
         empid = User.objects.filter(empID=request.data["empID"]).first()
-        employeeID = Employee.objects.filter(emp_id=request.data["empID"]).first()
+        employeeID = Employee.objects.filter(
+            emp_id=request.data["empID"]).first()
         user = User.objects.filter(username=request.data["username"]).first()
         email = User.objects.filter(email=request.data["email"]).first()
         password = request.data["password"]
@@ -124,7 +126,8 @@ class ShiftView(APIView):
 
     def post(self, request):
         serializer = ShiftSerializer(data=request.data)
-        name = Shift.objects.filter(shift_name__iexact="From " + request.data["shift_from"] + " To " + request.data["shift_to"]).first()
+        name = Shift.objects.filter(
+            shift_name__iexact=request.data["shift_name"])
 
         if name:
             raise ValidationError("Shift already exist!")
@@ -135,8 +138,11 @@ class ShiftView(APIView):
         return Response(serializer.data)
 
     def patch(self, request, *args, **kwargs):
-        name = Shift.objects.filter(shift_name__iexact="From " + request.data["shift_from"] + " To " + request.data["shift_to"]).first()
-        serializer = ShiftSerializer(data=request.data)
+
+        id = Shift.objects.filter(id=request.data["id"]).first()
+        name = Shift.objects.filter(
+            shift_name__iexact=request.data["shift_name"])
+        serializer = ShiftSerializer(id, data=request.data)
 
         if name:
             raise ValidationError("Shift already exist!")
@@ -204,10 +210,13 @@ class EmployeeScheduleView(APIView):
 
     def patch(self, request, *args, **kwargs):
         data = request.data
-        emp_object = Employee.objects.filter(emp_id=request.data["empID"]).first()
-        sched_object = Schedule.objects.filter(id=request.data["schedid"]).first()
+        emp_object = Employee.objects.filter(
+            emp_id=request.data["empID"]).first()
+        sched_object = Schedule.objects.filter(
+            id=request.data["schedid"]).first()
 
-        emp_object.emp_sched = Schedule(id=data.get("schedid", sched_object.id))
+        emp_object.emp_sched = Schedule(
+            id=data.get("schedid", sched_object.id))
         emp_object.save()
         serializer = EmployeeSerializer(emp_object)
 
@@ -282,7 +291,8 @@ class ItemView(APIView):
 
     def post(self, request):
         serializer = ItemSerializer(data=request.data)
-        name = Item.objects.filter(item_name__iexact=request.data["item_name"]).first()
+        name = Item.objects.filter(
+            item_name__iexact=request.data["item_name"]).first()
 
         if name:
             raise ValidationError("Item name already exist!")
@@ -294,7 +304,8 @@ class ItemView(APIView):
 
     def patch(self, request, *args, **kwargs):
         code = Item.objects.filter(item_code=request.data["item_code"]).first()
-        name = Item.objects.filter(item_name__iexact=request.data["item_name"]).first()
+        name = Item.objects.filter(
+            item_name__iexact=request.data["item_name"]).first()
         serializer = ItemSerializer(code, data=request.data)
 
         if name:
@@ -329,7 +340,7 @@ class TransactionView(APIView):
         serializer = TransactionSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
-        
+
         return Response(serializer.data)
 
 
