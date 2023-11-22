@@ -17,7 +17,7 @@ import {
 import WorkRequest from "../modules/WorkRequest";
 import Employee from "../modules/Employee";
 import Shift from "../modules/Shift";
-import Stock from "../modules/Stock";
+import Item from "../modules/Item";
 import Reorder from "../modules/Reorder";
 import DrawerEvent from "../components/DrawerEvent";
 
@@ -142,10 +142,10 @@ const MainPage = (props) => {
             <Shift col={collapsed}></Shift>
           </>
         );
-      case "Stock":
+      case "Item":
         return (
           <>
-            <Stock col={collapsed}></Stock>
+            <Item col={collapsed}></Item>
           </>
         );
       case "Reorder":

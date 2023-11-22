@@ -14,7 +14,7 @@ const DrawerEvent = (props) => {
       case "Profile":
         return (
           <>
-            <Profile empid={props.empid}></Profile>
+            <Profile empid={props.rowIndex["id"]}></Profile>
           </>
         );
       case "AddUpdateEmployee":
@@ -26,7 +26,10 @@ const DrawerEvent = (props) => {
       case "ItemDetail":
         return (
           <>
-            <ItemDetail itemcode={props.itemcode} mode="update"></ItemDetail>
+            <ItemDetail
+              itemcode={props.rowIndex["code"]}
+              mode="update"
+            ></ItemDetail>
           </>
         );
       case "AddUpdateItem":
@@ -56,6 +59,18 @@ const DrawerEvent = (props) => {
         return (
           <>
             <AddUpdateShift update={false}></AddUpdateShift>
+          </>
+        );
+      case "UpdateShift":
+        return (
+          <>
+            <AddUpdateShift
+              update={true}
+              id={props.rowIndex["id"]}
+              name={props.rowIndex["name"]}
+              from={props.rowIndex["from"]}
+              to={props.rowIndex["to"]}
+            ></AddUpdateShift>
           </>
         );
       default:

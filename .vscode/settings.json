@@ -1,6 +1,6 @@
 {
   "[python]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "ms-python.autopep8"
   },
   "python.formatting.provider": "none",
   "editor.formatOnSave": true,

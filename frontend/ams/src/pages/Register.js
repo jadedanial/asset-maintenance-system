@@ -25,7 +25,6 @@ const RegisterPage = () => {
   const [success, setSuccess] = useState(false);
 
   async function onFinish() {
-    setLabel("");
     var registerData = {
       empID: empID,
       username: username,
@@ -45,7 +44,7 @@ const RegisterPage = () => {
       console.log(err.response.data[0]);
       setSuccess(false);
       setLabel(err.response.data[0]);
-      setColor("#F50");
+      setColor("#ff0000");
     }
   }
 

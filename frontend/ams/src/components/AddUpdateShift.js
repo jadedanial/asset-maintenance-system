@@ -1,17 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
-import {
-  Typography,
-  Button,
-  Form,
-  Card,
-  Col,
-  TimePicker,
-  notification,
-} from "antd";
+import { Typography, Button, Form, Card, Col, Input, TimePicker } from "antd";
 import { CheckCircleOutlined } from "@ant-design/icons";
 import ResultEvent from "../components/ResultEvent";
-import NotificationEvent from "./NotificationEvent";
 import moment from "moment";
 
 const { Title } = Typography;
@@ -30,14 +21,15 @@ const AddUpdateShift = (props) => {
   const [update, setUpdate] = useState(props.update);
   const [label, setLabel] = useState(update ? "Update Shift" : "Add New Shift");
   const [color, setColor] = useState("#318ce7");
+  const shiftID = update ? props.id : "";
   const [shiftName, setShiftName] = useState(update ? props.name : "");
   const [shiftFrom, setShiftFrom] = useState(update ? props.from : "");
   const [shiftTo, setShiftTo] = useState(update ? props.to : "");
   const [submit, setSubmit] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [nameReq, setNameReq] = useState(false);
   const [fromReq, setFromReq] = useState(false);
   const [toReq, setToReq] = useState(false);
-  const [api, contextHolder] = notification.useNotification();
 
   function newShift() {
     setUpdate(false);
@@ -51,48 +43,56 @@ const AddUpdateShift = (props) => {
     setToReq(true);
   }
 
+  function renameLabel() {
+    setLabel(update ? "Update Shift" : "Add New Shift");
+    setColor("#318ce7");
+  }
+
+  function onNameChange(value) {
+    setShiftName(value);
+    setNameReq(true);
+    renameLabel();
+  }
+
   function onFromChange(value) {
     setShiftFrom(value);
     setFromReq(true);
+    renameLabel();
   }
 
   function onToChange(value) {
     setShiftTo(value);
     setToReq(true);
+    renameLabel();
   }
 
   async function onFinish() {
-    if (shiftFrom > shiftTo) {
-      api.info(
-        NotificationEvent(false, "Shift To must greater than Shift From!")
-      );
-    } else {
-      setSubmit(true);
-      setLabel(update ? "Update Shift" : "Add New Shift");
-      setColor("#318ce7");
-      var shiftData = {
-        shift_name: shiftName,
-        shift_from: moment(shiftFrom).format(timeFormat),
-        shift_to: moment(shiftTo).format(timeFormat),
-      };
-      try {
-        await axios({
-          method: update ? "PATCH" : "POST",
-          url: "http://localhost:8000/api/shift/",
-          data: shiftData,
-          headers: { "Content-Type": "application/json" },
-          withCredentials: true,
-        }).then((response) => {
-          setShiftName(response.data["shift_name"]);
-        });
-        setSuccess(true);
-      } catch (err) {
-        console.log(err.response.data[0]);
-        setSuccess(false);
-      }
-      if (!success) {
-        api.info(NotificationEvent(false, "err.response.data[0]"));
-      }
+    setSubmit(true);
+    renameLabel();
+    var shiftData = {
+      id: shiftID,
+      shift_name: shiftName,
+      shift_description:
+        moment(shiftFrom, timeFormat).format(timeFormat) +
+        " To " +
+        moment(shiftTo, timeFormat).format(timeFormat),
+      shift_from: moment(shiftFrom, timeFormat).format(timeFormat),
+      shift_to: moment(shiftTo, timeFormat).format(timeFormat),
+    };
+    try {
+      await axios({
+        method: update ? "PATCH" : "POST",
+        url: "http://localhost:8000/api/shift/",
+        data: shiftData,
+        headers: { "Content-Type": "application/json" },
+        withCredentials: true,
+      });
+      setSuccess(true);
+    } catch (err) {
+      console.log(err.response.data[0]);
+      setSuccess(false);
+      setLabel(err.response.data[0]);
+      setColor("#ff0000");
     }
   }
 
@@ -108,7 +108,7 @@ const AddUpdateShift = (props) => {
                 ? "Successfully updated Shift."
                 : "Successfully added new Shift."
             }
-            subTitle={"Shift name " + shiftName}
+            subTitle={shiftName}
             extra={
               <Button size="large" type="primary" onClick={() => newShift()}>
                 ADD NEW SHIFT
@@ -122,7 +122,6 @@ const AddUpdateShift = (props) => {
 
   return (
     <>
-      {contextHolder}
       <div className="justified-row">
         <div className="card-custom-size">
           <Form
@@ -146,12 +145,30 @@ const AddUpdateShift = (props) => {
               }
               hoverable
             >
+              <Form.Item
+                name={["name"]}
+                label="Shift Name"
+                initialValue={shiftName}
+                rules={[
+                  {
+                    required: update ? nameReq : true,
+                    message: "Required!",
+                  },
+                ]}
+              >
+                <Input
+                  value={shiftName}
+                  onChange={(e) => onNameChange(e.target.value)}
+                />
+              </Form.Item>
               <div className="space-between-row">
                 <Col span={12}>
                   <Form.Item
                     name={["shiftFrom"]}
                     label="Shift From"
-                    initialValue={shiftFrom === "" ? "" : moment(shiftFrom)}
+                    initialValue={
+                      shiftFrom === "" ? "" : moment(shiftFrom, timeFormat)
+                    }
                     rules={[
                       {
                         required: update ? fromReq : true,
@@ -161,7 +178,9 @@ const AddUpdateShift = (props) => {
                   >
                     <TimePicker
                       placeholder=""
-                      value={shiftFrom === "" ? "" : moment(shiftFrom)}
+                      value={
+                        shiftFrom === "" ? "" : moment(shiftFrom, timeFormat)
+                      }
                       onChange={onFromChange}
                     />
                   </Form.Item>
@@ -170,7 +189,9 @@ const AddUpdateShift = (props) => {
                   <Form.Item
                     name={["shiftTo"]}
                     label="Shift To"
-                    initialValue={shiftTo === "" ? "" : moment(shiftTo)}
+                    initialValue={
+                      shiftTo === "" ? "" : moment(shiftTo, timeFormat)
+                    }
                     rules={[
                       {
                         required: update ? toReq : true,
@@ -180,7 +201,7 @@ const AddUpdateShift = (props) => {
                   >
                     <TimePicker
                       placeholder=""
-                      value={shiftTo === "" ? "" : moment(shiftTo)}
+                      value={shiftTo === "" ? "" : moment(shiftTo, timeFormat)}
                       onChange={onToChange}
                     />
                   </Form.Item>

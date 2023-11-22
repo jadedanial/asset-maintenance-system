@@ -1,17 +1,13 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Col, Row, Card, Button, Input, Tooltip, Table } from "antd";
 import { FieldTimeOutlined } from "@ant-design/icons";
-import DrawerEvent from "../components/DrawerEvent";
+import SearchListEvent from "../components/SearchListEvent";
 import moment from "moment";
 
-const Shift = (props) => {
+const Shift = () => {
   const timeFormat = "HH:mm:ss";
   const [searchedtext, setSearchedText] = useState("");
-  const [openDrawer, setOpenDrawer] = useState(false);
-  const [compItem, setCompItem] = useState("");
   const [shifts, setShifts] = useState([]);
-  const [shiftName, setShiftName] = useState("");
 
   const columns = [
     {
@@ -46,11 +42,11 @@ const Shift = (props) => {
 
   useEffect(() => {
     (async () => {
-      await loadShifts();
+      await loadAPILists();
     })();
   }, []);
 
-  async function loadShifts() {
+  async function loadAPILists() {
     try {
       await axios({
         method: "GET",
@@ -63,16 +59,11 @@ const Shift = (props) => {
           setShifts((shifts) => [
             ...shifts,
             {
+              id: res.id,
               name: res.shift_name,
               from: res.shift_from,
               to: res.shift_to,
-              total: moment
-                .duration(
-                  moment(res.shift_to, timeFormat).diff(
-                    moment(res.shift_from, timeFormat)
-                  )
-                )
-                .asHours(),
+              total: shiftDuration(res.shift_from, res.shift_to),
             },
           ])
         );
@@ -82,100 +73,34 @@ const Shift = (props) => {
     }
   }
 
-  function showDrawer() {
-    setOpenDrawer(true);
+  function searchedText(text) {
+    setSearchedText(text);
   }
 
-  function onCloseDrawer() {
-    setOpenDrawer(false);
-    loadShifts();
+  function shiftDuration(from, to) {
+    var end = to;
+    if (moment(from, 'HH:mm"ss') > moment(to, "HH:mm:ss")) {
+      end = moment(to, "HH:mm:ss").add(24, "hours");
+    }
+    return moment
+      .duration(moment(end, timeFormat).diff(moment(from, timeFormat)))
+      .asHours()
+      .toFixed(2);
   }
 
   return (
     <>
-      <Card
-        size="large"
-        className="card-no-top-padding card-main-layout"
-        bordered
-        hoverable
-      >
-        <div span={24} style={{ position: "sticky", top: "87px", zIndex: "1" }}>
-          <div style={{ height: "24px", backgroundColor: "#fff" }}></div>
-          <div
-            style={{
-              background: "#318ce7",
-              width: "100%",
-              height: "65px",
-              padding: "12px",
-            }}
-          >
-            <Row>
-              <Col span={2}>
-                <Tooltip title="Add New Shift">
-                  <Button
-                    className="custom-hover"
-                    style={{ margin: "0 20px" }}
-                    shape="circle"
-                    size="large"
-                    type="primary"
-                    onClick={() => {
-                      showDrawer();
-                      setCompItem("AddUpdateShift");
-                    }}
-                    icon={<FieldTimeOutlined />}
-                  />
-                </Tooltip>
-              </Col>
-              <Col span={22}>
-                <Input
-                  size="large"
-                  placeholder="Search Shift"
-                  onChange={(e) => setSearchedText(e.target.value)}
-                />
-              </Col>
-            </Row>
-          </div>
-        </div>
-        <div
-          style={{
-            height: "20px",
-            backgroundColor: "#fff",
-            position: "sticky",
-            top: "176px",
-            zIndex: "1",
-          }}
-        ></div>
-        <Table
-          className="light-color-header-table"
-          rowClassName={() => "table-row"}
-          columns={columns}
-          dataSource={shifts}
-          onRow={(rowIndex) => {
-            return {
-              onClick: (event) => {
-                showDrawer();
-                setShiftName(rowIndex.id);
-                setCompItem("Shift");
-              },
-            };
-          }}
-          pagination={{
-            pageSize: 10,
-            showSizeChanger: false,
-          }}
-          size="small"
-          scroll={{
-            y: "50vh",
-          }}
-        />
-      </Card>
-      <DrawerEvent
-        shiftname={shiftName}
-        showDrawer={openDrawer}
-        onCloseDrawer={onCloseDrawer}
-        col={props.col}
-        comp={compItem}
-      ></DrawerEvent>
+      <SearchListEvent
+        loadAPILists={loadAPILists}
+        tooltipIcon={<FieldTimeOutlined />}
+        tooltipTitle={"Add New Shift"}
+        inputPlaceHolder={"Search Shift"}
+        compItemAdd={"AddUpdateShift"}
+        compItemUpdate={"UpdateShift"}
+        tableColumns={columns}
+        tableDataSource={shifts}
+        searchedText={searchedText}
+      ></SearchListEvent>
     </>
   );
 };

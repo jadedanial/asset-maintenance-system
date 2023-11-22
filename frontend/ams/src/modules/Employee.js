@@ -1,15 +1,11 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Col, Row, Card, Button, Input, Tooltip, Table } from "antd";
 import { UserAddOutlined } from "@ant-design/icons";
-import DrawerEvent from "../components/DrawerEvent";
+import SearchListEvent from "../components/SearchListEvent";
 
-const Employee = (props) => {
+const Employee = () => {
   const [searchedtext, setSearchedText] = useState("");
-  const [openDrawer, setOpenDrawer] = useState(false);
-  const [compItem, setCompItem] = useState("");
   const [employees, setEmployees] = useState([]);
-  const [empID, setEmpID] = useState(0);
 
   const columns = [
     {
@@ -52,11 +48,11 @@ const Employee = (props) => {
 
   useEffect(() => {
     (async () => {
-      await loadEmployees();
+      await loadAPILists();
     })();
   }, []);
 
-  async function loadEmployees() {
+  async function loadAPILists() {
     try {
       await axios({
         method: "GET",
@@ -83,100 +79,23 @@ const Employee = (props) => {
     }
   }
 
-  function showDrawer() {
-    setOpenDrawer(true);
-  }
-
-  function onCloseDrawer() {
-    setOpenDrawer(false);
-    loadEmployees();
+  function searchedText(text) {
+    setSearchedText(text);
   }
 
   return (
     <>
-      <Card
-        size="large"
-        className="card-no-top-padding card-main-layout"
-        bordered
-        hoverable
-      >
-        <div span={24} style={{ position: "sticky", top: "87px", zIndex: "1" }}>
-          <div style={{ height: "24px", backgroundColor: "#fff" }}></div>
-          <div
-            style={{
-              background: "#318ce7",
-              width: "100%",
-              height: "65px",
-              padding: "12px",
-            }}
-          >
-            <Row>
-              <Col span={2}>
-                <Tooltip title="Add New Employee">
-                  <Button
-                    className="custom-hover"
-                    style={{ margin: "0 20px" }}
-                    shape="circle"
-                    size="large"
-                    type="primary"
-                    onClick={() => {
-                      showDrawer();
-                      setCompItem("AddUpdateEmployee");
-                    }}
-                    icon={<UserAddOutlined />}
-                  />
-                </Tooltip>
-              </Col>
-              <Col span={22}>
-                <Input
-                  size="large"
-                  placeholder="Search Employee"
-                  onChange={(e) => setSearchedText(e.target.value)}
-                />
-              </Col>
-            </Row>
-          </div>
-        </div>
-        <div
-          style={{
-            height: "20px",
-            backgroundColor: "#fff",
-            position: "sticky",
-            top: "176px",
-            zIndex: "1",
-          }}
-        ></div>
-        <Table
-          className="light-color-header-table"
-          rowClassName={() => "table-row"}
-          columns={columns}
-          dataSource={employees}
-          onRow={(rowIndex) => {
-            return {
-              onClick: (event) => {
-                showDrawer();
-                setEmpID(rowIndex.id);
-                setCompItem("Profile");
-              },
-            };
-          }}
-          pagination={{
-            pageSize: 10,
-            showSizeChanger: false,
-          }}
-          size="small"
-          scroll={{
-            y: "50vh",
-          }}
-        />
-      </Card>
-      <DrawerEvent
-        empid={empID}
-        showDrawer={openDrawer}
-        onCloseDrawer={onCloseDrawer}
-        col={props.col}
-        comp={compItem}
-      ></DrawerEvent>
+      <SearchListEvent
+        loadAPILists={loadAPILists}
+        tooltipIcon={<UserAddOutlined />}
+        tooltipTitle={"Add New Employee"}
+        inputPlaceHolder={"Search Employee"}
+        compItemAdd={"AddUpdateEmployee"}
+        compItemUpdate={"Profile"}
+        tableColumns={columns}
+        tableDataSource={employees}
+        searchedText={searchedText}
+      ></SearchListEvent>
     </>
   );
 };
