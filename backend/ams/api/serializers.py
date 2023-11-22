@@ -73,19 +73,20 @@ class ShiftSerializer(serializers.ModelSerializer):
         fields = [
             "id",
             "shift_name",
+            "shift_description",
             "shift_from",
             "shift_to",
         ]
 
 
 class ScheduleSerializer(serializers.ModelSerializer):
-    sched_sun = serializers.ReadOnlyField(source="sched_sun.shift_name")
-    sched_mon = serializers.ReadOnlyField(source="sched_mon.shift_name")
-    sched_tue = serializers.ReadOnlyField(source="sched_tue.shift_name")
-    sched_wed = serializers.ReadOnlyField(source="sched_wed.shift_name")
-    sched_thu = serializers.ReadOnlyField(source="sched_thu.shift_name")
-    sched_fri = serializers.ReadOnlyField(source="sched_fri.shift_name")
-    sched_sat = serializers.ReadOnlyField(source="sched_sat.shift_name")
+    sched_sun = serializers.ReadOnlyField(source="sched_sun.shift_description")
+    sched_mon = serializers.ReadOnlyField(source="sched_mon.shift_description")
+    sched_tue = serializers.ReadOnlyField(source="sched_tue.shift_description")
+    sched_wed = serializers.ReadOnlyField(source="sched_wed.shift_description")
+    sched_thu = serializers.ReadOnlyField(source="sched_thu.shift_description")
+    sched_fri = serializers.ReadOnlyField(source="sched_fri.shift_description")
+    sched_sat = serializers.ReadOnlyField(source="sched_sat.shift_description")
 
     class Meta:
         model = Schedule

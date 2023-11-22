@@ -127,10 +127,10 @@ class ShiftView(APIView):
     def post(self, request):
         serializer = ShiftSerializer(data=request.data)
         name = Shift.objects.filter(
-            shift_name__iexact=request.data["shift_name"])
+            shift_name__iexact=request.data["shift_name"]).first()
 
         if name:
-            raise ValidationError("Shift already exist!")
+            raise ValidationError("Shift name already exist!")
 
         serializer.is_valid(raise_exception=True)
         serializer.save()
@@ -138,14 +138,14 @@ class ShiftView(APIView):
         return Response(serializer.data)
 
     def patch(self, request, *args, **kwargs):
-
         id = Shift.objects.filter(id=request.data["id"]).first()
         name = Shift.objects.filter(
-            shift_name__iexact=request.data["shift_name"])
+            shift_name__iexact=request.data["shift_name"]).first()
         serializer = ShiftSerializer(id, data=request.data)
 
         if name:
-            raise ValidationError("Shift already exist!")
+            if str(name.id) != str(id.id):
+                raise ValidationError("Shift name already exist!")
 
         serializer.is_valid(raise_exception=True)
         serializer.save()

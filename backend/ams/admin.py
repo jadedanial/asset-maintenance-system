@@ -76,20 +76,23 @@ class UserAdmin(admin.ModelAdmin):
 class ShiftAdmin(admin.ModelAdmin):
     readonly_fields = (
         "id",
-        "shift_name",
+        "shift_description",
     )
     list_display = (
         "shift_name",
+        "shift_description",
         "shift_from",
         "shift_to",
     )
     list_filter = (
         "shift_name",
+        "shift_description",
         "shift_from",
         "shift_to",
     )
     search_fields = (
         "shift_name",
+        "shift_description",
         "shift_from",
         "shift_to",
     )

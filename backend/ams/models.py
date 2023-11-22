@@ -98,17 +98,20 @@ class User(AbstractUser):
 class Shift(models.Model):
     id = models.AutoField(primary_key=True)
     shift_name = models.CharField(
-        max_length=300, blank=False, null=False, verbose_name="Name"
+        max_length=300, blank=True, null=True, verbose_name="Name"
     )
-    shift_from = models.TimeField(blank=False, null=False, verbose_name="From")
-    shift_to = models.TimeField(blank=False, null=False, verbose_name="To")
+    shift_description = models.CharField(
+        max_length=100, blank=True, null=True, verbose_name="Description"
+    )
+    shift_from = models.TimeField(blank=True, null=True, verbose_name="From")
+    shift_to = models.TimeField(blank=True, null=True, verbose_name="To")
 
     def __str__(self):
-        return str(self.shift_name)
+        return str(self.shift_description)
 
     def update_model(self):
         test_id = Shift.objects.get(id=self.id).id
-        Shift.objects.filter(id=test_id).update(shift_name=str(
+        Shift.objects.filter(id=test_id).update(shift_description=str(
             self.shift_from) + " To " + str(self.shift_to))
 
     def save(self, *args, **kwargs):
