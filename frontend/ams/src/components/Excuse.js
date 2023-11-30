@@ -13,9 +13,9 @@ import {
   notification,
 } from "antd";
 import { CheckCircleOutlined, PlusOutlined } from "@ant-design/icons";
-import moment from "moment";
 import NotificationEvent from "./NotificationEvent";
 import ResultEvent from "../components/ResultEvent";
+import moment from "moment";
 
 const { Title } = Typography;
 
@@ -571,7 +571,7 @@ const Excuse = (props) => {
             </div>
           ) : (
             <Table
-              className="light-color-header-table"
+              className="custom-table"
               rowClassName={() => "table-row"}
               columns={columns}
               dataSource={excuses

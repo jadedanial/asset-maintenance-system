@@ -24,12 +24,7 @@ const Shift = (props) => {
 
   return (
     <>
-      <Card
-        size="large"
-        className="card-no-top-padding card-main-layout"
-        bordered
-        hoverable
-      >
+      <Card size="large" className="card-main-layout" bordered hoverable>
         <div span={24} style={{ position: "sticky", top: "87px", zIndex: "1" }}>
           <div style={{ height: "24px", backgroundColor: "#fff" }}></div>
           <div
@@ -74,10 +69,11 @@ const Shift = (props) => {
             position: "sticky",
             top: "176px",
             zIndex: "1",
+            padding: "0 24px 24px 24px",
           }}
         ></div>
         <Table
-          className="light-color-header-table"
+          className="custom-table"
           rowClassName={() => "table-row"}
           columns={props.tableColumns}
           dataSource={props.tableDataSource}

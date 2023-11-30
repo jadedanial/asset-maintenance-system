@@ -583,7 +583,7 @@ const Vacation = (props) => {
             </div>
           ) : (
             <Table
-              className="light-color-header-table"
+              className="custom-table"
               rowClassName={() => "table-row"}
               columns={columns}
               dataSource={vacations

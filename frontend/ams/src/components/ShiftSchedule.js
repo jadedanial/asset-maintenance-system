@@ -5,7 +5,7 @@ import NotificationEvent from "./NotificationEvent";
 
 const { Title } = Typography;
 
-const Schedule = (props) => {
+const ShiftSchedule = (props) => {
   const [schedules, setSchedules] = useState([]);
   const [schedid, setSchedId] = useState(0);
   const [schedname, setSchedName] = useState("");
@@ -192,4 +192,4 @@ const Schedule = (props) => {
   );
 };
 
-export default Schedule;
+export default ShiftSchedule;

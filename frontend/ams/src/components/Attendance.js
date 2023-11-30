@@ -21,9 +21,9 @@ import {
   CloseOutlined,
   IssuesCloseOutlined,
 } from "@ant-design/icons";
-import moment from "moment";
 import AddAttendance from "./AddAttendance";
 import NotificationEvent from "./NotificationEvent";
+import moment from "moment";
 
 const { Title } = Typography;
 

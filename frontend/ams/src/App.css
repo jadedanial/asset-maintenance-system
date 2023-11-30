@@ -185,10 +185,6 @@ h1.ant-typography {
   cursor: default !important;
 }
 
-.card-no-padding .ant-card-body {
-  padding: 0 !important;
-}
-
 .card-custom-size {
   margin: 40px 0 !important;
   width: 50% !important;
@@ -224,11 +220,7 @@ h1.ant-typography {
   padding: 20px 0 0 0 !important;
 }
 
-.card-no-top-padding .ant-card-body {
-  padding: 0 24px 24px 24px !important;
-}
-
-.card-zero-padding .ant-card-body {
+.card-no-padding .ant-card-body {
   padding: 0 !important;
 }
 
@@ -334,7 +326,7 @@ h1.ant-typography {
   background-color: #318ce7 !important;
 }
 
-.light-color-header-table .ant-table-thead .ant-table-cell {
+.custom-table .ant-table-thead .ant-table-cell {
   color: #318ce7;
   background-color: #fff;
 }
@@ -355,9 +347,11 @@ h1.ant-typography {
   cursor: pointer;
 }
 
-.table-row:hover td {
+.table-row:hover td,
+.table-row:hover td p {
   color: #fff;
   background-color: #1890ff !important;
+  cursor: pointer;
 }
 
 .table-row-no-color {

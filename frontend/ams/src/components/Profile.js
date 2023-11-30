@@ -22,7 +22,7 @@ import {
 } from "@ant-design/icons";
 import AddUpdateEmployee from "./AddUpdateEmployee";
 import Attendance from "../components/Attendance";
-import Schedule from "../components/Schedule";
+import ShiftSchedule from "./ShiftSchedule";
 import Vacation from "../components/Vacation";
 import Excuse from "../components/Excuse";
 import moment from "moment";
@@ -48,7 +48,7 @@ const Profile = (props) => {
       key: "2",
       children: (
         <>
-          <Schedule empid={props.empid}></Schedule>
+          <ShiftSchedule empid={props.empid}></ShiftSchedule>
         </>
       ),
     },

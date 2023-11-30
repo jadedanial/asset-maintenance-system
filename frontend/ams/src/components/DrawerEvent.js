@@ -23,6 +23,25 @@ const DrawerEvent = (props) => {
             <AddUpdateEmployee update={false}></AddUpdateEmployee>
           </>
         );
+
+      case "AddUpdateShift":
+        return (
+          <>
+            <AddUpdateShift update={false}></AddUpdateShift>
+          </>
+        );
+      case "UpdateShift":
+        return (
+          <>
+            <AddUpdateShift
+              update={true}
+              id={props.rowIndex["id"]}
+              name={props.rowIndex["name"]}
+              from={props.rowIndex["from"]}
+              to={props.rowIndex["to"]}
+            ></AddUpdateShift>
+          </>
+        );
       case "ItemDetail":
         return (
           <>
@@ -53,24 +72,6 @@ const DrawerEvent = (props) => {
               clearOrder={props.clearOrder}
               onCloseDrawer={props.onCloseDrawer}
             ></CartItem>
-          </>
-        );
-      case "AddUpdateShift":
-        return (
-          <>
-            <AddUpdateShift update={false}></AddUpdateShift>
-          </>
-        );
-      case "UpdateShift":
-        return (
-          <>
-            <AddUpdateShift
-              update={true}
-              id={props.rowIndex["id"]}
-              name={props.rowIndex["name"]}
-              from={props.rowIndex["from"]}
-              to={props.rowIndex["to"]}
-            ></AddUpdateShift>
           </>
         );
       default:

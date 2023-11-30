@@ -17,6 +17,7 @@ import {
 import WorkRequest from "../modules/WorkRequest";
 import Employee from "../modules/Employee";
 import Shift from "../modules/Shift";
+import Schedule from "../modules/Schedule";
 import Item from "../modules/Item";
 import Reorder from "../modules/Reorder";
 import DrawerEvent from "../components/DrawerEvent";
@@ -140,6 +141,12 @@ const MainPage = (props) => {
         return (
           <>
             <Shift col={collapsed}></Shift>
+          </>
+        );
+      case "Schedule":
+        return (
+          <>
+            <Schedule col={collapsed}></Schedule>
           </>
         );
       case "Item":

@@ -10,9 +10,9 @@ import {
   notification,
 } from "antd";
 import { CheckCircleOutlined } from "@ant-design/icons";
-import moment from "moment";
 import NotificationEvent from "./NotificationEvent";
 import ResultEvent from "../components/ResultEvent";
+import moment from "moment";
 
 const { Title } = Typography;
 
