@@ -3,14 +3,21 @@ import { Drawer, Tooltip, Button } from "antd";
 import { CloseOutlined } from "@ant-design/icons";
 import Profile from "./Profile";
 import AddUpdateEmployee from "./AddUpdateEmployee";
+import AddUpdateShift from "./AddUpdateShift";
+import AddUpdateSchedule from "./AddUpdateSchedule";
 import ItemDetail from "./ItemDetail";
 import AddUpdateItem from "./AddUpdateItem";
 import CartItem from "./CartItem";
-import AddUpdateShift from "./AddUpdateShift";
 
 const DrawerEvent = (props) => {
   function drawerSwitch(key) {
     switch (key) {
+      case "User":
+        return (
+          <>
+            <Profile empid={props.empid}></Profile>
+          </>
+        );
       case "Profile":
         return (
           <>
@@ -40,6 +47,29 @@ const DrawerEvent = (props) => {
               from={props.rowIndex["from"]}
               to={props.rowIndex["to"]}
             ></AddUpdateShift>
+          </>
+        );
+      case "AddUpdateSchedule":
+        return (
+          <>
+            <AddUpdateSchedule update={false}></AddUpdateSchedule>
+          </>
+        );
+      case "UpdateSchedule":
+        return (
+          <>
+            <AddUpdateSchedule
+              update={true}
+              id={props.rowIndex["id"]}
+              name={props.rowIndex["name"]}
+              sun={props.rowIndex["sun"]}
+              mon={props.rowIndex["mon"]}
+              tue={props.rowIndex["tue"]}
+              wed={props.rowIndex["wed"]}
+              thu={props.rowIndex["thu"]}
+              fri={props.rowIndex["fri"]}
+              sat={props.rowIndex["sat"]}
+            ></AddUpdateSchedule>
           </>
         );
       case "ItemDetail":

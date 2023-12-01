@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Col, Row, Card, Button, Input, Tooltip, Table } from "antd";
 import DrawerEvent from "./DrawerEvent";
 
-const Shift = (props) => {
+const SearchTableEvent = (props) => {
   const [openDrawer, setOpenDrawer] = useState(false);
   const [compItem, setCompItem] = useState("");
   const [rowIndex, setRowIndex] = useState([]);
@@ -73,7 +73,6 @@ const Shift = (props) => {
           }}
         ></div>
         <Table
-          className="custom-table"
           rowClassName={() => "table-row"}
           columns={props.tableColumns}
           dataSource={props.tableDataSource}
@@ -90,9 +89,10 @@ const Shift = (props) => {
             pageSize: 10,
             showSizeChanger: false,
           }}
-          size="small"
+          size="large"
           scroll={{
-            y: "50vh",
+            x: "calc(0px + 100%)",
+            y: 300,
           }}
         />
       </Card>
@@ -107,4 +107,4 @@ const Shift = (props) => {
   );
 };
 
-export default Shift;
+export default SearchTableEvent;

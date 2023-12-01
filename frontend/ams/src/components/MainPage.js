@@ -20,6 +20,7 @@ import Shift from "../modules/Shift";
 import Schedule from "../modules/Schedule";
 import Item from "../modules/Item";
 import Reorder from "../modules/Reorder";
+import Vehicle from "../modules/Vehicle";
 import DrawerEvent from "../components/DrawerEvent";
 
 const { Header, Sider, Content } = Layout;
@@ -121,7 +122,7 @@ const MainPage = (props) => {
               showDrawer={openDrawer}
               onCloseDrawer={onCloseDrawer}
               col={collapsed}
-              comp={"Profile"}
+              comp={"User"}
             ></DrawerEvent>
           </>
         );
@@ -163,6 +164,12 @@ const MainPage = (props) => {
               empid={props.empid}
               username={props.username}
             ></Reorder>
+          </>
+        );
+      case "Vehicle":
+        return (
+          <>
+            <Vehicle col={collapsed}></Vehicle>
           </>
         );
       default:

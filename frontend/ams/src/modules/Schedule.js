@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Card } from "antd";
 import { CalendarOutlined } from "@ant-design/icons";
-import SearchListEvent from "../components/SearchListEvent";
-import moment from "moment";
+import SearchTableEvent from "../components/SearchTableEvent";
 
 const Schedule = () => {
-  const timeFormat = "HH:mm:ss";
   const [searchedtext, setSearchedText] = useState("");
   const [schedules, setSchedules] = useState([]);
 
@@ -17,43 +14,60 @@ const Schedule = () => {
       key: "name",
       filteredValue: [searchedtext],
       onFilter: (value, record) => {
-        return String(record.name).toLowerCase().includes(value.toLowerCase());
+        return (
+          String(record.name).toLowerCase().includes(value.toLowerCase()) ||
+          String(record.sun).toLowerCase().includes(value.toLowerCase()) ||
+          String(record.mon).toLowerCase().includes(value.toLowerCase()) ||
+          String(record.tue).toLowerCase().includes(value.toLowerCase()) ||
+          String(record.wed).toLowerCase().includes(value.toLowerCase()) ||
+          String(record.thu).toLowerCase().includes(value.toLowerCase()) ||
+          String(record.fri).toLowerCase().includes(value.toLowerCase()) ||
+          String(record.sat).toLowerCase().includes(value.toLowerCase())
+        );
       },
+      width: "200px",
     },
     {
       title: "Sunday",
-      dataIndex: "sunday",
-      key: "sunday",
+      dataIndex: "sun",
+      key: "sun",
+      width: "200px",
     },
     {
       title: "Monday",
-      dataIndex: "monday",
-      key: "monday",
+      dataIndex: "mon",
+      key: "mon",
+      width: "200px",
     },
     {
       title: "Tuesday",
-      dataIndex: "tuesday",
-      key: "tuesday",
+      dataIndex: "tue",
+      key: "tue",
+      width: "200px",
     },
     {
       title: "Wednesday",
-      dataIndex: "wednesday",
-      key: "wednesday",
+      dataIndex: "wed",
+      key: "wed",
+      width: "200px",
     },
     {
       title: "Thursday",
-      dataIndex: "thursday",
-      key: "thursday",
+      dataIndex: "thu",
+      key: "thu",
+      width: "200px",
     },
     {
       title: "Friday",
-      dataIndex: "friday",
-      key: "friday",
+      dataIndex: "fri",
+      key: "fri",
+      width: "200px",
     },
     {
       title: "Saturday",
-      dataIndex: "saturday",
-      key: "saturday",
+      dataIndex: "sat",
+      key: "sat",
+      width: "200px",
     },
   ];
 
@@ -78,13 +92,13 @@ const Schedule = () => {
             {
               id: res.id,
               name: res.sched_name,
-              sunday: schedList(res.sched_sun),
-              monday: schedList(res.sched_mon),
-              tuesday: schedList(res.sched_tue),
-              wednesday: schedList(res.sched_wed),
-              thursday: schedList(res.sched_thu),
-              friday: schedList(res.sched_fri),
-              saturday: schedList(res.sched_sat),
+              sun: res.sched_sun,
+              mon: res.sched_mon,
+              tue: res.sched_tue,
+              wed: res.sched_wed,
+              thu: res.sched_thu,
+              fri: res.sched_fri,
+              sat: res.sched_sat,
             },
           ])
         );
@@ -98,29 +112,9 @@ const Schedule = () => {
     setSearchedText(text);
   }
 
-  function schedList(sched) {
-    return (
-      <>
-        <Card size="small" style={{ border: "none", background: "none" }}>
-          <p className="small-font" style={{ textAlign: "center" }}>
-            {moment
-              .duration(
-                moment(sched.split(" To ")[1], timeFormat).diff(
-                  moment(sched.split(" To ")[0], timeFormat)
-                )
-              )
-              .asHours() === 0
-              ? "Dayoff"
-              : sched.split(" To ")[0] + "\n" + sched.split(" To ")[1]}
-          </p>
-        </Card>
-      </>
-    );
-  }
-
   return (
     <>
-      <SearchListEvent
+      <SearchTableEvent
         loadAPILists={loadAPILists}
         tooltipIcon={<CalendarOutlined />}
         tooltipTitle={"Add New Schedule"}
@@ -130,7 +124,7 @@ const Schedule = () => {
         tableColumns={columns}
         tableDataSource={schedules}
         searchedText={searchedText}
-      ></SearchListEvent>
+      ></SearchTableEvent>
     </>
   );
 };

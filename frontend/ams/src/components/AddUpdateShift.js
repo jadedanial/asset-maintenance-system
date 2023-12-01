@@ -43,7 +43,7 @@ const AddUpdateShift = (props) => {
     setToReq(true);
   }
 
-  function renameLabel() {
+  function changeLabel() {
     setLabel(update ? "Update Shift" : "Add New Shift");
     setColor("#318ce7");
   }
@@ -51,24 +51,24 @@ const AddUpdateShift = (props) => {
   function onNameChange(value) {
     setShiftName(value);
     setNameReq(true);
-    renameLabel();
+    changeLabel();
   }
 
   function onFromChange(value) {
     setShiftFrom(value);
     setFromReq(true);
-    renameLabel();
+    changeLabel();
   }
 
   function onToChange(value) {
     setShiftTo(value);
     setToReq(true);
-    renameLabel();
+    changeLabel();
   }
 
   async function onFinish() {
     setSubmit(true);
-    renameLabel();
+    changeLabel();
     var shiftData = {
       id: shiftID,
       shift_name: shiftName,
@@ -158,6 +158,7 @@ const AddUpdateShift = (props) => {
               >
                 <Input
                   value={shiftName}
+                  maxLength={300}
                   onChange={(e) => onNameChange(e.target.value)}
                 />
               </Form.Item>

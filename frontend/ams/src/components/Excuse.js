@@ -571,7 +571,6 @@ const Excuse = (props) => {
             </div>
           ) : (
             <Table
-              className="custom-table"
               rowClassName={() => "table-row"}
               columns={columns}
               dataSource={excuses

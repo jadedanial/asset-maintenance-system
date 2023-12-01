@@ -98,47 +98,56 @@ const AddUpdateItem = (props) => {
     setDescriptionReq(true);
   }
 
+  function changeLabel() {
+    setLabel(update ? "Update Item" : "Add New Item");
+    setColor("#318ce7");
+  }
+
   function onNameChange(value) {
     setItemName(value);
     setNameReq(true);
-    setLabel(update ? "Update Item" : "Add New Item");
-    setColor("#318ce7");
+    changeLabel();
   }
 
   function onCategoryChange(value) {
     setItemCategory(value);
     setCategoryReq(true);
+    changeLabel();
   }
 
   function onMeasurementChange(value) {
     setItemMeasurement(value);
     setMeasurementReq(true);
+    changeLabel();
   }
 
   function onLocationChange(value) {
     setItemLocation(value);
     setLocationReq(true);
+    changeLabel();
   }
 
   function onReorderChange(value) {
     setItemReorder(value);
     setReorderReq(true);
+    changeLabel();
   }
 
   function onCostChange(value) {
     setItemCost(value);
     setCostReq(true);
+    changeLabel();
   }
 
   function onDescriptionChange(value) {
     setItemDescription(value);
     setDescriptionReq(true);
+    changeLabel();
   }
 
   async function onFinish() {
     setSubmit(true);
-    setLabel(update ? "Update Item" : "Add New Item");
-    setColor("#318ce7");
+    changeLabel();
     var itemData = {
       item_code: itemCode,
       item_name: itemName,
@@ -237,8 +246,8 @@ const AddUpdateItem = (props) => {
                     ]}
                   >
                     <Input
-                      maxlength="55"
                       value={itemName}
+                      maxLength={55}
                       onChange={(e) => onNameChange(e.target.value)}
                     />
                   </Form.Item>
@@ -292,6 +301,7 @@ const AddUpdateItem = (props) => {
                   >
                     <Input
                       value={itemLocation}
+                      maxLength={300}
                       onChange={(e) => onLocationChange(e.target.value)}
                     />
                   </Form.Item>

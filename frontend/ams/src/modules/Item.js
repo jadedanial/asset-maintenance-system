@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { ShoppingOutlined } from "@ant-design/icons";
-import SearchListEvent from "../components/SearchListEvent";
+import SearchTableEvent from "../components/SearchTableEvent";
 
 const Item = () => {
   const [searchedtext, setSearchedText] = useState("");
@@ -82,7 +82,7 @@ const Item = () => {
 
   return (
     <>
-      <SearchListEvent
+      <SearchTableEvent
         loadAPILists={loadAPILists}
         tooltipIcon={<ShoppingOutlined />}
         tooltipTitle={"Add New Item"}
@@ -92,7 +92,7 @@ const Item = () => {
         tableColumns={columns}
         tableDataSource={items}
         searchedText={searchedText}
-      ></SearchListEvent>
+      ></SearchTableEvent>
     </>
   );
 };

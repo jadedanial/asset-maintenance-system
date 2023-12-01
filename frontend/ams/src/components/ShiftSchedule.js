@@ -1,11 +1,21 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Card, Select, Button, Typography, List, notification } from "antd";
+import {
+  Card,
+  Select,
+  Button,
+  Typography,
+  List,
+  Badge,
+  notification,
+} from "antd";
 import NotificationEvent from "./NotificationEvent";
+import moment from "moment";
 
 const { Title } = Typography;
 
 const ShiftSchedule = (props) => {
+  const timeFormat = "HH:mm:ss";
   const [schedules, setSchedules] = useState([]);
   const [schedid, setSchedId] = useState(0);
   const [schedname, setSchedName] = useState("");
@@ -83,31 +93,150 @@ const ShiftSchedule = (props) => {
               dataSource={[
                 {
                   title: "SUNDAY",
-                  description: schedule.sched_sun,
+                  description:
+                    moment
+                      .duration(
+                        moment(
+                          schedule.sched_sun.split(" To ")[1],
+                          timeFormat
+                        ).diff(
+                          moment(
+                            schedule.sched_sun.split(" To ")[0],
+                            timeFormat
+                          )
+                        )
+                      )
+                      .asHours() === 0 ? (
+                      <Badge color="blue" text="Dayoff" />
+                    ) : (
+                      schedule.sched_sun
+                    ),
                 },
                 {
                   title: "MONDAY",
-                  description: schedule.sched_mon,
+                  description:
+                    moment
+                      .duration(
+                        moment(
+                          schedule.sched_mon.split(" To ")[1],
+                          timeFormat
+                        ).diff(
+                          moment(
+                            schedule.sched_mon.split(" To ")[0],
+                            timeFormat
+                          )
+                        )
+                      )
+                      .asHours() === 0 ? (
+                      <Badge color="blue" text="Dayoff" />
+                    ) : (
+                      schedule.sched_mon
+                    ),
                 },
                 {
                   title: "TUESDAY",
-                  description: schedule.sched_tue,
+                  description:
+                    moment
+                      .duration(
+                        moment(
+                          schedule.sched_tue.split(" To ")[1],
+                          timeFormat
+                        ).diff(
+                          moment(
+                            schedule.sched_tue.split(" To ")[0],
+                            timeFormat
+                          )
+                        )
+                      )
+                      .asHours() === 0 ? (
+                      <Badge color="blue" text="Dayoff" />
+                    ) : (
+                      schedule.sched_tue
+                    ),
                 },
                 {
                   title: "WEDNESDAY",
-                  description: schedule.sched_wed,
+                  description:
+                    moment
+                      .duration(
+                        moment(
+                          schedule.sched_wed.split(" To ")[1],
+                          timeFormat
+                        ).diff(
+                          moment(
+                            schedule.sched_wed.split(" To ")[0],
+                            timeFormat
+                          )
+                        )
+                      )
+                      .asHours() === 0 ? (
+                      <Badge color="blue" text="Dayoff" />
+                    ) : (
+                      schedule.sched_wed
+                    ),
                 },
                 {
                   title: "THURSDAY",
-                  description: schedule.sched_thu,
+                  description:
+                    moment
+                      .duration(
+                        moment(
+                          schedule.sched_thu.split(" To ")[1],
+                          timeFormat
+                        ).diff(
+                          moment(
+                            schedule.sched_thu.split(" To ")[0],
+                            timeFormat
+                          )
+                        )
+                      )
+                      .asHours() === 0 ? (
+                      <Badge color="blue" text="Dayoff" />
+                    ) : (
+                      schedule.sched_thu
+                    ),
                 },
                 {
                   title: "FRIDAY",
-                  description: schedule.sched_fri,
+                  description:
+                    moment
+                      .duration(
+                        moment(
+                          schedule.sched_fri.split(" To ")[1],
+                          timeFormat
+                        ).diff(
+                          moment(
+                            schedule.sched_fri.split(" To ")[0],
+                            timeFormat
+                          )
+                        )
+                      )
+                      .asHours() === 0 ? (
+                      <Badge color="blue" text="Dayoff" />
+                    ) : (
+                      schedule.sched_fri
+                    ),
                 },
                 {
                   title: "SATURDAY",
-                  description: schedule.sched_sat,
+                  description:
+                    moment
+                      .duration(
+                        moment(
+                          schedule.sched_sat.split(" To ")[1],
+                          timeFormat
+                        ).diff(
+                          moment(
+                            schedule.sched_sat.split(" To ")[0],
+                            timeFormat
+                          )
+                        )
+                      )
+                      .asHours() === 0 ? (
+                      <Badge color="blue" text="Dayoff" />
+                    ) : (
+                      schedule.sched_sat
+                    ),
                 },
               ]}
               renderItem={(item) => (

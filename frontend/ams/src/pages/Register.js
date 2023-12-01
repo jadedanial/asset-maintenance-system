@@ -64,7 +64,7 @@ const RegisterPage = () => {
                 icon={<CheckCircleOutlined style={{ color: "#318ce7" }} />}
                 status="success"
                 title="Successfully added new User."
-                subTitle={"Username: " + username + "   Email: " + email}
+                subTitle={"Username: " + username + "\nEmail: " + email}
                 extra={
                   <Button
                     icon={<LoginOutlined />}
@@ -127,6 +127,7 @@ const RegisterPage = () => {
                     className="medium-font"
                     prefix={<UserOutlined className="site-form-item-icon" />}
                     placeholder="Username"
+                    maxLength={100}
                     onChange={(e) => setUsername(e.target.value)}
                   />
                 </Form.Item>
@@ -148,6 +149,7 @@ const RegisterPage = () => {
                     prefix={<MailOutlined className="site-form-item-icon" />}
                     type="email"
                     placeholder="Email"
+                    maxLength={100}
                     onChange={(e) => setEmail(e.target.value)}
                   />
                 </Form.Item>
@@ -166,6 +168,7 @@ const RegisterPage = () => {
                     prefix={<LockOutlined className="site-form-item-icon" />}
                     type="password"
                     placeholder="Password"
+                    maxLength={100}
                     onChange={(e) => setPassword(e.target.value)}
                   />
                 </Form.Item>

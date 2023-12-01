@@ -516,6 +516,7 @@ const AddAttendance = (props) => {
               </Form.Item>
               <Form.Item label="Check In">
                 <DatePicker
+                  placeholder=""
                   onChange={(value) =>
                     setAttendCheckIn(moment(value).format(dateTimeFormat))
                   }
@@ -530,6 +531,7 @@ const AddAttendance = (props) => {
               </Form.Item>
               <Form.Item label="Check Out">
                 <DatePicker
+                  placeholder=""
                   onChange={(value) =>
                     setAttendCheckOut(moment(value).format(dateTimeFormat))
                   }

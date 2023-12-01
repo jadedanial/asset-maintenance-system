@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { FieldTimeOutlined } from "@ant-design/icons";
-import SearchListEvent from "../components/SearchListEvent";
+import SearchTableEvent from "../components/SearchTableEvent";
 import moment from "moment";
 
 const Shift = () => {
@@ -90,7 +90,7 @@ const Shift = () => {
 
   return (
     <>
-      <SearchListEvent
+      <SearchTableEvent
         loadAPILists={loadAPILists}
         tooltipIcon={<FieldTimeOutlined />}
         tooltipTitle={"Add New Shift"}
@@ -100,7 +100,7 @@ const Shift = () => {
         tableColumns={columns}
         tableDataSource={shifts}
         searchedText={searchedText}
-      ></SearchListEvent>
+      ></SearchTableEvent>
     </>
   );
 };

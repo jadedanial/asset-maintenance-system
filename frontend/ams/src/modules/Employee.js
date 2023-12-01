@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { UserAddOutlined } from "@ant-design/icons";
-import SearchListEvent from "../components/SearchListEvent";
+import SearchTableEvent from "../components/SearchTableEvent";
 
 const Employee = () => {
   const [searchedtext, setSearchedText] = useState("");
@@ -22,27 +22,31 @@ const Employee = () => {
           String(record.email).toLowerCase().includes(value.toLowerCase())
         );
       },
+      width: "80px",
     },
     {
       title: "Name",
       dataIndex: "name",
       key: "name",
+      width: "150px",
     },
     {
       title: "Position",
       dataIndex: "position",
       key: "position",
+      width: "100px",
     },
     {
       title: "Phone",
       dataIndex: "phone",
       key: "phone",
+      width: "100px",
     },
     {
       title: "Email",
       dataIndex: "email",
       key: "email",
-      width: "30%",
+      width: "150px",
     },
   ];
 
@@ -85,7 +89,7 @@ const Employee = () => {
 
   return (
     <>
-      <SearchListEvent
+      <SearchTableEvent
         loadAPILists={loadAPILists}
         tooltipIcon={<UserAddOutlined />}
         tooltipTitle={"Add New Employee"}
@@ -95,7 +99,7 @@ const Employee = () => {
         tableColumns={columns}
         tableDataSource={employees}
         searchedText={searchedText}
-      ></SearchListEvent>
+      ></SearchTableEvent>
     </>
   );
 };

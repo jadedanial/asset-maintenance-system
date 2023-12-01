@@ -114,57 +114,68 @@ const AddUpdateEmployee = (props) => {
     setSalaryReq(true);
   }
 
+  function changeLabel() {
+    setLabel(update ? "Update Employee" : "Add New Employee");
+    setColor("#318ce7");
+  }
+
   function onNameChange(value) {
     setEmployeeName(value);
     setNameReq(true);
-    setLabel(update ? "Update Employee" : "Add New Employee");
-    setColor("#318ce7");
+    changeLabel();
   }
 
   function onBirthdateChange(value) {
     setEmployeeBirthdate(value);
     setBirthdateReq(true);
+    changeLabel();
   }
 
   function onNationalityChange(value) {
     setEmployeeNationality(value);
     setNationalityReq(true);
+    changeLabel();
   }
 
   function onAddressChange(value) {
     setEmployeeAddress(value);
     setAddressReq(true);
+    changeLabel();
   }
 
   function onEmailChange(value) {
     setEmployeeEmail(value);
     setEmailReq(true);
+    changeLabel();
   }
 
   function onPhoneChange(value) {
     setEmployeePhone(value);
     setPhoneReq(true);
+    changeLabel();
   }
 
   function onDateHiredChange(value) {
     setEmployeeDateHired(value);
     setDateHiredReq(true);
+    changeLabel();
   }
 
   function onPositionChange(value) {
     setEmployeePosition(value);
     setPositionReq(true);
+    changeLabel();
   }
 
   function onSalaryChange(value) {
     setEmployeeSalary(value);
     setSalaryReq(true);
+    changeLabel();
   }
 
   async function onFinish() {
     setSubmit(true);
-    setLabel(update ? "Update Employee" : "Add New Employee");
-    setColor("#318ce7");
+    changeLabel();
     var employeeData = {
       emp_id: employeeID,
       emp_name: employeeName,
@@ -260,6 +271,7 @@ const AddUpdateEmployee = (props) => {
               >
                 <Input
                   value={employeeName}
+                  maxLength={50}
                   onChange={(e) => onNameChange(e.target.value)}
                 />
               </Form.Item>
@@ -351,6 +363,7 @@ const AddUpdateEmployee = (props) => {
                   >
                     <Input
                       value={employeeAddress}
+                      maxLength={100}
                       onChange={(e) => onAddressChange(e.target.value)}
                     />
                   </Form.Item>
@@ -371,6 +384,7 @@ const AddUpdateEmployee = (props) => {
                   >
                     <Input
                       value={employeeEmail}
+                      maxLength={100}
                       onChange={(e) => onEmailChange(e.target.value)}
                     />
                   </Form.Item>
@@ -474,6 +488,7 @@ const AddUpdateEmployee = (props) => {
                   >
                     <Input
                       value={employeePhone}
+                      maxLength={100}
                       onChange={(e) => onPhoneChange(e.target.value)}
                     />
                   </Form.Item>
