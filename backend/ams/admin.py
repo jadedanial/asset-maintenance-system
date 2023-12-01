@@ -316,6 +316,42 @@ class ItemAdmin(admin.ModelAdmin):
     )
 
 
+class VehicleAdmin(admin.ModelAdmin):
+    readonly_fields = (
+        "id",
+    )
+    list_display = (
+        "vehicle_code",
+        "vehicle_type",
+        "vehicle_model",
+        "vehicle_serial",
+        "vehicle_plate",
+        "vehicle_area",
+        "vehicle_sector",
+        "vehicle_status",
+    )
+    list_filter = (
+        "vehicle_code",
+        "vehicle_type",
+        "vehicle_model",
+        "vehicle_serial",
+        "vehicle_plate",
+        "vehicle_area",
+        "vehicle_sector",
+        "vehicle_status",
+    )
+    search_fields = (
+        "vehicle_code",
+        "vehicle_type",
+        "vehicle_model",
+        "vehicle_serial",
+        "vehicle_plate",
+        "vehicle_area",
+        "vehicle_sector",
+        "vehicle_status",
+    )
+
+
 class TransactionAdmin(admin.ModelAdmin):
     readonly_fields = (
         "trans_id",
@@ -363,4 +399,5 @@ admin.site.register(Attendance, AttendanceAdmin)
 admin.site.register(Vacation, VacationAdmin)
 admin.site.register(Excuse, ExcuseAdmin)
 admin.site.register(Item, ItemAdmin)
+admin.site.register(Vehicle, VehicleAdmin)
 admin.site.register(Transaction, TransactionAdmin)

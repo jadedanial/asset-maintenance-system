@@ -57,7 +57,7 @@ class Category(models.Model):
 
 class Option(models.Model):
     opt_name = models.CharField(
-        max_length=300, blank=False, null=False, verbose_name="Option Name"
+        max_length=200, blank=False, null=False, verbose_name="Option Name"
     )
     opt_category = models.ForeignKey(
         Category,
@@ -122,60 +122,60 @@ class Shift(models.Model):
 class Schedule(models.Model):
     id = models.AutoField(primary_key=True)
     sched_name = models.CharField(
-        max_length=300, blank=False, null=False, verbose_name="Name"
+        max_length=300, blank=True, null=True, verbose_name="Name"
     )
     sched_sun = models.ForeignKey(
         Shift,
-        blank=False,
-        null=False,
+        blank=True,
+        null=True,
         related_name="sched_sun",
         on_delete=models.CASCADE,
         verbose_name="Sunday",
     )
     sched_mon = models.ForeignKey(
         Shift,
-        blank=False,
-        null=False,
+        blank=True,
+        null=True,
         related_name="sched_mon",
         on_delete=models.CASCADE,
         verbose_name="Monday",
     )
     sched_tue = models.ForeignKey(
         Shift,
-        blank=False,
-        null=False,
+        blank=True,
+        null=True,
         related_name="sched_tue",
         on_delete=models.CASCADE,
         verbose_name="Tuesday",
     )
     sched_wed = models.ForeignKey(
         Shift,
-        blank=False,
-        null=False,
+        blank=True,
+        null=True,
         related_name="sched_wed",
         on_delete=models.CASCADE,
         verbose_name="Wednesday",
     )
     sched_thu = models.ForeignKey(
         Shift,
-        blank=False,
-        null=False,
+        blank=True,
+        null=True,
         related_name="sched_thu",
         on_delete=models.CASCADE,
         verbose_name="Thurdsay",
     )
     sched_fri = models.ForeignKey(
         Shift,
-        blank=False,
-        null=False,
+        blank=True,
+        null=True,
         related_name="sched_fri",
         on_delete=models.CASCADE,
         verbose_name="Friday",
     )
     sched_sat = models.ForeignKey(
         Shift,
-        blank=False,
-        null=False,
+        blank=True,
+        null=True,
         related_name="sched_sat",
         on_delete=models.CASCADE,
         verbose_name="Satuday",
@@ -188,12 +188,12 @@ class Schedule(models.Model):
 class Employee(models.Model):
     emp_id = models.AutoField(primary_key=True, verbose_name="Employee ID")
     emp_name = models.CharField(
-        max_length=100, blank=True, null=True, verbose_name="Name"
+        max_length=50, blank=True, null=True, verbose_name="Name"
     )
     emp_bdate = models.DateField(
         blank=True, null=True, verbose_name="Birthdate")
     emp_nation = models.CharField(
-        max_length=300, blank=True, null=True, verbose_name="Nationality"
+        max_length=100, blank=True, null=True, verbose_name="Nationality"
     )
     emp_address = models.CharField(
         max_length=100, blank=True, null=True, verbose_name="Address"
@@ -278,10 +278,10 @@ class Vacation(models.Model):
     vac_end = models.DateField(blank=True, null=True, verbose_name="End Date")
     vac_reason = models.TextField(blank=True, null=True, verbose_name="Reason")
     vac_attachment = models.CharField(
-        max_length=500, blank=True, null=True, verbose_name="Attachment"
+        max_length=1000, blank=True, null=True, verbose_name="Attachment"
     )
     vac_total = models.CharField(
-        max_length=100, blank=True, null=True, verbose_name="Total"
+        max_length=200, blank=True, null=True, verbose_name="Total"
     )
 
     def __str__(self):
@@ -303,7 +303,7 @@ class Excuse(models.Model):
     exc_end = models.TimeField(blank=True, null=True, verbose_name="End Time")
     exc_reason = models.TextField(blank=True, null=True, verbose_name="Reason")
     exc_total = models.CharField(
-        max_length=100, blank=True, null=True, verbose_name="Total"
+        max_length=200, blank=True, null=True, verbose_name="Total"
     )
 
     def __str__(self):
@@ -313,17 +313,19 @@ class Excuse(models.Model):
 class Item(models.Model):
     id = models.AutoField(primary_key=True)
     item_code = models.CharField(
-        max_length=500, blank=True, null=True, verbose_name="Item Code"
+        max_length=100, blank=True, null=True, verbose_name="Item Code"
     )
-    item_name = models.TextField(blank=False, null=False, verbose_name="Name")
+    item_name = models.CharField(
+        max_length=100, blank=False, null=False, verbose_name="Name"
+    )
     item_category = models.CharField(
-        max_length=300, blank=False, null=False, verbose_name="Category"
+        max_length=200, blank=False, null=False, verbose_name="Category"
     )
     item_location = models.CharField(
-        max_length=300, blank=False, null=False, verbose_name="Physical Location"
+        max_length=200, blank=False, null=False, verbose_name="Physical Location"
     )
     item_measurement = models.CharField(
-        max_length=300, blank=False, null=False, verbose_name="Unit Of Measurement"
+        max_length=200, blank=False, null=False, verbose_name="Unit Of Measurement"
     )
     item_reorder = models.FloatField(
         blank=False, null=False, verbose_name="Reorder Quantity"
@@ -350,6 +352,37 @@ class Item(models.Model):
         self.update_model()
 
 
+class Vehicle(models.Model):
+    id = models.AutoField(primary_key=True)
+    vehicle_code = models.CharField(
+        max_length=100, blank=True, null=True, verbose_name="Vehicle Code"
+    )
+    vehicle_type = models.CharField(
+        max_length=200, blank=True, null=True, verbose_name="Type"
+    )
+    vehicle_model = models.CharField(
+        max_length=200, blank=True, null=True, verbose_name="Model"
+    )
+    vehicle_serial = models.CharField(
+        max_length=300, blank=True, null=True, verbose_name="Serial"
+    )
+    vehicle_plate = models.CharField(
+        max_length=100, blank=True, null=True, verbose_name="Plate"
+    )
+    vehicle_area = models.CharField(
+        max_length=200, blank=True, null=True, verbose_name="Area"
+    )
+    vehicle_sector = models.CharField(
+        max_length=300, blank=True, null=True, verbose_name="Sector"
+    )
+    vehicle_status = models.CharField(
+        max_length=100, blank=True, null=True, verbose_name="Status"
+    )
+
+    def __str__(self):
+        return self.vehicle_code
+
+
 class Transaction(models.Model):
     trans_id = models.AutoField(
         primary_key=True, verbose_name="Transaction ID")
@@ -357,12 +390,12 @@ class Transaction(models.Model):
         max_length=300, blank=True, null=True, verbose_name="Type"
     )
     trans_action = models.CharField(
-        max_length=200, blank=True, null=True, verbose_name="Action"
+        max_length=300, blank=True, null=True, verbose_name="Action"
     )
     trans_date = models.DateTimeField(
         blank=True, null=True, verbose_name="Date")
     trans_user = models.CharField(
-        max_length=200, blank=True, null=True, verbose_name="User"
+        max_length=300, blank=True, null=True, verbose_name="User"
     )
     trans_detail = models.TextField(
         blank=True, null=True, verbose_name="Detail")

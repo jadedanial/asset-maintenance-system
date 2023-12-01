@@ -159,6 +159,39 @@ class ShiftListView(ListAPIView):
     permission_classes = [IsAuthenticatedWithJWT]
 
 
+class ScheduleView(APIView):
+    permission_classes = [IsAuthenticatedWithJWT]
+
+    def post(self, request):
+
+        serializer = ScheduleSerializer(data=request.data)
+        name = Schedule.objects.filter(
+            sched_name__iexact=request.data["sched_name"]).first()
+
+        if name:
+            raise ValidationError("Schedule name already exist!")
+
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response(serializer.data)
+
+    def patch(self, request, *args, **kwargs):
+        id = Schedule.objects.filter(id=request.data["id"]).first()
+        name = Schedule.objects.filter(
+            sched_name__iexact=request.data["sched_name"]).first()
+        serializer = ScheduleSerializer(id, data=request.data)
+
+        if name:
+            if str(name.id) != str(id.id):
+                raise ValidationError("Schedule name already exist!")
+
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response(serializer.data)
+
+
 class ScheduleListView(ListAPIView):
     queryset = Schedule.objects.all()
     serializer_class = ScheduleSerializer
@@ -330,6 +363,12 @@ class ItemView(APIView):
 class ItemListView(ListAPIView):
     queryset = Item.objects.all()
     serializer_class = ItemSerializer
+    permission_classes = [IsAuthenticatedWithJWT]
+
+
+class VehicleListView(ListAPIView):
+    queryset = Vehicle.objects.all()
+    serializer_class = VehicleSerializer
     permission_classes = [IsAuthenticatedWithJWT]
 
 

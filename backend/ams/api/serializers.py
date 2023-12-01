@@ -80,13 +80,34 @@ class ShiftSerializer(serializers.ModelSerializer):
 
 
 class ScheduleSerializer(serializers.ModelSerializer):
-    sched_sun = serializers.ReadOnlyField(source="sched_sun.shift_description")
-    sched_mon = serializers.ReadOnlyField(source="sched_mon.shift_description")
-    sched_tue = serializers.ReadOnlyField(source="sched_tue.shift_description")
-    sched_wed = serializers.ReadOnlyField(source="sched_wed.shift_description")
-    sched_thu = serializers.ReadOnlyField(source="sched_thu.shift_description")
-    sched_fri = serializers.ReadOnlyField(source="sched_fri.shift_description")
-    sched_sat = serializers.ReadOnlyField(source="sched_sat.shift_description")
+    sched_sun = serializers.SlugRelatedField(
+        queryset=Shift.objects.all(),
+        slug_field='shift_description'
+    )
+    sched_mon = serializers.SlugRelatedField(
+        queryset=Shift.objects.all(),
+        slug_field='shift_description'
+    )
+    sched_tue = serializers.SlugRelatedField(
+        queryset=Shift.objects.all(),
+        slug_field='shift_description'
+    )
+    sched_wed = serializers.SlugRelatedField(
+        queryset=Shift.objects.all(),
+        slug_field='shift_description'
+    )
+    sched_thu = serializers.SlugRelatedField(
+        queryset=Shift.objects.all(),
+        slug_field='shift_description'
+    )
+    sched_fri = serializers.SlugRelatedField(
+        queryset=Shift.objects.all(),
+        slug_field='shift_description'
+    )
+    sched_sat = serializers.SlugRelatedField(
+        queryset=Shift.objects.all(),
+        slug_field='shift_description'
+    )
 
     class Meta:
         model = Schedule
@@ -181,6 +202,22 @@ class ItemSerializer(serializers.ModelSerializer):
             "item_onhand",
             "item_cost",
             "item_description",
+        ]
+
+
+class VehicleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Vehicle
+        fields = [
+            "id",
+            "vehicle_code",
+            "vehicle_type",
+            "vehicle_model",
+            "vehicle_serial",
+            "vehicle_plate",
+            "vehicle_area",
+            "vehicle_sector",
+            "vehicle_status",
         ]
 
 
