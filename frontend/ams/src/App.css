@@ -194,23 +194,6 @@ h1.ant-typography {
   margin-left: 50px !important;
 }
 
-.ant-card-custom-hover {
-  margin: 0 !important;
-}
-
-.ant-card-custom-hover:hover p {
-  color: #fff !important;
-}
-
-.ant-card-custom-hover:hover .ant-tag-blue {
-  background: #318ce7;
-  border-color: #318ce7;
-}
-
-.ant-card-custom-hover:hover {
-  background: #318ce7;
-}
-
 .ant-card-custom .ant-card-head,
 .ant-card-custom .ant-card-head-title {
   padding: 0 !important;
@@ -545,7 +528,7 @@ td.ant-table-column-sort {
 }
 
 .detail-icon-label {
-  font-size: 22px;
+  font-size: 20px;
   color: #318ce7 !important;
   padding-right: 10px;
 }

@@ -319,6 +319,12 @@ class ExcuseListView(ListAPIView):
     permission_classes = [IsAuthenticatedWithJWT]
 
 
+class WarehouseListView(ListAPIView):
+    queryset = Warehouse.objects.all()
+    serializer_class = WarehouseSerializer
+    permission_classes = [IsAuthenticatedWithJWT]
+
+
 class ItemView(APIView):
     permission_classes = [IsAuthenticatedWithJWT]
 
@@ -363,6 +369,12 @@ class ItemView(APIView):
 class ItemListView(ListAPIView):
     queryset = Item.objects.all()
     serializer_class = ItemSerializer
+    permission_classes = [IsAuthenticatedWithJWT]
+
+
+class WarehouseItemListView(ListAPIView):
+    queryset = WarehouseItem.objects.all()
+    serializer_class = WarehouseItemSerializer
     permission_classes = [IsAuthenticatedWithJWT]
 
 

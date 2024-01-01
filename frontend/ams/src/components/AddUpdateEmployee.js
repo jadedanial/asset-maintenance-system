@@ -35,6 +35,7 @@ const AddUpdateEmployee = (props) => {
   const [nationalities, setNationalities] = useState([]);
   const [positions, setPositions] = useState([]);
   const [salaries, setSalaries] = useState([]);
+  const [branches, setBranches] = useState([]);
   const [employeeID, setEmployeeID] = useState(update ? props.id : "");
   const [employeeName, setEmployeeName] = useState(update ? props.name : "");
   const [employeeBirthdate, setEmployeeBirthdate] = useState(
@@ -57,6 +58,9 @@ const AddUpdateEmployee = (props) => {
   const [employeeSalary, setEmployeeSalary] = useState(
     update ? props.salary : ""
   );
+  const [employeeBranch, setEmployeeBranch] = useState(
+    update ? props.branch : ""
+  );
   const [submit, setSubmit] = useState(false);
   const [success, setSuccess] = useState(false);
   const [nameReq, setNameReq] = useState(false);
@@ -68,6 +72,7 @@ const AddUpdateEmployee = (props) => {
   const [datehiredReq, setDateHiredReq] = useState(false);
   const [positionReq, setPositionReq] = useState(false);
   const [salaryReq, setSalaryReq] = useState(false);
+  const [branchReq, setBranchReq] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -81,6 +86,7 @@ const AddUpdateEmployee = (props) => {
           setNationalities(response.data);
           setPositions(response.data);
           setSalaries(response.data);
+          setBranches(response.data);
         });
       } catch (err) {
         console.log(err);
@@ -103,6 +109,7 @@ const AddUpdateEmployee = (props) => {
     setEmployeeDateHired("");
     setEmployeePosition("");
     setEmployeeSalary("");
+    setEmployeeBranch("");
     setNameReq(true);
     setBirthdateReq(true);
     setNationalityReq(true);
@@ -112,6 +119,7 @@ const AddUpdateEmployee = (props) => {
     setDateHiredReq(true);
     setPositionReq(true);
     setSalaryReq(true);
+    setBranchReq(true);
   }
 
   function changeLabel() {
@@ -173,6 +181,12 @@ const AddUpdateEmployee = (props) => {
     changeLabel();
   }
 
+  function onBranchChange(value) {
+    setEmployeeBranch(value);
+    setBranchReq(true);
+    changeLabel();
+  }
+
   async function onFinish() {
     setSubmit(true);
     changeLabel();
@@ -187,6 +201,7 @@ const AddUpdateEmployee = (props) => {
       emp_hired: moment(employeeDateHired).format(dateFormat),
       emp_position: employeePosition,
       emp_salary: employeeSalary,
+      emp_branch: employeeBranch,
     };
     try {
       await axios({
@@ -494,6 +509,43 @@ const AddUpdateEmployee = (props) => {
                   </Form.Item>
                 </Col>
               </div>
+              <Form.Item
+                name={["branch"]}
+                label="Branch"
+                initialValue={employeeBranch}
+                rules={[
+                  {
+                    required: update ? branchReq : true,
+                    message: "Required!",
+                  },
+                ]}
+              >
+                <Select
+                  size="large"
+                  showSearch
+                  className="small-font"
+                  style={{ width: "100%" }}
+                  optionFilterProp="children"
+                  filterOption={(input, option) =>
+                    (option?.label ?? "").toLowerCase().includes(input)
+                  }
+                  filterSort={(optionA, optionB) =>
+                    (optionA?.label ?? "")
+                      .toLowerCase()
+                      .localeCompare((optionB?.label ?? "").toLowerCase())
+                  }
+                  value={employeeBranch}
+                  options={branches
+                    .filter((res) => res.opt_category === "Branch")
+                    .map((pos) => {
+                      return {
+                        value: pos.opt_name,
+                        label: pos.opt_name,
+                      };
+                    })}
+                  onChange={onBranchChange}
+                />
+              </Form.Item>
               <div style={{ paddingTop: "30px" }}>
                 <Button
                   size="large"

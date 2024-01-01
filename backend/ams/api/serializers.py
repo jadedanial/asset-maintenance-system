@@ -138,6 +138,7 @@ class EmployeeSerializer(serializers.ModelSerializer):
             "emp_hired",
             "emp_position",
             "emp_salary",
+            "emp_branch",
             "emp_sched",
         ]
 
@@ -188,6 +189,18 @@ class ExcuseSerializer(serializers.ModelSerializer):
         ]
 
 
+class WarehouseSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Warehouse
+        fields = [
+            "id",
+            "warehouse_code",
+            "warehouse_name",
+            "warehouse_type",
+            "warehouse_branch",
+        ]
+
+
 class ItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = Item
@@ -202,6 +215,19 @@ class ItemSerializer(serializers.ModelSerializer):
             "item_onhand",
             "item_cost",
             "item_description",
+        ]
+
+
+class WarehouseItemSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = WarehouseItem
+        fields = [
+            "id",
+            "item_code",
+            "warehouse_code",
+            "item_location",
+            "item_onhand",
         ]
 
 

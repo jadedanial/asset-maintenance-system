@@ -254,7 +254,7 @@ const AddAttendance = (props) => {
         status = "Attended Today";
       } else {
         if (parseFloat(totalRequired(shiftStart, shiftEnd)) === parseFloat(0)) {
-          status = "Dayoff Today";
+          status = "Day Off Today";
         } else {
           if (
             isNaN(moment(attendCheckin, dateTimeFormat)) &&
@@ -355,7 +355,7 @@ const AddAttendance = (props) => {
           dayOfTheWeek(
             "sched_" + String(moment(attendDate).format("ddd")).toLowerCase()
           )
-        ).split(" To ")[0];
+        ).split(" - ")[0];
       var shiftEnd =
         attendDate +
         " " +
@@ -363,7 +363,7 @@ const AddAttendance = (props) => {
           dayOfTheWeek(
             "sched_" + String(moment(attendDate).format("ddd")).toLowerCase()
           )
-        ).split(" To ")[1];
+        ).split(" - ")[1];
       if (shiftStart > shiftEnd) {
         shiftEnd = moment(shiftEnd).add(1, "days");
       }
@@ -468,7 +468,7 @@ const AddAttendance = (props) => {
                 ? moment(attendCheckin).format(timeFormat)
                 : "--:--:--"
             ) +
-            " To " +
+            " - " +
             String(
               moment(attendCheckout).isValid()
                 ? moment(attendCheckout).format(timeFormat)

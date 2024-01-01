@@ -144,6 +144,7 @@ class EmployeeAdmin(admin.ModelAdmin):
         "emp_hired",
         "emp_position",
         "emp_salary",
+        "emp_branch",
         "emp_sched",
     )
     list_filter = (
@@ -157,6 +158,7 @@ class EmployeeAdmin(admin.ModelAdmin):
         "emp_hired",
         "emp_position",
         "emp_salary",
+        "emp_branch",
         "emp_sched",
     )
     search_fields = (
@@ -170,6 +172,7 @@ class EmployeeAdmin(admin.ModelAdmin):
         "emp_hired",
         "emp_position",
         "emp_salary",
+        "emp_branch",
         "emp_sched",
     )
 
@@ -276,6 +279,31 @@ class ExcuseAdmin(admin.ModelAdmin):
     )
 
 
+class WarehouseAdmin(admin.ModelAdmin):
+    readonly_fields = (
+        "id",
+
+    )
+    list_display = (
+        "warehouse_code",
+        "warehouse_name",
+        "warehouse_type",
+        "warehouse_branch",
+    )
+    list_filter = (
+        "warehouse_code",
+        "warehouse_name",
+        "warehouse_type",
+        "warehouse_branch",
+    )
+    search_fields = (
+        "warehouse_code",
+        "warehouse_name",
+        "warehouse_type",
+        "warehouse_branch",
+    )
+
+
 class ItemAdmin(admin.ModelAdmin):
     readonly_fields = (
         "id",
@@ -313,6 +341,30 @@ class ItemAdmin(admin.ModelAdmin):
         "item_onhand",
         "item_cost",
         "item_description",
+    )
+
+
+class WarehouseItemAdmin(admin.ModelAdmin):
+    readonly_fields = (
+        "id",
+    )
+    list_display = (
+        "item_code",
+        "warehouse_code",
+        "item_location",
+        "item_onhand",
+    )
+    list_filter = (
+        "item_code",
+        "warehouse_code",
+        "item_location",
+        "item_onhand",
+    )
+    search_fields = (
+        "item_code",
+        "warehouse_code",
+        "item_location",
+        "item_onhand",
     )
 
 
@@ -398,6 +450,8 @@ admin.site.register(Employee, EmployeeAdmin)
 admin.site.register(Attendance, AttendanceAdmin)
 admin.site.register(Vacation, VacationAdmin)
 admin.site.register(Excuse, ExcuseAdmin)
+admin.site.register(Warehouse, WarehouseAdmin)
 admin.site.register(Item, ItemAdmin)
+admin.site.register(WarehouseItem, WarehouseItemAdmin)
 admin.site.register(Vehicle, VehicleAdmin)
 admin.site.register(Transaction, TransactionAdmin)

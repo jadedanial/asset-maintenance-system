@@ -19,6 +19,7 @@ import {
   HeartOutlined,
   IdcardOutlined,
   CalendarOutlined,
+  ApartmentOutlined,
 } from "@ant-design/icons";
 import AddUpdateEmployee from "./AddUpdateEmployee";
 import Attendance from "../components/Attendance";
@@ -164,21 +165,21 @@ const Profile = (props) => {
                     }}
                   >
                     <Col>
-                      <Row style={{ marginBottom: "6px" }}>
+                      <Row style={{ marginTop: "12px" }}>
                         <UserOutlined className="detail-icon-label" />
                         <p className="medium-font">{e.emp_position}</p>
                       </Row>
-                      <Row style={{ marginBottom: "6px" }}>
+                      <Row style={{ marginTop: "12px" }}>
                         <IdcardOutlined className="detail-icon-label" />
                         <p className="small-font">{e.emp_id}</p>
                       </Row>
-                      <Row style={{ marginBottom: "6px" }}>
+                      <Row style={{ marginTop: "12px" }}>
                         <CalendarOutlined className="detail-icon-label" />
                         <p className="small-font">
                           Hired {moment(e.emp_hired).format("MMMM DD, YYYY")}
                         </p>
                       </Row>
-                      <Row style={{ marginBottom: "6px" }}>
+                      <Row style={{ marginTop: "12px" }}>
                         <HeartOutlined className="detail-icon-label" />
                         <p className="small-font">
                           {expYears(e.emp_bdate)} years old
@@ -186,17 +187,21 @@ const Profile = (props) => {
                       </Row>
                     </Col>
                     <Col>
-                      <Row style={{ marginBottom: "6px" }}>
+                      <Row style={{ marginTop: "12px" }}>
                         <MailOutlined className="detail-icon-label" />
                         <p className="small-font">{e.emp_email}</p>
                       </Row>
-                      <Row style={{ marginBottom: "6px" }}>
+                      <Row style={{ marginTop: "12px" }}>
                         <PhoneOutlined className="detail-icon-label" />
                         <p className="small-font">{e.emp_phone}</p>
                       </Row>
-                      <Row style={{ marginBottom: "6px" }}>
+                      <Row style={{ marginTop: "12px" }}>
                         <EnvironmentOutlined className="detail-icon-label" />
                         <p className="small-font">{e.emp_address}</p>
+                      </Row>
+                      <Row style={{ marginTop: "12px" }}>
+                        <ApartmentOutlined className="detail-icon-label" />
+                        <p className="small-font">{e.emp_branch}</p>
                       </Row>
                     </Col>
                     <Col>

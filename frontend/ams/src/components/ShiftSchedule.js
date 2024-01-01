@@ -97,17 +97,14 @@ const ShiftSchedule = (props) => {
                     moment
                       .duration(
                         moment(
-                          schedule.sched_sun.split(" To ")[1],
+                          schedule.sched_sun.split(" - ")[1],
                           timeFormat
                         ).diff(
-                          moment(
-                            schedule.sched_sun.split(" To ")[0],
-                            timeFormat
-                          )
+                          moment(schedule.sched_sun.split(" - ")[0], timeFormat)
                         )
                       )
                       .asHours() === 0 ? (
-                      <Badge color="blue" text="Dayoff" />
+                      <Badge color="blue" text="Day Off" />
                     ) : (
                       schedule.sched_sun
                     ),
@@ -118,17 +115,14 @@ const ShiftSchedule = (props) => {
                     moment
                       .duration(
                         moment(
-                          schedule.sched_mon.split(" To ")[1],
+                          schedule.sched_mon.split(" - ")[1],
                           timeFormat
                         ).diff(
-                          moment(
-                            schedule.sched_mon.split(" To ")[0],
-                            timeFormat
-                          )
+                          moment(schedule.sched_mon.split(" - ")[0], timeFormat)
                         )
                       )
                       .asHours() === 0 ? (
-                      <Badge color="blue" text="Dayoff" />
+                      <Badge color="blue" text="Day Off" />
                     ) : (
                       schedule.sched_mon
                     ),
@@ -139,17 +133,14 @@ const ShiftSchedule = (props) => {
                     moment
                       .duration(
                         moment(
-                          schedule.sched_tue.split(" To ")[1],
+                          schedule.sched_tue.split(" - ")[1],
                           timeFormat
                         ).diff(
-                          moment(
-                            schedule.sched_tue.split(" To ")[0],
-                            timeFormat
-                          )
+                          moment(schedule.sched_tue.split(" - ")[0], timeFormat)
                         )
                       )
                       .asHours() === 0 ? (
-                      <Badge color="blue" text="Dayoff" />
+                      <Badge color="blue" text="Day Off" />
                     ) : (
                       schedule.sched_tue
                     ),
@@ -160,17 +151,14 @@ const ShiftSchedule = (props) => {
                     moment
                       .duration(
                         moment(
-                          schedule.sched_wed.split(" To ")[1],
+                          schedule.sched_wed.split(" - ")[1],
                           timeFormat
                         ).diff(
-                          moment(
-                            schedule.sched_wed.split(" To ")[0],
-                            timeFormat
-                          )
+                          moment(schedule.sched_wed.split(" - ")[0], timeFormat)
                         )
                       )
                       .asHours() === 0 ? (
-                      <Badge color="blue" text="Dayoff" />
+                      <Badge color="blue" text="Day Off" />
                     ) : (
                       schedule.sched_wed
                     ),
@@ -181,17 +169,14 @@ const ShiftSchedule = (props) => {
                     moment
                       .duration(
                         moment(
-                          schedule.sched_thu.split(" To ")[1],
+                          schedule.sched_thu.split(" - ")[1],
                           timeFormat
                         ).diff(
-                          moment(
-                            schedule.sched_thu.split(" To ")[0],
-                            timeFormat
-                          )
+                          moment(schedule.sched_thu.split(" - ")[0], timeFormat)
                         )
                       )
                       .asHours() === 0 ? (
-                      <Badge color="blue" text="Dayoff" />
+                      <Badge color="blue" text="Day Off" />
                     ) : (
                       schedule.sched_thu
                     ),
@@ -202,17 +187,14 @@ const ShiftSchedule = (props) => {
                     moment
                       .duration(
                         moment(
-                          schedule.sched_fri.split(" To ")[1],
+                          schedule.sched_fri.split(" - ")[1],
                           timeFormat
                         ).diff(
-                          moment(
-                            schedule.sched_fri.split(" To ")[0],
-                            timeFormat
-                          )
+                          moment(schedule.sched_fri.split(" - ")[0], timeFormat)
                         )
                       )
                       .asHours() === 0 ? (
-                      <Badge color="blue" text="Dayoff" />
+                      <Badge color="blue" text="Day Off" />
                     ) : (
                       schedule.sched_fri
                     ),
@@ -223,17 +205,14 @@ const ShiftSchedule = (props) => {
                     moment
                       .duration(
                         moment(
-                          schedule.sched_sat.split(" To ")[1],
+                          schedule.sched_sat.split(" - ")[1],
                           timeFormat
                         ).diff(
-                          moment(
-                            schedule.sched_sat.split(" To ")[0],
-                            timeFormat
-                          )
+                          moment(schedule.sched_sat.split(" - ")[0], timeFormat)
                         )
                       )
                       .asHours() === 0 ? (
-                      <Badge color="blue" text="Dayoff" />
+                      <Badge color="blue" text="Day Off" />
                     ) : (
                       schedule.sched_sat
                     ),
@@ -241,7 +220,7 @@ const ShiftSchedule = (props) => {
               ]}
               renderItem={(item) => (
                 <List.Item>
-                  <Card size="small" className="ant-card-custom-hover">
+                  <Card size="small">
                     <p className="small-card-title">{item.title}</p>
                     <p className="small-font">{item.description}</p>
                   </Card>

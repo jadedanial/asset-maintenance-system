@@ -74,7 +74,7 @@ const AddUpdateShift = (props) => {
       shift_name: shiftName,
       shift_description:
         moment(shiftFrom, timeFormat).format(timeFormat) +
-        " To " +
+        " - " +
         moment(shiftTo, timeFormat).format(timeFormat),
       shift_from: moment(shiftFrom, timeFormat).format(timeFormat),
       shift_to: moment(shiftTo, timeFormat).format(timeFormat),

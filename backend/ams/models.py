@@ -107,12 +107,12 @@ class Shift(models.Model):
     shift_to = models.TimeField(blank=True, null=True, verbose_name="To")
 
     def __str__(self):
-        return str(self.shift_description)
+        return self.shift_description
 
     def update_model(self):
         test_id = Shift.objects.get(id=self.id).id
         Shift.objects.filter(id=test_id).update(shift_description=str(
-            self.shift_from) + " To " + str(self.shift_to))
+            self.shift_from) + " - " + str(self.shift_to))
 
     def save(self, *args, **kwargs):
         super(Shift, self).save(*args, **kwargs)
@@ -182,7 +182,7 @@ class Schedule(models.Model):
     )
 
     def __str__(self):
-        return str(self.sched_name)
+        return self.sched_name
 
 
 class Employee(models.Model):
@@ -211,6 +211,9 @@ class Employee(models.Model):
     )
     emp_salary = models.CharField(
         max_length=300, blank=True, null=True, verbose_name="Salary Grade"
+    )
+    emp_branch = models.CharField(
+        max_length=300, blank=True, null=True, verbose_name="Branch"
     )
     emp_sched = models.ForeignKey(
         Schedule,
@@ -310,6 +313,25 @@ class Excuse(models.Model):
         return str(self.emp_id)
 
 
+class Warehouse(models.Model):
+    id = models.AutoField(primary_key=True)
+    warehouse_code = models.CharField(
+        max_length=100, blank=True, null=True, verbose_name="Warehouse Code"
+    )
+    warehouse_name = models.CharField(
+        max_length=200, blank=False, null=False, verbose_name="Name"
+    )
+    warehouse_type = models.CharField(
+        max_length=200, blank=False, null=False, verbose_name="Type"
+    )
+    warehouse_branch = models.CharField(
+        max_length=300, blank=True, null=True, verbose_name="Branch"
+    )
+
+    def __str__(self):
+        return self.warehouse_code
+
+
 class Item(models.Model):
     id = models.AutoField(primary_key=True)
     item_code = models.CharField(
@@ -340,7 +362,7 @@ class Item(models.Model):
     )
 
     def __str__(self):
-        return self.item_name
+        return self.item_code
 
     def update_model(self):
         test_id = Item.objects.get(item_code=self.item_code).id
@@ -350,6 +372,33 @@ class Item(models.Model):
     def save(self, *args, **kwargs):
         super(Item, self).save(*args, **kwargs)
         self.update_model()
+
+
+class WarehouseItem(models.Model):
+    id = models.AutoField(primary_key=True)
+    item_code = models.ForeignKey(
+        Item,
+        blank=True,
+        null=True,
+        on_delete=models.CASCADE,
+        verbose_name="Item Code",
+    )
+    warehouse_code = models.ForeignKey(
+        Warehouse,
+        blank=True,
+        null=True,
+        on_delete=models.CASCADE,
+        verbose_name="Warehouse Code",
+    )
+    item_location = models.CharField(
+        max_length=200, blank=False, null=False, verbose_name="Physical Location"
+    )
+    item_onhand = models.FloatField(
+        blank=True, null=True, verbose_name="Quantity On Hand"
+    )
+
+    def __str__(self):
+        return str(self.item_code)
 
 
 class Vehicle(models.Model):

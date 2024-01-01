@@ -154,7 +154,7 @@ const Attendance = (props, ref) => {
             <CloseOutlined style={{ color: "#D90909A9" }} />
           </>
         );
-      case "Dayoff Today":
+      case "Day Off Today":
         return (
           <>
             <CheckSquareOutlined style={{ color: "#318ce7" }} />
@@ -242,7 +242,7 @@ const Attendance = (props, ref) => {
             return workdays++;
           case "Absent Today":
             return absences++;
-          case "Dayoff Today":
+          case "Day Off Today":
             return dayoffs++;
           case "Vacation Today":
             return vacations++;
@@ -265,7 +265,7 @@ const Attendance = (props, ref) => {
             icon: <CloseOutlined style={{ color: "#318ce7" }} />,
           },
           {
-            title: "Dayoffs",
+            title: "Day Offs",
             value: dayoffs,
             icon: <CheckSquareOutlined style={{ color: "#318ce7" }} />,
           },

@@ -43,20 +43,20 @@ const ItemDetail = (props) => {
                 {i.item_onhand}
               </Descriptions.Item>
               <Descriptions.Item
-                label="Unit Of Measurement"
-                style={{
-                  display: props.mode === "view" ? "none" : "block",
-                }}
-              >
-                {i.item_measurement}
-              </Descriptions.Item>
-              <Descriptions.Item
                 label="Physical Location"
                 style={{
                   display: props.mode === "view" ? "none" : "block",
                 }}
               >
                 {i.item_location}
+              </Descriptions.Item>
+              <Descriptions.Item
+                label="Unit Of Measurement"
+                style={{
+                  display: props.mode === "view" ? "none" : "block",
+                }}
+              >
+                {i.item_measurement}
               </Descriptions.Item>
               <Descriptions.Item
                 label="Reorder Quantity"

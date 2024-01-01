@@ -20,6 +20,7 @@ import Shift from "../modules/Shift";
 import Schedule from "../modules/Schedule";
 import Item from "../modules/Item";
 import Reorder from "../modules/Reorder";
+import Warehouse from "../modules/Warehouse";
 import Vehicle from "../modules/Vehicle";
 import DrawerEvent from "../components/DrawerEvent";
 
@@ -164,6 +165,12 @@ const MainPage = (props) => {
               empid={props.empid}
               username={props.username}
             ></Reorder>
+          </>
+        );
+      case "Warehouse":
+        return (
+          <>
+            <Warehouse col={collapsed}></Warehouse>
           </>
         );
       case "Vehicle":
