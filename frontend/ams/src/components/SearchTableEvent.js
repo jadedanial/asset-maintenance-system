@@ -97,6 +97,7 @@ const SearchTableEvent = (props) => {
         />
       </Card>
       <DrawerEvent
+        employeeBranch={props.employeeBranch}
         rowIndex={rowIndex}
         showDrawer={openDrawer}
         onCloseDrawer={onCloseDrawer}

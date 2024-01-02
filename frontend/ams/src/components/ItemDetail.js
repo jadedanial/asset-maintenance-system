@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import QRCode from "react-qr-code";
-import { Card, Typography, Tag, Col, Descriptions, Button } from "antd";
+import { Card, Typography, Tag, Col, Descriptions, Button, List } from "antd";
 import AddUpdateItem from "./AddUpdateItem";
 
 const { Title } = Typography;
 
 const ItemDetail = (props) => {
-  const [item, setItem] = useState([]);
   const [update, setUpdate] = useState(false);
+  const [item, setItem] = useState([]);
+  const [warehouseItem, setWarehouseItem] = useState([]);
+  const [warehouse, setWarehouse] = useState([]);
 
   useEffect(() => {
     (async () => {
@@ -26,6 +28,72 @@ const ItemDetail = (props) => {
       }
     })();
   }, []);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        await axios({
+          method: "GET",
+          url: "http://localhost:8000/api/warehouseitems",
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        }).then((response) => {
+          setWarehouseItem(response.data);
+        });
+      } catch (err) {
+        console.log(err);
+      }
+    })();
+  }, []);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        await axios({
+          method: "GET",
+          url: "http://localhost:8000/api/warehouses",
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        }).then((response) => {
+          setWarehouse(response.data);
+        });
+      } catch (err) {
+        console.log(err);
+      }
+    })();
+  }, []);
+
+  function itemData() {
+    var data = [];
+    warehouseItem.map((i) =>
+      i.item_code === props.itemcode
+        ? warehouse.map((w) =>
+            i.warehouse_code === w.warehouse_code
+              ? w.warehouse_branch !== props.employeeBranch
+                ? data.push({
+                    title: warehouse.map((w) =>
+                      w.warehouse_code === i.warehouse_code
+                        ? w.warehouse_name
+                        : ""
+                    ),
+                    description: (
+                      <>
+                        <p style={{ marginBottom: "0" }}>
+                          On Hand: {i.item_onhand}
+                        </p>
+                        <p style={{ marginBottom: "0" }}>
+                          Physical Location: {i.item_location}
+                        </p>
+                      </>
+                    ),
+                  })
+                : ""
+              : ""
+          )
+        : ""
+    );
+    return data;
+  }
 
   function itemDetails(i) {
     return (
@@ -95,12 +163,29 @@ const ItemDetail = (props) => {
         <p
           className="medium-font"
           style={{
-            paddingTop: "20px",
+            padding: "20px 0",
             display: props.mode === "view" ? "none" : "block",
           }}
         >
           {i.item_description}
         </p>
+        <List
+          grid={{ gutter: 16, column: 2 }}
+          itemLayout="horizontal"
+          header={<p className="medium-card-title">Stock On Other Warehouse</p>}
+          dataSource={itemData()}
+          renderItem={(item, index) => (
+            <List.Item>
+              <List.Item.Meta
+                title={item.title}
+                description={item.description}
+              />
+            </List.Item>
+          )}
+          style={{
+            display: props.mode === "view" ? "none" : "block",
+          }}
+        />
       </>
     );
   }

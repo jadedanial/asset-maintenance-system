@@ -10,8 +10,8 @@ import MainPage from "../components/MainPage";
 import ResultEvent from "../components/ResultEvent";
 
 const HomePage = () => {
-  const [username, setUsername] = useState("");
   const [empid, setEmpID] = useState(0);
+  const [username, setUsername] = useState("");
   const [showunauthorized, setShowunauthorized] = useState(true);
 
   useEffect(() => {
@@ -24,8 +24,8 @@ const HomePage = () => {
           withCredentials: true,
         }).then((response) => {
           setShowunauthorized(false);
-          setUsername(response.data.username);
           setEmpID(response.data.empID);
+          setUsername(response.data.username);
         });
       } catch (err) {
         console.log(err.response.data.detail);

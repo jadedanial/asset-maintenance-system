@@ -76,6 +76,7 @@ const DrawerEvent = (props) => {
         return (
           <>
             <ItemDetail
+              employeeBranch={props.employeeBranch}
               itemcode={props.rowIndex["code"]}
               mode="update"
             ></ItemDetail>

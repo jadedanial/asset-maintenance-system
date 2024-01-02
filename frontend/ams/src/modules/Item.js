@@ -3,7 +3,7 @@ import axios from "axios";
 import { ShoppingOutlined } from "@ant-design/icons";
 import SearchTableEvent from "../components/SearchTableEvent";
 
-const Item = () => {
+const Item = (props) => {
   const [searchedtext, setSearchedText] = useState("");
   const [items, setItems] = useState([]);
 
@@ -53,7 +53,7 @@ const Item = () => {
     try {
       await axios({
         method: "GET",
-        url: "http://localhost:8000/api/items",
+        url: "http://localhost:8000/api/warehouseitems",
         headers: { "Content-Type": "application/json" },
         withCredentials: true,
       }).then((response) => {
@@ -83,6 +83,7 @@ const Item = () => {
   return (
     <>
       <SearchTableEvent
+        employeeBranch={props.employeeBranch}
         loadAPILists={loadAPILists}
         tooltipIcon={<ShoppingOutlined />}
         tooltipTitle={"Add New Item"}

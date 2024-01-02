@@ -219,6 +219,14 @@ class ItemSerializer(serializers.ModelSerializer):
 
 
 class WarehouseItemSerializer(serializers.ModelSerializer):
+    item_code = serializers.SlugRelatedField(
+        queryset=Item.objects.all(),
+        slug_field='item_code'
+    )
+    warehouse_code = serializers.SlugRelatedField(
+        queryset=Item.objects.all(),
+        slug_field='warehouse_code'
+    )
 
     class Meta:
         model = WarehouseItem

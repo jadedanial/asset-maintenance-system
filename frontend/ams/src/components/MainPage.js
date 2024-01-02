@@ -27,6 +27,7 @@ import DrawerEvent from "../components/DrawerEvent";
 const { Header, Sider, Content } = Layout;
 
 const MainPage = (props) => {
+  const [employeeBranch, setEmployeeBranch] = useState("");
   const [openDrawer, setOpenDrawer] = useState(true);
   const [collapsed, setCollapsed] = useState(false);
   const [selectedMenuItem, setSelectedMenuItem] = useState("");
@@ -46,6 +47,25 @@ const MainPage = (props) => {
       icon: <UnlockOutlined />,
     },
   ];
+
+  useEffect(() => {
+    (async () => {
+      try {
+        await axios({
+          method: "GET",
+          url: "http://localhost:8000/api/employees",
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        }).then((response) => {
+          response.data.map((res) =>
+            res.emp_id === props.empid ? setEmployeeBranch(res.emp_branch) : {}
+          );
+        });
+      } catch (err) {
+        console.log(err);
+      }
+    })();
+  }, [props.empid]);
 
   useEffect(() => {
     (async () => {
@@ -154,7 +174,11 @@ const MainPage = (props) => {
       case "Item":
         return (
           <>
-            <Item col={collapsed}></Item>
+            <Item
+              col={collapsed}
+              empid={props.empid}
+              employeeBranch={employeeBranch}
+            ></Item>
           </>
         );
       case "Reorder":

@@ -486,6 +486,10 @@ td.ant-table-column-sort {
   height: 42px !important;
 }
 
+.ant-list-header {
+  border-bottom: 0 !important;
+}
+
 .ant-list-item-meta-content {
   font-family: ralewayregular !important;
 }
