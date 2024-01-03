@@ -129,6 +129,7 @@ const Profile = (props) => {
                   datehired={e.emp_hired}
                   position={e.emp_position}
                   salary={e.emp_salary}
+                  branch={e.emp_branch}
                 ></AddUpdateEmployee>
               </>
             ) : (

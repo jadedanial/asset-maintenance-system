@@ -5,7 +5,10 @@ import SearchTableEvent from "../components/SearchTableEvent";
 
 const Item = (props) => {
   const [searchedtext, setSearchedText] = useState("");
-  const [items, setItems] = useState([]);
+  const [warehouse, setWarehouse] = useState([]);
+  const [item, setItem] = useState([]);
+  const [warehouseItem, setWarehouseItem] = useState([]);
+  const [listData, setListData] = useState([]);
 
   const columns = [
     {
@@ -43,38 +46,57 @@ const Item = (props) => {
     },
   ];
 
+  function loadData(url, setData) {
+    axios({
+      method: "GET",
+      url: `http://localhost:8000/api/${url}`,
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    })
+      .then((response) => {
+        setData(response.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  function loadAPILists() {
+    loadData("warehouses", setWarehouse);
+    loadData("items", setItem);
+    loadData("warehouseitems", setWarehouseItem);
+  }
+
   useEffect(() => {
-    (async () => {
-      await loadAPILists();
-    })();
+    loadAPILists();
   }, []);
 
-  async function loadAPILists() {
-    try {
-      await axios({
-        method: "GET",
-        url: "http://localhost:8000/api/warehouseitems",
-        headers: { "Content-Type": "application/json" },
-        withCredentials: true,
-      }).then((response) => {
-        setItems([]);
-        response.data.map((res) =>
-          setItems((items) => [
-            ...items,
-            {
-              code: res.item_code,
-              name: res.item_name,
-              onhand: res.item_onhand,
-              cost: res.item_cost,
-              value: (res.item_cost * res.item_onhand).toFixed(2),
-            },
-          ])
-        );
+  useEffect(() => {
+    if (warehouse.length && item.length && warehouseItem.length) {
+      var d = [];
+      warehouseItem.forEach((wi) => {
+        warehouse.forEach((w) => {
+          if (
+            w.warehouse_code === wi.warehouse_code &&
+            w.warehouse_branch === props.employeeBranch
+          ) {
+            item.forEach((i) => {
+              if (i.item_code === wi.item_code) {
+                d.push({
+                  code: wi.item_code,
+                  name: i.item_name,
+                  onhand: wi.item_onhand,
+                  cost: i.item_cost,
+                  value: (i.item_cost * wi.item_onhand).toFixed(2),
+                });
+              }
+            });
+          }
+        });
       });
-    } catch (err) {
-      console.log(err);
+      setListData(d);
     }
-  }
+  }, [warehouse, item, warehouseItem]);
 
   function searchedText(text) {
     setSearchedText(text);
@@ -91,7 +113,7 @@ const Item = (props) => {
         compItemAdd={"AddUpdateItem"}
         compItemUpdate={"ItemDetail"}
         tableColumns={columns}
-        tableDataSource={items}
+        tableDataSource={listData}
         searchedText={searchedText}
       ></SearchTableEvent>
     </>

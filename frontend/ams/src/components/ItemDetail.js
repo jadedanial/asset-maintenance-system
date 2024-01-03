@@ -8,9 +8,26 @@ const { Title } = Typography;
 
 const ItemDetail = (props) => {
   const [update, setUpdate] = useState(false);
+  const [warehouse, setWarehouse] = useState([]);
   const [item, setItem] = useState([]);
   const [warehouseItem, setWarehouseItem] = useState([]);
-  const [warehouse, setWarehouse] = useState([]);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        await axios({
+          method: "GET",
+          url: "http://localhost:8000/api/warehouses",
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        }).then((response) => {
+          setWarehouse(response.data);
+        });
+      } catch (err) {
+        console.log(err);
+      }
+    })();
+  }, []);
 
   useEffect(() => {
     (async () => {
@@ -39,23 +56,6 @@ const ItemDetail = (props) => {
           withCredentials: true,
         }).then((response) => {
           setWarehouseItem(response.data);
-        });
-      } catch (err) {
-        console.log(err);
-      }
-    })();
-  }, []);
-
-  useEffect(() => {
-    (async () => {
-      try {
-        await axios({
-          method: "GET",
-          url: "http://localhost:8000/api/warehouses",
-          headers: { "Content-Type": "application/json" },
-          withCredentials: true,
-        }).then((response) => {
-          setWarehouse(response.data);
         });
       } catch (err) {
         console.log(err);
