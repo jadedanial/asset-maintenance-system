@@ -7,12 +7,6 @@ const SearchTableEvent = (props) => {
   const [compItem, setCompItem] = useState("");
   const [rowIndex, setRowIndex] = useState([]);
 
-  useEffect(() => {
-    (async () => {
-      await props.loadAPILists();
-    })();
-  }, []);
-
   function showDrawer() {
     setOpenDrawer(true);
   }
@@ -21,6 +15,10 @@ const SearchTableEvent = (props) => {
     setOpenDrawer(false);
     props.loadAPILists();
   }
+
+  useEffect(() => {
+    props.loadAPILists();
+  }, []);
 
   return (
     <>

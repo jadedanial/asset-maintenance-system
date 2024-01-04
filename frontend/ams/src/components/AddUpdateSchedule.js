@@ -42,23 +42,6 @@ const AddUpdateSchedule = (props) => {
   const [friReq, setFriReq] = useState(false);
   const [satReq, setSatReq] = useState(false);
 
-  useEffect(() => {
-    (async () => {
-      try {
-        await axios({
-          method: "GET",
-          url: "http://localhost:8000/api/shifts",
-          headers: { "Content-Type": "application/json" },
-          withCredentials: true,
-        }).then((response) => {
-          setShifts(response.data);
-        });
-      } catch (err) {
-        console.log(err);
-      }
-    })();
-  }, []);
-
   function newSchedule() {
     setUpdate(false);
     setSubmit(false);
@@ -134,7 +117,7 @@ const AddUpdateSchedule = (props) => {
     changeLabel();
   }
 
-  async function onFinish() {
+  function onFinish() {
     setSubmit(true);
     changeLabel();
     var scheduleData = {
@@ -149,7 +132,7 @@ const AddUpdateSchedule = (props) => {
       sched_sat: schedSat,
     };
     try {
-      await axios({
+      axios({
         method: update ? "PATCH" : "POST",
         url: "http://localhost:8000/api/schedule/",
         data: scheduleData,
@@ -164,6 +147,21 @@ const AddUpdateSchedule = (props) => {
       setColor("#ff0000");
     }
   }
+
+  useEffect(() => {
+    try {
+      axios({
+        method: "GET",
+        url: "http://localhost:8000/api/shifts",
+        headers: { "Content-Type": "application/json" },
+        withCredentials: true,
+      }).then((response) => {
+        setShifts(response.data);
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }, []);
 
   if (submit) {
     if (success) {

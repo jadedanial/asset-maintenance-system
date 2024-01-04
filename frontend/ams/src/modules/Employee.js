@@ -50,15 +50,9 @@ const Employee = () => {
     },
   ];
 
-  useEffect(() => {
-    (async () => {
-      await loadAPILists();
-    })();
-  }, []);
-
-  async function loadAPILists() {
+  function loadAPILists() {
     try {
-      await axios({
+      axios({
         method: "GET",
         url: "http://localhost:8000/api/employees",
         headers: { "Content-Type": "application/json" },
@@ -86,6 +80,10 @@ const Employee = () => {
   function searchedText(text) {
     setSearchedText(text);
   }
+
+  useEffect(() => {
+    loadAPILists();
+  }, []);
 
   return (
     <>

@@ -12,77 +12,22 @@ const ItemDetail = (props) => {
   const [item, setItem] = useState([]);
   const [warehouseItem, setWarehouseItem] = useState([]);
 
-  useEffect(() => {
-    (async () => {
-      try {
-        await axios({
-          method: "GET",
-          url: "http://localhost:8000/api/warehouses",
-          headers: { "Content-Type": "application/json" },
-          withCredentials: true,
-        }).then((response) => {
-          setWarehouse(response.data);
-        });
-      } catch (err) {
-        console.log(err);
-      }
-    })();
-  }, []);
-
-  useEffect(() => {
-    (async () => {
-      try {
-        await axios({
-          method: "GET",
-          url: "http://localhost:8000/api/items",
-          headers: { "Content-Type": "application/json" },
-          withCredentials: true,
-        }).then((response) => {
-          setItem(response.data);
-        });
-      } catch (err) {
-        console.log(err);
-      }
-    })();
-  }, []);
-
-  useEffect(() => {
-    (async () => {
-      try {
-        await axios({
-          method: "GET",
-          url: "http://localhost:8000/api/warehouseitems",
-          headers: { "Content-Type": "application/json" },
-          withCredentials: true,
-        }).then((response) => {
-          setWarehouseItem(response.data);
-        });
-      } catch (err) {
-        console.log(err);
-      }
-    })();
-  }, []);
-
-  function itemData() {
+  function otherWarehouse() {
     var data = [];
-    warehouseItem.map((i) =>
-      i.item_code === props.itemcode
+    warehouseItem.map((wi) =>
+      wi.item_code === props.itemcode
         ? warehouse.map((w) =>
-            i.warehouse_code === w.warehouse_code
+            w.warehouse_code === wi.warehouse_code
               ? w.warehouse_branch !== props.employeeBranch
                 ? data.push({
-                    title: warehouse.map((w) =>
-                      w.warehouse_code === i.warehouse_code
-                        ? w.warehouse_name
-                        : ""
-                    ),
+                    title: w.warehouse_name,
                     description: (
                       <>
                         <p style={{ marginBottom: "0" }}>
-                          On Hand: {i.item_onhand}
+                          On Hand: {wi.item_onhand}
                         </p>
                         <p style={{ marginBottom: "0" }}>
-                          Physical Location: {i.item_location}
+                          Physical Location: {wi.item_location}
                         </p>
                       </>
                     ),
@@ -95,7 +40,7 @@ const ItemDetail = (props) => {
     return data;
   }
 
-  function itemDetails(i) {
+  function itemDetails(i, wi) {
     return (
       <>
         <div className="space-between-row align-items-end">
@@ -108,7 +53,7 @@ const ItemDetail = (props) => {
             </p>
             <Descriptions layout="horizontal" column={1} className="small-font">
               <Descriptions.Item label="On Hand">
-                {i.item_onhand}
+                {wi.item_onhand}
               </Descriptions.Item>
               <Descriptions.Item
                 label="Physical Location"
@@ -116,7 +61,7 @@ const ItemDetail = (props) => {
                   display: props.mode === "view" ? "none" : "block",
                 }}
               >
-                {i.item_location}
+                {wi.item_location}
               </Descriptions.Item>
               <Descriptions.Item
                 label="Unit Of Measurement"
@@ -173,7 +118,7 @@ const ItemDetail = (props) => {
           grid={{ gutter: 16, column: 2 }}
           itemLayout="horizontal"
           header={<p className="medium-card-title">Stock On Other Warehouse</p>}
-          dataSource={itemData()}
+          dataSource={otherWarehouse()}
           renderItem={(item, index) => (
             <List.Item>
               <List.Item.Meta
@@ -190,78 +135,115 @@ const ItemDetail = (props) => {
     );
   }
 
+  const fetchData = (url, setter) => {
+    axios({
+      method: "GET",
+      url: url,
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    })
+      .then((response) => {
+        setter(response.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  useEffect(() => {
+    fetchData("http://localhost:8000/api/warehouses", setWarehouse);
+  }, []);
+
+  useEffect(() => {
+    fetchData("http://localhost:8000/api/items", setItem);
+  }, []);
+
+  useEffect(() => {
+    fetchData("http://localhost:8000/api/warehouseitems", setWarehouseItem);
+  }, []);
+
   return (
     <>
-      {item.map((i) =>
-        i.item_code === props.itemcode ? (
-          <>
-            {update ? (
-              <>
-                <AddUpdateItem
-                  update={true}
-                  code={i.item_code}
-                  name={i.item_name}
-                  category={i.item_category}
-                  measurement={i.item_measurement}
-                  location={i.item_location}
-                  reorder={i.item_reorder}
-                  onhand={i.item_onhand}
-                  cost={i.item_cost}
-                  description={i.item_description}
-                ></AddUpdateItem>
-              </>
-            ) : (
-              <>
-                <div className="justified-row">
-                  {props.mode === "view" ? (
-                    <Card
-                      className="card-no-padding"
-                      style={{
-                        padding: "0 20px 0 0",
-                        borderTop: "0",
-                        borderLeft: "0",
-                        borderBottom: "0",
-                        width: "100%",
-                      }}
-                    >
-                      {itemDetails(i)}
-                    </Card>
-                  ) : (
-                    <div className="card-custom-size">
-                      <Card
-                        size="large"
-                        extra={
-                          <Button
-                            size="large"
-                            type="primary"
-                            onClick={() => setUpdate(true)}
-                          >
-                            UPDATE
-                          </Button>
-                        }
-                        title={
-                          <Title>
-                            <p
-                              className="big-card-title"
-                              style={{ textWrap: "wrap" }}
-                            >
-                              {i.item_code}
-                            </p>
-                          </Title>
-                        }
-                        hoverable
-                      >
-                        {itemDetails(i)}
-                      </Card>
-                    </div>
-                  )}
-                </div>
-              </>
-            )}
-          </>
-        ) : (
-          <></>
-        )
+      {warehouseItem.map((wi) =>
+        wi.item_code === props.itemcode
+          ? warehouse.map((w) =>
+              w.warehouse_code === wi.warehouse_code
+                ? w.warehouse_branch === props.employeeBranch
+                  ? item.map((i) =>
+                      i.item_code === wi.item_code ? (
+                        <>
+                          {update ? (
+                            <>
+                              <AddUpdateItem
+                                update={true}
+                                code={i.item_code}
+                                name={i.item_name}
+                                category={i.item_category}
+                                measurement={i.item_measurement}
+                                location={wi.item_location}
+                                reorder={i.item_reorder}
+                                onhand={wi.item_onhand}
+                                cost={i.item_cost}
+                                description={i.item_description}
+                              ></AddUpdateItem>
+                            </>
+                          ) : (
+                            <>
+                              <div className="justified-row">
+                                {props.mode === "view" ? (
+                                  <Card
+                                    className="card-no-padding"
+                                    style={{
+                                      padding: "0 20px 0 0",
+                                      borderTop: "0",
+                                      borderLeft: "0",
+                                      borderBottom: "0",
+                                      width: "100%",
+                                    }}
+                                  >
+                                    {itemDetails(i, wi)}
+                                  </Card>
+                                ) : (
+                                  <div className="card-custom-size">
+                                    <Card
+                                      size="large"
+                                      extra={
+                                        <Button
+                                          size="large"
+                                          type="primary"
+                                          onClick={() => setUpdate(true)}
+                                        >
+                                          UPDATE
+                                        </Button>
+                                      }
+                                      title={
+                                        <Title>
+                                          <p
+                                            className="big-card-title"
+                                            style={{ textWrap: "wrap" }}
+                                          >
+                                            {i.item_code}
+                                          </p>
+                                        </Title>
+                                      }
+                                      hoverable
+                                    >
+                                      {itemDetails(i, wi)}
+                                    </Card>
+                                  </div>
+                                )}
+                              </div>
+                            </>
+                          )}
+                        </>
+                      ) : (
+                        ""
+                      )
+                    )
+                  : ""
+                : ""
+            )
+          : ""
       )}
     </>
   );

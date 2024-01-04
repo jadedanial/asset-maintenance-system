@@ -40,15 +40,9 @@ const Shift = () => {
     },
   ];
 
-  useEffect(() => {
-    (async () => {
-      await loadAPILists();
-    })();
-  }, []);
-
-  async function loadAPILists() {
+  function loadAPILists() {
     try {
-      await axios({
+      axios({
         method: "GET",
         url: "http://localhost:8000/api/shifts",
         headers: { "Content-Type": "application/json" },
@@ -87,6 +81,10 @@ const Shift = () => {
       .asHours()
       .toFixed(2);
   }
+
+  useEffect(() => {
+    loadAPILists();
+  }, []);
 
   return (
     <>

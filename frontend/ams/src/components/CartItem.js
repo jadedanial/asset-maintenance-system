@@ -18,10 +18,6 @@ const CartItem = (props) => {
   const [success, setSuccess] = useState(false);
   const [transactionID, setTransactionID] = useState("");
 
-  useEffect(() => {
-    sumOrder();
-  }, []);
-
   function changeQuantity(action, id, code, name, cost, measurement, quantity) {
     if (quantity >= 1) {
       if (action === "add") {
@@ -72,7 +68,7 @@ const CartItem = (props) => {
     return details;
   }
 
-  async function addTransaction() {
+  function addTransaction() {
     var transactionData = {
       trans_id: "",
       trans_type: "Reorder Item",
@@ -82,7 +78,7 @@ const CartItem = (props) => {
       trans_detail: transactionDetail(),
     };
     try {
-      await axios({
+      axios({
         method: "POST",
         url: "http://localhost:8000/api/transaction/",
         data: transactionData,
@@ -97,9 +93,9 @@ const CartItem = (props) => {
     }
   }
 
-  async function checkoutOrder() {
+  function checkoutOrder() {
     try {
-      await axios({
+      axios({
         method: "PUT",
         url: "http://localhost:8000/api/item/",
         data: props.orderList,
@@ -116,6 +112,10 @@ const CartItem = (props) => {
       setSuccess(false);
     }
   }
+
+  useEffect(() => {
+    sumOrder();
+  }, []);
 
   if (success) {
     return (

@@ -204,15 +204,9 @@ const Excuse = (props) => {
     },
   ];
 
-  useEffect(() => {
-    (async () => {
-      await loadExcuses();
-    })();
-  }, []);
-
-  async function loadExcuses() {
+  function loadExcuses() {
     try {
-      await axios({
+      axios({
         method: "GET",
         url: "http://localhost:8000/api/excuses",
         headers: { "Content-Type": "application/json" },
@@ -238,9 +232,9 @@ const Excuse = (props) => {
     }
   }
 
-  async function loadAttendances() {
+  function loadAttendances() {
     try {
-      await axios({
+      axios({
         method: "GET",
         url: "http://localhost:8000/api/attendances",
         headers: { "Content-Type": "application/json" },
@@ -264,7 +258,7 @@ const Excuse = (props) => {
     }
   }
 
-  async function updateAttendance() {
+  function updateAttendance() {
     var attendData = {
       emp_id: props.empid,
       attend_date: excusedate.format(dateFormat),
@@ -272,7 +266,7 @@ const Excuse = (props) => {
       attend_excuse: hours,
     };
     try {
-      await axios({
+      axios({
         method: "PATCH",
         url: "http://localhost:8000/api/emp_attendance/",
         data: attendData,
@@ -299,6 +293,7 @@ const Excuse = (props) => {
   }
 
   function viewExcuse() {
+    loadExcuses();
     setAdd(false);
     setSuccess(false);
   }
@@ -433,7 +428,7 @@ const Excuse = (props) => {
     setCurrent(current - 1);
   }
 
-  async function applyExcuse() {
+  function applyExcuse() {
     var excData = {
       emp_id: props.empid,
       exc_date: moment(excusedate).format(dateFormat),
@@ -443,7 +438,7 @@ const Excuse = (props) => {
       exc_total: hours,
     };
     try {
-      await axios({
+      axios({
         method: "POST",
         url: "http://localhost:8000/api/excuse/",
         data: excData,
@@ -459,6 +454,10 @@ const Excuse = (props) => {
       api.info(NotificationEvent(false, "Employee vacation failed to apply!"));
     }
   }
+
+  useEffect(() => {
+    loadExcuses();
+  }, []);
 
   if (success) {
     return (

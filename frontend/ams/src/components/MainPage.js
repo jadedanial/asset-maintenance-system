@@ -48,47 +48,6 @@ const MainPage = (props) => {
     },
   ];
 
-  useEffect(() => {
-    (async () => {
-      try {
-        await axios({
-          method: "GET",
-          url: "http://localhost:8000/api/employees",
-          headers: { "Content-Type": "application/json" },
-          withCredentials: true,
-        }).then((response) => {
-          response.data.map((res) =>
-            res.emp_id === props.empid ? setEmployeeBranch(res.emp_branch) : {}
-          );
-        });
-      } catch (err) {
-        console.log(err);
-      }
-    })();
-  }, [props.empid]);
-
-  useEffect(() => {
-    (async () => {
-      try {
-        await axios({
-          method: "GET",
-          url: "http://localhost:8000/api/modules",
-          headers: { "Content-Type": "application/json" },
-          withCredentials: true,
-        }).then((response) => {
-          setModules(response.data);
-          setModules((modules) => {
-            return modules.map((module) => {
-              return { ...module, icon: iconsSwitch(module.icon) };
-            });
-          });
-        });
-      } catch (err) {
-        console.log(err);
-      }
-    })();
-  }, []);
-
   function logout() {
     Cookies.remove("jwt");
     navigate("/login");
@@ -188,6 +147,7 @@ const MainPage = (props) => {
               col={collapsed}
               empid={props.empid}
               username={props.username}
+              employeeBranch={employeeBranch}
             ></Reorder>
           </>
         );
@@ -207,6 +167,43 @@ const MainPage = (props) => {
         break;
     }
   }
+
+  useEffect(() => {
+    try {
+      axios({
+        method: "GET",
+        url: "http://localhost:8000/api/employees",
+        headers: { "Content-Type": "application/json" },
+        withCredentials: true,
+      }).then((response) => {
+        response.data.map((res) =>
+          res.emp_id === props.empid ? setEmployeeBranch(res.emp_branch) : ""
+        );
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }, [props.empid]);
+
+  useEffect(() => {
+    try {
+      axios({
+        method: "GET",
+        url: "http://localhost:8000/api/modules",
+        headers: { "Content-Type": "application/json" },
+        withCredentials: true,
+      }).then((response) => {
+        setModules(response.data);
+        setModules((modules) => {
+          return modules.map((module) => {
+            return { ...module, icon: iconsSwitch(module.icon) };
+          });
+        });
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }, []);
 
   return (
     <>

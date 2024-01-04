@@ -73,23 +73,6 @@ const Profile = (props) => {
     },
   ];
 
-  useEffect(() => {
-    (async () => {
-      try {
-        await axios({
-          method: "GET",
-          url: "http://localhost:8000/api/employees",
-          headers: { "Content-Type": "application/json" },
-          withCredentials: true,
-        }).then((response) => {
-          setEmployees(response.data);
-        });
-      } catch (err) {
-        console.log(err);
-      }
-    })();
-  }, []);
-
   function expYears(yearHired) {
     return moment().diff(moment(yearHired, "YYYY-MM-DD"), "years");
   }
@@ -109,6 +92,21 @@ const Profile = (props) => {
     }
     return initials.toUpperCase();
   }
+
+  useEffect(() => {
+    try {
+      axios({
+        method: "GET",
+        url: "http://localhost:8000/api/employees",
+        headers: { "Content-Type": "application/json" },
+        withCredentials: true,
+      }).then((response) => {
+        setEmployees(response.data);
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }, []);
 
   return (
     <>

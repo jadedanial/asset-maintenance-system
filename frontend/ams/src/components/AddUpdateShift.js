@@ -66,7 +66,7 @@ const AddUpdateShift = (props) => {
     changeLabel();
   }
 
-  async function onFinish() {
+  function onFinish() {
     setSubmit(true);
     changeLabel();
     var shiftData = {
@@ -80,7 +80,7 @@ const AddUpdateShift = (props) => {
       shift_to: moment(shiftTo, timeFormat).format(timeFormat),
     };
     try {
-      await axios({
+      axios({
         method: update ? "PATCH" : "POST",
         url: "http://localhost:8000/api/shift/",
         data: shiftData,

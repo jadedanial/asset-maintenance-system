@@ -24,7 +24,7 @@ const RegisterPage = () => {
   const [password, setPassword] = useState("");
   const [success, setSuccess] = useState(false);
 
-  async function onFinish() {
+  function onFinish() {
     var registerData = {
       empID: empID,
       username: username,
@@ -32,7 +32,7 @@ const RegisterPage = () => {
       password: password,
     };
     try {
-      await axios({
+      axios({
         method: "POST",
         url: "http://localhost:8000/api/register/",
         data: registerData,

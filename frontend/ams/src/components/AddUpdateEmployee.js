@@ -74,26 +74,6 @@ const AddUpdateEmployee = (props) => {
   const [salaryReq, setSalaryReq] = useState(false);
   const [branchReq, setBranchReq] = useState(false);
 
-  useEffect(() => {
-    (async () => {
-      try {
-        await axios({
-          method: "GET",
-          url: "http://localhost:8000/api/options",
-          headers: { "Content-Type": "application/json" },
-          withCredentials: true,
-        }).then((response) => {
-          setNationalities(response.data);
-          setPositions(response.data);
-          setSalaries(response.data);
-          setBranches(response.data);
-        });
-      } catch (err) {
-        console.log(err);
-      }
-    })();
-  }, []);
-
   function newEmployee() {
     setUpdate(false);
     setSubmit(false);
@@ -187,7 +167,7 @@ const AddUpdateEmployee = (props) => {
     changeLabel();
   }
 
-  async function onFinish() {
+  function onFinish() {
     setSubmit(true);
     changeLabel();
     var employeeData = {
@@ -204,7 +184,7 @@ const AddUpdateEmployee = (props) => {
       emp_branch: employeeBranch,
     };
     try {
-      await axios({
+      axios({
         method: update ? "PATCH" : "POST",
         url: "http://localhost:8000/api/employee/",
         data: employeeData,
@@ -221,6 +201,24 @@ const AddUpdateEmployee = (props) => {
       setColor("#ff0000");
     }
   }
+
+  useEffect(() => {
+    try {
+      axios({
+        method: "GET",
+        url: "http://localhost:8000/api/options",
+        headers: { "Content-Type": "application/json" },
+        withCredentials: true,
+      }).then((response) => {
+        setNationalities(response.data);
+        setPositions(response.data);
+        setSalaries(response.data);
+        setBranches(response.data);
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }, []);
 
   if (submit) {
     if (success) {

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import {
   Button,
@@ -22,40 +22,45 @@ import NotificationEvent from "../components/NotificationEvent";
 const { Title } = Typography;
 
 const Reorder = (props) => {
-  const [itemDetails, setItemDetails] = useState({
+  const [warehouseItem, setWarehouseItem] = useState({
     0: { id: "", code: "", name: "", cost: "", measurement: "" },
   });
   const [total, setTotal] = useState("");
   const [quantity, setQuantity] = useState("");
   const [item, setItem] = useState("");
+  const [itemDetail, setItemDetail] = useState([]);
   const [orderList, setOrderList] = useState([]);
   const [itemCount, setItemCount] = useState(0);
   const [inputStatus, setInputStatus] = useState("");
   const [openDrawer, setOpenDrawer] = useState(false);
   const [api, contextHolder] = notification.useNotification();
 
-  async function searchItem(value) {
+  function searchItem(value) {
     setItem(value);
     clearSearch();
     try {
-      await axios({
+      axios({
         method: "GET",
-        url: "http://localhost:8000/api/items",
+        url: "http://localhost:8000/api/warehouseitems",
         headers: { "Content-Type": "application/json" },
         withCredentials: true,
       }).then((response) => {
         response.data.map((res) =>
           res.item_code === value.toUpperCase()
-            ? setItemDetails([
-                {
-                  id: res.id,
-                  code: res.item_code,
-                  name: res.item_name,
-                  cost: res.item_cost,
-                  measurement: res.item_measurement,
-                },
-              ])
-            : {}
+            ? itemDetail.map((i) =>
+                i.item_code === res.item_code
+                  ? setWarehouseItem([
+                      {
+                        id: i.id,
+                        code: i.item_code,
+                        name: i.item_name,
+                        cost: i.item_cost,
+                        measurement: i.item_measurement,
+                      },
+                    ])
+                  : ""
+              )
+            : ""
         );
       });
       checkResult();
@@ -65,7 +70,7 @@ const Reorder = (props) => {
   }
 
   function checkResult() {
-    if (itemDetails["0"]["code"] !== "") {
+    if (warehouseItem["0"]["code"] !== "") {
       return true;
     } else {
       return false;
@@ -121,14 +126,14 @@ const Reorder = (props) => {
   }
 
   function clearSearch() {
-    setItemDetails({
+    setWarehouseItem({
       0: { id: "", code: "", name: "", cost: "", measurement: "" },
     });
     setTotal("0.00");
   }
 
   function onQuantityChange(value) {
-    setTotal((parseFloat(itemDetails["0"]["cost"]) * value).toFixed(2));
+    setTotal((parseFloat(warehouseItem["0"]["cost"]) * value).toFixed(2));
     setQuantity(value);
   }
 
@@ -140,7 +145,8 @@ const Reorder = (props) => {
             <Row>
               <Col span={16} style={{ paddingTop: "20px" }}>
                 <ItemDetail
-                  itemcode={itemDetails["0"]["code"]}
+                  employeeBranch={props.employeeBranch}
+                  itemcode={warehouseItem["0"]["code"]}
                   mode={"view"}
                 ></ItemDetail>
               </Col>
@@ -172,11 +178,11 @@ const Reorder = (props) => {
                 type="primary"
                 onClick={() =>
                   newItem(
-                    itemDetails["0"]["id"],
-                    itemDetails["0"]["code"],
-                    itemDetails["0"]["name"],
-                    itemDetails["0"]["cost"],
-                    itemDetails["0"]["measurement"],
+                    warehouseItem["0"]["id"],
+                    warehouseItem["0"]["code"],
+                    warehouseItem["0"]["name"],
+                    warehouseItem["0"]["cost"],
+                    warehouseItem["0"]["measurement"],
                     quantity,
                     "topRight"
                   )
@@ -206,6 +212,21 @@ const Reorder = (props) => {
   function onCloseDrawer() {
     setOpenDrawer(false);
   }
+
+  useEffect(() => {
+    try {
+      axios({
+        method: "GET",
+        url: "http://localhost:8000/api/items",
+        headers: { "Content-Type": "application/json" },
+        withCredentials: true,
+      }).then((response) => {
+        setItemDetail(response.data);
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }, []);
 
   return (
     <>

@@ -48,6 +48,44 @@ const Vacation = (props) => {
   const [api, contextHolder] = notification.useNotification();
   const [current, setCurrent] = useState(0);
 
+  const columns = [
+    {
+      title: "Vacation Type",
+      dataIndex: "type",
+      key: "type",
+    },
+    {
+      title: "Start Date",
+      dataIndex: "start",
+      key: "start",
+    },
+    {
+      title: "End Date",
+      dataIndex: "end",
+      key: "end",
+    },
+    {
+      title: "Reason",
+      dataIndex: "reason",
+      key: "reason",
+    },
+    {
+      title: "Attachment",
+      dataIndex: "attach",
+      key: "attach",
+    },
+    {
+      title: "Total",
+      dataIndex: "total",
+      key: "total",
+    },
+    {
+      title: addVactionButton,
+      dataIndex: "addVactionButton",
+      key: "addVactionButton",
+    },
+  ];
+
   const steps = [
     {
       title: "Details",
@@ -228,70 +266,9 @@ const Vacation = (props) => {
     },
   ];
 
-  const columns = [
-    {
-      title: "Vacation Type",
-      dataIndex: "type",
-      key: "type",
-    },
-    {
-      title: "Start Date",
-      dataIndex: "start",
-      key: "start",
-    },
-    {
-      title: "End Date",
-      dataIndex: "end",
-      key: "end",
-    },
-    {
-      title: "Reason",
-      dataIndex: "reason",
-      key: "reason",
-    },
-    {
-      title: "Attachment",
-      dataIndex: "attach",
-      key: "attach",
-    },
-    {
-      title: "Total",
-      dataIndex: "total",
-      key: "total",
-    },
-    {
-      title: addVactionButton,
-      dataIndex: "addVactionButton",
-      key: "addVactionButton",
-    },
-  ];
-
-  useEffect(() => {
-    (async () => {
-      await loadVacations();
-    })();
-  }, []);
-
-  useEffect(() => {
-    (async () => {
-      try {
-        await axios({
-          method: "GET",
-          url: "http://localhost:8000/api/options",
-          headers: { "Content-Type": "application/json" },
-          withCredentials: true,
-        }).then((response) => {
-          setVacationType(response.data);
-        });
-      } catch (err) {
-        console.log(err);
-      }
-    })();
-  }, []);
-
-  async function loadVacations() {
+  function loadVacations() {
     try {
-      await axios({
+      axios({
         method: "GET",
         url: "http://localhost:8000/api/vacations",
         headers: { "Content-Type": "application/json" },
@@ -351,6 +328,7 @@ const Vacation = (props) => {
   }
 
   function viewVacation() {
+    loadVacations();
     setAdd(false);
     setSuccess(false);
   }
@@ -447,7 +425,7 @@ const Vacation = (props) => {
     setCurrent(current - 1);
   }
 
-  async function applyVacation() {
+  function applyVacation() {
     var vacData = {
       emp_id: props.empid,
       vac_type: vacation,
@@ -458,7 +436,7 @@ const Vacation = (props) => {
       vac_total: days,
     };
     try {
-      await axios({
+      axios({
         method: "POST",
         url: "http://localhost:8000/api/vacation/",
         data: vacData,
@@ -473,6 +451,25 @@ const Vacation = (props) => {
       api.info(NotificationEvent(false, "Employee vacation failed to apply!"));
     }
   }
+
+  useEffect(() => {
+    loadVacations();
+  }, []);
+
+  useEffect(() => {
+    try {
+      axios({
+        method: "GET",
+        url: "http://localhost:8000/api/options",
+        headers: { "Content-Type": "application/json" },
+        withCredentials: true,
+      }).then((response) => {
+        setVacationType(response.data);
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }, []);
 
   if (success) {
     return (

@@ -71,15 +71,9 @@ const Schedule = () => {
     },
   ];
 
-  useEffect(() => {
-    (async () => {
-      await loadAPILists();
-    })();
-  }, []);
-
-  async function loadAPILists() {
+  function loadAPILists() {
     try {
-      await axios({
+      axios({
         method: "GET",
         url: "http://localhost:8000/api/schedules",
         headers: { "Content-Type": "application/json" },
@@ -111,6 +105,10 @@ const Schedule = () => {
   function searchedText(text) {
     setSearchedText(text);
   }
+
+  useEffect(() => {
+    loadAPILists();
+  }, []);
 
   return (
     <>

@@ -21,52 +21,13 @@ const ShiftSchedule = (props) => {
   const [schedname, setSchedName] = useState("");
   const [api, contextHolder] = notification.useNotification();
 
-  useEffect(() => {
-    (async () => {
-      try {
-        await axios({
-          method: "GET",
-          url: "http://localhost:8000/api/employees",
-          headers: { "Content-Type": "application/json" },
-          withCredentials: true,
-        }).then((response) => {
-          response.data.map((res) =>
-            res.emp_id === props.empid ? setSchedId(res.emp_sched) : {}
-          );
-        });
-      } catch (err) {
-        console.log(err);
-      }
-    })();
-  }, [props.empid]);
-
-  useEffect(() => {
-    (async () => {
-      try {
-        await axios({
-          method: "GET",
-          url: "http://localhost:8000/api/schedules",
-          headers: { "Content-Type": "application/json" },
-          withCredentials: true,
-        }).then((response) => {
-          setSchedules(response.data);
-          response.data.map((res) =>
-            res.id === schedid ? setSchedName(res.sched_name) : {}
-          );
-        });
-      } catch (err) {
-        console.log(err);
-      }
-    })();
-  }, [schedid]);
-
-  async function handleSubmit() {
+  function handleSubmit() {
     var empData = {
       empID: props.empid,
       schedid: schedid,
     };
     try {
-      await axios({
+      axios({
         method: "PATCH",
         url: "http://localhost:8000/api/emp_schedule/",
         data: empData,
@@ -230,10 +191,45 @@ const ShiftSchedule = (props) => {
           </div>
         </>
       ) : (
-        <></>
+        ""
       )
     );
   }
+
+  useEffect(() => {
+    try {
+      axios({
+        method: "GET",
+        url: "http://localhost:8000/api/employees",
+        headers: { "Content-Type": "application/json" },
+        withCredentials: true,
+      }).then((response) => {
+        response.data.map((res) =>
+          res.emp_id === props.empid ? setSchedId(res.emp_sched) : ""
+        );
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }, [props.empid]);
+
+  useEffect(() => {
+    try {
+      axios({
+        method: "GET",
+        url: "http://localhost:8000/api/schedules",
+        headers: { "Content-Type": "application/json" },
+        withCredentials: true,
+      }).then((response) => {
+        setSchedules(response.data);
+        response.data.map((res) =>
+          res.id === schedid ? setSchedName(res.sched_name) : ""
+        );
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }, [schedid]);
 
   return (
     <>

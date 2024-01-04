@@ -14,13 +14,13 @@ const LoginPage = () => {
   const [showunauthorized, setShowunauthorized] = useState(false);
   const [redirect, setRedirect] = useState(false);
 
-  async function onFinish() {
+  function onFinish() {
     var loginData = {
       username: username,
       password: password,
     };
     try {
-      await axios({
+      axios({
         method: "POST",
         url: "http://localhost:8000/api/login",
         data: loginData,

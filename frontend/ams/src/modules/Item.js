@@ -67,9 +67,9 @@ const Item = (props) => {
     loadData("warehouseitems", setWarehouseItem);
   }
 
-  useEffect(() => {
-    loadAPILists();
-  }, []);
+  function searchedText(text) {
+    setSearchedText(text);
+  }
 
   useEffect(() => {
     if (warehouse.length && item.length && warehouseItem.length) {
@@ -98,9 +98,9 @@ const Item = (props) => {
     }
   }, [warehouse, item, warehouseItem]);
 
-  function searchedText(text) {
-    setSearchedText(text);
-  }
+  useEffect(() => {
+    loadAPILists();
+  }, []);
 
   return (
     <>

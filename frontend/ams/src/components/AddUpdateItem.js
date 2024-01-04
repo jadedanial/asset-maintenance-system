@@ -58,24 +58,6 @@ const AddUpdateItem = (props) => {
   const [costReq, setCostReq] = useState(false);
   const [descriptionReq, setDescriptionReq] = useState(false);
 
-  useEffect(() => {
-    (async () => {
-      try {
-        await axios({
-          method: "GET",
-          url: "http://localhost:8000/api/options",
-          headers: { "Content-Type": "application/json" },
-          withCredentials: true,
-        }).then((response) => {
-          setCategories(response.data);
-          setMeasurements(response.data);
-        });
-      } catch (err) {
-        console.log(err);
-      }
-    })();
-  }, []);
-
   function newItem() {
     setUpdate(false);
     setSubmit(false);
@@ -145,7 +127,7 @@ const AddUpdateItem = (props) => {
     changeLabel();
   }
 
-  async function onFinish() {
+  function onFinish() {
     setSubmit(true);
     changeLabel();
     var itemData = {
@@ -160,7 +142,7 @@ const AddUpdateItem = (props) => {
       item_description: itemDescription,
     };
     try {
-      await axios({
+      axios({
         method: update ? "PATCH" : "POST",
         url: "http://localhost:8000/api/item/",
         data: itemData,
@@ -177,6 +159,22 @@ const AddUpdateItem = (props) => {
       setColor("#ff0000");
     }
   }
+
+  useEffect(() => {
+    try {
+      axios({
+        method: "GET",
+        url: "http://localhost:8000/api/options",
+        headers: { "Content-Type": "application/json" },
+        withCredentials: true,
+      }).then((response) => {
+        setCategories(response.data);
+        setMeasurements(response.data);
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }, []);
 
   if (submit) {
     if (success) {

@@ -37,16 +37,9 @@ const AddAttendance = (props) => {
   const [success, setSuccess] = useState(false);
   const [api, contextHolder] = notification.useNotification();
 
-  useEffect(() => {
-    (async () => {
-      await loadSchedules();
-      await loadVacations();
-    })();
-  }, []);
-
-  async function loadSchedules() {
+  function loadSchedules() {
     try {
-      await axios({
+      axios({
         method: "GET",
         url: "http://localhost:8000/api/schedules",
         headers: { "Content-Type": "application/json" },
@@ -65,7 +58,7 @@ const AddAttendance = (props) => {
                   sched_sat: res.sched_sat,
                 },
               ])
-            : {}
+            : ""
         );
       });
     } catch (err) {
@@ -73,9 +66,9 @@ const AddAttendance = (props) => {
     }
   }
 
-  async function loadVacations() {
+  function loadVacations() {
     try {
-      await axios({
+      axios({
         method: "GET",
         url: "http://localhost:8000/api/vacations",
         headers: { "Content-Type": "application/json" },
@@ -270,7 +263,7 @@ const AddAttendance = (props) => {
     return status;
   }
 
-  async function addAttendance(
+  function addAttendance(
     apiMethod,
     emp_id,
     date,
@@ -300,7 +293,7 @@ const AddAttendance = (props) => {
       attend_status: status,
     };
     try {
-      await axios({
+      axios({
         method: apiMethod,
         url: "http://localhost:8000/api/emp_attendance/",
         data: attendData,
@@ -451,6 +444,11 @@ const AddAttendance = (props) => {
       );
     }
   }
+
+  useEffect(() => {
+    loadSchedules();
+    loadVacations();
+  }, []);
 
   if (success) {
     return (

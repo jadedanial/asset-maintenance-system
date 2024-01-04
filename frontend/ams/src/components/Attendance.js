@@ -44,51 +44,6 @@ const Attendance = (props, ref) => {
   const [withData, setWithData] = useState(false);
   const [api, contextHolder] = notification.useNotification();
 
-  useEffect(() => {
-    (async () => {
-      try {
-        await axios({
-          method: "GET",
-          url: "http://localhost:8000/api/attendances",
-          headers: { "Content-Type": "application/json" },
-          withCredentials: true,
-        }).then((response) => {
-          setAttendances([]);
-          response.data.map((res) =>
-            res.emp_id === props.empid
-              ? setAttendances((attendances) => [
-                  ...attendances,
-                  {
-                    Date: res.attend_date,
-                    "Check In": res.attend_checkin
-                      ? String(
-                          moment(res.attend_checkin).format(dateTimeFormat)
-                        )
-                      : "--:--:--",
-                    "Check Out": res.attend_checkout
-                      ? String(
-                          moment(res.attend_checkout).format(dateTimeFormat)
-                        )
-                      : "--:--:--",
-                    "Late In": res.attend_latein,
-                    "Early Out": res.attend_earlyout,
-                    Worked: res.attend_work,
-                    Required: res.attend_req,
-                    Undertime: res.attend_under,
-                    Overtime: res.attend_over,
-                    Excuse: res.attend_excuse,
-                    Status: res.attend_status,
-                  },
-                ])
-              : []
-          );
-        });
-      } catch (err) {
-        console.log(err);
-      }
-    })();
-  }, [props.empid]);
-
   async function getSchedule() {
     let sched;
     try {
@@ -328,6 +283,45 @@ const Attendance = (props, ref) => {
   function viewAttendance() {
     setAdd(false);
   }
+
+  useEffect(() => {
+    try {
+      axios({
+        method: "GET",
+        url: "http://localhost:8000/api/attendances",
+        headers: { "Content-Type": "application/json" },
+        withCredentials: true,
+      }).then((response) => {
+        setAttendances([]);
+        response.data.map((res) =>
+          res.emp_id === props.empid
+            ? setAttendances((attendances) => [
+                ...attendances,
+                {
+                  Date: res.attend_date,
+                  "Check In": res.attend_checkin
+                    ? String(moment(res.attend_checkin).format(dateTimeFormat))
+                    : "--:--:--",
+                  "Check Out": res.attend_checkout
+                    ? String(moment(res.attend_checkout).format(dateTimeFormat))
+                    : "--:--:--",
+                  "Late In": res.attend_latein,
+                  "Early Out": res.attend_earlyout,
+                  Worked: res.attend_work,
+                  Required: res.attend_req,
+                  Undertime: res.attend_under,
+                  Overtime: res.attend_over,
+                  Excuse: res.attend_excuse,
+                  Status: res.attend_status,
+                },
+              ])
+            : []
+        );
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }, [props.empid]);
 
   return (
     <>
