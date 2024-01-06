@@ -267,13 +267,13 @@ const Vacation = (props) => {
   ];
 
   function loadVacations() {
-    try {
-      axios({
-        method: "GET",
-        url: "http://localhost:8000/api/vacations",
-        headers: { "Content-Type": "application/json" },
-        withCredentials: true,
-      }).then((response) => {
+    axios({
+      method: "GET",
+      url: "http://localhost:8000/api/vacations",
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    })
+      .then((response) => {
         setVacations([]);
         response.data.map((res) =>
           setVacations((vacations) => [
@@ -289,10 +289,10 @@ const Vacation = (props) => {
             },
           ])
         );
+      })
+      .catch((err) => {
+        console.log(err);
       });
-    } catch (err) {
-      console.log(err);
-    }
   }
 
   function onVacationChange(value) {
@@ -435,21 +435,24 @@ const Vacation = (props) => {
       vac_attachment: attachment ? attachment : "No Attachment",
       vac_total: days,
     };
-    try {
-      axios({
-        method: "POST",
-        url: "http://localhost:8000/api/vacation/",
-        data: vacData,
-        headers: { "Content-Type": "application/json" },
-        withCredentials: true,
+    axios({
+      method: "POST",
+      url: "http://localhost:8000/api/vacation/",
+      data: vacData,
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    })
+      .then(() => {
+        loadVacations();
+        setSuccess(true);
+      })
+      .catch((err) => {
+        console.log(err);
+        setSuccess(false);
+        api.info(
+          NotificationEvent(false, "Employee vacation failed to apply!")
+        );
       });
-      loadVacations();
-      setSuccess(true);
-    } catch (err) {
-      console.log(err);
-      setSuccess(false);
-      api.info(NotificationEvent(false, "Employee vacation failed to apply!"));
-    }
   }
 
   useEffect(() => {
@@ -457,18 +460,18 @@ const Vacation = (props) => {
   }, []);
 
   useEffect(() => {
-    try {
-      axios({
-        method: "GET",
-        url: "http://localhost:8000/api/options",
-        headers: { "Content-Type": "application/json" },
-        withCredentials: true,
-      }).then((response) => {
+    axios({
+      method: "GET",
+      url: "http://localhost:8000/api/options",
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    })
+      .then((response) => {
         setVacationType(response.data);
+      })
+      .catch((err) => {
+        console.log(err);
       });
-    } catch (err) {
-      console.log(err);
-    }
   }, []);
 
   if (success) {

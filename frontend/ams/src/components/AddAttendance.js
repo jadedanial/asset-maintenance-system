@@ -38,13 +38,13 @@ const AddAttendance = (props) => {
   const [api, contextHolder] = notification.useNotification();
 
   function loadSchedules() {
-    try {
-      axios({
-        method: "GET",
-        url: "http://localhost:8000/api/schedules",
-        headers: { "Content-Type": "application/json" },
-        withCredentials: true,
-      }).then((response) => {
+    axios({
+      method: "GET",
+      url: "http://localhost:8000/api/schedules",
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    })
+      .then((response) => {
         response.data.map((res) =>
           res.id === props.schedid
             ? setSchedules([
@@ -60,20 +60,20 @@ const AddAttendance = (props) => {
               ])
             : ""
         );
+      })
+      .catch((err) => {
+        console.log(err);
       });
-    } catch (err) {
-      console.log(err);
-    }
   }
 
   function loadVacations() {
-    try {
-      axios({
-        method: "GET",
-        url: "http://localhost:8000/api/vacations",
-        headers: { "Content-Type": "application/json" },
-        withCredentials: true,
-      }).then((response) => {
+    axios({
+      method: "GET",
+      url: "http://localhost:8000/api/vacations",
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    })
+      .then((response) => {
         setVacations([]);
         response.data.map((res) =>
           setVacations((vacations) => [
@@ -86,10 +86,10 @@ const AddAttendance = (props) => {
             },
           ])
         );
+      })
+      .catch((err) => {
+        console.log(err);
       });
-    } catch (err) {
-      console.log(err);
-    }
   }
 
   function dayOfTheWeek(day) {
@@ -292,17 +292,15 @@ const AddAttendance = (props) => {
       attend_excuse: excuse,
       attend_status: status,
     };
-    try {
-      axios({
-        method: apiMethod,
-        url: "http://localhost:8000/api/emp_attendance/",
-        data: attendData,
-        headers: { "Content-Type": "application/json" },
-        withCredentials: true,
-      });
-    } catch (err) {
+    axios({
+      method: apiMethod,
+      url: "http://localhost:8000/api/emp_attendance/",
+      data: attendData,
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    }).catch((err) => {
       console.log(err);
-    }
+    });
   }
 
   function applyAttendance() {

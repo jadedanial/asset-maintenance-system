@@ -9,7 +9,7 @@ import {
   SettingOutlined,
   BarChartOutlined,
   TeamOutlined,
-  ShoppingCartOutlined,
+  ShopOutlined,
   CarOutlined,
   MenuUnfoldOutlined,
   MenuFoldOutlined,
@@ -77,12 +77,10 @@ const MainPage = (props) => {
     switch (icon) {
       case "SettingOutlined":
         return <SettingOutlined style={{ fontSize: "20px", color: "#fff" }} />;
+      case "ShopOutlined":
+        return <ShopOutlined style={{ fontSize: "20px", color: "#fff" }} />;
       case "TeamOutlined":
         return <TeamOutlined style={{ fontSize: "20px", color: "#fff" }} />;
-      case "ShoppingCartOutlined":
-        return (
-          <ShoppingCartOutlined style={{ fontSize: "20px", color: "#fff" }} />
-        );
       case "CarOutlined":
         return <CarOutlined style={{ fontSize: "20px", color: "#fff" }} />;
       case "BarChartOutlined":
@@ -169,40 +167,40 @@ const MainPage = (props) => {
   }
 
   useEffect(() => {
-    try {
-      axios({
-        method: "GET",
-        url: "http://localhost:8000/api/employees",
-        headers: { "Content-Type": "application/json" },
-        withCredentials: true,
-      }).then((response) => {
+    axios({
+      method: "GET",
+      url: "http://localhost:8000/api/employees",
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    })
+      .then((response) => {
         response.data.map((res) =>
           res.emp_id === props.empid ? setEmployeeBranch(res.emp_branch) : ""
         );
+      })
+      .catch((err) => {
+        console.log(err);
       });
-    } catch (err) {
-      console.log(err);
-    }
   }, [props.empid]);
 
   useEffect(() => {
-    try {
-      axios({
-        method: "GET",
-        url: "http://localhost:8000/api/modules",
-        headers: { "Content-Type": "application/json" },
-        withCredentials: true,
-      }).then((response) => {
+    axios({
+      method: "GET",
+      url: "http://localhost:8000/api/modules",
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    })
+      .then((response) => {
         setModules(response.data);
         setModules((modules) => {
           return modules.map((module) => {
             return { ...module, icon: iconsSwitch(module.icon) };
           });
         });
+      })
+      .catch((err) => {
+        console.log(err);
       });
-    } catch (err) {
-      console.log(err);
-    }
   }, []);
 
   return (

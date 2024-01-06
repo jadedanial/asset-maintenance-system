@@ -40,13 +40,13 @@ const Vehicle = () => {
   ];
 
   function loadAPILists() {
-    try {
-      axios({
-        method: "GET",
-        url: "http://localhost:8000/api/warehouses",
-        headers: { "Content-Type": "application/json" },
-        withCredentials: true,
-      }).then((response) => {
+    axios({
+      method: "GET",
+      url: "http://localhost:8000/api/warehouses",
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    })
+      .then((response) => {
         setWarehouses([]);
         response.data.map((res) =>
           setWarehouses((warehouses) => [
@@ -55,15 +55,15 @@ const Vehicle = () => {
               id: res.id,
               code: res.warehouse_code,
               name: res.warehouse_name,
-              type: res.warehouse_type,
+              type: res.warehouse_type ? "Main Warehouse" : "Sub Warehouse",
               branch: res.warehouse_branch,
             },
           ])
         );
+      })
+      .catch((err) => {
+        console.log(err);
       });
-    } catch (err) {
-      console.log(err);
-    }
   }
 
   function searchedText(text) {

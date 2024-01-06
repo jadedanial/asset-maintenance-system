@@ -94,18 +94,18 @@ const Profile = (props) => {
   }
 
   useEffect(() => {
-    try {
-      axios({
-        method: "GET",
-        url: "http://localhost:8000/api/employees",
-        headers: { "Content-Type": "application/json" },
-        withCredentials: true,
-      }).then((response) => {
+    axios({
+      method: "GET",
+      url: "http://localhost:8000/api/employees",
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    })
+      .then((response) => {
         setEmployees(response.data);
+      })
+      .catch((err) => {
+        console.log(err);
       });
-    } catch (err) {
-      console.log(err);
-    }
   }, []);
 
   return (

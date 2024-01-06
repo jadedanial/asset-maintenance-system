@@ -131,36 +131,37 @@ const AddUpdateSchedule = (props) => {
       sched_fri: schedFri,
       sched_sat: schedSat,
     };
-    try {
-      axios({
-        method: update ? "PATCH" : "POST",
-        url: "http://localhost:8000/api/schedule/",
-        data: scheduleData,
-        headers: { "Content-Type": "application/json" },
-        withCredentials: true,
+    axios({
+      method: update ? "PATCH" : "POST",
+      url: "http://localhost:8000/api/schedule/",
+      data: scheduleData,
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    })
+      .then(() => {
+        setSuccess(true);
+      })
+      .catch((err) => {
+        console.log(err.response.data[0]);
+        setSuccess(false);
+        setLabel(err.response.data[0]);
+        setColor("#ff0000");
       });
-      setSuccess(true);
-    } catch (err) {
-      console.log(err.response.data[0]);
-      setSuccess(false);
-      setLabel(err.response.data[0]);
-      setColor("#ff0000");
-    }
   }
 
   useEffect(() => {
-    try {
-      axios({
-        method: "GET",
-        url: "http://localhost:8000/api/shifts",
-        headers: { "Content-Type": "application/json" },
-        withCredentials: true,
-      }).then((response) => {
+    axios({
+      method: "GET",
+      url: "http://localhost:8000/api/shifts",
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    })
+      .then((response) => {
         setShifts(response.data);
+      })
+      .catch((err) => {
+        console.log(err);
       });
-    } catch (err) {
-      console.log(err);
-    }
   }, []);
 
   if (submit) {

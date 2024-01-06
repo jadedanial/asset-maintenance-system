@@ -47,6 +47,17 @@ class OptionSerializer(serializers.ModelSerializer):
         ]
 
 
+class BranchSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Branch
+        fields = [
+            "branch_name",
+            "branch_category",
+            "branch_type",
+        ]
+
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -125,6 +136,11 @@ class ScheduleSerializer(serializers.ModelSerializer):
 
 
 class EmployeeSerializer(serializers.ModelSerializer):
+    emp_branch = serializers.SlugRelatedField(
+        queryset=Branch.objects.all(),
+        slug_field='branch_name'
+    )
+
     class Meta:
         model = Employee
         fields = [
@@ -190,13 +206,15 @@ class ExcuseSerializer(serializers.ModelSerializer):
 
 
 class WarehouseSerializer(serializers.ModelSerializer):
+    warehouse_branch = serializers.ReadOnlyField(
+        source="warehouse_branch.branch_name")
+
     class Meta:
         model = Warehouse
         fields = [
             "id",
             "warehouse_code",
             "warehouse_name",
-            "warehouse_type",
             "warehouse_branch",
         ]
 
@@ -209,10 +227,8 @@ class ItemSerializer(serializers.ModelSerializer):
             "item_code",
             "item_name",
             "item_category",
-            "item_location",
             "item_measurement",
             "item_reorder",
-            "item_onhand",
             "item_cost",
             "item_description",
         ]
@@ -224,7 +240,7 @@ class WarehouseItemSerializer(serializers.ModelSerializer):
         slug_field='item_code'
     )
     warehouse_code = serializers.SlugRelatedField(
-        queryset=Item.objects.all(),
+        queryset=Warehouse.objects.all(),
         slug_field='warehouse_code'
     )
 

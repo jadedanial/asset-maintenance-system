@@ -1,3 +1,4 @@
+from enum import unique
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
@@ -5,7 +6,7 @@ from django.contrib.auth.models import AbstractUser
 class Section(models.Model):
     id = models.AutoField(primary_key=True)
     label = models.CharField(
-        max_length=50, blank=False, null=False, verbose_name="Section Label"
+        max_length=50, unique=True, blank=False, null=False, verbose_name="Section Label"
     )
     key = models.CharField(max_length=100, blank=True,
                            null=True, verbose_name="Key")
@@ -25,7 +26,7 @@ class Section(models.Model):
 class Module(models.Model):
     id = models.AutoField(primary_key=True)
     label = models.CharField(
-        max_length=50, blank=False, null=False, verbose_name="Module Label"
+        max_length=50, unique=True, blank=False, null=False, verbose_name="Module Label"
     )
     key = models.CharField(max_length=100, blank=True,
                            null=True, verbose_name="Key")
@@ -48,7 +49,7 @@ class Module(models.Model):
 
 class Category(models.Model):
     cat_name = models.CharField(
-        max_length=300, blank=False, null=False, verbose_name="Category"
+        max_length=300, unique=True, blank=False, null=False, verbose_name="Category"
     )
 
     def __str__(self):
@@ -57,7 +58,7 @@ class Category(models.Model):
 
 class Option(models.Model):
     opt_name = models.CharField(
-        max_length=200, blank=False, null=False, verbose_name="Option Name"
+        max_length=200, unique=True, blank=False, null=False, verbose_name="Option Name"
     )
     opt_category = models.ForeignKey(
         Category,
@@ -72,6 +73,32 @@ class Option(models.Model):
 
     def __str__(self):
         return self.opt_name
+
+
+class Branch(models.Model):
+
+    category = (
+        ('', ''),
+        ('workshop', 'Workshop'),
+        ('warehouse', 'Warehouse'),
+    )
+    type = (
+        ('', ''),
+        ('main', 'Main'),
+        ('sub', 'Sub'),
+    )
+    branch_name = models.CharField(
+        max_length=300, unique=True, blank=False, null=False, verbose_name="Branch Name"
+    )
+    branch_category = models.CharField(
+        max_length=300, choices=category, default='', blank=False, null=False, verbose_name="Category"
+    )
+    branch_type = models.CharField(
+        max_length=100, choices=type, default='', blank=False, null=False, verbose_name="Type"
+    )
+
+    def __str__(self):
+        return self.branch_name
 
 
 class User(AbstractUser):
@@ -98,7 +125,7 @@ class User(AbstractUser):
 class Shift(models.Model):
     id = models.AutoField(primary_key=True)
     shift_name = models.CharField(
-        max_length=300, blank=True, null=True, verbose_name="Name"
+        max_length=300, unique=True, blank=True, null=True, verbose_name="Name"
     )
     shift_description = models.CharField(
         max_length=100, blank=True, null=True, verbose_name="Description"
@@ -122,7 +149,7 @@ class Shift(models.Model):
 class Schedule(models.Model):
     id = models.AutoField(primary_key=True)
     sched_name = models.CharField(
-        max_length=300, blank=True, null=True, verbose_name="Name"
+        max_length=300, unique=True, blank=True, null=True, verbose_name="Name"
     )
     sched_sun = models.ForeignKey(
         Shift,
@@ -212,8 +239,12 @@ class Employee(models.Model):
     emp_salary = models.CharField(
         max_length=300, blank=True, null=True, verbose_name="Salary Grade"
     )
-    emp_branch = models.CharField(
-        max_length=300, blank=True, null=True, verbose_name="Branch"
+    emp_branch = models.ForeignKey(
+        Branch,
+        blank=True,
+        null=True,
+        on_delete=models.CASCADE,
+        verbose_name="Branch",
     )
     emp_sched = models.ForeignKey(
         Schedule,
@@ -316,16 +347,17 @@ class Excuse(models.Model):
 class Warehouse(models.Model):
     id = models.AutoField(primary_key=True)
     warehouse_code = models.CharField(
-        max_length=100, blank=True, null=True, verbose_name="Warehouse Code"
+        max_length=100, unique=True, blank=True, null=True, verbose_name="Warehouse Code"
     )
     warehouse_name = models.CharField(
-        max_length=200, blank=False, null=False, verbose_name="Name"
+        max_length=300, unique=True, blank=True, null=True, verbose_name="Name"
     )
-    warehouse_type = models.CharField(
-        max_length=200, blank=False, null=False, verbose_name="Type"
-    )
-    warehouse_branch = models.CharField(
-        max_length=300, blank=True, null=True, verbose_name="Branch"
+    warehouse_branch = models.ForeignKey(
+        Branch,
+        blank=False,
+        null=False,
+        on_delete=models.CASCADE,
+        verbose_name="Branch",
     )
 
     def __str__(self):
@@ -343,17 +375,11 @@ class Item(models.Model):
     item_category = models.CharField(
         max_length=200, blank=False, null=False, verbose_name="Category"
     )
-    item_location = models.CharField(
-        max_length=200, blank=False, null=False, verbose_name="Physical Location"
-    )
     item_measurement = models.CharField(
         max_length=200, blank=False, null=False, verbose_name="Unit Of Measurement"
     )
     item_reorder = models.FloatField(
         blank=False, null=False, verbose_name="Reorder Quantity"
-    )
-    item_onhand = models.FloatField(
-        blank=True, null=True, verbose_name="Quantity On Hand"
     )
     item_cost = models.FloatField(
         blank=False, null=False, verbose_name="Unit Cost")

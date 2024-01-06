@@ -55,6 +55,24 @@ class OptionAdmin(admin.ModelAdmin):
     )
 
 
+class BranchAdmin(admin.ModelAdmin):
+    list_display = (
+        "branch_name",
+        "branch_category",
+        "branch_type",
+    )
+    list_filter = (
+        "branch_name",
+        "branch_category",
+        "branch_type",
+    )
+    search_fields = (
+        "branch_name",
+        "branch_category",
+        "branch_type",
+    )
+
+
 class UserAdmin(admin.ModelAdmin):
     list_display = (
         "empID",
@@ -280,26 +298,28 @@ class ExcuseAdmin(admin.ModelAdmin):
 
 
 class WarehouseAdmin(admin.ModelAdmin):
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == "warehouse_branch":
+            kwargs["queryset"] = Branch.objects.filter(
+                branch_category='warehouse')
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
     readonly_fields = (
         "id",
-
     )
     list_display = (
         "warehouse_code",
         "warehouse_name",
-        "warehouse_type",
         "warehouse_branch",
     )
     list_filter = (
         "warehouse_code",
         "warehouse_name",
-        "warehouse_type",
         "warehouse_branch",
     )
     search_fields = (
         "warehouse_code",
         "warehouse_name",
-        "warehouse_type",
         "warehouse_branch",
     )
 
@@ -313,10 +333,8 @@ class ItemAdmin(admin.ModelAdmin):
         "item_code",
         "item_name",
         "item_category",
-        "item_location",
         "item_measurement",
         "item_reorder",
-        "item_onhand",
         "item_cost",
         "item_description",
     )
@@ -324,10 +342,8 @@ class ItemAdmin(admin.ModelAdmin):
         "item_code",
         "item_name",
         "item_category",
-        "item_location",
         "item_measurement",
         "item_reorder",
-        "item_onhand",
         "item_cost",
         "item_description",
     )
@@ -335,10 +351,8 @@ class ItemAdmin(admin.ModelAdmin):
         "item_code",
         "item_name",
         "item_category",
-        "item_location",
         "item_measurement",
         "item_reorder",
-        "item_onhand",
         "item_cost",
         "item_description",
     )
@@ -443,6 +457,7 @@ admin.site.register(Section, SectionAdmin)
 admin.site.register(Module, ModuleAdmin)
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Option, OptionAdmin)
+admin.site.register(Branch, BranchAdmin)
 admin.site.register(User, UserAdmin)
 admin.site.register(Shift, ShiftAdmin)
 admin.site.register(Schedule, ScheduleAdmin)

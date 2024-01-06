@@ -41,13 +41,13 @@ const Shift = () => {
   ];
 
   function loadAPILists() {
-    try {
-      axios({
-        method: "GET",
-        url: "http://localhost:8000/api/shifts",
-        headers: { "Content-Type": "application/json" },
-        withCredentials: true,
-      }).then((response) => {
+    axios({
+      method: "GET",
+      url: "http://localhost:8000/api/shifts",
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    })
+      .then((response) => {
         setShifts([]);
         response.data.map((res) =>
           setShifts((shifts) => [
@@ -61,10 +61,10 @@ const Shift = () => {
             },
           ])
         );
+      })
+      .catch((err) => {
+        console.log(err);
       });
-    } catch (err) {
-      console.log(err);
-    }
   }
 
   function searchedText(text) {

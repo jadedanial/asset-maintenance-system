@@ -79,21 +79,22 @@ const AddUpdateShift = (props) => {
       shift_from: moment(shiftFrom, timeFormat).format(timeFormat),
       shift_to: moment(shiftTo, timeFormat).format(timeFormat),
     };
-    try {
-      axios({
-        method: update ? "PATCH" : "POST",
-        url: "http://localhost:8000/api/shift/",
-        data: shiftData,
-        headers: { "Content-Type": "application/json" },
-        withCredentials: true,
+    axios({
+      method: update ? "PATCH" : "POST",
+      url: "http://localhost:8000/api/shift/",
+      data: shiftData,
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    })
+      .then(() => {
+        setSuccess(true);
+      })
+      .catch((err) => {
+        console.log(err.response.data[0]);
+        setSuccess(false);
+        setLabel(err.response.data[0]);
+        setColor("#ff0000");
       });
-      setSuccess(true);
-    } catch (err) {
-      console.log(err.response.data[0]);
-      setSuccess(false);
-      setLabel(err.response.data[0]);
-      setColor("#ff0000");
-    }
   }
 
   if (submit) {

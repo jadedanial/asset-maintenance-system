@@ -33,6 +33,12 @@ class OptionListView(ListAPIView):
     permission_classes = [IsAuthenticatedWithJWT]
 
 
+class BranchListView(ListAPIView):
+    queryset = Branch.objects.all()
+    serializer_class = BranchSerializer
+    permission_classes = [IsAuthenticatedWithJWT]
+
+
 class UserView(APIView):
     def get(self, request):
         token = request.COOKIES.get("jwt")
@@ -256,7 +262,7 @@ class EmployeeScheduleView(APIView):
         return Response(serializer.data)
 
 
-class EmployeeAttendance(APIView):
+class EmployeeAttendanceView(APIView):
     permission_classes = [IsAuthenticatedWithJWT]
 
     def post(self, request):
@@ -370,6 +376,27 @@ class ItemListView(ListAPIView):
     queryset = Item.objects.all()
     serializer_class = ItemSerializer
     permission_classes = [IsAuthenticatedWithJWT]
+
+
+class WarehouseItemView(APIView):
+    permission_classes = [IsAuthenticatedWithJWT]
+
+    def post(self, request):
+        print(request.data)
+        serializer = WarehouseItemSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response(serializer.data)
+
+    def patch(self, request, *args, **kwargs):
+        item = Item.objects.get(item_code=request.data["item_code"])
+        code = WarehouseItem.objects.filter(item_code=item.id).first()
+        serializer = WarehouseItemSerializer(code, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response(serializer.data)
 
 
 class WarehouseItemListView(ListAPIView):

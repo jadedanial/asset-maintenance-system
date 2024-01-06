@@ -15,25 +15,23 @@ const LoginPage = () => {
   const [redirect, setRedirect] = useState(false);
 
   function onFinish() {
-    var loginData = {
-      username: username,
-      password: password,
-    };
-    try {
-      axios({
-        method: "POST",
-        url: "http://localhost:8000/api/login",
-        data: loginData,
-        headers: { "Content-Type": "application/json" },
-        withCredentials: true,
+    const loginData = { username, password };
+    axios({
+      method: "POST",
+      url: "http://localhost:8000/api/login",
+      data: loginData,
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    })
+      .then(() => {
+        setShowunauthorized(false);
+        setRedirect(true);
+      })
+      .catch((err) => {
+        console.log(err.response.data.detail);
+        setShowunauthorized(true);
+        setRedirect(false);
       });
-      setShowunauthorized(false);
-      setRedirect(true);
-    } catch (err) {
-      console.log(err.response.data.detail);
-      setShowunauthorized(true);
-      setRedirect(false);
-    }
   }
 
   if (showunauthorized) {

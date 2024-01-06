@@ -72,13 +72,13 @@ const Vehicle = () => {
   ];
 
   function loadAPILists() {
-    try {
-      axios({
-        method: "GET",
-        url: "http://localhost:8000/api/vehicles",
-        headers: { "Content-Type": "application/json" },
-        withCredentials: true,
-      }).then((response) => {
+    axios({
+      method: "GET",
+      url: "http://localhost:8000/api/vehicles",
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    })
+      .then((response) => {
         setVehicles([]);
         response.data.map((res) =>
           setVehicles((vehicles) => [
@@ -96,10 +96,10 @@ const Vehicle = () => {
             },
           ])
         );
+      })
+      .catch((err) => {
+        console.log(err);
       });
-    } catch (err) {
-      console.log(err);
-    }
   }
 
   function searchedText(text) {

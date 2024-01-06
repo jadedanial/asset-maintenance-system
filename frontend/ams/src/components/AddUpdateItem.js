@@ -134,46 +134,58 @@ const AddUpdateItem = (props) => {
       item_code: itemCode,
       item_name: itemName,
       item_category: itemCategory,
-      item_location: itemLocation,
       item_measurement: itemMeasurement,
       item_reorder: itemReorder,
-      item_onhand: itemOnHand,
       item_cost: itemCost,
       item_description: itemDescription,
     };
-    try {
-      axios({
-        method: update ? "PATCH" : "POST",
-        url: "http://localhost:8000/api/item/",
-        data: itemData,
-        headers: { "Content-Type": "application/json" },
-        withCredentials: true,
-      }).then((response) => {
+    axios({
+      method: update ? "PATCH" : "POST",
+      url: "http://localhost:8000/api/item/",
+      data: itemData,
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    })
+      .then((response) => {
         setIDCode("ITM00" + response.data["id"]);
+        var itemWarehouse = {
+          item_code: "ITM00" + response.data["id"],
+          warehouse_code: "JEDW",
+          item_location: itemLocation,
+          item_onhand: itemOnHand,
+        };
+        axios({
+          method: update ? "PATCH" : "POST",
+          url: "http://localhost:8000/api/warehouseitem/",
+          data: itemWarehouse,
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        }).then(() => {
+          setSuccess(true);
+        });
+      })
+      .catch((err) => {
+        console.log(err.response.data[0]);
+        setSuccess(false);
+        setLabel(err.response.data[0]);
+        setColor("#ff0000");
       });
-      setSuccess(true);
-    } catch (err) {
-      console.log(err.response.data[0]);
-      setSuccess(false);
-      setLabel(err.response.data[0]);
-      setColor("#ff0000");
-    }
   }
 
   useEffect(() => {
-    try {
-      axios({
-        method: "GET",
-        url: "http://localhost:8000/api/options",
-        headers: { "Content-Type": "application/json" },
-        withCredentials: true,
-      }).then((response) => {
+    axios({
+      method: "GET",
+      url: "http://localhost:8000/api/options",
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    })
+      .then((response) => {
         setCategories(response.data);
         setMeasurements(response.data);
+      })
+      .catch((err) => {
+        console.log(err);
       });
-    } catch (err) {
-      console.log(err);
-    }
   }, []);
 
   if (submit) {
@@ -322,7 +334,6 @@ const AddUpdateItem = (props) => {
                       max={1000000}
                       value={itemCost}
                       onChange={onCostChange}
-                      readOnly={update ? true : false}
                     />
                   </Form.Item>
                   <Form.Item

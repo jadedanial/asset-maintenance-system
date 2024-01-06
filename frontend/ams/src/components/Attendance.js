@@ -46,20 +46,20 @@ const Attendance = (props, ref) => {
 
   async function getSchedule() {
     let sched;
-    try {
-      await axios({
-        method: "GET",
-        url: "http://localhost:8000/api/employees",
-        headers: { "Content-Type": "application/json" },
-        withCredentials: true,
-      }).then((response) => {
+    await axios({
+      method: "GET",
+      url: "http://localhost:8000/api/employees",
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    })
+      .then((response) => {
         response.data.map((res) =>
           res.emp_id === props.empid ? (sched = res.emp_sched) : ""
         );
+      })
+      .catch((err) => {
+        console.log(err);
       });
-    } catch (err) {
-      console.log(err);
-    }
     return sched;
   }
 
@@ -285,13 +285,13 @@ const Attendance = (props, ref) => {
   }
 
   useEffect(() => {
-    try {
-      axios({
-        method: "GET",
-        url: "http://localhost:8000/api/attendances",
-        headers: { "Content-Type": "application/json" },
-        withCredentials: true,
-      }).then((response) => {
+    axios({
+      method: "GET",
+      url: "http://localhost:8000/api/attendances",
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    })
+      .then((response) => {
         setAttendances([]);
         response.data.map((res) =>
           res.emp_id === props.empid
@@ -317,10 +317,10 @@ const Attendance = (props, ref) => {
               ])
             : []
         );
+      })
+      .catch((err) => {
+        console.log(err);
       });
-    } catch (err) {
-      console.log(err);
-    }
   }, [props.empid]);
 
   return (

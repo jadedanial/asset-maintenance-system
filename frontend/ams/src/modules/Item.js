@@ -5,6 +5,7 @@ import SearchTableEvent from "../components/SearchTableEvent";
 
 const Item = (props) => {
   const [searchedtext, setSearchedText] = useState("");
+  const [branch, setBranch] = useState([]);
   const [warehouse, setWarehouse] = useState([]);
   const [item, setItem] = useState([]);
   const [warehouseItem, setWarehouseItem] = useState([]);
@@ -62,6 +63,7 @@ const Item = (props) => {
   }
 
   function loadAPILists() {
+    loadData("branches", setBranch);
     loadData("warehouses", setWarehouse);
     loadData("items", setItem);
     loadData("warehouseitems", setWarehouseItem);
@@ -69,6 +71,13 @@ const Item = (props) => {
 
   function searchedText(text) {
     setSearchedText(text);
+  }
+
+  function branchType() {
+    const branchItem = branch.find(
+      (b) => b.branch_name === props.employeeBranch
+    );
+    return branchItem ? branchItem.branch_type === "main" : false;
   }
 
   useEffect(() => {
@@ -105,6 +114,7 @@ const Item = (props) => {
   return (
     <>
       <SearchTableEvent
+        mainBranch={branchType()}
         employeeBranch={props.employeeBranch}
         loadAPILists={loadAPILists}
         tooltipIcon={<ShoppingOutlined />}

@@ -15,21 +15,21 @@ const HomePage = () => {
   const [showunauthorized, setShowunauthorized] = useState(true);
 
   useEffect(() => {
-    try {
-      axios({
-        method: "GET",
-        url: "http://localhost:8000/api/users",
-        headers: { "Content-Type": "application/json" },
-        withCredentials: true,
-      }).then((response) => {
+    axios({
+      method: "GET",
+      url: "http://localhost:8000/api/users",
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    })
+      .then((response) => {
         setShowunauthorized(false);
         setEmpID(response.data.empID);
         setUsername(response.data.username);
+      })
+      .catch((err) => {
+        console.log(err.response.data.detail);
+        setShowunauthorized(true);
       });
-    } catch (err) {
-      console.log(err.response.data.detail);
-      setShowunauthorized(true);
-    }
   }, []);
 
   return (

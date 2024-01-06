@@ -77,40 +77,41 @@ const CartItem = (props) => {
       trans_user: String(props.empid) + " - " + props.username,
       trans_detail: transactionDetail(),
     };
-    try {
-      axios({
-        method: "POST",
-        url: "http://localhost:8000/api/transaction/",
-        data: transactionData,
-        headers: { "Content-Type": "application/json" },
-        withCredentials: true,
-      }).then((response) => {
+    axios({
+      method: "POST",
+      url: "http://localhost:8000/api/transaction/",
+      data: transactionData,
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    })
+      .then((response) => {
         setTransactionID(response.data["trans_id"]);
+      })
+      .catch((err) => {
+        console.log(err);
+        setSuccess(false);
       });
-    } catch (err) {
-      console.log(err);
-      setSuccess(false);
-    }
   }
 
   function checkoutOrder() {
-    try {
-      axios({
-        method: "PUT",
-        url: "http://localhost:8000/api/item/",
-        data: props.orderList,
-        headers: { "Content-Type": "application/json" },
-        withCredentials: true,
+    axios({
+      method: "PUT",
+      url: "http://localhost:8000/api/item/",
+      data: props.orderList,
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    })
+      .then(() => {
+        setItemCount(props.itemCount);
+        setSuccess(true);
+        addTransaction();
+        props.clearOrder();
+        props.searchItem(props.item);
+      })
+      .catch((err) => {
+        console.log(err);
+        setSuccess(false);
       });
-      setItemCount(props.itemCount);
-      setSuccess(true);
-      addTransaction();
-      props.clearOrder();
-      props.searchItem(props.item);
-    } catch (err) {
-      console.log(err);
-      setSuccess(false);
-    }
   }
 
   useEffect(() => {

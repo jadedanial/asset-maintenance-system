@@ -26,18 +26,19 @@ const ShiftSchedule = (props) => {
       empID: props.empid,
       schedid: schedid,
     };
-    try {
-      axios({
-        method: "PATCH",
-        url: "http://localhost:8000/api/emp_schedule/",
-        data: empData,
-        headers: { "Content-Type": "application/json" },
-        withCredentials: true,
+    axios({
+      method: "PATCH",
+      url: "http://localhost:8000/api/emp_schedule/",
+      data: empData,
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    })
+      .then(() => {
+        api.info(NotificationEvent(true, "Employee shift schedule updated."));
+      })
+      .catch((err) => {
+        console.log(err);
       });
-      api.info(NotificationEvent(true, "Employee shift schedule updated."));
-    } catch (err) {
-      console.log(err);
-    }
   }
 
   function onChange(value) {
@@ -197,38 +198,38 @@ const ShiftSchedule = (props) => {
   }
 
   useEffect(() => {
-    try {
-      axios({
-        method: "GET",
-        url: "http://localhost:8000/api/employees",
-        headers: { "Content-Type": "application/json" },
-        withCredentials: true,
-      }).then((response) => {
+    axios({
+      method: "GET",
+      url: "http://localhost:8000/api/employees",
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    })
+      .then((response) => {
         response.data.map((res) =>
           res.emp_id === props.empid ? setSchedId(res.emp_sched) : ""
         );
+      })
+      .catch((err) => {
+        console.log(err);
       });
-    } catch (err) {
-      console.log(err);
-    }
   }, [props.empid]);
 
   useEffect(() => {
-    try {
-      axios({
-        method: "GET",
-        url: "http://localhost:8000/api/schedules",
-        headers: { "Content-Type": "application/json" },
-        withCredentials: true,
-      }).then((response) => {
+    axios({
+      method: "GET",
+      url: "http://localhost:8000/api/schedules",
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    })
+      .then((response) => {
         setSchedules(response.data);
         response.data.map((res) =>
           res.id === schedid ? setSchedName(res.sched_name) : ""
         );
+      })
+      .catch((err) => {
+        console.log(err);
       });
-    } catch (err) {
-      console.log(err);
-    }
   }, [schedid]);
 
   return (
@@ -264,10 +265,10 @@ const ShiftSchedule = (props) => {
                         .localeCompare((optionB?.label ?? "").toLowerCase())
                     }
                     value={schedname}
-                    options={schedules.map((schedule) => {
+                    options={schedules.map((sched) => {
                       return {
-                        value: schedule.id,
-                        label: schedule.sched_name,
+                        value: sched.id,
+                        label: sched.sched_name,
                       };
                     })}
                     onChange={onChange}

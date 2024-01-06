@@ -31,21 +31,22 @@ const RegisterPage = () => {
       email: email,
       password: password,
     };
-    try {
-      axios({
-        method: "POST",
-        url: "http://localhost:8000/api/register/",
-        data: registerData,
-        headers: { "Content-Type": "application/json" },
-        withCredentials: true,
+    axios({
+      method: "POST",
+      url: "http://localhost:8000/api/register/",
+      data: registerData,
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    })
+      .then(() => {
+        setSuccess(true);
+      })
+      .catch((err) => {
+        console.log(err.response.data[0]);
+        setSuccess(false);
+        setLabel(err.response.data[0]);
+        setColor("#ff0000");
       });
-      setSuccess(true);
-    } catch (err) {
-      console.log(err.response.data[0]);
-      setSuccess(false);
-      setLabel(err.response.data[0]);
-      setColor("#ff0000");
-    }
   }
 
   function onFieldsChange() {

@@ -183,41 +183,55 @@ const AddUpdateEmployee = (props) => {
       emp_salary: employeeSalary,
       emp_branch: employeeBranch,
     };
-    try {
-      axios({
-        method: update ? "PATCH" : "POST",
-        url: "http://localhost:8000/api/employee/",
-        data: employeeData,
-        headers: { "Content-Type": "application/json" },
-        withCredentials: true,
-      }).then((response) => {
+    axios({
+      method: update ? "PATCH" : "POST",
+      url: "http://localhost:8000/api/employee/",
+      data: employeeData,
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    })
+      .then((response) => {
         setEmployeeID(response.data["emp_id"]);
+        setSuccess(true);
+      })
+      .catch((err) => {
+        console.log(err.response.data[0]);
+        setSuccess(false);
+        setLabel(err.response.data[0]);
+        setColor("#ff0000");
       });
-      setSuccess(true);
-    } catch (err) {
-      console.log(err.response.data[0]);
-      setSuccess(false);
-      setLabel(err.response.data[0]);
-      setColor("#ff0000");
-    }
   }
 
   useEffect(() => {
-    try {
-      axios({
-        method: "GET",
-        url: "http://localhost:8000/api/options",
-        headers: { "Content-Type": "application/json" },
-        withCredentials: true,
-      }).then((response) => {
+    axios({
+      method: "GET",
+      url: "http://localhost:8000/api/options",
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    })
+      .then((response) => {
         setNationalities(response.data);
         setPositions(response.data);
         setSalaries(response.data);
-        setBranches(response.data);
+      })
+      .catch((err) => {
+        console.log(err);
       });
-    } catch (err) {
-      console.log(err);
-    }
+  }, []);
+
+  useEffect(() => {
+    axios({
+      method: "GET",
+      url: "http://localhost:8000/api/branches",
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    })
+      .then((response) => {
+        setBranches(response.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
 
   if (submit) {
@@ -533,14 +547,12 @@ const AddUpdateEmployee = (props) => {
                       .localeCompare((optionB?.label ?? "").toLowerCase())
                   }
                   value={employeeBranch}
-                  options={branches
-                    .filter((res) => res.opt_category === "Branch")
-                    .map((pos) => {
-                      return {
-                        value: pos.opt_name,
-                        label: pos.opt_name,
-                      };
-                    })}
+                  options={branches.map((bra) => {
+                    return {
+                      value: bra.branch_name,
+                      label: bra.branch_name,
+                    };
+                  })}
                   onChange={onBranchChange}
                 />
               </Form.Item>

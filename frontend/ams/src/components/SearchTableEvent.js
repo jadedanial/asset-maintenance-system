@@ -1,11 +1,22 @@
 import React, { useState, useEffect } from "react";
-import { Col, Row, Card, Button, Input, Tooltip, Table } from "antd";
+import {
+  Col,
+  Row,
+  Card,
+  Button,
+  Input,
+  Tooltip,
+  Table,
+  notification,
+} from "antd";
 import DrawerEvent from "./DrawerEvent";
+import NotificationEvent from "./NotificationEvent";
 
 const SearchTableEvent = (props) => {
   const [openDrawer, setOpenDrawer] = useState(false);
   const [compItem, setCompItem] = useState("");
   const [rowIndex, setRowIndex] = useState([]);
+  const [api, contextHolder] = notification.useNotification();
 
   function showDrawer() {
     setOpenDrawer(true);
@@ -22,6 +33,7 @@ const SearchTableEvent = (props) => {
 
   return (
     <>
+      {contextHolder}
       <Card size="large" className="card-main-layout" bordered hoverable>
         <div span={24} style={{ position: "sticky", top: "87px", zIndex: "1" }}>
           <div style={{ height: "24px", backgroundColor: "#fff" }}></div>
@@ -43,8 +55,20 @@ const SearchTableEvent = (props) => {
                     size="large"
                     type="primary"
                     onClick={() => {
-                      showDrawer();
-                      setCompItem(props.compItemAdd);
+                      if (
+                        props.compItemAdd !== "AddUpdateItem" ||
+                        props.mainBranch === true
+                      ) {
+                        showDrawer();
+                        setCompItem(props.compItemAdd);
+                      } else {
+                        api.info(
+                          NotificationEvent(
+                            false,
+                            "Item addition access is limited only to Main Warehouse."
+                          )
+                        );
+                      }
                     }}
                     icon={props.tooltipIcon}
                   />

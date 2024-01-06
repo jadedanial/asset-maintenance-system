@@ -38,13 +38,13 @@ const Reorder = (props) => {
   function searchItem(value) {
     setItem(value);
     clearSearch();
-    try {
-      axios({
-        method: "GET",
-        url: "http://localhost:8000/api/warehouseitems",
-        headers: { "Content-Type": "application/json" },
-        withCredentials: true,
-      }).then((response) => {
+    axios({
+      method: "GET",
+      url: "http://localhost:8000/api/warehouseitems",
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    })
+      .then((response) => {
         response.data.map((res) =>
           res.item_code === value.toUpperCase()
             ? itemDetail.map((i) =>
@@ -62,11 +62,11 @@ const Reorder = (props) => {
               )
             : ""
         );
+        checkResult();
+      })
+      .catch((err) => {
+        console.log(err);
       });
-      checkResult();
-    } catch (err) {
-      console.log(err);
-    }
   }
 
   function checkResult() {
@@ -214,18 +214,18 @@ const Reorder = (props) => {
   }
 
   useEffect(() => {
-    try {
-      axios({
-        method: "GET",
-        url: "http://localhost:8000/api/items",
-        headers: { "Content-Type": "application/json" },
-        withCredentials: true,
-      }).then((response) => {
+    axios({
+      method: "GET",
+      url: "http://localhost:8000/api/items",
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    })
+      .then((response) => {
         setItemDetail(response.data);
+      })
+      .catch((err) => {
+        console.log(err);
       });
-    } catch (err) {
-      console.log(err);
-    }
   }, []);
 
   return (

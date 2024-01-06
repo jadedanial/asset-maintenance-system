@@ -51,13 +51,13 @@ const Employee = () => {
   ];
 
   function loadAPILists() {
-    try {
-      axios({
-        method: "GET",
-        url: "http://localhost:8000/api/employees",
-        headers: { "Content-Type": "application/json" },
-        withCredentials: true,
-      }).then((response) => {
+    axios({
+      method: "GET",
+      url: "http://localhost:8000/api/employees",
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    })
+      .then((response) => {
         setEmployees([]);
         response.data.map((res) =>
           setEmployees((employees) => [
@@ -71,10 +71,10 @@ const Employee = () => {
             },
           ])
         );
+      })
+      .catch((err) => {
+        console.log(err);
       });
-    } catch (err) {
-      console.log(err);
-    }
   }
 
   function searchedText(text) {

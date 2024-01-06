@@ -23,10 +23,10 @@ const ItemDetail = (props) => {
                     title: w.warehouse_name,
                     description: (
                       <>
-                        <p style={{ marginBottom: "0" }}>
+                        <p style={{ marginBottom: "0", lineHeight: "1.2" }}>
                           On Hand: {wi.item_onhand}
                         </p>
-                        <p style={{ marginBottom: "0" }}>
+                        <p style={{ marginBottom: "0", lineHeight: "1.2" }}>
                           Physical Location: {wi.item_location}
                         </p>
                       </>

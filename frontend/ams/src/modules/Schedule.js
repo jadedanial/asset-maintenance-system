@@ -72,13 +72,13 @@ const Schedule = () => {
   ];
 
   function loadAPILists() {
-    try {
-      axios({
-        method: "GET",
-        url: "http://localhost:8000/api/schedules",
-        headers: { "Content-Type": "application/json" },
-        withCredentials: true,
-      }).then((response) => {
+    axios({
+      method: "GET",
+      url: "http://localhost:8000/api/schedules",
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    })
+      .then((response) => {
         setSchedules([]);
         response.data.map((res) =>
           setSchedules((schedules) => [
@@ -96,10 +96,10 @@ const Schedule = () => {
             },
           ])
         );
+      })
+      .catch((err) => {
+        console.log(err);
       });
-    } catch (err) {
-      console.log(err);
-    }
   }
 
   function searchedText(text) {

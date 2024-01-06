@@ -205,13 +205,13 @@ const Excuse = (props) => {
   ];
 
   function loadExcuses() {
-    try {
-      axios({
-        method: "GET",
-        url: "http://localhost:8000/api/excuses",
-        headers: { "Content-Type": "application/json" },
-        withCredentials: true,
-      }).then((response) => {
+    axios({
+      method: "GET",
+      url: "http://localhost:8000/api/excuses",
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    })
+      .then((response) => {
         setExcuses([]);
         response.data.map((res) =>
           setExcuses((excuses) => [
@@ -226,20 +226,20 @@ const Excuse = (props) => {
             },
           ])
         );
+      })
+      .catch((err) => {
+        console.log(err);
       });
-    } catch (err) {
-      console.log(err);
-    }
   }
 
   function loadAttendances() {
-    try {
-      axios({
-        method: "GET",
-        url: "http://localhost:8000/api/attendances",
-        headers: { "Content-Type": "application/json" },
-        withCredentials: true,
-      }).then((response) => {
+    axios({
+      method: "GET",
+      url: "http://localhost:8000/api/attendances",
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    })
+      .then((response) => {
         setAttendances([]);
         response.data.map((res) =>
           setAttendances((attendances) => [
@@ -252,10 +252,10 @@ const Excuse = (props) => {
             },
           ])
         );
+      })
+      .catch((err) => {
+        console.log(err);
       });
-    } catch (err) {
-      console.log(err);
-    }
   }
 
   function updateAttendance() {
@@ -265,17 +265,15 @@ const Excuse = (props) => {
       attend_under: under - hours,
       attend_excuse: hours,
     };
-    try {
-      axios({
-        method: "PATCH",
-        url: "http://localhost:8000/api/emp_attendance/",
-        data: attendData,
-        headers: { "Content-Type": "application/json" },
-        withCredentials: true,
-      });
-    } catch (err) {
+    axios({
+      method: "PATCH",
+      url: "http://localhost:8000/api/emp_attendance/",
+      data: attendData,
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    }).catch((err) => {
       console.log(err);
-    }
+    });
   }
 
   function newExcuse() {
@@ -437,22 +435,25 @@ const Excuse = (props) => {
       exc_reason: reason,
       exc_total: hours,
     };
-    try {
-      axios({
-        method: "POST",
-        url: "http://localhost:8000/api/excuse/",
-        data: excData,
-        headers: { "Content-Type": "application/json" },
-        withCredentials: true,
+    axios({
+      method: "POST",
+      url: "http://localhost:8000/api/excuse/",
+      data: excData,
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    })
+      .then(() => {
+        updateAttendance();
+        loadExcuses();
+        setSuccess(true);
+      })
+      .catch((err) => {
+        console.log(err);
+        setSuccess(false);
+        api.info(
+          NotificationEvent(false, "Employee vacation failed to apply!")
+        );
       });
-      updateAttendance();
-      loadExcuses();
-      setSuccess(true);
-    } catch (err) {
-      console.log(err);
-      setSuccess(false);
-      api.info(NotificationEvent(false, "Employee vacation failed to apply!"));
-    }
   }
 
   useEffect(() => {
