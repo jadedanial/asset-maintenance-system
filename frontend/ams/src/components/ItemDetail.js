@@ -12,6 +12,21 @@ const ItemDetail = (props) => {
   const [item, setItem] = useState([]);
   const [warehouseItem, setWarehouseItem] = useState([]);
 
+  const fetchData = (url, setter) => {
+    axios({
+      method: "GET",
+      url: url,
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    })
+      .then((response) => {
+        setter(response.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   function otherWarehouse() {
     var data = [];
     warehouseItem.map((wi) =>
@@ -134,21 +149,6 @@ const ItemDetail = (props) => {
       </>
     );
   }
-
-  const fetchData = (url, setter) => {
-    axios({
-      method: "GET",
-      url: url,
-      headers: { "Content-Type": "application/json" },
-      withCredentials: true,
-    })
-      .then((response) => {
-        setter(response.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
 
   useEffect(() => {
     fetchData("http://localhost:8000/api/warehouses", setWarehouse);

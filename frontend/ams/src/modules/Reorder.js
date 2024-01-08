@@ -22,21 +22,37 @@ import NotificationEvent from "../components/NotificationEvent";
 const { Title } = Typography;
 
 const Reorder = (props) => {
+  const [total, setTotal] = useState("");
+  const [quantity, setQuantity] = useState("");
+  const [itemCode, setItemCode] = useState("");
+  const [warehouse, setWarehouse] = useState([]);
+  const [item, setItem] = useState([]);
   const [warehouseItem, setWarehouseItem] = useState({
     0: { id: "", code: "", name: "", cost: "", measurement: "" },
   });
-  const [total, setTotal] = useState("");
-  const [quantity, setQuantity] = useState("");
-  const [item, setItem] = useState("");
-  const [itemDetail, setItemDetail] = useState([]);
   const [orderList, setOrderList] = useState([]);
   const [itemCount, setItemCount] = useState(0);
   const [inputStatus, setInputStatus] = useState("");
   const [openDrawer, setOpenDrawer] = useState(false);
   const [api, contextHolder] = notification.useNotification();
 
+  const fetchData = (url, setter) => {
+    axios({
+      method: "GET",
+      url: url,
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    })
+      .then((response) => {
+        setter(response.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   function searchItem(value) {
-    setItem(value);
+    setItemCode(value);
     clearSearch();
     axios({
       method: "GET",
@@ -47,17 +63,23 @@ const Reorder = (props) => {
       .then((response) => {
         response.data.map((res) =>
           res.item_code === value.toUpperCase()
-            ? itemDetail.map((i) =>
-                i.item_code === res.item_code
-                  ? setWarehouseItem([
-                      {
-                        id: i.id,
-                        code: i.item_code,
-                        name: i.item_name,
-                        cost: i.item_cost,
-                        measurement: i.item_measurement,
-                      },
-                    ])
+            ? warehouse.map((w) =>
+                w.warehouse_code === res.warehouse_code
+                  ? w.warehouse_branch === props.employeeBranch
+                    ? item.map((i) =>
+                        i.item_code === res.item_code
+                          ? setWarehouseItem([
+                              {
+                                id: i.id,
+                                code: i.item_code,
+                                name: i.item_name,
+                                cost: i.item_cost,
+                                measurement: i.item_measurement,
+                              },
+                            ])
+                          : ""
+                      )
+                    : ""
                   : ""
               )
             : ""
@@ -146,7 +168,7 @@ const Reorder = (props) => {
               <Col span={16} style={{ paddingTop: "20px" }}>
                 <ItemDetail
                   itemcode={warehouseItem["0"]["code"]}
-                  mode={"view"}
+                  mode="view"
                   employeeBranch={props.employeeBranch}
                 ></ItemDetail>
               </Col>
@@ -214,18 +236,11 @@ const Reorder = (props) => {
   }
 
   useEffect(() => {
-    axios({
-      method: "GET",
-      url: "http://localhost:8000/api/items",
-      headers: { "Content-Type": "application/json" },
-      withCredentials: true,
-    })
-      .then((response) => {
-        setItemDetail(response.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    fetchData("http://localhost:8000/api/warehouses", setWarehouse);
+  }, []);
+
+  useEffect(() => {
+    fetchData("http://localhost:8000/api/items", setItem);
   }, []);
 
   return (
@@ -291,7 +306,7 @@ const Reorder = (props) => {
         empid={props.empid}
         username={props.username}
         searchItem={searchItem}
-        item={item}
+        item={itemCode}
         addItem={addItem}
         removeItem={removeItem}
         itemCount={itemCount}
