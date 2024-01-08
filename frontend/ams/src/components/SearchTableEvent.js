@@ -65,7 +65,7 @@ const SearchTableEvent = (props) => {
                         api.info(
                           NotificationEvent(
                             false,
-                            "Item addition access is limited only to Main Warehouse."
+                            "Item addition access is limited only to employee in Main Warehouse branch."
                           )
                         );
                       }
@@ -119,12 +119,13 @@ const SearchTableEvent = (props) => {
         />
       </Card>
       <DrawerEvent
-        employeeBranch={props.employeeBranch}
         rowIndex={rowIndex}
         showDrawer={openDrawer}
         onCloseDrawer={onCloseDrawer}
         col={props.col}
         comp={compItem}
+        employeeBranch={props.employeeBranch}
+        updateEmployeeBranch={props.updateEmployeeBranch}
       ></DrawerEvent>
     </>
   );

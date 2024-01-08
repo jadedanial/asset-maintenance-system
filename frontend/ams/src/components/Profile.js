@@ -128,6 +128,7 @@ const Profile = (props) => {
                   position={e.emp_position}
                   salary={e.emp_salary}
                   branch={e.emp_branch}
+                  updateEmployeeBranch={props.updateEmployeeBranch}
                 ></AddUpdateEmployee>
               </>
             ) : (

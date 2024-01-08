@@ -192,6 +192,9 @@ const AddUpdateEmployee = (props) => {
     })
       .then((response) => {
         setEmployeeID(response.data["emp_id"]);
+        if (update) {
+          props.updateEmployeeBranch();
+        }
         setSuccess(true);
       })
       .catch((err) => {

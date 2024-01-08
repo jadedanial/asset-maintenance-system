@@ -145,9 +145,9 @@ const Reorder = (props) => {
             <Row>
               <Col span={16} style={{ paddingTop: "20px" }}>
                 <ItemDetail
-                  employeeBranch={props.employeeBranch}
                   itemcode={warehouseItem["0"]["code"]}
                   mode={"view"}
+                  employeeBranch={props.employeeBranch}
                 ></ItemDetail>
               </Col>
               <Col

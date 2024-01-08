@@ -114,8 +114,6 @@ const Item = (props) => {
   return (
     <>
       <SearchTableEvent
-        mainBranch={branchType()}
-        employeeBranch={props.employeeBranch}
         loadAPILists={loadAPILists}
         tooltipIcon={<ShoppingOutlined />}
         tooltipTitle={"Add New Item"}
@@ -125,6 +123,8 @@ const Item = (props) => {
         tableColumns={columns}
         tableDataSource={listData}
         searchedText={searchedText}
+        employeeBranch={props.employeeBranch}
+        mainBranch={branchType()}
       ></SearchTableEvent>
     </>
   );

@@ -90,6 +90,27 @@ const MainPage = (props) => {
     }
   }
 
+  function loadBranch() {
+    axios({
+      method: "GET",
+      url: "http://localhost:8000/api/employees",
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    })
+      .then((response) => {
+        response.data.map((res) =>
+          res.emp_id === props.empid ? setEmployeeBranch(res.emp_branch) : ""
+        );
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  function updateEmployeeBranch() {
+    loadBranch();
+  }
+
   function componentSwitch(key) {
     switch (key) {
       case 0:
@@ -101,6 +122,7 @@ const MainPage = (props) => {
               onCloseDrawer={onCloseDrawer}
               col={collapsed}
               comp={"User"}
+              updateEmployeeBranch={updateEmployeeBranch}
             ></DrawerEvent>
           </>
         );
@@ -113,7 +135,10 @@ const MainPage = (props) => {
       case "Employee":
         return (
           <>
-            <Employee col={collapsed}></Employee>
+            <Employee
+              col={collapsed}
+              updateEmployeeBranch={updateEmployeeBranch}
+            ></Employee>
           </>
         );
       case "Shift":
@@ -169,23 +194,6 @@ const MainPage = (props) => {
   useEffect(() => {
     axios({
       method: "GET",
-      url: "http://localhost:8000/api/employees",
-      headers: { "Content-Type": "application/json" },
-      withCredentials: true,
-    })
-      .then((response) => {
-        response.data.map((res) =>
-          res.emp_id === props.empid ? setEmployeeBranch(res.emp_branch) : ""
-        );
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, [props.empid]);
-
-  useEffect(() => {
-    axios({
-      method: "GET",
       url: "http://localhost:8000/api/modules",
       headers: { "Content-Type": "application/json" },
       withCredentials: true,
@@ -202,6 +210,10 @@ const MainPage = (props) => {
         console.log(err);
       });
   }, []);
+
+  useEffect(() => {
+    loadBranch();
+  });
 
   return (
     <>

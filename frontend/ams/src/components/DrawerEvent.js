@@ -15,13 +15,19 @@ const DrawerEvent = (props) => {
       case "User":
         return (
           <>
-            <Profile empid={props.empid}></Profile>
+            <Profile
+              empid={props.empid}
+              updateEmployeeBranch={props.updateEmployeeBranch}
+            ></Profile>
           </>
         );
       case "Profile":
         return (
           <>
-            <Profile empid={props.rowIndex["id"]}></Profile>
+            <Profile
+              empid={props.rowIndex["id"]}
+              updateEmployeeBranch={props.updateEmployeeBranch}
+            ></Profile>
           </>
         );
       case "AddUpdateEmployee":
@@ -76,9 +82,9 @@ const DrawerEvent = (props) => {
         return (
           <>
             <ItemDetail
-              employeeBranch={props.employeeBranch}
               itemcode={props.rowIndex["code"]}
               mode="update"
+              employeeBranch={props.employeeBranch}
             ></ItemDetail>
           </>
         );

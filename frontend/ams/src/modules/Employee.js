@@ -3,7 +3,7 @@ import axios from "axios";
 import { UserAddOutlined } from "@ant-design/icons";
 import SearchTableEvent from "../components/SearchTableEvent";
 
-const Employee = () => {
+const Employee = (props) => {
   const [searchedtext, setSearchedText] = useState("");
   const [employees, setEmployees] = useState([]);
 
@@ -97,6 +97,7 @@ const Employee = () => {
         tableColumns={columns}
         tableDataSource={employees}
         searchedText={searchedText}
+        updateEmployeeBranch={props.updateEmployeeBranch}
       ></SearchTableEvent>
     </>
   );
