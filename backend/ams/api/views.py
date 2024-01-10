@@ -396,6 +396,7 @@ class WarehouseItemUpdateView(APIView):
 
     def patch(self, request, *args, **kwargs):
         data = request.data
+        print(data)
         for item in data:
             item_instance = Item.objects.get(item_code=item["item_code"])
             warehouse_instance = Warehouse.objects.get(

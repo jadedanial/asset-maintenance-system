@@ -118,8 +118,8 @@ const Item = (props) => {
         tooltipIcon={<ShoppingOutlined />}
         tooltipTitle={"Add New Item"}
         inputPlaceHolder={"Search Item"}
-        compItemAdd={"AddUpdateItem"}
         compItemUpdate={"ItemDetail"}
+        compItemAdd={"AddUpdateItem"}
         tableColumns={columns}
         tableDataSource={listData}
         searchedText={searchedText}

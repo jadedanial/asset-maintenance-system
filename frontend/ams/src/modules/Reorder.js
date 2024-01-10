@@ -303,8 +303,6 @@ const Reorder = (props) => {
         </div>
       </Card>
       <DrawerEvent
-        empid={props.empid}
-        username={props.username}
         searchItem={searchItem}
         item={itemCode}
         addItem={addItem}
@@ -316,6 +314,9 @@ const Reorder = (props) => {
         onCloseDrawer={onCloseDrawer}
         col={props.col}
         comp="CartItem"
+        empid={props.empid}
+        username={props.username}
+        employeeBranch={props.employeeBranch}
       ></DrawerEvent>
     </>
   );

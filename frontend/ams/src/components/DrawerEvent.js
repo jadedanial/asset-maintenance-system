@@ -98,8 +98,6 @@ const DrawerEvent = (props) => {
         return (
           <>
             <CartItem
-              empid={props.empid}
-              username={props.username}
               searchItem={props.searchItem}
               item={props.item}
               addItem={props.addItem}
@@ -108,6 +106,9 @@ const DrawerEvent = (props) => {
               orderList={props.orderList}
               clearOrder={props.clearOrder}
               onCloseDrawer={props.onCloseDrawer}
+              empid={props.empid}
+              username={props.username}
+              employeeBranch={props.employeeBranch}
             ></CartItem>
           </>
         );

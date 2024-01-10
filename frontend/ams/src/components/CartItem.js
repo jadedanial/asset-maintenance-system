@@ -17,6 +17,7 @@ const CartItem = (props) => {
   const [itemCount, setItemCount] = useState(0);
   const [success, setSuccess] = useState(false);
   const [transactionID, setTransactionID] = useState("");
+  const [warehouseCode, setWarehouseCode] = useState("");
 
   function changeQuantity(action, id, code, name, cost, measurement, quantity) {
     if (quantity >= 1) {
@@ -93,11 +94,23 @@ const CartItem = (props) => {
       });
   }
 
+  function warehouseItemOrder(orderList) {
+    let newList = orderList.map((item) => {
+      return {
+        id: item.id,
+        item_code: item.item_code,
+        warehouse_code: warehouseCode,
+        item_onhand: item.item_onhand,
+      };
+    });
+    return newList;
+  }
+
   function checkoutOrder() {
     axios({
-      method: "PUT",
-      url: "http://localhost:8000/api/item/",
-      data: props.orderList,
+      method: "PATCH",
+      url: "http://localhost:8000/api/warehouseitemupdate/",
+      data: warehouseItemOrder(props.orderList),
       headers: { "Content-Type": "application/json" },
       withCredentials: true,
     })
@@ -113,6 +126,24 @@ const CartItem = (props) => {
         setSuccess(false);
       });
   }
+
+  useEffect(() => {
+    axios({
+      method: "GET",
+      url: "http://localhost:8000/api/warehouses",
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    })
+      .then((response) => {
+        const warehouseCode = response.data.find(
+          (res) => res.warehouse_branch === props.employeeBranch
+        )?.warehouse_code;
+        setWarehouseCode(warehouseCode);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   useEffect(() => {
     sumOrder();
