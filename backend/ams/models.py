@@ -12,7 +12,7 @@ class Section(models.Model):
                            null=True, verbose_name="Key")
 
     def __str__(self):
-        return self.label
+        return str(self.label)
 
     def update_model(self):
         key_id = Section.objects.get(key=self.key).id
@@ -36,7 +36,7 @@ class Module(models.Model):
         Section, blank=True, verbose_name="Children")
 
     def __str__(self):
-        return self.label
+        return str(self.label)
 
     def update_model(self):
         key_id = Module.objects.get(key=self.key).id
@@ -53,7 +53,7 @@ class Category(models.Model):
     )
 
     def __str__(self):
-        return self.cat_name
+        return str(self.cat_name)
 
 
 class Option(models.Model):
@@ -72,7 +72,7 @@ class Option(models.Model):
     )
 
     def __str__(self):
-        return self.opt_name
+        return str(self.opt_name)
 
 
 class Branch(models.Model):
@@ -98,7 +98,7 @@ class Branch(models.Model):
     )
 
     def __str__(self):
-        return self.branch_name
+        return str(self.branch_name)
 
 
 class User(AbstractUser):
@@ -119,7 +119,7 @@ class User(AbstractUser):
     REQUIRED_FIELDS = []
 
     def __str__(self):
-        return self.username
+        return str(self.username)
 
 
 class Shift(models.Model):
@@ -134,7 +134,7 @@ class Shift(models.Model):
     shift_to = models.TimeField(blank=True, null=True, verbose_name="To")
 
     def __str__(self):
-        return self.shift_description
+        return str(self.shift_description)
 
     def update_model(self):
         test_id = Shift.objects.get(id=self.id).id
@@ -209,7 +209,7 @@ class Schedule(models.Model):
     )
 
     def __str__(self):
-        return self.sched_name
+        return str(self.sched_name)
 
 
 class Employee(models.Model):
@@ -361,7 +361,7 @@ class Warehouse(models.Model):
     )
 
     def __str__(self):
-        return self.warehouse_code
+        return str(self.warehouse_code)
 
 
 class Item(models.Model):
@@ -388,7 +388,7 @@ class Item(models.Model):
     )
 
     def __str__(self):
-        return self.item_code
+        return str(self.item_code)
 
     def update_model(self):
         test_id = Item.objects.get(item_code=self.item_code).id
@@ -455,7 +455,7 @@ class Vehicle(models.Model):
     )
 
     def __str__(self):
-        return self.vehicle_code
+        return str(self.vehicle_code)
 
 
 class Transaction(models.Model):

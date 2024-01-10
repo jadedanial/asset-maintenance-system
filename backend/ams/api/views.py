@@ -362,15 +362,6 @@ class ItemView(APIView):
 
         return Response(serializer.data)
 
-    def put(self, request, *args, **kwargs):
-        data = request.data
-        for item in data:
-            code = Item.objects.filter(item_code=item["item_code"]).first()
-            code.item_onhand += item["item_onhand"]
-            code.save()
-
-        return Response(data)
-
 
 class ItemListView(ListAPIView):
     queryset = Item.objects.all()
@@ -390,6 +381,7 @@ class WarehouseItemView(APIView):
         return Response(serializer.data)
 
     def patch(self, request, *args, **kwargs):
+        print(request.data)
         item = Item.objects.get(item_code=request.data["item_code"])
         code = WarehouseItem.objects.filter(item_code=item.id).first()
         serializer = WarehouseItemSerializer(code, data=request.data)
@@ -397,6 +389,30 @@ class WarehouseItemView(APIView):
         serializer.save()
 
         return Response(serializer.data)
+
+
+class WarehouseItemUpdateView(APIView):
+    permission_classes = [IsAuthenticatedWithJWT]
+
+    def patch(self, request, *args, **kwargs):
+        data = request.data
+        for item in data:
+            item_instance = Item.objects.get(item_code=item["item_code"])
+            warehouse_instance = Warehouse.objects.get(
+                warehouse_code=item["warehouse_code"])
+
+            warehouse_item = WarehouseItem.objects.filter(
+                item_code=item_instance, warehouse_code=warehouse_instance).first()
+
+            if warehouse_item is None:
+                warehouse_item = WarehouseItem(
+                    item_code=item_instance, warehouse_code=warehouse_instance, item_onhand=item["item_onhand"])
+            else:
+                warehouse_item.item_onhand += item["item_onhand"]
+
+            warehouse_item.save()
+
+        return Response(data)
 
 
 class WarehouseItemListView(ListAPIView):

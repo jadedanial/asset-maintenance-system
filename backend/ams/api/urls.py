@@ -28,6 +28,7 @@ urlpatterns = [
     path("item/", ItemView.as_view()),
     path("items", ItemListView.as_view()),
     path("warehouseitem/", WarehouseItemView.as_view()),
+    path("warehouseitemupdate/", WarehouseItemUpdateView.as_view()),
     path("warehouseitems", WarehouseItemListView.as_view()),
     path("vehicles", VehicleListView.as_view()),
     path("transaction/", TransactionView.as_view()),
