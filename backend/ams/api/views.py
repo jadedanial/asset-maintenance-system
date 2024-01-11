@@ -373,7 +373,6 @@ class WarehouseItemView(APIView):
     permission_classes = [IsAuthenticatedWithJWT]
 
     def post(self, request):
-        print(request.data)
         serializer = WarehouseItemSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
@@ -382,9 +381,12 @@ class WarehouseItemView(APIView):
 
     def patch(self, request, *args, **kwargs):
         print(request.data)
-        item = Item.objects.get(item_code=request.data["item_code"])
-        code = WarehouseItem.objects.filter(item_code=item.id).first()
-        serializer = WarehouseItemSerializer(code, data=request.data)
+        item_instance = Item.objects.get(item_code=request.data["item_code"])
+        warehouse_instance = Warehouse.objects.get(
+            warehouse_code=request.data["warehouse_code"])
+        warehouse_item = WarehouseItem.objects.filter(
+            item_code=item_instance, warehouse_code=warehouse_instance).first()
+        serializer = WarehouseItemSerializer(warehouse_item, data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
 
@@ -396,7 +398,6 @@ class WarehouseItemUpdateView(APIView):
 
     def patch(self, request, *args, **kwargs):
         data = request.data
-        print(data)
         for item in data:
             item_instance = Item.objects.get(item_code=item["item_code"])
             warehouse_instance = Warehouse.objects.get(

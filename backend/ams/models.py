@@ -349,9 +349,6 @@ class Warehouse(models.Model):
     warehouse_code = models.CharField(
         max_length=100, unique=True, blank=True, null=True, verbose_name="Warehouse Code"
     )
-    warehouse_name = models.CharField(
-        max_length=300, unique=True, blank=True, null=True, verbose_name="Name"
-    )
     warehouse_branch = models.ForeignKey(
         Branch,
         blank=False,

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Typography, Card, Col, List, Button, Tooltip } from "antd";
+import { Typography, Card, Col, List, Button, Tooltip, Select } from "antd";
 import {
   PlusOutlined,
   MinusOutlined,
@@ -18,6 +18,7 @@ const CartItem = (props) => {
   const [success, setSuccess] = useState(false);
   const [transactionID, setTransactionID] = useState("");
   const [warehouseCode, setWarehouseCode] = useState("");
+  const [warehouses, setWarehouses] = useState([]);
 
   function changeQuantity(action, id, code, name, cost, measurement, quantity) {
     if (quantity >= 1) {
@@ -127,6 +128,13 @@ const CartItem = (props) => {
       });
   }
 
+  function onWarehouseChange(value) {
+    const warehouseCode = warehouses.find(
+      (w) => w.warehouse_branch === value
+    )?.warehouse_code;
+    setWarehouseCode(warehouseCode);
+  }
+
   useEffect(() => {
     axios({
       method: "GET",
@@ -135,10 +143,7 @@ const CartItem = (props) => {
       withCredentials: true,
     })
       .then((response) => {
-        const warehouseCode = response.data.find(
-          (res) => res.warehouse_branch === props.employeeBranch
-        )?.warehouse_code;
-        setWarehouseCode(warehouseCode);
+        setWarehouses(response.data);
       })
       .catch((err) => {
         console.log(err);
@@ -215,19 +220,46 @@ const CartItem = (props) => {
             hoverable
           >
             {totalOrder > 0.0 ? (
-              <Card
-                size="small"
-                id="card-content-justify-center"
-                style={{
-                  padding: "10px 20px",
-                  fontWeight: "800",
-                }}
-              >
-                <div className="space-between-row">
-                  <p className="large-font">Total Cost</p>
-                  <p className="large-font">Php. {totalOrder}</p>
+              <>
+                <div style={{ marginBottom: "20px" }}>
+                  <Select
+                    size="large"
+                    placeholder="Select Warehouse"
+                    showSearch
+                    className="small-font"
+                    style={{ width: "100%" }}
+                    optionFilterProp="children"
+                    filterOption={(input, option) =>
+                      (option?.label ?? "").toLowerCase().includes(input)
+                    }
+                    filterSort={(optionA, optionB) =>
+                      (optionA?.label ?? "")
+                        .toLowerCase()
+                        .localeCompare((optionB?.label ?? "").toLowerCase())
+                    }
+                    options={warehouses.map((w) => {
+                      return {
+                        value: w.warehouse_branch,
+                        label: w.warehouse_branch,
+                      };
+                    })}
+                    onChange={onWarehouseChange}
+                  />
                 </div>
-              </Card>
+                <Card
+                  size="small"
+                  id="card-content-justify-center"
+                  style={{
+                    padding: "10px 20px",
+                    fontWeight: "800",
+                  }}
+                >
+                  <div className="space-between-row">
+                    <p className="large-font">Total Cost</p>
+                    <p className="large-font">Php. {totalOrder}</p>
+                  </div>
+                </Card>
+              </>
             ) : (
               ""
             )}

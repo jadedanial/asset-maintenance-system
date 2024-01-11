@@ -214,7 +214,6 @@ class WarehouseSerializer(serializers.ModelSerializer):
         fields = [
             "id",
             "warehouse_code",
-            "warehouse_name",
             "warehouse_branch",
         ]
 

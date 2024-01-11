@@ -91,7 +91,10 @@ const DrawerEvent = (props) => {
       case "AddUpdateItem":
         return (
           <>
-            <AddUpdateItem update={false}></AddUpdateItem>
+            <AddUpdateItem
+              update={false}
+              employeeBranch={props.employeeBranch}
+            ></AddUpdateItem>
           </>
         );
       case "CartItem":

@@ -309,17 +309,14 @@ class WarehouseAdmin(admin.ModelAdmin):
     )
     list_display = (
         "warehouse_code",
-        "warehouse_name",
         "warehouse_branch",
     )
     list_filter = (
         "warehouse_code",
-        "warehouse_name",
         "warehouse_branch",
     )
     search_fields = (
         "warehouse_code",
-        "warehouse_name",
         "warehouse_branch",
     )
 

@@ -35,7 +35,7 @@ const ItemDetail = (props) => {
             w.warehouse_code === wi.warehouse_code
               ? w.warehouse_branch !== props.employeeBranch
                 ? data.push({
-                    title: w.warehouse_name,
+                    title: w.warehouse_branch,
                     description: (
                       <>
                         <p style={{ marginBottom: "0", lineHeight: "1.2" }}>
@@ -185,6 +185,7 @@ const ItemDetail = (props) => {
                                 onhand={wi.item_onhand}
                                 cost={i.item_cost}
                                 description={i.item_description}
+                                employeeBranch={props.employeeBranch}
                               ></AddUpdateItem>
                             </>
                           ) : (

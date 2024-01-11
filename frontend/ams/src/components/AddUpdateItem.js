@@ -57,6 +57,7 @@ const AddUpdateItem = (props) => {
   const [reorderReq, setReorderReq] = useState(false);
   const [costReq, setCostReq] = useState(false);
   const [descriptionReq, setDescriptionReq] = useState(false);
+  const [warehouses, setWarehouses] = useState([]);
 
   function newItem() {
     setUpdate(false);
@@ -127,6 +128,13 @@ const AddUpdateItem = (props) => {
     changeLabel();
   }
 
+  function getWarehouseCode() {
+    const warehouseCode = warehouses.find(
+      (w) => w.warehouse_branch === props.employeeBranch
+    )?.warehouse_code;
+    return warehouseCode;
+  }
+
   function onFinish() {
     setSubmit(true);
     changeLabel();
@@ -150,7 +158,7 @@ const AddUpdateItem = (props) => {
         setIDCode("ITM00" + response.data["id"]);
         var itemWarehouse = {
           item_code: "ITM00" + response.data["id"],
-          warehouse_code: "JEDW",
+          warehouse_code: getWarehouseCode(),
           item_location: itemLocation,
           item_onhand: itemOnHand,
         };
@@ -182,6 +190,21 @@ const AddUpdateItem = (props) => {
       .then((response) => {
         setCategories(response.data);
         setMeasurements(response.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  useEffect(() => {
+    axios({
+      method: "GET",
+      url: "http://localhost:8000/api/warehouses",
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    })
+      .then((response) => {
+        setWarehouses(response.data);
       })
       .catch((err) => {
         console.log(err);
