@@ -1,11 +1,12 @@
+from tkinter import W
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from ams.models import *
 
 
-class SectionSerializer(serializers.ModelSerializer):
+class ComponentSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Section
+        model = Component
         fields = [
             "id",
             "label",
@@ -53,8 +54,18 @@ class BranchSerializer(serializers.ModelSerializer):
         model = Branch
         fields = [
             "branch_name",
-            "branch_category",
-            "branch_type",
+        ]
+
+
+class SectionSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Section
+        fields = [
+            "section_code",
+            "section_branch",
+            "section_type",
+            "section_category",
         ]
 
 
@@ -123,7 +134,6 @@ class ScheduleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Schedule
         fields = [
-            "id",
             "sched_name",
             "sched_sun",
             "sched_mon",
@@ -136,9 +146,9 @@ class ScheduleSerializer(serializers.ModelSerializer):
 
 
 class EmployeeSerializer(serializers.ModelSerializer):
-    emp_branch = serializers.SlugRelatedField(
-        queryset=Branch.objects.all(),
-        slug_field='branch_name'
+    emp_section = serializers.SlugRelatedField(
+        queryset=Section.objects.all(),
+        slug_field='section_code'
     )
 
     class Meta:
@@ -154,7 +164,7 @@ class EmployeeSerializer(serializers.ModelSerializer):
             "emp_hired",
             "emp_position",
             "emp_salary",
-            "emp_branch",
+            "emp_section",
             "emp_sched",
         ]
 
@@ -205,19 +215,6 @@ class ExcuseSerializer(serializers.ModelSerializer):
         ]
 
 
-class WarehouseSerializer(serializers.ModelSerializer):
-    warehouse_branch = serializers.ReadOnlyField(
-        source="warehouse_branch.branch_name")
-
-    class Meta:
-        model = Warehouse
-        fields = [
-            "id",
-            "warehouse_code",
-            "warehouse_branch",
-        ]
-
-
 class ItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = Item
@@ -239,14 +236,13 @@ class WarehouseItemSerializer(serializers.ModelSerializer):
         slug_field='item_code'
     )
     warehouse_code = serializers.SlugRelatedField(
-        queryset=Warehouse.objects.all(),
-        slug_field='warehouse_code'
+        queryset=Section.objects.all(),
+        slug_field='section_code'
     )
 
     class Meta:
         model = WarehouseItem
         fields = [
-            "id",
             "item_code",
             "warehouse_code",
             "item_location",
@@ -274,6 +270,7 @@ class TransactionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Transaction
         fields = [
+            "id",
             "trans_id",
             "trans_type",
             "trans_action",

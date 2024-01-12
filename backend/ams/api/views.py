@@ -9,9 +9,9 @@ from ams.models import *
 from .serializers import *
 
 
-class SectionListView(ListAPIView):
-    queryset = Section.objects.all()
-    serializer_class = SectionSerializer
+class ComponentListView(ListAPIView):
+    queryset = Component.objects.all()
+    serializer_class = ComponentSerializer
     permission_classes = [IsAuthenticatedWithJWT]
 
 
@@ -36,6 +36,12 @@ class OptionListView(ListAPIView):
 class BranchListView(ListAPIView):
     queryset = Branch.objects.all()
     serializer_class = BranchSerializer
+    permission_classes = [IsAuthenticatedWithJWT]
+
+
+class SectionListView(ListAPIView):
+    queryset = Section.objects.all()
+    serializer_class = SectionSerializer
     permission_classes = [IsAuthenticatedWithJWT]
 
 
@@ -325,12 +331,6 @@ class ExcuseListView(ListAPIView):
     permission_classes = [IsAuthenticatedWithJWT]
 
 
-class WarehouseListView(ListAPIView):
-    queryset = Warehouse.objects.all()
-    serializer_class = WarehouseSerializer
-    permission_classes = [IsAuthenticatedWithJWT]
-
-
 class ItemView(APIView):
     permission_classes = [IsAuthenticatedWithJWT]
 
@@ -348,13 +348,13 @@ class ItemView(APIView):
         return Response(serializer.data)
 
     def patch(self, request, *args, **kwargs):
-        code = Item.objects.filter(item_code=request.data["item_code"]).first()
+        item = Item.objects.filter(item_code=request.data["item_code"]).first()
         name = Item.objects.filter(
             item_name__iexact=request.data["item_name"]).first()
-        serializer = ItemSerializer(code, data=request.data)
+        serializer = ItemSerializer(item, data=request.data)
 
         if name:
-            if str(name.item_code) != str(code.item_code):
+            if str(name.item_code) != str(item.item_code):
                 raise ValidationError("Item name already exist!")
 
         serializer.is_valid(raise_exception=True)
@@ -380,12 +380,11 @@ class WarehouseItemView(APIView):
         return Response(serializer.data)
 
     def patch(self, request, *args, **kwargs):
-        print(request.data)
-        item_instance = Item.objects.get(item_code=request.data["item_code"])
-        warehouse_instance = Warehouse.objects.get(
-            warehouse_code=request.data["warehouse_code"])
+        item = Item.objects.get(item_code=request.data["item_code"])
+        section = Section.objects.get(
+            section_code=request.data["warehouse_code"])
         warehouse_item = WarehouseItem.objects.filter(
-            item_code=item_instance, warehouse_code=warehouse_instance).first()
+            item_code=item, warehouse_code=section).first()
         serializer = WarehouseItemSerializer(warehouse_item, data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
@@ -398,19 +397,17 @@ class WarehouseItemUpdateView(APIView):
 
     def patch(self, request, *args, **kwargs):
         data = request.data
-        for item in data:
-            item_instance = Item.objects.get(item_code=item["item_code"])
-            warehouse_instance = Warehouse.objects.get(
-                warehouse_code=item["warehouse_code"])
-
+        for d in data:
+            item = Item.objects.get(item_code=d["item_code"])
+            section = Section.objects.get(section_code=d["warehouse_code"])
             warehouse_item = WarehouseItem.objects.filter(
-                item_code=item_instance, warehouse_code=warehouse_instance).first()
+                item_code=item, warehouse_code=section).first()
 
             if warehouse_item is None:
                 warehouse_item = WarehouseItem(
-                    item_code=item_instance, warehouse_code=warehouse_instance, item_onhand=item["item_onhand"])
+                    item_code=item, warehouse_code=section, item_onhand=d["item_onhand"])
             else:
-                warehouse_item.item_onhand += item["item_onhand"]
+                warehouse_item.item_onhand += d["item_onhand"]
 
             warehouse_item.save()
 

@@ -8,7 +8,6 @@ const { Title } = Typography;
 
 const ItemDetail = (props) => {
   const [update, setUpdate] = useState(false);
-  const [warehouse, setWarehouse] = useState([]);
   const [item, setItem] = useState([]);
   const [warehouseItem, setWarehouseItem] = useState([]);
 
@@ -31,25 +30,21 @@ const ItemDetail = (props) => {
     var data = [];
     warehouseItem.map((wi) =>
       wi.item_code === props.itemcode
-        ? warehouse.map((w) =>
-            w.warehouse_code === wi.warehouse_code
-              ? w.warehouse_branch !== props.employeeBranch
-                ? data.push({
-                    title: w.warehouse_branch,
-                    description: (
-                      <>
-                        <p style={{ marginBottom: "0", lineHeight: "1.2" }}>
-                          On Hand: {wi.item_onhand}
-                        </p>
-                        <p style={{ marginBottom: "0", lineHeight: "1.2" }}>
-                          Physical Location: {wi.item_location}
-                        </p>
-                      </>
-                    ),
-                  })
-                : ""
-              : ""
-          )
+        ? wi.warehouse_code !== props.sectionCode
+          ? data.push({
+              title: wi.warehouse_code,
+              description: (
+                <>
+                  <p style={{ marginBottom: "0", lineHeight: "1.2" }}>
+                    On Hand: {wi.item_onhand}
+                  </p>
+                  <p style={{ marginBottom: "0", lineHeight: "1.2" }}>
+                    Physical Location: {wi.item_location}
+                  </p>
+                </>
+              ),
+            })
+          : ""
         : ""
     );
     return data;
@@ -151,10 +146,6 @@ const ItemDetail = (props) => {
   }
 
   useEffect(() => {
-    fetchData("http://localhost:8000/api/warehouses", setWarehouse);
-  }, []);
-
-  useEffect(() => {
     fetchData("http://localhost:8000/api/items", setItem);
   }, []);
 
@@ -166,84 +157,81 @@ const ItemDetail = (props) => {
     <>
       {warehouseItem.map((wi) =>
         wi.item_code === props.itemcode
-          ? warehouse.map((w) =>
-              w.warehouse_code === wi.warehouse_code
-                ? w.warehouse_branch === props.employeeBranch
-                  ? item.map((i) =>
-                      i.item_code === wi.item_code ? (
-                        <>
-                          {update ? (
-                            <>
-                              <AddUpdateItem
-                                update={true}
-                                code={i.item_code}
-                                name={i.item_name}
-                                category={i.item_category}
-                                measurement={i.item_measurement}
-                                location={wi.item_location}
-                                reorder={i.item_reorder}
-                                onhand={wi.item_onhand}
-                                cost={i.item_cost}
-                                description={i.item_description}
-                                employeeBranch={props.employeeBranch}
-                              ></AddUpdateItem>
-                            </>
+          ? wi.warehouse_code === props.sectionCode
+            ? item.map((i) =>
+                i.item_code === wi.item_code ? (
+                  <>
+                    {update ? (
+                      <>
+                        <AddUpdateItem
+                          update={true}
+                          code={i.item_code}
+                          name={i.item_name}
+                          category={i.item_category}
+                          measurement={i.item_measurement}
+                          location={wi.item_location}
+                          reorder={i.item_reorder}
+                          onhand={wi.item_onhand}
+                          cost={i.item_cost}
+                          description={i.item_description}
+                          sectionCode={props.sectionCode}
+                          sectionCategory={props.sectionCategory}
+                        ></AddUpdateItem>
+                      </>
+                    ) : (
+                      <>
+                        <div className="justified-row">
+                          {props.mode === "view" ? (
+                            <Card
+                              className="card-no-padding"
+                              style={{
+                                padding: "0 20px 0 0",
+                                borderTop: "0",
+                                borderLeft: "0",
+                                borderBottom: "0",
+                                width: "100%",
+                              }}
+                            >
+                              {itemDetails(i, wi)}
+                            </Card>
                           ) : (
-                            <>
-                              <div className="justified-row">
-                                {props.mode === "view" ? (
-                                  <Card
-                                    className="card-no-padding"
-                                    style={{
-                                      padding: "0 20px 0 0",
-                                      borderTop: "0",
-                                      borderLeft: "0",
-                                      borderBottom: "0",
-                                      width: "100%",
-                                    }}
+                            <div className="card-custom-size">
+                              <Card
+                                size="large"
+                                extra={
+                                  <Button
+                                    size="large"
+                                    type="primary"
+                                    onClick={() => setUpdate(true)}
                                   >
-                                    {itemDetails(i, wi)}
-                                  </Card>
-                                ) : (
-                                  <div className="card-custom-size">
-                                    <Card
-                                      size="large"
-                                      extra={
-                                        <Button
-                                          size="large"
-                                          type="primary"
-                                          onClick={() => setUpdate(true)}
-                                        >
-                                          UPDATE
-                                        </Button>
-                                      }
-                                      title={
-                                        <Title>
-                                          <p
-                                            className="big-card-title"
-                                            style={{ textWrap: "wrap" }}
-                                          >
-                                            {i.item_code}
-                                          </p>
-                                        </Title>
-                                      }
-                                      hoverable
+                                    UPDATE
+                                  </Button>
+                                }
+                                title={
+                                  <Title>
+                                    <p
+                                      className="big-card-title"
+                                      style={{ textWrap: "wrap" }}
                                     >
-                                      {itemDetails(i, wi)}
-                                    </Card>
-                                  </div>
-                                )}
-                              </div>
-                            </>
+                                      {i.item_code}
+                                    </p>
+                                  </Title>
+                                }
+                                hoverable
+                              >
+                                {itemDetails(i, wi)}
+                              </Card>
+                            </div>
                           )}
-                        </>
-                      ) : (
-                        ""
-                      )
-                    )
-                  : ""
-                : ""
-            )
+                        </div>
+                      </>
+                    )}
+                  </>
+                ) : (
+                  ""
+                )
+              )
+            : ""
           : ""
       )}
     </>

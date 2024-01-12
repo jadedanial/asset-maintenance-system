@@ -17,7 +17,7 @@ const DrawerEvent = (props) => {
           <>
             <Profile
               empid={props.empid}
-              updateEmployeeBranch={props.updateEmployeeBranch}
+              updateEmployeeSection={props.updateEmployeeSection}
             ></Profile>
           </>
         );
@@ -26,14 +26,17 @@ const DrawerEvent = (props) => {
           <>
             <Profile
               empid={props.rowIndex["id"]}
-              updateEmployeeBranch={props.updateEmployeeBranch}
+              updateEmployeeSection={props.updateEmployeeSection}
             ></Profile>
           </>
         );
       case "AddUpdateEmployee":
         return (
           <>
-            <AddUpdateEmployee update={false}></AddUpdateEmployee>
+            <AddUpdateEmployee
+              update={false}
+              updateEmployeeSection={props.updateEmployeeSection}
+            ></AddUpdateEmployee>
           </>
         );
 
@@ -84,7 +87,8 @@ const DrawerEvent = (props) => {
             <ItemDetail
               itemcode={props.rowIndex["code"]}
               mode="update"
-              employeeBranch={props.employeeBranch}
+              sectionCode={props.sectionCode}
+              sectionCategory={props.sectionCategory}
             ></ItemDetail>
           </>
         );
@@ -93,7 +97,8 @@ const DrawerEvent = (props) => {
           <>
             <AddUpdateItem
               update={false}
-              employeeBranch={props.employeeBranch}
+              sectionCode={props.sectionCode}
+              sectionCategory={props.sectionCategory}
             ></AddUpdateItem>
           </>
         );
@@ -111,7 +116,6 @@ const DrawerEvent = (props) => {
               onCloseDrawer={props.onCloseDrawer}
               empid={props.empid}
               username={props.username}
-              employeeBranch={props.employeeBranch}
             ></CartItem>
           </>
         );

@@ -25,7 +25,6 @@ const Reorder = (props) => {
   const [total, setTotal] = useState("");
   const [quantity, setQuantity] = useState("");
   const [itemCode, setItemCode] = useState("");
-  const [warehouse, setWarehouse] = useState([]);
   const [item, setItem] = useState([]);
   const [warehouseItem, setWarehouseItem] = useState({
     0: { id: "", code: "", name: "", cost: "", measurement: "" },
@@ -63,25 +62,21 @@ const Reorder = (props) => {
       .then((response) => {
         response.data.map((res) =>
           res.item_code === value.toUpperCase()
-            ? warehouse.map((w) =>
-                w.warehouse_code === res.warehouse_code
-                  ? w.warehouse_branch === props.employeeBranch
-                    ? item.map((i) =>
-                        i.item_code === res.item_code
-                          ? setWarehouseItem([
-                              {
-                                id: i.id,
-                                code: i.item_code,
-                                name: i.item_name,
-                                cost: i.item_cost,
-                                measurement: i.item_measurement,
-                              },
-                            ])
-                          : ""
-                      )
+            ? res.warehouse_code === props.sectionCode
+              ? item.map((i) =>
+                  i.item_code === res.item_code
+                    ? setWarehouseItem([
+                        {
+                          id: i.id,
+                          code: i.item_code,
+                          name: i.item_name,
+                          cost: i.item_cost,
+                          measurement: i.item_measurement,
+                        },
+                      ])
                     : ""
-                  : ""
-              )
+                )
+              : ""
             : ""
         );
         checkResult();
@@ -169,7 +164,7 @@ const Reorder = (props) => {
                 <ItemDetail
                   itemcode={warehouseItem["0"]["code"]}
                   mode="view"
-                  employeeBranch={props.employeeBranch}
+                  sectionCode={props.sectionCode}
                 ></ItemDetail>
               </Col>
               <Col
@@ -234,10 +229,6 @@ const Reorder = (props) => {
   function onCloseDrawer() {
     setOpenDrawer(false);
   }
-
-  useEffect(() => {
-    fetchData("http://localhost:8000/api/warehouses", setWarehouse);
-  }, []);
 
   useEffect(() => {
     fetchData("http://localhost:8000/api/items", setItem);
@@ -316,7 +307,6 @@ const Reorder = (props) => {
         comp="CartItem"
         empid={props.empid}
         username={props.username}
-        employeeBranch={props.employeeBranch}
       ></DrawerEvent>
     </>
   );

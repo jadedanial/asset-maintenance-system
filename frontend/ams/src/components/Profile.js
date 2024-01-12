@@ -127,8 +127,8 @@ const Profile = (props) => {
                   datehired={e.emp_hired}
                   position={e.emp_position}
                   salary={e.emp_salary}
-                  branch={e.emp_branch}
-                  updateEmployeeBranch={props.updateEmployeeBranch}
+                  section={e.emp_section}
+                  updateEmployeeSection={props.updateEmployeeSection}
                 ></AddUpdateEmployee>
               </>
             ) : (
@@ -201,7 +201,7 @@ const Profile = (props) => {
                       </Row>
                       <Row style={{ marginTop: "12px" }}>
                         <ApartmentOutlined className="detail-icon-label" />
-                        <p className="small-font">{e.emp_branch}</p>
+                        <p className="small-font">{e.emp_section}</p>
                       </Row>
                     </Col>
                     <Col>

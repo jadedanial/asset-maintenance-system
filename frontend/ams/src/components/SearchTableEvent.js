@@ -57,7 +57,7 @@ const SearchTableEvent = (props) => {
                     onClick={() => {
                       if (
                         props.compItemAdd !== "AddUpdateItem" ||
-                        props.mainBranch === true
+                        props.sectionCategory === "main"
                       ) {
                         showDrawer();
                         setCompItem(props.compItemAdd);
@@ -124,8 +124,9 @@ const SearchTableEvent = (props) => {
         onCloseDrawer={onCloseDrawer}
         col={props.col}
         comp={compItem}
-        employeeBranch={props.employeeBranch}
-        updateEmployeeBranch={props.updateEmployeeBranch}
+        updateEmployeeSection={props.updateEmployeeSection}
+        sectionCode={props.sectionCode}
+        sectionCategory={props.sectionCategory}
       ></DrawerEvent>
     </>
   );

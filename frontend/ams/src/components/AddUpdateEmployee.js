@@ -35,7 +35,7 @@ const AddUpdateEmployee = (props) => {
   const [nationalities, setNationalities] = useState([]);
   const [positions, setPositions] = useState([]);
   const [salaries, setSalaries] = useState([]);
-  const [branches, setBranches] = useState([]);
+  const [sections, setSections] = useState([]);
   const [employeeID, setEmployeeID] = useState(update ? props.id : "");
   const [employeeName, setEmployeeName] = useState(update ? props.name : "");
   const [employeeBirthdate, setEmployeeBirthdate] = useState(
@@ -58,8 +58,8 @@ const AddUpdateEmployee = (props) => {
   const [employeeSalary, setEmployeeSalary] = useState(
     update ? props.salary : ""
   );
-  const [employeeBranch, setEmployeeBranch] = useState(
-    update ? props.branch : ""
+  const [employeeSection, setEmployeeSection] = useState(
+    update ? props.section : ""
   );
   const [submit, setSubmit] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -72,7 +72,7 @@ const AddUpdateEmployee = (props) => {
   const [datehiredReq, setDateHiredReq] = useState(false);
   const [positionReq, setPositionReq] = useState(false);
   const [salaryReq, setSalaryReq] = useState(false);
-  const [branchReq, setBranchReq] = useState(false);
+  const [sectionReq, setSectionReq] = useState(false);
 
   function newEmployee() {
     setUpdate(false);
@@ -89,7 +89,7 @@ const AddUpdateEmployee = (props) => {
     setEmployeeDateHired("");
     setEmployeePosition("");
     setEmployeeSalary("");
-    setEmployeeBranch("");
+    setEmployeeSection("");
     setNameReq(true);
     setBirthdateReq(true);
     setNationalityReq(true);
@@ -99,7 +99,7 @@ const AddUpdateEmployee = (props) => {
     setDateHiredReq(true);
     setPositionReq(true);
     setSalaryReq(true);
-    setBranchReq(true);
+    setSectionReq(true);
   }
 
   function changeLabel() {
@@ -161,9 +161,9 @@ const AddUpdateEmployee = (props) => {
     changeLabel();
   }
 
-  function onBranchChange(value) {
-    setEmployeeBranch(value);
-    setBranchReq(true);
+  function onSectionChange(value) {
+    setEmployeeSection(value);
+    setSectionReq(true);
     changeLabel();
   }
 
@@ -181,7 +181,7 @@ const AddUpdateEmployee = (props) => {
       emp_hired: moment(employeeDateHired).format(dateFormat),
       emp_position: employeePosition,
       emp_salary: employeeSalary,
-      emp_branch: employeeBranch,
+      emp_section: employeeSection,
     };
     axios({
       method: update ? "PATCH" : "POST",
@@ -193,7 +193,7 @@ const AddUpdateEmployee = (props) => {
       .then((response) => {
         setEmployeeID(response.data["emp_id"]);
         if (update) {
-          props.updateEmployeeBranch();
+          props.updateEmployeeSection();
         }
         setSuccess(true);
       })
@@ -225,12 +225,12 @@ const AddUpdateEmployee = (props) => {
   useEffect(() => {
     axios({
       method: "GET",
-      url: "http://localhost:8000/api/branches",
+      url: "http://localhost:8000/api/sections",
       headers: { "Content-Type": "application/json" },
       withCredentials: true,
     })
       .then((response) => {
-        setBranches(response.data);
+        setSections(response.data);
       })
       .catch((err) => {
         console.log(err);
@@ -525,12 +525,12 @@ const AddUpdateEmployee = (props) => {
                 </Col>
               </div>
               <Form.Item
-                name={["branch"]}
-                label="Branch"
-                initialValue={employeeBranch}
+                name={["section"]}
+                label="Section"
+                initialValue={employeeSection}
                 rules={[
                   {
-                    required: update ? branchReq : true,
+                    required: update ? sectionReq : true,
                     message: "Required!",
                   },
                 ]}
@@ -549,14 +549,14 @@ const AddUpdateEmployee = (props) => {
                       .toLowerCase()
                       .localeCompare((optionB?.label ?? "").toLowerCase())
                   }
-                  value={employeeBranch}
-                  options={branches.map((bra) => {
+                  value={employeeSection}
+                  options={sections.map((sec) => {
                     return {
-                      value: bra.branch_name,
-                      label: bra.branch_name,
+                      value: sec.section_code,
+                      label: sec.section_code,
                     };
                   })}
-                  onChange={onBranchChange}
+                  onChange={onSectionChange}
                 />
               </Form.Item>
               <div style={{ paddingTop: "30px" }}>

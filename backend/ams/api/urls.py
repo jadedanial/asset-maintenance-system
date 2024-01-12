@@ -2,11 +2,12 @@ from django.urls import path
 from .views import *
 
 urlpatterns = [
-    path("sections", SectionListView.as_view()),
+    path("components", SectionListView.as_view()),
     path("modules", ModuleListView.as_view()),
     path("categories", CategoryListView.as_view()),
     path("options", OptionListView.as_view()),
     path("branches", BranchListView.as_view()),
+    path("sections", SectionListView.as_view()),
     path("users", UserView.as_view()),
     path("register/", RegisterView.as_view()),
     path("login", LoginView.as_view()),
@@ -24,7 +25,6 @@ urlpatterns = [
     path("vacations", VacationListView.as_view()),
     path("excuse/", ExcuseView.as_view()),
     path("excuses", ExcuseListView.as_view()),
-    path("warehouses", WarehouseListView.as_view()),
     path("item/", ItemView.as_view()),
     path("items", ItemListView.as_view()),
     path("warehouseitem/", WarehouseItemView.as_view()),

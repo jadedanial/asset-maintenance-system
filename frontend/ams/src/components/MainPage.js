@@ -27,12 +27,14 @@ import DrawerEvent from "../components/DrawerEvent";
 const { Header, Sider, Content } = Layout;
 
 const MainPage = (props) => {
-  const [employeeBranch, setEmployeeBranch] = useState("");
+  const [employeeSection, setEmployeeSection] = useState("");
   const [openDrawer, setOpenDrawer] = useState(true);
   const [collapsed, setCollapsed] = useState(false);
   const [selectedMenuItem, setSelectedMenuItem] = useState("");
   const [previousMenuItem, setPreviousMenuItem] = useState("");
   const [modules, setModules] = useState([]);
+  const [sectionCode, setSectionCode] = useState("");
+  const [sectionCategory, setSectionCategory] = useState("");
   const navigate = useNavigate();
 
   const items = [
@@ -90,27 +92,6 @@ const MainPage = (props) => {
     }
   }
 
-  function loadBranch() {
-    axios({
-      method: "GET",
-      url: "http://localhost:8000/api/employees",
-      headers: { "Content-Type": "application/json" },
-      withCredentials: true,
-    })
-      .then((response) => {
-        response.data.map((res) =>
-          res.emp_id === props.empid ? setEmployeeBranch(res.emp_branch) : ""
-        );
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
-
-  function updateEmployeeBranch() {
-    loadBranch();
-  }
-
   function componentSwitch(key) {
     switch (key) {
       case 0:
@@ -122,7 +103,7 @@ const MainPage = (props) => {
               onCloseDrawer={onCloseDrawer}
               col={collapsed}
               comp={"User"}
-              updateEmployeeBranch={updateEmployeeBranch}
+              updateEmployeeSection={updateEmployeeSection}
             ></DrawerEvent>
           </>
         );
@@ -137,7 +118,7 @@ const MainPage = (props) => {
           <>
             <Employee
               col={collapsed}
-              updateEmployeeBranch={updateEmployeeBranch}
+              updateEmployeeSection={updateEmployeeSection}
             ></Employee>
           </>
         );
@@ -159,7 +140,8 @@ const MainPage = (props) => {
             <Item
               col={collapsed}
               empid={props.empid}
-              employeeBranch={employeeBranch}
+              sectionCode={sectionCode}
+              sectionCategory={sectionCategory}
             ></Item>
           </>
         );
@@ -170,7 +152,7 @@ const MainPage = (props) => {
               col={collapsed}
               empid={props.empid}
               username={props.username}
-              employeeBranch={employeeBranch}
+              sectionCode={sectionCode}
             ></Reorder>
           </>
         );
@@ -189,6 +171,41 @@ const MainPage = (props) => {
       default:
         break;
     }
+  }
+
+  function fetchData(url, callback) {
+    axios({
+      method: "GET",
+      url: `http://localhost:8000/api/${url}`,
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    })
+      .then((response) => {
+        callback(response.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  function getSection() {
+    fetchData("employees", (data) => {
+      const employee = data.find((res) => res.emp_id === props.empid);
+      if (employee) {
+        setEmployeeSection(employee.emp_section);
+      }
+    });
+    fetchData("sections", (data) => {
+      const section = data.find((res) => res.section_code === employeeSection);
+      if (section) {
+        setSectionCode(section.section_code);
+        setSectionCategory(section.section_category);
+      }
+    });
+  }
+
+  function updateEmployeeSection() {
+    getSection();
   }
 
   useEffect(() => {
@@ -212,7 +229,7 @@ const MainPage = (props) => {
   }, []);
 
   useEffect(() => {
-    loadBranch();
+    getSection();
   });
 
   return (

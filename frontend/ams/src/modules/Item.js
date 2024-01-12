@@ -5,8 +5,6 @@ import SearchTableEvent from "../components/SearchTableEvent";
 
 const Item = (props) => {
   const [searchedtext, setSearchedText] = useState("");
-  const [branch, setBranch] = useState([]);
-  const [warehouse, setWarehouse] = useState([]);
   const [item, setItem] = useState([]);
   const [warehouseItem, setWarehouseItem] = useState([]);
   const [listData, setListData] = useState([]);
@@ -63,8 +61,6 @@ const Item = (props) => {
   }
 
   function loadAPILists() {
-    loadData("branches", setBranch);
-    loadData("warehouses", setWarehouse);
     loadData("items", setItem);
     loadData("warehouseitems", setWarehouseItem);
   }
@@ -73,39 +69,27 @@ const Item = (props) => {
     setSearchedText(text);
   }
 
-  function branchType() {
-    const branchItem = branch.find(
-      (b) => b.branch_name === props.employeeBranch
-    );
-    return branchItem ? branchItem.branch_type === "main" : false;
-  }
-
   useEffect(() => {
-    if (warehouse.length && item.length && warehouseItem.length) {
+    if (item.length && warehouseItem.length) {
       var d = [];
       warehouseItem.forEach((wi) => {
-        warehouse.forEach((w) => {
-          if (
-            w.warehouse_code === wi.warehouse_code &&
-            w.warehouse_branch === props.employeeBranch
-          ) {
-            item.forEach((i) => {
-              if (i.item_code === wi.item_code) {
-                d.push({
-                  code: wi.item_code,
-                  name: i.item_name,
-                  onhand: wi.item_onhand,
-                  cost: i.item_cost,
-                  value: (i.item_cost * wi.item_onhand).toFixed(2),
-                });
-              }
-            });
-          }
-        });
+        if (wi.warehouse_code === props.sectionCode) {
+          item.forEach((i) => {
+            if (i.item_code === wi.item_code) {
+              d.push({
+                code: wi.item_code,
+                name: i.item_name,
+                onhand: wi.item_onhand,
+                cost: i.item_cost,
+                value: (i.item_cost * wi.item_onhand).toFixed(2),
+              });
+            }
+          });
+        }
       });
       setListData(d);
     }
-  }, [warehouse, item, warehouseItem]);
+  }, [item, warehouseItem]);
 
   useEffect(() => {
     loadAPILists();
@@ -123,8 +107,8 @@ const Item = (props) => {
         tableColumns={columns}
         tableDataSource={listData}
         searchedText={searchedText}
-        employeeBranch={props.employeeBranch}
-        mainBranch={branchType()}
+        sectionCode={props.sectionCode}
+        sectionCategory={props.sectionCategory}
       ></SearchTableEvent>
     </>
   );

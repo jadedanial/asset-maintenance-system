@@ -1,6 +1,15 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Typography, Card, Col, List, Button, Tooltip, Select } from "antd";
+import {
+  Typography,
+  Card,
+  Col,
+  List,
+  Button,
+  Tooltip,
+  Select,
+  notification,
+} from "antd";
 import {
   PlusOutlined,
   MinusOutlined,
@@ -8,6 +17,7 @@ import {
   CheckCircleOutlined,
 } from "@ant-design/icons";
 import ResultEvent from "../components/ResultEvent";
+import NotificationEvent from "./NotificationEvent";
 import moment from "moment";
 
 const { Title } = Typography;
@@ -18,7 +28,8 @@ const CartItem = (props) => {
   const [success, setSuccess] = useState(false);
   const [transactionID, setTransactionID] = useState("");
   const [warehouseCode, setWarehouseCode] = useState("");
-  const [warehouses, setWarehouses] = useState([]);
+  const [sections, setSections] = useState([]);
+  const [api, contextHolder] = notification.useNotification();
 
   function changeQuantity(action, id, code, name, cost, measurement, quantity) {
     if (quantity >= 1) {
@@ -65,6 +76,8 @@ const CartItem = (props) => {
           val["item_onhand"] +
           ", Total: " +
           val["total"] +
+          ", Warehouse: " +
+          warehouseCode +
           "\n")
     );
     return details;
@@ -87,7 +100,7 @@ const CartItem = (props) => {
       withCredentials: true,
     })
       .then((response) => {
-        setTransactionID(response.data["trans_id"]);
+        setTransactionID("TRA" + String(response.data["id"]));
       })
       .catch((err) => {
         console.log(err);
@@ -129,21 +142,21 @@ const CartItem = (props) => {
   }
 
   function onWarehouseChange(value) {
-    const warehouseCode = warehouses.find(
-      (w) => w.warehouse_branch === value
-    )?.warehouse_code;
+    const warehouseCode = sections.find(
+      (sec) => sec.section_code === value
+    )?.section_code;
     setWarehouseCode(warehouseCode);
   }
 
   useEffect(() => {
     axios({
       method: "GET",
-      url: "http://localhost:8000/api/warehouses",
+      url: "http://localhost:8000/api/sections",
       headers: { "Content-Type": "application/json" },
       withCredentials: true,
     })
       .then((response) => {
-        setWarehouses(response.data);
+        setSections(response.data);
       })
       .catch((err) => {
         console.log(err);
@@ -178,6 +191,7 @@ const CartItem = (props) => {
 
   return (
     <>
+      {contextHolder}
       <div className="justified-row">
         <div className="card-custom-size">
           <Card
@@ -199,7 +213,18 @@ const CartItem = (props) => {
                   <Button
                     size="large"
                     type="primary"
-                    onClick={() => checkoutOrder()}
+                    onClick={() => {
+                      if (warehouseCode !== "") {
+                        checkoutOrder();
+                      } else {
+                        api.info(
+                          NotificationEvent(
+                            false,
+                            "Select the warehouse to which the items will be transferred."
+                          )
+                        );
+                      }
+                    }}
                     block
                   >
                     CHECK OUT
@@ -237,12 +262,12 @@ const CartItem = (props) => {
                         .toLowerCase()
                         .localeCompare((optionB?.label ?? "").toLowerCase())
                     }
-                    options={warehouses.map((w) => {
-                      return {
-                        value: w.warehouse_branch,
-                        label: w.warehouse_branch,
-                      };
-                    })}
+                    options={sections
+                      .filter((sec) => sec.section_type === "warehouse")
+                      .map((sec) => ({
+                        value: sec.section_code,
+                        label: sec.section_code,
+                      }))}
                     onChange={onWarehouseChange}
                   />
                 </div>

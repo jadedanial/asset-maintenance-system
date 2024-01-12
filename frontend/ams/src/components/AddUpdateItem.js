@@ -57,7 +57,6 @@ const AddUpdateItem = (props) => {
   const [reorderReq, setReorderReq] = useState(false);
   const [costReq, setCostReq] = useState(false);
   const [descriptionReq, setDescriptionReq] = useState(false);
-  const [warehouses, setWarehouses] = useState([]);
 
   function newItem() {
     setUpdate(false);
@@ -128,11 +127,12 @@ const AddUpdateItem = (props) => {
     changeLabel();
   }
 
-  function getWarehouseCode() {
-    const warehouseCode = warehouses.find(
-      (w) => w.warehouse_branch === props.employeeBranch
-    )?.warehouse_code;
-    return warehouseCode;
+  function checkMain() {
+    var main = true;
+    if (props.sectionCategory === "main") {
+      main = false;
+    }
+    return main;
   }
 
   function onFinish() {
@@ -158,7 +158,7 @@ const AddUpdateItem = (props) => {
         setIDCode("ITM00" + response.data["id"]);
         var itemWarehouse = {
           item_code: "ITM00" + response.data["id"],
-          warehouse_code: getWarehouseCode(),
+          warehouse_code: props.sectionCode,
           item_location: itemLocation,
           item_onhand: itemOnHand,
         };
@@ -190,21 +190,6 @@ const AddUpdateItem = (props) => {
       .then((response) => {
         setCategories(response.data);
         setMeasurements(response.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
-
-  useEffect(() => {
-    axios({
-      method: "GET",
-      url: "http://localhost:8000/api/warehouses",
-      headers: { "Content-Type": "application/json" },
-      withCredentials: true,
-    })
-      .then((response) => {
-        setWarehouses(response.data);
       })
       .catch((err) => {
         console.log(err);
@@ -282,6 +267,7 @@ const AddUpdateItem = (props) => {
                       value={itemName}
                       maxLength={55}
                       onChange={(e) => onNameChange(e.target.value)}
+                      readOnly={checkMain()}
                     />
                   </Form.Item>
                   <Form.Item
@@ -319,6 +305,7 @@ const AddUpdateItem = (props) => {
                           };
                         })}
                       onChange={onCategoryChange}
+                      disabled={checkMain()}
                     />
                   </Form.Item>
                   <Form.Item
@@ -357,6 +344,7 @@ const AddUpdateItem = (props) => {
                       max={1000000}
                       value={itemCost}
                       onChange={onCostChange}
+                      readOnly={checkMain()}
                     />
                   </Form.Item>
                   <Form.Item
@@ -394,6 +382,7 @@ const AddUpdateItem = (props) => {
                           };
                         })}
                       onChange={onMeasurementChange}
+                      disabled={checkMain()}
                     />
                   </Form.Item>
                   <Form.Item
@@ -413,6 +402,7 @@ const AddUpdateItem = (props) => {
                       max={1000000}
                       value={itemReorder}
                       onChange={onReorderChange}
+                      readOnly={checkMain()}
                     />
                   </Form.Item>
                 </Col>
@@ -431,6 +421,7 @@ const AddUpdateItem = (props) => {
                 <Input.TextArea
                   value={itemDescription}
                   onChange={(e) => onDescriptionChange(e.target.value)}
+                  readOnly={checkMain()}
                 />
               </Form.Item>
               <div style={{ paddingTop: "30px" }}>

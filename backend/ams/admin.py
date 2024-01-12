@@ -2,7 +2,7 @@ from django.contrib import admin
 from .models import *
 
 
-class SectionAdmin(admin.ModelAdmin):
+class ComponentAdmin(admin.ModelAdmin):
     readonly_fields = (
         "id",
         "key",
@@ -58,18 +58,33 @@ class OptionAdmin(admin.ModelAdmin):
 class BranchAdmin(admin.ModelAdmin):
     list_display = (
         "branch_name",
-        "branch_category",
-        "branch_type",
     )
     list_filter = (
         "branch_name",
-        "branch_category",
-        "branch_type",
     )
     search_fields = (
         "branch_name",
-        "branch_category",
-        "branch_type",
+    )
+
+
+class SectionAdmin(admin.ModelAdmin):
+    list_display = (
+        "section_code",
+        "section_branch",
+        "section_type",
+        "section_category",
+    )
+    list_filter = (
+        "section_code",
+        "section_branch",
+        "section_type",
+        "section_category",
+    )
+    search_fields = (
+        "section_code",
+        "section_branch",
+        "section_type",
+        "section_category",
     )
 
 
@@ -162,7 +177,7 @@ class EmployeeAdmin(admin.ModelAdmin):
         "emp_hired",
         "emp_position",
         "emp_salary",
-        "emp_branch",
+        "emp_section",
         "emp_sched",
     )
     list_filter = (
@@ -176,7 +191,7 @@ class EmployeeAdmin(admin.ModelAdmin):
         "emp_hired",
         "emp_position",
         "emp_salary",
-        "emp_branch",
+        "emp_section",
         "emp_sched",
     )
     search_fields = (
@@ -190,7 +205,7 @@ class EmployeeAdmin(admin.ModelAdmin):
         "emp_hired",
         "emp_position",
         "emp_salary",
-        "emp_branch",
+        "emp_section",
         "emp_sched",
     )
 
@@ -297,30 +312,6 @@ class ExcuseAdmin(admin.ModelAdmin):
     )
 
 
-class WarehouseAdmin(admin.ModelAdmin):
-    def formfield_for_foreignkey(self, db_field, request, **kwargs):
-        if db_field.name == "warehouse_branch":
-            kwargs["queryset"] = Branch.objects.filter(
-                branch_category='warehouse')
-        return super().formfield_for_foreignkey(db_field, request, **kwargs)
-
-    readonly_fields = (
-        "id",
-    )
-    list_display = (
-        "warehouse_code",
-        "warehouse_branch",
-    )
-    list_filter = (
-        "warehouse_code",
-        "warehouse_branch",
-    )
-    search_fields = (
-        "warehouse_code",
-        "warehouse_branch",
-    )
-
-
 class ItemAdmin(admin.ModelAdmin):
     readonly_fields = (
         "id",
@@ -356,6 +347,11 @@ class ItemAdmin(admin.ModelAdmin):
 
 
 class WarehouseItemAdmin(admin.ModelAdmin):
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == "warehouse_code":
+            kwargs["queryset"] = Section.objects.filter(
+                section_type='warehouse')
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
     readonly_fields = (
         "id",
     )
@@ -417,6 +413,9 @@ class VehicleAdmin(admin.ModelAdmin):
 
 class TransactionAdmin(admin.ModelAdmin):
     readonly_fields = (
+        "id",
+    )
+    readonly_fields = (
         "trans_id",
         "trans_type",
         "trans_action",
@@ -450,11 +449,12 @@ class TransactionAdmin(admin.ModelAdmin):
     )
 
 
-admin.site.register(Section, SectionAdmin)
+admin.site.register(Component, ComponentAdmin)
 admin.site.register(Module, ModuleAdmin)
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Option, OptionAdmin)
 admin.site.register(Branch, BranchAdmin)
+admin.site.register(Section, SectionAdmin)
 admin.site.register(User, UserAdmin)
 admin.site.register(Shift, ShiftAdmin)
 admin.site.register(Schedule, ScheduleAdmin)
@@ -462,7 +462,6 @@ admin.site.register(Employee, EmployeeAdmin)
 admin.site.register(Attendance, AttendanceAdmin)
 admin.site.register(Vacation, VacationAdmin)
 admin.site.register(Excuse, ExcuseAdmin)
-admin.site.register(Warehouse, WarehouseAdmin)
 admin.site.register(Item, ItemAdmin)
 admin.site.register(WarehouseItem, WarehouseItemAdmin)
 admin.site.register(Vehicle, VehicleAdmin)

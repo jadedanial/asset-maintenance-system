@@ -3,10 +3,10 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 
 
-class Section(models.Model):
+class Component(models.Model):
     id = models.AutoField(primary_key=True)
     label = models.CharField(
-        max_length=50, unique=True, blank=False, null=False, verbose_name="Section Label"
+        max_length=50, unique=True, blank=False, null=False, verbose_name="Component Label"
     )
     key = models.CharField(max_length=100, blank=True,
                            null=True, verbose_name="Key")
@@ -15,11 +15,11 @@ class Section(models.Model):
         return str(self.label)
 
     def update_model(self):
-        key_id = Section.objects.get(key=self.key).id
-        Section.objects.filter(id=key_id).update(key=str(self.label))
+        key_id = Component.objects.get(key=self.key).id
+        Component.objects.filter(id=key_id).update(key=str(self.label))
 
     def save(self, *args, **kwargs):
-        super(Section, self).save(*args, **kwargs)
+        super(Component, self).save(*args, **kwargs)
         self.update_model()
 
 
@@ -33,7 +33,7 @@ class Module(models.Model):
     icon = models.CharField(max_length=100, blank=True,
                             null=True, verbose_name="Icon")
     children = models.ManyToManyField(
-        Section, blank=True, verbose_name="Children")
+        Component, blank=True, verbose_name="Children")
 
     def __str__(self):
         return str(self.label)
@@ -76,29 +76,44 @@ class Option(models.Model):
 
 
 class Branch(models.Model):
-
-    category = (
-        ('', ''),
-        ('workshop', 'Workshop'),
-        ('warehouse', 'Warehouse'),
-    )
-    type = (
-        ('', ''),
-        ('main', 'Main'),
-        ('sub', 'Sub'),
-    )
     branch_name = models.CharField(
         max_length=300, unique=True, blank=False, null=False, verbose_name="Branch Name"
-    )
-    branch_category = models.CharField(
-        max_length=300, choices=category, default='', blank=False, null=False, verbose_name="Category"
-    )
-    branch_type = models.CharField(
-        max_length=100, choices=type, default='', blank=False, null=False, verbose_name="Type"
     )
 
     def __str__(self):
         return str(self.branch_name)
+
+
+class Section(models.Model):
+    type = (
+        ('', ''),
+        ('workshop', 'Workshop'),
+        ('warehouse', 'Warehouse'),
+    )
+    category = (
+        ('', ''),
+        ('main', 'Main'),
+        ('sub', 'Sub'),
+    )
+    section_code = models.CharField(
+        max_length=100, unique=True, blank=True, null=True, verbose_name="Section Code"
+    )
+    section_branch = models.ForeignKey(
+        Branch,
+        blank=False,
+        null=False,
+        on_delete=models.CASCADE,
+        verbose_name="Branch",
+    )
+    section_type = models.CharField(
+        max_length=100, choices=type, default='', blank=False, null=False, verbose_name="Type"
+    )
+    section_category = models.CharField(
+        max_length=100, choices=category, default='', blank=False, null=False, verbose_name="Category"
+    )
+
+    def __str__(self):
+        return str(self.section_code)
 
 
 class User(AbstractUser):
@@ -147,7 +162,6 @@ class Shift(models.Model):
 
 
 class Schedule(models.Model):
-    id = models.AutoField(primary_key=True)
     sched_name = models.CharField(
         max_length=300, unique=True, blank=True, null=True, verbose_name="Name"
     )
@@ -239,12 +253,12 @@ class Employee(models.Model):
     emp_salary = models.CharField(
         max_length=300, blank=True, null=True, verbose_name="Salary Grade"
     )
-    emp_branch = models.ForeignKey(
-        Branch,
+    emp_section = models.ForeignKey(
+        Section,
         blank=True,
         null=True,
         on_delete=models.CASCADE,
-        verbose_name="Branch",
+        verbose_name="Section",
     )
     emp_sched = models.ForeignKey(
         Schedule,
@@ -344,23 +358,6 @@ class Excuse(models.Model):
         return str(self.emp_id)
 
 
-class Warehouse(models.Model):
-    id = models.AutoField(primary_key=True)
-    warehouse_code = models.CharField(
-        max_length=100, unique=True, blank=True, null=True, verbose_name="Warehouse Code"
-    )
-    warehouse_branch = models.ForeignKey(
-        Branch,
-        blank=False,
-        null=False,
-        on_delete=models.CASCADE,
-        verbose_name="Branch",
-    )
-
-    def __str__(self):
-        return str(self.warehouse_code)
-
-
 class Item(models.Model):
     id = models.AutoField(primary_key=True)
     item_code = models.CharField(
@@ -398,7 +395,6 @@ class Item(models.Model):
 
 
 class WarehouseItem(models.Model):
-    id = models.AutoField(primary_key=True)
     item_code = models.ForeignKey(
         Item,
         blank=True,
@@ -407,7 +403,7 @@ class WarehouseItem(models.Model):
         verbose_name="Item Code",
     )
     warehouse_code = models.ForeignKey(
-        Warehouse,
+        Section,
         blank=True,
         null=True,
         on_delete=models.CASCADE,
@@ -456,8 +452,10 @@ class Vehicle(models.Model):
 
 
 class Transaction(models.Model):
-    trans_id = models.AutoField(
-        primary_key=True, verbose_name="Transaction ID")
+    id = models.AutoField(primary_key=True)
+    trans_id = models.CharField(
+        max_length=100, blank=True, null=True, verbose_name="Transaction ID"
+    )
     trans_type = models.CharField(
         max_length=300, blank=True, null=True, verbose_name="Type"
     )
@@ -474,3 +472,12 @@ class Transaction(models.Model):
 
     def __str__(self):
         return str(self.trans_id)
+
+    def update_model(self):
+        test_id = Transaction.objects.get(trans_id=self.trans_id).id
+        Transaction.objects.filter(id=test_id).update(
+            trans_id="TRA" + str(self.id))
+
+    def save(self, *args, **kwargs):
+        super(Transaction, self).save(*args, **kwargs)
+        self.update_model()
