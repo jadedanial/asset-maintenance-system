@@ -375,21 +375,19 @@ const Excuse = (props) => {
     var valid = true;
     if (excusedate === "") {
       valid = false;
-      api.info(NotificationEvent(false, "No Excuse Date selected!!"));
+      api.info(NotificationEvent(false, "No excuse date selected."));
     } else if (starttime === "") {
       valid = false;
-      api.info(NotificationEvent(false, "No Start Time selected!"));
+      api.info(NotificationEvent(false, "No start time selected."));
     } else if (endtime === "") {
       valid = false;
-      api.info(NotificationEvent(false, "No End Time selected!"));
+      api.info(NotificationEvent(false, "No end time selected."));
     } else if (starttime > endtime || starttime === endtime) {
       valid = false;
-      api.info(
-        NotificationEvent(false, "End Time must greater than Start Time!")
-      );
+      api.info(NotificationEvent(false, "End time must be after start time."));
     } else if (reason === "") {
       valid = false;
-      api.info(NotificationEvent(false, "No valid Reason!"));
+      api.info(NotificationEvent(false, "No valid reason."));
     } else if (
       excusedate.format(dateFormat) === moment().format(dateFormat) ||
       excusedate.format(dateFormat) > moment().format(dateFormat)
@@ -398,18 +396,18 @@ const Excuse = (props) => {
       api.info(
         NotificationEvent(
           false,
-          "Cannot apply excuse for current or future date!"
+          "Cannot apply excuse for current or future date."
         )
       );
     } else if (checkExcuse()) {
       valid = false;
-      api.info(NotificationEvent(false, "Excuse exist for this date!"));
+      api.info(NotificationEvent(false, "Excuse exist for this date."));
     } else if (checkAttendance()) {
       valid = false;
       api.info(
         NotificationEvent(
           false,
-          "Cannot apply excuse when attendance status is not Attended!"
+          "Cannot apply excuse when attendance status is not attended."
         )
       );
     }
@@ -450,9 +448,7 @@ const Excuse = (props) => {
       .catch((err) => {
         console.log(err);
         setSuccess(false);
-        api.info(
-          NotificationEvent(false, "Employee vacation failed to apply!")
-        );
+        api.info(NotificationEvent(false, "Employee excuse failed to apply."));
       });
   }
 

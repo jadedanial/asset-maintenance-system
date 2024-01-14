@@ -65,7 +65,7 @@ const SearchTableEvent = (props) => {
                         api.info(
                           NotificationEvent(
                             false,
-                            "Item addition access is limited only to employee in Main Warehouse branch."
+                            "Item addition access is limited only to employee in main warehouse branch."
                           )
                         );
                       }

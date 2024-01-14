@@ -388,26 +388,24 @@ const Vacation = (props) => {
     var valid = true;
     if (vacation === "") {
       valid = false;
-      api.info(NotificationEvent(false, "No Vacation Type selected!"));
+      api.info(NotificationEvent(false, "No vacation type selected."));
     } else if (startdate === "") {
       valid = false;
-      api.info(NotificationEvent(false, "No Start Date selected!"));
+      api.info(NotificationEvent(false, "No start date selected."));
     } else if (enddate === "") {
       valid = false;
-      api.info(NotificationEvent(false, "No End Date selected!"));
+      api.info(NotificationEvent(false, "No end date selected."));
     } else if (startdate > enddate) {
       valid = false;
-      api.info(
-        NotificationEvent(false, "End Date must greater than Start Date!")
-      );
+      api.info(NotificationEvent(false, "End date must be after start date."));
     } else if (startdate < moment().format(dateFormat)) {
       valid = false;
       api.info(
-        NotificationEvent(false, "Cannot apply vacation for previous date!")
+        NotificationEvent(false, "Cannot apply vacation for previous date.")
       );
     } else if (checkVacation()) {
       valid = false;
-      api.info(NotificationEvent(false, "Vacation exist for this date!"));
+      api.info(NotificationEvent(false, "Vacation exist for this date."));
     }
     if (valid) {
       var d =
@@ -450,7 +448,7 @@ const Vacation = (props) => {
         console.log(err);
         setSuccess(false);
         api.info(
-          NotificationEvent(false, "Employee vacation failed to apply!")
+          NotificationEvent(false, "Employee vacation failed to apply.")
         );
       });
   }

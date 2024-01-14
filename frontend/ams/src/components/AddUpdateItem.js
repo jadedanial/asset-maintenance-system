@@ -267,7 +267,7 @@ const AddUpdateItem = (props) => {
                       value={itemName}
                       maxLength={55}
                       onChange={(e) => onNameChange(e.target.value)}
-                      readOnly={checkMain()}
+                      disabled={checkMain()}
                     />
                   </Form.Item>
                   <Form.Item
@@ -344,7 +344,7 @@ const AddUpdateItem = (props) => {
                       max={1000000}
                       value={itemCost}
                       onChange={onCostChange}
-                      readOnly={checkMain()}
+                      disabled={checkMain()}
                     />
                   </Form.Item>
                   <Form.Item
@@ -402,7 +402,7 @@ const AddUpdateItem = (props) => {
                       max={1000000}
                       value={itemReorder}
                       onChange={onReorderChange}
-                      readOnly={checkMain()}
+                      disabled={checkMain()}
                     />
                   </Form.Item>
                 </Col>
@@ -421,7 +421,7 @@ const AddUpdateItem = (props) => {
                 <Input.TextArea
                   value={itemDescription}
                   onChange={(e) => onDescriptionChange(e.target.value)}
-                  readOnly={checkMain()}
+                  disabled={checkMain()}
                 />
               </Form.Item>
               <div style={{ paddingTop: "30px" }}>

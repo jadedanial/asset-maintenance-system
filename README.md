@@ -16,19 +16,19 @@ This project was built using Python Django REST framework for backend and ReactJ
 
 # Features
 
-## Asset Management
+## Asset
 
 Allows the user to create and update asset information, control, and organize assets to optimize operations.
 
-## Work Order Management
+## Workshop
 
 Enables the user to schedule and track different types of maintenance tasks such as corrective and preventive maintenance.
 
-## Inventory Management
+## Warehouse
 
 Provides a complete and integrated inventory management module that ensures the availability of spare parts needed for the maintenance.
 
-## Employee Management
+## Administration
 
 Helps improve daily productivity by monitoring the number of available employees for operation and managing their information, vacations, attendances, and absences.
 

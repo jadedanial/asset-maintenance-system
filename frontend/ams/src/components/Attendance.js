@@ -273,7 +273,7 @@ const Attendance = (props, ref) => {
         api.info(
           NotificationEvent(
             false,
-            "No shift schedule assigned to this employee!"
+            "No shift schedule assigned to this employee."
           )
         );
       }

@@ -136,7 +136,7 @@ const Reorder = (props) => {
       removeItem(code);
       addItem(id, code, name, cost, measurement, quantity, total);
       setInputStatus("");
-      api.info(NotificationEvent(true, "Item " + code + " added to Cart."));
+      api.info(NotificationEvent(true, "Item " + code + " added to cart."));
     } else {
       setInputStatus("error");
     }

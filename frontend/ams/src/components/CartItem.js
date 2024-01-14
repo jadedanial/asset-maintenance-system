@@ -181,7 +181,7 @@ const CartItem = (props) => {
           subTitle={"Transaction ID " + String(transactionID)}
           extra={[
             <Button size="large" type="primary" onClick={props.onCloseDrawer}>
-              REORDER ANOTHER ITEM
+              REORDER ITEM
             </Button>,
           ]}
         />
@@ -220,7 +220,7 @@ const CartItem = (props) => {
                         api.info(
                           NotificationEvent(
                             false,
-                            "Select the warehouse to which the items will be transferred."
+                            "Select the warehouse to which you want to transfer the items."
                           )
                         );
                       }
@@ -249,7 +249,7 @@ const CartItem = (props) => {
                 <div style={{ marginBottom: "20px" }}>
                   <Select
                     size="large"
-                    placeholder="Select Warehouse"
+                    placeholder="Select the transfer warehouse"
                     showSearch
                     className="small-font"
                     style={{ width: "100%" }}

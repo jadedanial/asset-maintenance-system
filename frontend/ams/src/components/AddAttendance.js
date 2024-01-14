@@ -432,11 +432,11 @@ const AddAttendance = (props) => {
         NotificationEvent(
           false,
           err === 0
-            ? "Check Out time must greater than Check In time!"
+            ? "Check-out time must be after check-in time."
             : err === 1
-            ? "Check In date must equal to Attendance date!"
+            ? "Check-in date must be equal to attendance date."
             : err === 2
-            ? "Check Out date must equal to Attendance date!"
+            ? "Check-out date must be equal to attendance date."
             : ""
         )
       );
