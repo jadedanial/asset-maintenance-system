@@ -258,14 +258,13 @@ const MainPage = (props) => {
 
   return (
     <>
-      <Layout>
+      <Layout className={theme}>
         <Sider
           trigger={null}
           collapsible
           collapsed={collapsed}
           style={{
             height: "100vh",
-            background: theme === "light" ? "#108ee9" : "#000c17",
           }}
         >
           <div style={{ margin: "20px 0 15px 32px" }}>
@@ -274,7 +273,6 @@ const MainPage = (props) => {
               alt="logo"
               style={{
                 width: "35%",
-                filter: "brightness(0) invert(1)",
               }}
             />
           </div>
@@ -285,7 +283,6 @@ const MainPage = (props) => {
             items={modules}
             style={{
               fontSize: "12px",
-              background: theme === "light" ? "#108ee9" : "#000c17",
               marginTop: "30px",
             }}
             onClick={(e) => setSelectedMenuItem(e.key)}
@@ -295,7 +292,6 @@ const MainPage = (props) => {
           <Header
             style={{
               padding: "0",
-              background: theme === "light" ? "#fff" : "#161d40",
               height: "65px",
               position: "sticky",
               top: "0",
@@ -369,13 +365,13 @@ const MainPage = (props) => {
               style={{
                 marginTop: "1px",
                 height: "22px",
-                background: theme === "light" ? "#f0f2f5" : "#1c2755",
+                background: theme === "light" ? "#e3dffd" : "#1c2755",
               }}
             ></div>
           </Header>
           <Layout
             style={{
-              background: theme === "light" ? "#f0f2f5" : "#1c2755",
+              background: theme === "light" ? "#e3dffd" : "#1c2755",
               minHeight: "300%",
             }}
           >

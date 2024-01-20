@@ -72,8 +72,26 @@ h1 {
   text-align: center !important;
 }
 
+.dark .ant-layout-header {
+  background: #161d40 !important;
+}
+
+.light .ant-layout-header {
+  background: #ecf2ff !important;
+}
+
 .ant-menu {
   border-right: none !important;
+}
+
+.dark .ant-menu,
+.dark .ant-layout-sider {
+  background: #000c17 !important;
+}
+
+.light .ant-menu,
+.light .ant-layout-sider {
+  background: #fafafa !important;
 }
 
 .ant-menu-submenu-arrow {
@@ -85,12 +103,16 @@ h1 {
   font-size: 16px;
 }
 
-.ant-menu-item-selected {
-  background: #0a73d5 !important;
-}
-
 .ant-menu-item:after {
   border: none !important;
+}
+
+.dark .ant-menu-item-selected {
+  background: #2d3250 !important;
+}
+
+.light .ant-menu-item-selected {
+  background: #a0e9ff !important;
 }
 
 #components-layout-demo-custom-trigger .trigger {
@@ -213,7 +235,6 @@ h1.ant-typography {
 .ant-card {
   cursor: default !important;
   width: 100%;
-  box-shadow: -1px 1px 12px 1px rgba(0, 0, 0, 0.25) !important;
 }
 
 .dark .ant-card {
@@ -221,11 +242,15 @@ h1.ant-typography {
 }
 
 .light .ant-card {
-  background: #fff !important;
+  background: #ecf2ff !important;
 }
 
 .ant-card-extra {
   margin-left: 50px !important;
+}
+
+.ant-card-head {
+  border-bottom: 1px #318ce750 solid !important;
 }
 
 .ant-card-custom .ant-card-head,
@@ -248,10 +273,6 @@ h1.ant-typography {
 
 .card-no-padding .ant-card-body {
   padding: 0 !important;
-}
-
-.card-no-shadow {
-  box-shadow: none !important;
 }
 
 .biggest-card-title,
@@ -383,7 +404,7 @@ h1.ant-typography {
 
 .light .ant-table-thead tr th,
 .light .ant-table-tbody tr td {
-  border-bottom: 1px solid #f0f2f5 !important;
+  border-bottom: 1px solid #96efff !important;
 }
 
 .light .ant-table-thead .ant-table-cell {
@@ -391,7 +412,7 @@ h1.ant-typography {
   font-family: ralewayregular;
   font-size: 14px;
   text-align: center;
-  background: #037bf41a !important;
+  background: #96efff !important;
 }
 
 .light .table-row {
@@ -400,7 +421,7 @@ h1.ant-typography {
   font-size: 14px;
   font-weight: 500;
   text-align: center;
-  background: #fff !important;
+  background: #ecf2ff !important;
   cursor: pointer;
 }
 
@@ -439,7 +460,7 @@ h1.ant-typography {
 }
 
 .light .ant-tabs {
-  background: #fff !important;
+  background: #ecf2ff !important;
 }
 
 .ant-tabs-tab {
@@ -476,12 +497,14 @@ h1.ant-typography {
   border-bottom: none !important;
 }
 
-.dark .ant-drawer-header {
+.dark .ant-drawer-header,
+.dark .ant-drawer-body {
   background: #161d40 !important;
 }
 
-.light .ant-drawer-header {
-  background: #fff !important;
+.light .ant-drawer-header,
+.light .ant-drawer-body {
+  background: #ecf2ff !important;
 }
 
 .ant-drawer-close {
@@ -491,14 +514,6 @@ h1.ant-typography {
 .ant-drawer-body {
   overflow: auto !important;
   padding: 0 !important;
-}
-
-.dark .ant-drawer-body {
-  background: #161d40 !important;
-}
-
-.light .ant-drawer-body {
-  background: #fff !important;
 }
 
 .ant-drawer-content-wrapper {
@@ -564,6 +579,22 @@ h1.ant-typography {
 }
 
 .light .ant-picker-calendar {
+  background: #ecf2ff !important;
+}
+
+.dark
+  .ant-picker-calendar-full
+  .ant-picker-panel
+  .ant-picker-cell-selected
+  .ant-picker-calendar-date {
+  background: #2d3250 !important;
+}
+
+.light
+  .ant-picker-calendar-full
+  .ant-picker-panel
+  .ant-picker-cell-selected
+  .ant-picker-calendar-date {
   background: #fff !important;
 }
 
@@ -576,7 +607,7 @@ h1.ant-typography {
 }
 
 .light .ant-picker-panel {
-  background: #fff !important;
+  background: #ecf2ff !important;
 }
 
 .ant-timeline-item-head {

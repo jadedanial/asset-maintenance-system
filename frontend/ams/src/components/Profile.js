@@ -241,12 +241,7 @@ const Profile = (props) => {
                     </Col>
                   </Row>
                 </Card>
-                <Card
-                  className="card-no-shadow"
-                  size="large"
-                  style={{ borderTop: "0" }}
-                  hoverable
-                >
+                <Card size="large" style={{ borderTop: "0" }} hoverable>
                   <Tabs
                     type="card"
                     defaultActiveKey="1"

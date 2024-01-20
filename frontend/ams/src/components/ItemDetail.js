@@ -182,7 +182,7 @@ const ItemDetail = (props) => {
                         <div className={`justified-row ${props.theme}`}>
                           {props.mode === "view" ? (
                             <Card
-                              className="card-no-padding card-no-shadow"
+                              className="card-no-padding"
                               style={{
                                 padding: "0 20px 0 0",
                                 borderTop: "0",
