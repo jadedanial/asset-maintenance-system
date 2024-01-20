@@ -38,7 +38,7 @@ Generates reports to monitor various aspects of the operation such as work order
 
 # Screenshots
 
-![This is an image](https://github.com/jadedanial/asset-maintenance-system/blob/main/ui1.png)
+![This is an image](https://github.com/jadedanial/asset-maintenance-system/blob/main/darkui1.png)
 
 ![This is an image](https://github.com/jadedanial/asset-maintenance-system/blob/main/ui2.png)
 
