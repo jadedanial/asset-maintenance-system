@@ -98,6 +98,8 @@ const Employee = (props) => {
         tableDataSource={employees}
         searchedText={searchedText}
         updateEmployeeSection={props.updateEmployeeSection}
+        collapsed={props.collapsed}
+        theme={props.theme}
       ></SearchTableEvent>
     </>
   );

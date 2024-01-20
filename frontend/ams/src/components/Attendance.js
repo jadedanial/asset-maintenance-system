@@ -354,8 +354,9 @@ const Attendance = (props, ref) => {
               </div>
               <div style={{ marginTop: "40px" }}>
                 <div className="space-between-row">
-                  <Col span={withData ? 9 : 0}>
+                  <Col span={withData ? 8 : 0}>
                     <Card
+                      className="card-no-shadow"
                       style={{
                         background: "#e6f7ff",
                         borderColor: "#91d5ff",
@@ -397,8 +398,8 @@ const Attendance = (props, ref) => {
                       </div>
                     </Card>
                   </Col>
-                  <Col span={withData ? 14 : 24}>
-                    <Card>
+                  <Col span={withData ? 16 : 24}>
+                    <Card className="card-no-shadow">
                       <Calendar
                         fullscreen={true}
                         mode="month"

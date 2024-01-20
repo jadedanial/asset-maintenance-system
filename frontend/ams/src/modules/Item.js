@@ -109,6 +109,8 @@ const Item = (props) => {
         searchedText={searchedText}
         sectionCode={props.sectionCode}
         sectionCategory={props.sectionCategory}
+        theme={props.theme}
+        collapsed={props.collapsed}
       ></SearchTableEvent>
     </>
   );

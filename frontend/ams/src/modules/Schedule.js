@@ -3,7 +3,7 @@ import axios from "axios";
 import { CalendarOutlined } from "@ant-design/icons";
 import SearchTableEvent from "../components/SearchTableEvent";
 
-const Schedule = () => {
+const Schedule = (props) => {
   const [searchedtext, setSearchedText] = useState("");
   const [schedules, setSchedules] = useState([]);
 
@@ -122,6 +122,7 @@ const Schedule = () => {
         tableColumns={columns}
         tableDataSource={schedules}
         searchedText={searchedText}
+        collapsed={props.collapsed}
       ></SearchTableEvent>
     </>
   );

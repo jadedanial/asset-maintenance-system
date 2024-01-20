@@ -9,6 +9,7 @@ const Slogan = () => {
             width: "70%",
             background: "#f0f2f5",
           }}
+          hoverable
         >
           <img src="images/ams.png" alt="logo" style={{ width: "60%" }} />
         </Card>

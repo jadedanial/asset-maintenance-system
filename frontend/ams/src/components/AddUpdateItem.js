@@ -219,6 +219,7 @@ const AddUpdateItem = (props) => {
                 ADD NEW ITEM
               </Button>
             }
+            theme={props.theme}
           />
         </>
       );

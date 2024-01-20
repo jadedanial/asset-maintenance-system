@@ -6,6 +6,7 @@ const ResultEvent = (props) => {
     <>
       <div>
         <Result
+          className={props.theme}
           icon={props.icon}
           status={props.status}
           title={props.title}

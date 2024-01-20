@@ -4,7 +4,7 @@ import { FieldTimeOutlined } from "@ant-design/icons";
 import SearchTableEvent from "../components/SearchTableEvent";
 import moment from "moment";
 
-const Shift = () => {
+const Shift = (props) => {
   const timeFormat = "HH:mm:ss";
   const [searchedtext, setSearchedText] = useState("");
   const [shifts, setShifts] = useState([]);
@@ -98,6 +98,7 @@ const Shift = () => {
         tableColumns={columns}
         tableDataSource={shifts}
         searchedText={searchedText}
+        collapsed={props.collapsed}
       ></SearchTableEvent>
     </>
   );

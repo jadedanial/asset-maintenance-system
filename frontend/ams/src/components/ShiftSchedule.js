@@ -66,7 +66,11 @@ const ShiftSchedule = (props) => {
                         )
                       )
                       .asHours() === 0 ? (
-                      <Badge color="blue" text="Day Off" />
+                      <Badge
+                        color="blue"
+                        text="Day Off"
+                        style={{ color: "#318ce7" }}
+                      />
                     ) : (
                       schedule.sched_sun
                     ),
@@ -84,7 +88,11 @@ const ShiftSchedule = (props) => {
                         )
                       )
                       .asHours() === 0 ? (
-                      <Badge color="blue" text="Day Off" />
+                      <Badge
+                        color="blue"
+                        text="Day Off"
+                        style={{ color: "#318ce7" }}
+                      />
                     ) : (
                       schedule.sched_mon
                     ),
@@ -102,7 +110,11 @@ const ShiftSchedule = (props) => {
                         )
                       )
                       .asHours() === 0 ? (
-                      <Badge color="blue" text="Day Off" />
+                      <Badge
+                        color="blue"
+                        text="Day Off"
+                        style={{ color: "#318ce7" }}
+                      />
                     ) : (
                       schedule.sched_tue
                     ),
@@ -120,7 +132,11 @@ const ShiftSchedule = (props) => {
                         )
                       )
                       .asHours() === 0 ? (
-                      <Badge color="blue" text="Day Off" />
+                      <Badge
+                        color="blue"
+                        text="Day Off"
+                        style={{ color: "#318ce7" }}
+                      />
                     ) : (
                       schedule.sched_wed
                     ),
@@ -138,7 +154,11 @@ const ShiftSchedule = (props) => {
                         )
                       )
                       .asHours() === 0 ? (
-                      <Badge color="blue" text="Day Off" />
+                      <Badge
+                        color="blue"
+                        text="Day Off"
+                        style={{ color: "#318ce7" }}
+                      />
                     ) : (
                       schedule.sched_thu
                     ),
@@ -156,7 +176,11 @@ const ShiftSchedule = (props) => {
                         )
                       )
                       .asHours() === 0 ? (
-                      <Badge color="blue" text="Day Off" />
+                      <Badge
+                        color="blue"
+                        text="Day Off"
+                        style={{ color: "#318ce7" }}
+                      />
                     ) : (
                       schedule.sched_fri
                     ),
@@ -174,7 +198,11 @@ const ShiftSchedule = (props) => {
                         )
                       )
                       .asHours() === 0 ? (
-                      <Badge color="blue" text="Day Off" />
+                      <Badge
+                        color="blue"
+                        text="Day Off"
+                        style={{ color: "#318ce7" }}
+                      />
                     ) : (
                       schedule.sched_sat
                     ),
@@ -182,7 +210,7 @@ const ShiftSchedule = (props) => {
               ]}
               renderItem={(item) => (
                 <List.Item>
-                  <Card size="small">
+                  <Card size="small" hoverable>
                     <p className="small-card-title">{item.title}</p>
                     <p className="small-font">{item.description}</p>
                   </Card>
@@ -236,7 +264,7 @@ const ShiftSchedule = (props) => {
     <>
       {contextHolder}
       <div style={{ marginTop: "20px" }}>
-        <Card size="small" style={{ width: "100%" }}>
+        <Card size="small" style={{ width: "100%" }} hoverable>
           <div className="justified-row">
             <div className="card-custom-size">
               <Card

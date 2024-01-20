@@ -18,6 +18,7 @@ const DrawerEvent = (props) => {
             <Profile
               empid={props.empid}
               updateEmployeeSection={props.updateEmployeeSection}
+              theme={props.theme}
             ></Profile>
           </>
         );
@@ -27,6 +28,7 @@ const DrawerEvent = (props) => {
             <Profile
               empid={props.rowIndex["id"]}
               updateEmployeeSection={props.updateEmployeeSection}
+              theme={props.theme}
             ></Profile>
           </>
         );
@@ -89,6 +91,7 @@ const DrawerEvent = (props) => {
               mode="update"
               sectionCode={props.sectionCode}
               sectionCategory={props.sectionCategory}
+              theme={props.theme}
             ></ItemDetail>
           </>
         );
@@ -99,6 +102,7 @@ const DrawerEvent = (props) => {
               update={false}
               sectionCode={props.sectionCode}
               sectionCategory={props.sectionCategory}
+              theme={props.theme}
             ></AddUpdateItem>
           </>
         );
@@ -116,6 +120,7 @@ const DrawerEvent = (props) => {
               onCloseDrawer={props.onCloseDrawer}
               empid={props.empid}
               username={props.username}
+              theme={props.theme}
             ></CartItem>
           </>
         );
@@ -130,9 +135,10 @@ const DrawerEvent = (props) => {
         width="100%"
         height="fit-content"
         placement="right"
+        className={props.theme}
         style={{
           marginTop: "85px",
-          marginLeft: props.col ? "100px" : "220px",
+          marginLeft: props.collapsed ? "100px" : "220px",
           marginRight: "10px",
           transition: "0.2s ease-in-out",
         }}
@@ -141,7 +147,7 @@ const DrawerEvent = (props) => {
         extra={
           <Tooltip title={"Close"}>
             <Button
-              className="btn-blue"
+              className="btn-normal"
               icon={<CloseOutlined className="bigger-font" />}
               onClick={props.onCloseDrawer}
             />

@@ -192,7 +192,7 @@ const CartItem = (props) => {
   return (
     <>
       {contextHolder}
-      <div className="justified-row">
+      <div className={`justified-row ${props.theme}`}>
         <div className="card-custom-size">
           <Card
             size="large"

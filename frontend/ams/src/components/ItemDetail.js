@@ -53,7 +53,7 @@ const ItemDetail = (props) => {
   function itemDetails(i, wi) {
     return (
       <>
-        <div className="space-between-row align-items-end">
+        <div className={`space-between-row align-items-end ${props.theme}`}>
           <Col span={13} style={{ height: "fit-content" }}>
             <p className="medium-font" style={{ paddingBottom: "18px" }}>
               {i.item_name}
@@ -116,7 +116,6 @@ const ItemDetail = (props) => {
           </Col>
         </div>
         <p
-          className="medium-font"
           style={{
             padding: "20px 0",
             display: props.mode === "view" ? "none" : "block",
@@ -180,10 +179,10 @@ const ItemDetail = (props) => {
                       </>
                     ) : (
                       <>
-                        <div className="justified-row">
+                        <div className={`justified-row ${props.theme}`}>
                           {props.mode === "view" ? (
                             <Card
-                              className="card-no-padding"
+                              className="card-no-padding card-no-shadow"
                               style={{
                                 padding: "0 20px 0 0",
                                 borderTop: "0",
@@ -191,6 +190,7 @@ const ItemDetail = (props) => {
                                 borderBottom: "0",
                                 width: "100%",
                               }}
+                              hoverable
                             >
                               {itemDetails(i, wi)}
                             </Card>
@@ -198,6 +198,7 @@ const ItemDetail = (props) => {
                             <div className="card-custom-size">
                               <Card
                                 size="large"
+                                className={props.theme}
                                 extra={
                                   <Button
                                     size="large"

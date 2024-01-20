@@ -2,7 +2,16 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
-import { Layout, Menu, Space, Dropdown, Badge, Col, Avatar } from "antd";
+import {
+  Layout,
+  Menu,
+  Space,
+  Dropdown,
+  Badge,
+  Col,
+  Avatar,
+  Button,
+} from "antd";
 import {
   UserOutlined,
   UnlockOutlined,
@@ -13,6 +22,8 @@ import {
   CarOutlined,
   MenuUnfoldOutlined,
   MenuFoldOutlined,
+  AlertOutlined,
+  BulbOutlined,
 } from "@ant-design/icons";
 import WorkRequest from "../modules/WorkRequest";
 import Employee from "../modules/Employee";
@@ -27,6 +38,7 @@ import DrawerEvent from "../components/DrawerEvent";
 const { Header, Sider, Content } = Layout;
 
 const MainPage = (props) => {
+  const [theme, setTheme] = useState("light");
   const [employeeSection, setEmployeeSection] = useState("");
   const [openDrawer, setOpenDrawer] = useState(true);
   const [collapsed, setCollapsed] = useState(false);
@@ -49,6 +61,14 @@ const MainPage = (props) => {
       icon: <UnlockOutlined />,
     },
   ];
+
+  function changeMode() {
+    if (theme === "light") {
+      setTheme("dark");
+    } else {
+      setTheme("light");
+    }
+  }
 
   function logout() {
     Cookies.remove("jwt");
@@ -78,15 +98,15 @@ const MainPage = (props) => {
   function iconsSwitch(icon) {
     switch (icon) {
       case "SettingOutlined":
-        return <SettingOutlined style={{ fontSize: "20px", color: "#fff" }} />;
+        return <SettingOutlined style={{ fontSize: "20px" }} />;
       case "ShopOutlined":
-        return <ShopOutlined style={{ fontSize: "20px", color: "#fff" }} />;
+        return <ShopOutlined style={{ fontSize: "20px" }} />;
       case "TeamOutlined":
-        return <TeamOutlined style={{ fontSize: "20px", color: "#fff" }} />;
+        return <TeamOutlined style={{ fontSize: "20px" }} />;
       case "CarOutlined":
-        return <CarOutlined style={{ fontSize: "20px", color: "#fff" }} />;
+        return <CarOutlined style={{ fontSize: "20px" }} />;
       case "BarChartOutlined":
-        return <BarChartOutlined style={{ fontSize: "20px", color: "#fff" }} />;
+        return <BarChartOutlined style={{ fontSize: "20px" }} />;
       default:
         break;
     }
@@ -101,9 +121,10 @@ const MainPage = (props) => {
               empid={props.empid}
               showDrawer={openDrawer}
               onCloseDrawer={onCloseDrawer}
-              col={collapsed}
+              collapsed={collapsed}
               comp={"User"}
               updateEmployeeSection={updateEmployeeSection}
+              theme={theme}
             ></DrawerEvent>
           </>
         );
@@ -117,31 +138,33 @@ const MainPage = (props) => {
         return (
           <>
             <Employee
-              col={collapsed}
               updateEmployeeSection={updateEmployeeSection}
+              collapsed={collapsed}
+              theme={theme}
             ></Employee>
           </>
         );
       case "Shift":
         return (
           <>
-            <Shift col={collapsed}></Shift>
+            <Shift collapsed={collapsed}></Shift>
           </>
         );
       case "Schedule":
         return (
           <>
-            <Schedule col={collapsed}></Schedule>
+            <Schedule collapsed={collapsed}></Schedule>
           </>
         );
       case "Item":
         return (
           <>
             <Item
-              col={collapsed}
               empid={props.empid}
+              collapsed={collapsed}
               sectionCode={sectionCode}
               sectionCategory={sectionCategory}
+              theme={theme}
             ></Item>
           </>
         );
@@ -149,23 +172,24 @@ const MainPage = (props) => {
         return (
           <>
             <Reorder
-              col={collapsed}
               empid={props.empid}
               username={props.username}
+              collapsed={collapsed}
               sectionCode={sectionCode}
+              theme={theme}
             ></Reorder>
           </>
         );
       case "Warehouse":
         return (
           <>
-            <Warehouse col={collapsed}></Warehouse>
+            <Warehouse></Warehouse>
           </>
         );
       case "Vehicle":
         return (
           <>
-            <Vehicle col={collapsed}></Vehicle>
+            <Vehicle></Vehicle>
           </>
         );
       default:
@@ -241,12 +265,12 @@ const MainPage = (props) => {
           collapsed={collapsed}
           style={{
             height: "100vh",
-            background: "#108ee9",
+            background: theme === "light" ? "#108ee9" : "#000c17",
           }}
         >
           <div style={{ margin: "20px 0 15px 32px" }}>
             <img
-              src={collapsed ? "images/ams.png" : "images/ams.png"}
+              src={"images/ams.png"}
               alt="logo"
               style={{
                 width: "35%",
@@ -257,10 +281,11 @@ const MainPage = (props) => {
           <Menu
             defaultSelectedKeys={[1]}
             mode="inline"
+            theme={theme}
             items={modules}
             style={{
               fontSize: "12px",
-              background: "#108ee9",
+              background: theme === "light" ? "#108ee9" : "#000c17",
               marginTop: "30px",
             }}
             onClick={(e) => setSelectedMenuItem(e.key)}
@@ -270,7 +295,7 @@ const MainPage = (props) => {
           <Header
             style={{
               padding: "0",
-              background: "#fff",
+              background: theme === "light" ? "#fff" : "#161d40",
               height: "65px",
               position: "sticky",
               top: "0",
@@ -296,8 +321,8 @@ const MainPage = (props) => {
                   >
                     <span className="avatar-item">
                       <Badge size="small">
-                        <Space size="large">
-                          <Col span={12}>
+                        <Space size="small">
+                          <Col>
                             <p
                               className="medium-font"
                               style={{ cursor: "pointer", color: "#318ce7" }}
@@ -305,7 +330,7 @@ const MainPage = (props) => {
                               {props.empid}
                             </p>
                           </Col>
-                          <Col span={12}>
+                          <Col>
                             <p
                               className="medium-font"
                               style={{ cursor: "pointer", color: "#318ce7" }}
@@ -313,11 +338,11 @@ const MainPage = (props) => {
                               {props.username}
                             </p>
                           </Col>
-                          <Col span={12}>
+                          <Col>
                             <Avatar
                               size="small"
                               style={{
-                                backgroundColor: "#318ce7",
+                                background: "#318ce7",
                                 cursor: "pointer",
                               }}
                               icon={<UserOutlined />}
@@ -328,21 +353,33 @@ const MainPage = (props) => {
                     </span>
                   </Dropdown>
                 </Space>
+                <Button
+                  icon={
+                    theme === "light" ? <BulbOutlined /> : <AlertOutlined />
+                  }
+                  className="btn-normal"
+                  style={{
+                    marginLeft: "30px",
+                  }}
+                  onClick={() => changeMode()}
+                ></Button>
               </Col>
             </div>
             <div
               style={{
                 marginTop: "1px",
                 height: "22px",
-                background: "#F0F2F5",
+                background: theme === "light" ? "#f0f2f5" : "#1c2755",
               }}
             ></div>
           </Header>
-          <Layout className="site-layout">
-            <Content
-              className="site-layout-background"
-              style={{ margin: "20px" }}
-            >
+          <Layout
+            style={{
+              background: theme === "light" ? "#f0f2f5" : "#1c2755",
+              minHeight: "300%",
+            }}
+          >
+            <Content style={{ margin: "20px" }}>
               {componentSwitch(selectedMenuItem)}
             </Content>
           </Layout>

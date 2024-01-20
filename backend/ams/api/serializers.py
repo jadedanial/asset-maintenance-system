@@ -134,6 +134,7 @@ class ScheduleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Schedule
         fields = [
+            "id",
             "sched_name",
             "sched_sun",
             "sched_mon",

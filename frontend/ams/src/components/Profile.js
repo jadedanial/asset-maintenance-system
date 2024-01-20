@@ -157,6 +157,7 @@ const Profile = (props) => {
                     </Title>
                   }
                   style={{ width: "100%", borderTop: "0" }}
+                  hoverable
                 >
                   <Row
                     style={{
@@ -240,10 +241,14 @@ const Profile = (props) => {
                     </Col>
                   </Row>
                 </Card>
-                <Card size="large" style={{ borderTop: "0" }}>
+                <Card
+                  className="card-no-shadow"
+                  size="large"
+                  style={{ borderTop: "0" }}
+                  hoverable
+                >
                   <Tabs
                     type="card"
-                    style={{ background: "#fff" }}
                     defaultActiveKey="1"
                     size="large"
                     tabBarGutter={4}

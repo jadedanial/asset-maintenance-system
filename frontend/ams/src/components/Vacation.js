@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useForm } from "react";
 import axios from "axios";
 import {
   Form,
@@ -47,6 +47,7 @@ const Vacation = (props) => {
   const [days, setDays] = useState(0);
   const [api, contextHolder] = notification.useNotification();
   const [current, setCurrent] = useState(0);
+  const [form] = Form.useForm();
 
   const columns = [
     {
@@ -284,7 +285,7 @@ const Vacation = (props) => {
               start: res.vac_start,
               end: res.vac_end,
               reason: res.vac_reason,
-              attach: res.vac_attachment,
+              attach: res.vac_attachment === "No Attachment" ? "No" : "Yes",
               total: res.vac_total,
             },
           ])
@@ -309,8 +310,9 @@ const Vacation = (props) => {
   }
 
   function removeAttachment() {
+    form.resetFields(["select_attachment"]);
+    setAttachment(null);
     setShowAttachment(false);
-    setAttachment("");
   }
 
   function newVacation() {
@@ -506,12 +508,13 @@ const Vacation = (props) => {
     <>
       {contextHolder}
       <div style={{ marginTop: "20px" }}>
-        <Card size="small" style={{ width: "100%" }}>
+        <Card size="small" style={{ width: "100%" }} hoverable>
           {add ? (
             <div className="justified-row">
               <div className="card-custom-size">
                 <Form
                   {...layout}
+                  form={form}
                   layout="vertical"
                   size="large"
                   name="add-vacation"

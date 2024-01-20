@@ -162,6 +162,7 @@ class Shift(models.Model):
 
 
 class Schedule(models.Model):
+    id = models.AutoField(primary_key=True)
     sched_name = models.CharField(
         max_length=300, unique=True, blank=True, null=True, verbose_name="Name"
     )

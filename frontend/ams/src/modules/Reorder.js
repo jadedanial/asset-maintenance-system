@@ -139,6 +139,7 @@ const Reorder = (props) => {
       api.info(NotificationEvent(true, "Item " + code + " added to cart."));
     } else {
       setInputStatus("error");
+      api.info(NotificationEvent(false, "Add item quantity."));
     }
   }
 
@@ -165,6 +166,7 @@ const Reorder = (props) => {
                   itemcode={warehouseItem["0"]["code"]}
                   mode="view"
                   sectionCode={props.sectionCode}
+                  theme={props.theme}
                 ></ItemDetail>
               </Col>
               <Col
@@ -181,11 +183,11 @@ const Reorder = (props) => {
                   Php. {total}
                 </p>
                 <InputNumber
+                  placeholder="Quantity"
                   status={inputStatus}
                   min={1}
                   max={1000000}
                   onChange={onQuantityChange}
-                  addonBefore={<p className="medium-card-title">Qty.</p>}
                 />
               </Col>
             </Row>
@@ -237,62 +239,68 @@ const Reorder = (props) => {
   return (
     <>
       {contextHolder}
-      <Card size="large" className="card-main-layout" bordered hoverable>
-        <div className="justified-row">
-          <div className="card-custom-size" style={{ marginBottom: "0" }}>
-            <Card
-              size="large"
-              extra={
-                <Tooltip
-                  title={
-                    itemCount > 1
-                      ? "Cart (" + itemCount.toString() + " Items)"
-                      : "Cart (" + itemCount.toString() + " Item)"
-                  }
-                >
-                  <Badge count={itemCount} color="#318ce7" onClick={showDrawer}>
-                    <Avatar
-                      className="avatar-btn"
-                      shape="square"
-                      size="large"
-                      style={{
-                        backgroundColor: "#318ce7",
-                        cursor: "pointer",
-                        width: "50px",
-                        borderRadius: "5px",
-                      }}
-                      icon={
-                        <ShoppingCartOutlined
-                          className="big-card-title"
-                          style={{ color: "#fff" }}
-                        />
-                      }
-                    />
-                  </Badge>
-                </Tooltip>
-              }
-              title={
-                <Title>
-                  <p
-                    className="big-card-title"
-                    style={{ width: "60%", textWrap: "wrap" }}
-                  >
-                    Reorder
-                  </p>
-                </Title>
-              }
-              hoverable
-            >
-              <Input
+      <div className={props.theme}>
+        <Card className="card-main-layout" size="large" hoverable>
+          <div className="justified-row">
+            <div className="card-custom-size" style={{ marginBottom: "0" }}>
+              <Card
                 size="large"
-                placeholder="Search Item Code"
-                onChange={(e) => searchItem(e.target.value)}
-              />
-              {componentSwitch(checkResult())}
-            </Card>
+                extra={
+                  <Tooltip
+                    title={
+                      itemCount > 1
+                        ? "Cart (" + itemCount.toString() + " Items)"
+                        : "Cart (" + itemCount.toString() + " Item)"
+                    }
+                  >
+                    <Badge
+                      count={itemCount}
+                      color="#318ce7"
+                      onClick={showDrawer}
+                    >
+                      <Avatar
+                        className="avatar-btn"
+                        shape="square"
+                        size="large"
+                        style={{
+                          background: "#318ce7",
+                          cursor: "pointer",
+                          width: "50px",
+                          borderRadius: "5px",
+                        }}
+                        icon={
+                          <ShoppingCartOutlined
+                            className="big-card-title"
+                            style={{ color: "#fff" }}
+                          />
+                        }
+                      />
+                    </Badge>
+                  </Tooltip>
+                }
+                title={
+                  <Title>
+                    <p
+                      className="big-card-title"
+                      style={{ width: "60%", textWrap: "wrap" }}
+                    >
+                      Reorder
+                    </p>
+                  </Title>
+                }
+                hoverable
+              >
+                <Input
+                  size="large"
+                  placeholder="Search Item Code"
+                  onChange={(e) => searchItem(e.target.value)}
+                />
+                {componentSwitch(checkResult())}
+              </Card>
+            </div>
           </div>
-        </div>
-      </Card>
+        </Card>
+      </div>
       <DrawerEvent
         searchItem={searchItem}
         item={itemCode}
@@ -303,10 +311,11 @@ const Reorder = (props) => {
         clearOrder={clearOrder}
         showDrawer={openDrawer}
         onCloseDrawer={onCloseDrawer}
-        col={props.col}
         comp="CartItem"
         empid={props.empid}
         username={props.username}
+        collapsed={props.collapsed}
+        theme={props.theme}
       ></DrawerEvent>
     </>
   );
