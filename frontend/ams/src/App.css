@@ -44,7 +44,7 @@ h1 {
 }
 
 /* Firefox */
-* {
+.table-scroll {
   scrollbar-width: 3px;
   scrollbar-color: #15417e #318ce7;
 }
@@ -52,6 +52,7 @@ h1 {
 /* Chrome, Edge, and Safari */
 *::-webkit-scrollbar {
   width: 3px;
+  height: 3px;
 }
 
 *::-webkit-scrollbar-track {
@@ -727,7 +728,7 @@ h1.ant-typography {
 
 input::file-selector-button {
   font-size: 14px !important;
-  color: #318ce7 !important;
+  color: #e2ecfa !important;
   background: none;
   border: none;
 }
@@ -737,7 +738,7 @@ input::file-selector-button {
 }
 
 .ant-notification-notice {
-  background: #faedb5 !important;
+  background: #fff !important;
 }
 
 .ant-tag {

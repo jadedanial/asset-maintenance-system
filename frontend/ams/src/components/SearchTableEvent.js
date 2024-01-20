@@ -104,6 +104,7 @@ const SearchTableEvent = (props) => {
             }}
           ></div>
           <Table
+            className="table-scroll"
             rowClassName={() => "table-row"}
             columns={props.tableColumns}
             dataSource={props.tableDataSource}

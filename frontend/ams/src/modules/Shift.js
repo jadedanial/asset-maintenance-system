@@ -99,6 +99,7 @@ const Shift = (props) => {
         tableDataSource={shifts}
         searchedText={searchedText}
         collapsed={props.collapsed}
+        theme={props.theme}
       ></SearchTableEvent>
     </>
   );

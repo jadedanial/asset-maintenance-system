@@ -45,7 +45,7 @@ const DrawerEvent = (props) => {
       case "AddUpdateShift":
         return (
           <>
-            <AddUpdateShift update={false}></AddUpdateShift>
+            <AddUpdateShift update={false} theme={props.theme}></AddUpdateShift>
           </>
         );
       case "UpdateShift":
@@ -57,13 +57,17 @@ const DrawerEvent = (props) => {
               name={props.rowIndex["name"]}
               from={props.rowIndex["from"]}
               to={props.rowIndex["to"]}
+              theme={props.theme}
             ></AddUpdateShift>
           </>
         );
       case "AddUpdateSchedule":
         return (
           <>
-            <AddUpdateSchedule update={false}></AddUpdateSchedule>
+            <AddUpdateSchedule
+              update={false}
+              theme={props.theme}
+            ></AddUpdateSchedule>
           </>
         );
       case "UpdateSchedule":
@@ -80,6 +84,7 @@ const DrawerEvent = (props) => {
               thu={props.rowIndex["thu"]}
               fri={props.rowIndex["fri"]}
               sat={props.rowIndex["sat"]}
+              theme={props.theme}
             ></AddUpdateSchedule>
           </>
         );

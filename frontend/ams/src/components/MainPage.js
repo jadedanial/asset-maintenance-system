@@ -147,13 +147,13 @@ const MainPage = (props) => {
       case "Shift":
         return (
           <>
-            <Shift collapsed={collapsed}></Shift>
+            <Shift collapsed={collapsed} theme={theme}></Shift>
           </>
         );
       case "Schedule":
         return (
           <>
-            <Schedule collapsed={collapsed}></Schedule>
+            <Schedule collapsed={collapsed} theme={theme}></Schedule>
           </>
         );
       case "Item":

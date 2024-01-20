@@ -123,6 +123,7 @@ const Schedule = (props) => {
         tableDataSource={schedules}
         searchedText={searchedText}
         collapsed={props.collapsed}
+        theme={props.theme}
       ></SearchTableEvent>
     </>
   );
