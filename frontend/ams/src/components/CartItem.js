@@ -94,7 +94,7 @@ const CartItem = (props) => {
     };
     axios({
       method: "POST",
-      url: "http://localhost:8000/api/transaction/",
+      url: "http://localhost:8000/api/transaction",
       data: transactionData,
       headers: { "Content-Type": "application/json" },
       withCredentials: true,
@@ -123,7 +123,7 @@ const CartItem = (props) => {
   function checkoutOrder() {
     axios({
       method: "PATCH",
-      url: "http://localhost:8000/api/warehouseitemupdate/",
+      url: "http://localhost:8000/api/warehouseitemupdate",
       data: warehouseItemOrder(props.orderList),
       headers: { "Content-Type": "application/json" },
       withCredentials: true,

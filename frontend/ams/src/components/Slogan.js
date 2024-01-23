@@ -1,18 +1,12 @@
-import { Col, Card } from "antd";
+import { Col } from "antd";
 
 const Slogan = () => {
   return (
     <>
-      <Col span={12} className="flex-end-row" style={{ top: "30%" }}>
-        <Card
-          style={{
-            width: "70%",
-            background: "#f0f2f5",
-          }}
-          hoverable
-        >
-          <img src="images/ams.png" alt="logo" style={{ width: "60%" }} />
-        </Card>
+      <Col style={{ top: "28%", left: "25%" }}>
+        <div>
+          <img src="images/ams.png" alt="logo" style={{ width: "50%" }} />
+        </div>
       </Col>
     </>
   );

@@ -133,7 +133,7 @@ const AddUpdateSchedule = (props) => {
     };
     axios({
       method: update ? "PATCH" : "POST",
-      url: "http://localhost:8000/api/schedule/",
+      url: "http://localhost:8000/api/schedule",
       data: scheduleData,
       headers: { "Content-Type": "application/json" },
       withCredentials: true,

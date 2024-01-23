@@ -294,7 +294,7 @@ const AddAttendance = (props) => {
     };
     axios({
       method: apiMethod,
-      url: "http://localhost:8000/api/emp_attendance/",
+      url: "http://localhost:8000/api/emp_attendance",
       data: attendData,
       headers: { "Content-Type": "application/json" },
       withCredentials: true,

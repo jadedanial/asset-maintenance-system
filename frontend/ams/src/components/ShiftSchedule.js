@@ -28,7 +28,7 @@ const ShiftSchedule = (props) => {
     };
     axios({
       method: "PATCH",
-      url: "http://localhost:8000/api/emp_schedule/",
+      url: "http://localhost:8000/api/emp_schedule",
       data: empData,
       headers: { "Content-Type": "application/json" },
       withCredentials: true,
@@ -264,7 +264,7 @@ const ShiftSchedule = (props) => {
     <>
       {contextHolder}
       <div style={{ marginTop: "20px" }}>
-        <Card size="small" style={{ width: "100%" }} hoverable>
+        <Card size="small" style={{ width: "100%" }}>
           <div className="justified-row">
             <div className="card-custom-size">
               <Card

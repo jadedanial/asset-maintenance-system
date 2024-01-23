@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from rest_framework.generics import ListAPIView, UpdateAPIView
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -7,6 +8,20 @@ import datetime
 from .permissions import IsAuthenticatedWithJWT
 from ams.models import *
 from .serializers import *
+
+
+class ModeView(APIView):
+    def post(self, request):
+        mode = request.data
+        response = Response()
+        response.set_cookie(key="mode", value=mode, httponly=False)
+        response.data = {"mode": mode}
+
+        return response
+
+    def get(self, request):
+        mode = request.COOKIES.get("mode")
+        return HttpResponse(mode)
 
 
 class ComponentListView(ListAPIView):

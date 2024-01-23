@@ -149,7 +149,7 @@ const AddUpdateItem = (props) => {
     };
     axios({
       method: update ? "PATCH" : "POST",
-      url: "http://localhost:8000/api/item/",
+      url: "http://localhost:8000/api/item",
       data: itemData,
       headers: { "Content-Type": "application/json" },
       withCredentials: true,
@@ -164,7 +164,7 @@ const AddUpdateItem = (props) => {
         };
         axios({
           method: update ? "PATCH" : "POST",
-          url: "http://localhost:8000/api/warehouseitem/",
+          url: "http://localhost:8000/api/warehouseitem",
           data: itemWarehouse,
           headers: { "Content-Type": "application/json" },
           withCredentials: true,

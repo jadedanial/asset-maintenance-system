@@ -267,7 +267,7 @@ const Excuse = (props) => {
     };
     axios({
       method: "PATCH",
-      url: "http://localhost:8000/api/emp_attendance/",
+      url: "http://localhost:8000/api/emp_attendance",
       data: attendData,
       headers: { "Content-Type": "application/json" },
       withCredentials: true,
@@ -435,7 +435,7 @@ const Excuse = (props) => {
     };
     axios({
       method: "POST",
-      url: "http://localhost:8000/api/excuse/",
+      url: "http://localhost:8000/api/excuse",
       data: excData,
       headers: { "Content-Type": "application/json" },
       withCredentials: true,

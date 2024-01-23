@@ -185,7 +185,7 @@ const AddUpdateEmployee = (props) => {
     };
     axios({
       method: update ? "PATCH" : "POST",
-      url: "http://localhost:8000/api/employee/",
+      url: "http://localhost:8000/api/employee",
       data: employeeData,
       headers: { "Content-Type": "application/json" },
       withCredentials: true,

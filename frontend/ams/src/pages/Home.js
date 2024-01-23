@@ -10,9 +10,26 @@ import MainPage from "../components/MainPage";
 import ResultEvent from "../components/ResultEvent";
 
 const HomePage = () => {
+  const [theme, setTheme] = useState("light");
   const [empid, setEmpID] = useState(0);
   const [username, setUsername] = useState("");
   const [showunauthorized, setShowunauthorized] = useState(true);
+
+  useEffect(() => {
+    axios({
+      method: "GET",
+      url: "http://localhost:8000/api/mode",
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    })
+      .then((response) => {
+        setTheme(response.data);
+      })
+      .catch((err) => {
+        setTheme("light");
+        console.log(err);
+      });
+  }, []);
 
   useEffect(() => {
     axios({
@@ -36,7 +53,14 @@ const HomePage = () => {
     <>
       {showunauthorized ? (
         <>
-          <div style={{ paddingTop: "80px" }}>
+          <div
+            className={theme}
+            style={{
+              paddingTop: "50px",
+              background: theme === "light" ? "#cdf5fd  " : "#1c2755",
+              height: "100vh",
+            }}
+          >
             <ResultEvent
               icon={<FrownOutlined style={{ color: "#318ce7" }} />}
               status="403"

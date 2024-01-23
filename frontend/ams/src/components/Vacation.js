@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useForm } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import {
   Form,
@@ -437,7 +437,7 @@ const Vacation = (props) => {
     };
     axios({
       method: "POST",
-      url: "http://localhost:8000/api/vacation/",
+      url: "http://localhost:8000/api/vacation",
       data: vacData,
       headers: { "Content-Type": "application/json" },
       withCredentials: true,
@@ -508,7 +508,7 @@ const Vacation = (props) => {
     <>
       {contextHolder}
       <div style={{ marginTop: "20px" }}>
-        <Card size="small" style={{ width: "100%" }} hoverable>
+        <Card size="small" style={{ width: "100%" }}>
           {add ? (
             <div className="justified-row">
               <div className="card-custom-size">

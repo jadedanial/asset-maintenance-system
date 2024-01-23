@@ -43,7 +43,7 @@ const SearchTableEvent = (props) => {
             <div
               style={{
                 height: "24px",
-                background: props.theme === "light" ? "#ecf2ff" : "#24163a",
+                background: props.theme === "light" ? "#f8f8ff" : "#161d40",
               }}
             ></div>
             <div
@@ -96,7 +96,7 @@ const SearchTableEvent = (props) => {
           <div
             style={{
               height: "20px",
-              background: props.theme === "light" ? "#ecf2ff" : "#24163a",
+              background: props.theme === "light" ? "#f8f8ff" : "#161d40",
               position: "sticky",
               top: "176px",
               zIndex: "1",

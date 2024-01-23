@@ -62,10 +62,25 @@ const MainPage = (props) => {
     },
   ];
 
+  function addMode(mode) {
+    axios({
+      method: "POST",
+      url: "http://localhost:8000/api/mode",
+      data: mode,
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    }).catch((err) => {
+      setTheme("light");
+      console.log(err);
+    });
+  }
+
   function changeMode() {
     if (theme === "light") {
+      addMode("dark");
       setTheme("dark");
     } else {
+      addMode("light");
       setTheme("light");
     }
   }
@@ -235,6 +250,22 @@ const MainPage = (props) => {
   useEffect(() => {
     axios({
       method: "GET",
+      url: "http://localhost:8000/api/mode",
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    })
+      .then((response) => {
+        setTheme(response.data);
+      })
+      .catch((err) => {
+        setTheme("light");
+        console.log(err);
+      });
+  }, []);
+
+  useEffect(() => {
+    axios({
+      method: "GET",
       url: "http://localhost:8000/api/modules",
       headers: { "Content-Type": "application/json" },
       withCredentials: true,
@@ -365,13 +396,13 @@ const MainPage = (props) => {
               style={{
                 marginTop: "1px",
                 height: "22px",
-                background: theme === "light" ? "#e3dffd" : "#1c2755",
+                background: theme === "light" ? "#cdf5fd  " : "#1c2755",
               }}
             ></div>
           </Header>
           <Layout
             style={{
-              background: theme === "light" ? "#e3dffd" : "#1c2755",
+              background: theme === "light" ? "#cdf5fd  " : "#1c2755",
               minHeight: "300%",
             }}
           >
