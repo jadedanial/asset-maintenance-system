@@ -117,6 +117,7 @@ const SearchTableEvent = (props) => {
                 },
               };
             }}
+            style={{ marginBottom: "30px" }}
             pagination={{
               position: ["bottomCenter"],
               pageSize: 10,

@@ -149,7 +149,7 @@ const RegisterPage = () => {
                       prefix={
                         <IdcardOutlined className="site-form-item-icon" />
                       }
-                      placeholder="  Employee ID"
+                      placeholder="Employee ID"
                       onChange={(e) => setEmployeeID(e.target.value)}
                     />
                   </Form.Item>
@@ -165,7 +165,7 @@ const RegisterPage = () => {
                     <Input
                       className="medium-font"
                       prefix={<UserOutlined className="site-form-item-icon" />}
-                      placeholder="  Username"
+                      placeholder="Username"
                       maxLength={100}
                       onChange={(e) => setUsername(e.target.value)}
                     />
@@ -187,7 +187,7 @@ const RegisterPage = () => {
                       className="medium-font"
                       prefix={<MailOutlined className="site-form-item-icon" />}
                       type="email"
-                      placeholder="  Email"
+                      placeholder="Email"
                       maxLength={100}
                       onChange={(e) => setEmail(e.target.value)}
                     />
@@ -206,7 +206,7 @@ const RegisterPage = () => {
                       className="medium-font"
                       prefix={<LockOutlined className="site-form-item-icon" />}
                       type="password"
-                      placeholder="  Password"
+                      placeholder="Password"
                       maxLength={100}
                       onChange={(e) => setPassword(e.target.value)}
                     />
@@ -238,7 +238,7 @@ const RegisterPage = () => {
                       className="medium-font"
                       prefix={<LockOutlined className="site-form-item-icon" />}
                       type="password"
-                      placeholder="  Confirm Password"
+                      placeholder="Confirm Password"
                     />
                   </Form.Item>
                   <Form.Item>

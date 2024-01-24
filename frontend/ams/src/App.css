@@ -558,6 +558,10 @@ h1.ant-typography {
   border-left: 1px solid #1890ff !important;
 }
 
+.ant-input {
+  padding: 10px !important;
+}
+
 .ant-input-number {
   padding: 2px !important;
 }
@@ -602,7 +606,7 @@ h1.ant-typography {
 
 .dark .ant-input-prefix,
 .light .ant-input-prefix {
-  margin-right: 8px !important;
+  padding: 10px !important;
   background: 0 0 !important;
 }
 

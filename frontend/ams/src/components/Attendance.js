@@ -206,6 +206,7 @@ const Attendance = (props, ref) => {
         }
       }
     });
+
     return (
       <>
         {[

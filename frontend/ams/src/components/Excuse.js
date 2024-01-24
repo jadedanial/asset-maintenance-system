@@ -311,31 +311,6 @@ const Excuse = (props) => {
     );
   }
 
-  function checkExcuse() {
-    var onExcuse = false;
-    var excs = excuses
-      .filter((res) => res.id === props.empid)
-      .map((exc) => {
-        return {
-          date: exc.date,
-          start: exc.start,
-          end: exc.end,
-        };
-      });
-    for (var i = 0; i < excs.length; i++) {
-      var dateExc = excs[i]["date"];
-      if (
-        excusedate.format(dateFormat) === moment(dateExc).format(dateFormat)
-      ) {
-        onExcuse = true;
-        break;
-      } else {
-        onExcuse = false;
-      }
-    }
-    return onExcuse;
-  }
-
   function checkAttendance() {
     var onAttend = false;
     var attends = attendances
@@ -371,6 +346,53 @@ const Excuse = (props) => {
     return onAttend;
   }
 
+  function checkExcuse() {
+    var onExcuse = false;
+    var excs = excuses
+      .filter((res) => res.id === props.empid)
+      .map((excuse) => {
+        return {
+          date: excuse.date,
+          start: excuse.start,
+          end: excuse.end,
+        };
+      });
+    for (var i = 0; i < excs.length; i++) {
+      var dateExc = excs[i]["date"];
+      if (
+        excusedate.format(dateFormat) === moment(dateExc).format(dateFormat)
+      ) {
+        onExcuse = true;
+        break;
+      } else {
+        onExcuse = false;
+      }
+    }
+    return onExcuse;
+  }
+
+  function countExcuse() {
+    var excuse = 0;
+    var excs = excuses
+      .filter((res) => res.id === props.empid)
+      .map((excuse) => {
+        return {
+          date: excuse.date,
+          total: excuse.total,
+        };
+      });
+    for (var i = 0; i < excs.length; i++) {
+      var dateExc = excs[i]["date"];
+      if (
+        String(moment(excusedate).format("MMMM YYYY")) ===
+        String(moment(dateExc).format("MMMM YYYY"))
+      ) {
+        excuse += parseFloat(excs[i]["total"]);
+      }
+    }
+    return excuse;
+  }
+
   function next() {
     var valid = true;
     if (excusedate === "") {
@@ -399,9 +421,6 @@ const Excuse = (props) => {
           "Cannot apply excuse for current or future date."
         )
       );
-    } else if (checkExcuse()) {
-      valid = false;
-      api.info(NotificationEvent(false, "Excuse exist for this date."));
     } else if (checkAttendance()) {
       valid = false;
       api.info(
@@ -409,6 +428,14 @@ const Excuse = (props) => {
           false,
           "Cannot apply excuse when attendance status is not attended."
         )
+      );
+    } else if (checkExcuse()) {
+      valid = false;
+      api.info(NotificationEvent(false, "Excuse exist for this date."));
+    } else if (parseFloat(countExcuse()) > 8) {
+      valid = false;
+      api.info(
+        NotificationEvent(false, "Total excuse hours limit already reached.")
       );
     }
     if (valid) {
