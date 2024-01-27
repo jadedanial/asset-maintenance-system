@@ -271,19 +271,16 @@ const CartItem = (props) => {
                     onChange={onWarehouseChange}
                   />
                 </div>
-                <Card
-                  size="small"
-                  id="card-content-justify-center"
+                <div
                   style={{
-                    padding: "10px 20px",
-                    fontWeight: "800",
+                    padding: "10px 20px 20px 20px",
                   }}
                 >
                   <div className="space-between-row">
                     <p className="large-font">Total Cost</p>
                     <p className="large-font">Php. {totalOrder}</p>
                   </div>
-                </Card>
+                </div>
               </>
             ) : (
               ""
@@ -294,9 +291,8 @@ const CartItem = (props) => {
               renderItem={(item, index) => (
                 <List.Item>
                   <Card
-                    className="card-with-background"
+                    className="card-with-background card-item"
                     size="small"
-                    id="card-content-justify-center"
                     title={
                       <Title>
                         <div
@@ -308,11 +304,11 @@ const CartItem = (props) => {
                               {item.item_code}
                             </p>
                           </Col>
-                          <Col span={8}>
+                          <Col span={10}>
                             <p className="medium-card-title">Quantity</p>
                           </Col>
                           <Col
-                            span={6}
+                            span={4}
                             className="space-between-row"
                             style={{ paddingBottom: "15px" }}
                           >

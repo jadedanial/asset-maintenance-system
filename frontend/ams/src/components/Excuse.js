@@ -609,7 +609,7 @@ const Excuse = (props) => {
                 })}
               pagination={{
                 pageSize: 10,
-                showSizeChanger: false,
+                showSizeChanger: true,
               }}
               size="small"
               scroll={{

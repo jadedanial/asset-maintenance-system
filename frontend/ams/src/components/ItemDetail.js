@@ -103,7 +103,15 @@ const ItemDetail = (props) => {
                 display: props.mode === "view" ? "none" : "block",
               }}
             >
-              <p style={{ margin: "0" }}>{i.item_description}</p>
+              <p
+                className="small-font"
+                style={{
+                  margin: "0",
+                  color: props.theme === "light" ? "#000" : "#fff",
+                }}
+              >
+                {i.item_description}
+              </p>
             </div>
           </Col>
           <Col span={9}>

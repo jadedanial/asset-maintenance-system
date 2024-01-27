@@ -54,7 +54,7 @@ h1 {
 
 .table-scroll {
   scrollbar-width: 3px;
-  scrollbar-color: #15417e #318ce7;
+  scrollbar-color: #318ce7 #318ce7;
 }
 
 ::-webkit-scrollbar {
@@ -62,21 +62,22 @@ h1 {
   height: 3px;
 }
 
-::-webkit-scrollbar-track {
-  background: #318ce7;
+.dark ::-webkit-scrollbar-track {
+  background: #161d40;
 }
 
-::-webkit-scrollbar-thumb {
-  background: #318ce7;
-  border: 3px solid #15417e;
+.dark ::-webkit-scrollbar-thumb {
+  background: #161d40;
+  border: 3px solid #318ce7;
 }
 
-.text-align-left {
-  text-align: left !important;
+.light ::-webkit-scrollbar-track {
+  background: #f8f8ff;
 }
 
-.text-align-center {
-  text-align: center !important;
+.light ::-webkit-scrollbar-thumb {
+  background: #f8f8ff;
+  border: 3px solid #318ce7;
 }
 
 .ant-menu {
@@ -138,7 +139,7 @@ h1 {
 }
 
 .light .ant-menu-item-selected {
-  background: #a0e9ff !important;
+  background: #a0ffff !important;
 }
 
 .trigger svg {
@@ -244,19 +245,14 @@ h1.ant-typography {
 }
 
 .ant-card-head {
+  height: 80px !important;
   border-bottom: 1px solid #318ce750 !important;
 }
 
-.ant-card-custom .ant-card-head,
-.ant-card-custom .ant-card-head-title,
 .ant-descriptions-item,
 .ant-form-vertical .ant-form-item-label,
 .card-no-padding .ant-card-body {
   padding: 0 !important;
-}
-
-.ant-card-custom .ant-card-body {
-  padding: 20px 0 0 !important;
 }
 
 .dark .ant-card .card-with-background {
@@ -270,6 +266,17 @@ h1.ant-typography {
 .card-custom-size {
   margin: 40px 0 !important;
   width: 60% !important;
+}
+
+.card-item .ant-card-head {
+  height: fit-content !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.card-item .ant-card-body {
+  height: fit-content !important;
+  padding: 12px 0 !important;
 }
 
 .big-card-title,
@@ -433,7 +440,7 @@ h1.ant-typography {
 }
 
 .ant-pagination-options-size-changer .ant-select-selector {
-  height: 32px !important;
+  height: 30px !important;
 }
 
 .ant-table-cell-scrollbar:not([rowspan]) {
@@ -454,12 +461,13 @@ h1.ant-typography {
 }
 
 .ant-tabs-tab {
-  padding-top: 0 !important;
+  padding: 4px 4px 2px 4px !important;
   background: #318ce7 !important;
   border: 1px solid #318ce750 !important;
 }
 
-.ant-tabs-tab:hover {
+.ant-tabs-tab:hover,
+.ant-tabs-tab-active {
   background: #6841f5 !important;
 }
 
@@ -541,6 +549,10 @@ h1.ant-typography {
 .ant-result-title,
 .ant-steps-item-title {
   font-family: ralewayregular !important;
+}
+
+.ant-picker-calendar {
+  padding: 30px !important;
 }
 
 .ant-picker-calendar-header {
@@ -698,4 +710,27 @@ input::file-selector-button {
 
 .hover-underline:hover {
   text-decoration: underline;
+}
+
+.ant-segmented {
+  background: none !important;
+}
+
+.ant-segmented-item-label {
+  color: #318ce7 !important;
+  padding: 6px 12px !important;
+}
+
+.ant-segmented-item-label:hover {
+  color: #6841f5 !important;
+}
+
+.dark .ant-segmented-item-selected .ant-segmented-item-label {
+  background: #131629 !important;
+  border-bottom: 2px solid #318ce7 !important;
+}
+
+.light .ant-segmented-item-selected .ant-segmented-item-label {
+  background: #fff !important;
+  border-bottom: 2px solid #318ce7 !important;
 }

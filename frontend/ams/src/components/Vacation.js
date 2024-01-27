@@ -600,7 +600,7 @@ const Vacation = (props) => {
                 })}
               pagination={{
                 pageSize: 10,
-                showSizeChanger: false,
+                showSizeChanger: true,
               }}
               size="small"
               scroll={{

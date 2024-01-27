@@ -51,7 +51,7 @@ const ShiftSchedule = (props) => {
         <>
           <div style={{ paddingTop: "20px", flexWrap: "wrap" }}>
             <List
-              grid={{ gutter: 16, column: 2 }}
+              grid={{ gutter: 16, column: 3 }}
               dataSource={[
                 {
                   title: "SUNDAY",
@@ -210,7 +210,7 @@ const ShiftSchedule = (props) => {
               ]}
               renderItem={(item) => (
                 <List.Item>
-                  <Card size="small" hoverable>
+                  <Card size="small">
                     <p className="small-card-title">{item.title}</p>
                     <p className="small-font">{item.description}</p>
                   </Card>

@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import {
   Button,
-  Card,
-  Typography,
   Input,
   Row,
   Col,
@@ -17,8 +15,6 @@ import { ShoppingCartOutlined, InboxOutlined } from "@ant-design/icons";
 import DrawerEvent from "../components/DrawerEvent";
 import ItemDetail from "../components/ItemDetail";
 import NotificationEvent from "../components/NotificationEvent";
-
-const { Title } = Typography;
 
 const Reorder = (props) => {
   const [total, setTotal] = useState("");
@@ -231,7 +227,6 @@ const Reorder = (props) => {
                 className="medium-font"
                 style={{
                   textAlign: "center",
-
                   paddingTop: "10px",
                   color: props.theme === "light" ? "#87e4f7" : "#130130",
                 }}
@@ -270,69 +265,45 @@ const Reorder = (props) => {
   return (
     <>
       {contextHolder}
-      <div className={props.theme}>
-        <Card className="card-main-layout" size="large" hoverable>
-          <div className="justified-row">
-            <div className="card-custom-size" style={{ marginBottom: "0" }}>
-              <Card
+      <div className={`space-between-row ${props.theme}`}>
+        <Col span={21}>
+          <Input
+            size="large"
+            placeholder="Search Item Code"
+            onChange={(e) => searchItem(e.target.value)}
+          />
+        </Col>
+        <Col span={2}>
+          <Tooltip
+            title={
+              itemCount > 1
+                ? "Cart (" + itemCount.toString() + " Items)"
+                : "Cart (" + itemCount.toString() + " Item)"
+            }
+          >
+            <Badge count={itemCount} color="#318ce7" onClick={showDrawer}>
+              <Avatar
+                className="avatar-btn"
+                shape="square"
                 size="large"
-                extra={
-                  <Tooltip
-                    title={
-                      itemCount > 1
-                        ? "Cart (" + itemCount.toString() + " Items)"
-                        : "Cart (" + itemCount.toString() + " Item)"
-                    }
-                  >
-                    <Badge
-                      count={itemCount}
-                      color="#318ce7"
-                      onClick={showDrawer}
-                    >
-                      <Avatar
-                        className="avatar-btn"
-                        shape="square"
-                        size="large"
-                        style={{
-                          background: "#318ce7",
-                          cursor: "pointer",
-                          width: "50px",
-                          borderRadius: "5px",
-                        }}
-                        icon={
-                          <ShoppingCartOutlined
-                            className="big-card-title"
-                            style={{ color: "#fff" }}
-                          />
-                        }
-                      />
-                    </Badge>
-                  </Tooltip>
+                style={{
+                  background: "#318ce7",
+                  cursor: "pointer",
+                  width: "50px",
+                  borderRadius: "5px",
+                }}
+                icon={
+                  <ShoppingCartOutlined
+                    className="big-card-title"
+                    style={{ color: "#fff" }}
+                  />
                 }
-                title={
-                  <Title>
-                    <p
-                      className="big-card-title"
-                      style={{ width: "60%", textWrap: "wrap" }}
-                    >
-                      Reorder
-                    </p>
-                  </Title>
-                }
-                hoverable
-                bordered
-              >
-                <Input
-                  size="large"
-                  placeholder="Search Item Code"
-                  onChange={(e) => searchItem(e.target.value)}
-                />
-                {componentSwitch(checkResult())}
-              </Card>
-            </div>
-          </div>
-        </Card>
+              />
+            </Badge>
+          </Tooltip>
+        </Col>
       </div>
+      <div>{componentSwitch(checkResult())}</div>
       <DrawerEvent
         searchItem={searchItem}
         item={itemCode}

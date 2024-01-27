@@ -27,14 +27,12 @@ import {
   BulbOutlined,
   InboxOutlined,
 } from "@ant-design/icons";
-import WorkRequest from "../modules/WorkRequest";
 import Employee from "../modules/Employee";
 import Shift from "../modules/Shift";
 import Schedule from "../modules/Schedule";
 import Item from "../modules/Item";
 import Reorder from "../modules/Reorder";
-import Warehouse from "../modules/Warehouse";
-import Vehicle from "../modules/Vehicle";
+import Transact from "../modules/Transact";
 import DrawerEvent from "../components/DrawerEvent";
 
 const { Header, Sider, Content } = Layout;
@@ -171,12 +169,6 @@ const MainPage = (props) => {
             ></DrawerEvent>
           </>
         );
-      case "Work Request":
-        return (
-          <>
-            <WorkRequest></WorkRequest>
-          </>
-        );
       case "Employee":
         return (
           <>
@@ -211,31 +203,20 @@ const MainPage = (props) => {
             ></Item>
           </>
         );
-      case "Reorder":
+      case "Transact":
         return (
           <>
-            <Reorder
+            <Transact
               empid={props.empid}
               username={props.username}
               collapsed={collapsed}
               sectionCode={sectionCode}
               theme={theme}
               emptyImage={emptyImage}
-            ></Reorder>
+            ></Transact>
           </>
         );
-      case "Warehouse":
-        return (
-          <>
-            <Warehouse></Warehouse>
-          </>
-        );
-      case "Vehicle":
-        return (
-          <>
-            <Vehicle></Vehicle>
-          </>
-        );
+
       default:
         break;
     }
