@@ -294,6 +294,7 @@ const CartItem = (props) => {
               renderItem={(item, index) => (
                 <List.Item>
                   <Card
+                    className="card-with-background"
                     size="small"
                     id="card-content-justify-center"
                     title={
@@ -376,7 +377,6 @@ const CartItem = (props) => {
                     style={{
                       width: "100%",
                       padding: "20px",
-                      background: "#e6fcff",
                     }}
                     hoverable
                   >

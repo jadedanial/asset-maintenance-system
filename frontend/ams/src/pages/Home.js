@@ -18,22 +18,6 @@ const HomePage = () => {
   useEffect(() => {
     axios({
       method: "GET",
-      url: "http://localhost:8000/api/mode",
-      headers: { "Content-Type": "application/json" },
-      withCredentials: true,
-    })
-      .then((response) => {
-        setTheme(response.data);
-      })
-      .catch((err) => {
-        setTheme("light");
-        console.log(err);
-      });
-  }, []);
-
-  useEffect(() => {
-    axios({
-      method: "GET",
       url: "http://localhost:8000/api/users",
       headers: { "Content-Type": "application/json" },
       withCredentials: true,
@@ -46,6 +30,21 @@ const HomePage = () => {
       .catch((err) => {
         console.log(err.response.data.detail);
         setShowunauthorized(true);
+      });
+  }, []);
+
+  useEffect(() => {
+    axios({
+      method: "GET",
+      url: "http://localhost:8000/api/mode",
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    })
+      .then((response) => {
+        setTheme(response.data);
+      })
+      .catch((err) => {
+        console.log(err);
       });
   }, []);
 
@@ -62,6 +61,7 @@ const HomePage = () => {
             }}
           >
             <ResultEvent
+              theme={theme}
               icon={<FrownOutlined style={{ color: "#318ce7" }} />}
               status="403"
               title="Unauthorized User!"

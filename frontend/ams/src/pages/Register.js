@@ -66,7 +66,6 @@ const RegisterPage = () => {
         setTheme(response.data);
       })
       .catch((err) => {
-        setTheme("light");
         console.log(err);
       });
   }, []);

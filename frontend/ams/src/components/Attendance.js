@@ -358,9 +358,6 @@ const Attendance = (props, ref) => {
                   <Col span={withData ? 8 : 0}>
                     <Card
                       style={{
-                        background: "#e6f7ff",
-                        borderColor: "#91d5ff",
-                        height: "100%",
                         padding: "0 10px",
                       }}
                     >

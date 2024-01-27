@@ -53,14 +53,12 @@ const ItemDetail = (props) => {
   function itemDetails(i, wi) {
     return (
       <>
-        <div className={`space-between-row align-items-end ${props.theme}`}>
+        <div className={`space-between-row  ${props.theme}`}>
           <Col span={13} style={{ height: "fit-content" }}>
             <p className="medium-font" style={{ paddingBottom: "18px" }}>
               {i.item_name}
             </p>
-            <p className="large-card-title" style={{ paddingBottom: "8px" }}>
-              Php. {i.item_cost}
-            </p>
+            <p className="large-card-title">Php. {i.item_cost}</p>
             <Descriptions layout="horizontal" column={1} className="small-font">
               <Descriptions.Item label="On Hand">
                 {wi.item_onhand}
@@ -73,12 +71,7 @@ const ItemDetail = (props) => {
               >
                 {wi.item_location}
               </Descriptions.Item>
-              <Descriptions.Item
-                label="Unit Of Measurement"
-                style={{
-                  display: props.mode === "view" ? "none" : "block",
-                }}
-              >
+              <Descriptions.Item label="Unit Of Measurement">
                 {i.item_measurement}
               </Descriptions.Item>
               <Descriptions.Item
@@ -104,6 +97,14 @@ const ItemDetail = (props) => {
                 </p>
               </Tag>
             </div>
+            <div
+              style={{
+                padding: "20px 0",
+                display: props.mode === "view" ? "none" : "block",
+              }}
+            >
+              <p style={{ margin: "0" }}>{i.item_description}</p>
+            </div>
           </Col>
           <Col span={9}>
             <QRCode
@@ -115,16 +116,8 @@ const ItemDetail = (props) => {
             />
           </Col>
         </div>
-        <p
-          style={{
-            padding: "20px 0",
-            display: props.mode === "view" ? "none" : "block",
-          }}
-        >
-          {i.item_description}
-        </p>
         <List
-          grid={{ gutter: 16, column: 2 }}
+          grid={{ column: 2 }}
           itemLayout="horizontal"
           header={<p className="medium-card-title">Stock On Other Warehouse</p>}
           dataSource={otherWarehouse()}
@@ -190,7 +183,6 @@ const ItemDetail = (props) => {
                                 borderBottom: "0",
                                 width: "100%",
                               }}
-                              hoverable
                             >
                               {itemDetails(i, wi)}
                             </Card>

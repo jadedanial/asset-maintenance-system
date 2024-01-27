@@ -21,6 +21,13 @@ class ModeView(APIView):
 
     def get(self, request):
         mode = request.COOKIES.get("mode")
+
+        if not mode:
+            mode = "light"
+        else:
+            if mode != "light" and mode != "dark":
+                mode = "light"
+
         return HttpResponse(mode)
 
 

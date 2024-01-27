@@ -42,27 +42,21 @@ const SearchTableEvent = (props) => {
           >
             <div
               style={{
-                height: "24px",
                 background: props.theme === "light" ? "#f8f8ff" : "#161d40",
-              }}
-            ></div>
-            <div
-              style={{
-                background: props.theme === "light" ? "#96efff" : "#131629",
                 width: "100%",
                 height: "65px",
                 padding: "12px",
               }}
             >
               <Row>
-                <Col span={2}>
+                <Col span={1} style={{ marginLeft: "10px" }}>
                   <Tooltip title={props.tooltipTitle}>
                     <Button
-                      className="custom-hover"
+                      id="big-icon"
+                      className="btn-normal "
                       style={{ margin: "0 20px" }}
                       shape="circle"
                       size="large"
-                      type="primary"
                       onClick={() => {
                         if (
                           props.compItemAdd !== "AddUpdateItem" ||
@@ -80,13 +74,16 @@ const SearchTableEvent = (props) => {
                         }
                       }}
                       icon={props.tooltipIcon}
-                    />
+                    >
+                      +
+                    </Button>
                   </Tooltip>
                 </Col>
-                <Col span={22}>
+                <Col span={22} style={{ marginLeft: "20px" }}>
                   <Input
                     size="large"
                     placeholder={props.inputPlaceHolder}
+                    style={{ borderRadius: "50px" }}
                     onChange={(e) => props.searchedText(e.target.value)}
                   />
                 </Col>
@@ -119,9 +116,9 @@ const SearchTableEvent = (props) => {
             }}
             style={{ marginBottom: "30px" }}
             pagination={{
-              position: ["bottomCenter"],
+              position: ["bottomRight"],
               pageSize: 10,
-              showSizeChanger: false,
+              showSizeChanger: true,
             }}
             size="large"
             scroll={{

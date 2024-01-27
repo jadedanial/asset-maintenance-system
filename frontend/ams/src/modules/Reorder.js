@@ -9,12 +9,11 @@ import {
   Col,
   InputNumber,
   Tooltip,
-  Empty,
   Badge,
   Avatar,
   notification,
 } from "antd";
-import { ShoppingCartOutlined } from "@ant-design/icons";
+import { ShoppingCartOutlined, InboxOutlined } from "@ant-design/icons";
 import DrawerEvent from "../components/DrawerEvent";
 import ItemDetail from "../components/ItemDetail";
 import NotificationEvent from "../components/NotificationEvent";
@@ -173,7 +172,7 @@ const Reorder = (props) => {
                 span={8}
                 className="flex-end-col align-items-start"
                 style={{
-                  padding: "0 0 0 20px",
+                  padding: "0 0 10px 20px",
                 }}
               >
                 <p
@@ -216,7 +215,30 @@ const Reorder = (props) => {
       case false:
         return (
           <>
-            <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+            <div
+              style={{
+                textAlign: "center",
+                margin: "50px 0",
+              }}
+            >
+              <InboxOutlined
+                style={{
+                  fontSize: "50px",
+                  color: props.theme === "light" ? "#87e4f769" : "#12002e77",
+                }}
+              />
+              <p
+                className="medium-font"
+                style={{
+                  textAlign: "center",
+
+                  paddingTop: "10px",
+                  color: props.theme === "light" ? "#87e4f7" : "#130130",
+                }}
+              >
+                Data Not Found
+              </p>
+            </div>
           </>
         );
       default:
@@ -225,7 +247,16 @@ const Reorder = (props) => {
   }
 
   function showDrawer() {
-    setOpenDrawer(true);
+    if (itemCount !== 0) {
+      setOpenDrawer(true);
+    } else {
+      api.info(
+        NotificationEvent(
+          false,
+          "Please search for an item, specify quantity, and click ‘Add to Cart’ button."
+        )
+      );
+    }
   }
 
   function onCloseDrawer() {
@@ -289,6 +320,7 @@ const Reorder = (props) => {
                   </Title>
                 }
                 hoverable
+                bordered
               >
                 <Input
                   size="large"

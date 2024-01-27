@@ -4,9 +4,8 @@ import { Result } from "antd";
 const ResultEvent = (props) => {
   return (
     <>
-      <div>
+      <div className={props.theme}>
         <Result
-          className={props.theme}
           icon={props.icon}
           status={props.status}
           title={props.title}

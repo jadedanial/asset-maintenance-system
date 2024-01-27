@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { UserAddOutlined } from "@ant-design/icons";
+import { UserOutlined } from "@ant-design/icons";
 import SearchTableEvent from "../components/SearchTableEvent";
 
 const Employee = (props) => {
@@ -89,7 +89,7 @@ const Employee = (props) => {
     <>
       <SearchTableEvent
         loadAPILists={loadAPILists}
-        tooltipIcon={<UserAddOutlined />}
+        tooltipIcon={<UserOutlined />}
         tooltipTitle={"Add New Employee"}
         inputPlaceHolder={"Search Employee"}
         compItemAdd={"AddUpdateEmployee"}
