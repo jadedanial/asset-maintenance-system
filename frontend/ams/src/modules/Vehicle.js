@@ -122,7 +122,7 @@ const Vehicle = () => {
         tableColumns={columns}
         tableDataSource={vehicles}
         searchedText={searchedText}
-      ></SearchTableEvent>
+      />
     </>
   );
 };

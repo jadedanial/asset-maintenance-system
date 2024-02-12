@@ -81,7 +81,6 @@ const SearchTableEvent = (props) => {
                 </Col>
                 <Col span={22} style={{ marginLeft: "20px" }}>
                   <Input
-                    size="large"
                     placeholder={props.inputPlaceHolder}
                     style={{ borderRadius: "50px" }}
                     onChange={(e) => props.searchedText(e.target.value)}
@@ -101,13 +100,12 @@ const SearchTableEvent = (props) => {
             }}
           ></div>
           <Table
-            className="table-scroll"
             rowClassName={() => "table-row"}
             columns={props.tableColumns}
             dataSource={props.tableDataSource}
             onRow={(rowIndex) => {
               return {
-                onClick: (event) => {
+                onClick: () => {
                   setRowIndex(rowIndex);
                   showDrawer();
                   setCompItem(props.compItemUpdate);
@@ -116,7 +114,6 @@ const SearchTableEvent = (props) => {
             }}
             style={{ marginBottom: "30px" }}
             pagination={{
-              position: ["bottomRight"],
               pageSize: 10,
               showSizeChanger: true,
             }}
@@ -138,7 +135,8 @@ const SearchTableEvent = (props) => {
         sectionCategory={props.sectionCategory}
         collapsed={props.collapsed}
         theme={props.theme}
-      ></DrawerEvent>
+        overflow={true}
+      />
     </>
   );
 };

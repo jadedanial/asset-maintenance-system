@@ -25,15 +25,14 @@ import {
   MenuFoldOutlined,
   AlertOutlined,
   BulbOutlined,
-  InboxOutlined,
 } from "@ant-design/icons";
 import Employee from "../modules/Employee";
 import Shift from "../modules/Shift";
 import Schedule from "../modules/Schedule";
 import Item from "../modules/Item";
-import Reorder from "../modules/Reorder";
 import Transact from "../modules/Transact";
-import DrawerEvent from "../components/DrawerEvent";
+import DrawerEvent from "./DrawerEvent";
+import EmptyData from "./EmptyData";
 
 const { Header, Sider, Content } = Layout;
 
@@ -50,30 +49,9 @@ const MainPage = (props) => {
   const navigate = useNavigate();
 
   const emptyImage = () => (
-    <div
-      style={{
-        textAlign: "center",
-        margin: "50px 0",
-      }}
-    >
-      <InboxOutlined
-        style={{
-          fontSize: "50px",
-          color: theme === "light" ? "#87e4f769" : "#12002e77",
-        }}
-      />
-      <p
-        className="medium-font"
-        style={{
-          textAlign: "center",
-
-          paddingTop: "10px",
-          color: theme === "light" ? "#87e4f7" : "#130130",
-        }}
-      >
-        Data Not Found
-      </p>
-    </div>
+    <>
+      <EmptyData theme={theme} />
+    </>
   );
 
   const items = [
@@ -166,7 +144,8 @@ const MainPage = (props) => {
               comp={"User"}
               updateEmployeeSection={updateEmployeeSection}
               theme={theme}
-            ></DrawerEvent>
+              overflow={true}
+            />
           </>
         );
       case "Employee":
@@ -176,19 +155,19 @@ const MainPage = (props) => {
               updateEmployeeSection={updateEmployeeSection}
               collapsed={collapsed}
               theme={theme}
-            ></Employee>
+            />
           </>
         );
       case "Shift":
         return (
           <>
-            <Shift collapsed={collapsed} theme={theme}></Shift>
+            <Shift collapsed={collapsed} theme={theme} />
           </>
         );
       case "Schedule":
         return (
           <>
-            <Schedule collapsed={collapsed} theme={theme}></Schedule>
+            <Schedule collapsed={collapsed} theme={theme} />
           </>
         );
       case "Item":
@@ -200,7 +179,7 @@ const MainPage = (props) => {
               sectionCode={sectionCode}
               sectionCategory={sectionCategory}
               theme={theme}
-            ></Item>
+            />
           </>
         );
       case "Transact":
@@ -212,8 +191,7 @@ const MainPage = (props) => {
               collapsed={collapsed}
               sectionCode={sectionCode}
               theme={theme}
-              emptyImage={emptyImage}
-            ></Transact>
+            />
           </>
         );
 
@@ -399,13 +377,13 @@ const MainPage = (props) => {
                 style={{
                   marginTop: "1px",
                   height: "22px",
-                  background: theme === "light" ? "#cdf5fd  " : "#1c2755",
+                  background: theme === "light" ? "#cdf5fd" : "#1c2755",
                 }}
               ></div>
             </Header>
             <Layout
               style={{
-                background: theme === "light" ? "#cdf5fd  " : "#1c2755",
+                background: theme === "light" ? "#cdf5fd" : "#1c2755",
                 minHeight: "300%",
               }}
             >

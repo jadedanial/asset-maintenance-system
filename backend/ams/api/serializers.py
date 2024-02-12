@@ -272,8 +272,7 @@ class TransactionSerializer(serializers.ModelSerializer):
         model = Transaction
         fields = [
             "id",
-            "trans_id",
-            "trans_type",
+            "trans_code",
             "trans_action",
             "trans_date",
             "trans_user",

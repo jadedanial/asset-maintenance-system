@@ -77,7 +77,7 @@ const LoginPage = () => {
           <Col
             span={10}
             style={{
-              background: theme === "light" ? "#cdf5fd  " : "#1c2755",
+              background: theme === "light" ? "#cdf5fd" : "#1c2755",
             }}
           >
             <Slogan />
@@ -85,7 +85,7 @@ const LoginPage = () => {
           <Col
             span={14}
             style={{
-              background: theme === "light" ? "#f8f8ff  " : "#161d40",
+              background: theme === "light" ? "#f8f8ff" : "#161d40",
             }}
           >
             <Card

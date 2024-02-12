@@ -416,32 +416,28 @@ class TransactionAdmin(admin.ModelAdmin):
         "id",
     )
     readonly_fields = (
-        "trans_id",
-        "trans_type",
+        "trans_code",
         "trans_action",
         "trans_date",
         "trans_user",
         "trans_detail",
     )
     list_display = (
-        "trans_id",
-        "trans_type",
+        "trans_code",
         "trans_action",
         "trans_date",
         "trans_user",
         "trans_detail",
     )
     list_filter = (
-        "trans_id",
-        "trans_type",
+        "trans_code",
         "trans_action",
         "trans_date",
         "trans_user",
         "trans_detail",
     )
     search_fields = (
-        "trans_id",
-        "trans_type",
+        "trans_code",
         "trans_action",
         "trans_date",
         "trans_user",

@@ -124,7 +124,7 @@ const Schedule = (props) => {
         searchedText={searchedText}
         collapsed={props.collapsed}
         theme={props.theme}
-      ></SearchTableEvent>
+      />
     </>
   );
 };

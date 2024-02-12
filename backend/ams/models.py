@@ -454,11 +454,8 @@ class Vehicle(models.Model):
 
 class Transaction(models.Model):
     id = models.AutoField(primary_key=True)
-    trans_id = models.CharField(
-        max_length=100, blank=True, null=True, verbose_name="Transaction ID"
-    )
-    trans_type = models.CharField(
-        max_length=300, blank=True, null=True, verbose_name="Type"
+    trans_code = models.CharField(
+        max_length=100, blank=True, null=True, verbose_name="Transaction Code"
     )
     trans_action = models.CharField(
         max_length=300, blank=True, null=True, verbose_name="Action"
@@ -472,12 +469,12 @@ class Transaction(models.Model):
         blank=True, null=True, verbose_name="Detail")
 
     def __str__(self):
-        return str(self.trans_id)
+        return str(self.trans_code)
 
     def update_model(self):
-        test_id = Transaction.objects.get(trans_id=self.trans_id).id
+        test_id = Transaction.objects.get(trans_code=self.trans_code).id
         Transaction.objects.filter(id=test_id).update(
-            trans_id="TRA" + str(self.id))
+            trans_code="TRA" + str(self.id))
 
     def save(self, *args, **kwargs):
         super(Transaction, self).save(*args, **kwargs)

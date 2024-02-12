@@ -18,7 +18,7 @@ import {
   PlusOutlined,
 } from "@ant-design/icons";
 import NotificationEvent from "./NotificationEvent";
-import ResultEvent from "../components/ResultEvent";
+import ResultEvent from "./ResultEvent";
 import moment from "moment";
 
 const { Title } = Typography;
@@ -106,7 +106,6 @@ const Vacation = (props) => {
             <Select
               size="large"
               showSearch
-              className="small-font"
               style={{ width: "100%" }}
               optionFilterProp="children"
               filterOption={(input, option) =>
@@ -254,7 +253,7 @@ const Vacation = (props) => {
               ),
             },
           ]}
-          renderItem={(item, index) => (
+          renderItem={(item) => (
             <List.Item>
               <List.Item.Meta
                 title={item.title}
@@ -316,6 +315,11 @@ const Vacation = (props) => {
   }
 
   function newVacation() {
+    form.resetFields(["vacation"]);
+    form.resetFields(["startdate"]);
+    form.resetFields(["enddate"]);
+    form.resetFields(["reason"]);
+    form.resetFields(["select_attachment"]);
     setSuccess(false);
     setCurrent(0);
     setVacation("");
@@ -511,7 +515,7 @@ const Vacation = (props) => {
         <Card size="small" style={{ width: "100%" }}>
           {add ? (
             <div className="justified-row">
-              <div className="card-custom-size">
+              <div className="card-custom-size-60">
                 <Form
                   {...layout}
                   form={form}
@@ -558,7 +562,7 @@ const Vacation = (props) => {
                       )}
                       {current > 0 && (
                         <Button
-                          style={{ marginRight: "20px" }}
+                          style={{ marginRight: "10px" }}
                           size="large"
                           type="default"
                           onClick={prev}
@@ -602,9 +606,10 @@ const Vacation = (props) => {
                 pageSize: 10,
                 showSizeChanger: true,
               }}
-              size="small"
+              size="large"
               scroll={{
-                y: "50vh",
+                x: "calc(0px + 100%)",
+                y: 300,
               }}
             />
           )}

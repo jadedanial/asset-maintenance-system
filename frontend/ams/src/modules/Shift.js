@@ -100,7 +100,7 @@ const Shift = (props) => {
         searchedText={searchedText}
         collapsed={props.collapsed}
         theme={props.theme}
-      ></SearchTableEvent>
+      />
     </>
   );
 };

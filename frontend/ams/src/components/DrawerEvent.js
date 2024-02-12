@@ -7,7 +7,7 @@ import AddUpdateShift from "./AddUpdateShift";
 import AddUpdateSchedule from "./AddUpdateSchedule";
 import ItemDetail from "./ItemDetail";
 import AddUpdateItem from "./AddUpdateItem";
-import CartItem from "./CartItem";
+import Cart from "./Cart";
 
 const DrawerEvent = (props) => {
   function drawerSwitch(key) {
@@ -18,7 +18,9 @@ const DrawerEvent = (props) => {
             <Profile
               empid={props.empid}
               updateEmployeeSection={props.updateEmployeeSection}
+              onCloseDrawer={props.onCloseDrawer}
               theme={props.theme}
+              overflow={props.overflow}
             ></Profile>
           </>
         );
@@ -28,6 +30,7 @@ const DrawerEvent = (props) => {
             <Profile
               empid={props.rowIndex["id"]}
               updateEmployeeSection={props.updateEmployeeSection}
+              onCloseDrawer={props.onCloseDrawer}
               theme={props.theme}
             ></Profile>
           </>
@@ -38,14 +41,19 @@ const DrawerEvent = (props) => {
             <AddUpdateEmployee
               update={false}
               updateEmployeeSection={props.updateEmployeeSection}
-            ></AddUpdateEmployee>
+              onCloseDrawer={props.onCloseDrawer}
+            />
           </>
         );
 
       case "AddUpdateShift":
         return (
           <>
-            <AddUpdateShift update={false} theme={props.theme}></AddUpdateShift>
+            <AddUpdateShift
+              update={false}
+              onCloseDrawer={props.onCloseDrawer}
+              theme={props.theme}
+            />
           </>
         );
       case "UpdateShift":
@@ -57,8 +65,9 @@ const DrawerEvent = (props) => {
               name={props.rowIndex["name"]}
               from={props.rowIndex["from"]}
               to={props.rowIndex["to"]}
+              onCloseDrawer={props.onCloseDrawer}
               theme={props.theme}
-            ></AddUpdateShift>
+            />
           </>
         );
       case "AddUpdateSchedule":
@@ -66,8 +75,9 @@ const DrawerEvent = (props) => {
           <>
             <AddUpdateSchedule
               update={false}
+              onCloseDrawer={props.onCloseDrawer}
               theme={props.theme}
-            ></AddUpdateSchedule>
+            />
           </>
         );
       case "UpdateSchedule":
@@ -84,8 +94,9 @@ const DrawerEvent = (props) => {
               thu={props.rowIndex["thu"]}
               fri={props.rowIndex["fri"]}
               sat={props.rowIndex["sat"]}
+              onCloseDrawer={props.onCloseDrawer}
               theme={props.theme}
-            ></AddUpdateSchedule>
+            />
           </>
         );
       case "ItemDetail":
@@ -96,8 +107,9 @@ const DrawerEvent = (props) => {
               mode="update"
               sectionCode={props.sectionCode}
               sectionCategory={props.sectionCategory}
+              onCloseDrawer={props.onCloseDrawer}
               theme={props.theme}
-            ></ItemDetail>
+            />
           </>
         );
       case "AddUpdateItem":
@@ -107,26 +119,26 @@ const DrawerEvent = (props) => {
               update={false}
               sectionCode={props.sectionCode}
               sectionCategory={props.sectionCategory}
+              onCloseDrawer={props.onCloseDrawer}
               theme={props.theme}
-            ></AddUpdateItem>
+            />
           </>
         );
-      case "CartItem":
+      case "Cart":
         return (
           <>
-            <CartItem
-              searchItem={props.searchItem}
+            <Cart
               item={props.item}
               addItem={props.addItem}
               removeItem={props.removeItem}
               itemCount={props.itemCount}
-              orderList={props.orderList}
+              itemList={props.itemList}
               clearOrder={props.clearOrder}
               onCloseDrawer={props.onCloseDrawer}
               empid={props.empid}
               username={props.username}
               theme={props.theme}
-            ></CartItem>
+            ></Cart>
           </>
         );
       default:
@@ -140,7 +152,7 @@ const DrawerEvent = (props) => {
         width="100%"
         height="fit-content"
         placement="right"
-        className={props.theme}
+        className={`${props.overflow ? "overflow" : ""} ${props.theme}`}
         style={{
           marginTop: "85px",
           marginLeft: props.collapsed ? "100px" : "220px",

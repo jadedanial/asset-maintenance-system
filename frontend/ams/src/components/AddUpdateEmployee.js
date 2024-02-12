@@ -11,7 +11,7 @@ import {
   Col,
 } from "antd";
 import { CheckCircleOutlined } from "@ant-design/icons";
-import ResultEvent from "../components/ResultEvent";
+import ResultEvent from "./ResultEvent";
 import moment from "moment";
 
 const { Title } = Typography;
@@ -266,7 +266,7 @@ const AddUpdateEmployee = (props) => {
   return (
     <>
       <div className="justified-row">
-        <div className="card-custom-size">
+        <div className="card-custom-size-60">
           <Form
             {...layout}
             layout="vertical"
@@ -321,7 +321,6 @@ const AddUpdateEmployee = (props) => {
                     <Select
                       size="large"
                       showSearch
-                      className="small-font"
                       style={{ width: "100%" }}
                       value={employeeSalary}
                       filterOption={(input, option) =>
@@ -357,7 +356,6 @@ const AddUpdateEmployee = (props) => {
                     <Select
                       size="large"
                       showSearch
-                      className="small-font"
                       style={{ width: "100%" }}
                       optionFilterProp="children"
                       filterOption={(input, option) =>
@@ -458,7 +456,6 @@ const AddUpdateEmployee = (props) => {
                     <Select
                       size="large"
                       showSearch
-                      className="small-font"
                       style={{ width: "100%" }}
                       optionFilterProp="children"
                       filterOption={(input, option) =>
@@ -538,7 +535,6 @@ const AddUpdateEmployee = (props) => {
                 <Select
                   size="large"
                   showSearch
-                  className="small-font"
                   style={{ width: "100%" }}
                   optionFilterProp="children"
                   filterOption={(input, option) =>
@@ -559,15 +555,19 @@ const AddUpdateEmployee = (props) => {
                   onChange={onSectionChange}
                 />
               </Form.Item>
-              <div style={{ paddingTop: "30px" }}>
+              <div className="space-between-row" style={{ paddingTop: "30px" }}>
                 <Button
                   size="large"
-                  type="primary"
+                  type="default"
                   style={{
-                    width: "100%",
+                    marginRight: "10px",
                   }}
-                  htmlType="submit"
+                  onClick={props.onCloseDrawer}
+                  block
                 >
+                  CANCEL
+                </Button>
+                <Button size="large" type="primary" htmlType="submit" block>
                   SAVE
                 </Button>
               </div>

@@ -3,11 +3,11 @@ from rest_framework.generics import ListAPIView, UpdateAPIView
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.exceptions import ValidationError, AuthenticationFailed
-import jwt
-import datetime
 from .permissions import IsAuthenticatedWithJWT
 from ams.models import *
 from .serializers import *
+import jwt
+import datetime
 
 
 class ModeView(APIView):

@@ -100,7 +100,7 @@ const Employee = (props) => {
         updateEmployeeSection={props.updateEmployeeSection}
         collapsed={props.collapsed}
         theme={props.theme}
-      ></SearchTableEvent>
+      />
     </>
   );
 };

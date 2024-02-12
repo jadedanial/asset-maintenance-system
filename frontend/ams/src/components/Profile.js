@@ -22,10 +22,10 @@ import {
   ApartmentOutlined,
 } from "@ant-design/icons";
 import AddUpdateEmployee from "./AddUpdateEmployee";
-import Attendance from "../components/Attendance";
+import Attendance from "./Attendance";
 import ShiftSchedule from "./ShiftSchedule";
-import Vacation from "../components/Vacation";
-import Excuse from "../components/Excuse";
+import Vacation from "./Vacation";
+import Excuse from "./Excuse";
 import moment from "moment";
 
 const { Title } = Typography;
@@ -40,7 +40,7 @@ const Profile = (props) => {
       key: "1",
       children: (
         <>
-          <Attendance empid={props.empid}></Attendance>
+          <Attendance empid={props.empid} />
         </>
       ),
     },
@@ -49,7 +49,7 @@ const Profile = (props) => {
       key: "2",
       children: (
         <>
-          <ShiftSchedule empid={props.empid}></ShiftSchedule>
+          <ShiftSchedule empid={props.empid} />
         </>
       ),
     },
@@ -58,7 +58,7 @@ const Profile = (props) => {
       key: "3",
       children: (
         <>
-          <Vacation empid={props.empid}></Vacation>
+          <Vacation empid={props.empid} />
         </>
       ),
     },
@@ -67,7 +67,7 @@ const Profile = (props) => {
       key: "4",
       children: (
         <>
-          <Excuse empid={props.empid}></Excuse>
+          <Excuse empid={props.empid} />
         </>
       ),
     },
@@ -129,21 +129,13 @@ const Profile = (props) => {
                   salary={e.emp_salary}
                   section={e.emp_section}
                   updateEmployeeSection={props.updateEmployeeSection}
-                ></AddUpdateEmployee>
+                  onCloseDrawer={props.onCloseDrawer}
+                />
               </>
             ) : (
               <>
                 <Card
                   size="large"
-                  extra={
-                    <Button
-                      size="large"
-                      type="primary"
-                      onClick={() => setUpdate(true)}
-                    >
-                      UPDATE
-                    </Button>
-                  }
                   title={
                     <Title>
                       <Row style={{ paddingLeft: "20px" }}>
@@ -155,6 +147,15 @@ const Profile = (props) => {
                         </p>
                       </Row>
                     </Title>
+                  }
+                  extra={
+                    <Button
+                      size="large"
+                      type="primary"
+                      onClick={() => setUpdate(true)}
+                    >
+                      UPDATE
+                    </Button>
                   }
                   style={{ width: "100%", borderTop: "0" }}
                 >

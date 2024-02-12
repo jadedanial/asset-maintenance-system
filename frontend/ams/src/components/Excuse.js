@@ -14,7 +14,7 @@ import {
 } from "antd";
 import { CheckCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import NotificationEvent from "./NotificationEvent";
-import ResultEvent from "../components/ResultEvent";
+import ResultEvent from "./ResultEvent";
 import moment from "moment";
 
 const { Title } = Typography;
@@ -158,7 +158,7 @@ const Excuse = (props) => {
               description: <p className="medium-font">{reason}</p>,
             },
           ]}
-          renderItem={(item, index) => (
+          renderItem={(item) => (
             <List.Item>
               <List.Item.Meta
                 title={item.title}
@@ -522,7 +522,7 @@ const Excuse = (props) => {
         <Card size="small" style={{ width: "100%" }}>
           {add ? (
             <div className="justified-row">
-              <div className="card-custom-size">
+              <div className="card-custom-size-60">
                 <Form
                   {...layout}
                   layout="vertical"
@@ -570,7 +570,7 @@ const Excuse = (props) => {
                         <Button
                           size="large"
                           type="default"
-                          style={{ marginRight: "20px" }}
+                          style={{ marginRight: "10px" }}
                           onClick={prev}
                           block
                         >
@@ -611,9 +611,10 @@ const Excuse = (props) => {
                 pageSize: 10,
                 showSizeChanger: true,
               }}
-              size="small"
+              size="large"
               scroll={{
-                y: "50vh",
+                x: "calc(0px + 100%)",
+                y: 300,
               }}
             />
           )}

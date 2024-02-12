@@ -56,7 +56,7 @@ const HomePage = () => {
             className={theme}
             style={{
               paddingTop: "50px",
-              background: theme === "light" ? "#cdf5fd  " : "#1c2755",
+              background: theme === "light" ? "#cdf5fd" : "#1c2755",
               height: "100vh",
             }}
           >

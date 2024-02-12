@@ -39,7 +39,7 @@ const ItemDetail = (props) => {
                     On Hand: {wi.item_onhand}
                   </p>
                   <p style={{ marginBottom: "0", lineHeight: "1.2" }}>
-                    Physical Location: {wi.item_location}
+                    Locator: {wi.item_location}
                   </p>
                 </>
               ),
@@ -55,7 +55,7 @@ const ItemDetail = (props) => {
       <>
         <div className={`space-between-row  ${props.theme}`}>
           <Col span={13} style={{ height: "fit-content" }}>
-            <p className="medium-font" style={{ paddingBottom: "18px" }}>
+            <p className="big-font" style={{ paddingBottom: "18px" }}>
               {i.item_name}
             </p>
             <p className="large-card-title">Php. {i.item_cost}</p>
@@ -63,23 +63,13 @@ const ItemDetail = (props) => {
               <Descriptions.Item label="On Hand">
                 {wi.item_onhand}
               </Descriptions.Item>
-              <Descriptions.Item
-                label="Physical Location"
-                style={{
-                  display: props.mode === "view" ? "none" : "block",
-                }}
-              >
+              <Descriptions.Item label="Locator">
                 {wi.item_location}
               </Descriptions.Item>
               <Descriptions.Item label="Unit Of Measurement">
                 {i.item_measurement}
               </Descriptions.Item>
-              <Descriptions.Item
-                label="Reorder Quantity"
-                style={{
-                  display: props.mode === "view" ? "none" : "block",
-                }}
-              >
+              <Descriptions.Item label="Reorder Quantity">
                 {i.item_reorder}
               </Descriptions.Item>
             </Descriptions>
@@ -125,11 +115,11 @@ const ItemDetail = (props) => {
           </Col>
         </div>
         <List
-          grid={{ column: 2 }}
+          grid={{ column: 3, gutter: 100 }}
           itemLayout="horizontal"
           header={<p className="medium-card-title">Stock On Other Warehouse</p>}
           dataSource={otherWarehouse()}
-          renderItem={(item, index) => (
+          renderItem={(item) => (
             <List.Item>
               <List.Item.Meta
                 title={item.title}
@@ -176,7 +166,8 @@ const ItemDetail = (props) => {
                           description={i.item_description}
                           sectionCode={props.sectionCode}
                           sectionCategory={props.sectionCategory}
-                        ></AddUpdateItem>
+                          onCloseDrawer={props.onCloseDrawer}
+                        />
                       </>
                     ) : (
                       <>
@@ -195,19 +186,10 @@ const ItemDetail = (props) => {
                               {itemDetails(i, wi)}
                             </Card>
                           ) : (
-                            <div className="card-custom-size">
+                            <div className="card-custom-size-60">
                               <Card
                                 size="large"
                                 className={props.theme}
-                                extra={
-                                  <Button
-                                    size="large"
-                                    type="primary"
-                                    onClick={() => setUpdate(true)}
-                                  >
-                                    UPDATE
-                                  </Button>
-                                }
                                 title={
                                   <Title>
                                     <p
@@ -217,6 +199,15 @@ const ItemDetail = (props) => {
                                       {i.item_code}
                                     </p>
                                   </Title>
+                                }
+                                extra={
+                                  <Button
+                                    size="large"
+                                    type="primary"
+                                    onClick={() => setUpdate(true)}
+                                  >
+                                    UPDATE
+                                  </Button>
                                 }
                                 hoverable
                               >

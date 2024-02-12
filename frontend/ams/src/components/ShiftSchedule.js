@@ -7,12 +7,22 @@ import {
   Typography,
   List,
   Badge,
+  Form,
   notification,
 } from "antd";
 import NotificationEvent from "./NotificationEvent";
 import moment from "moment";
 
 const { Title } = Typography;
+
+const layout = {
+  labelCol: {
+    span: 24,
+  },
+  wrapperCol: {
+    span: 24,
+  },
+};
 
 const ShiftSchedule = (props) => {
   const timeFormat = "HH:mm:ss";
@@ -21,7 +31,7 @@ const ShiftSchedule = (props) => {
   const [schedname, setSchedName] = useState("");
   const [api, contextHolder] = notification.useNotification();
 
-  function handleSubmit() {
+  function onFinish() {
     var empData = {
       empID: props.empid,
       schedid: schedid,
@@ -266,57 +276,59 @@ const ShiftSchedule = (props) => {
       <div style={{ marginTop: "20px" }}>
         <Card size="small" style={{ width: "100%" }}>
           <div className="justified-row">
-            <div className="card-custom-size">
-              <Card
+            <div className="card-custom-size-60">
+              <Form
+                {...layout}
+                layout="vertical"
                 size="large"
-                title={
-                  <Title>
-                    <p className="big-card-title">Shift Schedule</p>
-                  </Title>
-                }
-                hoverable
+                name="add-new-shiftschedule"
+                onFinish={onFinish}
               >
-                <div style={{ marginBottom: "10px" }}>
-                  <Select
-                    size="large"
-                    showSearch
-                    className="small-font"
-                    placeholder="Search Schedule"
-                    style={{ width: "100%" }}
-                    optionFilterProp="children"
-                    filterOption={(input, option) =>
-                      (option?.label ?? "").toLowerCase().includes(input)
-                    }
-                    filterSort={(optionA, optionB) =>
-                      (optionA?.label ?? "")
-                        .toLowerCase()
-                        .localeCompare((optionB?.label ?? "").toLowerCase())
-                    }
-                    value={schedname}
-                    options={schedules.map((sched) => {
-                      return {
-                        value: sched.id,
-                        label: sched.sched_name,
-                      };
-                    })}
-                    onChange={onChange}
-                  />
-                </div>
-                <div>{scheduleSwitch(schedid)}</div>
-                <div
-                  className="space-between-row"
-                  style={{ paddingTop: "30px" }}
+                <Card
+                  size="large"
+                  title={
+                    <Title>
+                      <p className="big-card-title">Shift Schedule</p>
+                    </Title>
+                  }
+                  hoverable
                 >
-                  <Button
-                    size="large"
-                    type="primary"
-                    onClick={() => handleSubmit("topRight")}
-                    block
+                  <div style={{ marginBottom: "10px" }}>
+                    <Select
+                      size="large"
+                      showSearch
+                      placeholder="Search Schedule"
+                      style={{ width: "100%" }}
+                      optionFilterProp="children"
+                      filterOption={(input, option) =>
+                        (option?.label ?? "").toLowerCase().includes(input)
+                      }
+                      filterSort={(optionA, optionB) =>
+                        (optionA?.label ?? "")
+                          .toLowerCase()
+                          .localeCompare((optionB?.label ?? "").toLowerCase())
+                      }
+                      value={schedname}
+                      options={schedules.map((sched) => {
+                        return {
+                          value: sched.id,
+                          label: sched.sched_name,
+                        };
+                      })}
+                      onChange={onChange}
+                    />
+                  </div>
+                  <div>{scheduleSwitch(schedid)}</div>
+                  <div
+                    className="space-between-row"
+                    style={{ paddingTop: "30px" }}
                   >
-                    APPLY
-                  </Button>
-                </div>
-              </Card>
+                    <Button size="large" type="primary" htmlType="submit" block>
+                      SAVE
+                    </Button>
+                  </div>
+                </Card>
+              </Form>
             </div>
           </div>
         </Card>

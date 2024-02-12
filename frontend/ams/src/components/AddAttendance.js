@@ -11,7 +11,7 @@ import {
 } from "antd";
 import { CheckCircleOutlined } from "@ant-design/icons";
 import NotificationEvent from "./NotificationEvent";
-import ResultEvent from "../components/ResultEvent";
+import ResultEvent from "./ResultEvent";
 import moment from "moment";
 
 const { Title } = Typography;
@@ -303,7 +303,7 @@ const AddAttendance = (props) => {
     });
   }
 
-  function applyAttendance() {
+  function onFinish() {
     loadSchedules();
     loadVacations();
     var valid = true;
@@ -485,12 +485,13 @@ const AddAttendance = (props) => {
     <>
       {contextHolder}
       <div className="justified-row">
-        <div className="card-custom-size">
+        <div className="card-custom-size-60">
           <Form
             {...layout}
             layout="vertical"
             size="large"
             name="add-new-attendance"
+            onFinish={onFinish}
           >
             <Card
               size="large"
@@ -552,13 +553,8 @@ const AddAttendance = (props) => {
                 >
                   CANCEL
                 </Button>
-                <Button
-                  size="large"
-                  type="primary"
-                  onClick={applyAttendance}
-                  block
-                >
-                  APPLY
+                <Button size="large" type="primary" htmlType="submit" block>
+                  SAVE
                 </Button>
               </div>
             </Card>

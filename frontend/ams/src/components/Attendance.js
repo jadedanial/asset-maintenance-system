@@ -341,7 +341,7 @@ const Attendance = (props, ref) => {
               checkInTime={checkInTime}
               checkOutTime={checkOutTime}
               viewAttendance={viewAttendance}
-            ></AddAttendance>
+            />
           ) : (
             <>
               <div className="justified-row" style={{ margin: "30px 0" }}>
