@@ -20,6 +20,15 @@ const Cart = (props) => {
   const [sections, setSections] = useState([]);
   const [api, contextHolder] = notification.useNotification();
 
+  function sumOrder() {
+    setTotalOrder("0.00");
+    const sum = props.itemList.reduce(
+      (acc, item) => parseFloat(acc) + parseFloat(item.total),
+      0
+    );
+    setTotalOrder(sum.toFixed(2));
+  }
+
   function changeQuantity(action, id, code, name, cost, measurement, quantity) {
     if (quantity >= 1) {
       if (action === "add") {
@@ -49,15 +58,6 @@ const Cart = (props) => {
     sumOrder();
     setSearchItemCode("");
     setFilteredItem("");
-  }
-
-  function sumOrder() {
-    setTotalOrder("0.00");
-    const sum = props.itemList.reduce(
-      (acc, item) => parseFloat(acc) + parseFloat(item.total),
-      0
-    );
-    setTotalOrder(sum.toFixed(2));
   }
 
   function transactionDetail() {
@@ -271,6 +271,7 @@ const Cart = (props) => {
             {props.itemCount > 0 ? (
               <>
                 <ItemList
+                  segment={props.segment}
                   itemList={props.itemList}
                   changeQuantity={changeQuantity}
                   deleteItem={deleteItem}

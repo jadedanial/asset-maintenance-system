@@ -426,6 +426,7 @@ h1.ant-typography {
   padding: 0 !important;
   border-bottom: none !important;
 }
+
 .dark .ant-card,
 .dark .ant-drawer-body,
 .dark .ant-drawer-header,
@@ -441,10 +442,14 @@ h1.ant-typography {
   background: #f8f8ff !important;
 }
 .ant-drawer-body {
-  overflow: hidden !important;
   padding: 0 !important;
 }
+.no-overflow .ant-drawer-body {
+  min-height: fit-content !important;
+  overflow: hidden !important;
+}
 .overflow .ant-drawer-body {
+  min-height: 100vh !important;
   overflow: visible !important;
 }
 .ant-drawer-content-wrapper {

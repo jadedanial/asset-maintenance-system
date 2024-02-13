@@ -411,7 +411,7 @@ class WarehouseItem(models.Model):
         verbose_name="Warehouse Code",
     )
     item_location = models.CharField(
-        max_length=200, blank=False, null=False, verbose_name="Physical Location"
+        max_length=200, blank=False, null=False, verbose_name="Location"
     )
     item_onhand = models.FloatField(
         blank=True, null=True, verbose_name="Quantity On Hand"

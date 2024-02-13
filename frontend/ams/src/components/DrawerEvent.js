@@ -20,7 +20,6 @@ const DrawerEvent = (props) => {
               updateEmployeeSection={props.updateEmployeeSection}
               onCloseDrawer={props.onCloseDrawer}
               theme={props.theme}
-              overflow={props.overflow}
             ></Profile>
           </>
         );
@@ -128,9 +127,10 @@ const DrawerEvent = (props) => {
         return (
           <>
             <Cart
-              item={props.item}
+              item={props.itemCode}
               addItem={props.addItem}
               removeItem={props.removeItem}
+              view={props.view}
               itemCount={props.itemCount}
               itemList={props.itemList}
               clearOrder={props.clearOrder}
@@ -152,7 +152,9 @@ const DrawerEvent = (props) => {
         width="100%"
         height="fit-content"
         placement="right"
-        className={`${props.overflow ? "overflow" : ""} ${props.theme}`}
+        className={`${props.overflow ? "overflow" : "no-overflow"} ${
+          props.theme
+        }`}
         style={{
           marginTop: "85px",
           marginLeft: props.collapsed ? "100px" : "220px",

@@ -310,7 +310,7 @@ const AddUpdateItem = (props) => {
                   </Form.Item>
                   <Form.Item
                     name={["location"]}
-                    label="Locator"
+                    label="Location"
                     initialValue={itemLocation}
                     rules={[
                       {

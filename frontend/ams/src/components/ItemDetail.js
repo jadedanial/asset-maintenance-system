@@ -39,7 +39,7 @@ const ItemDetail = (props) => {
                     On Hand: {wi.item_onhand}
                   </p>
                   <p style={{ marginBottom: "0", lineHeight: "1.2" }}>
-                    Locator: {wi.item_location}
+                    Location: {wi.item_location}
                   </p>
                 </>
               ),
@@ -63,7 +63,7 @@ const ItemDetail = (props) => {
               <Descriptions.Item label="On Hand">
                 {wi.item_onhand}
               </Descriptions.Item>
-              <Descriptions.Item label="Locator">
+              <Descriptions.Item label="Location">
                 {wi.item_location}
               </Descriptions.Item>
               <Descriptions.Item label="Unit Of Measurement">

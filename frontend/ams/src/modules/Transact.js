@@ -57,6 +57,14 @@ const Transact = (props) => {
       });
   };
 
+  function sumOrder(itemList) {
+    const sum = itemList.reduce(
+      (acc, item) => parseFloat(acc) + parseFloat(item.total),
+      0
+    );
+    return sum.toFixed(2);
+  }
+
   function addItem(id, code, name, cost, measurement, quantity, total) {
     const newOrder = reorderItemList;
     newOrder.push({
@@ -107,15 +115,33 @@ const Transact = (props) => {
   }
 
   function showDrawer() {
-    if (reorderItemCount !== 0) {
-      setOpenDrawer(true);
-    } else {
-      api.info(
-        NotificationEvent(
-          false,
-          "Please search for an item, specify quantity, and click ‘Add to Cart’ button."
-        )
-      );
+    switch (segment) {
+      case "Reorder":
+        if (reorderItemCount !== 0) {
+          setOpenDrawer(true);
+        } else {
+          api.info(
+            NotificationEvent(
+              false,
+              "Please search for an item, specify quantity, and click ‘Add to Cart’ button."
+            )
+          );
+        }
+        break;
+      case "Receive":
+        if (receiveItemCount !== 0) {
+          setOpenDrawer(true);
+        } else {
+          api.info(
+            NotificationEvent(
+              false,
+              "Please search for an item, specify quantity, and click ‘Add to Cart’ button."
+            )
+          );
+        }
+        break;
+      default:
+        break;
     }
   }
 
@@ -124,8 +150,14 @@ const Transact = (props) => {
   }
 
   function clearOrder() {
-    setReorderItemList([]);
-    setReorderItemCount(0);
+    switch (segment) {
+      case "Reorder":
+        setReorderItemList([]);
+        setReorderItemCount(0);
+        break;
+      default:
+        break;
+    }
   }
 
   function clearSearch() {
@@ -261,50 +293,54 @@ const Transact = (props) => {
               </Col>
               <Col
                 span={7}
-                className="align-items-center"
-                style={{ paddingLeft: "30px" }}
+                className="flex-start-row"
+                style={{ paddingLeft: "50px" }}
               >
-                <Row>
-                  <Col>
-                    <p
-                      className="big-card-title"
-                      style={{ paddingBottom: "10px" }}
-                    >
-                      Php. {total}
-                    </p>
-                    <Row>
-                      <Col span={8} style={{ paddingRight: "6px" }}>
-                        <InputNumber
-                          placeholder="Qnty."
-                          status={inputStatus}
-                          min={1}
-                          max={1000000}
-                          onChange={onQuantityChange}
-                        />
-                      </Col>
-                      <Col span={12}>
-                        <Button
-                          size="large"
-                          type="primary"
-                          onClick={() =>
-                            newItem(
-                              queryItem["0"]["id"],
-                              queryItem["0"]["code"],
-                              queryItem["0"]["name"],
-                              queryItem["0"]["cost"],
-                              queryItem["0"]["measurement"],
-                              quantity,
-                              "topRight"
-                            )
-                          }
-                          block
-                        >
-                          ADD TO CART
-                        </Button>
-                      </Col>
-                    </Row>
-                  </Col>
-                </Row>
+                <Col>
+                  <p
+                    className="large-card-title"
+                    style={{ paddingBottom: "50px" }}
+                  >
+                    Item Code: {queryItem["0"]["code"]}
+                  </p>
+                  <p
+                    className="big-card-title"
+                    style={{ paddingBottom: "10px" }}
+                  >
+                    Php. {total}
+                  </p>
+                  <Row>
+                    <Col span={8} style={{ paddingRight: "6px" }}>
+                      <InputNumber
+                        placeholder="Qnty."
+                        status={inputStatus}
+                        min={1}
+                        max={1000000}
+                        onChange={onQuantityChange}
+                      />
+                    </Col>
+                    <Col span={12}>
+                      <Button
+                        size="large"
+                        type="primary"
+                        onClick={() =>
+                          newItem(
+                            queryItem["0"]["id"],
+                            queryItem["0"]["code"],
+                            queryItem["0"]["name"],
+                            queryItem["0"]["cost"],
+                            queryItem["0"]["measurement"],
+                            quantity,
+                            "topRight"
+                          )
+                        }
+                        block
+                      >
+                        ADD TO CART
+                      </Button>
+                    </Col>
+                  </Row>
+                </Col>
               </Col>
             </Row>
           </>
@@ -312,61 +348,53 @@ const Transact = (props) => {
       case "Receive":
         return (
           <>
-            <Row className="space-between-row">
-              <Col span={19}>
-                <Row>
-                  <p className="big-card-title">
+            <Row>
+              <Col span={14} style={{ paddingLeft: "130px" }}>
+                <ItemList
+                  view={true}
+                  itemCount={receiveItemCount}
+                  itemList={receiveItemList}
+                  setSearchItemCode={setSearchItemCode}
+                  searchItemCode={searchItemCode}
+                  setFilteredItem={setFilteredItem}
+                  filteredItem={filteredItem}
+                  theme={props.theme}
+                />
+              </Col>
+              <Col
+                span={7}
+                className="flex-start-row"
+                style={{ paddingLeft: "50px" }}
+              >
+                <Col>
+                  <p className="large-card-title">
                     Transaction Code: {queryItem["0"]["code"]}
                   </p>
-                </Row>
-                <Row>
                   <p
-                    className="small-font"
-                    style={{ color: props.theme === "light" ? "#000" : "#fff" }}
+                    className="small-font ant-list-item-meta-description"
+                    style={{ paddingBottom: "50px" }}
                   >
-                    Order Date:{" "}
+                    {receiveItemCount} {receiveItemCount > 1 ? "Items" : "Item"}
+                    {" | "}Order Date:{" "}
                     {moment(queryItem["0"]["date"]).format("MMMM DD, YYYY")}
-                    {" | "}
-                    Total Items: {receiveItemCount}
                   </p>
-                </Row>
-              </Col>
-              <Col span={5}>
-                <div className="flex-end-row">
-                  <Button size="large" type="default">
-                    INVOICE
+                  <p
+                    className="big-card-title"
+                    style={{ paddingBottom: "10px" }}
+                  >
+                    Php. {sumOrder(receiveItemList)}
+                  </p>
+                  <Button
+                    size="large"
+                    type="primary"
+                    onClick={showDrawer}
+                    block
+                  >
+                    RECEIVE
                   </Button>
-                </div>
+                </Col>
               </Col>
             </Row>
-            <ItemList
-              itemList={receiveItemList}
-              setSearchItemCode={setSearchItemCode}
-              searchItemCode={searchItemCode}
-              setFilteredItem={setFilteredItem}
-              filteredItem={filteredItem}
-              theme={props.theme}
-            />
-            <div style={{ paddingTop: "30px" }}>
-              <Button
-                size="large"
-                type="primary"
-                onClick={() =>
-                  newItem(
-                    queryItem["0"]["id"],
-                    queryItem["0"]["code"],
-                    queryItem["0"]["name"],
-                    queryItem["0"]["cost"],
-                    queryItem["0"]["measurement"],
-                    quantity,
-                    "topRight"
-                  )
-                }
-                block
-              >
-                RECEIVE
-              </Button>
-            </div>
           </>
         );
       case false:
@@ -482,8 +510,21 @@ const Transact = (props) => {
         item={itemCode}
         addItem={addItem}
         removeItem={removeItem}
-        itemCount={reorderItemCount}
-        itemList={reorderItemList}
+        view={false}
+        itemCount={
+          segment === "Reorder"
+            ? reorderItemCount
+            : segment === "Receive"
+            ? receiveItemCount
+            : ""
+        }
+        itemList={
+          segment === "Reorder"
+            ? reorderItemList
+            : segment === "Receive"
+            ? receiveItemList
+            : ""
+        }
         clearOrder={clearOrder}
         showDrawer={openDrawer}
         onCloseDrawer={onCloseDrawer}
