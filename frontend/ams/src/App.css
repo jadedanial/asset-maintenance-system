@@ -24,6 +24,7 @@
 body {
   overflow: hidden;
 }
+
 .ant-btn,
 .dark,
 .dark .ant-descriptions-item-content,
@@ -206,6 +207,10 @@ h1.ant-typography {
 .dark .ant-card .card-with-background {
   background: #1d2b5365 !important;
 }
+.ant-steps-item-content {
+  max-height: fit-content !important;
+}
+
 .ant-notification-notice,
 .light .ant-card .card-with-background,
 .light
@@ -562,8 +567,8 @@ textarea.ant-input {
 .ant-list-header {
   border-bottom: none !important;
 }
-.ant-list-custom .ant-list-item {
-  padding: 6px 0;
+.ant-list-item {
+  padding: 0 0 20px 0 !important;
 }
 .dark .ant-list-item-meta-description {
   color: #f0f2f58e !important;

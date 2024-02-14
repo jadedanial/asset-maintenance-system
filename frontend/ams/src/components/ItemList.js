@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import QRCode from "react-qr-code";
 import { Typography, Card, Col, List, Button, Tooltip, Input, Row } from "antd";
 import { CloseOutlined } from "@ant-design/icons";
@@ -15,7 +15,7 @@ const ItemList = (props) => {
           value={props.searchItemCode}
           style={{
             borderRadius: "50px",
-            marginBottom: "15px",
+            marginBottom: "30px",
           }}
           onChange={(e) => {
             const inputValue = e.target.value;
@@ -34,7 +34,7 @@ const ItemList = (props) => {
         itemLayout="horizontal"
         pagination={false}
         style={{
-          height: "calc(100vh - 330px)",
+          height: "calc(100vh - 350px)",
           overflowY: "auto",
           overflowX: "hidden",
         }}

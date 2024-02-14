@@ -12,6 +12,7 @@ import {
   Tooltip,
   Badge,
   Avatar,
+  Steps,
   notification,
 } from "antd";
 import { ShoppingCartOutlined } from "@ant-design/icons";
@@ -131,13 +132,6 @@ const Transact = (props) => {
       case "Receive":
         if (receiveItemCount !== 0) {
           setOpenDrawer(true);
-        } else {
-          api.info(
-            NotificationEvent(
-              false,
-              "Please search for an item, specify quantity, and click ‘Add to Cart’ button."
-            )
-          );
         }
         break;
       default:
@@ -283,7 +277,7 @@ const Transact = (props) => {
         return (
           <>
             <Row>
-              <Col span={14} style={{ paddingLeft: "130px" }}>
+              <Col span={14} style={{ paddingLeft: "50px" }}>
                 <ItemDetail
                   itemcode={queryItem["0"]["code"]}
                   mode="view"
@@ -292,7 +286,7 @@ const Transact = (props) => {
                 />
               </Col>
               <Col
-                span={7}
+                span={9}
                 className="flex-start-row"
                 style={{ paddingLeft: "50px" }}
               >
@@ -334,7 +328,6 @@ const Transact = (props) => {
                             "topRight"
                           )
                         }
-                        block
                       >
                         ADD TO CART
                       </Button>
@@ -349,7 +342,7 @@ const Transact = (props) => {
         return (
           <>
             <Row>
-              <Col span={14} style={{ paddingLeft: "130px" }}>
+              <Col span={14} style={{ paddingLeft: "50px" }}>
                 <ItemList
                   view={true}
                   itemCount={receiveItemCount}
@@ -362,34 +355,53 @@ const Transact = (props) => {
                 />
               </Col>
               <Col
-                span={7}
+                span={9}
                 className="flex-start-row"
                 style={{ paddingLeft: "50px" }}
               >
-                <Col>
-                  <p className="large-card-title">
+                <Col
+                  span={24}
+                  style={{
+                    background: props.theme === "light" ? "#fff" : "#1d2b5365",
+                    padding: "20px 40px",
+                    height: "fit-content",
+                  }}
+                >
+                  <p
+                    className="large-card-title"
+                    style={{ paddingBottom: "20px" }}
+                  >
                     Transaction Code: {queryItem["0"]["code"]}
                   </p>
-                  <p
-                    className="small-font ant-list-item-meta-description"
-                    style={{ paddingBottom: "50px" }}
-                  >
-                    {receiveItemCount} {receiveItemCount > 1 ? "Items" : "Item"}
-                    {" | "}Order Date:{" "}
-                    {moment(queryItem["0"]["date"]).format("MMMM DD, YYYY")}
-                  </p>
+                  <Steps
+                    progressDot
+                    current={2}
+                    direction="vertical"
+                    items={[
+                      {
+                        title:
+                          "Order Date:  " +
+                          String(
+                            moment(queryItem["0"]["date"]).format(
+                              "MMMM DD, YYYY"
+                            )
+                          ),
+                      },
+                      {
+                        title: "Total Items:  " + String(receiveItemCount),
+                      },
+                      {
+                        title: queryItem["0"]["action"],
+                      },
+                    ]}
+                  />
                   <p
                     className="big-card-title"
-                    style={{ paddingBottom: "10px" }}
+                    style={{ paddingTop: "20px", paddingBottom: "10px" }}
                   >
                     Php. {sumOrder(receiveItemList)}
                   </p>
-                  <Button
-                    size="large"
-                    type="primary"
-                    onClick={showDrawer}
-                    block
-                  >
+                  <Button size="large" type="primary" onClick={showDrawer}>
                     RECEIVE
                   </Button>
                 </Col>
