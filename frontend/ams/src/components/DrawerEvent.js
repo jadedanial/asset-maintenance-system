@@ -103,7 +103,7 @@ const DrawerEvent = (props) => {
           <>
             <ItemDetail
               itemcode={props.rowIndex["code"]}
-              mode="update"
+              view={false}
               sectionCode={props.sectionCode}
               sectionCategory={props.sectionCategory}
               onCloseDrawer={props.onCloseDrawer}
@@ -127,16 +127,17 @@ const DrawerEvent = (props) => {
         return (
           <>
             <Cart
+              segment={props.segment}
               item={props.itemCode}
               addItem={props.addItem}
               removeItem={props.removeItem}
-              view={props.view}
               itemCount={props.itemCount}
               itemList={props.itemList}
               clearOrder={props.clearOrder}
               onCloseDrawer={props.onCloseDrawer}
               empid={props.empid}
               username={props.username}
+              sectionCode={props.sectionCode}
               theme={props.theme}
             ></Cart>
           </>

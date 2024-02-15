@@ -225,6 +225,7 @@ h1.ant-typography {
   margin: 0 !important;
   width: 60% !important;
 }
+
 .card-custom-size-full {
   margin: 0 !important;
   width: 100% !important;
@@ -454,7 +455,7 @@ h1.ant-typography {
   overflow: hidden !important;
 }
 .overflow .ant-drawer-body {
-  min-height: 100vh !important;
+  min-height: fit-content !important;
   overflow: visible !important;
 }
 .ant-drawer-content-wrapper {

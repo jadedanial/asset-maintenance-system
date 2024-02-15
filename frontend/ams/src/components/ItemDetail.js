@@ -53,8 +53,17 @@ const ItemDetail = (props) => {
   function itemDetails(i, wi) {
     return (
       <>
-        <div className={`space-between-row  ${props.theme}`}>
-          <Col span={13} style={{ height: "fit-content" }}>
+        <div
+          className={`space-between-row  ${props.theme}`}
+          style={{
+            background: props.view
+              ? props.theme === "light"
+                ? "#fff"
+                : "#1d2b5365"
+              : "",
+          }}
+        >
+          <Col span={13}>
             <p className="big-font" style={{ paddingBottom: "18px" }}>
               {i.item_name}
             </p>
@@ -90,7 +99,7 @@ const ItemDetail = (props) => {
             <div
               style={{
                 padding: "20px 0",
-                display: props.mode === "view" ? "none" : "block",
+                display: props.view ? "none" : "block",
               }}
             >
               <p
@@ -128,7 +137,7 @@ const ItemDetail = (props) => {
             </List.Item>
           )}
           style={{
-            display: props.mode === "view" ? "none" : "block",
+            display: props.view ? "none" : "block",
           }}
         />
       </>
@@ -172,19 +181,29 @@ const ItemDetail = (props) => {
                     ) : (
                       <>
                         <div className={`justified-row ${props.theme}`}>
-                          {props.mode === "view" ? (
-                            <Card
-                              className="card-no-padding"
+                          {props.view ? (
+                            <div
                               style={{
-                                padding: "0 20px 0 0",
-                                borderTop: "0",
-                                borderLeft: "0",
-                                borderBottom: "0",
-                                width: "100%",
+                                background:
+                                  props.theme === "light"
+                                    ? "#fff"
+                                    : "#1d2b5365",
+                                padding: "20px 40px",
+                                height: "fit-content",
                               }}
                             >
-                              {itemDetails(i, wi)}
-                            </Card>
+                              <Card
+                                className="card-no-padding"
+                                style={{
+                                  borderTop: "0",
+                                  borderLeft: "0",
+                                  borderBottom: "0",
+                                  width: "100%",
+                                }}
+                              >
+                                {itemDetails(i, wi)}
+                              </Card>
+                            </div>
                           ) : (
                             <div className="card-custom-size-60">
                               <Card

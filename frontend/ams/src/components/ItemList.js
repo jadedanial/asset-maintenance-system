@@ -1,11 +1,37 @@
-import React from "react";
+import React, { useState } from "react";
 import QRCode from "react-qr-code";
-import { Typography, Card, Col, List, Button, Tooltip, Input, Row } from "antd";
+import {
+  Typography,
+  Card,
+  Col,
+  List,
+  Button,
+  Tooltip,
+  Input,
+  Row,
+  Checkbox,
+} from "antd";
 import { CloseOutlined } from "@ant-design/icons";
 
 const { Title } = Typography;
 
 const ItemList = (props) => {
+  const [checkedState, setCheckedState] = useState(
+    props.itemList.map((item) => ({ code: item.code, checked: false }))
+  );
+
+  function handleCheckChange(code) {
+    setCheckedState(
+      checkedState.map((item) =>
+        item.code === code ? { ...item, checked: !item.checked } : item
+      )
+    );
+  }
+
+  function areAllChecked() {
+    return checkedState.every((item) => item.checked);
+  }
+
   return (
     <>
       {!props.view ? (
@@ -101,19 +127,27 @@ const ItemList = (props) => {
                             </Row>
                           </Col>
                           {!props.view ? (
-                            <Col span={8} className="flex-end-row">
-                              <Tooltip title="Remove">
-                                <Button
-                                  className="btn-blue"
-                                  style={{ padding: "0" }}
-                                  danger
-                                  type="link"
-                                  onClick={() => props.deleteItem(item.code)}
-                                >
-                                  <CloseOutlined className="large-card-title" />
-                                </Button>
-                              </Tooltip>
-                            </Col>
+                            props.segment === "Reorder" ? (
+                              <Col span={8} className="flex-end-row">
+                                <Tooltip title="Remove">
+                                  <Button
+                                    className="btn-blue"
+                                    style={{ padding: "0" }}
+                                    danger
+                                    type="link"
+                                    onClick={() => props.deleteItem(item.code)}
+                                  >
+                                    <CloseOutlined className="large-card-title" />
+                                  </Button>
+                                </Tooltip>
+                              </Col>
+                            ) : props.segment === "Receive" ? (
+                              <Checkbox
+                                onChange={() => handleCheckChange(item.code)}
+                              ></Checkbox>
+                            ) : (
+                              ""
+                            )
                           ) : (
                             ""
                           )}
@@ -163,47 +197,51 @@ const ItemList = (props) => {
                         </Row>
                       </Col>
                       {!props.view ? (
-                        <Col span={8} className="flex-end-row">
-                          <Tooltip>
-                            <Button
-                              size="small"
-                              type="primary"
-                              onClick={() =>
-                                props.changeQuantity(
-                                  "add",
-                                  item.id,
-                                  item.code,
-                                  item.name,
-                                  item.cost,
-                                  item.measurement,
-                                  item.quantity
-                                )
-                              }
-                            >
-                              ADD
-                            </Button>
-                          </Tooltip>
-                          <Tooltip>
-                            <Button
-                              size="small"
-                              type="default"
-                              style={{ marginLeft: "4px" }}
-                              onClick={() =>
-                                props.changeQuantity(
-                                  "less",
-                                  item.id,
-                                  item.code,
-                                  item.name,
-                                  item.cost,
-                                  item.measurement,
-                                  item.quantity
-                                )
-                              }
-                            >
-                              LESS
-                            </Button>
-                          </Tooltip>
-                        </Col>
+                        props.segment === "Reorder" ? (
+                          <Col span={8} className="flex-end-row">
+                            <Tooltip>
+                              <Button
+                                size="small"
+                                type="primary"
+                                onClick={() =>
+                                  props.changeQuantity(
+                                    "add",
+                                    item.id,
+                                    item.code,
+                                    item.name,
+                                    item.cost,
+                                    item.measurement,
+                                    item.quantity
+                                  )
+                                }
+                              >
+                                ADD
+                              </Button>
+                            </Tooltip>
+                            <Tooltip>
+                              <Button
+                                size="small"
+                                type="default"
+                                style={{ marginLeft: "4px" }}
+                                onClick={() =>
+                                  props.changeQuantity(
+                                    "less",
+                                    item.id,
+                                    item.code,
+                                    item.name,
+                                    item.cost,
+                                    item.measurement,
+                                    item.quantity
+                                  )
+                                }
+                              >
+                                LESS
+                              </Button>
+                            </Tooltip>
+                          </Col>
+                        ) : (
+                          ""
+                        )
                       ) : (
                         ""
                       )}

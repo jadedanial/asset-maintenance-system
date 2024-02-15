@@ -280,7 +280,7 @@ const Transact = (props) => {
               <Col span={14} style={{ paddingLeft: "50px" }}>
                 <ItemDetail
                   itemcode={queryItem["0"]["code"]}
-                  mode="view"
+                  view={true}
                   sectionCode={props.sectionCode}
                   theme={props.theme}
                 />
@@ -290,7 +290,12 @@ const Transact = (props) => {
                 className="flex-start-row"
                 style={{ paddingLeft: "50px" }}
               >
-                <Col>
+                <Col
+                  style={{
+                    background: props.theme === "light" ? "#fff" : "#1d2b5365",
+                    padding: "20px 40px",
+                  }}
+                >
                   <p
                     className="large-card-title"
                     style={{ paddingBottom: "50px" }}
@@ -299,12 +304,12 @@ const Transact = (props) => {
                   </p>
                   <p
                     className="big-card-title"
-                    style={{ paddingBottom: "10px" }}
+                    style={{ paddingBottom: "15px" }}
                   >
                     Php. {total}
                   </p>
                   <Row>
-                    <Col span={8} style={{ paddingRight: "6px" }}>
+                    <Col span={8} style={{ paddingRight: "10px" }}>
                       <InputNumber
                         placeholder="Qnty."
                         status={inputStatus}
@@ -345,7 +350,7 @@ const Transact = (props) => {
               <Col span={14} style={{ paddingLeft: "50px" }}>
                 <ItemList
                   view={true}
-                  itemCount={receiveItemCount}
+                  segment={props.segment}
                   itemList={receiveItemList}
                   setSearchItemCode={setSearchItemCode}
                   searchItemCode={searchItemCode}
@@ -364,7 +369,6 @@ const Transact = (props) => {
                   style={{
                     background: props.theme === "light" ? "#fff" : "#1d2b5365",
                     padding: "20px 40px",
-                    height: "fit-content",
                   }}
                 >
                   <p
@@ -397,7 +401,7 @@ const Transact = (props) => {
                   />
                   <p
                     className="big-card-title"
-                    style={{ paddingTop: "20px", paddingBottom: "10px" }}
+                    style={{ paddingTop: "20px", paddingBottom: "15px" }}
                   >
                     Php. {sumOrder(receiveItemList)}
                   </p>
@@ -519,10 +523,10 @@ const Transact = (props) => {
         </div>
       </div>
       <DrawerEvent
+        segment={segment}
         item={itemCode}
         addItem={addItem}
         removeItem={removeItem}
-        view={false}
         itemCount={
           segment === "Reorder"
             ? reorderItemCount
@@ -544,6 +548,7 @@ const Transact = (props) => {
         empid={props.empid}
         username={props.username}
         collapsed={props.collapsed}
+        sectionCode={props.sectionCode}
         theme={props.theme}
         overflow={false}
       />

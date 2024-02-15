@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Typography, Card, Button, Select, Row, Col, notification } from "antd";
+import { Typography, Card, Button, Select, notification } from "antd";
 import { CheckCircleOutlined } from "@ant-design/icons";
 import ResultEvent from "./ResultEvent";
 import NotificationEvent from "./NotificationEvent";
@@ -73,6 +73,8 @@ const Cart = (props) => {
           val["name"] +
           ", cost=" +
           val["cost"] +
+          ", measurement=" +
+          val["measurement"] +
           ", quantity=" +
           val["quantity"] +
           ", total=" +
@@ -87,7 +89,8 @@ const Cart = (props) => {
   function addTransaction() {
     var transactionData = {
       trans_code: "",
-      trans_action: "Reorder Item To " + warehouseCode,
+      trans_action:
+        "Reorder from " + props.sectionCode + " to " + warehouseCode,
       trans_date: moment().format("YYYY-MM-DD HH:mm:ss"),
       trans_user: String(props.empid) + " - " + props.username,
       trans_detail: transactionDetail(),
@@ -206,21 +209,68 @@ const Cart = (props) => {
             }
             extra={
               totalOrder > 0.0 ? (
-                <div className="space-between-row">
+                props.segment === "Reorder" ? (
+                  <div className="space-between-row">
+                    <Button
+                      size="large"
+                      type="default"
+                      style={{
+                        marginRight: "10px",
+                      }}
+                      onClick={props.onCloseDrawer}
+                      block
+                    >
+                      ADD ITEM
+                    </Button>
+                    <Select
+                      size="large"
+                      placeholder="Select Warehouse"
+                      showSearch
+                      className="bordered-select"
+                      style={{
+                        marginRight: "10px",
+                      }}
+                      optionFilterProp="children"
+                      filterOption={(input, option) =>
+                        (option?.label ?? "").toLowerCase().includes(input)
+                      }
+                      filterSort={(optionA, optionB) =>
+                        (optionA?.label ?? "")
+                          .toLowerCase()
+                          .localeCompare((optionB?.label ?? "").toLowerCase())
+                      }
+                      options={sections
+                        .filter((sec) => sec.section_type === "warehouse")
+                        .map((sec) => ({
+                          value: sec.section_code,
+                          label: sec.section_code,
+                        }))}
+                      onChange={onWarehouseChange}
+                    />
+                    <Button
+                      size="large"
+                      type="primary"
+                      onClick={() => {
+                        if (warehouseCode !== "") {
+                          checkoutOrder();
+                        } else {
+                          api.info(
+                            NotificationEvent(
+                              false,
+                              "Select the warehouse to which you want to transfer the items."
+                            )
+                          );
+                        }
+                      }}
+                      block
+                    >
+                      CHECK OUT
+                    </Button>
+                  </div>
+                ) : props.segment === "Receive" ? (
                   <Button
                     size="large"
                     type="primary"
-                    style={{
-                      marginRight: "10px",
-                    }}
-                    onClick={props.onCloseDrawer}
-                    block
-                  >
-                    ADD ITEM
-                  </Button>
-                  <Button
-                    size="large"
-                    type="default"
                     onClick={() => {
                       if (warehouseCode !== "") {
                         checkoutOrder();
@@ -235,34 +285,11 @@ const Cart = (props) => {
                     }}
                     block
                   >
-                    CHECK OUT
+                    APPLY
                   </Button>
-                  <Select
-                    size="large"
-                    placeholder="Select Warehouse"
-                    showSearch
-                    className="bordered-select"
-                    style={{
-                      paddingLeft: "10px",
-                    }}
-                    optionFilterProp="children"
-                    filterOption={(input, option) =>
-                      (option?.label ?? "").toLowerCase().includes(input)
-                    }
-                    filterSort={(optionA, optionB) =>
-                      (optionA?.label ?? "")
-                        .toLowerCase()
-                        .localeCompare((optionB?.label ?? "").toLowerCase())
-                    }
-                    options={sections
-                      .filter((sec) => sec.section_type === "warehouse")
-                      .map((sec) => ({
-                        value: sec.section_code,
-                        label: sec.section_code,
-                      }))}
-                    onChange={onWarehouseChange}
-                  />
-                </div>
+                ) : (
+                  ""
+                )
               ) : (
                 ""
               )
@@ -271,6 +298,7 @@ const Cart = (props) => {
             {props.itemCount > 0 ? (
               <>
                 <ItemList
+                  view={false}
                   segment={props.segment}
                   itemList={props.itemList}
                   changeQuantity={changeQuantity}
