@@ -21,15 +21,11 @@ const ItemList = (props) => {
   );
 
   function handleCheckChange(code) {
-    setCheckedState(
-      checkedState.map((item) =>
-        item.code === code ? { ...item, checked: !item.checked } : item
-      )
+    const newState = checkedState.map((item) =>
+      item.code === code ? { ...item, checked: !item.checked } : item
     );
-  }
-
-  function areAllChecked() {
-    return checkedState.every((item) => item.checked);
+    setCheckedState(newState);
+    props.checkAllState(newState);
   }
 
   return (
@@ -87,16 +83,36 @@ const ItemList = (props) => {
                     }}
                   />
                 </Col>
-                <Col span={!props.view ? 21 : 18}>
+                <Col
+                  span={
+                    !props.view ? (props.segment === "Receive" ? 19 : 21) : 18
+                  }
+                >
                   <Card
                     className="card-item card-with-background"
                     size="small"
                     title={
                       <Title>
                         <div className="space-between-row align-items-center">
-                          <Col span={!props.view ? 16 : 23}>
+                          <Col
+                            span={
+                              !props.view
+                                ? props.segment === "Receive"
+                                  ? 20
+                                  : 16
+                                : 23
+                            }
+                          >
                             <Row>
-                              <Col span={!props.view ? 10 : 16}>
+                              <Col
+                                span={
+                                  !props.view
+                                    ? props.segment === "Receive"
+                                      ? 13
+                                      : 10
+                                    : 16
+                                }
+                              >
                                 <p
                                   className="medium-card-title"
                                   style={{ textAlign: "left" }}
@@ -104,7 +120,15 @@ const ItemList = (props) => {
                                   {item.code}
                                 </p>
                               </Col>
-                              <Col span={!props.view ? 7 : 7}>
+                              <Col
+                                span={
+                                  !props.view
+                                    ? props.segment === "Receive"
+                                      ? 5
+                                      : 7
+                                    : 7
+                                }
+                              >
                                 <p
                                   className="medium-card-title"
                                   style={{ textAlign: "center" }}
@@ -141,10 +165,6 @@ const ItemList = (props) => {
                                   </Button>
                                 </Tooltip>
                               </Col>
-                            ) : props.segment === "Receive" ? (
-                              <Checkbox
-                                onChange={() => handleCheckChange(item.code)}
-                              ></Checkbox>
                             ) : (
                               ""
                             )
@@ -167,7 +187,15 @@ const ItemList = (props) => {
                         color: props.theme === "light" ? "#000" : "#fff",
                       }}
                     >
-                      <Col span={!props.view ? 16 : 24}>
+                      <Col
+                        span={
+                          !props.view
+                            ? props.segment === "Receive"
+                              ? 24
+                              : 16
+                            : 24
+                        }
+                      >
                         <Row>
                           <Col
                             span={!props.view ? 8 : 13}
@@ -186,7 +214,10 @@ const ItemList = (props) => {
                             </p>
                           </Col>
                           {!props.view ? (
-                            <Col span={6} className="flex-end-row">
+                            <Col
+                              span={props.segment === "Receive" ? 3 : 6}
+                              className="flex-end-row"
+                            >
                               <p style={{ textAlign: "right", margin: "0" }}>
                                 {item.total}
                               </p>
@@ -248,6 +279,22 @@ const ItemList = (props) => {
                     </div>
                   </Card>
                 </Col>
+                {props.segment === "Receive" ? (
+                  <Col
+                    span={2}
+                    className="justified-row align-items-center"
+                    style={{
+                      background:
+                        props.theme === "light" ? "#fff" : "#1d2b5365",
+                    }}
+                  >
+                    <Checkbox
+                      onChange={() => handleCheckChange(item.code)}
+                    ></Checkbox>
+                  </Col>
+                ) : (
+                  ""
+                )}
               </Row>
             </Card>
           </List.Item>

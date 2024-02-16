@@ -18,7 +18,27 @@ const Cart = (props) => {
   const [transactionID, setTransactionID] = useState("");
   const [warehouseCode, setWarehouseCode] = useState("");
   const [sections, setSections] = useState([]);
+  const [allChecked, setAllChecked] = useState(false);
   const [api, contextHolder] = notification.useNotification();
+
+  function onWarehouseChange(value) {
+    const warehouseCode = sections.find(
+      (sec) => sec.section_code === value
+    )?.section_code;
+    setWarehouseCode(warehouseCode);
+  }
+
+  function warehouseItemOrder(itemList) {
+    let newList = itemList.map((item) => {
+      return {
+        id: item.id,
+        item_code: item.code,
+        warehouse_code: warehouseCode,
+        item_onhand: item.quantity,
+      };
+    });
+    return newList;
+  }
 
   function sumOrder() {
     setTotalOrder("0.00");
@@ -111,18 +131,6 @@ const Cart = (props) => {
       });
   }
 
-  function warehouseItemOrder(itemList) {
-    let newList = itemList.map((item) => {
-      return {
-        id: item.id,
-        item_code: item.code,
-        warehouse_code: warehouseCode,
-        item_onhand: item.quantity,
-      };
-    });
-    return newList;
-  }
-
   function checkoutOrder() {
     axios({
       method: "PATCH",
@@ -142,11 +150,16 @@ const Cart = (props) => {
       });
   }
 
-  function onWarehouseChange(value) {
-    const warehouseCode = sections.find(
-      (sec) => sec.section_code === value
-    )?.section_code;
-    setWarehouseCode(warehouseCode);
+  function receiveOrder() {
+    console.log(allChecked);
+  }
+
+  function checkAllState(checkedState) {
+    if (checkedState.every((item) => item.checked)) {
+      setAllChecked(true);
+    } else {
+      setAllChecked(false);
+    }
   }
 
   useEffect(() => {
@@ -272,13 +285,13 @@ const Cart = (props) => {
                     size="large"
                     type="primary"
                     onClick={() => {
-                      if (warehouseCode !== "") {
-                        checkoutOrder();
+                      if (allChecked) {
+                        receiveOrder();
                       } else {
                         api.info(
                           NotificationEvent(
                             false,
-                            "Select the warehouse to which you want to transfer the items."
+                            "Ensure all item quantities are equal, then confirm by checking the box."
                           )
                         );
                       }
@@ -303,6 +316,7 @@ const Cart = (props) => {
                   itemList={props.itemList}
                   changeQuantity={changeQuantity}
                   deleteItem={deleteItem}
+                  checkAllState={checkAllState}
                   setSearchItemCode={setSearchItemCode}
                   searchItemCode={searchItemCode}
                   setFilteredItem={setFilteredItem}

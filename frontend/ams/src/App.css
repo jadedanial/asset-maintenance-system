@@ -544,7 +544,8 @@ h1.ant-typography {
 .dark .ant-picker,
 .dark .ant-picker-input input,
 .dark .ant-select-arrow,
-.dark .ant-select-selector {
+.dark .ant-select-selector,
+.dark .ant-checkbox-inner {
   color: #fff !important;
   background: #13162952 !important;
 }
@@ -553,7 +554,8 @@ h1.ant-typography {
 .light .ant-input-prefix,
 .light .ant-picker .light .ant-picker-input input,
 .light .ant-select-arrow,
-.light .ant-select-selector {
+.light .ant-select-selector,
+.light .ant-checkbox-inner {
   color: #000 !important;
   background: #fff !important;
 }
@@ -621,4 +623,31 @@ input::file-selector-button {
 .light .ant-segmented-item-selected .ant-segmented-item-label {
   background: #fff !important;
   border-bottom: 2px solid #318ce7 !important;
+}
+.ant-checkbox-inner {
+  border: 1px solid #318ce750 !important;
+}
+
+.ant-checkbox-checked .ant-checkbox-input:hover {
+  opacity: 1 !important;
+}
+
+.ant-checkbox-inner,
+.ant-checkbox-input {
+  transform: scale(2) !important;
+}
+
+.dark .ant-checkbox-inner::after {
+  border-color: #fff !important;
+}
+.light .ant-checkbox-inner::after {
+  border-color: #318ce7 !important;
+}
+
+.dark .ant-checkbox:hover .ant-checkbox-inner {
+  border-color: #fff !important;
+}
+
+.light .ant-checkbox:hover .ant-checkbox-inner {
+  border-color: #318ce7 !important;
 }
