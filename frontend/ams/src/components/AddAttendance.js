@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import {
   Form,
@@ -37,7 +37,7 @@ const AddAttendance = (props) => {
   const [success, setSuccess] = useState(false);
   const [api, contextHolder] = notification.useNotification();
 
-  function loadSchedules() {
+  const loadSchedules = useCallback(() => {
     axios({
       method: "GET",
       url: "http://localhost:8000/api/schedules",
@@ -64,9 +64,9 @@ const AddAttendance = (props) => {
       .catch((err) => {
         console.log(err);
       });
-  }
+  }, [props.schedid]);
 
-  function loadVacations() {
+  const loadVacations = useCallback(() => {
     axios({
       method: "GET",
       url: "http://localhost:8000/api/vacations",
@@ -90,7 +90,7 @@ const AddAttendance = (props) => {
       .catch((err) => {
         console.log(err);
       });
-  }
+  }, []);
 
   function dayOfTheWeek(day) {
     return schedules.map((schedule) => schedule[day]);
@@ -446,7 +446,7 @@ const AddAttendance = (props) => {
   useEffect(() => {
     loadSchedules();
     loadVacations();
-  }, []);
+  }, [loadSchedules, loadVacations]);
 
   if (success) {
     return (

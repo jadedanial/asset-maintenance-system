@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import { Typography, Card, Button, Select, notification } from "antd";
 import { CheckCircleOutlined } from "@ant-design/icons";
@@ -18,8 +18,16 @@ const Cart = (props) => {
   const [transactionID, setTransactionID] = useState("");
   const [warehouseCode, setWarehouseCode] = useState("");
   const [sections, setSections] = useState([]);
-  const [allChecked, setAllChecked] = useState(false);
   const [api, contextHolder] = notification.useNotification();
+
+  const sumOrder = useCallback(() => {
+    setTotalOrder("0.00");
+    const sum = props.itemList.reduce(
+      (acc, item) => parseFloat(acc) + parseFloat(item.total),
+      0
+    );
+    setTotalOrder(sum.toFixed(2));
+  }, [props.itemList]);
 
   function onWarehouseChange(value) {
     const warehouseCode = sections.find(
@@ -38,15 +46,6 @@ const Cart = (props) => {
       };
     });
     return newList;
-  }
-
-  function sumOrder() {
-    setTotalOrder("0.00");
-    const sum = props.itemList.reduce(
-      (acc, item) => parseFloat(acc) + parseFloat(item.total),
-      0
-    );
-    setTotalOrder(sum.toFixed(2));
   }
 
   function changeQuantity(action, id, code, name, cost, measurement, quantity) {
@@ -99,6 +98,8 @@ const Cart = (props) => {
           val["quantity"] +
           ", total=" +
           val["total"] +
+          ", checked=" +
+          false +
           ", warehouse=" +
           warehouseCode +
           "/*/")
@@ -150,16 +151,16 @@ const Cart = (props) => {
       });
   }
 
-  function receiveOrder() {
-    console.log(allChecked);
+  function checkAllState(checkedState) {
+    if (checkedState.every((item) => item.checked === "true")) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
-  function checkAllState(checkedState) {
-    if (checkedState.every((item) => item.checked)) {
-      setAllChecked(true);
-    } else {
-      setAllChecked(false);
-    }
+  function receiveOrder() {
+    console.log("allChecked");
   }
 
   useEffect(() => {
@@ -179,7 +180,7 @@ const Cart = (props) => {
 
   useEffect(() => {
     sumOrder();
-  }, []);
+  }, [sumOrder]);
 
   if (success) {
     return (
@@ -285,9 +286,14 @@ const Cart = (props) => {
                     size="large"
                     type="primary"
                     onClick={() => {
-                      if (allChecked) {
+                      if (checkAllState(props.itemList)) {
                         receiveOrder();
                       } else {
+                        setFilteredItem(
+                          props.itemList.filter(
+                            (item) => item.checked === "false"
+                          )
+                        );
                         api.info(
                           NotificationEvent(
                             false,
@@ -314,9 +320,9 @@ const Cart = (props) => {
                   view={false}
                   segment={props.segment}
                   itemList={props.itemList}
+                  handleCheckChange={props.handleCheckChange}
                   changeQuantity={changeQuantity}
                   deleteItem={deleteItem}
-                  checkAllState={checkAllState}
                   setSearchItemCode={setSearchItemCode}
                   searchItemCode={searchItemCode}
                   setFilteredItem={setFilteredItem}

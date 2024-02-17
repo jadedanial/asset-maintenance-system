@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import { FieldTimeOutlined } from "@ant-design/icons";
 import SearchTableEvent from "../components/SearchTableEvent";
@@ -40,7 +40,7 @@ const Shift = (props) => {
     },
   ];
 
-  function loadAPILists() {
+  const loadAPILists = useCallback(() => {
     axios({
       method: "GET",
       url: "http://localhost:8000/api/shifts",
@@ -65,7 +65,7 @@ const Shift = (props) => {
       .catch((err) => {
         console.log(err);
       });
-  }
+  }, []);
 
   function searchedText(text) {
     setSearchedText(text);
@@ -84,7 +84,7 @@ const Shift = (props) => {
 
   useEffect(() => {
     loadAPILists();
-  }, []);
+  }, [loadAPILists]);
 
   return (
     <>

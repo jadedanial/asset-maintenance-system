@@ -159,6 +159,17 @@ const Transact = (props) => {
     setTotal("0.00");
   }
 
+  function handleCheckChange(code) {
+    let updatedItemList = receiveItemList.map((item) => {
+      if (item.code === code) {
+        return { ...item, checked: item.checked === "true" ? "false" : "true" };
+      } else {
+        return item;
+      }
+    });
+    setReceiveItemList(updatedItemList);
+  }
+
   function parseStringToDictionaries(inputString) {
     const dictionaryList = [];
     const items = inputString.split("/*/");
@@ -352,6 +363,7 @@ const Transact = (props) => {
                   view={true}
                   segment={props.segment}
                   itemList={receiveItemList}
+                  handleCheckChange={handleCheckChange}
                   setSearchItemCode={setSearchItemCode}
                   searchItemCode={searchItemCode}
                   setFilteredItem={setFilteredItem}
@@ -541,6 +553,7 @@ const Transact = (props) => {
             ? receiveItemList
             : ""
         }
+        handleCheckChange={handleCheckChange}
         clearOrder={clearOrder}
         showDrawer={openDrawer}
         onCloseDrawer={onCloseDrawer}

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import { ShoppingOutlined } from "@ant-design/icons";
 import SearchTableEvent from "../components/SearchTableEvent";
@@ -45,7 +45,7 @@ const Item = (props) => {
     },
   ];
 
-  function loadData(url, setData) {
+  const loadData = useCallback((url, setData) => {
     axios({
       method: "GET",
       url: `http://localhost:8000/api/${url}`,
@@ -58,12 +58,12 @@ const Item = (props) => {
       .catch((err) => {
         console.log(err);
       });
-  }
+  }, []);
 
-  function loadAPILists() {
+  const loadAPILists = useCallback(() => {
     loadData("items", setItem);
     loadData("warehouseitems", setWarehouseItem);
-  }
+  }, [loadData, setItem, setWarehouseItem]);
 
   function searchedText(text) {
     setSearchedText(text);
@@ -89,11 +89,11 @@ const Item = (props) => {
       });
       setListData(d);
     }
-  }, [item, warehouseItem]);
+  }, [item, warehouseItem, props.sectionCode]);
 
   useEffect(() => {
     loadAPILists();
-  }, []);
+  }, [loadAPILists]);
 
   return (
     <>

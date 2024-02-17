@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import QRCode from "react-qr-code";
 import {
   Typography,
@@ -16,18 +16,6 @@ import { CloseOutlined } from "@ant-design/icons";
 const { Title } = Typography;
 
 const ItemList = (props) => {
-  const [checkedState, setCheckedState] = useState(
-    props.itemList.map((item) => ({ code: item.code, checked: false }))
-  );
-
-  function handleCheckChange(code) {
-    const newState = checkedState.map((item) =>
-      item.code === code ? { ...item, checked: !item.checked } : item
-    );
-    setCheckedState(newState);
-    props.checkAllState(newState);
-  }
-
   return (
     <>
       {!props.view ? (
@@ -289,7 +277,8 @@ const ItemList = (props) => {
                     }}
                   >
                     <Checkbox
-                      onChange={() => handleCheckChange(item.code)}
+                      checked={item.checked === "true"}
+                      onChange={() => props.handleCheckChange(item.code)}
                     ></Checkbox>
                   </Col>
                 ) : (

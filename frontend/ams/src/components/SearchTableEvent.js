@@ -13,6 +13,22 @@ import DrawerEvent from "./DrawerEvent";
 import NotificationEvent from "./NotificationEvent";
 
 const SearchTableEvent = (props) => {
+  const {
+    loadAPILists,
+    theme,
+    tooltipTitle,
+    compItemAdd,
+    sectionCategory,
+    tooltipIcon,
+    inputPlaceHolder,
+    searchedText,
+    tableColumns,
+    tableDataSource,
+    compItemUpdate,
+    updateEmployeeSection,
+    sectionCode,
+    collapsed,
+  } = props;
   const [openDrawer, setOpenDrawer] = useState(false);
   const [compItem, setCompItem] = useState("");
   const [rowIndex, setRowIndex] = useState([]);
@@ -24,17 +40,17 @@ const SearchTableEvent = (props) => {
 
   function onCloseDrawer() {
     setOpenDrawer(false);
-    props.loadAPILists();
+    loadAPILists();
   }
 
   useEffect(() => {
-    props.loadAPILists();
-  }, []);
+    loadAPILists();
+  }, [loadAPILists]);
 
   return (
     <>
       {contextHolder}
-      <div className={props.theme}>
+      <div className={theme}>
         <Card className="card-main-layout" size="large" hoverable>
           <div
             span={24}
@@ -42,7 +58,7 @@ const SearchTableEvent = (props) => {
           >
             <div
               style={{
-                background: props.theme === "light" ? "#f8f8ff" : "#161d40",
+                background: theme === "light" ? "#f8f8ff" : "#161d40",
                 width: "100%",
                 height: "65px",
                 padding: "12px",
@@ -50,7 +66,7 @@ const SearchTableEvent = (props) => {
             >
               <Row>
                 <Col span={1} style={{ marginLeft: "10px" }}>
-                  <Tooltip title={props.tooltipTitle}>
+                  <Tooltip title={tooltipTitle}>
                     <Button
                       id="big-icon"
                       className="btn-normal "
@@ -59,11 +75,11 @@ const SearchTableEvent = (props) => {
                       size="large"
                       onClick={() => {
                         if (
-                          props.compItemAdd !== "AddUpdateItem" ||
-                          props.sectionCategory === "main"
+                          compItemAdd !== "AddUpdateItem" ||
+                          sectionCategory === "main"
                         ) {
                           showDrawer();
-                          setCompItem(props.compItemAdd);
+                          setCompItem(compItemAdd);
                         } else {
                           api.info(
                             NotificationEvent(
@@ -73,7 +89,7 @@ const SearchTableEvent = (props) => {
                           );
                         }
                       }}
-                      icon={props.tooltipIcon}
+                      icon={tooltipIcon}
                     >
                       +
                     </Button>
@@ -81,9 +97,9 @@ const SearchTableEvent = (props) => {
                 </Col>
                 <Col span={22} style={{ marginLeft: "20px" }}>
                   <Input
-                    placeholder={props.inputPlaceHolder}
+                    placeholder={inputPlaceHolder}
                     style={{ borderRadius: "50px" }}
-                    onChange={(e) => props.searchedText(e.target.value)}
+                    onChange={(e) => searchedText(e.target.value)}
                   />
                 </Col>
               </Row>
@@ -92,7 +108,7 @@ const SearchTableEvent = (props) => {
           <div
             style={{
               height: "20px",
-              background: props.theme === "light" ? "#f8f8ff" : "#161d40",
+              background: theme === "light" ? "#f8f8ff" : "#161d40",
               position: "sticky",
               top: "176px",
               zIndex: "1",
@@ -101,14 +117,14 @@ const SearchTableEvent = (props) => {
           ></div>
           <Table
             rowClassName={() => "table-row"}
-            columns={props.tableColumns}
-            dataSource={props.tableDataSource}
+            columns={tableColumns}
+            dataSource={tableDataSource}
             onRow={(rowIndex) => {
               return {
                 onClick: () => {
                   setRowIndex(rowIndex);
                   showDrawer();
-                  setCompItem(props.compItemUpdate);
+                  setCompItem(compItemUpdate);
                 },
               };
             }}
@@ -130,11 +146,11 @@ const SearchTableEvent = (props) => {
         showDrawer={openDrawer}
         onCloseDrawer={onCloseDrawer}
         comp={compItem}
-        updateEmployeeSection={props.updateEmployeeSection}
-        sectionCode={props.sectionCode}
-        sectionCategory={props.sectionCategory}
-        collapsed={props.collapsed}
-        theme={props.theme}
+        updateEmployeeSection={updateEmployeeSection}
+        sectionCode={sectionCode}
+        sectionCategory={sectionCategory}
+        collapsed={collapsed}
+        theme={theme}
         overflow={true}
       />
     </>

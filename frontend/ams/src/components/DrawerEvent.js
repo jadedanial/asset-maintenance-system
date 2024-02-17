@@ -133,6 +133,7 @@ const DrawerEvent = (props) => {
               removeItem={props.removeItem}
               itemCount={props.itemCount}
               itemList={props.itemList}
+              handleCheckChange={props.handleCheckChange}
               clearOrder={props.clearOrder}
               onCloseDrawer={props.onCloseDrawer}
               empid={props.empid}
