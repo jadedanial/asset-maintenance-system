@@ -114,7 +114,6 @@ const LoginPage = () => {
                   ]}
                 >
                   <Input
-                    className="medium-font"
                     prefix={<UserOutlined className="site-form-item-icon" />}
                     placeholder="Username"
                     onChange={(e) => setUsername(e.target.value)}
@@ -130,7 +129,6 @@ const LoginPage = () => {
                   ]}
                 >
                   <Input
-                    className="medium-font"
                     prefix={<LockOutlined className="site-form-item-icon" />}
                     type="password"
                     placeholder="Password"

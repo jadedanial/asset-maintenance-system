@@ -102,6 +102,8 @@ const Cart = (props) => {
           false +
           ", warehouse=" +
           warehouseCode +
+          ", received=" +
+          false +
           "/*/")
     );
     return details;
@@ -110,8 +112,7 @@ const Cart = (props) => {
   function addTransaction() {
     var transactionData = {
       trans_code: "",
-      trans_action:
-        "Reorder from " + props.sectionCode + " to " + warehouseCode,
+      trans_action: "Reorder from " + props.sectionCode,
       trans_date: moment().format("YYYY-MM-DD HH:mm:ss"),
       trans_user: String(props.empid) + " - " + props.username,
       trans_detail: transactionDetail(),
@@ -294,12 +295,14 @@ const Cart = (props) => {
                             (item) => item.checked === "false"
                           )
                         );
-                        api.info(
-                          NotificationEvent(
-                            false,
-                            "Ensure all item quantities are equal, then confirm by checking the box."
-                          )
-                        );
+                        setTimeout(() => {
+                          api.info(
+                            NotificationEvent(
+                              false,
+                              "Ensure all item quantities are equal, then confirm by checking the box."
+                            )
+                          );
+                        }, 50);
                       }
                     }}
                     block

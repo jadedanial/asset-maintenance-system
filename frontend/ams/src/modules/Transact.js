@@ -302,8 +302,8 @@ const Transact = (props) => {
                 style={{ paddingLeft: "50px" }}
               >
                 <Col
+                  className="card-with-background"
                   style={{
-                    background: props.theme === "light" ? "#fff" : "#1d2b5365",
                     padding: "20px 40px",
                   }}
                 >
@@ -377,9 +377,9 @@ const Transact = (props) => {
                 style={{ paddingLeft: "50px" }}
               >
                 <Col
+                  className="card-with-background"
                   span={24}
                   style={{
-                    background: props.theme === "light" ? "#fff" : "#1d2b5365",
                     padding: "20px 40px",
                   }}
                 >
@@ -479,7 +479,6 @@ const Transact = (props) => {
                   style={{ marginBottom: "20px" }}
                 >
                   <Input
-                    size="large"
                     placeholder={placeholderLabel()}
                     value={searchValue}
                     style={{ borderRadius: "50px" }}

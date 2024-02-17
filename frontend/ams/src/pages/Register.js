@@ -144,7 +144,6 @@ const RegisterPage = () => {
                     ]}
                   >
                     <Input
-                      className="medium-font"
                       prefix={
                         <IdcardOutlined className="site-form-item-icon" />
                       }
@@ -162,7 +161,6 @@ const RegisterPage = () => {
                     ]}
                   >
                     <Input
-                      className="medium-font"
                       prefix={<UserOutlined className="site-form-item-icon" />}
                       placeholder="Username"
                       maxLength={100}
@@ -183,7 +181,6 @@ const RegisterPage = () => {
                     ]}
                   >
                     <Input
-                      className="medium-font"
                       prefix={<MailOutlined className="site-form-item-icon" />}
                       type="email"
                       placeholder="Email"
@@ -202,7 +199,6 @@ const RegisterPage = () => {
                     hasFeedback
                   >
                     <Input
-                      className="medium-font"
                       prefix={<LockOutlined className="site-form-item-icon" />}
                       type="password"
                       placeholder="Password"
@@ -234,7 +230,6 @@ const RegisterPage = () => {
                     ]}
                   >
                     <Input
-                      className="medium-font"
                       prefix={<LockOutlined className="site-form-item-icon" />}
                       type="password"
                       placeholder="Confirm Password"

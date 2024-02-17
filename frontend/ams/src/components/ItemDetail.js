@@ -54,14 +54,9 @@ const ItemDetail = (props) => {
     return (
       <>
         <div
-          className={`space-between-row  ${props.theme}`}
-          style={{
-            background: props.view
-              ? props.theme === "light"
-                ? "#fff"
-                : "#1d2b5365"
-              : "",
-          }}
+          className={`space-between-row  ${props.theme} ${
+            props.view ? "card-with-background" : ""
+          }`}
         >
           <Col span={13}>
             <p className="big-font" style={{ paddingBottom: "18px" }}>
@@ -183,11 +178,8 @@ const ItemDetail = (props) => {
                         <div className={`justified-row ${props.theme}`}>
                           {props.view ? (
                             <div
+                              className="card-with-background"
                               style={{
-                                background:
-                                  props.theme === "light"
-                                    ? "#fff"
-                                    : "#1d2b5365",
                                 padding: "20px 40px",
                                 height: "fit-content",
                               }}

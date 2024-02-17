@@ -19,24 +19,31 @@ const ItemList = (props) => {
   return (
     <>
       {!props.view ? (
-        <Input
-          size="large"
-          placeholder="Search Item Code"
-          value={props.searchItemCode}
+        <div
           style={{
-            borderRadius: "50px",
+            maxHeight: "fit-content",
+            padding: "10px",
             marginBottom: "30px",
+            background: "red",
           }}
-          onChange={(e) => {
-            const inputValue = e.target.value;
-            props.setSearchItemCode(inputValue);
-            props.setFilteredItem("");
-            const filteredData = props.itemList.filter(
-              (item) => item.code.toLowerCase() === inputValue.toLowerCase()
-            );
-            props.setFilteredItem(filteredData);
-          }}
-        />
+        >
+          <Input
+            placeholder="Search Item Code"
+            value={props.searchItemCode}
+            style={{
+              borderRadius: "50px",
+            }}
+            onChange={(e) => {
+              const inputValue = e.target.value;
+              props.setSearchItemCode(inputValue);
+              props.setFilteredItem("");
+              const filteredData = props.itemList.filter(
+                (item) => item.code.toLowerCase() === inputValue.toLowerCase()
+              );
+              props.setFilteredItem(filteredData);
+            }}
+          />
+        </div>
       ) : (
         ""
       )}
@@ -57,10 +64,7 @@ const ItemList = (props) => {
               <Row>
                 <Col
                   span={!props.view ? 3 : 6}
-                  className="justified-row"
-                  style={{
-                    background: props.theme === "light" ? "#fff" : "#1d2b5365",
-                  }}
+                  className="justified-row card-with-background"
                 >
                   <QRCode
                     value={item.code}
@@ -270,15 +274,27 @@ const ItemList = (props) => {
                 {props.segment === "Receive" ? (
                   <Col
                     span={2}
-                    className="justified-row align-items-center"
-                    style={{
-                      background:
-                        props.theme === "light" ? "#fff" : "#1d2b5365",
-                    }}
+                    className="justified-row align-items-center card-with-background"
                   >
                     <Checkbox
                       checked={item.checked === "true"}
-                      onChange={() => props.handleCheckChange(item.code)}
+                      onChange={() => {
+                        if (props.filteredItem.length > 0) {
+                          const updatedItems = props.filteredItem.map((i) => {
+                            if (i.code === item.code) {
+                              return {
+                                ...item,
+                                checked:
+                                  item.checked === "true" ? "false" : "true",
+                              };
+                            } else {
+                              return i;
+                            }
+                          });
+                          props.setFilteredItem(updatedItems);
+                        }
+                        props.handleCheckChange(item.code);
+                      }}
                     ></Checkbox>
                   </Col>
                 ) : (

@@ -84,7 +84,7 @@ h1 {
 }
 .light .ant-layout-sider,
 .light .ant-menu {
-  background: #fafafa !important;
+  background: #96efff !important;
 }
 .ant-drawer-close,
 .ant-menu-submenu-arrow,
@@ -171,6 +171,7 @@ h1.ant-typography {
 .ant-btn-default,
 .ant-input-affix-wrapper {
   background: 0 0 !important;
+  padding: 0 !important;
   border: 1px solid #318ce7 !important;
 }
 .ant-btn:hover,
@@ -204,14 +205,16 @@ h1.ant-typography {
   height: fit-content !important;
   border-bottom: 1px solid #318ce750 !important;
 }
+.dark .card-with-background,
 .dark .ant-card .card-with-background {
   background: #1d2b5365 !important;
 }
 .ant-steps-item-content {
-  max-height: fit-content !important;
+  min-height: fit-content !important;
 }
 
 .ant-notification-notice,
+.light .card-with-background,
 .light .ant-card .card-with-background,
 .light
   .ant-picker-calendar-full
@@ -344,13 +347,13 @@ h1.ant-typography {
 }
 .dark .ant-table-tbody tr td,
 .dark .ant-table-thead tr th {
-  border-bottom: 1px solid #131629 !important;
+  border-bottom: 1px solid #000c17 !important;
 }
 .dark .ant-table-thead .ant-table-cell {
   color: #318ce7 !important;
   font-size: 14px;
   text-align: center;
-  background: #131629 !important;
+  background: #000c17 !important;
 }
 .dark .ant-table-expanded-row-fixed,
 .dark .table-row {
@@ -504,7 +507,7 @@ h1.ant-typography {
   padding-top: 20px;
 }
 .ant-segmented {
-  padding: 42px 0 0 0 !important;
+  padding: 24px 0 0 0 !important;
 }
 .ant-segmented,
 .ant-tag,
@@ -519,6 +522,9 @@ h1.ant-typography {
 }
 .ant-input-number {
   padding: 2px !important;
+}
+.ant-input-suffix {
+  display: none !important;
 }
 .ant-input,
 .ant-input-number-input,
@@ -535,6 +541,7 @@ h1.ant-typography {
   height: 40px !important;
   border: 1px solid #318ce750 !important;
 }
+
 .bordered-select .ant-select-selector {
   border: 1px solid #318ce7 !important;
 }
@@ -606,23 +613,29 @@ input::file-selector-button {
   text-decoration: underline;
 }
 .dark .ant-segmented-thumb {
-  background: #131629 !important;
+  background: #000c17 !important;
+}
+.ant-segmented-item {
+  margin-right: 10px !important;
 }
 .ant-segmented-item-label {
   font-size: 22px !important;
   color: #318ce7 !important;
-  padding: 0 30px !important;
+  padding: 10px 20px !important;
 }
 .ant-segmented-item-label:hover {
+  color: #fff !important;
+  background: #318ce7 !important;
+}
+.ant-segmented-item-selected .ant-segmented-item-label:hover {
   color: #6841f5 !important;
 }
+
 .dark .ant-segmented-item-selected .ant-segmented-item-label {
-  background: #131629 !important;
-  border-bottom: 2px solid #318ce7 !important;
+  background: #000c17 !important;
 }
 .light .ant-segmented-item-selected .ant-segmented-item-label {
   background: #fff !important;
-  border-bottom: 2px solid #318ce7 !important;
 }
 .ant-checkbox-inner {
   border: 1px solid #318ce750 !important;
