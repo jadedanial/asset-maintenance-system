@@ -418,7 +418,7 @@ const Transact = (props) => {
                     Php. {sumOrder(receiveItemList)}
                   </p>
                   <Button size="large" type="primary" onClick={showDrawer}>
-                    RECEIVE
+                    CONFIRM
                   </Button>
                 </Col>
               </Col>
@@ -510,7 +510,6 @@ const Transact = (props) => {
                             background: "#318ce7",
                             cursor: "pointer",
                             width: "50px",
-                            borderRadius: "5px",
                           }}
                           icon={
                             <ShoppingCartOutlined

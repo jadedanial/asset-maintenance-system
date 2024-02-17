@@ -3,7 +3,8 @@ import {
   Col,
   Row,
   Card,
-  Button,
+  Badge,
+  Avatar,
   Input,
   Tooltip,
   Table,
@@ -67,12 +68,7 @@ const SearchTableEvent = (props) => {
               <Row>
                 <Col span={1} style={{ marginLeft: "10px" }}>
                   <Tooltip title={tooltipTitle}>
-                    <Button
-                      id="big-icon"
-                      className="btn-normal "
-                      style={{ margin: "0 20px" }}
-                      shape="circle"
-                      size="large"
+                    <Badge
                       onClick={() => {
                         if (
                           compItemAdd !== "AddUpdateItem" ||
@@ -89,13 +85,22 @@ const SearchTableEvent = (props) => {
                           );
                         }
                       }}
-                      icon={tooltipIcon}
                     >
-                      +
-                    </Button>
+                      <Avatar
+                        className="avatar-btn"
+                        shape="square"
+                        size="large"
+                        style={{
+                          background: "#318ce7",
+                          cursor: "pointer",
+                          width: "50px",
+                        }}
+                        icon={tooltipIcon}
+                      />
+                    </Badge>
                   </Tooltip>
                 </Col>
-                <Col span={22} style={{ marginLeft: "20px" }}>
+                <Col span={22} style={{ marginLeft: "25px" }}>
                   <Input
                     placeholder={inputPlaceHolder}
                     style={{ borderRadius: "50px" }}

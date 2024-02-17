@@ -11,7 +11,15 @@ import {
   Row,
   Checkbox,
 } from "antd";
-import { CloseOutlined } from "@ant-design/icons";
+import {
+  AppstoreOutlined,
+  BorderOutlined,
+  CheckSquareOutlined,
+  CloseOutlined,
+  DollarOutlined,
+  OrderedListOutlined,
+  SortAscendingOutlined,
+} from "@ant-design/icons";
 
 const { Title } = Typography;
 
@@ -19,31 +27,93 @@ const ItemList = (props) => {
   return (
     <>
       {!props.view ? (
-        <div
+        <Row
+          className="card-with-background"
           style={{
             maxHeight: "fit-content",
             padding: "10px",
             marginBottom: "30px",
-            background: "red",
           }}
         >
-          <Input
-            placeholder="Search Item Code"
-            value={props.searchItemCode}
-            style={{
-              borderRadius: "50px",
-            }}
-            onChange={(e) => {
-              const inputValue = e.target.value;
-              props.setSearchItemCode(inputValue);
-              props.setFilteredItem("");
-              const filteredData = props.itemList.filter(
-                (item) => item.code.toLowerCase() === inputValue.toLowerCase()
-              );
-              props.setFilteredItem(filteredData);
-            }}
-          />
-        </div>
+          <Col span={17} style={{ margin: "0 20px" }}>
+            <Input
+              placeholder="Search Item Code"
+              value={props.searchItemCode}
+              style={{
+                borderRadius: "50px",
+              }}
+              onChange={(e) => {
+                const inputValue = e.target.value;
+                props.setSearchItemCode(inputValue);
+                props.setFilteredItem("");
+                const filteredData = props.itemList.filter(
+                  (item) => item.code.toLowerCase() === inputValue.toLowerCase()
+                );
+                props.setFilteredItem(filteredData);
+              }}
+            />
+          </Col>
+          <Col span={6} className="flex-end-row">
+            <Row className="align-items-center space-between-row">
+              <Col span={4} className="justified-row">
+                <Tooltip title="Show All">
+                  <Button
+                    size="large"
+                    icon={<AppstoreOutlined style={{ fontSize: "20px" }} />}
+                    className="btn-normal"
+                  />
+                </Tooltip>
+              </Col>
+              <Col span={4} className="justified-row">
+                <Tooltip title="Sort By Code">
+                  <Button
+                    size="large"
+                    icon={<OrderedListOutlined style={{ fontSize: "20px" }} />}
+                    className="btn-normal"
+                  />
+                </Tooltip>
+              </Col>
+              <Col span={4} className="justified-row">
+                <Tooltip title="Sort By Name">
+                  <Button
+                    size="large"
+                    icon={
+                      <SortAscendingOutlined style={{ fontSize: "20px" }} />
+                    }
+                    className="btn-normal"
+                  />
+                </Tooltip>
+              </Col>
+              <Col span={4} className="justified-row">
+                <Tooltip title="Sort By Cost">
+                  <Button
+                    size="large"
+                    icon={<DollarOutlined style={{ fontSize: "20px" }} />}
+                    className="btn-normal"
+                  />
+                </Tooltip>
+              </Col>
+              <Col span={4} className="justified-row">
+                <Tooltip title="Check All">
+                  <Button
+                    size="large"
+                    icon={<CheckSquareOutlined style={{ fontSize: "20px" }} />}
+                    className="btn-normal"
+                  />
+                </Tooltip>
+              </Col>
+              <Col span={4} className="justified-row">
+                <Tooltip title="Uncheck All">
+                  <Button
+                    size="large"
+                    icon={<BorderOutlined style={{ fontSize: "20px" }} />}
+                    className="btn-normal"
+                  />
+                </Tooltip>
+              </Col>
+            </Row>
+          </Col>
+        </Row>
       ) : (
         ""
       )}
@@ -147,13 +217,12 @@ const ItemList = (props) => {
                               <Col span={8} className="flex-end-row">
                                 <Tooltip title="Remove">
                                   <Button
-                                    className="btn-blue"
-                                    style={{ padding: "0" }}
+                                    className="btn-normal no-hover"
                                     danger
                                     type="link"
                                     onClick={() => props.deleteItem(item.code)}
                                   >
-                                    <CloseOutlined className="large-card-title" />
+                                    <CloseOutlined className="medium-card-title" />
                                   </Button>
                                 </Tooltip>
                               </Col>

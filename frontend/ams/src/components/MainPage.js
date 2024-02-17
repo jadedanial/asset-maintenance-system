@@ -368,7 +368,7 @@ const MainPage = (props) => {
                     icon={
                       theme === "light" ? <BulbOutlined /> : <AlertOutlined />
                     }
-                    className="btn-normal "
+                    className="btn-normal"
                     onClick={() => changeMode()}
                   />
                 </Col>
