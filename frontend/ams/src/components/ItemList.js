@@ -183,6 +183,7 @@ const ItemList = (props) => {
                         props.filteredItem
                       );
                       setCheckedAll(!checkedAll);
+                      props.setWarning(false);
                     }}
                   />
                 </Tooltip>
@@ -426,12 +427,18 @@ const ItemList = (props) => {
                     className="justified-row align-items-center card-with-background"
                   >
                     <Checkbox
+                      className={`${
+                        item.checked === "true"
+                          ? ""
+                          : props.warning
+                          ? "warning"
+                          : ""
+                      }`}
                       checked={item.checked === "true"}
                       onChange={() => {
                         props.handleCheckChange(
                           props.itemList,
-                          [item.code],
-                          false,
+                          item.code,
                           false,
                           true,
                           props.filteredItem

@@ -271,6 +271,7 @@ h1.ant-typography {
   height: fit-content !important;
   border-bottom: 1px solid #318ce750 !important;
 }
+
 .dark .card-with-background,
 .dark .ant-card .card-with-background {
   background: #1d2b5365 !important;
@@ -304,6 +305,9 @@ h1.ant-typography {
   border-bottom: none !important;
 }
 .card-item .ant-card-head-title {
+  padding-bottom: 0 !important;
+}
+.no-padding-bottom .ant-card-head-title {
   padding-bottom: 0 !important;
 }
 .card-item .ant-card-body {
@@ -572,7 +576,7 @@ h1.ant-typography {
   padding-top: 20px;
 }
 .ant-segmented {
-  padding: 24px 0 0 0 !important;
+  padding: 28px 0 0 0 !important;
 }
 .ant-segmented,
 .ant-tag,
@@ -679,7 +683,9 @@ input::file-selector-button {
 }
 
 .ant-segmented-thumb {
-  background: #6841f5 !important;
+  background: none !important;
+  border-bottom: 1px solid #6841f5 !important;
+  box-shadow: none !important;
 }
 .ant-segmented-item {
   margin-right: 10px !important;
@@ -687,19 +693,33 @@ input::file-selector-button {
 .ant-segmented-item-label {
   font-size: 22px !important;
   color: #318ce7 !important;
-  padding: 10px 20px !important;
+  padding: 10px 20px 22px 20px !important;
 }
 .ant-segmented-item-label:hover {
-  color: #fff !important;
-  background: #6841f5 !important;
+  color: #6841f5 !important;
+  background: none !important;
 }
+.ant-segmented-item-selected {
+  box-shadow: none !important;
+}
+
 .ant-segmented-item-selected .ant-segmented-item-label {
-  color: #fff !important;
-  background: #6841f5 !important;
+  color: #6841f5 !important;
+  border-bottom: 1px solid #6841f5 !important;
+}
+.dark .ant-segmented-item-selected .ant-segmented-item-label {
+  background: #161d40 !important;
+}
+.light .ant-segmented-item-selected .ant-segmented-item-label {
+  background: #f8f8ff !important;
 }
 
 .ant-checkbox-inner {
   border: 1px solid #318ce750 !important;
+}
+
+.warning .ant-checkbox-inner {
+  border: 1px solid #d90909a9 !important;
 }
 
 .ant-checkbox-checked .ant-checkbox-input:hover {

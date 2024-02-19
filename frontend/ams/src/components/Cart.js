@@ -16,6 +16,7 @@ const Cart = (props) => {
   const [transactionID, setTransactionID] = useState("");
   const [warehouseCode, setWarehouseCode] = useState("");
   const [sections, setSections] = useState([]);
+  const [warning, setWarning] = useState(false);
   const [api, contextHolder] = notification.useNotification();
 
   const sumOrder = useCallback(() => {
@@ -292,6 +293,7 @@ const Cart = (props) => {
                             (item) => item.checked === "false"
                           )
                         );
+                        setWarning(true);
                         setTimeout(() => {
                           api.info(
                             NotificationEvent(
@@ -325,6 +327,8 @@ const Cart = (props) => {
                   handleCheckChange={props.handleCheckChange}
                   changeQuantity={changeQuantity}
                   deleteItem={deleteItem}
+                  setWarning={setWarning}
+                  warning={warning}
                   theme={props.theme}
                 />
               </>

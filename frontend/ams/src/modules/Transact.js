@@ -477,6 +477,7 @@ const Transact = (props) => {
       <div className={`justified-row ${props.theme}`}>
         <div className="card-custom-size-full">
           <Card
+            className="no-padding-bottom"
             size="large"
             style={{ minHeight: "100vh" }}
             title={
