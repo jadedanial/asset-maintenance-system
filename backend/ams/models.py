@@ -388,7 +388,7 @@ class Item(models.Model):
     def update_model(self):
         test_id = Item.objects.get(item_code=self.item_code).id
         Item.objects.filter(id=test_id).update(
-            item_code="ITM00" + str(self.id))
+            item_code="ITM" + str(self.id))
 
     def save(self, *args, **kwargs):
         super(Item, self).save(*args, **kwargs)

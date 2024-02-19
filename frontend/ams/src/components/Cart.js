@@ -12,8 +12,6 @@ const { Title } = Typography;
 
 const Cart = (props) => {
   const [totalOrder, setTotalOrder] = useState("0.00");
-  const [searchItemCode, setSearchItemCode] = useState("");
-  const [filteredItem, setFilteredItem] = useState("");
   const [success, setSuccess] = useState(false);
   const [transactionID, setTransactionID] = useState("");
   const [warehouseCode, setWarehouseCode] = useState("");
@@ -62,21 +60,20 @@ const Cart = (props) => {
       props.addItem(id, code, name, cost, measurement, quantity, total);
     }
     sumOrder();
-    if (filteredItem.length > 0) {
+    if (props.filteredItem.length > 0) {
       const filteredData = props.itemList.filter(
         (item) => item.code.toLowerCase() === code.toLowerCase()
       );
-      setFilteredItem(filteredData);
+      props.setFilteredItem(filteredData);
     } else {
-      setFilteredItem("");
+      props.setFilteredItem("");
     }
   }
 
   function deleteItem(code) {
     props.removeItem(code);
     sumOrder();
-    setSearchItemCode("");
-    setFilteredItem("");
+    props.setFilteredItem("");
   }
 
   function transactionDetail() {
@@ -290,7 +287,7 @@ const Cart = (props) => {
                       if (checkAllState(props.itemList)) {
                         receiveOrder();
                       } else {
-                        setFilteredItem(
+                        props.setFilteredItem(
                           props.itemList.filter(
                             (item) => item.checked === "false"
                           )
@@ -323,13 +320,11 @@ const Cart = (props) => {
                   view={false}
                   segment={props.segment}
                   itemList={props.itemList}
+                  setFilteredItem={props.setFilteredItem}
+                  filteredItem={props.filteredItem}
                   handleCheckChange={props.handleCheckChange}
                   changeQuantity={changeQuantity}
                   deleteItem={deleteItem}
-                  setSearchItemCode={setSearchItemCode}
-                  searchItemCode={searchItemCode}
-                  setFilteredItem={setFilteredItem}
-                  filteredItem={filteredItem}
                   theme={props.theme}
                 />
               </>

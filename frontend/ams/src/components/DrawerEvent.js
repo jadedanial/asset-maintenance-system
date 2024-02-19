@@ -133,6 +133,8 @@ const DrawerEvent = (props) => {
               removeItem={props.removeItem}
               itemCount={props.itemCount}
               itemList={props.itemList}
+              setFilteredItem={props.setFilteredItem}
+              filteredItem={props.filteredItem}
               handleCheckChange={props.handleCheckChange}
               clearOrder={props.clearOrder}
               onCloseDrawer={props.onCloseDrawer}

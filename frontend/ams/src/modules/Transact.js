@@ -28,8 +28,7 @@ const { Title } = Typography;
 const Transact = (props) => {
   const [segment, setSegment] = useState("Issue");
   const [searchValue, setSearchValue] = useState("");
-  const [searchItemCode, setSearchItemCode] = useState("");
-  const [filteredItem, setFilteredItem] = useState("");
+  const [filteredItem, setFilteredItem] = useState([]);
   const [total, setTotal] = useState("");
   const [quantity, setQuantity] = useState("");
   const [itemCode, setItemCode] = useState("");
@@ -57,14 +56,6 @@ const Transact = (props) => {
         console.log(err);
       });
   };
-
-  function sumOrder(itemList) {
-    const sum = itemList.reduce(
-      (acc, item) => parseFloat(acc) + parseFloat(item.total),
-      0
-    );
-    return sum.toFixed(2);
-  }
 
   function addItem(id, code, name, cost, measurement, quantity, total) {
     const newOrder = reorderItemList;
@@ -108,6 +99,14 @@ const Transact = (props) => {
       setInputStatus("error");
       api.info(NotificationEvent(false, "Add item quantity."));
     }
+  }
+
+  function sumOrder(itemList) {
+    const sum = itemList.reduce(
+      (acc, item) => parseFloat(acc) + parseFloat(item.total),
+      0
+    );
+    return sum.toFixed(2);
   }
 
   function onQuantityChange(value) {
@@ -159,15 +158,38 @@ const Transact = (props) => {
     setTotal("0.00");
   }
 
-  function handleCheckChange(code) {
-    let updatedItemList = receiveItemList.map((item) => {
-      if (item.code === code) {
-        return { ...item, checked: item.checked === "true" ? "false" : "true" };
-      } else {
+  function handleCheckChange(
+    itemsToSort,
+    codes,
+    setToTrue,
+    setToFalse,
+    setToToggle,
+    filteredItem
+  ) {
+    let mapItems = (items) => {
+      return items.map((item) => {
+        if (codes.includes(item.code)) {
+          if (setToTrue) {
+            return { ...item, checked: "true" };
+          } else if (setToFalse) {
+            return { ...item, checked: "false" };
+          } else if (setToToggle) {
+            return {
+              ...item,
+              checked: item.checked === "true" ? "false" : "true",
+            };
+          }
+        }
         return item;
-      }
-    });
+      });
+    };
+
+    let updatedItemList = mapItems(itemsToSort);
+    let updatedFilteredItemList =
+      filteredItem.length > 0 ? mapItems(filteredItem) : [];
+
     setReceiveItemList(updatedItemList);
+    setFilteredItem(updatedFilteredItemList);
   }
 
   function parseStringToDictionaries(inputString) {
@@ -363,9 +385,6 @@ const Transact = (props) => {
                   view={true}
                   segment={props.segment}
                   itemList={receiveItemList}
-                  handleCheckChange={handleCheckChange}
-                  setSearchItemCode={setSearchItemCode}
-                  searchItemCode={searchItemCode}
                   setFilteredItem={setFilteredItem}
                   filteredItem={filteredItem}
                   theme={props.theme}
@@ -465,6 +484,7 @@ const Transact = (props) => {
                   className="large-card-title"
                   options={["Issue", "Return", "Adjust", "Reorder", "Receive"]}
                   onChange={(e) => {
+                    setFilteredItem("");
                     setSegment(e);
                     searchItem(searchValue, e);
                   }}
@@ -551,6 +571,8 @@ const Transact = (props) => {
             ? receiveItemList
             : ""
         }
+        setFilteredItem={setFilteredItem}
+        filteredItem={filteredItem}
         handleCheckChange={handleCheckChange}
         clearOrder={clearOrder}
         showDrawer={openDrawer}

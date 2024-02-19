@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import QRCode from "react-qr-code";
 import {
   Typography,
@@ -18,12 +18,51 @@ import {
   CloseOutlined,
   DollarOutlined,
   OrderedListOutlined,
+  PoundOutlined,
   SortAscendingOutlined,
+  SortDescendingOutlined,
+  UnorderedListOutlined,
 } from "@ant-design/icons";
 
 const { Title } = Typography;
 
 const ItemList = (props) => {
+  const itemList = props.itemList;
+  const [searchItemCode, setSearchItemCode] = useState("");
+  const [codeAscending, setCodeAscending] = useState(false);
+  const [nameAscending, setNameAscending] = useState(false);
+  const [costAscending, setCostAscending] = useState(false);
+
+  function showAll() {
+    props.setFilteredItem(props.itemList);
+  }
+
+  function sortItems(key, ascending) {
+    let itemsToSort =
+      props.filteredItem.length > 0 ? props.filteredItem : props.itemList;
+
+    itemsToSort.sort((a, b) => {
+      let valA = key === "total" ? parseInt(a[key], 10) : a[key];
+      let valB = key === "total" ? parseInt(b[key], 10) : b[key];
+
+      if (valA < valB) {
+        return ascending ? -1 : 1;
+      }
+      if (valA > valB) {
+        return ascending ? 1 : -1;
+      }
+      return 0;
+    });
+    props.setFilteredItem(itemsToSort);
+    if (key === "code") {
+      setCodeAscending(ascending);
+    } else if (key === "name") {
+      setNameAscending(ascending);
+    } else if (key === "total") {
+      setCostAscending(ascending);
+    }
+  }
+
   return (
     <>
       {!props.view ? (
@@ -38,13 +77,13 @@ const ItemList = (props) => {
           <Col span={17} style={{ margin: "0 20px" }}>
             <Input
               placeholder="Search Item Code"
-              value={props.searchItemCode}
+              value={searchItemCode}
               style={{
                 borderRadius: "50px",
               }}
               onChange={(e) => {
                 const inputValue = e.target.value;
-                props.setSearchItemCode(inputValue);
+                setSearchItemCode(inputValue);
                 props.setFilteredItem("");
                 const filteredData = props.itemList.filter(
                   (item) => item.code.toLowerCase() === inputValue.toLowerCase()
@@ -61,6 +100,7 @@ const ItemList = (props) => {
                     size="large"
                     icon={<AppstoreOutlined style={{ fontSize: "20px" }} />}
                     className="btn-normal"
+                    onClick={() => showAll()}
                   />
                 </Tooltip>
               </Col>
@@ -68,8 +108,17 @@ const ItemList = (props) => {
                 <Tooltip title="Sort By Code">
                   <Button
                     size="large"
-                    icon={<OrderedListOutlined style={{ fontSize: "20px" }} />}
+                    icon={
+                      codeAscending ? (
+                        <OrderedListOutlined style={{ fontSize: "20px" }} />
+                      ) : (
+                        <UnorderedListOutlined style={{ fontSize: "20px" }} />
+                      )
+                    }
                     className="btn-normal"
+                    onClick={() =>
+                      sortItems("code", codeAscending ? false : true)
+                    }
                   />
                 </Tooltip>
               </Col>
@@ -78,9 +127,16 @@ const ItemList = (props) => {
                   <Button
                     size="large"
                     icon={
-                      <SortAscendingOutlined style={{ fontSize: "20px" }} />
+                      nameAscending ? (
+                        <SortAscendingOutlined style={{ fontSize: "20px" }} />
+                      ) : (
+                        <SortDescendingOutlined style={{ fontSize: "20px" }} />
+                      )
                     }
                     className="btn-normal"
+                    onClick={() =>
+                      sortItems("name", nameAscending ? false : true)
+                    }
                   />
                 </Tooltip>
               </Col>
@@ -88,8 +144,17 @@ const ItemList = (props) => {
                 <Tooltip title="Sort By Cost">
                   <Button
                     size="large"
-                    icon={<DollarOutlined style={{ fontSize: "20px" }} />}
+                    icon={
+                      costAscending ? (
+                        <DollarOutlined style={{ fontSize: "20px" }} />
+                      ) : (
+                        <PoundOutlined style={{ fontSize: "20px" }} />
+                      )
+                    }
                     className="btn-normal"
+                    onClick={() =>
+                      sortItems("total", costAscending ? false : true)
+                    }
                   />
                 </Tooltip>
               </Col>
@@ -99,6 +164,18 @@ const ItemList = (props) => {
                     size="large"
                     icon={<CheckSquareOutlined style={{ fontSize: "20px" }} />}
                     className="btn-normal"
+                    onClick={() =>
+                      props.handleCheckChange(
+                        props.itemList,
+                        props.filteredItem.length > 0
+                          ? props.filteredItem.map((item) => item.code)
+                          : props.itemList.map((item) => item.code),
+                        true,
+                        false,
+                        false,
+                        props.filteredItem
+                      )
+                    }
                   />
                 </Tooltip>
               </Col>
@@ -108,6 +185,18 @@ const ItemList = (props) => {
                     size="large"
                     icon={<BorderOutlined style={{ fontSize: "20px" }} />}
                     className="btn-normal"
+                    onClick={() =>
+                      props.handleCheckChange(
+                        props.itemList,
+                        props.filteredItem.length > 0
+                          ? props.filteredItem.map((item) => item.code)
+                          : props.itemList.map((item) => item.code),
+                        false,
+                        true,
+                        false,
+                        props.filteredItem
+                      )
+                    }
                   />
                 </Tooltip>
               </Col>
@@ -126,7 +215,11 @@ const ItemList = (props) => {
           overflowX: "hidden",
         }}
         dataSource={
-          props.filteredItem.length < 1 ? props.itemList : props.filteredItem
+          props.view
+            ? itemList
+            : props.filteredItem.length > 0
+            ? props.filteredItem
+            : props.itemList
         }
         renderItem={(item) => (
           <List.Item>
@@ -347,23 +440,16 @@ const ItemList = (props) => {
                   >
                     <Checkbox
                       checked={item.checked === "true"}
-                      onChange={() => {
-                        if (props.filteredItem.length > 0) {
-                          const updatedItems = props.filteredItem.map((i) => {
-                            if (i.code === item.code) {
-                              return {
-                                ...item,
-                                checked:
-                                  item.checked === "true" ? "false" : "true",
-                              };
-                            } else {
-                              return i;
-                            }
-                          });
-                          props.setFilteredItem(updatedItems);
-                        }
-                        props.handleCheckChange(item.code);
-                      }}
+                      onChange={() =>
+                        props.handleCheckChange(
+                          props.itemList,
+                          [item.code],
+                          false,
+                          false,
+                          true,
+                          props.filteredItem
+                        )
+                      }
                     ></Checkbox>
                   </Col>
                 ) : (
