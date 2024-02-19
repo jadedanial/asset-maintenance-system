@@ -162,22 +162,23 @@ const Transact = (props) => {
     itemsToSort,
     codes,
     setToTrue,
-    setToFalse,
     setToToggle,
     filteredItem
   ) {
     let mapItems = (items) => {
       return items.map((item) => {
         if (codes.includes(item.code)) {
-          if (setToTrue) {
-            return { ...item, checked: "true" };
-          } else if (setToFalse) {
-            return { ...item, checked: "false" };
-          } else if (setToToggle) {
+          if (setToToggle) {
             return {
               ...item,
               checked: item.checked === "true" ? "false" : "true",
             };
+          } else {
+            if (setToTrue) {
+              return { ...item, checked: "true" };
+            } else {
+              return { ...item, checked: "false" };
+            }
           }
         }
         return item;
@@ -321,7 +322,7 @@ const Transact = (props) => {
               <Col
                 span={9}
                 className="flex-start-row"
-                style={{ paddingLeft: "50px" }}
+                style={{ paddingLeft: "20px" }}
               >
                 <Col
                   className="card-with-background"
@@ -393,7 +394,7 @@ const Transact = (props) => {
               <Col
                 span={9}
                 className="flex-start-row"
-                style={{ paddingLeft: "50px" }}
+                style={{ paddingLeft: "20px" }}
               >
                 <Col
                   className="card-with-background"

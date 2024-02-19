@@ -94,6 +94,20 @@ h1 {
 .light .ant-menu {
   background: #96efff !important;
 }
+
+.ant-menu-submenu-title:hover .ant-menu-title-content {
+  color: #6841f5 !important;
+}
+
+.ant-menu-submenu-title:hover .anticon {
+  color: #6841f5 !important;
+}
+
+.anticon-menu-fold:hover,
+.anticon-menu-unfold:hover {
+  color: #6841f5 !important;
+}
+
 .ant-drawer-close,
 .ant-menu-submenu-arrow,
 .ant-picker-calendar-mode-switch {
@@ -110,9 +124,33 @@ h1 {
   width: 100%;
 }
 .ant-menu-title-content {
-  font-family: ralewayregular;
-  font-size: 16px;
+  font-family: ralewayregular !important;
+  font-size: 16px !important;
 }
+
+.dark .ant-menu-title-content {
+  color: #fff !important;
+}
+
+.light .ant-menu-title-content {
+  color: #000 !important;
+}
+
+.ant-menu-item .ant-menu-title-content:hover {
+  color: #6841f5 !important;
+}
+
+.ant-menu-item-icon {
+  font-size: 20px !important;
+}
+
+.dark .ant-menu-item-icon {
+  color: #fff !important;
+}
+.light .ant-menu-item-icon {
+  color: #000 !important;
+}
+
 .ant-btn,
 .ant-btn-default {
   font-size: 15px !important;
@@ -124,6 +162,13 @@ h1 {
 .ant-menu-item:after {
   border: none !important;
 }
+
+.ant-menu-item-selected .ant-menu-title-content {
+  color: #6841f5 !important;
+  font-size: 18px !important;
+  font-family: ralewayregular !important;
+}
+
 .dark .ant-menu-item-selected,
 .dark
   .ant-picker-calendar-full
@@ -326,7 +371,7 @@ h1.ant-typography {
 .dark .ant-table-thead .ant-table-cell,
 .dark .table-row,
 .light .table-row {
-  font-family: ralewayregular;
+  font-family: ralewayregular !important;
 }
 .ant-form-item label,
 .ant-list-item-meta-content,
@@ -387,7 +432,7 @@ h1.ant-typography {
 }
 .light .ant-table-thead .ant-table-cell {
   color: #318ce7 !important;
-  font-family: ralewayregular;
+  font-family: ralewayregular !important;
   font-size: 14px;
   text-align: center;
   background: #96efff !important;
@@ -632,11 +677,9 @@ input::file-selector-button {
 .hover-underline:hover {
   text-decoration: underline;
 }
-.dark .ant-segmented-thumb {
-  background: #151b38 !important;
-}
-.light .ant-segmented-thumb {
-  background: #fff !important;
+
+.ant-segmented-thumb {
+  background: #6841f5 !important;
 }
 .ant-segmented-item {
   margin-right: 10px !important;
@@ -650,13 +693,9 @@ input::file-selector-button {
   color: #fff !important;
   background: #6841f5 !important;
 }
-.dark .ant-segmented-item-selected .ant-segmented-item-label {
-  color: #6841f5 !important;
-  background: #151b38 !important;
-}
-.light .ant-segmented-item-selected .ant-segmented-item-label {
-  color: #6841f5 !important;
-  background: #fff !important;
+.ant-segmented-item-selected .ant-segmented-item-label {
+  color: #fff !important;
+  background: #6841f5 !important;
 }
 
 .ant-checkbox-inner {

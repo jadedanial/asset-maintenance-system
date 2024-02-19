@@ -32,9 +32,11 @@ const ItemList = (props) => {
   const [codeAscending, setCodeAscending] = useState(false);
   const [nameAscending, setNameAscending] = useState(false);
   const [costAscending, setCostAscending] = useState(false);
+  const [checkedAll, setCheckedAll] = useState(false);
 
   function showAll() {
     props.setFilteredItem(props.itemList);
+    setSearchItemCode("");
   }
 
   function sortItems(key, ascending) {
@@ -159,44 +161,29 @@ const ItemList = (props) => {
                 </Tooltip>
               </Col>
               <Col span={4} className="justified-row">
-                <Tooltip title="Check All">
+                <Tooltip title={checkedAll ? "Uncheck All" : "Check All"}>
                   <Button
                     size="large"
-                    icon={<CheckSquareOutlined style={{ fontSize: "20px" }} />}
+                    icon={
+                      checkedAll ? (
+                        <CheckSquareOutlined style={{ fontSize: "20px" }} />
+                      ) : (
+                        <BorderOutlined style={{ fontSize: "20px" }} />
+                      )
+                    }
                     className="btn-normal"
-                    onClick={() =>
+                    onClick={() => {
                       props.handleCheckChange(
                         props.itemList,
                         props.filteredItem.length > 0
                           ? props.filteredItem.map((item) => item.code)
                           : props.itemList.map((item) => item.code),
-                        true,
-                        false,
-                        false,
-                        props.filteredItem
-                      )
-                    }
-                  />
-                </Tooltip>
-              </Col>
-              <Col span={4} className="justified-row">
-                <Tooltip title="Uncheck All">
-                  <Button
-                    size="large"
-                    icon={<BorderOutlined style={{ fontSize: "20px" }} />}
-                    className="btn-normal"
-                    onClick={() =>
-                      props.handleCheckChange(
-                        props.itemList,
-                        props.filteredItem.length > 0
-                          ? props.filteredItem.map((item) => item.code)
-                          : props.itemList.map((item) => item.code),
-                        false,
-                        true,
+                        !checkedAll,
                         false,
                         props.filteredItem
-                      )
-                    }
+                      );
+                      setCheckedAll(!checkedAll);
+                    }}
                   />
                 </Tooltip>
               </Col>
@@ -440,7 +427,7 @@ const ItemList = (props) => {
                   >
                     <Checkbox
                       checked={item.checked === "true"}
-                      onChange={() =>
+                      onChange={() => {
                         props.handleCheckChange(
                           props.itemList,
                           [item.code],
@@ -448,8 +435,8 @@ const ItemList = (props) => {
                           false,
                           true,
                           props.filteredItem
-                        )
-                      }
+                        );
+                      }}
                     ></Checkbox>
                   </Col>
                 ) : (
