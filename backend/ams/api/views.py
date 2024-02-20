@@ -418,6 +418,7 @@ class WarehouseItemUpdateView(APIView):
     permission_classes = [IsAuthenticatedWithJWT]
 
     def patch(self, request, *args, **kwargs):
+        print(request.data)
         data = request.data
         for d in data:
             item = Item.objects.get(item_code=d["item_code"])
@@ -427,9 +428,9 @@ class WarehouseItemUpdateView(APIView):
 
             if warehouse_item is None:
                 warehouse_item = WarehouseItem(
-                    item_code=item, warehouse_code=section, item_onhand=d["item_onhand"])
+                    item_code=item, warehouse_code=section, item_onhand=float(d["item_onhand"]))
             else:
-                warehouse_item.item_onhand += d["item_onhand"]
+                warehouse_item.item_onhand += float(d["item_onhand"])
 
             warehouse_item.save()
 

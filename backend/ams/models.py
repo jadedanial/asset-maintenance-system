@@ -468,6 +468,9 @@ class Transaction(models.Model):
     trans_detail = models.TextField(
         blank=True, null=True, verbose_name="Detail")
 
+    trans_status = models.TextField(
+        blank=True, null=True, verbose_name="Status")
+
     def __str__(self):
         return str(self.trans_code)
 

@@ -128,7 +128,7 @@ const DrawerEvent = (props) => {
           <>
             <Cart
               segment={props.segment}
-              item={props.itemCode}
+              itemCode={props.itemCode}
               addItem={props.addItem}
               removeItem={props.removeItem}
               itemCount={props.itemCount}
@@ -136,7 +136,6 @@ const DrawerEvent = (props) => {
               setFilteredItem={props.setFilteredItem}
               filteredItem={props.filteredItem}
               handleCheckChange={props.handleCheckChange}
-              clearOrder={props.clearOrder}
               onCloseDrawer={props.onCloseDrawer}
               empid={props.empid}
               username={props.username}

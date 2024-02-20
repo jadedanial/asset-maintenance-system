@@ -421,6 +421,7 @@ class TransactionAdmin(admin.ModelAdmin):
         "trans_date",
         "trans_user",
         "trans_detail",
+        "trans_status",
     )
     list_display = (
         "trans_code",
@@ -428,6 +429,7 @@ class TransactionAdmin(admin.ModelAdmin):
         "trans_date",
         "trans_user",
         "trans_detail",
+        "trans_status",
     )
     list_filter = (
         "trans_code",
@@ -435,6 +437,7 @@ class TransactionAdmin(admin.ModelAdmin):
         "trans_date",
         "trans_user",
         "trans_detail",
+        "trans_status",
     )
     search_fields = (
         "trans_code",
@@ -442,6 +445,7 @@ class TransactionAdmin(admin.ModelAdmin):
         "trans_date",
         "trans_user",
         "trans_detail",
+        "trans_status",
     )
 
 

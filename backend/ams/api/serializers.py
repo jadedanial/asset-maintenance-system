@@ -277,4 +277,5 @@ class TransactionSerializer(serializers.ModelSerializer):
             "trans_date",
             "trans_user",
             "trans_detail",
+            "trans_status",
         ]

@@ -139,6 +139,7 @@ const Transact = (props) => {
   }
 
   function onCloseDrawer() {
+    clearOrder();
     setOpenDrawer(false);
   }
 
@@ -147,6 +148,10 @@ const Transact = (props) => {
       case "Reorder":
         setReorderItemList([]);
         setReorderItemCount(0);
+        break;
+      case "Receive":
+        setReceiveItemList([]);
+        setReceiveItemCount(0);
         break;
       default:
         break;
@@ -214,7 +219,7 @@ const Transact = (props) => {
   }
 
   function searchItem(value, segment) {
-    setItemCode(value);
+    setItemCode(value.toUpperCase());
     clearSearch();
     var apiEndpoint = "";
     apiEndpoint =
@@ -260,18 +265,23 @@ const Transact = (props) => {
               break;
             case "Receive":
               if (res.trans_code === value.toUpperCase()) {
-                setQueryItem([
-                  {
-                    code: res.trans_code,
-                    action: res.trans_action,
-                    date: res.trans_date,
-                    detail: res.trans_detail,
-                  },
-                ]);
-                setReceiveItemList(parseStringToDictionaries(res.trans_detail));
-                setReceiveItemCount(
-                  parseStringToDictionaries(res.trans_detail).length
-                );
+                if (res.trans_status === "Pending") {
+                  setQueryItem([
+                    {
+                      code: res.trans_code,
+                      action: res.trans_action,
+                      date: res.trans_date,
+                      detail: res.trans_detail,
+                      status: res.trans_status,
+                    },
+                  ]);
+                  setReceiveItemList(
+                    parseStringToDictionaries(res.trans_detail)
+                  );
+                  setReceiveItemCount(
+                    parseStringToDictionaries(res.trans_detail).length
+                  );
+                }
               }
               break;
             default:
@@ -427,7 +437,7 @@ const Transact = (props) => {
                         title: "Total Items:  " + String(receiveItemCount),
                       },
                       {
-                        title: queryItem["0"]["action"],
+                        title: "Status: " + queryItem["0"]["status"],
                       },
                     ]}
                   />
@@ -556,7 +566,7 @@ const Transact = (props) => {
       </div>
       <DrawerEvent
         segment={segment}
-        item={itemCode}
+        itemCode={itemCode}
         addItem={addItem}
         removeItem={removeItem}
         itemCount={
@@ -564,19 +574,18 @@ const Transact = (props) => {
             ? reorderItemCount
             : segment === "Receive"
             ? receiveItemCount
-            : ""
+            : 0
         }
         itemList={
           segment === "Reorder"
             ? reorderItemList
             : segment === "Receive"
             ? receiveItemList
-            : ""
+            : 0
         }
         setFilteredItem={setFilteredItem}
         filteredItem={filteredItem}
         handleCheckChange={handleCheckChange}
-        clearOrder={clearOrder}
         showDrawer={openDrawer}
         onCloseDrawer={onCloseDrawer}
         comp="Cart"

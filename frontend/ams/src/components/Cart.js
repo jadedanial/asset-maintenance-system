@@ -19,6 +19,14 @@ const Cart = (props) => {
   const [warning, setWarning] = useState(false);
   const [api, contextHolder] = notification.useNotification();
 
+  const messageMap = {
+    Reorder: "Successfully ordered",
+    Receive: "Successfully received",
+  };
+
+  const itemWord = props.itemCount > 1 ? "items" : "item";
+  const message = `${messageMap[props.segment]} ${itemWord}.`;
+
   const sumOrder = useCallback(() => {
     setTotalOrder("0.00");
     const sum = props.itemList.reduce(
@@ -27,25 +35,6 @@ const Cart = (props) => {
     );
     setTotalOrder(sum.toFixed(2));
   }, [props.itemList]);
-
-  function onWarehouseChange(value) {
-    const warehouseCode = sections.find(
-      (sec) => sec.section_code === value
-    )?.section_code;
-    setWarehouseCode(warehouseCode);
-  }
-
-  function warehouseItemOrder(itemList) {
-    let newList = itemList.map((item) => {
-      return {
-        id: item.id,
-        item_code: item.code,
-        warehouse_code: warehouseCode,
-        item_onhand: item.quantity,
-      };
-    });
-    return newList;
-  }
 
   function changeQuantity(action, id, code, name, cost, measurement, quantity) {
     if (quantity >= 1) {
@@ -77,43 +66,68 @@ const Cart = (props) => {
     props.setFilteredItem("");
   }
 
-  function transactionDetail() {
-    var details = "";
-    Object.values(props.itemList).forEach(
-      (val) =>
-        (details +=
-          "id=" +
-          val["id"] +
-          ", code=" +
-          val["code"] +
-          ", name=" +
-          val["name"] +
-          ", cost=" +
-          val["cost"] +
-          ", measurement=" +
-          val["measurement"] +
-          ", quantity=" +
-          val["quantity"] +
-          ", total=" +
-          val["total"] +
-          ", checked=" +
-          false +
-          ", warehouse=" +
-          warehouseCode +
-          ", received=" +
-          false +
-          "/*/")
-    );
-    return details;
+  function onWarehouseChange(value) {
+    const warehouseCode = sections.find(
+      (sec) => sec.section_code === value
+    )?.section_code;
+    setWarehouseCode(warehouseCode);
   }
 
-  function addTransaction() {
+  function warehouseItemOrder(itemList) {
+    let newList = itemList.map((item) => {
+      return {
+        id: item.id,
+        item_code: item.code,
+        warehouse_code: item.to_warehouse,
+        item_onhand: item.quantity,
+      };
+    });
+    return newList;
+  }
+
+  function transactionDetail(action) {
+    switch (action) {
+      case "Reorder":
+        var details = "";
+        Object.values(props.itemList).forEach(
+          (val) =>
+            (details +=
+              "id=" +
+              val["id"] +
+              ", code=" +
+              val["code"] +
+              ", name=" +
+              val["name"] +
+              ", cost=" +
+              val["cost"] +
+              ", measurement=" +
+              val["measurement"] +
+              ", quantity=" +
+              val["quantity"] +
+              ", total=" +
+              val["total"] +
+              ", checked=" +
+              false +
+              ", to_warehouse=" +
+              warehouseCode +
+              "/*/")
+        );
+        return details;
+      case "Receive":
+        return "Receive order.";
+      default:
+        break;
+    }
+  }
+
+  function addTransaction(action, detail, status) {
     var transactionData = {
       trans_code: "",
-      trans_action: "Reorder from " + props.sectionCode,
+      trans_action: action,
       trans_date: moment().format("YYYY-MM-DD HH:mm:ss"),
       trans_user: String(props.empid) + " - " + props.username,
-      trans_detail: transactionDetail(),
+      trans_detail: detail,
+      trans_status: status,
     };
     axios({
       method: "POST",
@@ -123,6 +137,7 @@ const Cart = (props) => {
       withCredentials: true,
     })
       .then((response) => {
+        setSuccess(true);
         setTransactionID("TRA" + String(response.data["id"]));
       })
       .catch((err) => {
@@ -131,7 +146,15 @@ const Cart = (props) => {
       });
   }
 
-  function checkoutOrder() {
+  function transactionStatus(code) {
+    console.log(code); // change transaction status
+  }
+
+  function checkOutOrder() {
+    addTransaction("Reorder", transactionDetail("Reorder"), "Pending");
+  }
+
+  function receiveOrder() {
     axios({
       method: "PATCH",
       url: "http://localhost:8000/api/warehouseitemupdate",
@@ -140,13 +163,11 @@ const Cart = (props) => {
       withCredentials: true,
     })
       .then(() => {
-        setSuccess(true);
-        addTransaction();
-        props.clearOrder();
+        addTransaction("Receive", transactionDetail("Receive"), "Complete");
+        transactionStatus(props.itemCode);
       })
       .catch((err) => {
         console.log(err);
-        setSuccess(false);
       });
   }
 
@@ -156,10 +177,6 @@ const Cart = (props) => {
     } else {
       return false;
     }
-  }
-
-  function receiveOrder() {
-    console.log("allChecked");
   }
 
   useEffect(() => {
@@ -187,11 +204,7 @@ const Cart = (props) => {
         <ResultEvent
           icon={<CheckCircleOutlined style={{ color: "#318ce7" }} />}
           status="success"
-          title={
-            props.itemCount > 1
-              ? "Successfully added Items to inventory."
-              : "Successfully added Item to inventory."
-          }
+          title={message}
           subTitle={"Transaction ID " + String(transactionID)}
           extra={[
             <Button size="large" type="primary" onClick={props.onCloseDrawer}>
@@ -265,7 +278,7 @@ const Cart = (props) => {
                       type="primary"
                       onClick={() => {
                         if (warehouseCode !== "") {
-                          checkoutOrder();
+                          checkOutOrder();
                         } else {
                           api.info(
                             NotificationEvent(
