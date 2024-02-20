@@ -13,7 +13,7 @@ const { Title } = Typography;
 const Cart = (props) => {
   const [totalOrder, setTotalOrder] = useState("0.00");
   const [success, setSuccess] = useState(false);
-  const [transactionID, setTransactionID] = useState("");
+  const [transactionCode, setTransactionCode] = useState("");
   const [warehouseCode, setWarehouseCode] = useState("");
   const [sections, setSections] = useState([]);
   const [warning, setWarning] = useState(false);
@@ -120,6 +120,19 @@ const Cart = (props) => {
     }
   }
 
+  function transactionStatus(code, status) {
+    return axios({
+      method: "PATCH",
+      url: "http://localhost:8000/api/transaction",
+      data: { trans_code: code, trans_status: status },
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    }).catch((err) => {
+      console.log(err);
+      setSuccess(false);
+    });
+  }
+
   function addTransaction(action, detail, status) {
     var transactionData = {
       trans_code: "",
@@ -129,7 +142,7 @@ const Cart = (props) => {
       trans_detail: detail,
       trans_status: status,
     };
-    axios({
+    return axios({
       method: "POST",
       url: "http://localhost:8000/api/transaction",
       data: transactionData,
@@ -137,8 +150,7 @@ const Cart = (props) => {
       withCredentials: true,
     })
       .then((response) => {
-        setSuccess(true);
-        setTransactionID("TRA" + String(response.data["id"]));
+        setTransactionCode("TRA" + String(response.data["id"]));
       })
       .catch((err) => {
         console.log(err);
@@ -146,29 +158,36 @@ const Cart = (props) => {
       });
   }
 
-  function transactionStatus(code) {
-    console.log(code); // change transaction status
+  function receiveOrder() {
+    transactionStatus(props.itemCode, "Complete")
+      .then(() => {
+        return addTransaction(
+          "Receive",
+          transactionDetail("Receive"),
+          "Complete"
+        );
+      })
+      .then(() => {
+        return axios({
+          method: "PATCH",
+          url: "http://localhost:8000/api/warehouseitemupdate",
+          data: warehouseItemOrder(props.itemList),
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        });
+      })
+      .then(() => {
+        setSuccess(true);
+      })
+      .catch((err) => {
+        console.log(err);
+        setSuccess(false);
+      });
   }
 
   function checkOutOrder() {
     addTransaction("Reorder", transactionDetail("Reorder"), "Pending");
-  }
-
-  function receiveOrder() {
-    axios({
-      method: "PATCH",
-      url: "http://localhost:8000/api/warehouseitemupdate",
-      data: warehouseItemOrder(props.itemList),
-      headers: { "Content-Type": "application/json" },
-      withCredentials: true,
-    })
-      .then(() => {
-        addTransaction("Receive", transactionDetail("Receive"), "Complete");
-        transactionStatus(props.itemCode);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    setSuccess(true);
   }
 
   function checkAllState(checkedState) {
@@ -205,7 +224,7 @@ const Cart = (props) => {
           icon={<CheckCircleOutlined style={{ color: "#318ce7" }} />}
           status="success"
           title={message}
-          subTitle={"Transaction ID " + String(transactionID)}
+          subTitle={"Transaction ID " + String(transactionCode)}
           extra={[
             <Button size="large" type="primary" onClick={props.onCloseDrawer}>
               REORDER ITEM

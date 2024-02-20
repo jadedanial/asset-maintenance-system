@@ -324,6 +324,7 @@ class VacationView(APIView):
 
     def post(self, request):
         serializer = VacationSerializer(data=request.data)
+
         serializer.is_valid(raise_exception=True)
         serializer.save()
 
@@ -341,6 +342,7 @@ class ExcuseView(APIView):
 
     def post(self, request):
         serializer = ExcuseSerializer(data=request.data)
+
         serializer.is_valid(raise_exception=True)
         serializer.save()
 
@@ -378,7 +380,6 @@ class ItemView(APIView):
         if name:
             if str(name.item_code) != str(item.item_code):
                 raise ValidationError("Item name already exist!")
-
         serializer.is_valid(raise_exception=True)
         serializer.save()
 
@@ -396,6 +397,7 @@ class WarehouseItemView(APIView):
 
     def post(self, request):
         serializer = WarehouseItemSerializer(data=request.data)
+
         serializer.is_valid(raise_exception=True)
         serializer.save()
 
@@ -408,6 +410,7 @@ class WarehouseItemView(APIView):
         warehouse_item = WarehouseItem.objects.filter(
             item_code=item, warehouse_code=section).first()
         serializer = WarehouseItemSerializer(warehouse_item, data=request.data)
+
         serializer.is_valid(raise_exception=True)
         serializer.save()
 
@@ -454,6 +457,17 @@ class TransactionView(APIView):
 
     def post(self, request):
         serializer = TransactionSerializer(data=request.data)
+
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response(serializer.data)
+
+    def patch(self, request, *args, **kwargs):
+        transaction = Transaction.objects.filter(
+            trans_code=request.data["trans_code"]).first()
+        serializer = TransactionSerializer(transaction, data=request.data)
+
         serializer.is_valid(raise_exception=True)
         serializer.save()
 
