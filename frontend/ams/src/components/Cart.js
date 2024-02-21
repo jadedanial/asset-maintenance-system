@@ -178,6 +178,9 @@ const Cart = (props) => {
       })
       .then(() => {
         setSuccess(true);
+        props.setQueryItem({});
+        props.setSearchValue("");
+        props.clearOrder();
       })
       .catch((err) => {
         console.log(err);
@@ -188,6 +191,9 @@ const Cart = (props) => {
   function checkOutOrder() {
     addTransaction("Reorder", transactionDetail("Reorder"), "Pending");
     setSuccess(true);
+    props.setQueryItem({});
+    props.setSearchValue("");
+    props.clearOrder();
   }
 
   function checkAllState(checkedState) {
@@ -227,7 +233,7 @@ const Cart = (props) => {
           subTitle={"Transaction ID " + String(transactionCode)}
           extra={[
             <Button size="large" type="primary" onClick={props.onCloseDrawer}>
-              REORDER ITEM
+              TRANSACT ANOTHER
             </Button>,
           ]}
         />

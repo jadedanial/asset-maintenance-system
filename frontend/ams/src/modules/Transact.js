@@ -139,7 +139,6 @@ const Transact = (props) => {
   }
 
   function onCloseDrawer() {
-    clearOrder();
     setOpenDrawer(false);
   }
 
@@ -318,7 +317,7 @@ const Transact = (props) => {
   function componentSwitch(key) {
     switch (key) {
       case "Reorder":
-        return (
+        return queryItem.length > 0 ? (
           <>
             <Row>
               <Col span={14} style={{ paddingLeft: "50px" }}>
@@ -386,9 +385,11 @@ const Transact = (props) => {
               </Col>
             </Row>
           </>
+        ) : (
+          ""
         );
       case "Receive":
-        return (
+        return queryItem.length > 0 ? (
           <>
             <Row>
               <Col span={14} style={{ paddingLeft: "50px" }}>
@@ -454,6 +455,8 @@ const Transact = (props) => {
               </Col>
             </Row>
           </>
+        ) : (
+          ""
         );
       case false:
         return <EmptyData theme={props.theme} />;
@@ -567,6 +570,8 @@ const Transact = (props) => {
       <DrawerEvent
         segment={segment}
         itemCode={itemCode}
+        setQueryItem={setQueryItem}
+        setSearchValue={setSearchValue}
         addItem={addItem}
         removeItem={removeItem}
         itemCount={
@@ -586,6 +591,7 @@ const Transact = (props) => {
         setFilteredItem={setFilteredItem}
         filteredItem={filteredItem}
         handleCheckChange={handleCheckChange}
+        clearOrder={clearOrder}
         showDrawer={openDrawer}
         onCloseDrawer={onCloseDrawer}
         comp="Cart"

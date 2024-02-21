@@ -160,34 +160,38 @@ const ItemList = (props) => {
                   />
                 </Tooltip>
               </Col>
-              <Col span={4} className="justified-row">
-                <Tooltip title={checkedAll ? "Uncheck All" : "Check All"}>
-                  <Button
-                    size="large"
-                    icon={
-                      checkedAll ? (
-                        <CheckSquareOutlined style={{ fontSize: "20px" }} />
-                      ) : (
-                        <BorderOutlined style={{ fontSize: "20px" }} />
-                      )
-                    }
-                    className="btn-normal"
-                    onClick={() => {
-                      props.handleCheckChange(
-                        props.itemList,
-                        props.filteredItem.length > 0
-                          ? props.filteredItem.map((item) => item.code)
-                          : props.itemList.map((item) => item.code),
-                        !checkedAll,
-                        false,
-                        props.filteredItem
-                      );
-                      setCheckedAll(!checkedAll);
-                      props.setWarning(false);
-                    }}
-                  />
-                </Tooltip>
-              </Col>
+              {props.segment === "Receive" ? (
+                <Col span={4} className="justified-row">
+                  <Tooltip title={checkedAll ? "Uncheck All" : "Check All"}>
+                    <Button
+                      size="large"
+                      icon={
+                        checkedAll ? (
+                          <CheckSquareOutlined style={{ fontSize: "20px" }} />
+                        ) : (
+                          <BorderOutlined style={{ fontSize: "20px" }} />
+                        )
+                      }
+                      className="btn-normal"
+                      onClick={() => {
+                        props.handleCheckChange(
+                          props.itemList,
+                          props.filteredItem.length > 0
+                            ? props.filteredItem.map((item) => item.code)
+                            : props.itemList.map((item) => item.code),
+                          !checkedAll,
+                          false,
+                          props.filteredItem
+                        );
+                        setCheckedAll(!checkedAll);
+                        props.setWarning(false);
+                      }}
+                    />
+                  </Tooltip>
+                </Col>
+              ) : (
+                ""
+              )}
             </Row>
           </Col>
         </Row>
