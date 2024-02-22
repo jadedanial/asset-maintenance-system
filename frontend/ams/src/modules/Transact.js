@@ -31,7 +31,7 @@ const Transact = (props) => {
   const [filteredItem, setFilteredItem] = useState([]);
   const [total, setTotal] = useState("");
   const [quantity, setQuantity] = useState("");
-  const [itemCode, setItemCode] = useState("");
+  const [queryCode, setQueryCode] = useState("");
   const [item, setItem] = useState([]);
   const [queryItem, setQueryItem] = useState([]);
   const [reorderItemList, setReorderItemList] = useState([]);
@@ -39,6 +39,8 @@ const Transact = (props) => {
   const [receiveItemList, setReceiveItemList] = useState([]);
   const [receiveItemCount, setReceiveItemCount] = useState(0);
   const [inputStatus, setInputStatus] = useState("");
+  const [success, setSuccess] = useState(false);
+  const [transactionCode, setTransactionCode] = useState("");
   const [openDrawer, setOpenDrawer] = useState(false);
   const [api, contextHolder] = notification.useNotification();
 
@@ -114,6 +116,152 @@ const Transact = (props) => {
     setQuantity(value);
   }
 
+  function transactionDetail(action, itemList, warehouseCode) {
+    switch (action) {
+      case "Reorder":
+        var details = "";
+        Object.values(itemList).forEach(
+          (val) =>
+            (details +=
+              "id=" +
+              val["id"] +
+              ", code=" +
+              val["code"] +
+              ", name=" +
+              val["name"] +
+              ", cost=" +
+              val["cost"] +
+              ", measurement=" +
+              val["measurement"] +
+              ", quantity=" +
+              val["quantity"] +
+              ", total=" +
+              val["total"] +
+              ", checked=" +
+              false +
+              ", to_warehouse=" +
+              warehouseCode +
+              "/*/")
+        );
+        return details;
+      case "Receive":
+        return "Receive order.";
+      default:
+        break;
+    }
+  }
+
+  function transactionStatus(code, status) {
+    return axios({
+      method: "PATCH",
+      url: "http://localhost:8000/api/transaction",
+      data: { trans_code: code, trans_status: status },
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    }).catch((err) => {
+      console.log(err);
+      setSuccess(false);
+    });
+  }
+
+  function addTransaction(action, detail, status) {
+    var transactionData = {
+      trans_code: "",
+      trans_action: action,
+      trans_date: moment().format("YYYY-MM-DD HH:mm:ss"),
+      trans_user: String(props.empid) + " - " + props.username,
+      trans_detail: detail,
+      trans_status: status,
+    };
+    return axios({
+      method: "POST",
+      url: "http://localhost:8000/api/transaction",
+      data: transactionData,
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    })
+      .then((response) => {
+        setTransactionCode("TRA" + String(response.data["id"]));
+      })
+      .catch((err) => {
+        console.log(err);
+        setSuccess(false);
+      });
+  }
+
+  function reorderOrder(itemList, warehouseCode) {
+    addTransaction(
+      "Reorder",
+      transactionDetail("Reorder", itemList, warehouseCode),
+      "Pending",
+      props.empid,
+      props.username
+    );
+    setSuccess(true);
+    setQueryItem({});
+    setSearchValue("");
+    clearOrder();
+  }
+
+  function receiveOrder(itemList) {
+    transactionStatus(queryCode, "Complete")
+      .then(() => {
+        return addTransaction(
+          "Receive",
+          transactionDetail("Receive", itemList, ""),
+          "Complete",
+          props.empid,
+          props.username
+        );
+      })
+      .then(() => {
+        return axios({
+          method: "PATCH",
+          url: "http://localhost:8000/api/warehouseitemupdate",
+          data: itemList.map((item) => {
+            return {
+              id: item.id,
+              item_code: item.code,
+              warehouse_code: item.to_warehouse,
+              item_onhand: item.quantity,
+            };
+          }),
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        });
+      })
+      .then(() => {
+        setSuccess(true);
+        setQueryItem({});
+        setSearchValue("");
+        clearOrder();
+      })
+      .catch((err) => {
+        console.log(err);
+        setSuccess(false);
+      });
+  }
+
+  function clearOrder() {
+    switch (segment) {
+      case "Reorder":
+        setReorderItemList([]);
+        setReorderItemCount(0);
+        break;
+      case "Receive":
+        setReceiveItemList([]);
+        setReceiveItemCount(0);
+        break;
+      default:
+        break;
+    }
+  }
+
+  function clearSearch() {
+    setQueryItem([]);
+    setTotal("0.00");
+  }
+
   function showDrawer() {
     switch (segment) {
       case "Reorder":
@@ -140,26 +288,7 @@ const Transact = (props) => {
 
   function onCloseDrawer() {
     setOpenDrawer(false);
-  }
-
-  function clearOrder() {
-    switch (segment) {
-      case "Reorder":
-        setReorderItemList([]);
-        setReorderItemCount(0);
-        break;
-      case "Receive":
-        setReceiveItemList([]);
-        setReceiveItemCount(0);
-        break;
-      default:
-        break;
-    }
-  }
-
-  function clearSearch() {
-    setQueryItem([]);
-    setTotal("0.00");
+    setSuccess(false);
   }
 
   function handleCheckChange(
@@ -218,7 +347,7 @@ const Transact = (props) => {
   }
 
   function searchItem(value, segment) {
-    setItemCode(value.toUpperCase());
+    setQueryCode(value.toUpperCase());
     clearSearch();
     var apiEndpoint = "";
     apiEndpoint =
@@ -569,7 +698,6 @@ const Transact = (props) => {
       </div>
       <DrawerEvent
         segment={segment}
-        itemCode={itemCode}
         setQueryItem={setQueryItem}
         setSearchValue={setSearchValue}
         addItem={addItem}
@@ -591,12 +719,14 @@ const Transact = (props) => {
         setFilteredItem={setFilteredItem}
         filteredItem={filteredItem}
         handleCheckChange={handleCheckChange}
+        reorderOrder={reorderOrder}
+        receiveOrder={receiveOrder}
+        success={success}
+        transactionCode={transactionCode}
         clearOrder={clearOrder}
         showDrawer={openDrawer}
         onCloseDrawer={onCloseDrawer}
         comp="Cart"
-        empid={props.empid}
-        username={props.username}
         collapsed={props.collapsed}
         sectionCode={props.sectionCode}
         theme={props.theme}
