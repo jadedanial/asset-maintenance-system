@@ -1,4 +1,5 @@
 from django.http import HttpResponse
+from django.shortcuts import render
 from rest_framework.generics import ListAPIView, UpdateAPIView
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -8,6 +9,10 @@ from ams.models import *
 from .serializers import *
 import jwt
 import datetime
+
+
+def index(request):
+    return render(request, "index.html")
 
 
 class ModeView(APIView):
