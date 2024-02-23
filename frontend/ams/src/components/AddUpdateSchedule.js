@@ -133,7 +133,7 @@ const AddUpdateSchedule = (props) => {
     };
     axios({
       method: update ? "PATCH" : "POST",
-      url: "http://localhost:8000/api/schedule",
+      url: `${process.env.REACT_APP_API_URL}/api/schedule`,
       data: scheduleData,
       headers: { "Content-Type": "application/json" },
       withCredentials: true,
@@ -152,7 +152,7 @@ const AddUpdateSchedule = (props) => {
   useEffect(() => {
     axios({
       method: "GET",
-      url: "http://localhost:8000/api/shifts",
+      url: `${process.env.REACT_APP_API_URL}/api/shifts`,
       headers: { "Content-Type": "application/json" },
       withCredentials: true,
     })

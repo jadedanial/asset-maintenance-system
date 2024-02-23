@@ -269,7 +269,7 @@ const Vacation = (props) => {
   function loadVacations() {
     axios({
       method: "GET",
-      url: "http://localhost:8000/api/vacations",
+      url: `${process.env.REACT_APP_API_URL}/api/vacations`,
       headers: { "Content-Type": "application/json" },
       withCredentials: true,
     })
@@ -441,7 +441,7 @@ const Vacation = (props) => {
     };
     axios({
       method: "POST",
-      url: "http://localhost:8000/api/vacation",
+      url: `${process.env.REACT_APP_API_URL}/api/vacation`,
       data: vacData,
       headers: { "Content-Type": "application/json" },
       withCredentials: true,
@@ -466,7 +466,7 @@ const Vacation = (props) => {
   useEffect(() => {
     axios({
       method: "GET",
-      url: "http://localhost:8000/api/options",
+      url: `${process.env.REACT_APP_API_URL}/api/options`,
       headers: { "Content-Type": "application/json" },
       withCredentials: true,
     })

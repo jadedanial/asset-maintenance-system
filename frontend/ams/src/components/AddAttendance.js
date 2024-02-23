@@ -40,7 +40,7 @@ const AddAttendance = (props) => {
   const loadSchedules = useCallback(() => {
     axios({
       method: "GET",
-      url: "http://localhost:8000/api/schedules",
+      url: `${process.env.REACT_APP_API_URL}/api/schedules`,
       headers: { "Content-Type": "application/json" },
       withCredentials: true,
     })
@@ -69,7 +69,7 @@ const AddAttendance = (props) => {
   const loadVacations = useCallback(() => {
     axios({
       method: "GET",
-      url: "http://localhost:8000/api/vacations",
+      url: `${process.env.REACT_APP_API_URL}/api/vacations`,
       headers: { "Content-Type": "application/json" },
       withCredentials: true,
     })
@@ -294,7 +294,7 @@ const AddAttendance = (props) => {
     };
     axios({
       method: apiMethod,
-      url: "http://localhost:8000/api/emp_attendance",
+      url: `${process.env.REACT_APP_API_URL}/api/emp_attendance`,
       data: attendData,
       headers: { "Content-Type": "application/json" },
       withCredentials: true,

@@ -140,11 +140,14 @@ const ItemDetail = (props) => {
   }
 
   useEffect(() => {
-    fetchData("http://localhost:8000/api/items", setItem);
+    fetchData(`${process.env.REACT_APP_API_URL}/api/items`, setItem);
   }, []);
 
   useEffect(() => {
-    fetchData("http://localhost:8000/api/warehouseitems", setWarehouseItem);
+    fetchData(
+      `${process.env.REACT_APP_API_URL}/api/warehouseitems`,
+      setWarehouseItem
+    );
   }, []);
 
   return (

@@ -34,7 +34,7 @@ const RegisterPage = () => {
     };
     axios({
       method: "POST",
-      url: "http://localhost:8000/api/register",
+      url: `${process.env.REACT_APP_API_URL}/api/register`,
       data: registerData,
       headers: { "Content-Type": "application/json" },
       withCredentials: true,
@@ -58,7 +58,7 @@ const RegisterPage = () => {
   useEffect(() => {
     axios({
       method: "GET",
-      url: "http://localhost:8000/api/mode",
+      url: `${process.env.REACT_APP_API_URL}/api/mode`,
       headers: { "Content-Type": "application/json" },
       withCredentials: true,
     })

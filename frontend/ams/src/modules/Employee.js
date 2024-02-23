@@ -53,7 +53,7 @@ const Employee = (props) => {
   function loadAPILists() {
     axios({
       method: "GET",
-      url: "http://localhost:8000/api/employees",
+      url: `${process.env.REACT_APP_API_URL}/api/employees`,
       headers: { "Content-Type": "application/json" },
       withCredentials: true,
     })

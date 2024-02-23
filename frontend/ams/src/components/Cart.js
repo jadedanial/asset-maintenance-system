@@ -97,7 +97,7 @@ const Cart = (props) => {
   useEffect(() => {
     axios({
       method: "GET",
-      url: "http://localhost:8000/api/sections",
+      url: `${process.env.REACT_APP_API_URL}/api/sections`,
       headers: { "Content-Type": "application/json" },
       withCredentials: true,
     })

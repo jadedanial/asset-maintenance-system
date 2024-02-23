@@ -70,7 +70,7 @@ const MainPage = (props) => {
   function addMode(mode) {
     axios({
       method: "POST",
-      url: "http://localhost:8000/api/mode",
+      url: `${process.env.REACT_APP_API_URL}/api/mode`,
       data: mode,
       headers: { "Content-Type": "application/json" },
       withCredentials: true,
@@ -204,7 +204,7 @@ const MainPage = (props) => {
   function fetchData(url, callback) {
     axios({
       method: "GET",
-      url: `http://localhost:8000/api/${url}`,
+      url: `${process.env.REACT_APP_API_URL}/api/${url}`,
       headers: { "Content-Type": "application/json" },
       withCredentials: true,
     })
@@ -239,7 +239,7 @@ const MainPage = (props) => {
   useEffect(() => {
     axios({
       method: "GET",
-      url: "http://localhost:8000/api/modules",
+      url: `${process.env.REACT_APP_API_URL}/api/modules`,
       headers: { "Content-Type": "application/json" },
       withCredentials: true,
     })
@@ -259,7 +259,7 @@ const MainPage = (props) => {
   useEffect(() => {
     axios({
       method: "GET",
-      url: "http://localhost:8000/api/mode",
+      url: `${process.env.REACT_APP_API_URL}/api/mode`,
       headers: { "Content-Type": "application/json" },
       withCredentials: true,
     })

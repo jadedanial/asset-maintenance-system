@@ -48,7 +48,7 @@ const Item = (props) => {
   const loadData = useCallback((url, setData) => {
     axios({
       method: "GET",
-      url: `http://localhost:8000/api/${url}`,
+      url: `${process.env.REACT_APP_API_URL}/api/${url}`,
       headers: { "Content-Type": "application/json" },
       withCredentials: true,
     })

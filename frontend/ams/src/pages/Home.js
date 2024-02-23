@@ -18,7 +18,7 @@ const HomePage = () => {
   useEffect(() => {
     axios({
       method: "GET",
-      url: "http://localhost:8000/api/users",
+      url: `${process.env.REACT_APP_API_URL}/api/users`,
       headers: { "Content-Type": "application/json" },
       withCredentials: true,
     })
@@ -36,7 +36,7 @@ const HomePage = () => {
   useEffect(() => {
     axios({
       method: "GET",
-      url: "http://localhost:8000/api/mode",
+      url: `${process.env.REACT_APP_API_URL}/api/mode`,
       headers: { "Content-Type": "application/json" },
       withCredentials: true,
     })

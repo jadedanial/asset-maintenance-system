@@ -42,7 +42,7 @@ const Vehicle = () => {
   function loadAPILists() {
     axios({
       method: "GET",
-      url: "http://localhost:8000/api/warehouses",
+      url: `${process.env.REACT_APP_API_URL}/api/warehouses`,
       headers: { "Content-Type": "application/json" },
       withCredentials: true,
     })

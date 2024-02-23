@@ -74,7 +74,7 @@ const Schedule = (props) => {
   function loadAPILists() {
     axios({
       method: "GET",
-      url: "http://localhost:8000/api/schedules",
+      url: `${process.env.REACT_APP_API_URL}/api/schedules`,
       headers: { "Content-Type": "application/json" },
       withCredentials: true,
     })

@@ -207,7 +207,7 @@ const Excuse = (props) => {
   function loadExcuses() {
     axios({
       method: "GET",
-      url: "http://localhost:8000/api/excuses",
+      url: `${process.env.REACT_APP_API_URL}/api/excuses`,
       headers: { "Content-Type": "application/json" },
       withCredentials: true,
     })
@@ -235,7 +235,7 @@ const Excuse = (props) => {
   function loadAttendances() {
     axios({
       method: "GET",
-      url: "http://localhost:8000/api/attendances",
+      url: `${process.env.REACT_APP_API_URL}/api/attendances`,
       headers: { "Content-Type": "application/json" },
       withCredentials: true,
     })
@@ -267,7 +267,7 @@ const Excuse = (props) => {
     };
     axios({
       method: "PATCH",
-      url: "http://localhost:8000/api/emp_attendance",
+      url: `${process.env.REACT_APP_API_URL}/api/emp_attendance`,
       data: attendData,
       headers: { "Content-Type": "application/json" },
       withCredentials: true,
@@ -462,7 +462,7 @@ const Excuse = (props) => {
     };
     axios({
       method: "POST",
-      url: "http://localhost:8000/api/excuse",
+      url: `${process.env.REACT_APP_API_URL}/api/excuse`,
       data: excData,
       headers: { "Content-Type": "application/json" },
       withCredentials: true,

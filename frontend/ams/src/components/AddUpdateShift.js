@@ -81,7 +81,7 @@ const AddUpdateShift = (props) => {
     };
     axios({
       method: update ? "PATCH" : "POST",
-      url: "http://localhost:8000/api/shift",
+      url: `${process.env.REACT_APP_API_URL}/api/shift`,
       data: shiftData,
       headers: { "Content-Type": "application/json" },
       withCredentials: true,

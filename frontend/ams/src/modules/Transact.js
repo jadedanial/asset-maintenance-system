@@ -48,7 +48,7 @@ const Transact = (props) => {
     var item = 0;
     return axios({
       method: "GET",
-      url: "http://localhost:8000/api/warehouseitems",
+      url: `${process.env.REACT_APP_API_URL}/api/warehouseitems`,
       headers: { "Content-Type": "application/json" },
       withCredentials: true,
     })
@@ -170,7 +170,7 @@ const Transact = (props) => {
   function transactionStatus(code, status) {
     return axios({
       method: "PATCH",
-      url: "http://localhost:8000/api/transaction",
+      url: `${process.env.REACT_APP_API_URL}/api/transaction`,
       data: { trans_code: code, trans_status: status },
       headers: { "Content-Type": "application/json" },
       withCredentials: true,
@@ -191,7 +191,7 @@ const Transact = (props) => {
     };
     return axios({
       method: "POST",
-      url: "http://localhost:8000/api/transaction",
+      url: `${process.env.REACT_APP_API_URL}/api/transaction`,
       data: transactionData,
       headers: { "Content-Type": "application/json" },
       withCredentials: true,
@@ -233,7 +233,7 @@ const Transact = (props) => {
       .then(() => {
         return axios({
           method: "PATCH",
-          url: "http://localhost:8000/api/warehouseitemupdate",
+          url: `${process.env.REACT_APP_API_URL}/api/warehouseitemupdate`,
           data: itemList.map((item) => {
             return {
               id: item.id,
@@ -376,7 +376,7 @@ const Transact = (props) => {
         : null;
     axios({
       method: "GET",
-      url: `http://localhost:8000/api/${apiEndpoint}`,
+      url: `${process.env.REACT_APP_API_URL}/api/${apiEndpoint}`,
       headers: { "Content-Type": "application/json" },
       withCredentials: true,
     })
@@ -632,7 +632,7 @@ const Transact = (props) => {
   useEffect(() => {
     axios({
       method: "GET",
-      url: "http://localhost:8000/api/items",
+      url: `${process.env.REACT_APP_API_URL}/api/items`,
       headers: { "Content-Type": "application/json" },
       withCredentials: true,
     })

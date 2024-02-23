@@ -185,7 +185,7 @@ const AddUpdateEmployee = (props) => {
     };
     axios({
       method: update ? "PATCH" : "POST",
-      url: "http://localhost:8000/api/employee",
+      url: `${process.env.REACT_APP_API_URL}/api/employee`,
       data: employeeData,
       headers: { "Content-Type": "application/json" },
       withCredentials: true,
@@ -208,7 +208,7 @@ const AddUpdateEmployee = (props) => {
   useEffect(() => {
     axios({
       method: "GET",
-      url: "http://localhost:8000/api/options",
+      url: `${process.env.REACT_APP_API_URL}/api/options`,
       headers: { "Content-Type": "application/json" },
       withCredentials: true,
     })
@@ -225,7 +225,7 @@ const AddUpdateEmployee = (props) => {
   useEffect(() => {
     axios({
       method: "GET",
-      url: "http://localhost:8000/api/sections",
+      url: `${process.env.REACT_APP_API_URL}/api/sections`,
       headers: { "Content-Type": "application/json" },
       withCredentials: true,
     })

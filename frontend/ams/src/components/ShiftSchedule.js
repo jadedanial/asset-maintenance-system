@@ -38,7 +38,7 @@ const ShiftSchedule = (props) => {
     };
     axios({
       method: "PATCH",
-      url: "http://localhost:8000/api/emp_schedule",
+      url: `${process.env.REACT_APP_API_URL}/api/emp_schedule`,
       data: empData,
       headers: { "Content-Type": "application/json" },
       withCredentials: true,
@@ -238,7 +238,7 @@ const ShiftSchedule = (props) => {
   useEffect(() => {
     axios({
       method: "GET",
-      url: "http://localhost:8000/api/employees",
+      url: `${process.env.REACT_APP_API_URL}/api/employees`,
       headers: { "Content-Type": "application/json" },
       withCredentials: true,
     })
@@ -255,7 +255,7 @@ const ShiftSchedule = (props) => {
   useEffect(() => {
     axios({
       method: "GET",
-      url: "http://localhost:8000/api/schedules",
+      url: `${process.env.REACT_APP_API_URL}/api/schedules`,
       headers: { "Content-Type": "application/json" },
       withCredentials: true,
     })

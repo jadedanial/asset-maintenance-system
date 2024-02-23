@@ -19,7 +19,7 @@ const LoginPage = () => {
     const loginData = { username, password };
     axios({
       method: "POST",
-      url: "http://localhost:8000/api/login",
+      url: `${process.env.REACT_APP_API_URL}/api/login`,
       data: loginData,
       headers: { "Content-Type": "application/json" },
       withCredentials: true,
@@ -38,7 +38,7 @@ const LoginPage = () => {
   useEffect(() => {
     axios({
       method: "GET",
-      url: "http://localhost:8000/api/mode",
+      url: `${process.env.REACT_APP_API_URL}/api/mode`,
       headers: { "Content-Type": "application/json" },
       withCredentials: true,
     })

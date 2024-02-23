@@ -43,7 +43,7 @@ const Shift = (props) => {
   const loadAPILists = useCallback(() => {
     axios({
       method: "GET",
-      url: "http://localhost:8000/api/shifts",
+      url: `${process.env.REACT_APP_API_URL}/api/shifts`,
       headers: { "Content-Type": "application/json" },
       withCredentials: true,
     })

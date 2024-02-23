@@ -149,7 +149,7 @@ const AddUpdateItem = (props) => {
     };
     axios({
       method: update ? "PATCH" : "POST",
-      url: "http://localhost:8000/api/item",
+      url: `${process.env.REACT_APP_API_URL}/api/item`,
       data: itemData,
       headers: { "Content-Type": "application/json" },
       withCredentials: true,
@@ -164,7 +164,7 @@ const AddUpdateItem = (props) => {
         };
         axios({
           method: update ? "PATCH" : "POST",
-          url: "http://localhost:8000/api/warehouseitem",
+          url: `${process.env.REACT_APP_API_URL}/api/warehouseitem`,
           data: itemWarehouse,
           headers: { "Content-Type": "application/json" },
           withCredentials: true,
@@ -183,7 +183,7 @@ const AddUpdateItem = (props) => {
   useEffect(() => {
     axios({
       method: "GET",
-      url: "http://localhost:8000/api/options",
+      url: `${process.env.REACT_APP_API_URL}/api/options`,
       headers: { "Content-Type": "application/json" },
       withCredentials: true,
     })
