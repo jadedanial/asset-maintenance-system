@@ -38,8 +38,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     "localhost",
-    "danialsoftams-back.onrender.com",
-    "danialsoftams-front.onrender.com",
+    ".vercel.app",
 ]
 
 

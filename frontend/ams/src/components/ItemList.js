@@ -388,7 +388,8 @@ const ItemList = (props) => {
                                     item.name,
                                     item.cost,
                                     item.measurement,
-                                    item.quantity
+                                    item.quantity,
+                                    item.max
                                   )
                                 }
                               >
@@ -408,7 +409,8 @@ const ItemList = (props) => {
                                     item.name,
                                     item.cost,
                                     item.measurement,
-                                    item.quantity
+                                    item.quantity,
+                                    item.max
                                   )
                                 }
                               >

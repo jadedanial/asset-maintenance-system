@@ -145,6 +145,7 @@ const MainPage = (props) => {
               updateEmployeeSection={updateEmployeeSection}
               theme={theme}
               overflow={true}
+              showClose={true}
             />
           </>
         );

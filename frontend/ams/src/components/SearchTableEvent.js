@@ -10,6 +10,7 @@ import {
   Table,
   notification,
 } from "antd";
+import { PlusOutlined } from "@ant-design/icons";
 import DrawerEvent from "./DrawerEvent";
 import NotificationEvent from "./NotificationEvent";
 
@@ -66,9 +67,19 @@ const SearchTableEvent = (props) => {
               }}
             >
               <Row>
-                <Col span={1} style={{ marginLeft: "10px" }}>
+                <Col span={1} style={{ marginLeft: "15px" }}>
                   <Tooltip title={tooltipTitle}>
                     <Badge
+                      size="large"
+                      offset={[10, 10]}
+                      count={
+                        <PlusOutlined
+                          style={{
+                            color: "#6841f5",
+                            cursor: "pointer",
+                          }}
+                        />
+                      }
                       onClick={() => {
                         if (
                           compItemAdd !== "AddUpdateItem" ||
@@ -100,7 +111,7 @@ const SearchTableEvent = (props) => {
                     </Badge>
                   </Tooltip>
                 </Col>
-                <Col span={22} style={{ marginLeft: "25px" }}>
+                <Col span={21} style={{ marginLeft: "50px" }}>
                   <Input
                     placeholder={inputPlaceHolder}
                     style={{ borderRadius: "50px" }}
@@ -157,6 +168,7 @@ const SearchTableEvent = (props) => {
         collapsed={collapsed}
         theme={theme}
         overflow={true}
+        showClose={true}
       />
     </>
   );

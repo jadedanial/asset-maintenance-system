@@ -307,8 +307,8 @@ h1.ant-typography {
 .card-item .ant-card-head-title {
   padding-bottom: 0 !important;
 }
-.no-padding-bottom .ant-card-head-title {
-  padding-bottom: 0 !important;
+.custom-card-head-title .ant-card-head-title {
+  padding: 5px 0 0 0 !important;
 }
 .card-item .ant-card-body {
   height: fit-content !important;
@@ -576,7 +576,7 @@ h1.ant-typography {
   padding-top: 20px;
 }
 .ant-segmented {
-  padding: 28px 0 0 0 !important;
+  padding: 0 !important;
 }
 .ant-segmented,
 .ant-tag,
@@ -691,7 +691,7 @@ input::file-selector-button {
   margin-right: 10px !important;
 }
 .ant-segmented-item-label {
-  font-size: 22px !important;
+  font-size: 24px !important;
   color: #318ce7 !important;
   padding: 10px 20px 22px 20px !important;
 }

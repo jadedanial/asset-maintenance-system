@@ -44,37 +44,28 @@ const Transact = (props) => {
   const [openDrawer, setOpenDrawer] = useState(false);
   const [api, contextHolder] = notification.useNotification();
 
-  const fetchData = (url, setter) => {
-    axios({
+  function checkItem(code) {
+    var item = 0;
+    return axios({
       method: "GET",
-      url: url,
+      url: "http://localhost:8000/api/warehouseitems",
       headers: { "Content-Type": "application/json" },
       withCredentials: true,
     })
       .then((response) => {
-        setter(response.data);
+        const data = response.data.find(
+          (data) =>
+            data.warehouse_code === props.sectionCode && data.item_code === code
+        );
+        if (data) {
+          item = data.item_onhand;
+        }
+        return item;
       })
       .catch((err) => {
         console.log(err);
+        return item;
       });
-  };
-
-  function addItem(id, code, name, cost, measurement, quantity, total) {
-    const newOrder = reorderItemList;
-    newOrder.push({
-      id: id,
-      code: code,
-      name: name,
-      cost: cost,
-      measurement: measurement,
-      quantity: quantity,
-      total: total,
-    });
-    setReorderItemList(newOrder);
-    reorderItemList.sort(function (a, b) {
-      return a.id - b.id;
-    });
-    setReorderItemCount(reorderItemList.length);
   }
 
   function removeItem(code) {
@@ -91,12 +82,37 @@ const Transact = (props) => {
     setReorderItemCount(reorderItemList.length);
   }
 
-  function newItem(id, code, name, cost, measurement, quantity) {
+  function addItem(id, code, name, cost, measurement, quantity, max, total) {
+    const newOrder = reorderItemList;
+    newOrder.push({
+      id: id,
+      code: code,
+      name: name,
+      cost: cost,
+      measurement: measurement,
+      quantity: quantity,
+      max: max,
+      total: total,
+    });
+    setReorderItemList(newOrder);
+    reorderItemList.sort(function (a, b) {
+      return a.id - b.id;
+    });
+    setReorderItemCount(reorderItemList.length);
+  }
+
+  function newItem(id, code, name, cost, measurement, quantity, max) {
     if (total !== "0.00") {
-      removeItem(code);
-      addItem(id, code, name, cost, measurement, quantity, total);
-      setInputStatus("");
-      api.info(NotificationEvent(true, "Item " + code + " added to cart."));
+      if (max >= quantity) {
+        removeItem(code);
+        addItem(id, code, name, cost, measurement, quantity, max, total);
+        setInputStatus("");
+        api.info(NotificationEvent(true, "Item " + code + " added to cart."));
+      } else {
+        api.info(
+          NotificationEvent(false, "Stock is less than the planned quantity.")
+        );
+      }
     } else {
       setInputStatus("error");
       api.info(NotificationEvent(false, "Add item quantity."));
@@ -198,7 +214,7 @@ const Transact = (props) => {
       props.username
     );
     setSuccess(true);
-    setQueryItem({});
+    setQueryItem([]);
     setSearchValue("");
     clearOrder();
   }
@@ -232,7 +248,7 @@ const Transact = (props) => {
       })
       .then(() => {
         setSuccess(true);
-        setQueryItem({});
+        setQueryItem([]);
         setSearchValue("");
         clearOrder();
       })
@@ -494,17 +510,21 @@ const Transact = (props) => {
                       <Button
                         size="large"
                         type="primary"
-                        onClick={() =>
-                          newItem(
-                            queryItem["0"]["id"],
-                            queryItem["0"]["code"],
-                            queryItem["0"]["name"],
-                            queryItem["0"]["cost"],
-                            queryItem["0"]["measurement"],
-                            quantity,
-                            "topRight"
-                          )
-                        }
+                        onClick={() => {
+                          checkItem(queryItem["0"]["code"]).then(
+                            (item_onhand) => {
+                              newItem(
+                                queryItem["0"]["id"],
+                                queryItem["0"]["code"],
+                                queryItem["0"]["name"],
+                                queryItem["0"]["cost"],
+                                queryItem["0"]["measurement"],
+                                quantity,
+                                item_onhand
+                              );
+                            }
+                          );
+                        }}
                       >
                         ADD TO CART
                       </Button>
@@ -610,7 +630,18 @@ const Transact = (props) => {
   }
 
   useEffect(() => {
-    fetchData("http://localhost:8000/api/items", setItem);
+    axios({
+      method: "GET",
+      url: "http://localhost:8000/api/items",
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    })
+      .then((response) => {
+        setItem(response.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
 
   return (
@@ -619,7 +650,7 @@ const Transact = (props) => {
       <div className={`justified-row ${props.theme}`}>
         <div className="card-custom-size-full">
           <Card
-            className="no-padding-bottom"
+            className="custom-card-head-title"
             size="large"
             style={{ minHeight: "100vh" }}
             title={
@@ -731,6 +762,7 @@ const Transact = (props) => {
         sectionCode={props.sectionCode}
         theme={props.theme}
         overflow={false}
+        showClose={false}
       />
     </>
   );

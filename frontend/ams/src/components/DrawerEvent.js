@@ -171,13 +171,17 @@ const DrawerEvent = (props) => {
         open={props.showDrawer}
         destroyOnClose={true}
         extra={
-          <Tooltip title={"Close"}>
-            <Button
-              className="btn-normal"
-              icon={<CloseOutlined className="bigger-font" />}
-              onClick={props.onCloseDrawer}
-            />
-          </Tooltip>
+          props.showClose ? (
+            <Tooltip title={"Close"}>
+              <Button
+                className="btn-normal"
+                icon={<CloseOutlined className="bigger-font" />}
+                onClick={props.onCloseDrawer}
+              />
+            </Tooltip>
+          ) : (
+            ""
+          )
         }
       >
         {drawerSwitch(props.comp)}

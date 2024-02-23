@@ -33,10 +33,26 @@ const Cart = (props) => {
     setTotalOrder(sum.toFixed(2));
   }, [props.itemList]);
 
-  function changeQuantity(action, id, code, name, cost, measurement, quantity) {
+  function changeQuantity(
+    action,
+    id,
+    code,
+    name,
+    cost,
+    measurement,
+    quantity,
+    max
+  ) {
     if (quantity >= 1) {
       if (action === "add") {
-        quantity += 1;
+        if (max <= quantity) {
+          quantity = max;
+          api.info(
+            NotificationEvent(false, "Stock is less than the planned quantity.")
+          );
+        } else {
+          quantity += 1;
+        }
       } else {
         if (quantity !== 1) {
           quantity -= 1;
@@ -44,7 +60,7 @@ const Cart = (props) => {
       }
       var total = parseFloat(cost * quantity).toFixed(2);
       props.removeItem(code);
-      props.addItem(id, code, name, cost, measurement, quantity, total);
+      props.addItem(id, code, name, cost, measurement, quantity, max, total);
     }
     sumOrder();
     if (props.filteredItem.length > 0) {
@@ -145,7 +161,7 @@ const Cart = (props) => {
                       onClick={props.onCloseDrawer}
                       block
                     >
-                      ADD ITEM
+                      CANCEL
                     </Button>
                     <Select
                       size="large"
@@ -224,7 +240,17 @@ const Cart = (props) => {
                   ""
                 )
               ) : (
-                ""
+                <Button
+                  size="large"
+                  type="default"
+                  style={{
+                    marginRight: "10px",
+                  }}
+                  onClick={props.onCloseDrawer}
+                  block
+                >
+                  CANCEL
+                </Button>
               )
             }
           >

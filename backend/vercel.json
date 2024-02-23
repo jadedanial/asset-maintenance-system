@@ -1,0 +1,15 @@
+{
+  "builds": [
+    {
+      "src": "danialsoftams/wsgi.py",
+      "use": "@vercel/python",
+      "config": { "maxLambdaSize": "15mb", "runtime": "python3.12.0" }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "danialsoftams/wsgi.py"
+    }
+  ]
+}
