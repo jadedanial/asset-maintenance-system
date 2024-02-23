@@ -36,10 +36,7 @@ SECRET_KEY = "fbokfh-b!ggl&rs67lc@=p5m65pyy4q*387zez)q*gi6ep)*uu"
 
 DEBUG = True
 
-ALLOWED_HOSTS = [
-    "localhost",
-    ".vercel.app",
-]
+ALLOWED_HOSTS = ["localhost", "127.0.0.1", ".vercel.app",]
 
 
 # Application definition
