@@ -162,8 +162,9 @@ class LoginView(APIView):
 
 class LogoutView(APIView):
     def get(self, request):
-        response = HttpResponse('Logout')
-        response.delete_cookie('jwt_backend')
+        response = HttpResponse("Logout")
+        response.set_cookie("jwt_backend", "", max_age=0,
+                            secure=True, samesite="None")
         return response
 
 
