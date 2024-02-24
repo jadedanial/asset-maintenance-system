@@ -2,9 +2,16 @@ from django.urls import path
 from . import views
 from .views import *
 
+from django.urls import include, path
+from rest_framework.routers import DefaultRouter
+
+router = DefaultRouter()
+router.register(r'api-doc', APIDocView, basename='api-doc')
+
 
 urlpatterns = [
     path("", views.index, name="index"),
+    path('', include(router.urls)),
     path("mode", ModeView.as_view()),
     path("components", SectionListView.as_view()),
     path("modules", ModuleListView.as_view()),

@@ -4,6 +4,8 @@ from rest_framework.generics import ListAPIView, UpdateAPIView
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.exceptions import ValidationError, AuthenticationFailed
+from rest_framework import viewsets
+from drf_yasg.utils import swagger_auto_schema
 from .permissions import IsAuthenticatedWithJWT
 from ams.models import *
 from .serializers import *
@@ -13,6 +15,15 @@ import datetime
 
 def index(request):
     return render(request, "index.html")
+
+
+class APIDocView(viewsets.ViewSet):
+    @swagger_auto_schema(responses={200: 'OK'})
+    def list(self, request):
+        """
+        This is your list method. You can add your code here.
+        """
+        return Response({"message": "Hello, world!"})
 
 
 class ModeView(APIView):
