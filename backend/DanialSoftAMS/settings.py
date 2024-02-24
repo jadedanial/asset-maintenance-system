@@ -36,7 +36,7 @@ SECRET_KEY = "fbokfh-b!ggl&rs67lc@=p5m65pyy4q*387zez)q*gi6ep)*uu"
 
 DEBUG = True
 
-ALLOWED_HOSTS = ["localhost", "127.0.0.1", ".vercel.app",]
+ALLOWED_HOSTS = ["localhost", "127.0.0.1", ".vercel.app", ".now.sh"]
 
 
 # Application definition
@@ -127,8 +127,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles_build")
-STATIC_URL = "/static/"
+STATICFILES_DIRS = os.path.join(BASE_DIR, 'static'),
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles_build', 'static')
 
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
