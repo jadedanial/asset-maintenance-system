@@ -82,7 +82,7 @@ class SectionListView(ListAPIView):
 
 class UserView(APIView):
     def get(self, request):
-        token = request.COOKIES.get("jwt_auth")
+        token = request.COOKIES.get("jwt_backend")
 
         if not token:
             raise AuthenticationFailed("Unauthenticated")
@@ -153,9 +153,9 @@ class LoginView(APIView):
 
         token = jwt.encode(payload, "secret", algorithm="HS256")
         response = Response()
-        response.set_cookie(key="jwt_auth", value=token,
+        response.set_cookie(key="jwt_backend", value=token,
                             httponly=False, samesite="None", secure=True)
-        response.data = {"jwt_auth": token}
+        response.data = {"jwt_backend": token}
 
         return response
 
@@ -163,7 +163,7 @@ class LoginView(APIView):
 class LogoutView(APIView):
     def post(self, request):
         response = Response()
-        response.delete_cookie("jwt_auth")
+        response.delete_cookie("jwt_backend")
         response.data = {"message": "User logged out."}
 
         return response
