@@ -25,11 +25,7 @@ const LoginPage = () => {
       headers: { "Content-Type": "application/json" },
       withCredentials: true,
     })
-      .then((response) => {
-        Cookies.set("jwt_frontend", response.data.jwt_backend, {
-          secure: true,
-          sameSite: "none",
-        });
+      .then(() => {
         navigate("/");
       })
       .catch((err) => {
