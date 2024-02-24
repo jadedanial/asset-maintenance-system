@@ -4,7 +4,7 @@ from rest_framework.exceptions import AuthenticationFailed
 
 class IsAuthenticatedWithJWT(permissions.BasePermission):
     def has_permission(self, request, view):
-        token = request.COOKIES.get("jwt_front")
+        token = request.COOKIES.get("jwt_auth")
 
         if not token:
             raise AuthenticationFailed("Unauthenticated")

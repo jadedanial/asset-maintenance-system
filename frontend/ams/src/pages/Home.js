@@ -17,7 +17,7 @@ const HomePage = () => {
   const [loginFailed, setLoginFailed] = useState(true);
 
   useEffect(() => {
-    const jwt = Cookies.get("jwt_front");
+    const jwt = Cookies.get("jwt_auth");
     if (jwt) {
       axios({
         method: "GET",
