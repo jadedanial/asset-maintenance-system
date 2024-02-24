@@ -16,21 +16,8 @@ const HomePage = () => {
   const [loginFailed, setLoginFailed] = useState(true);
 
   useEffect(() => {
-    axios({
-      method: "GET",
-      url: `${process.env.REACT_APP_API_URL}/api/user`,
-      headers: { "Content-Type": "application/json" },
-      withCredentials: true,
-    })
-      .then((response) => {
-        setLoginFailed(false);
-        setEmpID(response.data.empID);
-        setUsername(response.data.username);
-      })
-      .catch((err) => {
-        console.log(err.response.data.detail);
-        setLoginFailed(true);
-      });
+    setEmpID(2);
+    setUsername("jervyperez");
   }, []);
 
   useEffect(() => {
