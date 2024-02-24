@@ -91,13 +91,13 @@ const MainPage = (props) => {
 
   function logout() {
     axios({
-      method: "POST",
+      method: "GET",
       url: `${process.env.REACT_APP_API_URL}/api/logout`,
       headers: { "Content-Type": "application/json" },
       withCredentials: true,
     })
       .then((response) => {
-        setTheme(response.data);
+        console.log(response.data);
       })
       .catch((err) => {
         console.log(err);

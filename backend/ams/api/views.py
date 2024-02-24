@@ -161,11 +161,9 @@ class LoginView(APIView):
 
 
 class LogoutView(APIView):
-    def post(self, request):
-        response = Response()
-        response.delete_cookie("jwt_backend")
-        response.data = {"message": "User logged out."}
-
+    def get(self, request):
+        response = HttpResponse('Logout')
+        response.delete_cookie('jwt_backend')
         return response
 
 
