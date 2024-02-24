@@ -90,7 +90,7 @@ const MainPage = (props) => {
   }
 
   function logout() {
-    Cookies.remove("jwt");
+    Cookies.remove("jwt-front");
     navigate("/login");
   }
 
