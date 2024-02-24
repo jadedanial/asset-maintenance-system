@@ -26,7 +26,7 @@ const LoginPage = () => {
       withCredentials: true,
     })
       .then((response) => {
-        Cookies.set("jwt-front", response.data.jwt, {
+        Cookies.set("jwt_front", response.data.jwt_front, {
           secure: true,
           sameSite: "none",
         });
