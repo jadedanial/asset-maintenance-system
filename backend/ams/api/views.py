@@ -154,7 +154,7 @@ class LoginView(APIView):
         token = jwt.encode(payload, "secret", algorithm="HS256")
         response = Response()
         response.set_cookie(key="jwt", value=token,
-                            httponly=False, samesite='None', secure=True)
+                            httponly=False, samesite="None", secure=True)
         response.data = {"jwt": token}
 
         return response
@@ -163,7 +163,7 @@ class LoginView(APIView):
 class LogoutView(APIView):
     def post(self, request):
         response = Response()
-        response.delete_cookie("jwt")
+        response.delete_cookie("jwt", domain=None, samesite="None")
         response.data = {"message": "Success!"}
 
         return response
