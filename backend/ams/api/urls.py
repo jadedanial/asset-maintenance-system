@@ -19,7 +19,7 @@ urlpatterns = [
     path("options", OptionListView.as_view()),
     path("branches", BranchListView.as_view()),
     path("sections", SectionListView.as_view()),
-    path("users", UserView.as_view()),
+    path("user", UserView.as_view()),
     path("register", RegisterView.as_view()),
     path("login", LoginView.as_view()),
     path("logout", LogoutView.as_view()),

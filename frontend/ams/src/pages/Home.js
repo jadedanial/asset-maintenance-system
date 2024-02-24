@@ -21,7 +21,7 @@ const HomePage = () => {
     if (jwt) {
       axios({
         method: "GET",
-        url: `${process.env.REACT_APP_API_URL}/api/users`,
+        url: `${process.env.REACT_APP_API_URL}/api/user`,
         headers: { "Content-Type": "application/json" },
         withCredentials: true,
       })
