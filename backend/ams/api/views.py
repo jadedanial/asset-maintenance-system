@@ -18,12 +18,9 @@ def index(request):
 
 
 class APIDocView(viewsets.ViewSet):
-    @swagger_auto_schema(responses={200: 'OK'})
+    @swagger_auto_schema(responses={200: "OK"})
     def list(self, request):
-        """
-        This is your list method. You can add your code here.
-        """
-        return Response({"message": "Hello, world!"})
+        return Response({"message": "AMS by Jade Danial (danialjade@gmail.com)"})
 
 
 class ModeView(APIView):
