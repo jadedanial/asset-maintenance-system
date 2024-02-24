@@ -15,14 +15,6 @@ def index(request):
     return render(request, "index.html")
 
 
-def get(self, request):
-    """
-    This text will appear in the API docs.
-    """
-    # Your code here
-    pass
-
-
 class ModeView(APIView):
     def post(self, request):
         mode = request.data
