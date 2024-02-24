@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { Navigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Form, Button, Input, Card, Typography, Row, Col } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
-import HomePage from "./Home";
 import Slogan from "../components/Slogan";
 
 const { Title } = Typography;
@@ -12,10 +12,10 @@ const LoginPage = () => {
   const [theme, setTheme] = useState("light");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [showunauthorized, setShowunauthorized] = useState(false);
-  const [redirect, setRedirect] = useState(false);
 
-  function onFinish() {
+  let navigate = useNavigate();
+
+  const onFinish = () => {
     const loginData = { username, password };
     axios({
       method: "POST",
@@ -25,15 +25,13 @@ const LoginPage = () => {
       withCredentials: true,
     })
       .then(() => {
-        setShowunauthorized(false);
-        setRedirect(true);
+        navigate("/");
       })
       .catch((err) => {
         console.log(err.response.data.detail);
-        setShowunauthorized(true);
-        setRedirect(false);
+        navigate("/");
       });
-  }
+  };
 
   useEffect(() => {
     axios({
@@ -49,22 +47,6 @@ const LoginPage = () => {
         console.log(err);
       });
   }, []);
-
-  if (showunauthorized) {
-    return (
-      <>
-        <HomePage />
-      </>
-    );
-  }
-
-  if (redirect) {
-    return (
-      <>
-        <Navigate to="/" />
-      </>
-    );
-  }
 
   return (
     <>

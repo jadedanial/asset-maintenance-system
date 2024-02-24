@@ -9,11 +9,11 @@ import {
 import MainPage from "../components/MainPage";
 import ResultEvent from "../components/ResultEvent";
 
-const HomePage = () => {
+const HomePage = (props) => {
   const [theme, setTheme] = useState("light");
   const [empid, setEmpID] = useState(0);
   const [username, setUsername] = useState("");
-  const [showunauthorized, setShowunauthorized] = useState(true);
+  const [loginFailed, setLoginFailed] = useState(true);
 
   useEffect(() => {
     axios({
@@ -23,13 +23,13 @@ const HomePage = () => {
       withCredentials: true,
     })
       .then((response) => {
-        setShowunauthorized(false);
+        setLoginFailed(false);
         setEmpID(response.data.empID);
         setUsername(response.data.username);
       })
       .catch((err) => {
         console.log(err.response.data.detail);
-        setShowunauthorized(true);
+        setLoginFailed(true);
       });
   }, []);
 
@@ -50,7 +50,7 @@ const HomePage = () => {
 
   return (
     <>
-      {showunauthorized ? (
+      {loginFailed ? (
         <>
           <div
             className={theme}
