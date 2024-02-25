@@ -12,7 +12,6 @@ router.register(r"api-doc", APIDocView, basename="api-doc")
 urlpatterns = [
     path("", views.index, name="index"),
     path("", include(router.urls)),
-    path("mode", ModeView.as_view()),
     path("components", SectionListView.as_view()),
     path("modules", ModuleListView.as_view()),
     path("categories", CategoryListView.as_view()),

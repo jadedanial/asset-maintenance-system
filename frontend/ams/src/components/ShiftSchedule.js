@@ -220,7 +220,7 @@ const ShiftSchedule = (props) => {
               ]}
               renderItem={(item) => (
                 <List.Item>
-                  <Card size="small">
+                  <Card size="small" className="card-with-background">
                     <p className="small-card-title">{item.title}</p>
                     <p className="small-font">{item.description}</p>
                   </Card>
@@ -291,7 +291,6 @@ const ShiftSchedule = (props) => {
                       <p className="big-card-title">Shift Schedule</p>
                     </Title>
                   }
-                  hoverable
                 >
                   <div style={{ marginBottom: "10px" }}>
                     <Select

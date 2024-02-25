@@ -56,18 +56,14 @@ const RegisterPage = () => {
   }
 
   useEffect(() => {
-    axios({
-      method: "GET",
-      url: `${process.env.REACT_APP_API_URL}/api/mode`,
-      headers: { "Content-Type": "application/json" },
-      withCredentials: true,
-    })
-      .then((response) => {
-        setTheme(response.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    const cookies = document.cookie.split("; ");
+    const modeCookie = cookies.find((row) => row.startsWith("mode="));
+    const mode = modeCookie?.split("=")[1];
+    if (mode) {
+      setTheme(mode);
+    } else {
+      setTheme("light");
+    }
   }, []);
 
   return (
@@ -249,7 +245,8 @@ const RegisterPage = () => {
                 </Form>
                 <Link
                   to="/login"
-                  className="justified-row large-card-title hover-underline"
+                  className="justified-row medium-card-title hover-underline"
+                  style={{ padding: "10px" }}
                 >
                   Already have an account
                 </Link>

@@ -53,7 +53,7 @@ const SearchTableEvent = (props) => {
     <>
       {contextHolder}
       <div className={theme}>
-        <Card className="card-main-layout" size="large" hoverable>
+        <Card className="card-main-layout" size="large">
           <div
             span={24}
             style={{ position: "sticky", top: "87px", zIndex: "1" }}

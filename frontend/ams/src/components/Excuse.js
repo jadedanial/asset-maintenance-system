@@ -537,7 +537,6 @@ const Excuse = (props) => {
                         <p className="big-card-title">Excuse Application</p>
                       </Title>
                     }
-                    hoverable
                   >
                     <div>{steps[current].content}</div>
                     <div

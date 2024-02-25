@@ -286,7 +286,6 @@ const AddUpdateEmployee = (props) => {
                   </p>
                 </Title>
               }
-              hoverable
             >
               <Form.Item
                 name={["name"]}

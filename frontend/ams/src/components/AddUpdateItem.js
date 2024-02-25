@@ -249,7 +249,6 @@ const AddUpdateItem = (props) => {
                   </p>
                 </Title>
               }
-              hoverable
             >
               <div className="space-between-row">
                 <Col span={14}>

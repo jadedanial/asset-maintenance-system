@@ -23,27 +23,6 @@ class APIDocView(viewsets.ViewSet):
         return Response({"message": "AMS by Jade Danial (danialjade@gmail.com)"})
 
 
-class ModeView(APIView):
-    def post(self, request):
-        mode = request.data
-        response = Response()
-        response.set_cookie(key="mode", value=mode, httponly=False)
-        response.data = {"mode": mode}
-
-        return response
-
-    def get(self, request):
-        mode = request.COOKIES.get("mode")
-
-        if not mode:
-            mode = "light"
-        else:
-            if mode != "light" and mode != "dark":
-                mode = "light"
-
-        return HttpResponse(mode)
-
-
 class ComponentListView(ListAPIView):
     queryset = Component.objects.all()
     serializer_class = ComponentSerializer

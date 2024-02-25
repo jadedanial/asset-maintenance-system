@@ -500,7 +500,6 @@ const AddAttendance = (props) => {
                   <p className="big-card-title">Update Attendance</p>
                 </Title>
               }
-              hoverable
             >
               <Form.Item
                 name="date"

@@ -531,7 +531,6 @@ const Vacation = (props) => {
                         <p className="big-card-title">Vacation Application</p>
                       </Title>
                     }
-                    hoverable
                   >
                     <div>{steps[current].content}</div>
                     <div

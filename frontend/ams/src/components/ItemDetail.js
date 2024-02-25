@@ -223,7 +223,6 @@ const ItemDetail = (props) => {
                                     UPDATE
                                   </Button>
                                 }
-                                hoverable
                               >
                                 {itemDetails(i, wi)}
                               </Card>

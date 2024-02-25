@@ -68,15 +68,7 @@ const MainPage = (props) => {
   ];
 
   function addMode(mode) {
-    axios({
-      method: "POST",
-      url: `${process.env.REACT_APP_API_URL}/api/mode`,
-      data: mode,
-      headers: { "Content-Type": "application/json" },
-      withCredentials: true,
-    }).catch((err) => {
-      console.log(err);
-    });
+    document.cookie = "mode=" + mode + "; path=/";
   }
 
   function changeMode() {
@@ -269,18 +261,14 @@ const MainPage = (props) => {
   }, []);
 
   useEffect(() => {
-    axios({
-      method: "GET",
-      url: `${process.env.REACT_APP_API_URL}/api/mode`,
-      headers: { "Content-Type": "application/json" },
-      withCredentials: true,
-    })
-      .then((response) => {
-        setTheme(response.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    const cookies = document.cookie.split("; ");
+    const modeCookie = cookies.find((row) => row.startsWith("mode="));
+    const mode = modeCookie?.split("=")[1];
+    if (mode) {
+      setTheme(mode);
+    } else {
+      setTheme("light");
+    }
   }, []);
 
   useEffect(() => {

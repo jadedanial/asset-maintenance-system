@@ -314,19 +314,7 @@ h1.ant-typography {
   height: fit-content !important;
   padding: 0 !important;
 }
-.big-card-title,
-.bigger-card-title,
-.biggest-card-title,
-.extra-small-card-title,
-.large-card-title,
-.medium-card-title,
-.small-card-title {
-  color: #318ce7;
-  font-family: ralewaylight !important;
-  text-align: left;
-  margin: 0 !important;
-  line-height: 1.2 !important;
-}
+
 .biggest-card-title {
   font-size: 80px !important;
 }
@@ -343,11 +331,11 @@ h1.ant-typography {
 }
 .medium-card-title,
 .medium-font {
-  font-size: 16px !important;
+  font-size: 18px !important;
 }
 .small-card-title,
 .small-font {
-  font-size: 14px !important;
+  font-size: 16px !important;
 }
 .extra-small-card-title,
 .extra-small-font {
@@ -361,6 +349,19 @@ h1.ant-typography {
 .small-font {
   color: #318ce7;
   font-family: ralewayregular !important;
+  text-align: left;
+  margin: 0 !important;
+  line-height: 1.2 !important;
+}
+.big-card-title,
+.bigger-card-title,
+.biggest-card-title,
+.extra-small-card-title,
+.large-card-title,
+.medium-card-title,
+.small-card-title {
+  color: #318ce7;
+  font-family: ralewaylight !important;
   text-align: left;
   margin: 0 !important;
   line-height: 1.2 !important;
@@ -679,7 +680,7 @@ input::file-selector-button {
   border: none;
 }
 .hover-underline:hover {
-  text-decoration: underline;
+  color: #6841f5 !important;
 }
 
 .ant-segmented-thumb {
