@@ -1,10 +1,15 @@
 from django.http import HttpResponse
 from django.shortcuts import render
-from rest_framework.generics import ListAPIView, UpdateAPIView
+from django.contrib.auth import authenticate
+from rest_framework.authtoken.models import Token
+from rest_framework import status
+from rest_framework.authtoken.models import Token
+from rest_framework.generics import ListAPIView
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.exceptions import ValidationError, AuthenticationFailed
 from rest_framework import viewsets
+from rest_framework.permissions import IsAuthenticated
 from drf_yasg.utils import swagger_auto_schema
 from .permissions import IsAuthenticatedWithJWT
 from ams.models import *
@@ -26,55 +31,52 @@ class APIDocView(viewsets.ViewSet):
 class ComponentListView(ListAPIView):
     queryset = Component.objects.all()
     serializer_class = ComponentSerializer
-    permission_classes = [IsAuthenticatedWithJWT]
+    permission_classes = [IsAuthenticated]
 
 
 class ModuleListView(ListAPIView):
     queryset = Module.objects.all()
     serializer_class = ModuleSerializer
-    permission_classes = [IsAuthenticatedWithJWT]
+    permission_classes = [IsAuthenticated]
 
 
 class CategoryListView(ListAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
-    permission_classes = [IsAuthenticatedWithJWT]
+    permission_classes = [IsAuthenticated]
 
 
 class OptionListView(ListAPIView):
     queryset = Option.objects.all()
     serializer_class = OptionSerializer
-    permission_classes = [IsAuthenticatedWithJWT]
+    permission_classes = [IsAuthenticated]
 
 
 class BranchListView(ListAPIView):
     queryset = Branch.objects.all()
     serializer_class = BranchSerializer
-    permission_classes = [IsAuthenticatedWithJWT]
+    permission_classes = [IsAuthenticated]
 
 
 class SectionListView(ListAPIView):
     queryset = Section.objects.all()
     serializer_class = SectionSerializer
-    permission_classes = [IsAuthenticatedWithJWT]
+    permission_classes = [IsAuthenticated]
 
 
 class UserView(APIView):
     def get(self, request):
-        token = request.COOKIES.get("jwt_backend")
-
+        token = request.META.get('HTTP_AUTHORIZATION')
         if not token:
-            raise AuthenticationFailed("Unauthenticated")
+            return Response({'error': 'Token not provided'}, status=status.HTTP_400_BAD_REQUEST)
 
         try:
-            payload = jwt.decode(token, "secret", algorithms=["HS256"])
-        except jwt.ExpiredSignatureError:
-            raise AuthenticationFailed("Unauthenticated")
+            token = token.split(' ')[1]
+            token_obj = Token.objects.get(key=token)
+        except Token.DoesNotExist:
+            return Response({'error': 'Invalid token'}, status=status.HTTP_400_BAD_REQUEST)
 
-        user = User.objects.filter(id=payload["id"]).first()
-        serializer = UserSerializer(user)
-
-        return Response(serializer.data)
+        return Response({'id': token_obj.user.id, 'username': token_obj.user.username}, status=status.HTTP_200_OK)
 
 
 class RegisterView(APIView):
@@ -114,41 +116,40 @@ class RegisterView(APIView):
 
 class LoginView(APIView):
     def post(self, request):
-        username = request.data["username"]
-        password = request.data["password"]
-        user = User.objects.filter(username=username).first()
+        username = request.data.get('username')
+        password = request.data.get('password')
 
-        if user is None:
-            raise AuthenticationFailed("Unauthenticated")
+        try:
+            user = User.objects.get(username=username)
+        except User.DoesNotExist:
+            return Response({'error': 'User does not exist'}, status=status.HTTP_400_BAD_REQUEST)
 
         if not user.check_password(password):
-            raise AuthenticationFailed("Unauthenticated")
+            return Response({'error': 'Invalid Credentials'}, status=status.HTTP_400_BAD_REQUEST)
 
-        payload = {
-            "id": user.id,
-            "exp": datetime.datetime.utcnow() + datetime.timedelta(minutes=480),
-            "iat": datetime.datetime.utcnow(),
-        }
+        token, _ = Token.objects.get_or_create(user=user)
 
-        token = jwt.encode(payload, "secret", algorithm="HS256")
-        response = Response()
-        response.set_cookie(key="jwt_backend", value=token,
-                            httponly=False, samesite="None", secure=True)
-        response.data = {"jwt_backend": token}
-
-        return response
+        return Response({'token': token.key, 'id': user.id, 'user': user.username}, status=status.HTTP_200_OK)
 
 
 class LogoutView(APIView):
-    def get(self, request):
-        response = HttpResponse("Logout")
-        response.set_cookie("jwt_backend", "", max_age=0,
-                            secure=True, samesite="None")
-        return response
+    def post(self, request):
+        token = request.META.get('HTTP_AUTHORIZATION')
+        if not token:
+            return Response({'error': 'Token not provided'}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            token = token.split(' ')[1]
+            token_obj = Token.objects.get(key=token)
+            token_obj.delete()
+        except Token.DoesNotExist:
+            return Response({'error': 'Invalid token'}, status=status.HTTP_400_BAD_REQUEST)
+
+        return Response({'message': 'Logged out successfully'}, status=status.HTTP_200_OK)
 
 
 class ShiftView(APIView):
-    permission_classes = [IsAuthenticatedWithJWT]
+    permission_classes = [IsAuthenticated]
 
     def post(self, request):
         serializer = ShiftSerializer(data=request.data)
@@ -182,11 +183,11 @@ class ShiftView(APIView):
 class ShiftListView(ListAPIView):
     queryset = Shift.objects.all()
     serializer_class = ShiftSerializer
-    permission_classes = [IsAuthenticatedWithJWT]
+    permission_classes = [IsAuthenticated]
 
 
 class ScheduleView(APIView):
-    permission_classes = [IsAuthenticatedWithJWT]
+    permission_classes = [IsAuthenticated]
 
     def post(self, request):
 
@@ -221,11 +222,11 @@ class ScheduleView(APIView):
 class ScheduleListView(ListAPIView):
     queryset = Schedule.objects.all()
     serializer_class = ScheduleSerializer
-    permission_classes = [IsAuthenticatedWithJWT]
+    permission_classes = [IsAuthenticated]
 
 
 class EmployeeView(APIView):
-    permission_classes = [IsAuthenticatedWithJWT]
+    permission_classes = [IsAuthenticated]
 
     def post(self, request):
         serializer = EmployeeSerializer(data=request.data)
@@ -261,11 +262,11 @@ class EmployeeView(APIView):
 class EmployeeListView(ListAPIView):
     queryset = Employee.objects.all()
     serializer_class = EmployeeSerializer
-    permission_classes = [IsAuthenticatedWithJWT]
+    permission_classes = [IsAuthenticated]
 
 
 class EmployeeScheduleView(APIView):
-    permission_classes = [IsAuthenticatedWithJWT]
+    permission_classes = [IsAuthenticated]
 
     def patch(self, request, *args, **kwargs):
         data = request.data
@@ -283,7 +284,7 @@ class EmployeeScheduleView(APIView):
 
 
 class EmployeeAttendanceView(APIView):
-    permission_classes = [IsAuthenticatedWithJWT]
+    permission_classes = [IsAuthenticated]
 
     def post(self, request):
         serializer = AttendanceSerializer(data=request.data)
@@ -308,11 +309,11 @@ class EmployeeAttendanceView(APIView):
 class AttendanceListView(ListAPIView):
     queryset = Attendance.objects.all()
     serializer_class = AttendanceSerializer
-    permission_classes = [IsAuthenticatedWithJWT]
+    permission_classes = [IsAuthenticated]
 
 
 class VacationView(APIView):
-    permission_classes = [IsAuthenticatedWithJWT]
+    permission_classes = [IsAuthenticated]
 
     def post(self, request):
         serializer = VacationSerializer(data=request.data)
@@ -326,11 +327,11 @@ class VacationView(APIView):
 class VacationListView(ListAPIView):
     queryset = Vacation.objects.all()
     serializer_class = VacationSerializer
-    permission_classes = [IsAuthenticatedWithJWT]
+    permission_classes = [IsAuthenticated]
 
 
 class ExcuseView(APIView):
-    permission_classes = [IsAuthenticatedWithJWT]
+    permission_classes = [IsAuthenticated]
 
     def post(self, request):
         serializer = ExcuseSerializer(data=request.data)
@@ -344,11 +345,11 @@ class ExcuseView(APIView):
 class ExcuseListView(ListAPIView):
     queryset = Excuse.objects.all()
     serializer_class = ExcuseSerializer
-    permission_classes = [IsAuthenticatedWithJWT]
+    permission_classes = [IsAuthenticated]
 
 
 class ItemView(APIView):
-    permission_classes = [IsAuthenticatedWithJWT]
+    permission_classes = [IsAuthenticated]
 
     def post(self, request):
         serializer = ItemSerializer(data=request.data)
@@ -381,11 +382,11 @@ class ItemView(APIView):
 class ItemListView(ListAPIView):
     queryset = Item.objects.all()
     serializer_class = ItemSerializer
-    permission_classes = [IsAuthenticatedWithJWT]
+    permission_classes = [IsAuthenticated]
 
 
 class WarehouseItemView(APIView):
-    permission_classes = [IsAuthenticatedWithJWT]
+    permission_classes = [IsAuthenticated]
 
     def post(self, request):
         serializer = WarehouseItemSerializer(data=request.data)
@@ -410,7 +411,7 @@ class WarehouseItemView(APIView):
 
 
 class WarehouseItemUpdateView(APIView):
-    permission_classes = [IsAuthenticatedWithJWT]
+    permission_classes = [IsAuthenticated]
 
     def patch(self, request, *args, **kwargs):
         print(request.data)
@@ -435,17 +436,17 @@ class WarehouseItemUpdateView(APIView):
 class WarehouseItemListView(ListAPIView):
     queryset = WarehouseItem.objects.all()
     serializer_class = WarehouseItemSerializer
-    permission_classes = [IsAuthenticatedWithJWT]
+    permission_classes = [IsAuthenticated]
 
 
 class VehicleListView(ListAPIView):
     queryset = Vehicle.objects.all()
     serializer_class = VehicleSerializer
-    permission_classes = [IsAuthenticatedWithJWT]
+    permission_classes = [IsAuthenticated]
 
 
 class TransactionView(APIView):
-    permission_classes = [IsAuthenticatedWithJWT]
+    permission_classes = [IsAuthenticated]
 
     def post(self, request):
         serializer = TransactionSerializer(data=request.data)
@@ -469,4 +470,4 @@ class TransactionView(APIView):
 class TransactionListView(ListAPIView):
     queryset = Transaction.objects.all()
     serializer_class = TransactionSerializer
-    permission_classes = [IsAuthenticatedWithJWT]
+    permission_classes = [IsAuthenticated]

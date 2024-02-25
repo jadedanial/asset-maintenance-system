@@ -12,10 +12,14 @@ const ItemDetail = (props) => {
   const [warehouseItem, setWarehouseItem] = useState([]);
 
   const fetchData = (url, setter) => {
+    const token = sessionStorage.getItem("token");
     axios({
       method: "GET",
       url: url,
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Token ${token}`,
+      },
       withCredentials: true,
     })
       .then((response) => {

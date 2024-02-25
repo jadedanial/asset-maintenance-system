@@ -183,11 +183,15 @@ const AddUpdateEmployee = (props) => {
       emp_salary: employeeSalary,
       emp_section: employeeSection,
     };
+    const token = sessionStorage.getItem("token");
     axios({
       method: update ? "PATCH" : "POST",
       url: `${process.env.REACT_APP_API_URL}/api/employee`,
       data: employeeData,
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Token ${token}`,
+      },
       withCredentials: true,
     })
       .then((response) => {
@@ -206,10 +210,14 @@ const AddUpdateEmployee = (props) => {
   }
 
   useEffect(() => {
+    const token = sessionStorage.getItem("token");
     axios({
       method: "GET",
       url: `${process.env.REACT_APP_API_URL}/api/options`,
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Token ${token}`,
+      },
       withCredentials: true,
     })
       .then((response) => {
@@ -223,10 +231,14 @@ const AddUpdateEmployee = (props) => {
   }, []);
 
   useEffect(() => {
+    const token = sessionStorage.getItem("token");
     axios({
       method: "GET",
       url: `${process.env.REACT_APP_API_URL}/api/sections`,
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Token ${token}`,
+      },
       withCredentials: true,
     })
       .then((response) => {

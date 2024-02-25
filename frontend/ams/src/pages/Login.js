@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 import { Form, Button, Input, Card, Typography, Row, Col } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import Slogan from "../components/Slogan";
-import Cookies from "js-cookie";
 
 const { Title } = Typography;
 
@@ -26,10 +25,7 @@ const LoginPage = () => {
       withCredentials: true,
     })
       .then((response) => {
-        Cookies.set("jwt_frontend", response.data.jwt_backend, {
-          secure: true,
-          sameSite: "none",
-        });
+        sessionStorage.setItem("token", response.data.token);
         navigate("/");
       })
       .catch((err) => {

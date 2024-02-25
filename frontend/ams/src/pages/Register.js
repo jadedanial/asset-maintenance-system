@@ -32,11 +32,15 @@ const RegisterPage = () => {
       email: email,
       password: password,
     };
+    const token = sessionStorage.getItem("token");
     axios({
       method: "POST",
       url: `${process.env.REACT_APP_API_URL}/api/register`,
       data: registerData,
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Token ${token}`,
+      },
       withCredentials: true,
     })
       .then(() => {

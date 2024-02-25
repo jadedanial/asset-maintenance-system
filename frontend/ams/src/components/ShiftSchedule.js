@@ -36,11 +36,15 @@ const ShiftSchedule = (props) => {
       empID: props.empid,
       schedid: schedid,
     };
+    const token = sessionStorage.getItem("token");
     axios({
       method: "PATCH",
       url: `${process.env.REACT_APP_API_URL}/api/emp_schedule`,
       data: empData,
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Token ${token}`,
+      },
       withCredentials: true,
     })
       .then(() => {
@@ -236,10 +240,14 @@ const ShiftSchedule = (props) => {
   }
 
   useEffect(() => {
+    const token = sessionStorage.getItem("token");
     axios({
       method: "GET",
       url: `${process.env.REACT_APP_API_URL}/api/employees`,
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Token ${token}`,
+      },
       withCredentials: true,
     })
       .then((response) => {
@@ -253,10 +261,14 @@ const ShiftSchedule = (props) => {
   }, [props.empid]);
 
   useEffect(() => {
+    const token = sessionStorage.getItem("token");
     axios({
       method: "GET",
       url: `${process.env.REACT_APP_API_URL}/api/schedules`,
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Token ${token}`,
+      },
       withCredentials: true,
     })
       .then((response) => {

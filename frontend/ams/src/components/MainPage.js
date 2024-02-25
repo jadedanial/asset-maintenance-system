@@ -82,10 +82,14 @@ const MainPage = (props) => {
   }
 
   function logout() {
+    const token = sessionStorage.getItem("token");
     axios({
-      method: "GET",
+      method: "POST",
       url: `${process.env.REACT_APP_API_URL}/api/logout`,
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Token ${token}`,
+      },
       withCredentials: true,
     })
       .then((response) => {
@@ -206,10 +210,14 @@ const MainPage = (props) => {
   }
 
   function fetchData(url, callback) {
+    const token = sessionStorage.getItem("token");
     axios({
       method: "GET",
       url: `${process.env.REACT_APP_API_URL}/api/${url}`,
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Token ${token}`,
+      },
       withCredentials: true,
     })
       .then((response) => {
@@ -241,10 +249,14 @@ const MainPage = (props) => {
   }
 
   useEffect(() => {
+    const token = sessionStorage.getItem("token");
     axios({
       method: "GET",
       url: `${process.env.REACT_APP_API_URL}/api/modules`,
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Token ${token}`,
+      },
       withCredentials: true,
     })
       .then((response) => {

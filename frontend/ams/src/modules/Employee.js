@@ -51,10 +51,14 @@ const Employee = (props) => {
   ];
 
   function loadAPILists() {
+    const token = sessionStorage.getItem("token");
     axios({
       method: "GET",
       url: `${process.env.REACT_APP_API_URL}/api/employees`,
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Token ${token}`,
+      },
       withCredentials: true,
     })
       .then((response) => {

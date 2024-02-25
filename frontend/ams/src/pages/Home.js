@@ -8,7 +8,6 @@ import {
 } from "@ant-design/icons";
 import MainPage from "../components/MainPage";
 import ResultEvent from "../components/ResultEvent";
-import Cookies from "js-cookie";
 
 const HomePage = () => {
   const [theme, setTheme] = useState("light");
@@ -17,27 +16,25 @@ const HomePage = () => {
   const [loginFailed, setLoginFailed] = useState(true);
 
   useEffect(() => {
-    const jwt = Cookies.get("jwt_frontend");
-    if (jwt) {
-      axios({
-        method: "GET",
-        url: `${process.env.REACT_APP_API_URL}/api/user`,
-        headers: { "Content-Type": "application/json" },
-        withCredentials: true,
+    const token = sessionStorage.getItem("token");
+    axios({
+      method: "GET",
+      url: `${process.env.REACT_APP_API_URL}/api/user`,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Token ${token}`,
+      },
+      withCredentials: true,
+    })
+      .then((response) => {
+        setLoginFailed(false);
+        setEmpID(response.data.id);
+        setUsername(response.data.username);
       })
-        .then((response) => {
-          setLoginFailed(false);
-          setEmpID(response.data.empID);
-          setUsername(response.data.username);
-        })
-        .catch((err) => {
-          console.log(err.response.data.detail);
-          setLoginFailed(true);
-        });
-    } else {
-      console.log("JWT cookie does not exist");
-      setLoginFailed(true);
-    }
+      .catch((err) => {
+        console.log(err.response.data.detail);
+        setLoginFailed(true);
+      });
   }, []);
 
   useEffect(() => {

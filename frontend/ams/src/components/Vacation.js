@@ -267,10 +267,14 @@ const Vacation = (props) => {
   ];
 
   function loadVacations() {
+    const token = sessionStorage.getItem("token");
     axios({
       method: "GET",
       url: `${process.env.REACT_APP_API_URL}/api/vacations`,
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Token ${token}`,
+      },
       withCredentials: true,
     })
       .then((response) => {
@@ -439,11 +443,15 @@ const Vacation = (props) => {
       vac_attachment: attachment ? attachment : "No Attachment",
       vac_total: days,
     };
+    const token = sessionStorage.getItem("token");
     axios({
       method: "POST",
       url: `${process.env.REACT_APP_API_URL}/api/vacation`,
       data: vacData,
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Token ${token}`,
+      },
       withCredentials: true,
     })
       .then(() => {
@@ -464,10 +472,14 @@ const Vacation = (props) => {
   }, []);
 
   useEffect(() => {
+    const token = sessionStorage.getItem("token");
     axios({
       method: "GET",
       url: `${process.env.REACT_APP_API_URL}/api/options`,
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Token ${token}`,
+      },
       withCredentials: true,
     })
       .then((response) => {

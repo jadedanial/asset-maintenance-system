@@ -46,10 +46,14 @@ const Transact = (props) => {
 
   function checkItem(code) {
     var item = 0;
+    const token = sessionStorage.getItem("token");
     return axios({
       method: "GET",
       url: `${process.env.REACT_APP_API_URL}/api/warehouseitems`,
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Token ${token}`,
+      },
       withCredentials: true,
     })
       .then((response) => {
@@ -168,11 +172,15 @@ const Transact = (props) => {
   }
 
   function transactionStatus(code, status) {
+    const token = sessionStorage.getItem("token");
     return axios({
       method: "PATCH",
       url: `${process.env.REACT_APP_API_URL}/api/transaction`,
       data: { trans_code: code, trans_status: status },
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Token ${token}`,
+      },
       withCredentials: true,
     }).catch((err) => {
       console.log(err);
@@ -189,11 +197,15 @@ const Transact = (props) => {
       trans_detail: detail,
       trans_status: status,
     };
+    const token = sessionStorage.getItem("token");
     return axios({
       method: "POST",
       url: `${process.env.REACT_APP_API_URL}/api/transaction`,
       data: transactionData,
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Token ${token}`,
+      },
       withCredentials: true,
     })
       .then((response) => {
@@ -231,6 +243,7 @@ const Transact = (props) => {
         );
       })
       .then(() => {
+        const token = sessionStorage.getItem("token");
         return axios({
           method: "PATCH",
           url: `${process.env.REACT_APP_API_URL}/api/warehouseitemupdate`,
@@ -242,7 +255,10 @@ const Transact = (props) => {
               item_onhand: item.quantity,
             };
           }),
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Token ${token}`,
+          },
           withCredentials: true,
         });
       })
@@ -374,10 +390,14 @@ const Transact = (props) => {
         : segment === "Receive"
         ? "transactions"
         : null;
+    const token = sessionStorage.getItem("token");
     axios({
       method: "GET",
       url: `${process.env.REACT_APP_API_URL}/api/${apiEndpoint}`,
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Token ${token}`,
+      },
       withCredentials: true,
     })
       .then((response) => {
@@ -630,10 +650,14 @@ const Transact = (props) => {
   }
 
   useEffect(() => {
+    const token = sessionStorage.getItem("token");
     axios({
       method: "GET",
       url: `${process.env.REACT_APP_API_URL}/api/items`,
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Token ${token}`,
+      },
       withCredentials: true,
     })
       .then((response) => {

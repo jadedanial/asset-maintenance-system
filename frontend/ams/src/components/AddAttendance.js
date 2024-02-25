@@ -38,10 +38,14 @@ const AddAttendance = (props) => {
   const [api, contextHolder] = notification.useNotification();
 
   const loadSchedules = useCallback(() => {
+    const token = sessionStorage.getItem("token");
     axios({
       method: "GET",
       url: `${process.env.REACT_APP_API_URL}/api/schedules`,
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Token ${token}`,
+      },
       withCredentials: true,
     })
       .then((response) => {
@@ -67,10 +71,14 @@ const AddAttendance = (props) => {
   }, [props.schedid]);
 
   const loadVacations = useCallback(() => {
+    const token = sessionStorage.getItem("token");
     axios({
       method: "GET",
       url: `${process.env.REACT_APP_API_URL}/api/vacations`,
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Token ${token}`,
+      },
       withCredentials: true,
     })
       .then((response) => {
@@ -292,11 +300,15 @@ const AddAttendance = (props) => {
       attend_excuse: excuse,
       attend_status: status,
     };
+    const token = sessionStorage.getItem("token");
     axios({
       method: apiMethod,
       url: `${process.env.REACT_APP_API_URL}/api/emp_attendance`,
       data: attendData,
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Token ${token}`,
+      },
       withCredentials: true,
     }).catch((err) => {
       console.log(err);

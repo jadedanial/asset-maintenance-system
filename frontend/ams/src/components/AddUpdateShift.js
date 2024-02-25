@@ -79,11 +79,15 @@ const AddUpdateShift = (props) => {
       shift_from: moment(shiftFrom, timeFormat).format(timeFormat),
       shift_to: moment(shiftTo, timeFormat).format(timeFormat),
     };
+    const token = sessionStorage.getItem("token");
     axios({
       method: update ? "PATCH" : "POST",
       url: `${process.env.REACT_APP_API_URL}/api/shift`,
       data: shiftData,
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Token ${token}`,
+      },
       withCredentials: true,
     })
       .then(() => {

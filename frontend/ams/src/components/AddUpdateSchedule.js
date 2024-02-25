@@ -131,11 +131,15 @@ const AddUpdateSchedule = (props) => {
       sched_fri: schedFri,
       sched_sat: schedSat,
     };
+    const token = sessionStorage.getItem("token");
     axios({
       method: update ? "PATCH" : "POST",
       url: `${process.env.REACT_APP_API_URL}/api/schedule`,
       data: scheduleData,
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Token ${token}`,
+      },
       withCredentials: true,
     })
       .then(() => {
@@ -150,10 +154,14 @@ const AddUpdateSchedule = (props) => {
   }
 
   useEffect(() => {
+    const token = sessionStorage.getItem("token");
     axios({
       method: "GET",
       url: `${process.env.REACT_APP_API_URL}/api/shifts`,
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Token ${token}`,
+      },
       withCredentials: true,
     })
       .then((response) => {

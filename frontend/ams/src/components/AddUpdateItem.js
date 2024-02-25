@@ -147,11 +147,15 @@ const AddUpdateItem = (props) => {
       item_cost: itemCost,
       item_description: itemDescription,
     };
+    const token = sessionStorage.getItem("token");
     axios({
       method: update ? "PATCH" : "POST",
       url: `${process.env.REACT_APP_API_URL}/api/item`,
       data: itemData,
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Token ${token}`,
+      },
       withCredentials: true,
     })
       .then((response) => {
@@ -162,11 +166,15 @@ const AddUpdateItem = (props) => {
           item_location: itemLocation,
           item_onhand: itemOnHand,
         };
+        const token = sessionStorage.getItem("token");
         axios({
           method: update ? "PATCH" : "POST",
           url: `${process.env.REACT_APP_API_URL}/api/warehouseitem`,
           data: itemWarehouse,
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Token ${token}`,
+          },
           withCredentials: true,
         }).then(() => {
           setSuccess(true);
@@ -181,10 +189,14 @@ const AddUpdateItem = (props) => {
   }
 
   useEffect(() => {
+    const token = sessionStorage.getItem("token");
     axios({
       method: "GET",
       url: `${process.env.REACT_APP_API_URL}/api/options`,
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Token ${token}`,
+      },
       withCredentials: true,
     })
       .then((response) => {

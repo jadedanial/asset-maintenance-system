@@ -205,10 +205,14 @@ const Excuse = (props) => {
   ];
 
   function loadExcuses() {
+    const token = sessionStorage.getItem("token");
     axios({
       method: "GET",
       url: `${process.env.REACT_APP_API_URL}/api/excuses`,
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Token ${token}`,
+      },
       withCredentials: true,
     })
       .then((response) => {
@@ -233,10 +237,14 @@ const Excuse = (props) => {
   }
 
   function loadAttendances() {
+    const token = sessionStorage.getItem("token");
     axios({
       method: "GET",
       url: `${process.env.REACT_APP_API_URL}/api/attendances`,
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Token ${token}`,
+      },
       withCredentials: true,
     })
       .then((response) => {
@@ -265,11 +273,15 @@ const Excuse = (props) => {
       attend_under: under - hours,
       attend_excuse: hours,
     };
+    const token = sessionStorage.getItem("token");
     axios({
       method: "PATCH",
       url: `${process.env.REACT_APP_API_URL}/api/emp_attendance`,
       data: attendData,
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Token ${token}`,
+      },
       withCredentials: true,
     }).catch((err) => {
       console.log(err);
@@ -460,11 +472,15 @@ const Excuse = (props) => {
       exc_reason: reason,
       exc_total: hours,
     };
+    const token = sessionStorage.getItem("token");
     axios({
       method: "POST",
       url: `${process.env.REACT_APP_API_URL}/api/excuse`,
       data: excData,
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Token ${token}`,
+      },
       withCredentials: true,
     })
       .then(() => {
