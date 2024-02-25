@@ -21,11 +21,11 @@ schema_view = get_schema_view(
 
 
 urlpatterns = [
-    path("docs/", include("ams.api.urls")),
+    path("", include("ams.api.urls")),
     path("api-auth/", include("rest_framework.urls")),
     path("admin/", admin.site.urls),
     path("api/", include("ams.api.urls")),
-    path("", schema_view.with_ui("redoc",
+    path("docs/", schema_view.with_ui("redoc",
          cache_timeout=0), name="schema-redoc"),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

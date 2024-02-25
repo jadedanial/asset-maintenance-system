@@ -62,18 +62,18 @@ class SectionListView(ListAPIView):
 class UserView(APIView):
 
     def get(self, request):
-        token = request.META.get('HTTP_AUTHORIZATION')
+        token = request.META.get("HTTP_AUTHORIZATION")
 
         if not token:
-            return Response({'error': 'Token not provided'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"error": "Token not provided"}, status=status.HTTP_400_BAD_REQUEST)
 
         try:
-            token = token.split(' ')[1]
+            token = token.split(" ")[1]
             token_obj = Token.objects.get(key=token)
         except Token.DoesNotExist:
-            return Response({'error': 'Invalid token'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"error": "Invalid token"}, status=status.HTTP_400_BAD_REQUEST)
 
-        return Response({'id': token_obj.user.id, 'username': token_obj.user.username}, status=status.HTTP_200_OK)
+        return Response({"id": token_obj.user.id, "username": token_obj.user.username}, status=status.HTTP_200_OK)
 
 
 class RegisterView(APIView):
@@ -114,38 +114,38 @@ class RegisterView(APIView):
 class LoginView(APIView):
 
     def post(self, request):
-        username = request.data.get('username')
-        password = request.data.get('password')
+        username = request.data.get("username")
+        password = request.data.get("password")
 
         try:
             user = User.objects.get(username=username)
         except User.DoesNotExist:
-            return Response({'error': 'User does not exist'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"error": "User does not exist"}, status=status.HTTP_400_BAD_REQUEST)
 
         if not user.check_password(password):
-            return Response({'error': 'Invalid Credentials'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"error": "Invalid Credentials"}, status=status.HTTP_400_BAD_REQUEST)
 
         token, _ = Token.objects.get_or_create(user=user)
 
-        return Response({'token': token.key, 'id': user.id, 'user': user.username}, status=status.HTTP_200_OK)
+        return Response({"token": token.key, "id": user.id, "user": user.username}, status=status.HTTP_200_OK)
 
 
 class LogoutView(APIView):
 
     def post(self, request):
-        token = request.META.get('HTTP_AUTHORIZATION')
+        token = request.META.get("HTTP_AUTHORIZATION")
 
         if not token:
-            return Response({'error': 'Token not provided'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"error": "Token not provided"}, status=status.HTTP_400_BAD_REQUEST)
 
         try:
-            token = token.split(' ')[1]
+            token = token.split(" ")[1]
             token_obj = Token.objects.get(key=token)
             token_obj.delete()
         except Token.DoesNotExist:
-            return Response({'error': 'Invalid token'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"error": "Invalid token"}, status=status.HTTP_400_BAD_REQUEST)
 
-        return Response({'message': 'Logged out successfully'}, status=status.HTTP_200_OK)
+        return Response({"message": "Logged out successfully"}, status=status.HTTP_200_OK)
 
 
 class ShiftView(APIView):

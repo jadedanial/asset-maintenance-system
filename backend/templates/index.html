@@ -1,1 +1,98 @@
-<p>Asset Maintenance System</p>
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      body {
+        background-color: #f8f8ff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        font-family: "Calibri", sans-serif;
+        padding: 2em;
+      }
+      .left,
+      .right {
+        flex: 1;
+        padding: 1em;
+      }
+      .center {
+        width: 50%;
+        height: auto;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .text {
+        text-align: left;
+        width: 80%;
+        margin-bottom: 2em;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .link {
+        text-align: center;
+        margin-bottom: 1em;
+        font-size: 22px;
+      }
+      .sample {
+        font-size: 18px;
+      }
+      pre {
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        background-color: #11171a;
+        color: #fff;
+        padding: 1em;
+        border-radius: 5px;
+        font-size: 1.2em;
+      }
+      .json-key {
+        color: #fff;
+      }
+      .json-value {
+        color: #99efa3;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="left">
+      <img
+        src="https://raw.githubusercontent.com/jadedanial/asset-maintenance-system/main/frontend/ams/public/images/ams.png"
+        alt="AMS Logo"
+        class="center"
+      />
+      <p class="text">
+        An asset performance optimization system developed by Jade Danial
+        (danialjade@gmail.com) that aims to enhance the efficiency and
+        effectiveness of an organization’s assets. This system is designed to
+        ensure that all assets are well-maintained and functioning at their
+        optimal capacity.
+      </p>
+    </div>
+    <div class="right">
+      <a id="doc-link" href="#" class="link"
+        >Asset Maintenance System API Documentation</a
+      >
+      <p class="sample">Response sample:</p>
+      <pre>
+        <span class="json-key">"emp_id"</span>: <span class="json-value">0</span>,
+        <span class="json-key">"emp_name"</span>: <span class="json-value">"string"</span>,
+        <span class="json-key">"emp_bdate"</span>: <span class="json-value">"2019-08-24"</span>,
+        <span class="json-key">"emp_nation"</span>: <span class="json-value">"string"</span>,
+        <span class="json-key">"emp_address"</span>: <span class="json-value">"string"</span>,
+        <span class="json-key">"emp_email"</span>: <span class="json-value">"string"</span>,
+        <span class="json-key">"emp_phone"</span>: <span class="json-value">"string"</span>,
+        <span class="json-key">"emp_hired"</span>: <span class="json-value">"2019-08-24"</span>,
+        <span class="json-key">"emp_position"</span>: <span class="json-value">"string"</span>,
+        <span class="json-key">"emp_salary"</span>: <span class="json-value">"string"</span>,
+        <span class="json-key">"emp_section"</span>: <span class="json-value">"string"</span>,
+        <span class="json-key">"emp_sched"</span>: <span class="json-value">0</span>
+        </pre>
+    </div>
+    <script>
+      document.getElementById("doc-link").href = window.location.href + "docs/";
+    </script>
+  </body>
+</html>
