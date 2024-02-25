@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import {
   ConfigProvider,
@@ -98,7 +97,6 @@ const MainPage = (props) => {
       .catch((err) => {
         console.log(err);
       });
-    Cookies.remove("jwt_frontend");
     navigate("/login");
   }
 

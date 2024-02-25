@@ -1,21 +1,16 @@
-from django.http import HttpResponse
 from django.shortcuts import render
-from django.contrib.auth import authenticate
 from rest_framework.authtoken.models import Token
 from rest_framework import status
 from rest_framework.authtoken.models import Token
 from rest_framework.generics import ListAPIView
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.exceptions import ValidationError, AuthenticationFailed
+from rest_framework.exceptions import ValidationError
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 from drf_yasg.utils import swagger_auto_schema
-from .permissions import IsAuthenticatedWithJWT
 from ams.models import *
 from .serializers import *
-import jwt
-import datetime
 
 
 def index(request):
@@ -65,8 +60,10 @@ class SectionListView(ListAPIView):
 
 
 class UserView(APIView):
+
     def get(self, request):
         token = request.META.get('HTTP_AUTHORIZATION')
+
         if not token:
             return Response({'error': 'Token not provided'}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -80,8 +77,8 @@ class UserView(APIView):
 
 
 class RegisterView(APIView):
-    def post(self, request):
 
+    def post(self, request):
         if (not request.data["empID"].isnumeric()):
             raise ValidationError("Employee ID not exist!")
 
@@ -115,6 +112,7 @@ class RegisterView(APIView):
 
 
 class LoginView(APIView):
+
     def post(self, request):
         username = request.data.get('username')
         password = request.data.get('password')
@@ -133,8 +131,10 @@ class LoginView(APIView):
 
 
 class LogoutView(APIView):
+
     def post(self, request):
         token = request.META.get('HTTP_AUTHORIZATION')
+
         if not token:
             return Response({'error': 'Token not provided'}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -190,7 +190,6 @@ class ScheduleView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
-
         serializer = ScheduleSerializer(data=request.data)
         name = Schedule.objects.filter(
             sched_name__iexact=request.data["sched_name"]).first()
@@ -416,6 +415,7 @@ class WarehouseItemUpdateView(APIView):
     def patch(self, request, *args, **kwargs):
         print(request.data)
         data = request.data
+
         for d in data:
             item = Item.objects.get(item_code=d["item_code"])
             section = Section.objects.get(section_code=d["warehouse_code"])
