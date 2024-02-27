@@ -7,11 +7,9 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        height: fit-content;
+        height: 100vh;
         margin: 0;
-        font-family: "Calibri", sans-serif;
-        padding: 2em;
-        flex-wrap: wrap;
+        font-family: "Calibri", sans-serif; /* Set the font to Calibri */
       }
       .left,
       .right {
@@ -19,7 +17,7 @@
         padding: 6em 1em 1em 1em;
       }
       .center {
-        width: 80%; /* Increase this value to make the image bigger */
+        width: 70%; /* Increase this value to make the image bigger */
         height: auto;
         display: block;
         margin-left: auto;
@@ -29,74 +27,33 @@
         width: 100%;
         margin-bottom: 2em;
       }
-      .link {
+      .contact {
         text-align: center;
-        margin-bottom: 1em;
-        font-size: 22px;
+        font-size: 20px;
+        margin-top: 0; /* Reduce this value to bring the text even closer to the image */
       }
-      .sample {
-        font-size: 18px;
-        padding-top: 20px;
+      .contact a {
+        color: inherit; /* Make the email link the same color as the text */
+        text-decoration: none; /* Remove the underline from the email link */
       }
-      pre {
-        white-space: pre-wrap;
-        word-wrap: break-word;
-        background-color: #fff;
-        padding: 3em;
-        border-radius: 5px;
-        font-size: 1.2em;
-      }
-      .json-key {
-        color: #161d40;
-      }
-      .json-value {
-        color: #161d40;
-      }
-
-      /* Responsive styles */
-      @media (max-width: 768px) {
-        .left,
-        .right {
-          flex: 100%;
-        }
-        .center {
-          width: 90%; /* Adjust this value as well for smaller screens */
-        }
-        .text {
-          width: 90%;
-        }
+      p {
+        margin: 0; /* Remove margins from <p> elements */
       }
     </style>
   </head>
   <body>
-    <div class="left">
+    <div>
       <img
         src="https://raw.githubusercontent.com/jadedanial/asset-maintenance-system/main/frontend/ams/public/images/ams.png"
         alt="AMS Logo"
         class="center"
       />
+      <div class="contact">
+        <p>
+          Developed by Jade Danial - For inquiries, please contact:
+          <a href="mailto:danialjade@gmail.com">danialjade@gmail.com</a>
+        </p>
+      </div>
     </div>
-    <div class="right">
-      <a id="doc-link" href="#" class="link"
-        >Asset Maintenance System API Documentation</a
-      >
-      <p class="text">
-        An asset performance optimization system developed by Jade Danial
-        (danialjade@gmail.com) that aims to enhance the efficiency and
-        effectiveness of an organization’s assets. This system is designed to
-        ensure that all assets are well-maintained and functioning at their
-        optimal capacity.
-      </p>
-      <p class="sample">Response sample:</p>
-      <pre>
-        <span class="json-key">"item_code"</span>: <span class="json-value">string</span>,
-        <span class="json-key">"warehouse_code"</span>: <span class="json-value">"string"</span>,
-        <span class="json-key">"item_location"</span>: <span class="json-value">"string"</span>,
-        <span class="json-key">"item_onhand"</span>: <span class="json-value">"0"</span>,
-        </pre>
-    </div>
-    <script>
-      document.getElementById("doc-link").href = window.location.href + "docs/";
-    </script>
   </body>
 </html>
