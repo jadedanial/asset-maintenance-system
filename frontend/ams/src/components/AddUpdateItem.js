@@ -159,9 +159,9 @@ const AddUpdateItem = (props) => {
       withCredentials: true,
     })
       .then((response) => {
-        setIDCode("ITM00" + response.data["id"]);
+        setIDCode("ITM" + response.data["id"]);
         var itemWarehouse = {
-          item_code: "ITM00" + response.data["id"],
+          item_code: "ITM" + response.data["id"],
           warehouse_code: props.sectionCode,
           item_location: itemLocation,
           item_onhand: itemOnHand,

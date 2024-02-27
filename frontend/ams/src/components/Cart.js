@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import axios from "axios";
-import { Typography, Card, Button, Select, notification } from "antd";
+import { Typography, Card, Button, notification } from "antd";
 import { CheckCircleOutlined } from "@ant-design/icons";
 import ResultEvent from "./ResultEvent";
 import NotificationEvent from "./NotificationEvent";
@@ -11,8 +10,6 @@ const { Title } = Typography;
 
 const Cart = (props) => {
   const [totalOrder, setTotalOrder] = useState("0.00");
-  const [warehouseCode, setWarehouseCode] = useState("");
-  const [sections, setSections] = useState([]);
   const [warning, setWarning] = useState(false);
   const [api, contextHolder] = notification.useNotification();
 
@@ -48,7 +45,10 @@ const Cart = (props) => {
         if (max <= quantity) {
           quantity = max;
           api.info(
-            NotificationEvent(false, "Stock is less than the planned quantity.")
+            NotificationEvent(
+              false,
+              "Stock on hand is less than the planned quantity."
+            )
           );
         } else {
           quantity += 1;
@@ -79,13 +79,6 @@ const Cart = (props) => {
     props.setFilteredItem("");
   }
 
-  function onWarehouseChange(value) {
-    const warehouseCode = sections.find(
-      (sec) => sec.section_code === value
-    )?.section_code;
-    setWarehouseCode(warehouseCode);
-  }
-
   function checkAllState(checkedState) {
     if (checkedState.every((item) => item.checked === "true")) {
       return true;
@@ -93,25 +86,6 @@ const Cart = (props) => {
       return false;
     }
   }
-
-  useEffect(() => {
-    const token = sessionStorage.getItem("token");
-    axios({
-      method: "GET",
-      url: `${process.env.REACT_APP_API_URL}/api/sections`,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Token ${token}`,
-      },
-      withCredentials: true,
-    })
-      .then((response) => {
-        setSections(response.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
 
   useEffect(() => {
     sumOrder();
@@ -167,37 +141,15 @@ const Cart = (props) => {
                     >
                       CANCEL
                     </Button>
-                    <Select
-                      size="large"
-                      placeholder="Select Warehouse"
-                      showSearch
-                      className="bordered-select"
-                      style={{
-                        marginRight: "10px",
-                      }}
-                      optionFilterProp="children"
-                      filterOption={(input, option) =>
-                        (option?.label ?? "").toLowerCase().includes(input)
-                      }
-                      filterSort={(optionA, optionB) =>
-                        (optionA?.label ?? "")
-                          .toLowerCase()
-                          .localeCompare((optionB?.label ?? "").toLowerCase())
-                      }
-                      options={sections
-                        .filter((sec) => sec.section_type === "warehouse")
-                        .map((sec) => ({
-                          value: sec.section_code,
-                          label: sec.section_code,
-                        }))}
-                      onChange={onWarehouseChange}
-                    />
                     <Button
                       size="large"
                       type="primary"
                       onClick={() => {
-                        if (warehouseCode !== "") {
-                          props.reorderOrder(props.itemList, warehouseCode);
+                        if (props.warehouseCode !== "") {
+                          props.reorderOrder(
+                            props.itemList,
+                            props.warehouseCode
+                          );
                         } else {
                           api.info(
                             NotificationEvent(

@@ -1,13 +1,11 @@
 from django.shortcuts import render
+from rest_framework import status, viewsets
 from rest_framework.authtoken.models import Token
-from rest_framework import status
-from rest_framework.authtoken.models import Token
-from rest_framework.generics import ListAPIView
-from rest_framework.views import APIView
-from rest_framework.response import Response
 from rest_framework.exceptions import ValidationError
-from rest_framework import viewsets
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.generics import ListAPIView
+from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.views import APIView
 from drf_yasg.utils import swagger_auto_schema
 from ams.models import *
 from .serializers import *
@@ -77,6 +75,7 @@ class UserView(APIView):
 
 
 class RegisterView(APIView):
+    permission_classes = [AllowAny]
 
     def post(self, request):
         if (not request.data["empID"].isnumeric()):
@@ -131,6 +130,7 @@ class LoginView(APIView):
 
 
 class LogoutView(APIView):
+    permission_classes = [IsAuthenticated]
 
     def post(self, request):
         token = request.META.get("HTTP_AUTHORIZATION")
@@ -396,6 +396,7 @@ class WarehouseItemView(APIView):
         return Response(serializer.data)
 
     def patch(self, request, *args, **kwargs):
+        print(request.data)
         item = Item.objects.get(item_code=request.data["item_code"])
         section = Section.objects.get(
             section_code=request.data["warehouse_code"])

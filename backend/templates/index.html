@@ -11,28 +11,23 @@
         margin: 0;
         font-family: "Calibri", sans-serif;
         padding: 2em;
+        flex-wrap: wrap;
       }
       .left,
       .right {
         flex: 1;
         padding: 6em 1em 1em 1em;
       }
-      .right {
-        padding-right: 5em;
-      }
       .center {
-        width: 50%;
+        width: 80%; /* Increase this value to make the image bigger */
         height: auto;
         display: block;
         margin-left: auto;
         margin-right: auto;
       }
       .text {
-        text-align: left;
-        width: 80%;
+        width: 100%;
         margin-bottom: 2em;
-        margin-left: auto;
-        margin-right: auto;
       }
       .link {
         text-align: center;
@@ -41,21 +36,35 @@
       }
       .sample {
         font-size: 18px;
+        padding-top: 20px;
       }
       pre {
         white-space: pre-wrap;
         word-wrap: break-word;
-        background-color: #11171a;
-        color: #fff;
-        padding: 1em;
+        background-color: #fff;
+        padding: 3em;
         border-radius: 5px;
         font-size: 1.2em;
       }
       .json-key {
-        color: #fff;
+        color: #161d40;
       }
       .json-value {
-        color: #99efa3;
+        color: #161d40;
+      }
+
+      /* Responsive styles */
+      @media (max-width: 768px) {
+        .left,
+        .right {
+          flex: 100%;
+        }
+        .center {
+          width: 90%; /* Adjust this value as well for smaller screens */
+        }
+        .text {
+          width: 90%;
+        }
       }
     </style>
   </head>
@@ -66,6 +75,11 @@
         alt="AMS Logo"
         class="center"
       />
+    </div>
+    <div class="right">
+      <a id="doc-link" href="#" class="link"
+        >Asset Maintenance System API Documentation</a
+      >
       <p class="text">
         An asset performance optimization system developed by Jade Danial
         (danialjade@gmail.com) that aims to enhance the efficiency and
@@ -73,25 +87,12 @@
         ensure that all assets are well-maintained and functioning at their
         optimal capacity.
       </p>
-    </div>
-    <div class="right">
-      <a id="doc-link" href="#" class="link"
-        >Asset Maintenance System API Documentation</a
-      >
       <p class="sample">Response sample:</p>
       <pre>
-        <span class="json-key">"emp_id"</span>: <span class="json-value">0</span>,
-        <span class="json-key">"emp_name"</span>: <span class="json-value">"string"</span>,
-        <span class="json-key">"emp_bdate"</span>: <span class="json-value">"2019-08-24"</span>,
-        <span class="json-key">"emp_nation"</span>: <span class="json-value">"string"</span>,
-        <span class="json-key">"emp_address"</span>: <span class="json-value">"string"</span>,
-        <span class="json-key">"emp_email"</span>: <span class="json-value">"string"</span>,
-        <span class="json-key">"emp_phone"</span>: <span class="json-value">"string"</span>,
-        <span class="json-key">"emp_hired"</span>: <span class="json-value">"2019-08-24"</span>,
-        <span class="json-key">"emp_position"</span>: <span class="json-value">"string"</span>,
-        <span class="json-key">"emp_salary"</span>: <span class="json-value">"string"</span>,
-        <span class="json-key">"emp_section"</span>: <span class="json-value">"string"</span>,
-        <span class="json-key">"emp_sched"</span>: <span class="json-value">0</span>
+        <span class="json-key">"item_code"</span>: <span class="json-value">string</span>,
+        <span class="json-key">"warehouse_code"</span>: <span class="json-value">"string"</span>,
+        <span class="json-key">"item_location"</span>: <span class="json-value">"string"</span>,
+        <span class="json-key">"item_onhand"</span>: <span class="json-value">"0"</span>,
         </pre>
     </div>
     <script>

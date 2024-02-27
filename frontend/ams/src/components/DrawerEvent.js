@@ -141,6 +141,7 @@ const DrawerEvent = (props) => {
               receiveOrder={props.receiveOrder}
               success={props.success}
               transactionCode={props.transactionCode}
+              warehouseCode={props.warehouseCode}
               clearOrder={props.clearOrder}
               onCloseDrawer={props.onCloseDrawer}
               sectionCode={props.sectionCode}

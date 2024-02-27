@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import { CalendarOutlined } from "@ant-design/icons";
 import SearchTableEvent from "../components/SearchTableEvent";
@@ -71,7 +71,7 @@ const Schedule = (props) => {
     },
   ];
 
-  function loadAPILists() {
+  const loadAPILists = useCallback(() => {
     const token = sessionStorage.getItem("token");
     axios({
       method: "GET",
@@ -104,7 +104,7 @@ const Schedule = (props) => {
       .catch((err) => {
         console.log(err);
       });
-  }
+  }, []);
 
   function searchedText(text) {
     setSearchedText(text);
@@ -112,7 +112,7 @@ const Schedule = (props) => {
 
   useEffect(() => {
     loadAPILists();
-  }, []);
+  }, [loadAPILists]);
 
   return (
     <>

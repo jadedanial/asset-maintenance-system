@@ -92,7 +92,7 @@ h1 {
 }
 .light .ant-layout-sider,
 .light .ant-menu {
-  background: #96efff !important;
+  background: #f0ffff !important;
 }
 
 .ant-menu-submenu-title:hover .ant-menu-title-content {
@@ -274,7 +274,7 @@ h1.ant-typography {
 
 .dark .card-with-background,
 .dark .ant-card .card-with-background {
-  background: #1d2b5365 !important;
+  background: #182348 !important;
 }
 .ant-steps-item-content {
   min-height: fit-content !important;
@@ -405,10 +405,7 @@ h1.ant-typography {
   top: 109px !important;
   z-index: 1 !important;
 }
-.ant-table-tbody tr td,
-.table-row-no-color .ant-table-cell {
-  border-top: none !important;
-}
+
 .table-row:hover td,
 .table-row:hover td p {
   color: #fff;
@@ -419,6 +416,7 @@ h1.ant-typography {
 .dark .ant-table-thead tr th {
   border-bottom: 1px solid #000c17 !important;
 }
+
 .dark .ant-table-thead .ant-table-cell {
   color: #318ce7 !important;
   font-size: 14px;
@@ -429,24 +427,24 @@ h1.ant-typography {
 .dark .table-row {
   color: #fff !important;
   text-align: center;
-  background: #161d40 !important;
+  background: #182348 !important;
 }
 .light .ant-table-tbody tr td,
 .light .ant-table-thead tr th {
-  border-bottom: 1px solid #96efff !important;
+  border-bottom: 1px solid #f0ffff !important;
 }
 .light .ant-table-thead .ant-table-cell {
   color: #318ce7 !important;
   font-family: ralewayregular !important;
   font-size: 14px;
   text-align: center;
-  background: #96efff !important;
+  background: #f0ffff !important;
 }
 .light .ant-table-expanded-row-fixed,
 .light .table-row {
   color: #000 !important;
   text-align: center;
-  background: #f8f8ff !important;
+  background: #f8f4ff !important;
 }
 .ant-pagination {
   font-size: 22px !important;
@@ -541,7 +539,7 @@ h1.ant-typography {
   margin: 0 0 15px !important;
 }
 .ant-form-item-explain-error {
-  color: #d90909a9 !important;
+  color: #e65c5c !important;
   font-size: 12px;
   margin: 5px 0 10px;
 }
@@ -567,11 +565,11 @@ h1.ant-typography {
 }
 .dark .ant-picker-calendar,
 .dark .ant-picker-panel {
-  background: #24163a !important;
+  background: #182348 !important;
 }
 .light .ant-picker-calendar,
 .light .ant-picker-panel {
-  background: #ecf2ff !important;
+  background: #f8f4ff !important;
 }
 .ant-picker-panel {
   padding-top: 20px;
@@ -648,7 +646,7 @@ textarea.ant-input {
   border-bottom: none !important;
 }
 .ant-list-item {
-  padding: 0 0 20px 0 !important;
+  padding: 0 0 16px 0 !important;
 }
 .dark .ant-list-item-meta-description {
   color: #f0f2f58e !important;
@@ -681,6 +679,7 @@ input::file-selector-button {
 }
 .hover-underline:hover {
   color: #6841f5 !important;
+  text-decoration: underline !important;
 }
 
 .ant-segmented-thumb {
@@ -699,9 +698,13 @@ input::file-selector-button {
 .ant-segmented-item-label:hover {
   color: #6841f5 !important;
   background: none !important;
+  text-decoration: underline !important;
 }
 .ant-segmented-item-selected {
   box-shadow: none !important;
+}
+.ant-segmented-item-selected .ant-segmented-item-label:hover {
+  text-decoration: none !important;
 }
 
 .ant-segmented-item-selected .ant-segmented-item-label {
@@ -720,7 +723,7 @@ input::file-selector-button {
 }
 
 .warning .ant-checkbox-inner {
-  border: 1px solid #d90909a9 !important;
+  border: 1px solid #e65c5c !important;
 }
 
 .ant-checkbox-checked .ant-checkbox-input:hover {
@@ -730,6 +733,15 @@ input::file-selector-button {
 .ant-checkbox-inner,
 .ant-checkbox-input {
   transform: scale(2) !important;
+}
+
+.small-checkbox .ant-checkbox-inner,
+.small-checkbox .ant-checkbox-input {
+  transform: scale(1.5) !important;
+}
+
+.ant-checkbox + span {
+  padding-left: 16px !important;
 }
 
 .dark .ant-checkbox-inner::after {

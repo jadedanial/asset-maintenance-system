@@ -231,6 +231,7 @@ const ItemList = (props) => {
                   />
                 </Col>
                 <Col
+                  className="card-with-background"
                   span={
                     !props.view ? (props.segment === "Receive" ? 19 : 21) : 18
                   }

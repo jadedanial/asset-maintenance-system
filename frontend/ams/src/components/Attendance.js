@@ -110,7 +110,7 @@ const Attendance = (props, ref) => {
       case "Absent Today":
         return (
           <>
-            <CloseOutlined style={{ color: "#D90909A9" }} />
+            <CloseOutlined style={{ color: "#e65c5c" }} />
           </>
         );
       case "Day Off Today":
@@ -128,7 +128,7 @@ const Attendance = (props, ref) => {
       case "Incomplete Attendance":
         return (
           <>
-            <IssuesCloseOutlined style={{ color: "#D90909A9" }} />
+            <IssuesCloseOutlined style={{ color: "#e65c5c" }} />
           </>
         );
       default:

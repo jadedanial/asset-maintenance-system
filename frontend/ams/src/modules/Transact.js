@@ -11,6 +11,7 @@ import {
   InputNumber,
   Tooltip,
   Badge,
+  Select,
   Avatar,
   Steps,
   notification,
@@ -41,8 +42,29 @@ const Transact = (props) => {
   const [inputStatus, setInputStatus] = useState("");
   const [success, setSuccess] = useState(false);
   const [transactionCode, setTransactionCode] = useState("");
+  const [warehouseCode, setWarehouseCode] = useState("");
+  const [sections, setSections] = useState([]);
   const [openDrawer, setOpenDrawer] = useState(false);
   const [api, contextHolder] = notification.useNotification();
+
+  const fetchData = (url, setter) => {
+    const token = sessionStorage.getItem("token");
+    axios({
+      method: "GET",
+      url: url,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Token ${token}`,
+      },
+      withCredentials: true,
+    })
+      .then((response) => {
+        setter(response.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   function checkItem(code) {
     var item = 0;
@@ -106,20 +128,33 @@ const Transact = (props) => {
   }
 
   function newItem(id, code, name, cost, measurement, quantity, max) {
-    if (total !== "0.00") {
-      if (max >= quantity) {
-        removeItem(code);
-        addItem(id, code, name, cost, measurement, quantity, max, total);
-        setInputStatus("");
-        api.info(NotificationEvent(true, "Item " + code + " added to cart."));
-      } else {
-        api.info(
-          NotificationEvent(false, "Stock is less than the planned quantity.")
-        );
-      }
+    if (warehouseCode === "") {
+      api.info(
+        NotificationEvent(
+          false,
+          "Select the warehouse to which you want to transfer the item" +
+            String(reorderItemCount > 1 ? "s." : ".")
+        )
+      );
     } else {
-      setInputStatus("error");
-      api.info(NotificationEvent(false, "Add item quantity."));
+      if (total !== "0.00") {
+        if (max >= quantity || warehouseCategory(warehouseCode) === "main") {
+          removeItem(code);
+          addItem(id, code, name, cost, measurement, quantity, max, total);
+          setInputStatus("");
+          api.info(NotificationEvent(true, "Item " + code + " added to cart."));
+        } else {
+          api.info(
+            NotificationEvent(
+              false,
+              "Stock on hand is less than the planned quantity."
+            )
+          );
+        }
+      } else {
+        setInputStatus("error");
+        api.info(NotificationEvent(false, "Add item quantity."));
+      }
     }
   }
 
@@ -297,15 +332,20 @@ const Transact = (props) => {
   function showDrawer() {
     switch (segment) {
       case "Reorder":
-        if (reorderItemCount !== 0) {
-          setOpenDrawer(true);
-        } else {
+        if (warehouseCode === "") {
           api.info(
             NotificationEvent(
               false,
-              "Please search for an item, specify quantity, and click ‘Add to Cart’ button."
+              "Select the warehouse to which you want to transfer the item" +
+                String(reorderItemCount > 1 ? "s." : ".")
             )
           );
+        } else {
+          if (reorderItemCount !== 0) {
+            setOpenDrawer(true);
+          } else {
+            api.info(NotificationEvent(false, "No item in the cart."));
+          }
         }
         break;
       case "Receive":
@@ -649,23 +689,29 @@ const Transact = (props) => {
     }
   }
 
+  function onWarehouseChange(value) {
+    const warehouseCode = sections.find(
+      (sec) => sec.section_code === value
+    )?.section_code;
+    setWarehouseCode(warehouseCode);
+    setReorderItemList([]);
+    setReorderItemCount(0);
+  }
+
+  function warehouseCategory(warehouse) {
+    const category = sections.find(
+      (sec) => sec.section_code === warehouse
+    )?.section_category;
+    console.log(category);
+    return category;
+  }
+
   useEffect(() => {
-    const token = sessionStorage.getItem("token");
-    axios({
-      method: "GET",
-      url: `${process.env.REACT_APP_API_URL}/api/items`,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Token ${token}`,
-      },
-      withCredentials: true,
-    })
-      .then((response) => {
-        setItem(response.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    fetchData(`${process.env.REACT_APP_API_URL}/api/items`, setItem);
+  }, []);
+
+  useEffect(() => {
+    fetchData(`${process.env.REACT_APP_API_URL}/api/sections`, setSections);
   }, []);
 
   return (
@@ -683,9 +729,10 @@ const Transact = (props) => {
                   className="large-card-title"
                   options={["Issue", "Return", "Adjust", "Reorder", "Receive"]}
                   onChange={(e) => {
-                    setFilteredItem("");
                     setSegment(e);
                     searchItem(searchValue, e);
+                    setFilteredItem("");
+                    setWarehouseCode("");
                   }}
                 />
               </Title>
@@ -694,7 +741,7 @@ const Transact = (props) => {
             <div style={{ marginTop: "10px" }}>
               <div className="space-between-row">
                 <Col
-                  span={segment === "Reorder" ? 22 : 24}
+                  span={segment === "Reorder" ? 18 : 24}
                   style={{ marginBottom: "20px" }}
                 >
                   <Input
@@ -708,38 +755,65 @@ const Transact = (props) => {
                   />
                 </Col>
                 {segment === "Reorder" ? (
-                  <Col span={2} style={{ paddingLeft: "20px" }}>
-                    <Tooltip
-                      title={
-                        reorderItemCount > 1
-                          ? "Cart (" + reorderItemCount.toString() + " Items)"
-                          : "Cart (" + reorderItemCount.toString() + " Item)"
-                      }
-                    >
-                      <Badge
-                        count={reorderItemCount}
-                        color="#318ce7"
-                        onClick={showDrawer}
+                  <>
+                    <Col span={4} style={{ paddingLeft: "20px" }}>
+                      <Select
+                        size="large"
+                        placeholder="To Warehouse"
+                        showSearch
+                        className="bordered-select"
+                        optionFilterProp="children"
+                        filterOption={(input, option) =>
+                          (option?.label ?? "").toLowerCase().includes(input)
+                        }
+                        filterSort={(optionA, optionB) =>
+                          (optionA?.label ?? "")
+                            .toLowerCase()
+                            .localeCompare((optionB?.label ?? "").toLowerCase())
+                        }
+                        options={sections
+                          .filter((sec) => sec.section_type === "warehouse")
+                          .map((sec) => ({
+                            value: sec.section_code,
+                            label: sec.section_code,
+                          }))}
+                        style={{ width: "100%" }}
+                        onChange={onWarehouseChange}
+                      />
+                    </Col>
+                    <Col span={2} style={{ paddingLeft: "20px" }}>
+                      <Tooltip
+                        title={
+                          reorderItemCount > 1
+                            ? "Cart (" + reorderItemCount.toString() + " Items)"
+                            : "Cart (" + reorderItemCount.toString() + " Item)"
+                        }
                       >
-                        <Avatar
-                          className="avatar-btn"
-                          shape="square"
-                          size="large"
-                          style={{
-                            background: "#318ce7",
-                            cursor: "pointer",
-                            width: "50px",
-                          }}
-                          icon={
-                            <ShoppingCartOutlined
-                              className="big-card-title"
-                              style={{ color: "#fff" }}
-                            />
-                          }
-                        />
-                      </Badge>
-                    </Tooltip>
-                  </Col>
+                        <Badge
+                          count={reorderItemCount}
+                          color="#318ce7"
+                          onClick={showDrawer}
+                        >
+                          <Avatar
+                            className="avatar-btn"
+                            shape="square"
+                            size="large"
+                            style={{
+                              background: "#318ce7",
+                              cursor: "pointer",
+                              width: "50px",
+                            }}
+                            icon={
+                              <ShoppingCartOutlined
+                                className="big-card-title"
+                                style={{ color: "#fff" }}
+                              />
+                            }
+                          />
+                        </Badge>
+                      </Tooltip>
+                    </Col>
+                  </>
                 ) : (
                   ""
                 )}
@@ -778,6 +852,7 @@ const Transact = (props) => {
         receiveOrder={receiveOrder}
         success={success}
         transactionCode={transactionCode}
+        warehouseCode={warehouseCode}
         clearOrder={clearOrder}
         showDrawer={openDrawer}
         onCloseDrawer={onCloseDrawer}

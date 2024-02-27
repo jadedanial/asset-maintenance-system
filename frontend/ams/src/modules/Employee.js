@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import { UserOutlined } from "@ant-design/icons";
 import SearchTableEvent from "../components/SearchTableEvent";
@@ -50,7 +50,7 @@ const Employee = (props) => {
     },
   ];
 
-  function loadAPILists() {
+  const loadAPILists = useCallback(() => {
     const token = sessionStorage.getItem("token");
     axios({
       method: "GET",
@@ -79,7 +79,7 @@ const Employee = (props) => {
       .catch((err) => {
         console.log(err);
       });
-  }
+  }, []);
 
   function searchedText(text) {
     setSearchedText(text);
@@ -87,7 +87,7 @@ const Employee = (props) => {
 
   useEffect(() => {
     loadAPILists();
-  }, []);
+  }, [loadAPILists]);
 
   return (
     <>

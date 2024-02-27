@@ -112,12 +112,12 @@ const ItemDetail = (props) => {
               </p>
             </div>
           </Col>
-          <Col span={9}>
+          <Col span={9} className="justified-row flex-end-row">
             <QRCode
               value={i.item_code}
               style={{
                 height: "auto",
-                width: "100%",
+                width: "80%",
               }}
             />
           </Col>

@@ -39,7 +39,7 @@ const Vehicle = () => {
     },
   ];
 
-  function loadAPILists() {
+  const loadAPILists = useCallback(() => {
     const token = sessionStorage.getItem("token");
     axios({
       method: "GET",
@@ -68,7 +68,7 @@ const Vehicle = () => {
       .catch((err) => {
         console.log(err);
       });
-  }
+  }, []);
 
   function searchedText(text) {
     setSearchedText(text);
@@ -76,7 +76,7 @@ const Vehicle = () => {
 
   useEffect(() => {
     loadAPILists();
-  }, []);
+  }, [loadAPILists]);
 
   return (
     <>
