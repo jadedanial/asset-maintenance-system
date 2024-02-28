@@ -9,8 +9,9 @@ import {
   Card,
   Select,
   Col,
+  Row,
 } from "antd";
-import { CheckCircleOutlined } from "@ant-design/icons";
+import { CheckOutlined } from "@ant-design/icons";
 import ResultEvent from "./ResultEvent";
 import moment from "moment";
 
@@ -254,7 +255,7 @@ const AddUpdateEmployee = (props) => {
       return (
         <>
           <ResultEvent
-            icon={<CheckCircleOutlined style={{ color: "#318ce7" }} />}
+            icon={<CheckOutlined style={{ color: "#318ce7" }} />}
             status="success"
             title={
               update
@@ -265,10 +266,30 @@ const AddUpdateEmployee = (props) => {
               "Employee name " + employeeName + " with ID " + employeeID
             }
             extra={
-              <Button size="large" type="primary" onClick={() => newEmployee()}>
-                ADD NEW EMPLOYEE
-              </Button>
+              <Row className="space-between-row" style={{ width: "40%" }}>
+                <Col span={12}>
+                  <Button
+                    size="large"
+                    type="default"
+                    onClick={props.onCloseDrawer}
+                    block
+                  >
+                    CLOSE
+                  </Button>
+                </Col>
+                <Col span={11}>
+                  <Button
+                    size="large"
+                    type="primary"
+                    onClick={() => newEmployee()}
+                    block
+                  >
+                    NEW EMPLOYEE
+                  </Button>
+                </Col>
+              </Row>
             }
+            theme={props.theme}
           />
         </>
       );

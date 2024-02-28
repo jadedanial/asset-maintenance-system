@@ -10,13 +10,11 @@ import {
   Typography,
   List,
   Table,
+  Col,
+  Row,
   notification,
 } from "antd";
-import {
-  CloseOutlined,
-  CheckCircleOutlined,
-  PlusOutlined,
-} from "@ant-design/icons";
+import { CloseOutlined, CheckOutlined, PlusOutlined } from "@ant-design/icons";
 import NotificationEvent from "./NotificationEvent";
 import ResultEvent from "./ResultEvent";
 import moment from "moment";
@@ -494,27 +492,32 @@ const Vacation = (props) => {
     return (
       <>
         <ResultEvent
-          icon={<CheckCircleOutlined style={{ color: "#318ce7" }} />}
+          icon={<CheckOutlined style={{ color: "#318ce7" }} />}
           status="success"
           title={"Successfully applied employee vacation."}
           subTitle={`From ${moment(startdate).format(dateFormat)} To ${moment(
             enddate
           ).format(dateFormat)} (${days > 1 ? days + " days" : days + " day"})`}
-          extra={[
-            <Button
-              size="large"
-              type="primary"
-              style={{
-                marginRight: "10px",
-              }}
-              onClick={newVacation}
-            >
-              ADD NEW VACATION
-            </Button>,
-            <Button size="large" type="primary" onClick={viewVacation}>
-              VIEW VACATIONS
-            </Button>,
-          ]}
+          extra={
+            <Row className="space-between-row" style={{ width: "40%" }}>
+              <Col span={12}>
+                <Button
+                  size="large"
+                  type="default"
+                  onClick={viewVacation}
+                  block
+                >
+                  CLOSE
+                </Button>
+              </Col>
+              <Col span={11}>
+                <Button size="large" type="primary" onClick={newVacation} block>
+                  NEW VACATION
+                </Button>
+              </Col>
+            </Row>
+          }
+          theme={props.theme}
         />
       </>
     );

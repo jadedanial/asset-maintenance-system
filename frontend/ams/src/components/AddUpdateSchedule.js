@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Typography, Button, Form, Card, Col, Input, Select } from "antd";
-import { CheckCircleOutlined } from "@ant-design/icons";
+import { Typography, Button, Form, Card, Col, Row, Input, Select } from "antd";
+import { CheckOutlined } from "@ant-design/icons";
 import ResultEvent from "./ResultEvent";
 
 const { Title } = Typography;
@@ -177,7 +177,7 @@ const AddUpdateSchedule = (props) => {
       return (
         <>
           <ResultEvent
-            icon={<CheckCircleOutlined style={{ color: "#318ce7" }} />}
+            icon={<CheckOutlined style={{ color: "#318ce7" }} />}
             status="success"
             title={
               update
@@ -186,10 +186,30 @@ const AddUpdateSchedule = (props) => {
             }
             subTitle={schedName}
             extra={
-              <Button size="large" type="primary" onClick={() => newSchedule()}>
-                ADD NEW SCHEDULE
-              </Button>
+              <Row className="space-between-row" style={{ width: "40%" }}>
+                <Col span={12}>
+                  <Button
+                    size="large"
+                    type="default"
+                    onClick={props.onCloseDrawer}
+                    block
+                  >
+                    CLOSE
+                  </Button>
+                </Col>
+                <Col span={11}>
+                  <Button
+                    size="large"
+                    type="primary"
+                    onClick={() => newSchedule()}
+                    block
+                  >
+                    NEW SCHEDULE
+                  </Button>
+                </Col>
+              </Row>
             }
+            theme={props.theme}
           />
         </>
       );

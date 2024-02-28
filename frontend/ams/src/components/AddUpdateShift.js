@@ -1,7 +1,16 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { Typography, Button, Form, Card, Col, Input, TimePicker } from "antd";
-import { CheckCircleOutlined } from "@ant-design/icons";
+import {
+  Typography,
+  Button,
+  Form,
+  Card,
+  Col,
+  Row,
+  Input,
+  TimePicker,
+} from "antd";
+import { CheckOutlined } from "@ant-design/icons";
 import ResultEvent from "./ResultEvent";
 import moment from "moment";
 
@@ -106,7 +115,7 @@ const AddUpdateShift = (props) => {
       return (
         <>
           <ResultEvent
-            icon={<CheckCircleOutlined style={{ color: "#318ce7" }} />}
+            icon={<CheckOutlined style={{ color: "#318ce7" }} />}
             status="success"
             title={
               update
@@ -115,10 +124,30 @@ const AddUpdateShift = (props) => {
             }
             subTitle={shiftName}
             extra={
-              <Button size="large" type="primary" onClick={() => newShift()}>
-                ADD NEW SHIFT
-              </Button>
+              <Row className="space-between-row" style={{ width: "40%" }}>
+                <Col span={12}>
+                  <Button
+                    size="large"
+                    type="default"
+                    onClick={props.onCloseDrawer}
+                    block
+                  >
+                    CLOSE
+                  </Button>
+                </Col>
+                <Col span={11}>
+                  <Button
+                    size="large"
+                    type="primary"
+                    onClick={() => newShift()}
+                    block
+                  >
+                    NEW SHIFT
+                  </Button>
+                </Col>
+              </Row>
             }
+            theme={props.theme}
           />
         </>
       );

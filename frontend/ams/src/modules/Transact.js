@@ -853,6 +853,7 @@ const Transact = (props) => {
         success={success}
         transactionCode={transactionCode}
         warehouseCode={warehouseCode}
+        warehouseCategory={warehouseCategory}
         clearOrder={clearOrder}
         showDrawer={openDrawer}
         onCloseDrawer={onCloseDrawer}

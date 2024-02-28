@@ -6,8 +6,7 @@ import {
   UserOutlined,
   MailOutlined,
   LockOutlined,
-  CheckCircleOutlined,
-  LoginOutlined,
+  CheckOutlined,
   IdcardOutlined,
 } from "@ant-design/icons";
 import ResultEvent from "../components/ResultEvent";
@@ -96,17 +95,12 @@ const RegisterPage = () => {
                 style={{ width: "60%", top: "15%", left: "22%" }}
               >
                 <ResultEvent
-                  icon={<CheckCircleOutlined style={{ color: "#318ce7" }} />}
+                  icon={<CheckOutlined style={{ color: "#318ce7" }} />}
                   status="success"
                   title="Successfully added new User."
                   subTitle={"Username: " + username + "\nEmail: " + email}
                   extra={
-                    <Button
-                      icon={<LoginOutlined />}
-                      size="large"
-                      type="primary"
-                      href="/login"
-                    >
+                    <Button size="large" type="primary" href="/login">
                       Login
                     </Button>
                   }

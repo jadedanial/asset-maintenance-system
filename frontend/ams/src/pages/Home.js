@@ -1,11 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Button } from "antd";
-import {
-  LoginOutlined,
-  FrownOutlined,
-  UserAddOutlined,
-} from "@ant-design/icons";
+import { Button, Col, Row } from "antd";
+import { FrownOutlined } from "@ant-design/icons";
 import MainPage from "../components/MainPage";
 import ResultEvent from "../components/ResultEvent";
 
@@ -13,7 +9,7 @@ const HomePage = () => {
   const [theme, setTheme] = useState("light");
   const [empid, setEmpID] = useState(0);
   const [username, setUsername] = useState("");
-  const [loginFailed, setLoginFailed] = useState(true);
+  const [loginFailed, setLoginFailed] = useState(false);
 
   useEffect(() => {
     const token = sessionStorage.getItem("token");
@@ -61,32 +57,25 @@ const HomePage = () => {
             }}
           >
             <ResultEvent
-              theme={theme}
               icon={<FrownOutlined style={{ color: "#cdf5fd" }} />}
               status="403"
               title="Unauthorized User!"
               subTitle="Sorry, you are not authorized to access this page. Please login or register."
-              extra={[
-                <Button
-                  icon={<LoginOutlined />}
-                  size="large"
-                  type="primary"
-                  href="/login"
-                  style={{
-                    marginRight: "10px",
-                  }}
-                >
-                  LOGIN
-                </Button>,
-                <Button
-                  icon={<UserAddOutlined />}
-                  size="large"
-                  type="primary"
-                  href="/register"
-                >
-                  REGISTER
-                </Button>,
-              ]}
+              extra={
+                <Row className="space-between-row" style={{ width: "40%" }}>
+                  <Col span={12}>
+                    <Button size="large" type="default" href="/login" block>
+                      LOGIN
+                    </Button>
+                  </Col>
+                  <Col span={11}>
+                    <Button size="large" type="primary" href="/register" block>
+                      REGISTER
+                    </Button>
+                  </Col>
+                </Row>
+              }
+              theme={theme}
             />
           </div>
         </>

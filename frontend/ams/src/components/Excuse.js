@@ -10,9 +10,11 @@ import {
   Typography,
   List,
   Table,
+  Row,
+  Col,
   notification,
 } from "antd";
-import { CheckCircleOutlined, PlusOutlined } from "@ant-design/icons";
+import { CheckOutlined, PlusOutlined } from "@ant-design/icons";
 import NotificationEvent from "./NotificationEvent";
 import ResultEvent from "./ResultEvent";
 import moment from "moment";
@@ -503,7 +505,7 @@ const Excuse = (props) => {
     return (
       <>
         <ResultEvent
-          icon={<CheckCircleOutlined style={{ color: "#318ce7" }} />}
+          icon={<CheckOutlined style={{ color: "#318ce7" }} />}
           status="success"
           title={"Successfully applied employee excuse."}
           subTitle={`From ${moment(starttime).format(timeFormat)} To ${moment(
@@ -511,21 +513,21 @@ const Excuse = (props) => {
           ).format(timeFormat)} (${
             hours > 1 ? hours + " hours" : hours + " hour"
           })`}
-          extra={[
-            <Button
-              size="large"
-              type="primary"
-              style={{
-                marginRight: "10px",
-              }}
-              onClick={newExcuse}
-            >
-              ADD NEW EXCUSE
-            </Button>,
-            <Button size="large" type="primary" onClick={viewExcuse}>
-              VIEW EXCUSES
-            </Button>,
-          ]}
+          extra={
+            <Row className="space-between-row" style={{ width: "40%" }}>
+              <Col span={12}>
+                <Button size="large" type="default" onClick={viewExcuse} block>
+                  CLOSE
+                </Button>
+              </Col>
+              <Col span={11}>
+                <Button size="large" type="primary" onClick={newExcuse} block>
+                  NEW EXCUSE
+                </Button>
+              </Col>
+            </Row>
+          }
+          theme={props.theme}
         />
       </>
     );

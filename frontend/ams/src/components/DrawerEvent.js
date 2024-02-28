@@ -41,10 +41,10 @@ const DrawerEvent = (props) => {
               update={false}
               updateEmployeeSection={props.updateEmployeeSection}
               onCloseDrawer={props.onCloseDrawer}
+              theme={props.theme}
             />
           </>
         );
-
       case "AddUpdateShift":
         return (
           <>
@@ -142,9 +142,10 @@ const DrawerEvent = (props) => {
               success={props.success}
               transactionCode={props.transactionCode}
               warehouseCode={props.warehouseCode}
+              warehouseCategory={props.warehouseCategory}
+              sectionCode={props.sectionCode}
               clearOrder={props.clearOrder}
               onCloseDrawer={props.onCloseDrawer}
-              sectionCode={props.sectionCode}
               theme={props.theme}
             ></Cart>
           </>

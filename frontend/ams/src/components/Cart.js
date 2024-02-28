@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { Typography, Card, Button, notification } from "antd";
-import { CheckCircleOutlined } from "@ant-design/icons";
+import { Typography, Card, Button, Col, Row, notification } from "antd";
+import { CheckOutlined } from "@ant-design/icons";
 import ResultEvent from "./ResultEvent";
 import NotificationEvent from "./NotificationEvent";
 import ItemList from "./ItemList";
@@ -42,7 +42,10 @@ const Cart = (props) => {
   ) {
     if (quantity >= 1) {
       if (action === "add") {
-        if (max <= quantity) {
+        if (
+          max <= quantity &&
+          props.warehouseCategory(props.warehouseCode) !== "main"
+        ) {
           quantity = max;
           api.info(
             NotificationEvent(
@@ -95,15 +98,35 @@ const Cart = (props) => {
     return (
       <>
         <ResultEvent
-          icon={<CheckCircleOutlined style={{ color: "#318ce7" }} />}
+          icon={<CheckOutlined style={{ color: "#318ce7" }} />}
           status="success"
           title={message}
           subTitle={"Transaction ID " + String(props.transactionCode)}
-          extra={[
-            <Button size="large" type="primary" onClick={props.onCloseDrawer}>
-              TRANSACT ANOTHER
-            </Button>,
-          ]}
+          extra={
+            <Row className="space-between-row" style={{ width: "40%" }}>
+              <Col span={12}>
+                <Button
+                  size="large"
+                  type="default"
+                  onClick={props.onCloseDrawer}
+                  block
+                >
+                  CLOSE
+                </Button>
+              </Col>
+              <Col span={11}>
+                <Button
+                  size="large"
+                  type="primary"
+                  onClick={props.onCloseDrawer}
+                  block
+                >
+                  NEW TRANSACTION
+                </Button>
+              </Col>
+            </Row>
+          }
+          theme={props.theme}
         />
       </>
     );

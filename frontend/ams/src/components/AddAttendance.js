@@ -7,9 +7,11 @@ import {
   DatePicker,
   Input,
   Card,
+  Col,
+  Row,
   notification,
 } from "antd";
-import { CheckCircleOutlined } from "@ant-design/icons";
+import { CheckOutlined } from "@ant-design/icons";
 import NotificationEvent from "./NotificationEvent";
 import ResultEvent from "./ResultEvent";
 import moment from "moment";
@@ -464,7 +466,7 @@ const AddAttendance = (props) => {
     return (
       <>
         <ResultEvent
-          icon={<CheckCircleOutlined style={{ color: "#318ce7" }} />}
+          icon={<CheckOutlined style={{ color: "#318ce7" }} />}
           status="success"
           title={"Successfully applied employee attendance."}
           subTitle={
@@ -483,11 +485,31 @@ const AddAttendance = (props) => {
                 : "--:--:--"
             )
           }
-          extra={[
-            <Button size="large" type="primary" onClick={props.viewAttendance}>
-              VIEW ATTENDANCE
-            </Button>,
-          ]}
+          extra={
+            <Row className="space-between-row" style={{ width: "40%" }}>
+              <Col span={12}>
+                <Button
+                  size="large"
+                  type="default"
+                  onClick={props.viewAttendance}
+                  block
+                >
+                  CLOSE
+                </Button>
+              </Col>
+              <Col span={11}>
+                <Button
+                  size="large"
+                  type="primary"
+                  onClick={props.viewAttendance}
+                  block
+                >
+                  NEW ATTENDANCE
+                </Button>
+              </Col>
+            </Row>
+          }
+          theme={props.theme}
         />
       </>
     );

@@ -32,6 +32,10 @@ body {
   background-color: #318ce7 !important;
   border: 1px #318ce7 solid !important;
 }
+.ant-result-extra {
+  display: flex !important;
+  justify-content: center !important;
+}
 
 .ant-btn,
 .dark,
