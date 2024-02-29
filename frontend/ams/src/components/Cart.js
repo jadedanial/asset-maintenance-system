@@ -150,75 +150,7 @@ const Cart = (props) => {
               </Title>
             }
             extra={
-              totalOrder > 0.0 ? (
-                props.segment === "Reorder" ? (
-                  <div className="space-between-row">
-                    <Button
-                      size="large"
-                      type="default"
-                      style={{
-                        marginRight: "10px",
-                      }}
-                      onClick={props.onCloseDrawer}
-                      block
-                    >
-                      CANCEL
-                    </Button>
-                    <Button
-                      size="large"
-                      type="primary"
-                      onClick={() => {
-                        if (props.warehouseCode !== "") {
-                          props.reorderOrder(
-                            props.itemList,
-                            props.warehouseCode
-                          );
-                        } else {
-                          api.info(
-                            NotificationEvent(
-                              false,
-                              "Select the warehouse to which you want to transfer the items."
-                            )
-                          );
-                        }
-                      }}
-                      block
-                    >
-                      CHECK OUT
-                    </Button>
-                  </div>
-                ) : props.segment === "Receive" ? (
-                  <Button
-                    size="large"
-                    type="primary"
-                    onClick={() => {
-                      if (checkAllState(props.itemList)) {
-                        props.receiveOrder(props.itemList);
-                      } else {
-                        props.setFilteredItem(
-                          props.itemList.filter(
-                            (item) => item.checked === "false"
-                          )
-                        );
-                        setWarning(true);
-                        setTimeout(() => {
-                          api.info(
-                            NotificationEvent(
-                              false,
-                              "Ensure all item quantities are equal, then confirm by checking the box."
-                            )
-                          );
-                        }, 50);
-                      }
-                    }}
-                    block
-                  >
-                    APPLY
-                  </Button>
-                ) : (
-                  ""
-                )
-              ) : (
+              <div className="space-between-row">
                 <Button
                   size="large"
                   type="default"
@@ -230,7 +162,67 @@ const Cart = (props) => {
                 >
                   CANCEL
                 </Button>
-              )
+                {totalOrder > 0.0 ? (
+                  props.segment === "Reorder" ? (
+                    <div className="space-between-row">
+                      <Button
+                        size="large"
+                        type="primary"
+                        onClick={() => {
+                          if (props.warehouseCode !== "") {
+                            props.reorderOrder(
+                              props.itemList,
+                              props.warehouseCode
+                            );
+                          } else {
+                            api.info(
+                              NotificationEvent(
+                                false,
+                                "Select the warehouse to which you want to transfer the items."
+                              )
+                            );
+                          }
+                        }}
+                        block
+                      >
+                        CHECK OUT
+                      </Button>
+                    </div>
+                  ) : props.segment === "Receive" ? (
+                    <Button
+                      size="large"
+                      type="primary"
+                      onClick={() => {
+                        if (checkAllState(props.itemList)) {
+                          props.receiveOrder(props.itemList);
+                        } else {
+                          props.setFilteredItem(
+                            props.itemList.filter(
+                              (item) => item.checked === "false"
+                            )
+                          );
+                          setWarning(true);
+                          setTimeout(() => {
+                            api.info(
+                              NotificationEvent(
+                                false,
+                                "Ensure all item quantities are equal, then confirm by checking the box."
+                              )
+                            );
+                          }, 50);
+                        }
+                      }}
+                      block
+                    >
+                      APPLY
+                    </Button>
+                  ) : (
+                    ""
+                  )
+                ) : (
+                  <></>
+                )}
+              </div>
             }
           >
             {props.itemCount > 0 ? (

@@ -450,6 +450,7 @@ const ItemList = (props) => {
                           true,
                           props.filteredItem
                         );
+                        setCheckedAll(false);
                       }}
                     ></Checkbox>
                   </Col>

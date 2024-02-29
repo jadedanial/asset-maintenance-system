@@ -62,7 +62,7 @@ const HomePage = () => {
               title="Unauthorized User!"
               subTitle="Sorry, you are not authorized to access this page. Please login or register."
               extra={
-                <Row className="space-between-row" style={{ width: "40%" }}>
+                <Row className="space-between-row" style={{ width: "30%" }}>
                   <Col span={12}>
                     <Button size="large" type="default" href="/login" block>
                       LOGIN

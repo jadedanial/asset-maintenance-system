@@ -539,6 +539,7 @@ const Transact = (props) => {
                 style={{ paddingLeft: "20px" }}
               >
                 <Col
+                  span={24}
                   className="card-with-background"
                   style={{
                     padding: "20px 40px",
@@ -617,8 +618,8 @@ const Transact = (props) => {
                 style={{ paddingLeft: "20px" }}
               >
                 <Col
-                  className="card-with-background"
                   span={24}
+                  className="card-with-background"
                   style={{
                     padding: "20px 40px",
                   }}
