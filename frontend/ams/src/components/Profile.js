@@ -40,7 +40,7 @@ const Profile = (props) => {
       key: "1",
       children: (
         <>
-          <Attendance empid={props.empid} />
+          <Attendance empid={props.empid} theme={props.theme} />
         </>
       ),
     },
@@ -49,7 +49,7 @@ const Profile = (props) => {
       key: "2",
       children: (
         <>
-          <ShiftSchedule empid={props.empid} />
+          <ShiftSchedule empid={props.empid} theme={props.theme} />
         </>
       ),
     },
@@ -58,7 +58,7 @@ const Profile = (props) => {
       key: "3",
       children: (
         <>
-          <Vacation empid={props.empid} />
+          <Vacation empid={props.empid} theme={props.theme} />
         </>
       ),
     },
@@ -67,7 +67,7 @@ const Profile = (props) => {
       key: "4",
       children: (
         <>
-          <Excuse empid={props.empid} />
+          <Excuse empid={props.empid} theme={props.theme} />
         </>
       ),
     },
@@ -172,21 +172,21 @@ const Profile = (props) => {
                     <Col>
                       <Row style={{ marginTop: "12px" }}>
                         <UserOutlined className="detail-icon-label" />
-                        <p className="medium-font">{e.emp_position}</p>
+                        <p className="medium-font text">{e.emp_position}</p>
                       </Row>
                       <Row style={{ marginTop: "12px" }}>
                         <IdcardOutlined className="detail-icon-label" />
-                        <p className="small-font">{e.emp_id}</p>
+                        <p className="small-font text">{e.emp_id}</p>
                       </Row>
                       <Row style={{ marginTop: "12px" }}>
                         <CalendarOutlined className="detail-icon-label" />
-                        <p className="small-font">
+                        <p className="small-font text">
                           Hired {moment(e.emp_hired).format("MMMM DD, YYYY")}
                         </p>
                       </Row>
                       <Row style={{ marginTop: "12px" }}>
                         <HeartOutlined className="detail-icon-label" />
-                        <p className="small-font">
+                        <p className="small-font text">
                           {expYears(e.emp_bdate)} years old
                         </p>
                       </Row>
@@ -194,19 +194,19 @@ const Profile = (props) => {
                     <Col>
                       <Row style={{ marginTop: "12px" }}>
                         <MailOutlined className="detail-icon-label" />
-                        <p className="small-font">{e.emp_email}</p>
+                        <p className="small-font text">{e.emp_email}</p>
                       </Row>
                       <Row style={{ marginTop: "12px" }}>
                         <PhoneOutlined className="detail-icon-label" />
-                        <p className="small-font">{e.emp_phone}</p>
+                        <p className="small-font text">{e.emp_phone}</p>
                       </Row>
                       <Row style={{ marginTop: "12px" }}>
                         <EnvironmentOutlined className="detail-icon-label" />
-                        <p className="small-font">{e.emp_address}</p>
+                        <p className="small-font text">{e.emp_address}</p>
                       </Row>
                       <Row style={{ marginTop: "12px" }}>
                         <ApartmentOutlined className="detail-icon-label" />
-                        <p className="small-font">{e.emp_section}</p>
+                        <p className="small-font text">{e.emp_section}</p>
                       </Row>
                     </Col>
                     <Col>
@@ -214,7 +214,10 @@ const Profile = (props) => {
                         <Statistic
                           title={
                             <Title style={{ margin: 0 }}>
-                              <p className="small-font" style={{ margin: 0 }}>
+                              <p
+                                className="small-font text"
+                                style={{ margin: 0 }}
+                              >
                                 Years of Experience
                               </p>
                             </Title>

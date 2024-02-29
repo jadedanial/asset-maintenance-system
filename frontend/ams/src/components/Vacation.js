@@ -212,7 +212,7 @@ const Vacation = (props) => {
                   Vacation Type
                 </p>
               ),
-              description: <p className="medium-font">{vacation}</p>,
+              description: <p className="medium-font text">{vacation}</p>,
             },
             {
               title: (
@@ -221,7 +221,7 @@ const Vacation = (props) => {
                 </p>
               ),
               description: (
-                <p className="medium-font">
+                <p className="medium-font text">
                   From {moment(startdate).format(dateFormat)} To{" "}
                   {moment(enddate).format(dateFormat)} (
                   {days > 1 ? days + " days" : days + " day"})
@@ -235,7 +235,9 @@ const Vacation = (props) => {
                 </p>
               ),
               description: (
-                <p className="medium-font">{reason ? reason : "No Reason"}</p>
+                <p className="medium-font text">
+                  {reason ? reason : "No Reason"}
+                </p>
               ),
             },
             {
@@ -245,7 +247,7 @@ const Vacation = (props) => {
                 </p>
               ),
               description: (
-                <p className="medium-font">
+                <p className="medium-font text">
                   {attachment ? attachment : "No Attachment"}
                 </p>
               ),

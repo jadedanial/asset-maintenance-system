@@ -132,7 +132,7 @@ const Excuse = (props) => {
                 </p>
               ),
               description: (
-                <p className="medium-font">
+                <p className="medium-font text">
                   {moment(excusedate).format(dateFormat)}
                 </p>
               ),
@@ -144,7 +144,7 @@ const Excuse = (props) => {
                 </p>
               ),
               description: (
-                <p className="medium-font">
+                <p className="medium-font text">
                   From {moment(starttime).format(timeFormat)} To{" "}
                   {moment(endtime).format(timeFormat)} (
                   {hours > 1 ? hours + " hours" : hours + " hour"})
@@ -157,7 +157,7 @@ const Excuse = (props) => {
                   Reason
                 </p>
               ),
-              description: <p className="medium-font">{reason}</p>,
+              description: <p className="medium-font text">{reason}</p>,
             },
           ]}
           renderItem={(item) => (

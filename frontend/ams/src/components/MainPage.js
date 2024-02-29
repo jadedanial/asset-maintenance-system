@@ -149,9 +149,9 @@ const MainPage = (props) => {
               collapsed={collapsed}
               comp={"User"}
               updateEmployeeSection={updateEmployeeSection}
-              theme={theme}
               overflow={true}
               showClose={true}
+              theme={theme}
             />
           </>
         );

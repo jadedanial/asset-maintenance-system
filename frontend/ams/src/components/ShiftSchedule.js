@@ -80,11 +80,7 @@ const ShiftSchedule = (props) => {
                         )
                       )
                       .asHours() === 0 ? (
-                      <Badge
-                        color="blue"
-                        text="Day Off"
-                        style={{ color: "#318ce7" }}
-                      />
+                      <Badge color="blue" text="Day Off" />
                     ) : (
                       schedule.sched_sun
                     ),
@@ -102,11 +98,7 @@ const ShiftSchedule = (props) => {
                         )
                       )
                       .asHours() === 0 ? (
-                      <Badge
-                        color="blue"
-                        text="Day Off"
-                        style={{ color: "#318ce7" }}
-                      />
+                      <Badge color="blue" text="Day Off" />
                     ) : (
                       schedule.sched_mon
                     ),
@@ -124,11 +116,7 @@ const ShiftSchedule = (props) => {
                         )
                       )
                       .asHours() === 0 ? (
-                      <Badge
-                        color="blue"
-                        text="Day Off"
-                        style={{ color: "#318ce7" }}
-                      />
+                      <Badge color="blue" text="Day Off" />
                     ) : (
                       schedule.sched_tue
                     ),
@@ -146,11 +134,7 @@ const ShiftSchedule = (props) => {
                         )
                       )
                       .asHours() === 0 ? (
-                      <Badge
-                        color="blue"
-                        text="Day Off"
-                        style={{ color: "#318ce7" }}
-                      />
+                      <Badge color="blue" text="Day Off" />
                     ) : (
                       schedule.sched_wed
                     ),
@@ -168,11 +152,7 @@ const ShiftSchedule = (props) => {
                         )
                       )
                       .asHours() === 0 ? (
-                      <Badge
-                        color="blue"
-                        text="Day Off"
-                        style={{ color: "#318ce7" }}
-                      />
+                      <Badge color="blue" text="Day Off" />
                     ) : (
                       schedule.sched_thu
                     ),
@@ -190,11 +170,7 @@ const ShiftSchedule = (props) => {
                         )
                       )
                       .asHours() === 0 ? (
-                      <Badge
-                        color="blue"
-                        text="Day Off"
-                        style={{ color: "#318ce7" }}
-                      />
+                      <Badge color="blue" text="Day Off" />
                     ) : (
                       schedule.sched_fri
                     ),
@@ -212,11 +188,7 @@ const ShiftSchedule = (props) => {
                         )
                       )
                       .asHours() === 0 ? (
-                      <Badge
-                        color="blue"
-                        text="Day Off"
-                        style={{ color: "#318ce7" }}
-                      />
+                      <Badge color="blue" text="Day Off" />
                     ) : (
                       schedule.sched_sat
                     ),
@@ -226,7 +198,7 @@ const ShiftSchedule = (props) => {
                 <List.Item>
                   <Card size="small" className="card-with-background">
                     <p className="small-card-title">{item.title}</p>
-                    <p className="small-font">{item.description}</p>
+                    <p className="small-font text">{item.description}</p>
                   </Card>
                 </List.Item>
               )}

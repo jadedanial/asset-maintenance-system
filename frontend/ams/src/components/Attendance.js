@@ -256,7 +256,7 @@ const Attendance = (props, ref) => {
               title={
                 <Title>
                   <div className="justified-row">
-                    <p className="small-font">{item.title}</p>
+                    <p className="small-font text">{item.title}</p>
                   </div>
                 </Title>
               }
@@ -393,7 +393,7 @@ const Attendance = (props, ref) => {
                                     style={{ fontSize: "" }}
                                   />
                                 }
-                                className="small-font"
+                                className="small-font text"
                               >
                                 {data}
                               </Timeline.Item>
