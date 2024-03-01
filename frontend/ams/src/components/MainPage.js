@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { ReactQueryDevtools } from "react-query/devtools";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import {
@@ -411,6 +412,7 @@ const MainPage = (props) => {
             </Layout>
           </Layout>
         </ConfigProvider>
+        <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
     </>
   );
