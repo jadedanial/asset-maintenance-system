@@ -1,23 +1,53 @@
 import React, { useState, useEffect } from "react";
 import { useQuery } from "react-query";
-import axios from "axios";
 import { Button, Col, Row } from "antd";
 import { FrownOutlined } from "@ant-design/icons";
+import axios from "axios";
 import MainPage from "../components/MainPage";
 import ResultEvent from "../components/ResultEvent";
-import { fetchItems, fetchWarehouseItems } from "../api";
+import {
+  fetchComponents,
+  fetchModules,
+  fetchCategories,
+  fetchOptions,
+  fetchBranches,
+  fetchSections,
+  fetchShifts,
+  fetchSchedules,
+  fetchEmployees,
+  fetchAttendances,
+  fetchVacations,
+  fetchExcuses,
+  fetchItems,
+  fetchWarehouseItems,
+  fetchVehicles,
+  fetchTransactions,
+} from "../api";
 
-const HomePage = () => {
+const HomePage = ({ client }) => {
   const [theme, setTheme] = useState("light");
-  const [empid, setEmpID] = useState(0);
-  const [username, setUsername] = useState("");
+  const [userId, setUserId] = useState(0);
+  const [userName, setUserName] = useState("");
   const [loginFailed, setLoginFailed] = useState(false);
-
-  const { data: items } = useQuery("witems", fetchItems);
-  const { data: warehouseItems } = useQuery(
-    "warehouseItems",
+  const { data: components } = useQuery("components", fetchComponents);
+  const { data: modules } = useQuery("modules", fetchModules);
+  const { data: categories } = useQuery("categories", fetchCategories);
+  const { data: options } = useQuery("options", fetchOptions);
+  const { data: branches } = useQuery("branches", fetchBranches);
+  const { data: sections } = useQuery("sections", fetchSections);
+  const { data: shifts } = useQuery("shifts", fetchShifts);
+  const { data: schedules } = useQuery("schedules", fetchSchedules);
+  const { data: employees } = useQuery("employees", fetchEmployees);
+  const { data: attendances } = useQuery("attendances", fetchAttendances);
+  const { data: vacations } = useQuery("vacations", fetchVacations);
+  const { data: excuses } = useQuery("excuses", fetchExcuses);
+  const { data: items } = useQuery("items", fetchItems);
+  const { data: warehouseitems } = useQuery(
+    "warehouseitems",
     fetchWarehouseItems
   );
+  const { data: vehicles } = useQuery("vehicles", fetchVehicles);
+  const { data: transactions } = useQuery("transactions", fetchTransactions);
 
   useEffect(() => {
     const token = sessionStorage.getItem("token");
@@ -32,8 +62,8 @@ const HomePage = () => {
     })
       .then((response) => {
         setLoginFailed(false);
-        setEmpID(response.data.id);
-        setUsername(response.data.username);
+        setUserId(response.data.userid);
+        setUserName(response.data.username);
       })
       .catch((err) => {
         console.log(err.response.data.detail);
@@ -42,14 +72,11 @@ const HomePage = () => {
   }, []);
 
   useEffect(() => {
-    const cookies = document.cookie.split("; ");
-    const modeCookie = cookies.find((row) => row.startsWith("mode="));
-    const mode = modeCookie?.split("=")[1];
-    if (mode) {
-      setTheme(mode);
-    } else {
-      setTheme("light");
-    }
+    const mode = document.cookie
+      .split("; ")
+      .find((row) => row.startsWith("mode="))
+      ?.split("=")[1];
+    setTheme(mode || "light");
   }, []);
 
   return (
@@ -90,10 +117,25 @@ const HomePage = () => {
       ) : (
         <>
           <MainPage
-            empid={empid}
-            username={username}
+            client={client}
+            userId={userId}
+            userName={userName}
+            components={components}
+            modules={modules}
+            categories={categories}
+            options={options}
+            branches={branches}
+            sections={sections}
+            shifts={shifts}
+            schedules={schedules}
+            employees={employees}
+            attendances={attendances}
+            vacations={vacations}
+            excuses={excuses}
             items={items}
-            warehouseItems={warehouseItems}
+            warehouseitems={warehouseitems}
+            vehicles={vehicles}
+            transactions={transactions}
           />
         </>
       )}

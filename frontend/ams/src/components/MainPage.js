@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   ConfigProvider,
@@ -25,6 +24,7 @@ import {
   AlertOutlined,
   BulbOutlined,
 } from "@ant-design/icons";
+import axios from "axios";
 import Employee from "../modules/Employee";
 import Shift from "../modules/Shift";
 import Schedule from "../modules/Schedule";
@@ -35,42 +35,41 @@ import EmptyData from "./EmptyData";
 
 const { Header, Sider, Content } = Layout;
 
-const MainPage = (props) => {
+const MainPage = ({
+  client,
+  userId,
+  userName,
+  components,
+  modules,
+  categories,
+  options,
+  branches,
+  sections,
+  shifts,
+  schedules,
+  employees,
+  attendances,
+  vacations,
+  excuses,
+  items,
+  warehouseitems,
+  vehicles,
+  transactions,
+}) => {
   const [theme, setTheme] = useState("light");
-  const [employeeSection, setEmployeeSection] = useState("");
   const [openDrawer, setOpenDrawer] = useState(true);
   const [collapsed, setCollapsed] = useState(false);
   const [selectedMenuItem, setSelectedMenuItem] = useState("");
   const [previousMenuItem, setPreviousMenuItem] = useState("");
-  const [modules, setModules] = useState([]);
   const [sectionCode, setSectionCode] = useState("");
   const [sectionCategory, setSectionCategory] = useState("");
   const navigate = useNavigate();
 
-  const emptyImage = () => (
-    <>
-      <EmptyData theme={theme} />
-    </>
-  );
-
-  const items = [
-    {
-      label: <p className="small-font">Profile</p>,
-      key: "0",
-      icon: <UserOutlined />,
-    },
-    {
-      label: <p className="small-font">Logout</p>,
-      key: "1",
-      icon: <UnlockOutlined />,
-    },
-  ];
-
-  function addMode(mode) {
+  const addMode = (mode) => {
     document.cookie = "mode=" + mode + "; path=/";
-  }
+  };
 
-  function changeMode() {
+  const changeMode = () => {
     if (theme === "light") {
       addMode("dark");
       setTheme("dark");
@@ -78,9 +77,18 @@ const MainPage = (props) => {
       addMode("light");
       setTheme("light");
     }
-  }
+  };
 
-  function logout() {
+  const showDrawer = () => {
+    setOpenDrawer(true);
+  };
+
+  const onCloseDrawer = () => {
+    setOpenDrawer(false);
+    setSelectedMenuItem(previousMenuItem);
+  };
+
+  const logout = () => {
     const token = sessionStorage.getItem("token");
     axios({
       method: "POST",
@@ -98,9 +106,9 @@ const MainPage = (props) => {
         console.log(err);
       });
     navigate("/login");
-  }
+  };
 
-  function onClick({ key }) {
+  const onClick = ({ key }) => {
     if (key === "0") {
       setPreviousMenuItem(selectedMenuItem);
       setSelectedMenuItem(0);
@@ -109,48 +117,63 @@ const MainPage = (props) => {
     if (key === "1") {
       return logout();
     }
+  };
+
+  const emptyImage = () => (
+    <>
+      <EmptyData theme={theme} />
+    </>
+  );
+
+  const dropDownItems = [
+    {
+      label: <p className="small-font">Profile</p>,
+      key: "0",
+      icon: <UserOutlined />,
+    },
+    {
+      label: <p className="small-font">Logout</p>,
+      key: "1",
+      icon: <UnlockOutlined />,
+    },
+  ];
+
+  const iconComponents = {
+    SettingOutlined: <SettingOutlined style={{ fontSize: "20px" }} />,
+    ShopOutlined: <ShopOutlined style={{ fontSize: "20px" }} />,
+    TeamOutlined: <TeamOutlined style={{ fontSize: "20px" }} />,
+    CarOutlined: <CarOutlined style={{ fontSize: "20px" }} />,
+    BarChartOutlined: <BarChartOutlined style={{ fontSize: "20px" }} />,
+  };
+
+  let newModules = [];
+  if (modules && modules.length > 0) {
+    newModules = modules.map((module) => ({
+      ...module,
+      icon: iconComponents[module.icon],
+    }));
   }
 
-  function showDrawer() {
-    setOpenDrawer(true);
-  }
-
-  function onCloseDrawer() {
-    setOpenDrawer(false);
-    setSelectedMenuItem(previousMenuItem);
-  }
-
-  function iconsSwitch(icon) {
-    switch (icon) {
-      case "SettingOutlined":
-        return <SettingOutlined style={{ fontSize: "20px" }} />;
-      case "ShopOutlined":
-        return <ShopOutlined style={{ fontSize: "20px" }} />;
-      case "TeamOutlined":
-        return <TeamOutlined style={{ fontSize: "20px" }} />;
-      case "CarOutlined":
-        return <CarOutlined style={{ fontSize: "20px" }} />;
-      case "BarChartOutlined":
-        return <BarChartOutlined style={{ fontSize: "20px" }} />;
-      default:
-        break;
-    }
-  }
-
-  function componentSwitch(key) {
+  const componentSwitch = (key) => {
     switch (key) {
       case 0:
         return (
           <>
             <DrawerEvent
-              empid={props.empid}
+              employees={employees}
+              attendances={attendances}
+              schedules={schedules}
+              vacations={vacations}
+              excuses={excuses}
+              options={options}
+              userId={userId}
               showDrawer={openDrawer}
               onCloseDrawer={onCloseDrawer}
-              collapsed={collapsed}
               comp={"User"}
-              updateEmployeeSection={updateEmployeeSection}
               overflow={true}
               showClose={true}
+              getSection={getSection}
+              collapsed={collapsed}
               theme={theme}
             />
           </>
@@ -159,7 +182,13 @@ const MainPage = (props) => {
         return (
           <>
             <Employee
-              updateEmployeeSection={updateEmployeeSection}
+              employees={employees}
+              attendances={attendances}
+              schedules={schedules}
+              vacations={vacations}
+              excuses={excuses}
+              options={options}
+              getSection={getSection}
               collapsed={collapsed}
               theme={theme}
             />
@@ -168,25 +197,28 @@ const MainPage = (props) => {
       case "Shift":
         return (
           <>
-            <Shift collapsed={collapsed} theme={theme} />
+            <Shift shifts={shifts} collapsed={collapsed} theme={theme} />
           </>
         );
       case "Schedule":
         return (
           <>
-            <Schedule collapsed={collapsed} theme={theme} />
+            <Schedule
+              schedules={schedules}
+              collapsed={collapsed}
+              theme={theme}
+            />
           </>
         );
       case "Item":
         return (
           <>
             <Item
-              empid={props.empid}
-              collapsed={collapsed}
+              items={items}
+              warehouseitems={warehouseitems}
               sectionCode={sectionCode}
               sectionCategory={sectionCategory}
-              witems={props.items}
-              warehouseItems={props.warehouseItems}
+              collapsed={collapsed}
               theme={theme}
             />
           </>
@@ -195,10 +227,14 @@ const MainPage = (props) => {
         return (
           <>
             <Transact
-              empid={props.empid}
-              username={props.username}
-              collapsed={collapsed}
+              items={items}
+              warehouseitems={warehouseitems}
+              sections={sections}
+              transactions={transactions}
+              userId={userId}
+              userName={userName}
               sectionCode={sectionCode}
+              collapsed={collapsed}
               theme={theme}
             />
           </>
@@ -207,85 +243,30 @@ const MainPage = (props) => {
       default:
         break;
     }
-  }
+  };
 
-  function fetchData(url, callback) {
-    const token = sessionStorage.getItem("token");
-    axios({
-      method: "GET",
-      url: `${process.env.REACT_APP_API_URL}/api/${url}`,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Token ${token}`,
-      },
-      withCredentials: true,
-    })
-      .then((response) => {
-        callback(response.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
+  const getSection = useCallback(() => {
+    if (employees && employees.length > 0 && sections && sections.length > 0) {
+      const employee = employees.find((res) => res.emp_id === userId);
+      const section = sections.find(
+        (res) => res.section_code === employee?.emp_section
+      );
 
-  function getSection() {
-    fetchData("employees", (data) => {
-      const employee = data.find((res) => res.emp_id === props.empid);
-      if (employee) {
-        setEmployeeSection(employee.emp_section);
-      }
-    });
-    fetchData("sections", (data) => {
-      const section = data.find((res) => res.section_code === employeeSection);
       if (section) {
         setSectionCode(section.section_code);
         setSectionCategory(section.section_category);
       }
-    });
-  }
-
-  function updateEmployeeSection() {
-    getSection();
-  }
-
-  useEffect(() => {
-    const token = sessionStorage.getItem("token");
-    axios({
-      method: "GET",
-      url: `${process.env.REACT_APP_API_URL}/api/modules`,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Token ${token}`,
-      },
-      withCredentials: true,
-    })
-      .then((response) => {
-        setModules(response.data);
-        setModules((modules) => {
-          return modules.map((module) => {
-            return { ...module, icon: iconsSwitch(module.icon) };
-          });
-        });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
-
-  useEffect(() => {
-    const cookies = document.cookie.split("; ");
-    const modeCookie = cookies.find((row) => row.startsWith("mode="));
-    const mode = modeCookie?.split("=")[1];
-    if (mode) {
-      setTheme(mode);
-    } else {
-      setTheme("light");
     }
-  }, []);
+  }, [employees, sections, userId]);
 
   useEffect(() => {
+    const mode = document.cookie
+      .split("; ")
+      .find((row) => row.startsWith("mode="))
+      ?.split("=")[1];
+    setTheme(mode || "light");
     getSection();
-  });
+  }, [getSection]);
 
   return (
     <>
@@ -312,7 +293,7 @@ const MainPage = (props) => {
               defaultSelectedKeys={[1]}
               mode="inline"
               theme={theme}
-              items={modules}
+              items={newModules}
               style={{
                 fontSize: "12px",
                 marginTop: "30px",
@@ -342,7 +323,7 @@ const MainPage = (props) => {
                 </Col>
                 <Col>
                   <Dropdown
-                    menu={{ items, onClick }}
+                    menu={{ items: dropDownItems, onClick }}
                     placement="bottomRight"
                     arrow
                   >
@@ -353,7 +334,7 @@ const MainPage = (props) => {
                             className="medium-font"
                             style={{ cursor: "pointer", color: "#318ce7" }}
                           >
-                            {props.empid}
+                            {userId}
                           </p>
                         </Col>
                         <Col>
@@ -361,7 +342,7 @@ const MainPage = (props) => {
                             className="medium-font"
                             style={{ cursor: "pointer", color: "#318ce7" }}
                           >
-                            {props.username}
+                            {userName}
                           </p>
                         </Col>
                         <Col>

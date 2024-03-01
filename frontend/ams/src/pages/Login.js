@@ -1,19 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { Link } from "react-router-dom";
 import { Form, Button, Input, Card, Typography, Row, Col } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
+import axios from "axios";
 import Slogan from "../components/Slogan";
 
 const { Title } = Typography;
 
 const LoginPage = () => {
+  let navigate = useNavigate();
   const [theme, setTheme] = useState("light");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-
-  let navigate = useNavigate();
 
   const onFinish = () => {
     const loginData = { username, password };
@@ -35,14 +34,11 @@ const LoginPage = () => {
   };
 
   useEffect(() => {
-    const cookies = document.cookie.split("; ");
-    const modeCookie = cookies.find((row) => row.startsWith("mode="));
-    const mode = modeCookie?.split("=")[1];
-    if (mode) {
-      setTheme(mode);
-    } else {
-      setTheme("light");
-    }
+    const mode = document.cookie
+      .split("; ")
+      .find((row) => row.startsWith("mode="))
+      ?.split("=")[1];
+    setTheme(mode || "light");
   }, []);
 
   return (

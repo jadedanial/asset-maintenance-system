@@ -1,11 +1,9 @@
-import React, { useState, useEffect, useCallback } from "react";
-import axios from "axios";
+import React, { useState, useCallback } from "react";
 import { CalendarOutlined } from "@ant-design/icons";
 import SearchTableEvent from "../components/SearchTableEvent";
 
-const Schedule = (props) => {
+const Schedule = ({ schedules, collapsed, theme }) => {
   const [searchedtext, setSearchedText] = useState("");
-  const [schedules, setSchedules] = useState([]);
 
   const columns = [
     {
@@ -72,47 +70,22 @@ const Schedule = (props) => {
   ];
 
   const loadAPILists = useCallback(() => {
-    const token = sessionStorage.getItem("token");
-    axios({
-      method: "GET",
-      url: `${process.env.REACT_APP_API_URL}/api/schedules`,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Token ${token}`,
-      },
-      withCredentials: true,
-    })
-      .then((response) => {
-        setSchedules([]);
-        response.data.map((res) =>
-          setSchedules((schedules) => [
-            ...schedules,
-            {
-              id: res.id,
-              name: res.sched_name,
-              sun: res.sched_sun,
-              mon: res.sched_mon,
-              tue: res.sched_tue,
-              wed: res.sched_wed,
-              thu: res.sched_thu,
-              fri: res.sched_fri,
-              sat: res.sched_sat,
-            },
-          ])
-        );
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+    return schedules.map((res) => ({
+      id: res.id,
+      name: res.sched_name,
+      sun: res.sched_sun,
+      mon: res.sched_mon,
+      tue: res.sched_tue,
+      wed: res.sched_wed,
+      thu: res.sched_thu,
+      fri: res.sched_fri,
+      sat: res.sched_sat,
+    }));
+  }, [schedules]);
 
-  function searchedText(text) {
+  const searchedText = (text) => {
     setSearchedText(text);
-  }
-
-  useEffect(() => {
-    loadAPILists();
-  }, [loadAPILists]);
+  };
 
   return (
     <>
@@ -124,10 +97,10 @@ const Schedule = (props) => {
         compItemAdd={"AddUpdateSchedule"}
         compItemUpdate={"UpdateSchedule"}
         tableColumns={columns}
-        tableDataSource={schedules}
+        tableDataSource={loadAPILists()}
         searchedText={searchedText}
-        collapsed={props.collapsed}
-        theme={props.theme}
+        collapsed={collapsed}
+        theme={theme}
       />
     </>
   );

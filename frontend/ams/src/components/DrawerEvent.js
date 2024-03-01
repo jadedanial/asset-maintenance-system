@@ -16,8 +16,14 @@ const DrawerEvent = (props) => {
         return (
           <>
             <Profile
-              empid={props.empid}
-              updateEmployeeSection={props.updateEmployeeSection}
+              employees={props.employees}
+              attendances={props.attendances}
+              schedules={props.schedules}
+              vacations={props.vacations}
+              excuses={props.excuses}
+              options={props.options}
+              empid={props.userId}
+              getSection={props.getSection}
               onCloseDrawer={props.onCloseDrawer}
               theme={props.theme}
             ></Profile>
@@ -27,8 +33,14 @@ const DrawerEvent = (props) => {
         return (
           <>
             <Profile
+              employees={props.employees}
+              attendances={props.attendances}
+              schedules={props.schedules}
+              vacations={props.vacations}
+              excuses={props.excuses}
+              options={props.options}
               empid={props.rowIndex["id"]}
-              updateEmployeeSection={props.updateEmployeeSection}
+              getSection={props.getSection}
               onCloseDrawer={props.onCloseDrawer}
               theme={props.theme}
             ></Profile>
@@ -39,7 +51,7 @@ const DrawerEvent = (props) => {
           <>
             <AddUpdateEmployee
               update={false}
-              updateEmployeeSection={props.updateEmployeeSection}
+              getSection={props.getSection}
               onCloseDrawer={props.onCloseDrawer}
               theme={props.theme}
             />

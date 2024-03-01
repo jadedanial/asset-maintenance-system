@@ -428,32 +428,37 @@ const ItemList = (props) => {
                     </div>
                   </Card>
                 </Col>
-                {props.segment === "Receive" ? (
-                  <Col
-                    span={2}
-                    className="justified-row align-items-center card-with-background"
-                  >
-                    <Checkbox
-                      className={`${
-                        item.checked === "true"
-                          ? ""
-                          : props.warning
-                          ? "warning"
-                          : ""
-                      }`}
-                      checked={item.checked === "true"}
-                      onChange={() => {
-                        props.handleCheckChange(
-                          props.itemList,
-                          item.code,
-                          false,
-                          true,
-                          props.filteredItem
-                        );
-                        setCheckedAll(false);
-                      }}
-                    ></Checkbox>
-                  </Col>
+
+                {!props.view ? (
+                  props.segment === "Receive" ? (
+                    <Col
+                      span={2}
+                      className="justified-row align-items-center card-with-background"
+                    >
+                      <Checkbox
+                        className={`${
+                          item.checked === "true"
+                            ? ""
+                            : props.warning
+                            ? "warning"
+                            : ""
+                        }`}
+                        checked={item.checked === "true"}
+                        onChange={() => {
+                          props.handleCheckChange(
+                            props.itemList,
+                            item.code,
+                            false,
+                            true,
+                            props.filteredItem
+                          );
+                          setCheckedAll(false);
+                        }}
+                      ></Checkbox>
+                    </Col>
+                  ) : (
+                    ""
+                  )
                 ) : (
                   ""
                 )}

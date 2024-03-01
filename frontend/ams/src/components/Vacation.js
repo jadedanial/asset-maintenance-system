@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import {
   Form,
@@ -30,10 +30,8 @@ const layout = {
   },
 };
 
-const Vacation = (props) => {
+const Vacation = ({ vacations, options, empid, theme }) => {
   const dateFormat = "YYYY-MM-DD";
-  const [vacations, setVacations] = useState([]);
-  const [vactypes, setVacationType] = useState([]);
   const [vacation, setVacation] = useState("");
   const [startdate, setStartDate] = useState("");
   const [enddate, setEndDate] = useState("");
@@ -46,6 +44,185 @@ const Vacation = (props) => {
   const [api, contextHolder] = notification.useNotification();
   const [current, setCurrent] = useState(0);
   const [form] = Form.useForm();
+
+  const loadVacations = vacations.map((res) => {
+    return {
+      id: res.emp_id,
+      type: res.vac_type,
+      start: res.vac_start,
+      end: res.vac_end,
+      reason: res.vac_reason,
+      attach: res.vac_attachment === "No Attachment" ? "No" : "Yes",
+      total: res.vac_total,
+    };
+  });
+
+  const onVacationChange = (value) => {
+    setVacation(value);
+  };
+
+  const onReasonChange = (value) => {
+    setReason(value);
+  };
+
+  const onAttachmentChange = (value) => {
+    setAttachment(value);
+    setShowAttachment(true);
+  };
+
+  const removeAttachment = () => {
+    form.resetFields(["select_attachment"]);
+    setAttachment(null);
+    setShowAttachment(false);
+  };
+
+  const newVacation = () => {
+    form.resetFields(["vacation"]);
+    form.resetFields(["startdate"]);
+    form.resetFields(["enddate"]);
+    form.resetFields(["reason"]);
+    form.resetFields(["select_attachment"]);
+    setSuccess(false);
+    setCurrent(0);
+    setVacation("");
+    setStartDate("");
+    setEndDate("");
+    setReason("");
+    setAttachment("");
+    setShowAttachment(false);
+    setAdd(true);
+    setDays(0);
+    loadVacations();
+  };
+
+  const viewVacation = () => {
+    setAdd(false);
+    setSuccess(false);
+  };
+
+  const checkVacation = () => {
+    var onVacation = false;
+    var vacs = loadVacations
+      .filter((res) => res.id === empid)
+      .map((vac) => {
+        return {
+          start: vac.start,
+          end: vac.end,
+        };
+      });
+    for (var i = 0; i < vacs.length; i++) {
+      var startVac = vacs[i]["start"];
+      var endVac = vacs[i]["end"];
+      if (
+        moment(moment(startdate).format(dateFormat)).isBetween(
+          startVac,
+          endVac,
+          undefined,
+          []
+        ) ||
+        moment(moment(enddate).format(dateFormat)).isBetween(
+          startVac,
+          endVac,
+          undefined,
+          []
+        )
+      ) {
+        onVacation = true;
+        break;
+      } else {
+        onVacation = false;
+      }
+    }
+    return onVacation;
+  };
+
+  const next = () => {
+    var valid = true;
+    if (vacation === "") {
+      valid = false;
+      api.info(NotificationEvent(false, "No vacation type selected."));
+    } else if (startdate === "") {
+      valid = false;
+      api.info(NotificationEvent(false, "No start date selected."));
+    } else if (enddate === "") {
+      valid = false;
+      api.info(NotificationEvent(false, "No end date selected."));
+    } else if (startdate > enddate) {
+      valid = false;
+      api.info(NotificationEvent(false, "End date must be after start date."));
+    } else if (startdate < moment().format(dateFormat)) {
+      valid = false;
+      api.info(
+        NotificationEvent(false, "Cannot apply vacation for previous date.")
+      );
+    } else if (checkVacation()) {
+      valid = false;
+      api.info(NotificationEvent(false, "Vacation exist for this date."));
+    }
+    if (valid) {
+      var d =
+        moment
+          .duration(
+            moment(enddate, "YYYY-MM-DD").diff(moment(startdate, "YYYY-MM-DD"))
+          )
+          .asDays() + 1;
+      setDays(parseFloat(d).toFixed(0));
+      setCurrent(current + 1);
+    }
+  };
+
+  const prev = () => {
+    setCurrent(current - 1);
+  };
+
+  const applyVacation = () => {
+    var vacData = {
+      emp_id: empid,
+      vac_type: vacation,
+      vac_start: moment(startdate).format(dateFormat),
+      vac_end: moment(enddate).format(dateFormat),
+      vac_reason: reason ? reason : "No Reason",
+      vac_attachment: attachment ? attachment : "No Attachment",
+      vac_total: days,
+    };
+    const token = sessionStorage.getItem("token");
+    axios({
+      method: "POST",
+      url: `${process.env.REACT_APP_API_URL}/api/vacation`,
+      data: vacData,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Token ${token}`,
+      },
+      withCredentials: true,
+    })
+      .then(() => {
+        loadVacations();
+        setSuccess(true);
+      })
+      .catch((err) => {
+        console.log(err);
+        setSuccess(false);
+        api.info(
+          NotificationEvent(false, "Employee vacation failed to apply.")
+        );
+      });
+  };
+
+  const addVactionButton = () => {
+    return (
+      <div className="flex-end-row">
+        <Button
+          icon={<PlusOutlined />}
+          size="medium"
+          type="primary"
+          onClick={newVacation}
+        >
+          ADD
+        </Button>
+      </div>
+    );
+  };
 
   const columns = [
     {
@@ -114,7 +291,7 @@ const Vacation = (props) => {
                   .toLowerCase()
                   .localeCompare((optionB?.label ?? "").toLowerCase())
               }
-              options={vactypes
+              options={options
                 .filter((res) => res.opt_category === "Vacation")
                 .map((vac) => {
                   return {
@@ -266,230 +443,6 @@ const Vacation = (props) => {
     },
   ];
 
-  function loadVacations() {
-    const token = sessionStorage.getItem("token");
-    axios({
-      method: "GET",
-      url: `${process.env.REACT_APP_API_URL}/api/vacations`,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Token ${token}`,
-      },
-      withCredentials: true,
-    })
-      .then((response) => {
-        setVacations([]);
-        response.data.map((res) =>
-          setVacations((vacations) => [
-            ...vacations,
-            {
-              id: res.emp_id,
-              type: res.vac_type,
-              start: res.vac_start,
-              end: res.vac_end,
-              reason: res.vac_reason,
-              attach: res.vac_attachment === "No Attachment" ? "No" : "Yes",
-              total: res.vac_total,
-            },
-          ])
-        );
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
-
-  function onVacationChange(value) {
-    setVacation(value);
-  }
-
-  function onReasonChange(value) {
-    setReason(value);
-  }
-
-  function onAttachmentChange(value) {
-    setAttachment(value);
-    setShowAttachment(true);
-  }
-
-  function removeAttachment() {
-    form.resetFields(["select_attachment"]);
-    setAttachment(null);
-    setShowAttachment(false);
-  }
-
-  function newVacation() {
-    form.resetFields(["vacation"]);
-    form.resetFields(["startdate"]);
-    form.resetFields(["enddate"]);
-    form.resetFields(["reason"]);
-    form.resetFields(["select_attachment"]);
-    setSuccess(false);
-    setCurrent(0);
-    setVacation("");
-    setStartDate("");
-    setEndDate("");
-    setReason("");
-    setAttachment("");
-    setShowAttachment(false);
-    setAdd(true);
-    setDays(0);
-    loadVacations();
-  }
-
-  function viewVacation() {
-    loadVacations();
-    setAdd(false);
-    setSuccess(false);
-  }
-
-  function addVactionButton() {
-    return (
-      <div className="flex-end-row">
-        <Button
-          icon={<PlusOutlined />}
-          size="medium"
-          type="primary"
-          onClick={newVacation}
-        >
-          ADD
-        </Button>
-      </div>
-    );
-  }
-
-  function checkVacation() {
-    var onVacation = false;
-    var vacs = vacations
-      .filter((res) => res.id === props.empid)
-      .map((vac) => {
-        return {
-          start: vac.start,
-          end: vac.end,
-        };
-      });
-    for (var i = 0; i < vacs.length; i++) {
-      var startVac = vacs[i]["start"];
-      var endVac = vacs[i]["end"];
-      if (
-        moment(moment(startdate).format(dateFormat)).isBetween(
-          startVac,
-          endVac,
-          undefined,
-          []
-        ) ||
-        moment(moment(enddate).format(dateFormat)).isBetween(
-          startVac,
-          endVac,
-          undefined,
-          []
-        )
-      ) {
-        onVacation = true;
-        break;
-      } else {
-        onVacation = false;
-      }
-    }
-    return onVacation;
-  }
-
-  function next() {
-    var valid = true;
-    if (vacation === "") {
-      valid = false;
-      api.info(NotificationEvent(false, "No vacation type selected."));
-    } else if (startdate === "") {
-      valid = false;
-      api.info(NotificationEvent(false, "No start date selected."));
-    } else if (enddate === "") {
-      valid = false;
-      api.info(NotificationEvent(false, "No end date selected."));
-    } else if (startdate > enddate) {
-      valid = false;
-      api.info(NotificationEvent(false, "End date must be after start date."));
-    } else if (startdate < moment().format(dateFormat)) {
-      valid = false;
-      api.info(
-        NotificationEvent(false, "Cannot apply vacation for previous date.")
-      );
-    } else if (checkVacation()) {
-      valid = false;
-      api.info(NotificationEvent(false, "Vacation exist for this date."));
-    }
-    if (valid) {
-      var d =
-        moment
-          .duration(
-            moment(enddate, "YYYY-MM-DD").diff(moment(startdate, "YYYY-MM-DD"))
-          )
-          .asDays() + 1;
-      setDays(parseFloat(d).toFixed(0));
-      setCurrent(current + 1);
-    }
-  }
-
-  function prev() {
-    setCurrent(current - 1);
-  }
-
-  function applyVacation() {
-    var vacData = {
-      emp_id: props.empid,
-      vac_type: vacation,
-      vac_start: moment(startdate).format(dateFormat),
-      vac_end: moment(enddate).format(dateFormat),
-      vac_reason: reason ? reason : "No Reason",
-      vac_attachment: attachment ? attachment : "No Attachment",
-      vac_total: days,
-    };
-    const token = sessionStorage.getItem("token");
-    axios({
-      method: "POST",
-      url: `${process.env.REACT_APP_API_URL}/api/vacation`,
-      data: vacData,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Token ${token}`,
-      },
-      withCredentials: true,
-    })
-      .then(() => {
-        loadVacations();
-        setSuccess(true);
-      })
-      .catch((err) => {
-        console.log(err);
-        setSuccess(false);
-        api.info(
-          NotificationEvent(false, "Employee vacation failed to apply.")
-        );
-      });
-  }
-
-  useEffect(() => {
-    loadVacations();
-  }, []);
-
-  useEffect(() => {
-    const token = sessionStorage.getItem("token");
-    axios({
-      method: "GET",
-      url: `${process.env.REACT_APP_API_URL}/api/options`,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Token ${token}`,
-      },
-      withCredentials: true,
-    })
-      .then((response) => {
-        setVacationType(response.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
-
   if (success) {
     return (
       <>
@@ -519,7 +472,7 @@ const Vacation = (props) => {
               </Col>
             </Row>
           }
-          theme={props.theme}
+          theme={theme}
         />
       </>
     );
@@ -606,8 +559,8 @@ const Vacation = (props) => {
             <Table
               rowClassName={() => "table-row"}
               columns={columns}
-              dataSource={vacations
-                .filter((res) => res.id === props.empid)
+              dataSource={loadVacations
+                .filter((res) => res.id === empid)
                 .map((vac) => {
                   return {
                     type: vac.type,

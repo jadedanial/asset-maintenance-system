@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { Link } from "react-router-dom";
 import { Form, Button, Input, Card, Typography, Row, Col } from "antd";
 import {
@@ -9,6 +8,7 @@ import {
   CheckOutlined,
   IdcardOutlined,
 } from "@ant-design/icons";
+import axios from "axios";
 import ResultEvent from "../components/ResultEvent";
 import Slogan from "../components/Slogan";
 
@@ -18,16 +18,16 @@ const RegisterPage = () => {
   const [theme, setTheme] = useState("light");
   const [label, setLabel] = useState("Add New User");
   const [color, setColor] = useState("#318ce7");
-  const [empID, setEmployeeID] = useState("");
-  const [username, setUsername] = useState("");
+  const [userId, setUserId] = useState("");
+  const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [success, setSuccess] = useState(false);
 
-  function onFinish() {
+  const onFinish = () => {
     var registerData = {
-      empID: empID,
-      username: username,
+      userid: userId,
+      username: userName,
       email: email,
       password: password,
     };
@@ -49,22 +49,19 @@ const RegisterPage = () => {
         setLabel(err.response.data[0]);
         setColor("#ff0000");
       });
-  }
+  };
 
-  function onFieldsChange() {
+  const onFieldsChange = () => {
     setLabel("Add New User");
     setColor("#318ce7");
-  }
+  };
 
   useEffect(() => {
-    const cookies = document.cookie.split("; ");
-    const modeCookie = cookies.find((row) => row.startsWith("mode="));
-    const mode = modeCookie?.split("=")[1];
-    if (mode) {
-      setTheme(mode);
-    } else {
-      setTheme("light");
-    }
+    const mode = document.cookie
+      .split("; ")
+      .find((row) => row.startsWith("mode="))
+      ?.split("=")[1];
+    setTheme(mode || "light");
   }, []);
 
   return (
@@ -98,7 +95,7 @@ const RegisterPage = () => {
                   icon={<CheckOutlined style={{ color: "#318ce7" }} />}
                   status="success"
                   title="Successfully added new User."
-                  subTitle={"Username: " + username + "\nEmail: " + email}
+                  subTitle={"Username: " + userName + "\nEmail: " + email}
                   extra={
                     <Button size="large" type="primary" href="/login">
                       Login
@@ -140,7 +137,7 @@ const RegisterPage = () => {
                         <IdcardOutlined className="site-form-item-icon" />
                       }
                       placeholder="Employee ID"
-                      onChange={(e) => setEmployeeID(e.target.value)}
+                      onChange={(e) => setUserId(e.target.value)}
                     />
                   </Form.Item>
                   <Form.Item
@@ -156,7 +153,7 @@ const RegisterPage = () => {
                       prefix={<UserOutlined className="site-form-item-icon" />}
                       placeholder="Username"
                       maxLength={100}
-                      onChange={(e) => setUsername(e.target.value)}
+                      onChange={(e) => setUserName(e.target.value)}
                     />
                   </Form.Item>
                   <Form.Item

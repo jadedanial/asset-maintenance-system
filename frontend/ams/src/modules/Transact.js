@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import {
   Card,
@@ -26,14 +26,23 @@ import moment from "moment";
 
 const { Title } = Typography;
 
-const Transact = (props) => {
+const Transact = ({
+  items,
+  warehouseitems,
+  sections,
+  transactions,
+  userId,
+  userName,
+  sectionCode,
+  collapsed,
+  theme,
+}) => {
   const [segment, setSegment] = useState("Issue");
   const [searchValue, setSearchValue] = useState("");
   const [filteredItem, setFilteredItem] = useState([]);
   const [total, setTotal] = useState("");
   const [quantity, setQuantity] = useState("");
   const [queryCode, setQueryCode] = useState("");
-  const [item, setItem] = useState([]);
   const [queryItem, setQueryItem] = useState([]);
   const [reorderItemList, setReorderItemList] = useState([]);
   const [reorderItemCount, setReorderItemCount] = useState(0);
@@ -43,58 +52,21 @@ const Transact = (props) => {
   const [success, setSuccess] = useState(false);
   const [transactionCode, setTransactionCode] = useState("");
   const [warehouseCode, setWarehouseCode] = useState("");
-  const [sections, setSections] = useState([]);
   const [openDrawer, setOpenDrawer] = useState(false);
   const [api, contextHolder] = notification.useNotification();
 
-  const fetchData = (url, setter) => {
-    const token = sessionStorage.getItem("token");
-    axios({
-      method: "GET",
-      url: url,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Token ${token}`,
-      },
-      withCredentials: true,
-    })
-      .then((response) => {
-        setter(response.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  const checkItem = (code) => {
+    var item = 0;
+    const data = warehouseitems.find(
+      (data) => data.warehouse_code === sectionCode && data.item_code === code
+    );
+    if (data) {
+      item = data.item_onhand;
+    }
+    return item;
   };
 
-  function checkItem(code) {
-    var item = 0;
-    const token = sessionStorage.getItem("token");
-    return axios({
-      method: "GET",
-      url: `${process.env.REACT_APP_API_URL}/api/warehouseitems`,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Token ${token}`,
-      },
-      withCredentials: true,
-    })
-      .then((response) => {
-        const data = response.data.find(
-          (data) =>
-            data.warehouse_code === props.sectionCode && data.item_code === code
-        );
-        if (data) {
-          item = data.item_onhand;
-        }
-        return item;
-      })
-      .catch((err) => {
-        console.log(err);
-        return item;
-      });
-  }
-
-  function removeItem(code) {
+  const removeItem = (code) => {
     const newOrder = reorderItemList;
     const matchItem = newOrder.find((order) => order.code === code);
     var index = newOrder.indexOf(matchItem);
@@ -106,9 +78,9 @@ const Transact = (props) => {
       return a.id - b.id;
     });
     setReorderItemCount(reorderItemList.length);
-  }
+  };
 
-  function addItem(id, code, name, cost, measurement, quantity, max, total) {
+  const addItem = (id, code, name, cost, measurement, quantity, max, total) => {
     const newOrder = reorderItemList;
     newOrder.push({
       id: id,
@@ -125,9 +97,9 @@ const Transact = (props) => {
       return a.id - b.id;
     });
     setReorderItemCount(reorderItemList.length);
-  }
+  };
 
-  function newItem(id, code, name, cost, measurement, quantity, max) {
+  const newItem = (id, code, name, cost, measurement, quantity, max) => {
     if (warehouseCode === "") {
       api.info(
         NotificationEvent(
@@ -156,22 +128,22 @@ const Transact = (props) => {
         api.info(NotificationEvent(false, "Add item quantity."));
       }
     }
-  }
+  };
 
-  function sumOrder(itemList) {
+  const sumOrder = (itemList) => {
     const sum = itemList.reduce(
       (acc, item) => parseFloat(acc) + parseFloat(item.total),
       0
     );
     return sum.toFixed(2);
-  }
+  };
 
-  function onQuantityChange(value) {
+  const onQuantityChange = (value) => {
     setTotal((parseFloat(queryItem["0"]["cost"]) * value).toFixed(2));
     setQuantity(value);
-  }
+  };
 
-  function transactionDetail(action, itemList, warehouseCode) {
+  const transactionDetail = (action, itemList, warehouseCode) => {
     switch (action) {
       case "Reorder":
         var details = "";
@@ -204,9 +176,9 @@ const Transact = (props) => {
       default:
         break;
     }
-  }
+  };
 
-  function transactionStatus(code, status) {
+  const transactionStatus = (code, status) => {
     const token = sessionStorage.getItem("token");
     return axios({
       method: "PATCH",
@@ -221,14 +193,14 @@ const Transact = (props) => {
       console.log(err);
       setSuccess(false);
     });
-  }
+  };
 
-  function addTransaction(action, detail, status) {
+  const addTransaction = (action, detail, status) => {
     var transactionData = {
       trans_code: "",
       trans_action: action,
       trans_date: moment().format("YYYY-MM-DD HH:mm:ss"),
-      trans_user: String(props.empid) + " - " + props.username,
+      trans_user: String(userId) + " - " + userName,
       trans_detail: detail,
       trans_status: status,
     };
@@ -250,31 +222,31 @@ const Transact = (props) => {
         console.log(err);
         setSuccess(false);
       });
-  }
+  };
 
-  function reorderOrder(itemList, warehouseCode) {
+  const reorderOrder = (itemList, warehouseCode) => {
     addTransaction(
       "Reorder",
       transactionDetail("Reorder", itemList, warehouseCode),
       "Pending",
-      props.empid,
-      props.username
+      userId,
+      userName
     );
     setSuccess(true);
     setQueryItem([]);
     setSearchValue("");
     clearOrder();
-  }
+  };
 
-  function receiveOrder(itemList) {
+  const receiveOrder = (itemList) => {
     transactionStatus(queryCode, "Complete")
       .then(() => {
         return addTransaction(
           "Receive",
           transactionDetail("Receive", itemList, ""),
           "Complete",
-          props.empid,
-          props.username
+          userId,
+          userName
         );
       })
       .then(() => {
@@ -307,9 +279,9 @@ const Transact = (props) => {
         console.log(err);
         setSuccess(false);
       });
-  }
+  };
 
-  function clearOrder() {
+  const clearOrder = () => {
     switch (segment) {
       case "Reorder":
         setReorderItemList([]);
@@ -322,14 +294,14 @@ const Transact = (props) => {
       default:
         break;
     }
-  }
+  };
 
-  function clearSearch() {
+  const clearSearch = () => {
     setQueryItem([]);
     setTotal("0.00");
-  }
+  };
 
-  function showDrawer() {
+  const showDrawer = () => {
     switch (segment) {
       case "Reorder":
         if (warehouseCode === "") {
@@ -356,20 +328,20 @@ const Transact = (props) => {
       default:
         break;
     }
-  }
+  };
 
-  function onCloseDrawer() {
+  const onCloseDrawer = () => {
     setOpenDrawer(false);
     setSuccess(false);
-  }
+  };
 
-  function handleCheckChange(
+  const handleCheckChange = (
     itemsToSort,
     codes,
     setToTrue,
     setToToggle,
     filteredItem
-  ) {
+  ) => {
     let mapItems = (items) => {
       return items.map((item) => {
         if (codes.includes(item.code)) {
@@ -396,9 +368,9 @@ const Transact = (props) => {
 
     setReceiveItemList(updatedItemList);
     setFilteredItem(updatedFilteredItemList);
-  }
+  };
 
-  function parseStringToDictionaries(inputString) {
+  const parseStringToDictionaries = (inputString) => {
     const dictionaryList = [];
     const items = inputString.split("/*/");
 
@@ -416,94 +388,72 @@ const Transact = (props) => {
     }
     dictionaryList.pop();
     return dictionaryList;
-  }
+  };
 
-  function searchItem(value, segment) {
+  const searchItem = (value, segment) => {
     setQueryCode(value.toUpperCase());
     clearSearch();
-    var apiEndpoint = "";
-    apiEndpoint =
-      segment === "Issue" || segment === "Return"
-        ? "workorders"
-        : segment === "Adjust" || segment === "Reorder"
-        ? "warehouseitems"
-        : segment === "Receive"
-        ? "transactions"
-        : null;
-    const token = sessionStorage.getItem("token");
-    axios({
-      method: "GET",
-      url: `${process.env.REACT_APP_API_URL}/api/${apiEndpoint}`,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Token ${token}`,
-      },
-      withCredentials: true,
-    })
-      .then((response) => {
-        response.data.forEach((res) => {
-          switch (segment) {
-            case "Issue":
-            case "Return":
-              break;
-            case "Adjust":
-            case "Reorder":
-              if (
-                res.item_code === value.toUpperCase() &&
-                res.warehouse_code === props.sectionCode
-              ) {
-                item.map((i) =>
-                  i.item_code === res.item_code
-                    ? setQueryItem([
-                        {
-                          id: i.id,
-                          code: i.item_code,
-                          name: i.item_name,
-                          cost: i.item_cost,
-                          measurement: i.item_measurement,
-                        },
-                      ])
-                    : null
-                );
-              }
-              break;
-            case "Receive":
-              if (res.trans_code === value.toUpperCase()) {
-                if (res.trans_status === "Pending") {
-                  setQueryItem([
+    switch (segment) {
+      case "Issue":
+      case "Return":
+        break;
+      case "Adjust":
+      case "Reorder":
+        warehouseitems.forEach((item) => {
+          if (
+            item.item_code === value.toUpperCase() &&
+            item.warehouse_code === sectionCode
+          ) {
+            items.map((i) =>
+              i.item_code === item.item_code
+                ? setQueryItem([
                     {
-                      code: res.trans_code,
-                      action: res.trans_action,
-                      date: res.trans_date,
-                      detail: res.trans_detail,
-                      status: res.trans_status,
+                      id: i.id,
+                      code: i.item_code,
+                      name: i.item_name,
+                      cost: i.item_cost,
+                      measurement: i.item_measurement,
                     },
-                  ]);
-                  setReceiveItemList(
-                    parseStringToDictionaries(res.trans_detail)
-                  );
-                  setReceiveItemCount(
-                    parseStringToDictionaries(res.trans_detail).length
-                  );
-                }
-              }
-              break;
-            default:
-              break;
+                  ])
+                : null
+            );
           }
         });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+        break;
+      case "Receive":
+        transactions.forEach((transaction) => {
+          if (transaction.trans_code === value.toUpperCase()) {
+            if (transaction.trans_status === "Pending") {
+              setQueryItem([
+                {
+                  code: transaction.trans_code,
+                  action: transaction.trans_action,
+                  date: transaction.trans_date,
+                  detail: transaction.trans_detail,
+                  status: transaction.trans_status,
+                },
+              ]);
+              setReceiveItemList(
+                parseStringToDictionaries(transaction.trans_detail)
+              );
+              setReceiveItemCount(
+                parseStringToDictionaries(transaction.trans_detail).length
+              );
+            }
+          }
+        });
+        break;
+      default:
+        break;
+    }
     if (queryItem.length > 0) {
       return segment;
     } else {
       return false;
     }
-  }
+  };
 
-  function checkResult() {
+  const checkResult = () => {
     return queryItem.length > 0
       ? segment === "Issue"
         ? "Issue"
@@ -517,9 +467,9 @@ const Transact = (props) => {
         ? "Receive"
         : false
       : false;
-  }
+  };
 
-  function componentSwitch(key) {
+  const componentSwitch = (key) => {
     switch (key) {
       case "Reorder":
         return queryItem.length > 0 ? (
@@ -529,11 +479,15 @@ const Transact = (props) => {
                 <ItemDetail
                   itemcode={queryItem["0"]["code"]}
                   view={true}
-                  sectionCode={props.sectionCode}
-                  theme={props.theme}
+                  sectionCode={sectionCode}
+                  theme={theme}
                 />
               </Col>
-              <Col span={10} className="flex-start-row">
+              <Col
+                span={10}
+                className="flex-start-row"
+                style={{ maxHeight: "fit-content" }}
+              >
                 <Col
                   span={24}
                   className="card-with-background"
@@ -568,18 +522,14 @@ const Transact = (props) => {
                         size="large"
                         type="primary"
                         onClick={() => {
-                          checkItem(queryItem["0"]["code"]).then(
-                            (item_onhand) => {
-                              newItem(
-                                queryItem["0"]["id"],
-                                queryItem["0"]["code"],
-                                queryItem["0"]["name"],
-                                queryItem["0"]["cost"],
-                                queryItem["0"]["measurement"],
-                                quantity,
-                                item_onhand
-                              );
-                            }
+                          newItem(
+                            queryItem["0"]["id"],
+                            queryItem["0"]["code"],
+                            queryItem["0"]["name"],
+                            queryItem["0"]["cost"],
+                            queryItem["0"]["measurement"],
+                            quantity,
+                            checkItem(queryItem["0"]["code"])
                           );
                         }}
                       >
@@ -601,14 +551,18 @@ const Transact = (props) => {
               <Col span={14} style={{ paddingRight: "20px" }}>
                 <ItemList
                   view={true}
-                  segment={props.segment}
+                  segment={segment}
                   itemList={receiveItemList}
                   setFilteredItem={setFilteredItem}
                   filteredItem={filteredItem}
-                  theme={props.theme}
+                  theme={theme}
                 />
               </Col>
-              <Col span={10} className="flex-start-row">
+              <Col
+                span={10}
+                className="flex-start-row"
+                style={{ maxHeight: "fit-content" }}
+              >
                 <Col
                   span={24}
                   className="card-with-background"
@@ -665,13 +619,13 @@ const Transact = (props) => {
           ""
         );
       case false:
-        return <EmptyData theme={props.theme} />;
+        return <EmptyData theme={theme} />;
       default:
         break;
     }
-  }
+  };
 
-  function placeholderLabel() {
+  const placeholderLabel = () => {
     switch (segment) {
       case "Issue":
       case "Return":
@@ -684,37 +638,29 @@ const Transact = (props) => {
       default:
         break;
     }
-  }
+  };
 
-  function onWarehouseChange(value) {
+  const onWarehouseChange = (value) => {
     const warehouseCode = sections.find(
       (sec) => sec.section_code === value
     )?.section_code;
     setWarehouseCode(warehouseCode);
     setReorderItemList([]);
     setReorderItemCount(0);
-  }
+  };
 
-  function warehouseCategory(warehouse) {
+  const warehouseCategory = (warehouse) => {
     const category = sections.find(
       (sec) => sec.section_code === warehouse
     )?.section_category;
     console.log(category);
     return category;
-  }
-
-  useEffect(() => {
-    fetchData(`${process.env.REACT_APP_API_URL}/api/items`, setItem);
-  }, []);
-
-  useEffect(() => {
-    fetchData(`${process.env.REACT_APP_API_URL}/api/sections`, setSections);
-  }, []);
+  };
 
   return (
     <>
       {contextHolder}
-      <div className={`justified-row ${props.theme}`}>
+      <div className={`justified-row ${theme}`}>
         <div className="card-custom-size-full">
           <Card
             className="custom-card-head-title"
@@ -863,9 +809,9 @@ const Transact = (props) => {
         showDrawer={openDrawer}
         onCloseDrawer={onCloseDrawer}
         comp="Cart"
-        collapsed={props.collapsed}
-        sectionCode={props.sectionCode}
-        theme={props.theme}
+        sectionCode={sectionCode}
+        collapsed={collapsed}
+        theme={theme}
         overflow={false}
         showClose={false}
       />

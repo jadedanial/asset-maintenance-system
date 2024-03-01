@@ -339,7 +339,7 @@ const Attendance = (props, ref) => {
         <Card size="small" style={{ width: "100%" }}>
           {add ? (
             <AddAttendance
-              empid={props.empid}
+              userId={props.userId}
               schedid={schedid}
               mode={attendanceMode}
               attenddate={selectedDate}

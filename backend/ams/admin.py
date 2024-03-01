@@ -2,6 +2,24 @@ from django.contrib import admin
 from .models import *
 
 
+class UserAdmin(admin.ModelAdmin):
+    list_display = (
+        "userid",
+        "username",
+        "email",
+    )
+    list_filter = (
+        "userid",
+        "username",
+        "email",
+    )
+    search_fields = (
+        "userid",
+        "username",
+        "email",
+    )
+
+
 class ComponentAdmin(admin.ModelAdmin):
     readonly_fields = (
         "id",
@@ -85,24 +103,6 @@ class SectionAdmin(admin.ModelAdmin):
         "section_branch",
         "section_type",
         "section_category",
-    )
-
-
-class UserAdmin(admin.ModelAdmin):
-    list_display = (
-        "empID",
-        "username",
-        "email",
-    )
-    list_filter = (
-        "empID",
-        "username",
-        "email",
-    )
-    search_fields = (
-        "empID",
-        "username",
-        "email",
     )
 
 
@@ -449,13 +449,13 @@ class TransactionAdmin(admin.ModelAdmin):
     )
 
 
+admin.site.register(User, UserAdmin)
 admin.site.register(Component, ComponentAdmin)
 admin.site.register(Module, ModuleAdmin)
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Option, OptionAdmin)
 admin.site.register(Branch, BranchAdmin)
 admin.site.register(Section, SectionAdmin)
-admin.site.register(User, UserAdmin)
 admin.site.register(Shift, ShiftAdmin)
 admin.site.register(Schedule, ScheduleAdmin)
 admin.site.register(Employee, EmployeeAdmin)

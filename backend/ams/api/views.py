@@ -21,6 +21,97 @@ class APIDocView(viewsets.ViewSet):
         return Response({"message": "AMS by Jade Danial (danialjade@gmail.com)"})
 
 
+class UserView(APIView):
+
+    def get(self, request):
+        token = request.META.get("HTTP_AUTHORIZATION")
+
+        if not token:
+            return Response({"error": "Token not provided"}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            token = token.split(" ")[1]
+            token_obj = Token.objects.get(key=token)
+        except Token.DoesNotExist:
+            return Response({"error": "Invalid token"}, status=status.HTTP_400_BAD_REQUEST)
+
+        return Response({"userid": token_obj.user.userid, "username": token_obj.user.username}, status=status.HTTP_200_OK)
+
+
+class RegisterView(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        if (not request.data["userid"].isnumeric()):
+            raise ValidationError("Employee ID not exist!")
+
+        serializer = UserSerializer(data=request.data)
+        userid = User.objects.filter(userid=request.data["userid"]).first()
+        employee = Employee.objects.filter(
+            emp_id=request.data["userid"]).first()
+        user = User.objects.filter(username=request.data["username"]).first()
+        email = User.objects.filter(email=request.data["email"]).first()
+        password = request.data["password"]
+
+        if userid:
+            raise ValidationError("User already exist!")
+
+        if not employee:
+            raise ValidationError("Employee ID not exist!")
+
+        if user:
+            raise ValidationError("User already exist!")
+
+        if email:
+            raise ValidationError("User already exist!")
+
+        if len(password) < 8:
+            raise ValidationError("Password too short!")
+
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response(serializer.data)
+
+
+class LoginView(APIView):
+
+    def post(self, request):
+        username = request.data.get("username")
+        password = request.data.get("password")
+
+        try:
+            user = User.objects.get(username=username)
+        except User.DoesNotExist:
+            return Response({"error": "User does not exist"}, status=status.HTTP_400_BAD_REQUEST)
+
+        if not user.check_password(password):
+            return Response({"error": "Invalid Credentials"}, status=status.HTTP_400_BAD_REQUEST)
+
+        token, _ = Token.objects.get_or_create(user=user)
+
+        return Response({"token": token.key, "userid": user.userid, "username": user.username}, status=status.HTTP_200_OK)
+
+
+class LogoutView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        token = request.META.get("HTTP_AUTHORIZATION")
+
+        if not token:
+            return Response({"error": "Token not provided"}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            token = token.split(" ")[1]
+            token_obj = Token.objects.get(key=token)
+            token_obj.delete()
+        except Token.DoesNotExist:
+            return Response({"error": "Invalid token"}, status=status.HTTP_400_BAD_REQUEST)
+
+        return Response({"message": "Logged out successfully"}, status=status.HTTP_200_OK)
+
+
 class ComponentListView(ListAPIView):
     queryset = Component.objects.all()
     serializer_class = ComponentSerializer
@@ -55,97 +146,6 @@ class SectionListView(ListAPIView):
     queryset = Section.objects.all()
     serializer_class = SectionSerializer
     permission_classes = [IsAuthenticated]
-
-
-class UserView(APIView):
-
-    def get(self, request):
-        token = request.META.get("HTTP_AUTHORIZATION")
-
-        if not token:
-            return Response({"error": "Token not provided"}, status=status.HTTP_400_BAD_REQUEST)
-
-        try:
-            token = token.split(" ")[1]
-            token_obj = Token.objects.get(key=token)
-        except Token.DoesNotExist:
-            return Response({"error": "Invalid token"}, status=status.HTTP_400_BAD_REQUEST)
-
-        return Response({"id": token_obj.user.id, "username": token_obj.user.username}, status=status.HTTP_200_OK)
-
-
-class RegisterView(APIView):
-    permission_classes = [AllowAny]
-
-    def post(self, request):
-        if (not request.data["empID"].isnumeric()):
-            raise ValidationError("Employee ID not exist!")
-
-        serializer = UserSerializer(data=request.data)
-        empid = User.objects.filter(empID=request.data["empID"]).first()
-        employeeID = Employee.objects.filter(
-            emp_id=request.data["empID"]).first()
-        user = User.objects.filter(username=request.data["username"]).first()
-        email = User.objects.filter(email=request.data["email"]).first()
-        password = request.data["password"]
-
-        if empid:
-            raise ValidationError("User already exist!")
-
-        if not employeeID:
-            raise ValidationError("Employee ID not exist!")
-
-        if user:
-            raise ValidationError("User already exist!")
-
-        if email:
-            raise ValidationError("User already exist!")
-
-        if len(password) < 8:
-            raise ValidationError("Password too short!")
-
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-
-        return Response(serializer.data)
-
-
-class LoginView(APIView):
-
-    def post(self, request):
-        username = request.data.get("username")
-        password = request.data.get("password")
-
-        try:
-            user = User.objects.get(username=username)
-        except User.DoesNotExist:
-            return Response({"error": "User does not exist"}, status=status.HTTP_400_BAD_REQUEST)
-
-        if not user.check_password(password):
-            return Response({"error": "Invalid Credentials"}, status=status.HTTP_400_BAD_REQUEST)
-
-        token, _ = Token.objects.get_or_create(user=user)
-
-        return Response({"token": token.key, "id": user.id, "user": user.username}, status=status.HTTP_200_OK)
-
-
-class LogoutView(APIView):
-    permission_classes = [IsAuthenticated]
-
-    def post(self, request):
-        token = request.META.get("HTTP_AUTHORIZATION")
-
-        if not token:
-            return Response({"error": "Token not provided"}, status=status.HTTP_400_BAD_REQUEST)
-
-        try:
-            token = token.split(" ")[1]
-            token_obj = Token.objects.get(key=token)
-            token_obj.delete()
-        except Token.DoesNotExist:
-            return Response({"error": "Invalid token"}, status=status.HTTP_400_BAD_REQUEST)
-
-        return Response({"message": "Logged out successfully"}, status=status.HTTP_200_OK)
 
 
 class ShiftView(APIView):
@@ -270,7 +270,7 @@ class EmployeeScheduleView(APIView):
     def patch(self, request, *args, **kwargs):
         data = request.data
         emp_object = Employee.objects.filter(
-            emp_id=request.data["empID"]).first()
+            emp_id=request.data["empid"]).first()
         sched_object = Schedule.objects.filter(
             id=request.data["schedid"]).first()
 

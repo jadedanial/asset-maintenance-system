@@ -1,13 +1,11 @@
-import React, { useState, useEffect, useCallback } from "react";
-import axios from "axios";
+import React, { useState, useCallback } from "react";
 import { FieldTimeOutlined } from "@ant-design/icons";
 import SearchTableEvent from "../components/SearchTableEvent";
 import moment from "moment";
 
-const Shift = (props) => {
+const Shift = ({ shifts, collapsed, theme }) => {
   const timeFormat = "HH:mm:ss";
   const [searchedtext, setSearchedText] = useState("");
-  const [shifts, setShifts] = useState([]);
 
   const columns = [
     {
@@ -41,41 +39,20 @@ const Shift = (props) => {
   ];
 
   const loadAPILists = useCallback(() => {
-    const token = sessionStorage.getItem("token");
-    axios({
-      method: "GET",
-      url: `${process.env.REACT_APP_API_URL}/api/shifts`,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Token ${token}`,
-      },
-      withCredentials: true,
-    })
-      .then((response) => {
-        setShifts([]);
-        response.data.map((res) =>
-          setShifts((shifts) => [
-            ...shifts,
-            {
-              id: res.id,
-              name: res.shift_name,
-              from: res.shift_from,
-              to: res.shift_to,
-              total: shiftDuration(res.shift_from, res.shift_to),
-            },
-          ])
-        );
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+    return shifts.map((res) => ({
+      id: res.id,
+      name: res.shift_name,
+      from: res.shift_from,
+      to: res.shift_to,
+      total: shiftDuration(res.shift_from, res.shift_to),
+    }));
+  }, [shifts]);
 
-  function searchedText(text) {
+  const searchedText = (text) => {
     setSearchedText(text);
-  }
+  };
 
-  function shiftDuration(from, to) {
+  const shiftDuration = (from, to) => {
     var end = to;
     if (moment(from, 'HH:mm"ss') > moment(to, "HH:mm:ss")) {
       end = moment(to, "HH:mm:ss").add(24, "hours");
@@ -84,11 +61,7 @@ const Shift = (props) => {
       .duration(moment(end, timeFormat).diff(moment(from, timeFormat)))
       .asHours()
       .toFixed(2);
-  }
-
-  useEffect(() => {
-    loadAPILists();
-  }, [loadAPILists]);
+  };
 
   return (
     <>
@@ -100,10 +73,10 @@ const Shift = (props) => {
         compItemAdd={"AddUpdateShift"}
         compItemUpdate={"UpdateShift"}
         tableColumns={columns}
-        tableDataSource={shifts}
+        tableDataSource={loadAPILists()}
         searchedText={searchedText}
-        collapsed={props.collapsed}
-        theme={props.theme}
+        collapsed={collapsed}
+        theme={theme}
       />
     </>
   );

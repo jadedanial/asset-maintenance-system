@@ -1,11 +1,19 @@
-import React, { useState, useEffect, useCallback } from "react";
-import axios from "axios";
+import React, { useState, useCallback } from "react";
 import { UserOutlined } from "@ant-design/icons";
 import SearchTableEvent from "../components/SearchTableEvent";
 
-const Employee = (props) => {
+const Employee = ({
+  employees,
+  attendances,
+  schedules,
+  vacations,
+  excuses,
+  options,
+  getSection,
+  collapsed,
+  theme,
+}) => {
   const [searchedtext, setSearchedText] = useState("");
-  const [employees, setEmployees] = useState([]);
 
   const columns = [
     {
@@ -51,47 +59,28 @@ const Employee = (props) => {
   ];
 
   const loadAPILists = useCallback(() => {
-    const token = sessionStorage.getItem("token");
-    axios({
-      method: "GET",
-      url: `${process.env.REACT_APP_API_URL}/api/employees`,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Token ${token}`,
-      },
-      withCredentials: true,
-    })
-      .then((response) => {
-        setEmployees([]);
-        response.data.map((res) =>
-          setEmployees((employees) => [
-            ...employees,
-            {
-              id: res.emp_id,
-              name: res.emp_name,
-              position: res.emp_position,
-              phone: res.emp_phone,
-              email: res.emp_email,
-            },
-          ])
-        );
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+    return employees.map((res) => ({
+      id: res.emp_id,
+      name: res.emp_name,
+      position: res.emp_position,
+      phone: res.emp_phone,
+      email: res.emp_email,
+    }));
+  }, [employees]);
 
-  function searchedText(text) {
+  const searchedText = (text) => {
     setSearchedText(text);
-  }
-
-  useEffect(() => {
-    loadAPILists();
-  }, [loadAPILists]);
+  };
 
   return (
     <>
       <SearchTableEvent
+        employees={employees}
+        attendances={attendances}
+        schedules={schedules}
+        vacations={vacations}
+        excuses={excuses}
+        options={options}
         loadAPILists={loadAPILists}
         tooltipIcon={<UserOutlined />}
         tooltipTitle={"Add New Employee"}
@@ -99,11 +88,11 @@ const Employee = (props) => {
         compItemAdd={"AddUpdateEmployee"}
         compItemUpdate={"Profile"}
         tableColumns={columns}
-        tableDataSource={employees}
+        tableDataSource={loadAPILists()}
         searchedText={searchedText}
-        updateEmployeeSection={props.updateEmployeeSection}
-        collapsed={props.collapsed}
-        theme={props.theme}
+        getSection={getSection}
+        collapsed={collapsed}
+        theme={theme}
       />
     </>
   );

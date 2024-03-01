@@ -3,6 +3,27 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 
 
+class User(AbstractUser):
+    userid = models.PositiveIntegerField(
+        blank=True, null=True, verbose_name="Employee ID"
+    )
+    username = models.CharField(
+        max_length=100, unique=True, blank=False, null=False, verbose_name="Username"
+    )
+    email = models.CharField(
+        max_length=100, blank=True, null=True, verbose_name="Email"
+    )
+    password = models.CharField(
+        max_length=100, blank=False, null=False, verbose_name="Password"
+    )
+
+    USERNAME_FIELD = "username"
+    REQUIRED_FIELDS = []
+
+    def __str__(self):
+        return str(self.username)
+
+
 class Component(models.Model):
     id = models.AutoField(primary_key=True)
     label = models.CharField(
@@ -114,27 +135,6 @@ class Section(models.Model):
 
     def __str__(self):
         return str(self.section_code)
-
-
-class User(AbstractUser):
-    empID = models.PositiveIntegerField(
-        blank=True, null=True, verbose_name="Employee ID"
-    )
-    username = models.CharField(
-        max_length=100, unique=True, blank=False, null=False, verbose_name="Username"
-    )
-    email = models.CharField(
-        max_length=100, blank=True, null=True, verbose_name="Email"
-    )
-    password = models.CharField(
-        max_length=100, blank=False, null=False, verbose_name="Password"
-    )
-
-    USERNAME_FIELD = "username"
-    REQUIRED_FIELDS = []
-
-    def __str__(self):
-        return str(self.username)
 
 
 class Shift(models.Model):

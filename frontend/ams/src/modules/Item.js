@@ -1,8 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { ShoppingOutlined } from "@ant-design/icons";
 import SearchTableEvent from "../components/SearchTableEvent";
 
-const Item = (props) => {
+const Item = ({
+  items,
+  warehouseitems,
+  sectionCode,
+  sectionCategory,
+  collapsed,
+  theme,
+}) => {
   const [searchedtext, setSearchedText] = useState("");
 
   const columns = [
@@ -41,16 +48,12 @@ const Item = (props) => {
     },
   ];
 
-  function searchedText(text) {
-    setSearchedText(text);
-  }
-
-  function listData() {
+  const loadAPILists = useCallback(() => {
     var d = [];
-    if (props.witems && props.warehouseItems) {
-      props.warehouseItems.forEach((wi) => {
-        if (wi.warehouse_code === props.sectionCode) {
-          props.witems.forEach((i) => {
+    if (items && warehouseitems) {
+      warehouseitems.forEach((wi) => {
+        if (wi.warehouse_code === sectionCode) {
+          items.forEach((i) => {
             if (i.item_code === wi.item_code) {
               d.push({
                 code: wi.item_code,
@@ -65,7 +68,11 @@ const Item = (props) => {
       });
     }
     return d;
-  }
+  }, [items, warehouseitems, sectionCode]);
+
+  const searchedText = (text) => {
+    setSearchedText(text);
+  };
 
   return (
     <>
@@ -76,12 +83,12 @@ const Item = (props) => {
         compItemUpdate={"ItemDetail"}
         compItemAdd={"AddUpdateItem"}
         tableColumns={columns}
-        tableDataSource={listData()}
+        tableDataSource={loadAPILists()}
         searchedText={searchedText}
-        sectionCode={props.sectionCode}
-        sectionCategory={props.sectionCategory}
-        theme={props.theme}
-        collapsed={props.collapsed}
+        sectionCode={sectionCode}
+        sectionCategory={sectionCategory}
+        theme={theme}
+        collapsed={collapsed}
       />
     </>
   );

@@ -14,34 +14,39 @@ import { PlusOutlined } from "@ant-design/icons";
 import DrawerEvent from "./DrawerEvent";
 import NotificationEvent from "./NotificationEvent";
 
-const SearchTableEvent = (props) => {
-  const {
-    theme,
-    tooltipTitle,
-    compItemAdd,
-    sectionCategory,
-    tooltipIcon,
-    inputPlaceHolder,
-    searchedText,
-    tableColumns,
-    tableDataSource,
-    compItemUpdate,
-    updateEmployeeSection,
-    sectionCode,
-    collapsed,
-  } = props;
+const SearchTableEvent = ({
+  employees,
+  attendances,
+  schedules,
+  vacations,
+  excuses,
+  options,
+  theme,
+  tooltipTitle,
+  compItemAdd,
+  sectionCategory,
+  tooltipIcon,
+  inputPlaceHolder,
+  searchedText,
+  tableColumns,
+  tableDataSource,
+  compItemUpdate,
+  getSection,
+  sectionCode,
+  collapsed,
+}) => {
   const [openDrawer, setOpenDrawer] = useState(false);
   const [compItem, setCompItem] = useState("");
   const [rowIndex, setRowIndex] = useState([]);
   const [api, contextHolder] = notification.useNotification();
 
-  function showDrawer() {
+  const showDrawer = () => {
     setOpenDrawer(true);
-  }
+  };
 
-  function onCloseDrawer() {
+  const onCloseDrawer = () => {
     setOpenDrawer(false);
-  }
+  };
 
   return (
     <>
@@ -152,11 +157,17 @@ const SearchTableEvent = (props) => {
         </Card>
       </div>
       <DrawerEvent
+        employees={employees}
+        attendances={attendances}
+        schedules={schedules}
+        vacations={vacations}
+        excuses={excuses}
+        options={options}
         rowIndex={rowIndex}
         showDrawer={openDrawer}
         onCloseDrawer={onCloseDrawer}
         comp={compItem}
-        updateEmployeeSection={updateEmployeeSection}
+        getSection={getSection}
         sectionCode={sectionCode}
         sectionCategory={sectionCategory}
         collapsed={collapsed}

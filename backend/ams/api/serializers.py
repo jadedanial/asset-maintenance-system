@@ -3,6 +3,26 @@ from django.contrib.auth.models import User
 from ams.models import *
 
 
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = [
+            "userid",
+            "username",
+            "email",
+            "password",
+        ]
+        extra_kwargs = {"password": {"write_only": True}}
+
+    def create(self, validated_data):
+        password = validated_data.pop("password", None)
+        instance = self.Meta.model(**validated_data)
+        if password is not None:
+            instance.set_password(password)
+        instance.save()
+        return instance
+
+
 class ComponentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Component
@@ -66,26 +86,6 @@ class SectionSerializer(serializers.ModelSerializer):
             "section_type",
             "section_category",
         ]
-
-
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = [
-            "empID",
-            "username",
-            "email",
-            "password",
-        ]
-        extra_kwargs = {"password": {"write_only": True}}
-
-    def create(self, validated_data):
-        password = validated_data.pop("password", None)
-        instance = self.Meta.model(**validated_data)
-        if password is not None:
-            instance.set_password(password)
-        instance.save()
-        return instance
 
 
 class ShiftSerializer(serializers.ModelSerializer):
