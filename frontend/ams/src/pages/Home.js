@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from "react";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { ReactQueryDevtools } from "react-query/devtools";
 import axios from "axios";
 import { Button, Col, Row } from "antd";
 import { FrownOutlined } from "@ant-design/icons";
 import MainPage from "../components/MainPage";
 import ResultEvent from "../components/ResultEvent";
+
+const queryClient = new QueryClient();
 
 const HomePage = () => {
   const [theme, setTheme] = useState("light");
@@ -46,44 +50,52 @@ const HomePage = () => {
 
   return (
     <>
-      {loginFailed ? (
-        <>
-          <div
-            className={theme}
-            style={{
-              paddingTop: "50px",
-              background: theme === "light" ? "#cdf5fd" : "#1c2755",
-              height: "100vh",
-            }}
-          >
-            <ResultEvent
-              icon={<FrownOutlined style={{ color: "#cdf5fd" }} />}
-              status="403"
-              title="Unauthorized User!"
-              subTitle="Sorry, you are not authorized to access this page. Please login or register."
-              extra={
-                <Row className="space-between-row" style={{ width: "30%" }}>
-                  <Col span={12}>
-                    <Button size="large" type="default" href="/login" block>
-                      LOGIN
-                    </Button>
-                  </Col>
-                  <Col span={11}>
-                    <Button size="large" type="primary" href="/register" block>
-                      REGISTER
-                    </Button>
-                  </Col>
-                </Row>
-              }
-              theme={theme}
-            />
-          </div>
-        </>
-      ) : (
-        <>
-          <MainPage empid={empid} username={username} />
-        </>
-      )}
+      <QueryClientProvider client={queryClient}>
+        {loginFailed ? (
+          <>
+            <div
+              className={theme}
+              style={{
+                paddingTop: "50px",
+                background: theme === "light" ? "#cdf5fd" : "#1c2755",
+                height: "100vh",
+              }}
+            >
+              <ResultEvent
+                icon={<FrownOutlined style={{ color: "#cdf5fd" }} />}
+                status="403"
+                title="Unauthorized User!"
+                subTitle="Sorry, you are not authorized to access this page. Please login or register."
+                extra={
+                  <Row className="space-between-row" style={{ width: "30%" }}>
+                    <Col span={12}>
+                      <Button size="large" type="default" href="/login" block>
+                        LOGIN
+                      </Button>
+                    </Col>
+                    <Col span={11}>
+                      <Button
+                        size="large"
+                        type="primary"
+                        href="/register"
+                        block
+                      >
+                        REGISTER
+                      </Button>
+                    </Col>
+                  </Row>
+                }
+                theme={theme}
+              />
+            </div>
+          </>
+        ) : (
+          <>
+            <MainPage empid={empid} username={username} />
+          </>
+        )}
+        <ReactQueryDevtools initialIsOpen={false} />
+      </QueryClientProvider>
     </>
   );
 };

@@ -1,6 +1,4 @@
-import React, { useState, useEffect } from "react";
-import { useQuery } from "react-query";
-import axios from "axios";
+import React, { useState } from "react";
 import { ShoppingOutlined } from "@ant-design/icons";
 import SearchTableEvent from "../components/SearchTableEvent";
 
@@ -43,22 +41,16 @@ const Item = (props) => {
     },
   ];
 
-  const { data: witems } = useQuery("witems", props.fetchItems);
-  const { data: warehouseItems } = useQuery(
-    "warehouseItems",
-    props.fetchWarehouseItems
-  );
-
   function searchedText(text) {
     setSearchedText(text);
   }
 
   function listData() {
     var d = [];
-    if (witems && warehouseItems) {
-      warehouseItems.forEach((wi) => {
+    if (props.witems && props.warehouseItems) {
+      props.warehouseItems.forEach((wi) => {
         if (wi.warehouse_code === props.sectionCode) {
-          witems.forEach((i) => {
+          props.witems.forEach((i) => {
             if (i.item_code === wi.item_code) {
               d.push({
                 code: wi.item_code,
