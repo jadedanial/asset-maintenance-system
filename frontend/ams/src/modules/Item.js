@@ -6,8 +6,6 @@ import SearchTableEvent from "../components/SearchTableEvent";
 
 const Item = (props) => {
   const [searchedtext, setSearchedText] = useState("");
-  const [listData, setListData] = useState([]);
-  const token = sessionStorage.getItem("token");
 
   const columns = [
     {
@@ -45,54 +43,22 @@ const Item = (props) => {
     },
   ];
 
-  const fetchItems = () => {
-    return axios({
-      method: "GET",
-      url: `${process.env.REACT_APP_API_URL}/api/items`,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Token ${token}`,
-      },
-      withCredentials: true,
-    })
-      .then((response) => response.data)
-      .catch((error) => {
-        throw new Error(error);
-      });
-  };
-
-  const fetchWarehouseItems = () => {
-    return axios({
-      method: "GET",
-      url: `${process.env.REACT_APP_API_URL}/api/warehouseitems`,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Token ${token}`,
-      },
-      withCredentials: true,
-    })
-      .then((response) => response.data)
-      .catch((error) => {
-        throw new Error(error);
-      });
-  };
-
-  const { data: items } = useQuery("items", fetchItems);
+  const { data: witems } = useQuery("witems", props.fetchItems);
   const { data: warehouseItems } = useQuery(
     "warehouseItems",
-    fetchWarehouseItems
+    props.fetchWarehouseItems
   );
 
   function searchedText(text) {
     setSearchedText(text);
   }
 
-  useEffect(() => {
-    if (items && warehouseItems) {
-      var d = [];
+  function listData() {
+    var d = [];
+    if (witems && warehouseItems) {
       warehouseItems.forEach((wi) => {
         if (wi.warehouse_code === props.sectionCode) {
-          items.forEach((i) => {
+          witems.forEach((i) => {
             if (i.item_code === wi.item_code) {
               d.push({
                 code: wi.item_code,
@@ -105,9 +71,9 @@ const Item = (props) => {
           });
         }
       });
-      setListData(d);
     }
-  }, [items, warehouseItems, props.sectionCode]);
+    return d;
+  }
 
   return (
     <>
@@ -118,7 +84,7 @@ const Item = (props) => {
         compItemUpdate={"ItemDetail"}
         compItemAdd={"AddUpdateItem"}
         tableColumns={columns}
-        tableDataSource={listData}
+        tableDataSource={listData()}
         searchedText={searchedText}
         sectionCode={props.sectionCode}
         sectionCategory={props.sectionCategory}

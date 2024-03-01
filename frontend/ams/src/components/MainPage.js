@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useQuery } from "react-query";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 import axios from "axios";
@@ -38,6 +39,7 @@ import EmptyData from "./EmptyData";
 const { Header, Sider, Content } = Layout;
 
 const MainPage = (props) => {
+  const token = sessionStorage.getItem("token");
   const queryClient = new QueryClient();
   const [theme, setTheme] = useState("light");
   const [employeeSection, setEmployeeSection] = useState("");
@@ -49,6 +51,38 @@ const MainPage = (props) => {
   const [sectionCode, setSectionCode] = useState("");
   const [sectionCategory, setSectionCategory] = useState("");
   const navigate = useNavigate();
+
+  const fetchItems = () => {
+    return axios({
+      method: "GET",
+      url: `${process.env.REACT_APP_API_URL}/api/items`,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Token ${token}`,
+      },
+      withCredentials: true,
+    })
+      .then((response) => response.data)
+      .catch((error) => {
+        throw new Error(error);
+      });
+  };
+
+  const fetchWarehouseItems = () => {
+    return axios({
+      method: "GET",
+      url: `${process.env.REACT_APP_API_URL}/api/warehouseitems`,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Token ${token}`,
+      },
+      withCredentials: true,
+    })
+      .then((response) => response.data)
+      .catch((error) => {
+        throw new Error(error);
+      });
+  };
 
   const emptyImage = () => (
     <>
@@ -188,6 +222,8 @@ const MainPage = (props) => {
               collapsed={collapsed}
               sectionCode={sectionCode}
               sectionCategory={sectionCategory}
+              fetchItems={fetchItems}
+              fetchWarehouseItems={fetchWarehouseItems}
               theme={theme}
             />
           </>
