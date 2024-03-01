@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { useQuery } from "react-query";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import {
@@ -37,7 +36,6 @@ import EmptyData from "./EmptyData";
 const { Header, Sider, Content } = Layout;
 
 const MainPage = (props) => {
-  const token = sessionStorage.getItem("token");
   const [theme, setTheme] = useState("light");
   const [employeeSection, setEmployeeSection] = useState("");
   const [openDrawer, setOpenDrawer] = useState(true);
@@ -48,44 +46,6 @@ const MainPage = (props) => {
   const [sectionCode, setSectionCode] = useState("");
   const [sectionCategory, setSectionCategory] = useState("");
   const navigate = useNavigate();
-
-  const fetchItems = () => {
-    return axios({
-      method: "GET",
-      url: `${process.env.REACT_APP_API_URL}/api/items`,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Token ${token}`,
-      },
-      withCredentials: true,
-    })
-      .then((response) => response.data)
-      .catch((error) => {
-        throw new Error(error);
-      });
-  };
-
-  const fetchWarehouseItems = () => {
-    return axios({
-      method: "GET",
-      url: `${process.env.REACT_APP_API_URL}/api/warehouseitems`,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Token ${token}`,
-      },
-      withCredentials: true,
-    })
-      .then((response) => response.data)
-      .catch((error) => {
-        throw new Error(error);
-      });
-  };
-
-  const { data: witems } = useQuery("witems", fetchItems);
-  const { data: warehouseItems } = useQuery(
-    "warehouseItems",
-    fetchWarehouseItems
-  );
 
   const emptyImage = () => (
     <>
@@ -225,8 +185,8 @@ const MainPage = (props) => {
               collapsed={collapsed}
               sectionCode={sectionCode}
               sectionCategory={sectionCategory}
-              witems={witems}
-              warehouseItems={warehouseItems}
+              witems={props.items}
+              warehouseItems={props.warehouseItems}
               theme={theme}
             />
           </>
