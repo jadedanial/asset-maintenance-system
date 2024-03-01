@@ -1,13 +1,13 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
+import { useQuery } from "react-query";
 import axios from "axios";
 import { ShoppingOutlined } from "@ant-design/icons";
 import SearchTableEvent from "../components/SearchTableEvent";
 
 const Item = (props) => {
   const [searchedtext, setSearchedText] = useState("");
-  const [item, setItem] = useState([]);
-  const [warehouseItem, setWarehouseItem] = useState([]);
   const [listData, setListData] = useState([]);
+  const token = sessionStorage.getItem("token");
 
   const columns = [
     {
@@ -45,40 +45,54 @@ const Item = (props) => {
     },
   ];
 
-  const loadData = useCallback((url, setData) => {
-    const token = sessionStorage.getItem("token");
-    axios({
+  const fetchItems = () => {
+    return axios({
       method: "GET",
-      url: `${process.env.REACT_APP_API_URL}/api/${url}`,
+      url: `${process.env.REACT_APP_API_URL}/api/items`,
       headers: {
         "Content-Type": "application/json",
         Authorization: `Token ${token}`,
       },
       withCredentials: true,
     })
-      .then((response) => {
-        setData(response.data);
-      })
-      .catch((err) => {
-        console.log(err);
+      .then((response) => response.data)
+      .catch((error) => {
+        throw new Error(error);
       });
-  }, []);
+  };
 
-  const loadAPILists = useCallback(() => {
-    loadData("items", setItem);
-    loadData("warehouseitems", setWarehouseItem);
-  }, [loadData, setItem, setWarehouseItem]);
+  const fetchWarehouseItems = () => {
+    return axios({
+      method: "GET",
+      url: `${process.env.REACT_APP_API_URL}/api/warehouseitems`,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Token ${token}`,
+      },
+      withCredentials: true,
+    })
+      .then((response) => response.data)
+      .catch((error) => {
+        throw new Error(error);
+      });
+  };
+
+  const { data: items } = useQuery("items", fetchItems);
+  const { data: warehouseItems } = useQuery(
+    "warehouseItems",
+    fetchWarehouseItems
+  );
 
   function searchedText(text) {
     setSearchedText(text);
   }
 
   useEffect(() => {
-    if (item.length && warehouseItem.length) {
+    if (items && warehouseItems) {
       var d = [];
-      warehouseItem.forEach((wi) => {
+      warehouseItems.forEach((wi) => {
         if (wi.warehouse_code === props.sectionCode) {
-          item.forEach((i) => {
+          items.forEach((i) => {
             if (i.item_code === wi.item_code) {
               d.push({
                 code: wi.item_code,
@@ -93,16 +107,11 @@ const Item = (props) => {
       });
       setListData(d);
     }
-  }, [item, warehouseItem, props.sectionCode]);
-
-  useEffect(() => {
-    loadAPILists();
-  }, [loadAPILists]);
+  }, [items, warehouseItems, props.sectionCode]);
 
   return (
     <>
       <SearchTableEvent
-        loadAPILists={loadAPILists}
         tooltipIcon={<ShoppingOutlined />}
         tooltipTitle={"Add New Item"}
         inputPlaceHolder={"Search Item"}

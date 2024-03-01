@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "react-cookie": "^7.1.0"
+    "react-cookie": "^7.1.0",
+    "react-query": "^3.39.3"
   }
 }

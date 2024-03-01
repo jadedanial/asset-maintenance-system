@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   Col,
   Row,
@@ -16,7 +16,6 @@ import NotificationEvent from "./NotificationEvent";
 
 const SearchTableEvent = (props) => {
   const {
-    loadAPILists,
     theme,
     tooltipTitle,
     compItemAdd,
@@ -42,12 +41,7 @@ const SearchTableEvent = (props) => {
 
   function onCloseDrawer() {
     setOpenDrawer(false);
-    loadAPILists();
   }
-
-  useEffect(() => {
-    loadAPILists();
-  }, [loadAPILists]);
 
   return (
     <>

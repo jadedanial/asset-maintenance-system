@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { QueryClient, QueryClientProvider } from "react-query";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import {
@@ -36,6 +37,7 @@ import EmptyData from "./EmptyData";
 const { Header, Sider, Content } = Layout;
 
 const MainPage = (props) => {
+  const queryClient = new QueryClient();
   const [theme, setTheme] = useState("light");
   const [employeeSection, setEmployeeSection] = useState("");
   const [openDrawer, setOpenDrawer] = useState(true);
@@ -287,124 +289,129 @@ const MainPage = (props) => {
 
   return (
     <>
-      <ConfigProvider renderEmpty={emptyImage}>
-        <Layout className={theme}>
-          <Sider
-            trigger={null}
-            collapsible
-            collapsed={collapsed}
-            style={{
-              height: "100vh",
-            }}
-          >
-            <div style={{ margin: "20px 0 15px 32px" }}>
-              <img
-                src={"images/ams.png"}
-                alt="logo"
-                style={{
-                  width: "35%",
-                }}
-              />
-            </div>
-            <Menu
-              defaultSelectedKeys={[1]}
-              mode="inline"
-              theme={theme}
-              items={modules}
+      <QueryClientProvider client={queryClient}>
+        <ConfigProvider renderEmpty={emptyImage}>
+          <Layout className={theme}>
+            <Sider
+              trigger={null}
+              collapsible
+              collapsed={collapsed}
               style={{
-                fontSize: "12px",
-                marginTop: "30px",
-              }}
-              onClick={(e) => setSelectedMenuItem(e.key)}
-            />
-          </Sider>
-          <Layout>
-            <Header
-              style={{
-                padding: "0",
-                height: "65px",
-                position: "sticky",
-                top: "0",
-                zIndex: "1",
+                height: "100vh",
               }}
             >
-              <div className="space-between-row" style={{ padding: "0 20px" }}>
-                <Col style={{ color: "#318ce7" }}>
-                  {React.createElement(
-                    collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
-                    {
-                      className: "trigger",
-                      onClick: () => setCollapsed(!collapsed),
-                    }
-                  )}
-                </Col>
-                <Col>
-                  <Dropdown
-                    menu={{ items, onClick }}
-                    placement="bottomRight"
-                    arrow
-                  >
-                    <Badge>
-                      <Space style={{ marginRight: "20px" }}>
-                        <Col>
-                          <p
-                            className="medium-font"
-                            style={{ cursor: "pointer", color: "#318ce7" }}
-                          >
-                            {props.empid}
-                          </p>
-                        </Col>
-                        <Col>
-                          <p
-                            className="medium-font"
-                            style={{ cursor: "pointer", color: "#318ce7" }}
-                          >
-                            {props.username}
-                          </p>
-                        </Col>
-                        <Col>
-                          <Avatar
-                            size="small"
-                            style={{
-                              background: "#318ce7",
-                              cursor: "pointer",
-                            }}
-                            icon={<UserOutlined />}
-                          />
-                        </Col>
-                      </Space>
-                    </Badge>
-                  </Dropdown>
-                  <Button
-                    icon={
-                      theme === "light" ? <BulbOutlined /> : <AlertOutlined />
-                    }
-                    className="btn-normal"
-                    onClick={() => changeMode()}
-                  />
-                </Col>
+              <div style={{ margin: "20px 0 15px 32px" }}>
+                <img
+                  src={"images/ams.png"}
+                  alt="logo"
+                  style={{
+                    width: "35%",
+                  }}
+                />
               </div>
-              <div
+              <Menu
+                defaultSelectedKeys={[1]}
+                mode="inline"
+                theme={theme}
+                items={modules}
                 style={{
-                  marginTop: "1px",
-                  height: "22px",
-                  background: theme === "light" ? "#cdf5fd" : "#1c2755",
+                  fontSize: "12px",
+                  marginTop: "30px",
                 }}
-              ></div>
-            </Header>
-            <Layout
-              style={{
-                background: theme === "light" ? "#cdf5fd" : "#1c2755",
-                minHeight: "300%",
-              }}
-            >
-              <Content style={{ margin: "20px" }}>
-                {componentSwitch(selectedMenuItem)}
-              </Content>
+                onClick={(e) => setSelectedMenuItem(e.key)}
+              />
+            </Sider>
+            <Layout>
+              <Header
+                style={{
+                  padding: "0",
+                  height: "65px",
+                  position: "sticky",
+                  top: "0",
+                  zIndex: "1",
+                }}
+              >
+                <div
+                  className="space-between-row"
+                  style={{ padding: "0 20px" }}
+                >
+                  <Col style={{ color: "#318ce7" }}>
+                    {React.createElement(
+                      collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
+                      {
+                        className: "trigger",
+                        onClick: () => setCollapsed(!collapsed),
+                      }
+                    )}
+                  </Col>
+                  <Col>
+                    <Dropdown
+                      menu={{ items, onClick }}
+                      placement="bottomRight"
+                      arrow
+                    >
+                      <Badge>
+                        <Space style={{ marginRight: "20px" }}>
+                          <Col>
+                            <p
+                              className="medium-font"
+                              style={{ cursor: "pointer", color: "#318ce7" }}
+                            >
+                              {props.empid}
+                            </p>
+                          </Col>
+                          <Col>
+                            <p
+                              className="medium-font"
+                              style={{ cursor: "pointer", color: "#318ce7" }}
+                            >
+                              {props.username}
+                            </p>
+                          </Col>
+                          <Col>
+                            <Avatar
+                              size="small"
+                              style={{
+                                background: "#318ce7",
+                                cursor: "pointer",
+                              }}
+                              icon={<UserOutlined />}
+                            />
+                          </Col>
+                        </Space>
+                      </Badge>
+                    </Dropdown>
+                    <Button
+                      icon={
+                        theme === "light" ? <BulbOutlined /> : <AlertOutlined />
+                      }
+                      className="btn-normal"
+                      onClick={() => changeMode()}
+                    />
+                  </Col>
+                </div>
+                <div
+                  style={{
+                    marginTop: "1px",
+                    height: "22px",
+                    background: theme === "light" ? "#cdf5fd" : "#1c2755",
+                  }}
+                ></div>
+              </Header>
+              <Layout
+                style={{
+                  background: theme === "light" ? "#cdf5fd" : "#1c2755",
+                  minHeight: "300%",
+                }}
+              >
+                <Content style={{ margin: "20px" }}>
+                  {componentSwitch(selectedMenuItem)}
+                </Content>
+              </Layout>
             </Layout>
           </Layout>
-        </Layout>
-      </ConfigProvider>
+        </ConfigProvider>
+      </QueryClientProvider>
     </>
   );
 };
