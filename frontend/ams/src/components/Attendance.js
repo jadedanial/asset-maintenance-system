@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React, { useState } from "react";
 import {
   Col,
   Calendar,
@@ -27,13 +26,19 @@ import moment from "moment";
 
 const { Title } = Typography;
 
-const Attendance = (props, ref) => {
+const Attendance = ({
+  attendances,
+  employees,
+  schedules,
+  vacations,
+  empid,
+  theme,
+}) => {
   const dateTimeFormat = "YYYY-MM-DD HH:mm:ss";
   const [selectedDate, setSelectedDate] = useState(
     String(moment().format("YYYY-MM-DD"))
   );
   const [schedid, setSchedId] = useState(0);
-  const [attendances, setAttendances] = useState([]);
   const [attendStatus, setAttendStatus] = useState("");
   const [attendanceData, setAttendanceData] = useState([]);
   const [attendanceMode, setAttendanceMode] = useState("ADD ATTENDANCE");
@@ -44,47 +49,46 @@ const Attendance = (props, ref) => {
   const [withData, setWithData] = useState(false);
   const [api, contextHolder] = notification.useNotification();
 
-  async function getSchedule() {
-    let sched;
-    const token = sessionStorage.getItem("token");
-    await axios({
-      method: "GET",
-      url: `${process.env.REACT_APP_API_URL}/api/employees`,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Token ${token}`,
-      },
-      withCredentials: true,
-    })
-      .then((response) => {
-        response.data.map((res) =>
-          res.emp_id === props.empid ? (sched = res.emp_sched) : ""
-        );
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    return sched;
-  }
+  const loadAttendances = () => {
+    return attendances
+      .filter((res) => res.emp_id === empid)
+      .map((res) => ({
+        Date: res.attend_date,
+        "Check In": res.attend_checkin
+          ? String(moment(res.attend_checkin).format(dateTimeFormat))
+          : "--:--:--",
+        "Check Out": res.attend_checkout
+          ? String(moment(res.attend_checkout).format(dateTimeFormat))
+          : "--:--:--",
+        "Late In": res.attend_latein,
+        "Early Out": res.attend_earlyout,
+        Worked: res.attend_work,
+        Required: res.attend_req,
+        Undertime: res.attend_under,
+        Overtime: res.attend_over,
+        Excuse: res.attend_excuse,
+        Status: res.attend_status,
+      }));
+  };
 
-  function updateAttendances(newAttendances) {
-    setAttendances(newAttendances);
-  }
+  const [employeeAttendance, setEmployeeAttendance] = useState(
+    loadAttendances()
+  );
 
-  function updateStatus(stat, data, mode) {
+  const updateStatus = (stat, data, mode) => {
     setAttendStatus(stat);
     setAttendanceData(data);
     setAttendanceMode(mode);
-  }
+  };
 
-  function onSelect(newValue) {
+  const onSelect = (newValue) => {
     setWithData(true);
     setAttendButton("");
     setSelectedDate(String(moment(newValue).format("MMMM DD, YYYY")));
     updateStatus("No Attendance Data", [], "ADD ATTENDANCE");
     setCheckInTime("--:--:--");
     setCheckOutTime("--:--:--");
-    for (const [, value] of Object.entries(attendances)) {
+    for (const [, value] of Object.entries(employeeAttendance)) {
       if (
         String(value["Date"]) === String(moment(newValue).format("YYYY-MM-DD"))
       ) {
@@ -97,9 +101,9 @@ const Attendance = (props, ref) => {
         setCheckOutTime(String(value["Check Out"]));
       }
     }
-  }
+  };
 
-  function attendanceStatus(key) {
+  const attendanceStatus = (key) => {
     switch (key) {
       case "Attended Today":
         return (
@@ -134,11 +138,11 @@ const Attendance = (props, ref) => {
       default:
         break;
     }
-  }
+  };
 
-  function getListData(value) {
+  const getListData = (value) => {
     let listData;
-    attendances?.forEach((attendance) => {
+    employeeAttendance?.forEach((attendance) => {
       switch (String(moment(value).format("YYYY-MM-DD"))) {
         case attendance.Date:
           listData = [
@@ -151,9 +155,9 @@ const Attendance = (props, ref) => {
       }
     });
     return listData || [];
-  }
+  };
 
-  function dateCellRender(value) {
+  const dateCellRender = (value) => {
     if (
       String(moment(value).format("MMMM YYYY")) ===
       String(moment(selectedDate).format("MMMM YYYY"))
@@ -178,9 +182,9 @@ const Attendance = (props, ref) => {
         </>
       );
     }
-  }
+  };
 
-  function monthlyAttendanceData(selecteddate) {
+  const monthlyAttendanceData = (selecteddate) => {
     var workdays = 0,
       absences = 0,
       dayoffs = 0,
@@ -188,7 +192,7 @@ const Attendance = (props, ref) => {
       hoursworked = 0,
       hoursrequired = 0,
       hoursexcused = 0;
-    attendances?.forEach((attendance) => {
+    employeeAttendance?.forEach((attendance) => {
       if (
         String(moment(attendance.Date).format("MMMM YYYY")) ===
         String(moment(selecteddate).format("MMMM YYYY"))
@@ -210,7 +214,6 @@ const Attendance = (props, ref) => {
         }
       }
     });
-
     return (
       <>
         {[
@@ -267,70 +270,32 @@ const Attendance = (props, ref) => {
         ))}
       </>
     );
-  }
+  };
 
-  function newAttendance() {
-    getSchedule().then((schedule) => {
-      if (schedule) {
-        setSchedId(schedule);
-        setAdd(true);
-      } else {
-        api.info(
-          NotificationEvent(
-            false,
-            "No shift schedule assigned to this employee."
-          )
-        );
-      }
-    });
-  }
+  const getSchedule = () => {
+    const employee = employees.find((res) => res.emp_id === empid);
+    return employee ? employee.emp_sched : "";
+  };
 
-  function viewAttendance() {
+  const newAttendance = () => {
+    const schedule = getSchedule();
+    if (schedule) {
+      setSchedId(schedule);
+      setAdd(true);
+    } else {
+      api.info(
+        NotificationEvent(false, "No shift schedule assigned to this employee.")
+      );
+    }
+  };
+
+  const updateAttendance = (newAttendances) => {
+    setEmployeeAttendance(newAttendances);
+  };
+
+  const viewAttendance = () => {
     setAdd(false);
-  }
-
-  useEffect(() => {
-    const token = sessionStorage.getItem("token");
-    axios({
-      method: "GET",
-      url: `${process.env.REACT_APP_API_URL}/api/attendances`,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Token ${token}`,
-      },
-      withCredentials: true,
-    })
-      .then((response) => {
-        setAttendances([]);
-        response.data.map((res) =>
-          res.emp_id === props.empid
-            ? setAttendances((attendances) => [
-                ...attendances,
-                {
-                  Date: res.attend_date,
-                  "Check In": res.attend_checkin
-                    ? String(moment(res.attend_checkin).format(dateTimeFormat))
-                    : "--:--:--",
-                  "Check Out": res.attend_checkout
-                    ? String(moment(res.attend_checkout).format(dateTimeFormat))
-                    : "--:--:--",
-                  "Late In": res.attend_latein,
-                  "Early Out": res.attend_earlyout,
-                  Worked: res.attend_work,
-                  Required: res.attend_req,
-                  Undertime: res.attend_under,
-                  Overtime: res.attend_over,
-                  Excuse: res.attend_excuse,
-                  Status: res.attend_status,
-                },
-              ])
-            : []
-        );
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, [props.empid]);
+  };
 
   return (
     <>
@@ -339,16 +304,19 @@ const Attendance = (props, ref) => {
         <Card size="small" style={{ width: "100%" }}>
           {add ? (
             <AddAttendance
-              userId={props.userId}
+              schedules={schedules}
+              vacations={vacations}
+              empid={empid}
               schedid={schedid}
               mode={attendanceMode}
               attenddate={selectedDate}
-              attendances={attendances}
-              updateAttendances={updateAttendances}
+              employeeAttendance={employeeAttendance}
+              updateAttendance={updateAttendance}
               updateOnSelect={onSelect}
               checkInTime={checkInTime}
               checkOutTime={checkOutTime}
               viewAttendance={viewAttendance}
+              theme={theme}
             />
           ) : (
             <>

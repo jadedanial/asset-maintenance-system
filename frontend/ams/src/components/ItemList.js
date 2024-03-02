@@ -26,22 +26,33 @@ import {
 
 const { Title } = Typography;
 
-const ItemList = (props) => {
-  const itemList = props.itemList;
+const ItemList = ({
+  itemList,
+  setFilteredItem,
+  filteredItem,
+  view,
+  segment,
+  handleCheckChange,
+  setWarning,
+  warning,
+  deleteItem,
+  changeQuantity,
+  theme,
+}) => {
+  const itemListLocal = itemList;
   const [searchItemCode, setSearchItemCode] = useState("");
   const [codeAscending, setCodeAscending] = useState(false);
   const [nameAscending, setNameAscending] = useState(false);
   const [costAscending, setCostAscending] = useState(false);
   const [checkedAll, setCheckedAll] = useState(false);
 
-  function showAll() {
-    props.setFilteredItem(props.itemList);
+  const showAll = () => {
+    setFilteredItem(itemList);
     setSearchItemCode("");
-  }
+  };
 
-  function sortItems(key, ascending) {
-    let itemsToSort =
-      props.filteredItem.length > 0 ? props.filteredItem : props.itemList;
+  const sortItems = (key, ascending) => {
+    let itemsToSort = filteredItem.length > 0 ? filteredItem : itemList;
 
     itemsToSort.sort((a, b) => {
       let valA = key === "total" ? parseInt(a[key], 10) : a[key];
@@ -55,7 +66,7 @@ const ItemList = (props) => {
       }
       return 0;
     });
-    props.setFilteredItem(itemsToSort);
+    setFilteredItem(itemsToSort);
     if (key === "code") {
       setCodeAscending(ascending);
     } else if (key === "name") {
@@ -63,11 +74,11 @@ const ItemList = (props) => {
     } else if (key === "total") {
       setCostAscending(ascending);
     }
-  }
+  };
 
   return (
     <>
-      {!props.view ? (
+      {!view ? (
         <Row
           className="card-with-background"
           style={{
@@ -86,11 +97,11 @@ const ItemList = (props) => {
               onChange={(e) => {
                 const inputValue = e.target.value;
                 setSearchItemCode(inputValue);
-                props.setFilteredItem("");
-                const filteredData = props.itemList.filter(
+                setFilteredItem("");
+                const filteredData = itemList.filter(
                   (item) => item.code.toLowerCase() === inputValue.toLowerCase()
                 );
-                props.setFilteredItem(filteredData);
+                setFilteredItem(filteredData);
               }}
             />
           </Col>
@@ -160,7 +171,7 @@ const ItemList = (props) => {
                   />
                 </Tooltip>
               </Col>
-              {props.segment === "Receive" ? (
+              {segment === "Receive" ? (
                 <Col span={4} className="justified-row">
                   <Tooltip title={checkedAll ? "Uncheck All" : "Check All"}>
                     <Button
@@ -174,17 +185,17 @@ const ItemList = (props) => {
                       }
                       className="btn-normal"
                       onClick={() => {
-                        props.handleCheckChange(
-                          props.itemList,
-                          props.filteredItem.length > 0
-                            ? props.filteredItem.map((item) => item.code)
-                            : props.itemList.map((item) => item.code),
+                        handleCheckChange(
+                          itemList,
+                          filteredItem.length > 0
+                            ? filteredItem.map((item) => item.code)
+                            : itemList.map((item) => item.code),
                           !checkedAll,
                           false,
-                          props.filteredItem
+                          filteredItem
                         );
                         setCheckedAll(!checkedAll);
-                        props.setWarning(false);
+                        setWarning(false);
                       }}
                     />
                   </Tooltip>
@@ -207,18 +218,18 @@ const ItemList = (props) => {
           overflowX: "hidden",
         }}
         dataSource={
-          props.view
-            ? itemList
-            : props.filteredItem.length > 0
-            ? props.filteredItem
-            : props.itemList
+          view
+            ? itemListLocal
+            : filteredItem.length > 0
+            ? filteredItem
+            : itemList
         }
         renderItem={(item) => (
           <List.Item>
             <Card className="card-no-padding" hoverable>
               <Row>
                 <Col
-                  span={!props.view ? 3 : 6}
+                  span={!view ? 3 : 6}
                   className="justified-row card-with-background"
                 >
                   <QRCode
@@ -232,9 +243,7 @@ const ItemList = (props) => {
                 </Col>
                 <Col
                   className="card-with-background"
-                  span={
-                    !props.view ? (props.segment === "Receive" ? 19 : 21) : 18
-                  }
+                  span={!view ? (segment === "Receive" ? 19 : 21) : 18}
                 >
                   <Card
                     className="card-item card-with-background"
@@ -244,21 +253,13 @@ const ItemList = (props) => {
                         <div className="space-between-row align-items-center">
                           <Col
                             span={
-                              !props.view
-                                ? props.segment === "Receive"
-                                  ? 20
-                                  : 16
-                                : 23
+                              !view ? (segment === "Receive" ? 20 : 16) : 23
                             }
                           >
                             <Row>
                               <Col
                                 span={
-                                  !props.view
-                                    ? props.segment === "Receive"
-                                      ? 13
-                                      : 10
-                                    : 16
+                                  !view ? (segment === "Receive" ? 13 : 10) : 16
                                 }
                               >
                                 <p
@@ -270,11 +271,7 @@ const ItemList = (props) => {
                               </Col>
                               <Col
                                 span={
-                                  !props.view
-                                    ? props.segment === "Receive"
-                                      ? 5
-                                      : 7
-                                    : 7
+                                  !view ? (segment === "Receive" ? 5 : 7) : 7
                                 }
                               >
                                 <p
@@ -284,7 +281,7 @@ const ItemList = (props) => {
                                   Quantity
                                 </p>
                               </Col>
-                              {!props.view ? (
+                              {!view ? (
                                 <Col span={6}>
                                   <p
                                     className="medium-card-title"
@@ -298,15 +295,15 @@ const ItemList = (props) => {
                               )}
                             </Row>
                           </Col>
-                          {!props.view ? (
-                            props.segment === "Reorder" ? (
+                          {!view ? (
+                            segment === "Reorder" ? (
                               <Col span={8} className="flex-end-row">
                                 <Tooltip title="Remove">
                                   <Button
                                     className="btn-normal no-hover"
                                     danger
                                     type="link"
-                                    onClick={() => props.deleteItem(item.code)}
+                                    onClick={() => deleteItem(item.code)}
                                   >
                                     <CloseOutlined className="medium-card-title" />
                                   </Button>
@@ -331,21 +328,15 @@ const ItemList = (props) => {
                       style={{
                         alignItems: "center",
                         paddingBottom: "12px",
-                        color: props.theme === "light" ? "#000" : "#fff",
+                        color: theme === "light" ? "#000" : "#fff",
                       }}
                     >
                       <Col
-                        span={
-                          !props.view
-                            ? props.segment === "Receive"
-                              ? 24
-                              : 16
-                            : 24
-                        }
+                        span={!view ? (segment === "Receive" ? 24 : 16) : 24}
                       >
                         <Row>
                           <Col
-                            span={!props.view ? 8 : 13}
+                            span={!view ? 8 : 13}
                             style={{ marginRight: "30px" }}
                           >
                             <p style={{ textAlign: "left", margin: "0" }}>
@@ -360,9 +351,9 @@ const ItemList = (props) => {
                                 : item.measurement}
                             </p>
                           </Col>
-                          {!props.view ? (
+                          {!view ? (
                             <Col
-                              span={props.segment === "Receive" ? 3 : 6}
+                              span={segment === "Receive" ? 3 : 6}
                               className="flex-end-row"
                             >
                               <p style={{ textAlign: "right", margin: "0" }}>
@@ -374,15 +365,15 @@ const ItemList = (props) => {
                           )}
                         </Row>
                       </Col>
-                      {!props.view ? (
-                        props.segment === "Reorder" ? (
+                      {!view ? (
+                        segment === "Reorder" ? (
                           <Col span={8} className="flex-end-row">
                             <Tooltip>
                               <Button
                                 size="small"
                                 type="primary"
                                 onClick={() =>
-                                  props.changeQuantity(
+                                  changeQuantity(
                                     "add",
                                     item.id,
                                     item.code,
@@ -403,7 +394,7 @@ const ItemList = (props) => {
                                 type="default"
                                 style={{ marginLeft: "4px" }}
                                 onClick={() =>
-                                  props.changeQuantity(
+                                  changeQuantity(
                                     "less",
                                     item.id,
                                     item.code,
@@ -429,8 +420,8 @@ const ItemList = (props) => {
                   </Card>
                 </Col>
 
-                {!props.view ? (
-                  props.segment === "Receive" ? (
+                {!view ? (
+                  segment === "Receive" ? (
                     <Col
                       span={2}
                       className="justified-row align-items-center card-with-background"
@@ -439,18 +430,18 @@ const ItemList = (props) => {
                         className={`${
                           item.checked === "true"
                             ? ""
-                            : props.warning
+                            : warning
                             ? "warning"
                             : ""
                         }`}
                         checked={item.checked === "true"}
                         onChange={() => {
-                          props.handleCheckChange(
-                            props.itemList,
+                          handleCheckChange(
+                            itemList,
                             item.code,
                             false,
                             true,
-                            props.filteredItem
+                            filteredItem
                           );
                           setCheckedAll(false);
                         }}

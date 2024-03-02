@@ -2,7 +2,7 @@ import React, { useState, useCallback } from "react";
 import { CalendarOutlined } from "@ant-design/icons";
 import SearchTableEvent from "../components/SearchTableEvent";
 
-const Schedule = ({ schedules, collapsed, theme }) => {
+const Schedule = ({ schedules, shifts, collapsed, theme }) => {
   const [searchedtext, setSearchedText] = useState("");
 
   const columns = [
@@ -90,6 +90,7 @@ const Schedule = ({ schedules, collapsed, theme }) => {
   return (
     <>
       <SearchTableEvent
+        shifts={shifts}
         loadAPILists={loadAPILists}
         tooltipIcon={<CalendarOutlined />}
         tooltipTitle={"Add New Schedule"}

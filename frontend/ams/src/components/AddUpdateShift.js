@@ -25,23 +25,33 @@ const layout = {
   },
 };
 
-const AddUpdateShift = (props) => {
+const AddUpdateShift = ({
+  update,
+  id,
+  name,
+  from,
+  to,
+  onCloseDrawer,
+  theme,
+}) => {
   const timeFormat = "HH:mm:ss";
-  const [update, setUpdate] = useState(props.update);
-  const [label, setLabel] = useState(update ? "Update Shift" : "Add New Shift");
+  const [updateData, setUpdateData] = useState(update);
+  const [label, setLabel] = useState(
+    updateData ? "Update Shift" : "Add New Shift"
+  );
   const [color, setColor] = useState("#318ce7");
-  const shiftID = update ? props.id : "";
-  const [shiftName, setShiftName] = useState(update ? props.name : "");
-  const [shiftFrom, setShiftFrom] = useState(update ? props.from : "");
-  const [shiftTo, setShiftTo] = useState(update ? props.to : "");
+  const shiftID = updateData ? id : "";
+  const [shiftName, setShiftName] = useState(updateData ? name : "");
+  const [shiftFrom, setShiftFrom] = useState(updateData ? from : "");
+  const [shiftTo, setShiftTo] = useState(updateData ? to : "");
   const [submit, setSubmit] = useState(false);
   const [success, setSuccess] = useState(false);
   const [nameReq, setNameReq] = useState(false);
   const [fromReq, setFromReq] = useState(false);
   const [toReq, setToReq] = useState(false);
 
-  function newShift() {
-    setUpdate(false);
+  const newShift = () => {
+    setUpdateData(false);
     setSubmit(false);
     setLabel("Add New Shift");
     setColor("#318ce7");
@@ -50,32 +60,32 @@ const AddUpdateShift = (props) => {
     setShiftTo("");
     setFromReq(true);
     setToReq(true);
-  }
+  };
 
-  function changeLabel() {
-    setLabel(update ? "Update Shift" : "Add New Shift");
+  const changeLabel = () => {
+    setLabel(updateData ? "Update Shift" : "Add New Shift");
     setColor("#318ce7");
-  }
+  };
 
-  function onNameChange(value) {
+  const onNameChange = (value) => {
     setShiftName(value);
     setNameReq(true);
     changeLabel();
-  }
+  };
 
-  function onFromChange(value) {
+  const onFromChange = (value) => {
     setShiftFrom(value);
     setFromReq(true);
     changeLabel();
-  }
+  };
 
-  function onToChange(value) {
+  const onToChange = (value) => {
     setShiftTo(value);
     setToReq(true);
     changeLabel();
-  }
+  };
 
-  function onFinish() {
+  const onFinish = () => {
     setSubmit(true);
     changeLabel();
     var shiftData = {
@@ -90,7 +100,7 @@ const AddUpdateShift = (props) => {
     };
     const token = sessionStorage.getItem("token");
     axios({
-      method: update ? "PATCH" : "POST",
+      method: updateData ? "PATCH" : "POST",
       url: `${process.env.REACT_APP_API_URL}/api/shift`,
       data: shiftData,
       headers: {
@@ -108,7 +118,7 @@ const AddUpdateShift = (props) => {
         setLabel(err.response.data[0]);
         setColor("#ff0000");
       });
-  }
+  };
 
   if (submit) {
     if (success) {
@@ -118,7 +128,7 @@ const AddUpdateShift = (props) => {
             icon={<CheckOutlined style={{ color: "#318ce7" }} />}
             status="success"
             title={
-              update
+              updateData
                 ? "Successfully updated Shift."
                 : "Successfully added new Shift."
             }
@@ -129,7 +139,7 @@ const AddUpdateShift = (props) => {
                   <Button
                     size="large"
                     type="default"
-                    onClick={props.onCloseDrawer}
+                    onClick={onCloseDrawer}
                     block
                   >
                     CLOSE
@@ -147,7 +157,7 @@ const AddUpdateShift = (props) => {
                 </Col>
               </Row>
             }
-            theme={props.theme}
+            theme={theme}
           />
         </>
       );
@@ -184,7 +194,7 @@ const AddUpdateShift = (props) => {
                 initialValue={shiftName}
                 rules={[
                   {
-                    required: update ? nameReq : true,
+                    required: updateData ? nameReq : true,
                     message: "Required!",
                   },
                 ]}
@@ -205,7 +215,7 @@ const AddUpdateShift = (props) => {
                     }
                     rules={[
                       {
-                        required: update ? fromReq : true,
+                        required: updateData ? fromReq : true,
                         message: "Required!",
                       },
                     ]}
@@ -228,7 +238,7 @@ const AddUpdateShift = (props) => {
                     }
                     rules={[
                       {
-                        required: update ? toReq : true,
+                        required: updateData ? toReq : true,
                         message: "Required!",
                       },
                     ]}
@@ -248,7 +258,7 @@ const AddUpdateShift = (props) => {
                   style={{
                     marginRight: "10px",
                   }}
-                  onClick={props.onCloseDrawer}
+                  onClick={onCloseDrawer}
                   block
                 >
                   CANCEL

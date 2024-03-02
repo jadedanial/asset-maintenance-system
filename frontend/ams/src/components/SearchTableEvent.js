@@ -20,6 +20,10 @@ const SearchTableEvent = ({
   schedules,
   vacations,
   excuses,
+  shifts,
+  items,
+  warehouseitems,
+  sections,
   options,
   theme,
   tooltipTitle,
@@ -162,6 +166,10 @@ const SearchTableEvent = ({
         schedules={schedules}
         vacations={vacations}
         excuses={excuses}
+        shifts={shifts}
+        items={items}
+        warehouseitems={warehouseitems}
+        sections={sections}
         options={options}
         rowIndex={rowIndex}
         showDrawer={openDrawer}

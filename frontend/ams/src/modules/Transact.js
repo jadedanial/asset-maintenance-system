@@ -30,6 +30,7 @@ const Transact = ({
   items,
   warehouseitems,
   sections,
+  options,
   transactions,
   userId,
   userName,
@@ -415,7 +416,7 @@ const Transact = ({
                       measurement: i.item_measurement,
                     },
                   ])
-                : null
+                : ""
             );
           }
         });
@@ -477,6 +478,9 @@ const Transact = ({
             <Row>
               <Col span={14} style={{ paddingRight: "20px" }}>
                 <ItemDetail
+                  items={items}
+                  warehouseitems={warehouseitems}
+                  options={options}
                   itemcode={queryItem["0"]["code"]}
                   view={true}
                   sectionCode={sectionCode}

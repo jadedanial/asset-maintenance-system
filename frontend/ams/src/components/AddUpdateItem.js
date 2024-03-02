@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import {
   Typography,
@@ -25,29 +25,41 @@ const layout = {
   },
 };
 
-const AddUpdateItem = (props) => {
-  const [update, setUpdate] = useState(props.update);
-  const [label, setLabel] = useState(update ? "Update Item" : "Add New Item");
+const AddUpdateItem = ({
+  options,
+  update,
+  code,
+  name,
+  category,
+  measurement,
+  location,
+  reorder,
+  onhand,
+  cost,
+  description,
+  sectionCode,
+  sectionCategory,
+  onCloseDrawer,
+  theme,
+}) => {
+  const [updateData, setUpdateData] = useState(update);
+  const [label, setLabel] = useState(
+    updateData ? "Update Item" : "Add New Item"
+  );
   const [color, setColor] = useState("#318ce7");
-  const [categories, setCategories] = useState([]);
-  const [measurements, setMeasurements] = useState([]);
-  const [idCode, setIDCode] = useState(update ? props.code : "");
-  const [itemCode, setItemCode] = useState(update ? props.code : "");
-  const [itemName, setItemName] = useState(update ? props.name : "");
-  const [itemCategory, setItemCategory] = useState(
-    update ? props.category : ""
-  );
-  const [itemLocation, setItemLocation] = useState(
-    update ? props.location : ""
-  );
+  const [idCode, setIDCode] = useState(updateData ? code : "");
+  const [itemCode, setItemCode] = useState(updateData ? code : "");
+  const [itemName, setItemName] = useState(updateData ? name : "");
+  const [itemCategory, setItemCategory] = useState(updateData ? category : "");
+  const [itemLocation, setItemLocation] = useState(updateData ? location : "");
   const [itemMeasurement, setItemMeasurement] = useState(
-    update ? props.measurement : ""
+    updateData ? measurement : ""
   );
-  const [itemReorder, setItemReorder] = useState(update ? props.reorder : "");
-  const itemOnHand = update ? props.onhand : 0.0;
-  const [itemCost, setItemCost] = useState(update ? props.cost : "");
+  const [itemReorder, setItemReorder] = useState(updateData ? reorder : "");
+  const itemOnHand = updateData ? onhand : 0.0;
+  const [itemCost, setItemCost] = useState(updateData ? cost : "");
   const [itemDescription, setItemDescription] = useState(
-    update ? props.description : ""
+    updateData ? description : ""
   );
   const [submit, setSubmit] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -59,8 +71,8 @@ const AddUpdateItem = (props) => {
   const [costReq, setCostReq] = useState(false);
   const [descriptionReq, setDescriptionReq] = useState(false);
 
-  function newItem() {
-    setUpdate(false);
+  const newItem = () => {
+    setUpdateData(false);
     setSubmit(false);
     setLabel("Add New Item");
     setColor("#318ce7");
@@ -79,64 +91,64 @@ const AddUpdateItem = (props) => {
     setReorderReq(true);
     setCostReq(true);
     setDescriptionReq(true);
-  }
+  };
 
-  function changeLabel() {
-    setLabel(update ? "Update Item" : "Add New Item");
+  const changeLabel = () => {
+    setLabel(updateData ? "Update Item" : "Add New Item");
     setColor("#318ce7");
-  }
+  };
 
-  function onNameChange(value) {
+  const onNameChange = (value) => {
     setItemName(value);
     setNameReq(true);
     changeLabel();
-  }
+  };
 
-  function onCategoryChange(value) {
+  const onCategoryChange = (value) => {
     setItemCategory(value);
     setCategoryReq(true);
     changeLabel();
-  }
+  };
 
-  function onMeasurementChange(value) {
+  const onMeasurementChange = (value) => {
     setItemMeasurement(value);
     setMeasurementReq(true);
     changeLabel();
-  }
+  };
 
-  function onLocationChange(value) {
+  const onLocationChange = (value) => {
     setItemLocation(value);
     setLocationReq(true);
     changeLabel();
-  }
+  };
 
-  function onReorderChange(value) {
+  const onReorderChange = (value) => {
     setItemReorder(value);
     setReorderReq(true);
     changeLabel();
-  }
+  };
 
-  function onCostChange(value) {
+  const onCostChange = (value) => {
     setItemCost(value);
     setCostReq(true);
     changeLabel();
-  }
+  };
 
-  function onDescriptionChange(value) {
+  const onDescriptionChange = (value) => {
     setItemDescription(value);
     setDescriptionReq(true);
     changeLabel();
-  }
+  };
 
-  function checkMain() {
+  const checkMain = () => {
     var main = true;
-    if (props.sectionCategory === "main") {
+    if (sectionCategory === "main") {
       main = false;
     }
     return main;
-  }
+  };
 
-  function onFinish() {
+  const onFinish = () => {
     setSubmit(true);
     changeLabel();
     var itemData = {
@@ -150,7 +162,7 @@ const AddUpdateItem = (props) => {
     };
     const token = sessionStorage.getItem("token");
     axios({
-      method: update ? "PATCH" : "POST",
+      method: updateData ? "PATCH" : "POST",
       url: `${process.env.REACT_APP_API_URL}/api/item`,
       data: itemData,
       headers: {
@@ -163,13 +175,13 @@ const AddUpdateItem = (props) => {
         setIDCode("ITM" + response.data["id"]);
         var itemWarehouse = {
           item_code: "ITM" + response.data["id"],
-          warehouse_code: props.sectionCode,
+          warehouse_code: sectionCode,
           item_location: itemLocation,
           item_onhand: itemOnHand,
         };
         const token = sessionStorage.getItem("token");
         axios({
-          method: update ? "PATCH" : "POST",
+          method: updateData ? "PATCH" : "POST",
           url: `${process.env.REACT_APP_API_URL}/api/warehouseitem`,
           data: itemWarehouse,
           headers: {
@@ -187,27 +199,7 @@ const AddUpdateItem = (props) => {
         setLabel(err.response.data[0]);
         setColor("#ff0000");
       });
-  }
-
-  useEffect(() => {
-    const token = sessionStorage.getItem("token");
-    axios({
-      method: "GET",
-      url: `${process.env.REACT_APP_API_URL}/api/options`,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Token ${token}`,
-      },
-      withCredentials: true,
-    })
-      .then((response) => {
-        setCategories(response.data);
-        setMeasurements(response.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+  };
 
   if (submit) {
     if (success) {
@@ -217,7 +209,7 @@ const AddUpdateItem = (props) => {
             icon={<CheckOutlined style={{ color: "#318ce7" }} />}
             status="success"
             title={
-              update
+              updateData
                 ? "Successfully updated Item."
                 : "Successfully added new Item."
             }
@@ -228,7 +220,7 @@ const AddUpdateItem = (props) => {
                   <Button
                     size="large"
                     type="default"
-                    onClick={props.onCloseDrawer}
+                    onClick={onCloseDrawer}
                     block
                   >
                     CLOSE
@@ -246,7 +238,7 @@ const AddUpdateItem = (props) => {
                 </Col>
               </Row>
             }
-            theme={props.theme}
+            theme={theme}
           />
         </>
       );
@@ -285,7 +277,7 @@ const AddUpdateItem = (props) => {
                     initialValue={itemName}
                     rules={[
                       {
-                        required: update ? nameReq : true,
+                        required: updateData ? nameReq : true,
                         message: "Required!",
                       },
                     ]}
@@ -303,7 +295,7 @@ const AddUpdateItem = (props) => {
                     initialValue={itemCategory}
                     rules={[
                       {
-                        required: update ? categoryReq : true,
+                        required: updateData ? categoryReq : true,
                         message: "Required!",
                       },
                     ]}
@@ -322,7 +314,7 @@ const AddUpdateItem = (props) => {
                           .localeCompare((optionB?.label ?? "").toLowerCase())
                       }
                       value={itemCategory}
-                      options={categories
+                      options={options
                         .filter((res) => res.opt_category === "Category")
                         .map((cat) => {
                           return {
@@ -340,7 +332,7 @@ const AddUpdateItem = (props) => {
                     initialValue={itemLocation}
                     rules={[
                       {
-                        required: update ? locationReq : true,
+                        required: updateData ? locationReq : true,
                         message: "Required!",
                       },
                     ]}
@@ -359,7 +351,7 @@ const AddUpdateItem = (props) => {
                     initialValue={itemCost}
                     rules={[
                       {
-                        required: update ? costReq : true,
+                        required: updateData ? costReq : true,
                         message: "Required numeric!",
                         type: "number",
                       },
@@ -379,7 +371,7 @@ const AddUpdateItem = (props) => {
                     initialValue={itemMeasurement}
                     rules={[
                       {
-                        required: update ? measurementReq : true,
+                        required: updateData ? measurementReq : true,
                         message: "Required!",
                       },
                     ]}
@@ -398,7 +390,7 @@ const AddUpdateItem = (props) => {
                           .localeCompare((optionB?.label ?? "").toLowerCase())
                       }
                       value={itemMeasurement}
-                      options={measurements
+                      options={options
                         .filter((res) => res.opt_category === "Measurement")
                         .map((mes) => {
                           return {
@@ -416,7 +408,7 @@ const AddUpdateItem = (props) => {
                     initialValue={itemReorder}
                     rules={[
                       {
-                        required: update ? reorderReq : true,
+                        required: updateData ? reorderReq : true,
                         message: "Required numeric!",
                         type: "number",
                       },
@@ -438,7 +430,7 @@ const AddUpdateItem = (props) => {
                 initialValue={itemDescription}
                 rules={[
                   {
-                    required: update ? descriptionReq : true,
+                    required: updateData ? descriptionReq : true,
                     message: "Required!",
                   },
                 ]}
@@ -456,7 +448,7 @@ const AddUpdateItem = (props) => {
                   style={{
                     marginRight: "10px",
                   }}
-                  onClick={props.onCloseDrawer}
+                  onClick={onCloseDrawer}
                   block
                 >
                   CANCEL

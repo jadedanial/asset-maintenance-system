@@ -8,7 +8,24 @@ import EmptyData from "./EmptyData";
 
 const { Title } = Typography;
 
-const Cart = (props) => {
+const Cart = ({
+  itemCount,
+  segment,
+  itemList,
+  warehouseCategory,
+  warehouseCode,
+  removeItem,
+  addItem,
+  filteredItem,
+  setFilteredItem,
+  success,
+  transactionCode,
+  reorderOrder,
+  receiveOrder,
+  handleCheckChange,
+  onCloseDrawer,
+  theme,
+}) => {
   const [totalOrder, setTotalOrder] = useState("0.00");
   const [warning, setWarning] = useState(false);
   const [api, contextHolder] = notification.useNotification();
@@ -18,19 +35,19 @@ const Cart = (props) => {
     Receive: "Successfully received",
   };
 
-  const itemWord = props.itemCount > 1 ? "items" : "item";
-  const message = `${messageMap[props.segment]} ${itemWord}.`;
+  const itemWord = itemCount > 1 ? "items" : "item";
+  const message = `${messageMap[segment]} ${itemWord}.`;
 
   const sumOrder = useCallback(() => {
     setTotalOrder("0.00");
-    const sum = props.itemList.reduce(
+    const sum = itemList.reduce(
       (acc, item) => parseFloat(acc) + parseFloat(item.total),
       0
     );
     setTotalOrder(sum.toFixed(2));
-  }, [props.itemList]);
+  }, [itemList]);
 
-  function changeQuantity(
+  const changeQuantity = (
     action,
     id,
     code,
@@ -39,13 +56,10 @@ const Cart = (props) => {
     measurement,
     quantity,
     max
-  ) {
+  ) => {
     if (quantity >= 1) {
       if (action === "add") {
-        if (
-          max <= quantity &&
-          props.warehouseCategory(props.warehouseCode) !== "main"
-        ) {
+        if (max <= quantity && warehouseCategory(warehouseCode) !== "main") {
           quantity = max;
           api.info(
             NotificationEvent(
@@ -62,53 +76,53 @@ const Cart = (props) => {
         }
       }
       var total = parseFloat(cost * quantity).toFixed(2);
-      props.removeItem(code);
-      props.addItem(id, code, name, cost, measurement, quantity, max, total);
+      removeItem(code);
+      addItem(id, code, name, cost, measurement, quantity, max, total);
     }
     sumOrder();
-    if (props.filteredItem.length > 0) {
-      const filteredData = props.itemList.filter(
+    if (filteredItem.length > 0) {
+      const filteredData = itemList.filter(
         (item) => item.code.toLowerCase() === code.toLowerCase()
       );
-      props.setFilteredItem(filteredData);
+      setFilteredItem(filteredData);
     } else {
-      props.setFilteredItem("");
+      setFilteredItem("");
     }
-  }
+  };
 
-  function deleteItem(code) {
-    props.removeItem(code);
+  const deleteItem = (code) => {
+    removeItem(code);
     sumOrder();
-    props.setFilteredItem("");
-  }
+    setFilteredItem("");
+  };
 
-  function checkAllState(checkedState) {
+  const checkAllState = (checkedState) => {
     if (checkedState.every((item) => item.checked === "true")) {
       return true;
     } else {
       return false;
     }
-  }
+  };
 
   useEffect(() => {
     sumOrder();
   }, [sumOrder]);
 
-  if (props.success) {
+  if (success) {
     return (
       <>
         <ResultEvent
           icon={<CheckOutlined style={{ color: "#318ce7" }} />}
           status="success"
           title={message}
-          subTitle={"Transaction ID " + String(props.transactionCode)}
+          subTitle={"Transaction ID " + String(transactionCode)}
           extra={
             <Row className="space-between-row" style={{ width: "40%" }}>
               <Col span={12}>
                 <Button
                   size="large"
                   type="default"
-                  onClick={props.onCloseDrawer}
+                  onClick={onCloseDrawer}
                   block
                 >
                   CLOSE
@@ -118,7 +132,7 @@ const Cart = (props) => {
                 <Button
                   size="large"
                   type="primary"
-                  onClick={props.onCloseDrawer}
+                  onClick={onCloseDrawer}
                   block
                 >
                   NEW TRANSACTION
@@ -126,7 +140,7 @@ const Cart = (props) => {
               </Col>
             </Row>
           }
-          theme={props.theme}
+          theme={theme}
         />
       </>
     );
@@ -135,15 +149,15 @@ const Cart = (props) => {
   return (
     <>
       {contextHolder}
-      <div className={`justified-row ${props.theme}`}>
+      <div className={`justified-row ${theme}`}>
         <div className="card-custom-size-full">
           <Card
             size="large"
             title={
               <Title>
                 <p className="big-card-title">
-                  Cart ({props.itemCount}
-                  {props.itemCount > 1 ? " Items" : " Item"}){" | "}
+                  Cart ({itemCount}
+                  {itemCount > 1 ? " Items" : " Item"}){" | "}
                   {"Php. "}
                   {totalOrder}
                 </p>
@@ -157,23 +171,20 @@ const Cart = (props) => {
                   style={{
                     marginRight: "10px",
                   }}
-                  onClick={props.onCloseDrawer}
+                  onClick={onCloseDrawer}
                   block
                 >
                   CANCEL
                 </Button>
                 {totalOrder > 0.0 ? (
-                  props.segment === "Reorder" ? (
+                  segment === "Reorder" ? (
                     <div className="space-between-row">
                       <Button
                         size="large"
                         type="primary"
                         onClick={() => {
-                          if (props.warehouseCode !== "") {
-                            props.reorderOrder(
-                              props.itemList,
-                              props.warehouseCode
-                            );
+                          if (warehouseCode !== "") {
+                            reorderOrder(itemList, warehouseCode);
                           } else {
                             api.info(
                               NotificationEvent(
@@ -188,18 +199,16 @@ const Cart = (props) => {
                         CHECK OUT
                       </Button>
                     </div>
-                  ) : props.segment === "Receive" ? (
+                  ) : segment === "Receive" ? (
                     <Button
                       size="large"
                       type="primary"
                       onClick={() => {
-                        if (checkAllState(props.itemList)) {
-                          props.receiveOrder(props.itemList);
+                        if (checkAllState(itemList)) {
+                          receiveOrder(itemList);
                         } else {
-                          props.setFilteredItem(
-                            props.itemList.filter(
-                              (item) => item.checked === "false"
-                            )
+                          setFilteredItem(
+                            itemList.filter((item) => item.checked === "false")
                           );
                           setWarning(true);
                           setTimeout(() => {
@@ -225,24 +234,24 @@ const Cart = (props) => {
               </div>
             }
           >
-            {props.itemCount > 0 ? (
+            {itemCount > 0 ? (
               <>
                 <ItemList
                   view={false}
-                  segment={props.segment}
-                  itemList={props.itemList}
-                  setFilteredItem={props.setFilteredItem}
-                  filteredItem={props.filteredItem}
-                  handleCheckChange={props.handleCheckChange}
+                  segment={segment}
+                  itemList={itemList}
+                  setFilteredItem={setFilteredItem}
+                  filteredItem={filteredItem}
+                  handleCheckChange={handleCheckChange}
                   changeQuantity={changeQuantity}
                   deleteItem={deleteItem}
                   setWarning={setWarning}
                   warning={warning}
-                  theme={props.theme}
+                  theme={theme}
                 />
               </>
             ) : (
-              <EmptyData theme={props.theme} />
+              <EmptyData theme={theme} />
             )}
           </Card>
         </div>

@@ -72,7 +72,7 @@ const Vacation = ({ vacations, options, empid, theme }) => {
 
   const removeAttachment = () => {
     form.resetFields(["select_attachment"]);
-    setAttachment(null);
+    setAttachment("");
     setShowAttachment(false);
   };
 

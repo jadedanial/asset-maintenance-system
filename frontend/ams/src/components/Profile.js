@@ -35,6 +35,7 @@ const Profile = ({
   schedules,
   vacations,
   excuses,
+  sections,
   options,
   empid,
   getSection,
@@ -50,8 +51,10 @@ const Profile = ({
       children: (
         <>
           <Attendance
-            employees={employees}
             attendances={attendances}
+            employees={employees}
+            schedules={schedules}
+            vacations={vacations}
             empid={empid}
             theme={theme}
           />
@@ -131,6 +134,8 @@ const Profile = ({
               {update ? (
                 <>
                   <AddUpdateEmployee
+                    sections={sections}
+                    options={options}
                     update={true}
                     id={e.emp_id}
                     name={e.emp_name}

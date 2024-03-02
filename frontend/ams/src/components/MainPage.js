@@ -165,6 +165,7 @@ const MainPage = ({
               schedules={schedules}
               vacations={vacations}
               excuses={excuses}
+              sections={sections}
               options={options}
               userId={userId}
               showDrawer={openDrawer}
@@ -187,6 +188,7 @@ const MainPage = ({
               schedules={schedules}
               vacations={vacations}
               excuses={excuses}
+              sections={sections}
               options={options}
               getSection={getSection}
               collapsed={collapsed}
@@ -205,6 +207,7 @@ const MainPage = ({
           <>
             <Schedule
               schedules={schedules}
+              shifts={shifts}
               collapsed={collapsed}
               theme={theme}
             />
@@ -216,6 +219,7 @@ const MainPage = ({
             <Item
               items={items}
               warehouseitems={warehouseitems}
+              options={options}
               sectionCode={sectionCode}
               sectionCategory={sectionCategory}
               collapsed={collapsed}
@@ -230,6 +234,7 @@ const MainPage = ({
               items={items}
               warehouseitems={warehouseitems}
               sections={sections}
+              options={options}
               transactions={transactions}
               userId={userId}
               userName={userName}

@@ -8,6 +8,7 @@ const Employee = ({
   schedules,
   vacations,
   excuses,
+  sections,
   options,
   getSection,
   collapsed,
@@ -80,6 +81,7 @@ const Employee = ({
         schedules={schedules}
         vacations={vacations}
         excuses={excuses}
+        sections={sections}
         options={options}
         loadAPILists={loadAPILists}
         tooltipIcon={<UserOutlined />}

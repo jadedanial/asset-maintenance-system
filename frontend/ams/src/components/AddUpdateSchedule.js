@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { Typography, Button, Form, Card, Col, Row, Input, Select } from "antd";
 import { CheckOutlined } from "@ant-design/icons";
@@ -15,22 +15,35 @@ const layout = {
   },
 };
 
-const AddUpdateSchedule = (props) => {
-  const [shifts, setShifts] = useState([]);
-  const [update, setUpdate] = useState(props.update);
+const AddUpdateSchedule = ({
+  shifts,
+  update,
+  id,
+  name,
+  sun,
+  mon,
+  tue,
+  wed,
+  thu,
+  fri,
+  sat,
+  onCloseDrawer,
+  theme,
+}) => {
+  const [updateData, setUpdateData] = useState(update);
   const [label, setLabel] = useState(
-    update ? "Update Schedule" : "Add New Schedule"
+    updateData ? "Update Schedule" : "Add New Schedule"
   );
   const [color, setColor] = useState("#318ce7");
-  const schedID = update ? props.id : "";
-  const [schedName, setSchedName] = useState(update ? props.name : "");
-  const [schedSun, setSchedSun] = useState(update ? props.sun : "");
-  const [schedMon, setSchedMon] = useState(update ? props.mon : "");
-  const [schedTue, setSchedTue] = useState(update ? props.tue : "");
-  const [schedWed, setSchedWed] = useState(update ? props.wed : "");
-  const [schedThu, setSchedThu] = useState(update ? props.thu : "");
-  const [schedFri, setSchedFri] = useState(update ? props.fri : "");
-  const [schedSat, setSchedSat] = useState(update ? props.sat : "");
+  const schedID = updateData ? id : "";
+  const [schedName, setSchedName] = useState(updateData ? name : "");
+  const [schedSun, setSchedSun] = useState(updateData ? sun : "");
+  const [schedMon, setSchedMon] = useState(updateData ? mon : "");
+  const [schedTue, setSchedTue] = useState(updateData ? tue : "");
+  const [schedWed, setSchedWed] = useState(updateData ? wed : "");
+  const [schedThu, setSchedThu] = useState(updateData ? thu : "");
+  const [schedFri, setSchedFri] = useState(updateData ? fri : "");
+  const [schedSat, setSchedSat] = useState(updateData ? sat : "");
   const [submit, setSubmit] = useState(false);
   const [success, setSuccess] = useState(false);
   const [nameReq, setNameReq] = useState(false);
@@ -42,8 +55,8 @@ const AddUpdateSchedule = (props) => {
   const [friReq, setFriReq] = useState(false);
   const [satReq, setSatReq] = useState(false);
 
-  function newSchedule() {
-    setUpdate(false);
+  const newSchedule = () => {
+    setUpdateData(false);
     setSubmit(false);
     setLabel("Add New Schedule");
     setColor("#318ce7");
@@ -62,62 +75,62 @@ const AddUpdateSchedule = (props) => {
     setThuReq(true);
     setFriReq(true);
     setSatReq(true);
-  }
+  };
 
-  function changeLabel() {
-    setLabel(update ? "Update Schedule" : "Add New Schedule");
+  const changeLabel = () => {
+    setLabel(updateData ? "Update Schedule" : "Add New Schedule");
     setColor("#318ce7");
-  }
+  };
 
-  function onNameChange(value) {
+  const onNameChange = (value) => {
     setSchedName(value);
     setNameReq(true);
     changeLabel();
-  }
+  };
 
-  function onSunChange(value) {
+  const onSunChange = (value) => {
     setSchedSun(value);
     setSunReq(true);
     changeLabel();
-  }
+  };
 
-  function onMonChange(value) {
+  const onMonChange = (value) => {
     setSchedMon(value);
     setMonReq(true);
     changeLabel();
-  }
+  };
 
-  function onTueChange(value) {
+  const onTueChange = (value) => {
     setSchedTue(value);
     setTueReq(true);
     changeLabel();
-  }
+  };
 
-  function onWedChange(value) {
+  const onWedChange = (value) => {
     setSchedWed(value);
     setWedReq(true);
     changeLabel();
-  }
+  };
 
-  function onThuChange(value) {
+  const onThuChange = (value) => {
     setSchedThu(value);
     setThuReq(true);
     changeLabel();
-  }
+  };
 
-  function onFriChange(value) {
+  const onFriChange = (value) => {
     setSchedFri(value);
     setFriReq(true);
     changeLabel();
-  }
+  };
 
-  function onSatChange(value) {
+  const onSatChange = (value) => {
     setSchedSat(value);
     setSatReq(true);
     changeLabel();
-  }
+  };
 
-  function onFinish() {
+  const onFinish = () => {
     setSubmit(true);
     changeLabel();
     var scheduleData = {
@@ -133,7 +146,7 @@ const AddUpdateSchedule = (props) => {
     };
     const token = sessionStorage.getItem("token");
     axios({
-      method: update ? "PATCH" : "POST",
+      method: updateData ? "PATCH" : "POST",
       url: `${process.env.REACT_APP_API_URL}/api/schedule`,
       data: scheduleData,
       headers: {
@@ -151,26 +164,7 @@ const AddUpdateSchedule = (props) => {
         setLabel(err.response.data[0]);
         setColor("#ff0000");
       });
-  }
-
-  useEffect(() => {
-    const token = sessionStorage.getItem("token");
-    axios({
-      method: "GET",
-      url: `${process.env.REACT_APP_API_URL}/api/shifts`,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Token ${token}`,
-      },
-      withCredentials: true,
-    })
-      .then((response) => {
-        setShifts(response.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+  };
 
   if (submit) {
     if (success) {
@@ -180,7 +174,7 @@ const AddUpdateSchedule = (props) => {
             icon={<CheckOutlined style={{ color: "#318ce7" }} />}
             status="success"
             title={
-              update
+              updateData
                 ? "Successfully updated Schedule."
                 : "Successfully added new Schedule."
             }
@@ -191,7 +185,7 @@ const AddUpdateSchedule = (props) => {
                   <Button
                     size="large"
                     type="default"
-                    onClick={props.onCloseDrawer}
+                    onClick={onCloseDrawer}
                     block
                   >
                     CLOSE
@@ -209,7 +203,7 @@ const AddUpdateSchedule = (props) => {
                 </Col>
               </Row>
             }
-            theme={props.theme}
+            theme={theme}
           />
         </>
       );
@@ -246,7 +240,7 @@ const AddUpdateSchedule = (props) => {
                 initialValue={schedName}
                 rules={[
                   {
-                    required: update ? nameReq : true,
+                    required: updateData ? nameReq : true,
                     message: "Required!",
                   },
                 ]}
@@ -265,7 +259,7 @@ const AddUpdateSchedule = (props) => {
                     initialValue={schedSun}
                     rules={[
                       {
-                        required: update ? sunReq : true,
+                        required: updateData ? sunReq : true,
                         message: "Required!",
                       },
                     ]}
@@ -283,12 +277,16 @@ const AddUpdateSchedule = (props) => {
                           .toLowerCase()
                           .localeCompare((optionB?.label ?? "").toLowerCase())
                       }
-                      options={shifts.map((shift) => {
-                        return {
-                          value: shift.shift_description,
-                          label: shift.shift_description,
-                        };
-                      })}
+                      options={
+                        shifts
+                          ? shifts.map((shift) => {
+                              return {
+                                value: shift.shift_description,
+                                label: shift.shift_description,
+                              };
+                            })
+                          : ""
+                      }
                       onChange={onSunChange}
                     />
                   </Form.Item>
@@ -298,7 +296,7 @@ const AddUpdateSchedule = (props) => {
                     initialValue={schedTue}
                     rules={[
                       {
-                        required: update ? tueReq : true,
+                        required: updateData ? tueReq : true,
                         message: "Required!",
                       },
                     ]}
@@ -316,12 +314,16 @@ const AddUpdateSchedule = (props) => {
                           .toLowerCase()
                           .localeCompare((optionB?.label ?? "").toLowerCase())
                       }
-                      options={shifts.map((shift) => {
-                        return {
-                          value: shift.shift_description,
-                          label: shift.shift_description,
-                        };
-                      })}
+                      options={
+                        shifts
+                          ? shifts.map((shift) => {
+                              return {
+                                value: shift.shift_description,
+                                label: shift.shift_description,
+                              };
+                            })
+                          : ""
+                      }
                       onChange={onTueChange}
                     />
                   </Form.Item>
@@ -331,7 +333,7 @@ const AddUpdateSchedule = (props) => {
                     initialValue={schedThu}
                     rules={[
                       {
-                        required: update ? thuReq : true,
+                        required: updateData ? thuReq : true,
                         message: "Required!",
                       },
                     ]}
@@ -349,12 +351,16 @@ const AddUpdateSchedule = (props) => {
                           .toLowerCase()
                           .localeCompare((optionB?.label ?? "").toLowerCase())
                       }
-                      options={shifts.map((shift) => {
-                        return {
-                          value: shift.shift_description,
-                          label: shift.shift_description,
-                        };
-                      })}
+                      options={
+                        shifts
+                          ? shifts.map((shift) => {
+                              return {
+                                value: shift.shift_description,
+                                label: shift.shift_description,
+                              };
+                            })
+                          : ""
+                      }
                       onChange={onThuChange}
                     />
                   </Form.Item>
@@ -364,7 +370,7 @@ const AddUpdateSchedule = (props) => {
                     initialValue={schedSat}
                     rules={[
                       {
-                        required: update ? satReq : true,
+                        required: updateData ? satReq : true,
                         message: "Required!",
                       },
                     ]}
@@ -382,12 +388,16 @@ const AddUpdateSchedule = (props) => {
                           .toLowerCase()
                           .localeCompare((optionB?.label ?? "").toLowerCase())
                       }
-                      options={shifts.map((shift) => {
-                        return {
-                          value: shift.shift_description,
-                          label: shift.shift_description,
-                        };
-                      })}
+                      options={
+                        shifts
+                          ? shifts.map((shift) => {
+                              return {
+                                value: shift.shift_description,
+                                label: shift.shift_description,
+                              };
+                            })
+                          : ""
+                      }
                       onChange={onSatChange}
                     />
                   </Form.Item>
@@ -399,7 +409,7 @@ const AddUpdateSchedule = (props) => {
                     initialValue={schedMon}
                     rules={[
                       {
-                        required: update ? monReq : true,
+                        required: updateData ? monReq : true,
                         message: "Required!",
                       },
                     ]}
@@ -417,12 +427,16 @@ const AddUpdateSchedule = (props) => {
                           .toLowerCase()
                           .localeCompare((optionB?.label ?? "").toLowerCase())
                       }
-                      options={shifts.map((shift) => {
-                        return {
-                          value: shift.shift_description,
-                          label: shift.shift_description,
-                        };
-                      })}
+                      options={
+                        shifts
+                          ? shifts.map((shift) => {
+                              return {
+                                value: shift.shift_description,
+                                label: shift.shift_description,
+                              };
+                            })
+                          : ""
+                      }
                       onChange={onMonChange}
                     />
                   </Form.Item>
@@ -432,7 +446,7 @@ const AddUpdateSchedule = (props) => {
                     initialValue={schedWed}
                     rules={[
                       {
-                        required: update ? wedReq : true,
+                        required: updateData ? wedReq : true,
                         message: "Required!",
                       },
                     ]}
@@ -450,12 +464,16 @@ const AddUpdateSchedule = (props) => {
                           .toLowerCase()
                           .localeCompare((optionB?.label ?? "").toLowerCase())
                       }
-                      options={shifts.map((shift) => {
-                        return {
-                          value: shift.shift_description,
-                          label: shift.shift_description,
-                        };
-                      })}
+                      options={
+                        shifts
+                          ? shifts.map((shift) => {
+                              return {
+                                value: shift.shift_description,
+                                label: shift.shift_description,
+                              };
+                            })
+                          : ""
+                      }
                       onChange={onWedChange}
                     />
                   </Form.Item>
@@ -465,7 +483,7 @@ const AddUpdateSchedule = (props) => {
                     initialValue={schedFri}
                     rules={[
                       {
-                        required: update ? friReq : true,
+                        required: updateData ? friReq : true,
                         message: "Required!",
                       },
                     ]}
@@ -483,12 +501,16 @@ const AddUpdateSchedule = (props) => {
                           .toLowerCase()
                           .localeCompare((optionB?.label ?? "").toLowerCase())
                       }
-                      options={shifts.map((shift) => {
-                        return {
-                          value: shift.shift_description,
-                          label: shift.shift_description,
-                        };
-                      })}
+                      options={
+                        shifts
+                          ? shifts.map((shift) => {
+                              return {
+                                value: shift.shift_description,
+                                label: shift.shift_description,
+                              };
+                            })
+                          : ""
+                      }
                       onChange={onFriChange}
                     />
                   </Form.Item>
@@ -501,7 +523,7 @@ const AddUpdateSchedule = (props) => {
                   style={{
                     marginRight: "10px",
                   }}
-                  onClick={props.onCloseDrawer}
+                  onClick={onCloseDrawer}
                   block
                 >
                   CANCEL

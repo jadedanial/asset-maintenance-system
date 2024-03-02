@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import {
   Typography,
@@ -26,41 +26,55 @@ const layout = {
   },
 };
 
-const AddUpdateEmployee = (props) => {
+const AddUpdateEmployee = ({
+  sections,
+  options,
+  update,
+  id,
+  name,
+  birthdate,
+  nationality,
+  address,
+  email,
+  phone,
+  datehired,
+  position,
+  salary,
+  section,
+  getSection,
+  onCloseDrawer,
+  theme,
+}) => {
   const dateFormat = "YYYY-MM-DD";
-  const [update, setUpdate] = useState(props.update);
+  const [updateData, setUpdateData] = useState(update);
   const [label, setLabel] = useState(
-    update ? "Update Employee" : "Add New Employee"
+    updateData ? "Update Employee" : "Add New Employee"
   );
   const [color, setColor] = useState("#318ce7");
-  const [nationalities, setNationalities] = useState([]);
-  const [positions, setPositions] = useState([]);
-  const [salaries, setSalaries] = useState([]);
-  const [sections, setSections] = useState([]);
-  const [employeeID, setEmployeeID] = useState(update ? props.id : "");
-  const [employeeName, setEmployeeName] = useState(update ? props.name : "");
+  const [employeeID, setEmployeeID] = useState(updateData ? id : "");
+  const [employeeName, setEmployeeName] = useState(updateData ? name : "");
   const [employeeBirthdate, setEmployeeBirthdate] = useState(
-    update ? props.birthdate : ""
+    updateData ? birthdate : ""
   );
   const [employeeNationality, setEmployeeNationality] = useState(
-    update ? props.nationality : ""
+    updateData ? nationality : ""
   );
   const [employeeAddress, setEmployeeAddress] = useState(
-    update ? props.address : ""
+    updateData ? address : ""
   );
-  const [employeeEmail, setEmployeeEmail] = useState(update ? props.email : "");
-  const [employeePhone, setEmployeePhone] = useState(update ? props.phone : "");
+  const [employeeEmail, setEmployeeEmail] = useState(updateData ? email : "");
+  const [employeePhone, setEmployeePhone] = useState(updateData ? phone : "");
   const [employeeDateHired, setEmployeeDateHired] = useState(
-    update ? props.datehired : ""
+    updateData ? datehired : ""
   );
   const [employeePosition, setEmployeePosition] = useState(
-    update ? props.position : ""
+    updateData ? position : ""
   );
   const [employeeSalary, setEmployeeSalary] = useState(
-    update ? props.salary : ""
+    updateData ? salary : ""
   );
   const [employeeSection, setEmployeeSection] = useState(
-    update ? props.section : ""
+    updateData ? section : ""
   );
   const [submit, setSubmit] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -75,8 +89,8 @@ const AddUpdateEmployee = (props) => {
   const [salaryReq, setSalaryReq] = useState(false);
   const [sectionReq, setSectionReq] = useState(false);
 
-  function newEmployee() {
-    setUpdate(false);
+  const newEmployee = () => {
+    setUpdateData(false);
     setSubmit(false);
     setLabel("Add New Employee");
     setColor("#318ce7");
@@ -101,74 +115,74 @@ const AddUpdateEmployee = (props) => {
     setPositionReq(true);
     setSalaryReq(true);
     setSectionReq(true);
-  }
+  };
 
-  function changeLabel() {
-    setLabel(update ? "Update Employee" : "Add New Employee");
+  const changeLabel = () => {
+    setLabel(updateData ? "Update Employee" : "Add New Employee");
     setColor("#318ce7");
-  }
+  };
 
-  function onNameChange(value) {
+  const onNameChange = (value) => {
     setEmployeeName(value);
     setNameReq(true);
     changeLabel();
-  }
+  };
 
-  function onBirthdateChange(value) {
+  const onBirthdateChange = (value) => {
     setEmployeeBirthdate(value);
     setBirthdateReq(true);
     changeLabel();
-  }
+  };
 
-  function onNationalityChange(value) {
+  const onNationalityChange = (value) => {
     setEmployeeNationality(value);
     setNationalityReq(true);
     changeLabel();
-  }
+  };
 
-  function onAddressChange(value) {
+  const onAddressChange = (value) => {
     setEmployeeAddress(value);
     setAddressReq(true);
     changeLabel();
-  }
+  };
 
-  function onEmailChange(value) {
+  const onEmailChange = (value) => {
     setEmployeeEmail(value);
     setEmailReq(true);
     changeLabel();
-  }
+  };
 
-  function onPhoneChange(value) {
+  const onPhoneChange = (value) => {
     setEmployeePhone(value);
     setPhoneReq(true);
     changeLabel();
-  }
+  };
 
-  function onDateHiredChange(value) {
+  const onDateHiredChange = (value) => {
     setEmployeeDateHired(value);
     setDateHiredReq(true);
     changeLabel();
-  }
+  };
 
-  function onPositionChange(value) {
+  const onPositionChange = (value) => {
     setEmployeePosition(value);
     setPositionReq(true);
     changeLabel();
-  }
+  };
 
-  function onSalaryChange(value) {
+  const onSalaryChange = (value) => {
     setEmployeeSalary(value);
     setSalaryReq(true);
     changeLabel();
-  }
+  };
 
-  function onSectionChange(value) {
+  const onSectionChange = (value) => {
     setEmployeeSection(value);
     setSectionReq(true);
     changeLabel();
-  }
+  };
 
-  function onFinish() {
+  const onFinish = () => {
     setSubmit(true);
     changeLabel();
     var employeeData = {
@@ -186,7 +200,7 @@ const AddUpdateEmployee = (props) => {
     };
     const token = sessionStorage.getItem("token");
     axios({
-      method: update ? "PATCH" : "POST",
+      method: updateData ? "PATCH" : "POST",
       url: `${process.env.REACT_APP_API_URL}/api/employee`,
       data: employeeData,
       headers: {
@@ -197,8 +211,8 @@ const AddUpdateEmployee = (props) => {
     })
       .then((response) => {
         setEmployeeID(response.data["emp_id"]);
-        if (update) {
-          props.getSection();
+        if (updateData) {
+          getSection();
         }
         setSuccess(true);
       })
@@ -208,47 +222,7 @@ const AddUpdateEmployee = (props) => {
         setLabel(err.response.data[0]);
         setColor("#ff0000");
       });
-  }
-
-  useEffect(() => {
-    const token = sessionStorage.getItem("token");
-    axios({
-      method: "GET",
-      url: `${process.env.REACT_APP_API_URL}/api/options`,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Token ${token}`,
-      },
-      withCredentials: true,
-    })
-      .then((response) => {
-        setNationalities(response.data);
-        setPositions(response.data);
-        setSalaries(response.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
-
-  useEffect(() => {
-    const token = sessionStorage.getItem("token");
-    axios({
-      method: "GET",
-      url: `${process.env.REACT_APP_API_URL}/api/sections`,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Token ${token}`,
-      },
-      withCredentials: true,
-    })
-      .then((response) => {
-        setSections(response.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+  };
 
   if (submit) {
     if (success) {
@@ -258,7 +232,7 @@ const AddUpdateEmployee = (props) => {
             icon={<CheckOutlined style={{ color: "#318ce7" }} />}
             status="success"
             title={
-              update
+              updateData
                 ? "Successfully updated Employee."
                 : "Successfully added new Employee."
             }
@@ -271,7 +245,7 @@ const AddUpdateEmployee = (props) => {
                   <Button
                     size="large"
                     type="default"
-                    onClick={props.onCloseDrawer}
+                    onClick={onCloseDrawer}
                     block
                   >
                     CLOSE
@@ -289,7 +263,7 @@ const AddUpdateEmployee = (props) => {
                 </Col>
               </Row>
             }
-            theme={props.theme}
+            theme={theme}
           />
         </>
       );
@@ -326,7 +300,7 @@ const AddUpdateEmployee = (props) => {
                 initialValue={employeeName}
                 rules={[
                   {
-                    required: update ? nameReq : true,
+                    required: updateData ? nameReq : true,
                     message: "Required!",
                   },
                 ]}
@@ -345,7 +319,7 @@ const AddUpdateEmployee = (props) => {
                     initialValue={employeeSalary}
                     rules={[
                       {
-                        required: update ? salaryReq : true,
+                        required: updateData ? salaryReq : true,
                         message: "Required!",
                       },
                     ]}
@@ -363,7 +337,7 @@ const AddUpdateEmployee = (props) => {
                           .toLowerCase()
                           .localeCompare((optionB?.label ?? "").toLowerCase())
                       }
-                      options={salaries
+                      options={options
                         .filter((res) => res.opt_category === "Salary")
                         .map((sal) => {
                           return {
@@ -380,7 +354,7 @@ const AddUpdateEmployee = (props) => {
                     initialValue={employeePosition}
                     rules={[
                       {
-                        required: update ? positionReq : true,
+                        required: updateData ? positionReq : true,
                         message: "Required!",
                       },
                     ]}
@@ -399,7 +373,7 @@ const AddUpdateEmployee = (props) => {
                           .localeCompare((optionB?.label ?? "").toLowerCase())
                       }
                       value={employeePosition}
-                      options={positions
+                      options={options
                         .filter((res) => res.opt_category === "Position")
                         .map((pos) => {
                           return {
@@ -416,7 +390,7 @@ const AddUpdateEmployee = (props) => {
                     initialValue={employeeAddress}
                     rules={[
                       {
-                        required: update ? addressReq : true,
+                        required: updateData ? addressReq : true,
                         message: "Required!",
                       },
                     ]}
@@ -437,7 +411,7 @@ const AddUpdateEmployee = (props) => {
                         message: "Invalid!",
                       },
                       {
-                        required: update ? emailReq : true,
+                        required: updateData ? emailReq : true,
                         message: "Required!",
                       },
                     ]}
@@ -458,7 +432,7 @@ const AddUpdateEmployee = (props) => {
                     }
                     rules={[
                       {
-                        required: update ? datehiredReq : true,
+                        required: updateData ? datehiredReq : true,
                         message: "Required!",
                       },
                     ]}
@@ -480,7 +454,7 @@ const AddUpdateEmployee = (props) => {
                     initialValue={employeeNationality}
                     rules={[
                       {
-                        required: update ? nationalityReq : true,
+                        required: updateData ? nationalityReq : true,
                         message: "Required!",
                       },
                     ]}
@@ -499,7 +473,7 @@ const AddUpdateEmployee = (props) => {
                           .localeCompare((optionB?.label ?? "").toLowerCase())
                       }
                       value={employeeNationality}
-                      options={nationalities
+                      options={options
                         .filter((res) => res.opt_category === "Nationality")
                         .map((nat) => {
                           return {
@@ -518,7 +492,7 @@ const AddUpdateEmployee = (props) => {
                     }
                     rules={[
                       {
-                        required: update ? birthdateReq : true,
+                        required: updateData ? birthdateReq : true,
                         message: "Required!",
                       },
                     ]}
@@ -540,7 +514,7 @@ const AddUpdateEmployee = (props) => {
                     initialValue={employeePhone}
                     rules={[
                       {
-                        required: update ? phoneReq : true,
+                        required: updateData ? phoneReq : true,
                         message: "Required!",
                       },
                     ]}
@@ -559,7 +533,7 @@ const AddUpdateEmployee = (props) => {
                 initialValue={employeeSection}
                 rules={[
                   {
-                    required: update ? sectionReq : true,
+                    required: updateData ? sectionReq : true,
                     message: "Required!",
                   },
                 ]}
@@ -594,7 +568,7 @@ const AddUpdateEmployee = (props) => {
                   style={{
                     marginRight: "10px",
                   }}
-                  onClick={props.onCloseDrawer}
+                  onClick={onCloseDrawer}
                   block
                 >
                   CANCEL

@@ -21,6 +21,7 @@ const DrawerEvent = (props) => {
               schedules={props.schedules}
               vacations={props.vacations}
               excuses={props.excuses}
+              sections={props.sections}
               options={props.options}
               empid={props.userId}
               getSection={props.getSection}
@@ -38,6 +39,7 @@ const DrawerEvent = (props) => {
               schedules={props.schedules}
               vacations={props.vacations}
               excuses={props.excuses}
+              sections={props.sections}
               options={props.options}
               empid={props.rowIndex["id"]}
               getSection={props.getSection}
@@ -50,6 +52,8 @@ const DrawerEvent = (props) => {
         return (
           <>
             <AddUpdateEmployee
+              sections={props.sections}
+              options={props.options}
               update={false}
               getSection={props.getSection}
               onCloseDrawer={props.onCloseDrawer}
@@ -85,6 +89,7 @@ const DrawerEvent = (props) => {
         return (
           <>
             <AddUpdateSchedule
+              shifts={props.shifts}
               update={false}
               onCloseDrawer={props.onCloseDrawer}
               theme={props.theme}
@@ -95,6 +100,7 @@ const DrawerEvent = (props) => {
         return (
           <>
             <AddUpdateSchedule
+              shifts={props.shifts}
               update={true}
               id={props.rowIndex["id"]}
               name={props.rowIndex["name"]}
@@ -114,6 +120,9 @@ const DrawerEvent = (props) => {
         return (
           <>
             <ItemDetail
+              items={props.items}
+              warehouseitems={props.warehouseitems}
+              options={props.options}
               itemcode={props.rowIndex["code"]}
               view={false}
               sectionCode={props.sectionCode}
@@ -127,6 +136,7 @@ const DrawerEvent = (props) => {
         return (
           <>
             <AddUpdateItem
+              options={props.options}
               update={false}
               sectionCode={props.sectionCode}
               sectionCategory={props.sectionCategory}

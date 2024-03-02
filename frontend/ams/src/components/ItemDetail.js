@@ -1,40 +1,28 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React, { useState } from "react";
 import QRCode from "react-qr-code";
 import { Card, Typography, Tag, Col, Descriptions, Button, List } from "antd";
 import AddUpdateItem from "./AddUpdateItem";
 
 const { Title } = Typography;
 
-const ItemDetail = (props) => {
+const ItemDetail = ({
+  items,
+  warehouseitems,
+  options,
+  itemcode,
+  view,
+  sectionCode,
+  sectionCategory,
+  onCloseDrawer,
+  theme,
+}) => {
   const [update, setUpdate] = useState(false);
-  const [item, setItem] = useState([]);
-  const [warehouseItem, setWarehouseItem] = useState([]);
 
-  const fetchData = (url, setter) => {
-    const token = sessionStorage.getItem("token");
-    axios({
-      method: "GET",
-      url: url,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Token ${token}`,
-      },
-      withCredentials: true,
-    })
-      .then((response) => {
-        setter(response.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  function otherWarehouse() {
+  const otherWarehouse = () => {
     var data = [];
-    warehouseItem.map((wi) =>
-      wi.item_code === props.itemcode
-        ? wi.warehouse_code !== props.sectionCode
+    warehouseitems.map((wi) =>
+      wi.item_code === itemcode
+        ? wi.warehouse_code !== sectionCode
           ? data.push({
               title: wi.warehouse_code,
               description: (
@@ -52,14 +40,14 @@ const ItemDetail = (props) => {
         : ""
     );
     return data;
-  }
+  };
 
-  function itemDetails(i, wi) {
+  const itemDetails = (i, wi) => {
     return (
       <>
         <div
-          className={`space-between-row  ${props.theme} ${
-            props.view ? "card-with-background" : ""
+          className={`space-between-row  ${theme} ${
+            view ? "card-with-background" : ""
           }`}
         >
           <Col span={13}>
@@ -98,14 +86,14 @@ const ItemDetail = (props) => {
             <div
               style={{
                 padding: "20px 0",
-                display: props.view ? "none" : "block",
+                display: view ? "none" : "block",
               }}
             >
               <p
                 className="small-font"
                 style={{
                   margin: "0",
-                  color: props.theme === "light" ? "#000" : "#fff",
+                  color: theme === "light" ? "#000" : "#fff",
                 }}
               >
                 {i.item_description}
@@ -136,35 +124,25 @@ const ItemDetail = (props) => {
             </List.Item>
           )}
           style={{
-            display: props.view ? "none" : "block",
+            display: view ? "none" : "block",
           }}
         />
       </>
     );
-  }
-
-  useEffect(() => {
-    fetchData(`${process.env.REACT_APP_API_URL}/api/items`, setItem);
-  }, []);
-
-  useEffect(() => {
-    fetchData(
-      `${process.env.REACT_APP_API_URL}/api/warehouseitems`,
-      setWarehouseItem
-    );
-  }, []);
+  };
 
   return (
     <>
-      {warehouseItem.map((wi) =>
-        wi.item_code === props.itemcode
-          ? wi.warehouse_code === props.sectionCode
-            ? item.map((i) =>
+      {warehouseitems.map((wi) =>
+        wi.item_code === itemcode
+          ? wi.warehouse_code === sectionCode
+            ? items.map((i) =>
                 i.item_code === wi.item_code ? (
                   <>
                     {update ? (
                       <>
                         <AddUpdateItem
+                          options={options}
                           update={true}
                           code={i.item_code}
                           name={i.item_name}
@@ -175,15 +153,16 @@ const ItemDetail = (props) => {
                           onhand={wi.item_onhand}
                           cost={i.item_cost}
                           description={i.item_description}
-                          sectionCode={props.sectionCode}
-                          sectionCategory={props.sectionCategory}
-                          onCloseDrawer={props.onCloseDrawer}
+                          sectionCode={sectionCode}
+                          sectionCategory={sectionCategory}
+                          onCloseDrawer={onCloseDrawer}
+                          theme={theme}
                         />
                       </>
                     ) : (
                       <>
-                        <div className={`justified-row ${props.theme}`}>
-                          {props.view ? (
+                        <div className={`justified-row ${theme}`}>
+                          {view ? (
                             <div
                               className="card-with-background"
                               style={{
@@ -207,7 +186,7 @@ const ItemDetail = (props) => {
                             <div className="card-custom-size-60">
                               <Card
                                 size="large"
-                                className={props.theme}
+                                className={theme}
                                 title={
                                   <Title>
                                     <p

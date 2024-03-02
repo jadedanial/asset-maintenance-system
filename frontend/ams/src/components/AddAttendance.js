@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import {
   Form,
@@ -27,86 +27,64 @@ const layout = {
   },
 };
 
-const AddAttendance = (props) => {
+const AddAttendance = ({
+  schedules,
+  vacations,
+  empid,
+  schedid,
+  mode,
+  attenddate,
+  employeeAttendance,
+  updateAttendance,
+  updateOnSelect,
+  checkInTime,
+  checkOutTime,
+  viewAttendance,
+  theme,
+}) => {
   const dateTimeFormat = "YYYY-MM-DD HH:mm:ss";
   const dateFormat = "YYYY-MM-DD";
   const timeFormat = "HH:mm:ss";
-  const attendDate = moment(props.attenddate).format(dateFormat);
-  const [attendCheckin, setAttendCheckIn] = useState(props.checkInTime);
-  const [attendCheckout, setAttendCheckOut] = useState(props.checkOutTime);
-  const [schedules, setSchedules] = useState([]);
-  const [vacations, setVacations] = useState([]);
+  const attendDate = moment(attenddate).format(dateFormat);
+  const [attendCheckin, setAttendCheckIn] = useState(checkInTime);
+  const [attendCheckout, setAttendCheckOut] = useState(checkOutTime);
   const [success, setSuccess] = useState(false);
   const [api, contextHolder] = notification.useNotification();
 
-  const loadSchedules = useCallback(() => {
-    const token = sessionStorage.getItem("token");
-    axios({
-      method: "GET",
-      url: `${process.env.REACT_APP_API_URL}/api/schedules`,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Token ${token}`,
-      },
-      withCredentials: true,
-    })
-      .then((response) => {
-        response.data.map((res) =>
-          res.id === props.schedid
-            ? setSchedules([
-                {
-                  sched_sun: res.sched_sun,
-                  sched_mon: res.sched_mon,
-                  sched_tue: res.sched_tue,
-                  sched_wed: res.sched_wed,
-                  sched_thu: res.sched_thu,
-                  sched_fri: res.sched_fri,
-                  sched_sat: res.sched_sat,
-                },
-              ])
-            : ""
-        );
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, [props.schedid]);
+  const loadSchedules = () => {
+    return schedules.map((res) =>
+      res.id === schedid
+        ? {
+            sched_sun: res.sched_sun,
+            sched_mon: res.sched_mon,
+            sched_tue: res.sched_tue,
+            sched_wed: res.sched_wed,
+            sched_thu: res.sched_thu,
+            sched_fri: res.sched_fri,
+            sched_sat: res.sched_sat,
+          }
+        : ""
+    );
+  };
 
-  const loadVacations = useCallback(() => {
-    const token = sessionStorage.getItem("token");
-    axios({
-      method: "GET",
-      url: `${process.env.REACT_APP_API_URL}/api/vacations`,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Token ${token}`,
-      },
-      withCredentials: true,
-    })
-      .then((response) => {
-        setVacations([]);
-        response.data.map((res) =>
-          setVacations((vacations) => [
-            ...vacations,
-            {
-              id: res.emp_id,
-              type: res.vac_type,
-              start: res.vac_start,
-              end: res.vac_end,
-            },
-          ])
-        );
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+  const loadVacations =
+    vacations && vacations.length > 0
+      ? vacations.map((res) => {
+          return {
+            id: res.emp_id,
+            type: res.vac_type,
+            start: res.vac_start,
+            end: res.vac_end,
+          };
+        })
+      : [];
 
-  function dayOfTheWeek(day) {
+  const dayOfTheWeek = (day) => {
+    const schedules = loadSchedules();
     return schedules.map((schedule) => schedule[day]);
-  }
+  };
 
-  function totalRequired(shiftStart, shiftEnd) {
+  const totalRequired = (shiftStart, shiftEnd) => {
     var req = moment
       .duration(
         moment(shiftEnd, dateTimeFormat).diff(
@@ -118,9 +96,9 @@ const AddAttendance = (props) => {
       req = 0;
     }
     return req;
-  }
+  };
 
-  function checkIfLateIn(shiftStart, shiftEnd) {
+  const checkIfLateIn = (shiftStart, shiftEnd) => {
     var late = 0;
     if (parseFloat(totalRequired(shiftStart, shiftEnd)) > parseFloat(0)) {
       if (
@@ -142,9 +120,9 @@ const AddAttendance = (props) => {
       late = 0;
     }
     return late;
-  }
+  };
 
-  function checkIfEarlyOut(shiftStart, shiftEnd) {
+  const checkIfEarlyOut = (shiftStart, shiftEnd) => {
     var early = 0;
     if (parseFloat(totalRequired(shiftStart, shiftEnd)) > parseFloat(0)) {
       if (
@@ -166,9 +144,9 @@ const AddAttendance = (props) => {
       early = 0;
     }
     return early;
-  }
+  };
 
-  function totalWorked(shiftStart, shiftEnd) {
+  const totalWorked = (shiftStart, shiftEnd) => {
     var work = 0;
     if (parseFloat(totalRequired(shiftStart, shiftEnd)) > parseFloat(0)) {
       if (
@@ -202,9 +180,9 @@ const AddAttendance = (props) => {
         .asHours();
     }
     return work;
-  }
+  };
 
-  function totalUndertime(work, shiftStart, shiftEnd) {
+  const totalUndertime = (work, shiftStart, shiftEnd) => {
     var under = 0;
     if (parseFloat(work) < parseFloat(totalRequired(shiftStart, shiftEnd))) {
       under = totalRequired(shiftStart, shiftEnd) - work;
@@ -212,9 +190,9 @@ const AddAttendance = (props) => {
       under = 0;
     }
     return under;
-  }
+  };
 
-  function totalOvertime(work, shiftStart, shiftEnd) {
+  const totalOvertime = (work, shiftStart, shiftEnd) => {
     var over = 0;
     if (parseFloat(work) > parseFloat(totalRequired(shiftStart, shiftEnd))) {
       over = work - totalRequired(shiftStart, shiftEnd);
@@ -222,12 +200,12 @@ const AddAttendance = (props) => {
       over = 0;
     }
     return over;
-  }
+  };
 
-  function checkVacation() {
+  const checkVacation = () => {
     var onVacation = false;
-    var vacs = vacations
-      .filter((res) => res.id === props.empid)
+    var vacs = loadVacations
+      .filter((res) => res.id === empid)
       .map((vac) => {
         return {
           type: vac.type,
@@ -246,9 +224,9 @@ const AddAttendance = (props) => {
       }
     }
     return onVacation;
-  }
+  };
 
-  function checkStatus(work, shiftStart, shiftEnd) {
+  const checkStatus = (work, shiftStart, shiftEnd) => {
     var status = "No Attendance Data";
     if (checkVacation()) {
       status = "Vacation Today";
@@ -271,9 +249,9 @@ const AddAttendance = (props) => {
       }
     }
     return status;
-  }
+  };
 
-  function addAttendance(
+  const addAttendance = (
     apiMethod,
     emp_id,
     date,
@@ -287,7 +265,7 @@ const AddAttendance = (props) => {
     over,
     excuse,
     status
-  ) {
+  ) => {
     var attendData = {
       emp_id: emp_id,
       attend_date: date,
@@ -315,11 +293,9 @@ const AddAttendance = (props) => {
     }).catch((err) => {
       console.log(err);
     });
-  }
+  };
 
-  function onFinish() {
-    loadSchedules();
-    loadVacations();
+  const onFinish = () => {
     var valid = true;
     var err = 0;
     if (
@@ -398,14 +374,14 @@ const AddAttendance = (props) => {
       var excuse = "0.00";
       var status = checkStatus(work, shiftStart, shiftEnd);
       var apiMethod = "";
-      if (props.mode === "Add Attendance") {
+      if (mode === "Add Attendance") {
         apiMethod = "POST";
       } else {
         apiMethod = "PATCH";
       }
       addAttendance(
         apiMethod,
-        props.empid,
+        empid,
         date,
         checkin !== "" ? checkin : moment("", dateTimeFormat),
         checkout !== "" ? checkout : moment("", dateTimeFormat),
@@ -418,7 +394,7 @@ const AddAttendance = (props) => {
         excuse,
         status
       );
-      const attendItem = props.attendances;
+      const attendItem = employeeAttendance;
       const matchItem = attendItem.find((attend) => attend.Date === date);
       var index = attendItem.indexOf(matchItem);
       if (index > -1) {
@@ -437,8 +413,8 @@ const AddAttendance = (props) => {
         Excuse: excuse,
         Status: status,
       });
-      props.updateAttendances(attendItem);
-      props.updateOnSelect(date);
+      updateAttendance(attendItem);
+      updateOnSelect(date);
       setSuccess(true);
     } else {
       setSuccess(false);
@@ -455,12 +431,7 @@ const AddAttendance = (props) => {
         )
       );
     }
-  }
-
-  useEffect(() => {
-    loadSchedules();
-    loadVacations();
-  }, [loadSchedules, loadVacations]);
+  };
 
   if (success) {
     return (
@@ -491,7 +462,7 @@ const AddAttendance = (props) => {
                 <Button
                   size="large"
                   type="default"
-                  onClick={props.viewAttendance}
+                  onClick={viewAttendance}
                   block
                 >
                   CLOSE
@@ -501,7 +472,7 @@ const AddAttendance = (props) => {
                 <Button
                   size="large"
                   type="primary"
-                  onClick={props.viewAttendance}
+                  onClick={viewAttendance}
                   block
                 >
                   NEW ATTENDANCE
@@ -509,7 +480,7 @@ const AddAttendance = (props) => {
               </Col>
             </Row>
           }
-          theme={props.theme}
+          theme={theme}
         />
       </>
     );
@@ -538,9 +509,7 @@ const AddAttendance = (props) => {
               <Form.Item
                 name="date"
                 label="Date"
-                initialValue={String(
-                  moment(props.attenddate).format(dateFormat)
-                )}
+                initialValue={String(moment(attenddate).format(dateFormat))}
               >
                 <Input readOnly />
               </Form.Item>
@@ -553,7 +522,7 @@ const AddAttendance = (props) => {
                   defaultValue={
                     attendCheckin !== "--:--:--"
                       ? moment(attendCheckin, dateTimeFormat)
-                      : null
+                      : ""
                   }
                   showTime
                   inputReadOnly
@@ -568,7 +537,7 @@ const AddAttendance = (props) => {
                   defaultValue={
                     attendCheckout !== "--:--:--"
                       ? moment(attendCheckout, dateTimeFormat)
-                      : null
+                      : ""
                   }
                   showTime
                   inputReadOnly
@@ -581,7 +550,7 @@ const AddAttendance = (props) => {
                   style={{
                     marginRight: "10px",
                   }}
-                  onClick={props.viewAttendance}
+                  onClick={viewAttendance}
                   block
                 >
                   CANCEL

@@ -189,22 +189,6 @@ h1 {
   font-family: ralewayregular !important;
 }
 
-.dark .ant-menu-item-selected,
-.dark
-  .ant-picker-calendar-full
-  .ant-picker-panel
-  .ant-picker-cell-selected
-  .ant-picker-calendar-date {
-  background: #1c2755 !important;
-}
-.light .ant-menu-item-selected,
-.light
-  .ant-picker-calendar-full
-  .ant-picker-panel
-  .ant-picker-cell-selected
-  .ant-picker-calendar-date {
-  background: #cdf5fd !important;
-}
 .trigger svg {
   width: 1.5em;
   height: 1.5em;
@@ -306,8 +290,7 @@ h1.ant-typography {
 .light
   .ant-picker-calendar-full
   .ant-picker-panel
-  .ant-picker-cell-selected
-  .ant-picker-calendar-date {
+  {
   background: #fff !important;
 }
 .card-custom-size-60 {
@@ -782,4 +765,21 @@ input::file-selector-button {
 
 .light .ant-checkbox:hover .ant-checkbox-inner {
   border-color: #6841f5 !important;
+}
+
+.dark .ant-menu-item-selected,
+.dark
+  .ant-picker-calendar-full
+  .ant-picker-panel
+  .ant-picker-cell-selected
+  .ant-picker-calendar-date {
+  background: #1c2755 !important;
+}
+.light .ant-menu-item-selected,
+.light
+  .ant-picker-calendar-full
+  .ant-picker-panel
+  .ant-picker-cell-selected
+  .ant-picker-calendar-date {
+  background: #cdf5fd !important;
 }

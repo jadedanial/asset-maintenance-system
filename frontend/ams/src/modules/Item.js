@@ -5,6 +5,7 @@ import SearchTableEvent from "../components/SearchTableEvent";
 const Item = ({
   items,
   warehouseitems,
+  options,
   sectionCode,
   sectionCategory,
   collapsed,
@@ -77,6 +78,9 @@ const Item = ({
   return (
     <>
       <SearchTableEvent
+        items={items}
+        warehouseitems={warehouseitems}
+        options={options}
         tooltipIcon={<ShoppingOutlined />}
         tooltipTitle={"Add New Item"}
         inputPlaceHolder={"Search Item"}
