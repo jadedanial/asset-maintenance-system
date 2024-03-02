@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import {
   Card,
@@ -24,16 +24,17 @@ const layout = {
   },
 };
 
-const ShiftSchedule = (props) => {
+const ShiftSchedule = ({ schedules, employees, empid }) => {
   const timeFormat = "HH:mm:ss";
-  const [schedules, setSchedules] = useState([]);
-  const [schedid, setSchedId] = useState(0);
-  const [schedname, setSchedName] = useState("");
+  const schedId = employees.find((res) => res.emp_id === empid)?.emp_sched;
+  const schedName = schedules.find((res) => res.id === schedId)?.sched_name;
+  const [schedid, setSchedId] = useState(schedId);
+  const [schedname, setSchedName] = useState(schedName);
   const [api, contextHolder] = notification.useNotification();
 
-  function onFinish() {
+  const applySchedule = () => {
     var empData = {
-      empID: props.empid,
+      empid: empid,
       schedid: schedid,
     };
     const token = sessionStorage.getItem("token");
@@ -53,13 +54,14 @@ const ShiftSchedule = (props) => {
       .catch((err) => {
         console.log(err);
       });
-  }
+  };
 
-  function onChange(value) {
+  const onChange = (value, label) => {
     setSchedId(value);
-  }
+    setSchedName(label);
+  };
 
-  function scheduleSwitch(id) {
+  const scheduleSwitch = (id) => {
     return schedules.map((schedule) =>
       schedule.id === id ? (
         <>
@@ -209,50 +211,7 @@ const ShiftSchedule = (props) => {
         ""
       )
     );
-  }
-
-  useEffect(() => {
-    const token = sessionStorage.getItem("token");
-    axios({
-      method: "GET",
-      url: `${process.env.REACT_APP_API_URL}/api/employees`,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Token ${token}`,
-      },
-      withCredentials: true,
-    })
-      .then((response) => {
-        response.data.map((res) =>
-          res.emp_id === props.empid ? setSchedId(res.emp_sched) : ""
-        );
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, [props.empid]);
-
-  useEffect(() => {
-    const token = sessionStorage.getItem("token");
-    axios({
-      method: "GET",
-      url: `${process.env.REACT_APP_API_URL}/api/schedules`,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Token ${token}`,
-      },
-      withCredentials: true,
-    })
-      .then((response) => {
-        setSchedules(response.data);
-        response.data.map((res) =>
-          res.id === schedid ? setSchedName(res.sched_name) : ""
-        );
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, [schedid]);
+  };
 
   return (
     <>
@@ -266,7 +225,7 @@ const ShiftSchedule = (props) => {
                 layout="vertical"
                 size="large"
                 name="add-new-shiftschedule"
-                onFinish={onFinish}
+                onFinish={applySchedule}
               >
                 <Card
                   size="large"

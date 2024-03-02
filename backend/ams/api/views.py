@@ -115,13 +115,13 @@ class LogoutView(APIView):
 class ComponentListView(ListAPIView):
     queryset = Component.objects.all()
     serializer_class = ComponentSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
 
 
 class ModuleListView(ListAPIView):
     queryset = Module.objects.all()
     serializer_class = ModuleSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
 
 
 class CategoryListView(ListAPIView):
@@ -269,6 +269,7 @@ class EmployeeScheduleView(APIView):
 
     def patch(self, request, *args, **kwargs):
         data = request.data
+        print(data)
         emp_object = Employee.objects.filter(
             emp_id=request.data["empid"]).first()
         sched_object = Schedule.objects.filter(

@@ -92,7 +92,6 @@ const Vacation = ({ vacations, options, empid, theme }) => {
     setShowAttachment(false);
     setAdd(true);
     setDays(0);
-    loadVacations();
   };
 
   const viewVacation = () => {
@@ -197,7 +196,6 @@ const Vacation = ({ vacations, options, empid, theme }) => {
       withCredentials: true,
     })
       .then(() => {
-        loadVacations();
         setSuccess(true);
       })
       .catch((err) => {

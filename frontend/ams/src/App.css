@@ -432,9 +432,12 @@ h1.ant-typography {
   background: #6841f5 !important;
   cursor: pointer;
 }
-.dark .ant-table-tbody tr td,
+
 .dark .ant-table-thead tr th {
   border-bottom: 1px solid #000c17 !important;
+}
+.light .ant-table-thead tr th {
+  border-bottom: 1px solid #318ce750 !important;
 }
 
 .dark .ant-table-thead .ant-table-cell {
@@ -449,9 +452,11 @@ h1.ant-typography {
   text-align: center;
   background: #182348 !important;
 }
-.light .ant-table-tbody tr td,
-.light .ant-table-thead tr th {
-  border-bottom: 1px solid #f0ffff !important;
+.dark .ant-table-tbody tr td {
+  border-bottom: 1px solid #000c17 !important;
+}
+.light .ant-table-tbody tr td {
+  border-bottom: 1px solid #318ce750 !important;
 }
 .light .ant-table-thead .ant-table-cell {
   color: #318ce7 !important;
@@ -464,7 +469,7 @@ h1.ant-typography {
 .light .table-row {
   color: #000 !important;
   text-align: center;
-  background: #f8f4ff !important;
+  background: #fff !important;
 }
 .ant-pagination {
   font-size: 22px !important;
@@ -589,7 +594,7 @@ h1.ant-typography {
 }
 .light .ant-picker-calendar,
 .light .ant-picker-panel {
-  background: #f8f4ff !important;
+  background: #fff !important;
 }
 .ant-picker-panel {
   padding-top: 20px;

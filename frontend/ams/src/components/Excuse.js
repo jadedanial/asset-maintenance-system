@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import {
   Form,
@@ -30,11 +30,9 @@ const layout = {
   },
 };
 
-const Excuse = (props) => {
+const Excuse = ({ excuses, attendances, empid, theme }) => {
   const dateFormat = "YYYY-MM-DD";
   const timeFormat = "HH:mm:ss";
-  const [attendances, setAttendances] = useState([]);
-  const [excuses, setExcuses] = useState([]);
   const [excusedate, setExcuseDate] = useState("");
   const [starttime, setStartTime] = useState("");
   const [endtime, setEndTime] = useState("");
@@ -45,6 +43,284 @@ const Excuse = (props) => {
   const [under, setUnder] = useState(0);
   const [api, contextHolder] = notification.useNotification();
   const [current, setCurrent] = useState(0);
+
+  const loadExcuses = excuses.map((res) => {
+    return {
+      id: res.emp_id,
+      date: res.exc_date,
+      start: res.exc_start,
+      end: res.exc_end,
+      reason: res.exc_reason,
+      total: res.exc_total,
+    };
+  });
+
+  const loadAttendances = attendances.map((res) => {
+    return {
+      id: res.emp_id,
+      date: res.attend_date,
+      under: res.attend_under,
+      status: res.attend_status,
+    };
+  });
+
+  const updateAttendance = () => {
+    var attendData = {
+      emp_id: empid,
+      attend_date: excusedate.format(dateFormat),
+      attend_under: under - hours,
+      attend_excuse: hours,
+    };
+    const token = sessionStorage.getItem("token");
+    axios({
+      method: "PATCH",
+      url: `${process.env.REACT_APP_API_URL}/api/emp_attendance`,
+      data: attendData,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Token ${token}`,
+      },
+      withCredentials: true,
+    }).catch((err) => {
+      console.log(err);
+    });
+  };
+
+  const newExcuse = () => {
+    setSuccess(false);
+    setCurrent(0);
+    setExcuseDate("");
+    setStartTime("");
+    setEndTime("");
+    setReason("");
+    setAdd(true);
+    setHours(0);
+    setUnder(0);
+  };
+
+  const viewExcuse = () => {
+    setAdd(false);
+    setSuccess(false);
+  };
+
+  const countExcuse = () => {
+    var excuse = 0;
+    var excs = loadExcuses
+      .filter((res) => res.id === empid)
+      .map((excuse) => {
+        return {
+          date: excuse.date,
+          total: excuse.total,
+        };
+      });
+    for (var i = 0; i < excs.length; i++) {
+      var dateExc = excs[i]["date"];
+      if (
+        String(moment(excusedate).format("MMMM YYYY")) ===
+        String(moment(dateExc).format("MMMM YYYY"))
+      ) {
+        excuse += parseFloat(excs[i]["total"]);
+      }
+    }
+    return excuse;
+  };
+
+  const checkAttendance = () => {
+    var onAttend = false;
+    var attends = loadAttendances
+      .filter((res) => res.id === empid)
+      .map((attend) => {
+        return {
+          date: attend.date,
+          under: attend.under,
+          status: attend.status,
+        };
+      });
+    if (attends.length < 1) {
+      onAttend = true;
+    }
+    for (var i = 0; i < attends.length; i++) {
+      var dateAttend = attends[i]["date"];
+      var underAttend = attends[i]["under"];
+      var statusAttend = attends[i]["status"];
+      if (
+        excusedate.format(dateFormat) !== moment(dateAttend).format(dateFormat)
+      ) {
+        onAttend = true;
+      } else {
+        if (statusAttend === "Attended Today") {
+          onAttend = false;
+          setUnder(underAttend);
+        } else {
+          onAttend = true;
+          break;
+        }
+      }
+    }
+    return onAttend;
+  };
+
+  const checkExcuse = () => {
+    var onExcuse = false;
+    var excs = loadExcuses
+      .filter((res) => res.id === empid)
+      .map((excuse) => {
+        return {
+          date: excuse.date,
+          start: excuse.start,
+          end: excuse.end,
+        };
+      });
+    for (var i = 0; i < excs.length; i++) {
+      var dateExc = excs[i]["date"];
+      if (
+        excusedate.format(dateFormat) === moment(dateExc).format(dateFormat)
+      ) {
+        onExcuse = true;
+        break;
+      } else {
+        onExcuse = false;
+      }
+    }
+    return onExcuse;
+  };
+
+  const next = () => {
+    var valid = true;
+    if (excusedate === "") {
+      valid = false;
+      api.info(NotificationEvent(false, "No excuse date selected."));
+    } else if (starttime === "") {
+      valid = false;
+      api.info(NotificationEvent(false, "No start time selected."));
+    } else if (endtime === "") {
+      valid = false;
+      api.info(NotificationEvent(false, "No end time selected."));
+    } else if (starttime > endtime || starttime === endtime) {
+      valid = false;
+      api.info(NotificationEvent(false, "End time must be after start time."));
+    } else if (reason === "") {
+      valid = false;
+      api.info(NotificationEvent(false, "No valid reason."));
+    } else if (
+      excusedate.format(dateFormat) === moment().format(dateFormat) ||
+      excusedate.format(dateFormat) > moment().format(dateFormat)
+    ) {
+      valid = false;
+      api.info(
+        NotificationEvent(
+          false,
+          "Cannot apply excuse for current or future date."
+        )
+      );
+    } else if (checkAttendance()) {
+      valid = false;
+      api.info(
+        NotificationEvent(
+          false,
+          "Cannot apply excuse when attendance status is not attended."
+        )
+      );
+    } else if (checkExcuse()) {
+      valid = false;
+      api.info(NotificationEvent(false, "Excuse exist for this date."));
+    } else if (parseFloat(countExcuse()) > 8) {
+      valid = false;
+      api.info(
+        NotificationEvent(false, "Total excuse hours limit already reached.")
+      );
+    }
+    if (valid) {
+      var h = moment
+        .duration(moment(endtime).diff(moment(starttime)))
+        .asHours();
+      setHours(parseFloat(h).toFixed(2));
+      setCurrent(current + 1);
+    }
+  };
+
+  const prev = () => {
+    setCurrent(current - 1);
+  };
+
+  const applyExcuse = () => {
+    var excData = {
+      emp_id: empid,
+      exc_date: moment(excusedate).format(dateFormat),
+      exc_start: moment(starttime).format(timeFormat),
+      exc_end: moment(endtime).format(timeFormat),
+      exc_reason: reason,
+      exc_total: hours,
+    };
+    const token = sessionStorage.getItem("token");
+    axios({
+      method: "POST",
+      url: `${process.env.REACT_APP_API_URL}/api/excuse`,
+      data: excData,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Token ${token}`,
+      },
+      withCredentials: true,
+    })
+      .then(() => {
+        updateAttendance();
+        setSuccess(true);
+      })
+      .catch((err) => {
+        console.log(err);
+        setSuccess(false);
+        api.info(NotificationEvent(false, "Employee excuse failed to apply."));
+      });
+  };
+
+  const addExcuseButton = () => {
+    return (
+      <div className="flex-end-row">
+        <Button
+          icon={<PlusOutlined />}
+          size="medium"
+          type="primary"
+          onClick={newExcuse}
+        >
+          ADD
+        </Button>
+      </div>
+    );
+  };
+
+  const columns = [
+    {
+      title: "Excuse Date",
+      dataIndex: "date",
+      key: "date",
+    },
+    {
+      title: "Start Time",
+      dataIndex: "start",
+      key: "start",
+    },
+    {
+      title: "End Time",
+      dataIndex: "end",
+      key: "end",
+    },
+    {
+      title: "Reason",
+      dataIndex: "reason",
+      key: "reason",
+    },
+    {
+      title: "Total",
+      dataIndex: "total",
+      key: "total",
+    },
+    {
+      title: addExcuseButton,
+      dataIndex: "addExcuseButton",
+      key: "addExcuseButton",
+    },
+  ];
 
   const steps = [
     {
@@ -173,334 +449,6 @@ const Excuse = (props) => {
     },
   ];
 
-  const columns = [
-    {
-      title: "Excuse Date",
-      dataIndex: "date",
-      key: "date",
-    },
-    {
-      title: "Start Time",
-      dataIndex: "start",
-      key: "start",
-    },
-    {
-      title: "End Time",
-      dataIndex: "end",
-      key: "end",
-    },
-    {
-      title: "Reason",
-      dataIndex: "reason",
-      key: "reason",
-    },
-    {
-      title: "Total",
-      dataIndex: "total",
-      key: "total",
-    },
-    {
-      title: addExcuseButton,
-      dataIndex: "addExcuseButton",
-      key: "addExcuseButton",
-    },
-  ];
-
-  function loadExcuses() {
-    const token = sessionStorage.getItem("token");
-    axios({
-      method: "GET",
-      url: `${process.env.REACT_APP_API_URL}/api/excuses`,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Token ${token}`,
-      },
-      withCredentials: true,
-    })
-      .then((response) => {
-        setExcuses([]);
-        response.data.map((res) =>
-          setExcuses((excuses) => [
-            ...excuses,
-            {
-              id: res.emp_id,
-              date: res.exc_date,
-              start: res.exc_start,
-              end: res.exc_end,
-              reason: res.exc_reason,
-              total: res.exc_total,
-            },
-          ])
-        );
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
-
-  function loadAttendances() {
-    const token = sessionStorage.getItem("token");
-    axios({
-      method: "GET",
-      url: `${process.env.REACT_APP_API_URL}/api/attendances`,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Token ${token}`,
-      },
-      withCredentials: true,
-    })
-      .then((response) => {
-        setAttendances([]);
-        response.data.map((res) =>
-          setAttendances((attendances) => [
-            ...attendances,
-            {
-              id: res.emp_id,
-              date: res.attend_date,
-              under: res.attend_under,
-              status: res.attend_status,
-            },
-          ])
-        );
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
-
-  function updateAttendance() {
-    var attendData = {
-      emp_id: props.empid,
-      attend_date: excusedate.format(dateFormat),
-      attend_under: under - hours,
-      attend_excuse: hours,
-    };
-    const token = sessionStorage.getItem("token");
-    axios({
-      method: "PATCH",
-      url: `${process.env.REACT_APP_API_URL}/api/emp_attendance`,
-      data: attendData,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Token ${token}`,
-      },
-      withCredentials: true,
-    }).catch((err) => {
-      console.log(err);
-    });
-  }
-
-  function newExcuse() {
-    setSuccess(false);
-    setCurrent(0);
-    setExcuseDate("");
-    setStartTime("");
-    setEndTime("");
-    setReason("");
-    setAdd(true);
-    setHours(0);
-    setUnder(0);
-    loadExcuses();
-    loadAttendances();
-  }
-
-  function viewExcuse() {
-    loadExcuses();
-    setAdd(false);
-    setSuccess(false);
-  }
-
-  function addExcuseButton() {
-    return (
-      <div className="flex-end-row">
-        <Button
-          icon={<PlusOutlined />}
-          size="medium"
-          type="primary"
-          onClick={newExcuse}
-        >
-          ADD
-        </Button>
-      </div>
-    );
-  }
-
-  function checkAttendance() {
-    var onAttend = false;
-    var attends = attendances
-      .filter((res) => res.id === props.empid)
-      .map((attend) => {
-        return {
-          date: attend.date,
-          under: attend.under,
-          status: attend.status,
-        };
-      });
-    if (attends.length < 1) {
-      onAttend = true;
-    }
-    for (var i = 0; i < attends.length; i++) {
-      var dateAttend = attends[i]["date"];
-      var underAttend = attends[i]["under"];
-      var statusAttend = attends[i]["status"];
-      if (
-        excusedate.format(dateFormat) !== moment(dateAttend).format(dateFormat)
-      ) {
-        onAttend = true;
-      } else {
-        if (statusAttend === "Attended Today") {
-          onAttend = false;
-          setUnder(underAttend);
-        } else {
-          onAttend = true;
-          break;
-        }
-      }
-    }
-    return onAttend;
-  }
-
-  function checkExcuse() {
-    var onExcuse = false;
-    var excs = excuses
-      .filter((res) => res.id === props.empid)
-      .map((excuse) => {
-        return {
-          date: excuse.date,
-          start: excuse.start,
-          end: excuse.end,
-        };
-      });
-    for (var i = 0; i < excs.length; i++) {
-      var dateExc = excs[i]["date"];
-      if (
-        excusedate.format(dateFormat) === moment(dateExc).format(dateFormat)
-      ) {
-        onExcuse = true;
-        break;
-      } else {
-        onExcuse = false;
-      }
-    }
-    return onExcuse;
-  }
-
-  function countExcuse() {
-    var excuse = 0;
-    var excs = excuses
-      .filter((res) => res.id === props.empid)
-      .map((excuse) => {
-        return {
-          date: excuse.date,
-          total: excuse.total,
-        };
-      });
-    for (var i = 0; i < excs.length; i++) {
-      var dateExc = excs[i]["date"];
-      if (
-        String(moment(excusedate).format("MMMM YYYY")) ===
-        String(moment(dateExc).format("MMMM YYYY"))
-      ) {
-        excuse += parseFloat(excs[i]["total"]);
-      }
-    }
-    return excuse;
-  }
-
-  function next() {
-    var valid = true;
-    if (excusedate === "") {
-      valid = false;
-      api.info(NotificationEvent(false, "No excuse date selected."));
-    } else if (starttime === "") {
-      valid = false;
-      api.info(NotificationEvent(false, "No start time selected."));
-    } else if (endtime === "") {
-      valid = false;
-      api.info(NotificationEvent(false, "No end time selected."));
-    } else if (starttime > endtime || starttime === endtime) {
-      valid = false;
-      api.info(NotificationEvent(false, "End time must be after start time."));
-    } else if (reason === "") {
-      valid = false;
-      api.info(NotificationEvent(false, "No valid reason."));
-    } else if (
-      excusedate.format(dateFormat) === moment().format(dateFormat) ||
-      excusedate.format(dateFormat) > moment().format(dateFormat)
-    ) {
-      valid = false;
-      api.info(
-        NotificationEvent(
-          false,
-          "Cannot apply excuse for current or future date."
-        )
-      );
-    } else if (checkAttendance()) {
-      valid = false;
-      api.info(
-        NotificationEvent(
-          false,
-          "Cannot apply excuse when attendance status is not attended."
-        )
-      );
-    } else if (checkExcuse()) {
-      valid = false;
-      api.info(NotificationEvent(false, "Excuse exist for this date."));
-    } else if (parseFloat(countExcuse()) > 8) {
-      valid = false;
-      api.info(
-        NotificationEvent(false, "Total excuse hours limit already reached.")
-      );
-    }
-    if (valid) {
-      var h = moment
-        .duration(moment(endtime).diff(moment(starttime)))
-        .asHours();
-      setHours(parseFloat(h).toFixed(2));
-      setCurrent(current + 1);
-    }
-  }
-
-  function prev() {
-    setCurrent(current - 1);
-  }
-
-  function applyExcuse() {
-    var excData = {
-      emp_id: props.empid,
-      exc_date: moment(excusedate).format(dateFormat),
-      exc_start: moment(starttime).format(timeFormat),
-      exc_end: moment(endtime).format(timeFormat),
-      exc_reason: reason,
-      exc_total: hours,
-    };
-    const token = sessionStorage.getItem("token");
-    axios({
-      method: "POST",
-      url: `${process.env.REACT_APP_API_URL}/api/excuse`,
-      data: excData,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Token ${token}`,
-      },
-      withCredentials: true,
-    })
-      .then(() => {
-        updateAttendance();
-        loadExcuses();
-        setSuccess(true);
-      })
-      .catch((err) => {
-        console.log(err);
-        setSuccess(false);
-        api.info(NotificationEvent(false, "Employee excuse failed to apply."));
-      });
-  }
-
-  useEffect(() => {
-    loadExcuses();
-  }, []);
-
   if (success) {
     return (
       <>
@@ -527,7 +475,7 @@ const Excuse = (props) => {
               </Col>
             </Row>
           }
-          theme={props.theme}
+          theme={theme}
         />
       </>
     );
@@ -613,8 +561,8 @@ const Excuse = (props) => {
             <Table
               rowClassName={() => "table-row"}
               columns={columns}
-              dataSource={excuses
-                .filter((res) => res.id === props.empid)
+              dataSource={loadExcuses
+                .filter((res) => res.id === empid)
                 .map((exc) => {
                   return {
                     date: exc.date,
