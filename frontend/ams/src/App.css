@@ -287,10 +287,7 @@ h1.ant-typography {
 .ant-notification-notice,
 .light .card-with-background,
 .light .ant-card .card-with-background,
-.light
-  .ant-picker-calendar-full
-  .ant-picker-panel
-  {
+.light .ant-picker-calendar-full .ant-picker-panel {
   background: #fff !important;
 }
 .card-custom-size-60 {

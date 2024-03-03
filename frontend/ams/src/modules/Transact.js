@@ -487,16 +487,13 @@ const Transact = ({
                   theme={theme}
                 />
               </Col>
-              <Col
-                span={10}
-                className="flex-start-row"
-                style={{ maxHeight: "fit-content" }}
-              >
+              <Col span={10} className="flex-start-row">
                 <Col
                   span={24}
                   className="card-with-background"
                   style={{
                     padding: "20px 40px",
+                    maxHeight: "320px",
                   }}
                 >
                   <p
@@ -562,16 +559,13 @@ const Transact = ({
                   theme={theme}
                 />
               </Col>
-              <Col
-                span={10}
-                className="flex-start-row"
-                style={{ maxHeight: "fit-content" }}
-              >
+              <Col span={10} className="flex-start-row">
                 <Col
                   span={24}
                   className="card-with-background"
                   style={{
                     padding: "20px 40px",
+                    maxHeight: "320px",
                   }}
                 >
                   <p
@@ -595,11 +589,7 @@ const Transact = ({
                           ),
                       },
                       {
-                        title:
-                          "Total Items:  " +
-                          String(receiveItemCount) +
-                          ", " +
-                          String(queryItem["0"]["action"]),
+                        title: "Total Items:  " + String(receiveItemCount),
                       },
                       {
                         title: "Status: " + queryItem["0"]["status"],

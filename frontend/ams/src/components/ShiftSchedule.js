@@ -197,7 +197,7 @@ const ShiftSchedule = ({ schedules, employees, empid }) => {
                 },
               ]}
               renderItem={(item) => (
-                <List.Item>
+                <List.Item style={{ marginBottom: "0" }}>
                   <Card size="small" className="card-with-background">
                     <p className="small-card-title">{item.title}</p>
                     <p className="small-font text">{item.description}</p>
