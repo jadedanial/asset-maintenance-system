@@ -5,71 +5,188 @@ import { FrownOutlined } from "@ant-design/icons";
 import axios from "axios";
 import MainPage from "../components/MainPage";
 import ResultEvent from "../components/ResultEvent";
-import {
-  fetchComponents,
-  fetchModules,
-  fetchCategories,
-  fetchOptions,
-  fetchBranches,
-  fetchSections,
-  fetchShifts,
-  fetchSchedules,
-  fetchEmployees,
-  fetchAttendances,
-  fetchVacations,
-  fetchExcuses,
-  fetchItems,
-  fetchWarehouseItems,
-  fetchVehicles,
-  fetchTransactions,
-} from "../api";
 
-const HomePage = ({ client }) => {
+const HomePage = () => {
   const [theme, setTheme] = useState("light");
   const [userId, setUserId] = useState(0);
   const [userName, setUserName] = useState("");
   const [loginFailed, setLoginFailed] = useState(false);
-  const { data: components } = useQuery("components", fetchComponents);
-  const { data: modules } = useQuery("modules", fetchModules);
-  const { data: categories } = useQuery("categories", fetchCategories);
-  const { data: options } = useQuery("options", fetchOptions);
-  const { data: branches } = useQuery("branches", fetchBranches);
-  const { data: sections } = useQuery("sections", fetchSections);
-  const { data: shifts } = useQuery("shifts", fetchShifts);
-  const { data: schedules } = useQuery("schedules", fetchSchedules);
-  const { data: employees } = useQuery("employees", fetchEmployees);
-  const { data: attendances } = useQuery("attendances", fetchAttendances);
-  const { data: vacations } = useQuery("vacations", fetchVacations);
-  const { data: excuses } = useQuery("excuses", fetchExcuses);
-  const { data: items } = useQuery("items", fetchItems);
-  const { data: warehouseitems } = useQuery(
-    "warehouseitems",
-    fetchWarehouseItems
-  );
-  const { data: vehicles } = useQuery("vehicles", fetchVehicles);
-  const { data: transactions } = useQuery("transactions", fetchTransactions);
+  const token = sessionStorage.getItem("token");
 
   useEffect(() => {
-    const token = sessionStorage.getItem("token");
-    axios({
-      method: "GET",
-      url: `${process.env.REACT_APP_API_URL}/api/user`,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Token ${token}`,
-      },
-      withCredentials: true,
-    })
-      .then((response) => {
+    const fetchDataForUser = async () => {
+      try {
+        const userResponse = await axios({
+          method: "GET",
+          url: `${process.env.REACT_APP_API_URL}/api/user`,
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Token ${token}`,
+          },
+          withCredentials: true,
+        });
+        const userData = userResponse.data;
+        setUserId(userData.userid);
+        setUserName(userData.username);
         setLoginFailed(false);
-        setUserId(response.data.userid);
-        setUserName(response.data.username);
-      })
-      .catch((err) => {
+      } catch (err) {
         console.log(err.response.data.detail);
         setLoginFailed(true);
+      }
+    };
+    fetchDataForUser();
+  }, [token]);
+
+  const fetchData = async (endpoint, token) => {
+    try {
+      const response = await axios({
+        method: "GET",
+        url: `${process.env.REACT_APP_API_URL}/api/${endpoint}`,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Token ${token}`,
+        },
+        withCredentials: true,
       });
-  }, []);
+      return response.data;
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
+
+  const useComponentsData = (token) => {
+    return useQuery("components", () => fetchData("components", token));
+  };
+  const useModulesData = (token) => {
+    return useQuery("modules", () => fetchData("modules", token));
+  };
+  const useCategoriesData = (token) => {
+    return useQuery("categories", () => fetchData("categories", token));
+  };
+  const useOptionsData = (token) => {
+    return useQuery("options", () => fetchData("options", token));
+  };
+  const useBranchesData = (token) => {
+    return useQuery("branches", () => fetchData("branches", token));
+  };
+  const useSectionsData = (token) => {
+    return useQuery("sections", () => fetchData("sections", token));
+  };
+  const useShiftsData = (token) => {
+    return useQuery("shifts", () => fetchData("shifts", token));
+  };
+  const useSchedulesData = (token) => {
+    return useQuery("schedules", () => fetchData("schedules", token));
+  };
+  const useEmployeesData = (token) => {
+    return useQuery("employees", () => fetchData("employees", token));
+  };
+  const useAttendancesData = (token) => {
+    return useQuery("attendances", () => fetchData("attendances", token));
+  };
+  const useVacationsData = (token) => {
+    return useQuery("vacations", () => fetchData("vacations", token));
+  };
+  const useExcusesData = (token) => {
+    return useQuery("excuses", () => fetchData("excuses", token));
+  };
+  const useItemsData = (token) => {
+    return useQuery("items", () => fetchData("items", token));
+  };
+  const useWarehouseitemsData = (token) => {
+    return useQuery("warehouseitems", () => fetchData("warehouseitems", token));
+  };
+  const useVehiclesData = (token) => {
+    return useQuery("vehicles", () => fetchData("vehicles", token));
+  };
+  const useTransactionsData = (token) => {
+    return useQuery("transactions", () => fetchData("transactions", token));
+  };
+
+  const { data: componentsData, isError: componentsError } =
+    useComponentsData(token);
+  const { data: modulesData, isError: modulesError } = useModulesData(token);
+  const { data: categoriesData, isError: categoriesError } =
+    useCategoriesData(token);
+  const { data: optionsData, isError: optionsError } = useOptionsData(token);
+  const { data: branchesData, isError: branchesError } = useBranchesData(token);
+  const { data: sectionsData, isError: sectionsError } = useSectionsData(token);
+  const { data: shiftsData, isError: shiftsError } = useShiftsData(token);
+  const { data: schedulesData, isError: schedulesError } =
+    useSchedulesData(token);
+  const { data: employeesData, isError: employeesError } =
+    useEmployeesData(token);
+  const { data: attendancesData, isError: attendancesError } =
+    useAttendancesData(token);
+  const { data: vacationsData, isError: vacationsError } =
+    useVacationsData(token);
+  const { data: excusesData, isError: excusesError } = useExcusesData(token);
+  const { data: itemsData, isError: itemsError } = useItemsData(token);
+  const { data: warehouseitemsData, isError: warehouseitemsError } =
+    useWarehouseitemsData(token);
+  const { data: vehiclesData, isError: vehiclesError } = useVehiclesData(token);
+  const { data: transactionsData, isError: transactionsError } =
+    useTransactionsData(token);
+
+  if (
+    componentsError ||
+    modulesError ||
+    categoriesError ||
+    optionsError ||
+    branchesError ||
+    sectionsError ||
+    shiftsError ||
+    schedulesError ||
+    employeesError ||
+    attendancesError ||
+    vacationsError ||
+    excusesError ||
+    itemsError ||
+    warehouseitemsError ||
+    vehiclesError ||
+    transactionsError
+  ) {
+    console.log(
+      "Error fetching data:",
+      componentsError ||
+        modulesError ||
+        categoriesError ||
+        optionsError ||
+        branchesError ||
+        sectionsError ||
+        shiftsError ||
+        schedulesError ||
+        employeesError ||
+        attendancesError ||
+        vacationsError ||
+        excusesError ||
+        itemsError ||
+        warehouseitemsError ||
+        vehiclesError ||
+        transactionsError
+    );
+  }
+
+  if (
+    !componentsData ||
+    !modulesData ||
+    !categoriesData ||
+    !optionsData ||
+    !branchesData ||
+    !sectionsData ||
+    !shiftsData ||
+    !schedulesData ||
+    !employeesData ||
+    !attendancesData ||
+    !vacationsData ||
+    !excusesData ||
+    !itemsData ||
+    !warehouseitemsData ||
+    !vehiclesData ||
+    !transactionsData
+  ) {
+    console.log("Loading data...");
+  }
 
   useEffect(() => {
     const mode = document.cookie
@@ -117,25 +234,24 @@ const HomePage = ({ client }) => {
       ) : (
         <>
           <MainPage
-            client={client}
             userId={userId}
             userName={userName}
-            components={components}
-            modules={modules}
-            categories={categories}
-            options={options}
-            branches={branches}
-            sections={sections}
-            shifts={shifts}
-            schedules={schedules}
-            employees={employees}
-            attendances={attendances}
-            vacations={vacations}
-            excuses={excuses}
-            items={items}
-            warehouseitems={warehouseitems}
-            vehicles={vehicles}
-            transactions={transactions}
+            components={componentsData}
+            modules={modulesData}
+            categories={categoriesData}
+            options={optionsData}
+            branches={branchesData}
+            sections={sectionsData}
+            shifts={shiftsData}
+            schedules={schedulesData}
+            employees={employeesData}
+            attendances={attendancesData}
+            vacations={vacationsData}
+            excuses={excusesData}
+            items={itemsData}
+            warehouseitems={warehouseitemsData}
+            vehicles={vehiclesData}
+            transactions={transactionsData}
           />
         </>
       )}

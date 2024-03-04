@@ -36,7 +36,6 @@ import EmptyData from "./EmptyData";
 const { Header, Sider, Content } = Layout;
 
 const MainPage = ({
-  client,
   userId,
   userName,
   components,
