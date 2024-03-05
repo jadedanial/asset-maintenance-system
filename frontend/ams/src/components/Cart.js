@@ -38,6 +38,24 @@ const Cart = ({
   const itemWord = itemCount > 1 ? "items" : "item";
   const message = `${messageMap[segment]} ${itemWord}.`;
 
+  const sortItems = (key, ascending) => {
+    let itemsToSort = filteredItem.length > 0 ? filteredItem : itemList;
+
+    itemsToSort.sort((a, b) => {
+      let valA = key === "total" ? parseInt(a[key], 10) : a[key];
+      let valB = key === "total" ? parseInt(b[key], 10) : b[key];
+
+      if (valA < valB) {
+        return ascending === "false" ? -1 : 1;
+      }
+      if (valA > valB) {
+        return ascending === "true" ? 1 : -1;
+      }
+      return 0;
+    });
+    setFilteredItem(itemsToSort);
+  };
+
   const sumOrder = useCallback(() => {
     setTotalOrder("0.00");
     const sum = itemList.reduce(
@@ -55,7 +73,8 @@ const Cart = ({
     cost,
     measurement,
     quantity,
-    max
+    max,
+    sort
   ) => {
     if (quantity >= 1) {
       if (action === "add") {
@@ -80,13 +99,12 @@ const Cart = ({
       addItem(id, code, name, cost, measurement, quantity, max, total);
     }
     sumOrder();
-    if (filteredItem.length > 0) {
+    sortItems(sort.split("-")[0], sort.split("-")[1]);
+    if (filteredItem.length === 1) {
       const filteredData = itemList.filter(
         (item) => item.code.toLowerCase() === code.toLowerCase()
       );
       setFilteredItem(filteredData);
-    } else {
-      setFilteredItem("");
     }
   };
 

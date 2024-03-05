@@ -97,10 +97,10 @@ h1 {
   border: 3px solid #318ce7;
 }
 .light ::-webkit-scrollbar-track {
-  background: #f8f8ff;
+  background: #f8f9fa;
 }
 .light ::-webkit-scrollbar-thumb {
-  background: #f8f8ff;
+  background: #f8f9fa;
   border: 3px solid #318ce7;
 }
 .ant-menu {
@@ -521,7 +521,7 @@ h1.ant-typography {
 .light .ant-drawer-header,
 .light .ant-layout-header,
 .light .ant-tabs {
-  background: #f8f8ff !important;
+  background: #f8f9fa !important;
 }
 .ant-drawer-body {
   padding: 0 !important;
@@ -720,7 +720,7 @@ input::file-selector-button {
   background: #161d40 !important;
 }
 .light .ant-segmented-item-selected .ant-segmented-item-label {
-  background: #f8f8ff !important;
+  background: #f8f9fa !important;
 }
 
 .ant-checkbox-inner {
@@ -778,5 +778,5 @@ input::file-selector-button {
   .ant-picker-panel
   .ant-picker-cell-selected
   .ant-picker-calendar-date {
-  background: #cdf5fd !important;
+  background: #ecf3f9 !important;
 }

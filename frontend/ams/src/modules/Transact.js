@@ -52,7 +52,7 @@ const Transact = ({
   const [inputStatus, setInputStatus] = useState("");
   const [success, setSuccess] = useState(false);
   const [transactionCode, setTransactionCode] = useState("");
-  const [warehouseCode, setWarehouseCode] = useState("");
+  const [warehouseCode, setWarehouseCode] = useState("Select Warehouse");
   const [openDrawer, setOpenDrawer] = useState(false);
   const [api, contextHolder] = notification.useNotification();
 
@@ -101,7 +101,7 @@ const Transact = ({
   };
 
   const newItem = (id, code, name, cost, measurement, quantity, max) => {
-    if (warehouseCode === "") {
+    if (warehouseCode === "Select Warehouse") {
       api.info(
         NotificationEvent(
           false,
@@ -305,7 +305,7 @@ const Transact = ({
   const showDrawer = () => {
     switch (segment) {
       case "Reorder":
-        if (warehouseCode === "") {
+        if (warehouseCode === "Select Warehouse") {
           api.info(
             NotificationEvent(
               false,
@@ -669,7 +669,6 @@ const Transact = ({
                     setSegment(e);
                     searchItem(searchValue, e);
                     setFilteredItem("");
-                    setWarehouseCode("");
                   }}
                 />
               </Title>
@@ -698,6 +697,7 @@ const Transact = ({
                         <Select
                           size="large"
                           placeholder="To Warehouse"
+                          value={warehouseCode}
                           showSearch
                           className="bordered-select"
                           optionFilterProp="children"

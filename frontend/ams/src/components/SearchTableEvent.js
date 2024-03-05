@@ -63,7 +63,7 @@ const SearchTableEvent = ({
           >
             <div
               style={{
-                background: theme === "light" ? "#f8f8ff" : "#161d40",
+                background: theme === "light" ? "#f8f9fa" : "#161d40",
                 width: "100%",
                 height: "65px",
                 padding: "12px",
@@ -127,7 +127,7 @@ const SearchTableEvent = ({
           <div
             style={{
               height: "20px",
-              background: theme === "light" ? "#f8f8ff" : "#161d40",
+              background: theme === "light" ? "#f8f9fa" : "#161d40",
               position: "sticky",
               top: "176px",
               zIndex: "1",

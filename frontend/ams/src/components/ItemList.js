@@ -69,10 +69,16 @@ const ItemList = ({
     setFilteredItem(itemsToSort);
     if (key === "code") {
       setCodeAscending(ascending);
+      setNameAscending("");
+      setCostAscending("");
     } else if (key === "name") {
       setNameAscending(ascending);
+      setCodeAscending("");
+      setCostAscending("");
     } else if (key === "total") {
       setCostAscending(ascending);
+      setNameAscending("");
+      setCodeAscending("");
     }
   };
 
@@ -381,7 +387,14 @@ const ItemList = ({
                                     item.cost,
                                     item.measurement,
                                     item.quantity,
-                                    item.max
+                                    item.max,
+                                    codeAscending !== ""
+                                      ? `code-${codeAscending}`
+                                      : nameAscending !== ""
+                                      ? `name-${nameAscending}`
+                                      : costAscending !== ""
+                                      ? `cost-${costAscending}`
+                                      : ""
                                   )
                                 }
                               >
@@ -402,7 +415,14 @@ const ItemList = ({
                                     item.cost,
                                     item.measurement,
                                     item.quantity,
-                                    item.max
+                                    item.max,
+                                    codeAscending !== ""
+                                      ? `code-${codeAscending}`
+                                      : nameAscending !== ""
+                                      ? `name-${nameAscending}`
+                                      : costAscending !== ""
+                                      ? `cost-${costAscending}`
+                                      : ""
                                   )
                                 }
                               >

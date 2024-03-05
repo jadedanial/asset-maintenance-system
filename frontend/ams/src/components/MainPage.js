@@ -375,13 +375,13 @@ const MainPage = ({
                 style={{
                   marginTop: "1px",
                   height: "22px",
-                  background: theme === "light" ? "#cdf5fd" : "#1c2755",
+                  background: theme === "light" ? "#ecf3f9" : "#1c2755",
                 }}
               ></div>
             </Header>
             <Layout
               style={{
-                background: theme === "light" ? "#cdf5fd" : "#1c2755",
+                background: theme === "light" ? "#ecf3f9" : "#1c2755",
                 minHeight: "300%",
               }}
             >

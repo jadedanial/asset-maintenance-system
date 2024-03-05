@@ -204,12 +204,12 @@ const HomePage = () => {
             className={theme}
             style={{
               paddingTop: "50px",
-              background: theme === "light" ? "#cdf5fd" : "#1c2755",
+              background: theme === "light" ? "#ecf3f9" : "#1c2755",
               height: "100vh",
             }}
           >
             <ResultEvent
-              icon={<FrownOutlined style={{ color: "#cdf5fd" }} />}
+              icon={<FrownOutlined style={{ color: "#ecf3f9" }} />}
               status="403"
               title="Unauthorized User!"
               subTitle="Sorry, you are not authorized to access this page. Please login or register."
