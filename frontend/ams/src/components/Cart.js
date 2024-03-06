@@ -39,21 +39,33 @@ const Cart = ({
   const message = `${messageMap[segment]} ${itemWord}.`;
 
   const sortItems = (key, ascending) => {
-    let itemsToSort = filteredItem.length > 0 ? filteredItem : itemList;
-
-    itemsToSort.sort((a, b) => {
-      let valA = key === "total" ? parseInt(a[key], 10) : a[key];
-      let valB = key === "total" ? parseInt(b[key], 10) : b[key];
-
-      if (valA < valB) {
-        return ascending === "false" ? -1 : 1;
-      }
-      if (valA > valB) {
-        return ascending === "true" ? 1 : -1;
-      }
-      return 0;
-    });
-    setFilteredItem(itemsToSort);
+    if (filteredItem.length > 0) {
+      let itemsToSort = filteredItem;
+      itemsToSort.sort((a, b) => {
+        let valA, valB;
+        if (key === "code") {
+          return ascending
+            ? a[key].localeCompare(b[key])
+            : b[key].localeCompare(a[key]);
+        }
+        if (key === "name") {
+          valA = a[key].toLowerCase();
+          valB = b[key].toLowerCase();
+        }
+        if (key === "cost") {
+          valA = parseInt(a[key], 10);
+          valB = parseInt(b[key], 10);
+        }
+        if (valA < valB) {
+          return ascending ? -1 : 1;
+        }
+        if (valA > valB) {
+          return ascending ? 1 : -1;
+        }
+        return 0;
+      });
+      setFilteredItem(itemsToSort);
+    }
   };
 
   const sumOrder = useCallback(() => {
@@ -99,7 +111,7 @@ const Cart = ({
       addItem(id, code, name, cost, measurement, quantity, max, total);
     }
     sumOrder();
-    sortItems(sort.split("-")[0], sort.split("-")[1]);
+    sortItems(sort.split("-")[0], sort.split("-")[1] === "true" ? true : false);
     if (filteredItem.length === 1) {
       const filteredData = itemList.filter(
         (item) => item.code.toLowerCase() === code.toLowerCase()
