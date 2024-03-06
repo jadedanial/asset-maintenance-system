@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import { useQuery } from "react-query";
-import { Button, Col, Row } from "antd";
+import { Button, Col, Row, Spin } from "antd";
 import { FrownOutlined } from "@ant-design/icons";
 import axios from "axios";
 import MainPage from "../components/MainPage";
@@ -232,7 +232,7 @@ const HomePage = () => {
           </div>
         </>
       ) : (
-        <>
+        <Suspense fallback={<Spin size="large" />}>
           <MainPage
             userId={userId}
             userName={userName}
@@ -253,7 +253,7 @@ const HomePage = () => {
             vehicles={vehiclesData}
             transactions={transactionsData}
           />
-        </>
+        </Suspense>
       )}
     </>
   );
