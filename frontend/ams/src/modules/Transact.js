@@ -493,7 +493,7 @@ const Transact = ({
                   className="card-with-background"
                   style={{
                     padding: "20px 40px",
-                    maxHeight: "320px",
+                    maxHeight: "274px",
                   }}
                 >
                   <p
@@ -565,7 +565,7 @@ const Transact = ({
                   className="card-with-background"
                   style={{
                     padding: "20px 40px",
-                    maxHeight: "320px",
+                    maxHeight: "274px",
                   }}
                 >
                   <p
@@ -596,10 +596,7 @@ const Transact = ({
                       },
                     ]}
                   />
-                  <p
-                    className="big-card-title"
-                    style={{ paddingTop: "20px", paddingBottom: "15px" }}
-                  >
+                  <p className="big-card-title" style={{ padding: "10px 0" }}>
                     Php. {sumOrder(receiveItemList)}
                   </p>
                   <Button size="large" type="primary" onClick={showDrawer}>
