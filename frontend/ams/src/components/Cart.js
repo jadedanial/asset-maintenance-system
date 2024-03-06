@@ -39,8 +39,8 @@ const Cart = ({
   const message = `${messageMap[segment]} ${itemWord}.`;
 
   const sortItems = (key, ascending) => {
-    if (filteredItem.length > 0) {
-      let itemsToSort = filteredItem;
+    let itemsToSort = filteredItem;
+    if (itemsToSort.length > 0) {
       itemsToSort.sort((a, b) => {
         let valA, valB;
         if (key === "code") {
@@ -64,8 +64,8 @@ const Cart = ({
         }
         return 0;
       });
-      setFilteredItem(itemsToSort);
     }
+    setFilteredItem(itemsToSort);
   };
 
   const sumOrder = useCallback(() => {

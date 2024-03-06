@@ -41,14 +41,15 @@ const ItemList = ({
 }) => {
   const itemListLocal = itemList;
   const [searchItemCode, setSearchItemCode] = useState("");
-  const [codeAscending, setCodeAscending] = useState(false);
+  const [codeAscending, setCodeAscending] = useState(true);
   const [nameAscending, setNameAscending] = useState(false);
   const [costAscending, setCostAscending] = useState(false);
   const [checkedAll, setCheckedAll] = useState(false);
 
-  const showAll = () => {
-    setFilteredItem(itemList);
+  const showAll = (sort) => {
     setSearchItemCode("");
+    sortItems("code", true);
+    setFilteredItem(itemList);
   };
 
   const sortItems = (key, ascending) => {
@@ -82,13 +83,13 @@ const ItemList = ({
       setNameAscending("");
       setCostAscending("");
     } else if (key === "name") {
+      setCodeAscending("");
       setNameAscending(ascending);
-      setCodeAscending("");
       setCostAscending("");
-    } else if (key === "total") {
-      setCostAscending(ascending);
-      setNameAscending("");
+    } else if (key === "cost") {
       setCodeAscending("");
+      setNameAscending("");
+      setCostAscending(ascending);
     }
   };
 
@@ -113,7 +114,7 @@ const ItemList = ({
               onChange={(e) => {
                 const inputValue = e.target.value;
                 setSearchItemCode(inputValue);
-                setFilteredItem("");
+                setFilteredItem([]);
                 const filteredData = itemList.filter(
                   (item) => item.code.toLowerCase() === inputValue.toLowerCase()
                 );
@@ -129,7 +130,17 @@ const ItemList = ({
                     size="large"
                     icon={<AppstoreOutlined style={{ fontSize: "20px" }} />}
                     className="btn-normal"
-                    onClick={() => showAll()}
+                    onClick={() =>
+                      showAll(
+                        codeAscending !== ""
+                          ? `code-${codeAscending}`
+                          : nameAscending !== ""
+                          ? `name-${nameAscending}`
+                          : costAscending !== ""
+                          ? `cost-${costAscending}`
+                          : ""
+                      )
+                    }
                   />
                 </Tooltip>
               </Col>
@@ -182,7 +193,7 @@ const ItemList = ({
                     }
                     className="btn-normal"
                     onClick={() =>
-                      sortItems("total", costAscending ? false : true)
+                      sortItems("cost", costAscending ? false : true)
                     }
                   />
                 </Tooltip>

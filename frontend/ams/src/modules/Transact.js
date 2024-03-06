@@ -647,7 +647,6 @@ const Transact = ({
     const category = sections.find(
       (sec) => sec.section_code === warehouse
     )?.section_category;
-    console.log(category);
     return category;
   };
 
