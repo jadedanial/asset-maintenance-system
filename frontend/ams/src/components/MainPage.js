@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
+import { useCustomQueryClient } from "../useQueryClient";
 import {
   ConfigProvider,
   Layout,
@@ -63,6 +64,7 @@ const MainPage = ({
   const [sectionCode, setSectionCode] = useState("");
   const [sectionCategory, setSectionCategory] = useState("");
   const navigate = useNavigate();
+  const queryClient = useCustomQueryClient();
 
   const addMode = (mode) => {
     document.cookie = "mode=" + mode + "; path=/";
@@ -98,7 +100,9 @@ const MainPage = ({
       },
       withCredentials: true,
     })
-      .then(() => {})
+      .then(() => {
+        queryClient.clear();
+      })
       .catch((err) => {
         console.log(err);
       });
