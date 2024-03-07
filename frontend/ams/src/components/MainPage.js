@@ -56,6 +56,7 @@ const MainPage = ({
   vehicles,
   transactions,
 }) => {
+  const queryClient = useCustomQueryClient();
   const [theme, setTheme] = useState("light");
   const [openDrawer, setOpenDrawer] = useState(true);
   const [collapsed, setCollapsed] = useState(false);
@@ -64,7 +65,6 @@ const MainPage = ({
   const [sectionCode, setSectionCode] = useState("");
   const [sectionCategory, setSectionCategory] = useState("");
   const navigate = useNavigate();
-  const queryClient = useCustomQueryClient();
 
   const addMode = (mode) => {
     document.cookie = "mode=" + mode + "; path=/";

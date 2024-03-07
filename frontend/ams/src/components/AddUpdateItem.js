@@ -1,5 +1,7 @@
 import React, { useState } from "react";
+import { useMutation } from "react-query";
 import axios from "axios";
+import { useCustomQueryClient } from "../useQueryClient";
 import {
   Typography,
   Button,
@@ -42,6 +44,7 @@ const AddUpdateItem = ({
   onCloseDrawer,
   theme,
 }) => {
+  const queryClient = useCustomQueryClient();
   const [updateData, setUpdateData] = useState(update);
   const [label, setLabel] = useState(
     updateData ? "Update Item" : "Add New Item"
@@ -148,7 +151,7 @@ const AddUpdateItem = ({
     return main;
   };
 
-  const onFinish = () => {
+  const createItem = () => {
     setSubmit(true);
     changeLabel();
     var itemData = {
@@ -172,6 +175,7 @@ const AddUpdateItem = ({
       withCredentials: true,
     })
       .then((response) => {
+        queryClient.invalidateQueries(response.data);
         setIDCode("ITM" + response.data["id"]);
         var itemWarehouse = {
           item_code: "ITM" + response.data["id"],
@@ -189,7 +193,8 @@ const AddUpdateItem = ({
             Authorization: `Token ${token}`,
           },
           withCredentials: true,
-        }).then(() => {
+        }).then((response) => {
+          queryClient.invalidateQueries(response.data);
           setSuccess(true);
         });
       })
@@ -199,6 +204,12 @@ const AddUpdateItem = ({
         setLabel(err.response.data[0]);
         setColor("#ff0000");
       });
+  };
+
+  const { mutate } = useMutation(createItem);
+
+  const onFinish = () => {
+    mutate();
   };
 
   if (submit) {
