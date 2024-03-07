@@ -4,7 +4,10 @@ import { Result } from "antd";
 const ResultEvent = (props) => {
   return (
     <>
-      <div className={props.theme} style={{ paddingTop: "30px" }}>
+      <div
+        className={props.theme}
+        style={{ paddingTop: "30px", minHeight: "460px" }}
+      >
         <Result
           icon={props.icon}
           status={props.status}

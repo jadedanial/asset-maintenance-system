@@ -485,7 +485,7 @@ const Excuse = ({ excuses, attendances, empid, theme }) => {
     <>
       {contextHolder}
       <div style={{ marginTop: "20px" }}>
-        <Card size="small" style={{ width: "100%" }}>
+        <Card size="small" style={{ width: "100%", minHeight: "460px" }}>
           {add ? (
             <div className="justified-row">
               <div className="card-custom-size-60">
