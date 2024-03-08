@@ -20,7 +20,7 @@ import {
   CloseOutlined,
   IssuesCloseOutlined,
 } from "@ant-design/icons";
-import AddAttendance from "./AddAttendance";
+import AddUpdateAttendance from "./AddUpdateAttendance";
 import NotificationEvent from "./NotificationEvent";
 import moment from "moment";
 
@@ -318,7 +318,7 @@ const Attendance = ({
       <div style={{ marginTop: "20px" }}>
         <Card size="small" style={{ width: "100%" }}>
           {add ? (
-            <AddAttendance
+            <AddUpdateAttendance
               schedules={schedules}
               vacations={vacations}
               empid={empid}

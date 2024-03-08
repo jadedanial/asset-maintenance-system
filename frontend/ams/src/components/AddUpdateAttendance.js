@@ -27,7 +27,7 @@ const layout = {
   },
 };
 
-const AddAttendance = ({
+const AddUpdateAttendance = ({
   schedules,
   vacations,
   empid,
@@ -575,4 +575,4 @@ const AddAttendance = ({
   );
 };
 
-export default AddAttendance;
+export default AddUpdateAttendance;

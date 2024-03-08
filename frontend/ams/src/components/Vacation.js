@@ -151,7 +151,7 @@ const Vacation = ({ vacations, options, empid, theme }) => {
     } else if (startdate > enddate) {
       valid = false;
       api.info(NotificationEvent(false, "End date must be after start date."));
-    } else if (startdate < moment().format(dateFormat)) {
+    } else if (startdate.isBefore(moment(), "day")) {
       valid = false;
       api.info(
         NotificationEvent(false, "Cannot apply vacation for previous date.")
