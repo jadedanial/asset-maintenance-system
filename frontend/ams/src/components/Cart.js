@@ -44,9 +44,8 @@ const Cart = ({
       itemsToSort.sort((a, b) => {
         let valA, valB;
         if (key === "code") {
-          return ascending
-            ? a[key].localeCompare(b[key])
-            : b[key].localeCompare(a[key]);
+          valA = parseInt(a["id"], 10);
+          valB = parseInt(b["id"], 10);
         }
         if (key === "name") {
           valA = a[key].toLowerCase();

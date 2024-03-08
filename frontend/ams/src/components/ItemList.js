@@ -46,7 +46,7 @@ const ItemList = ({
   const [costAscending, setCostAscending] = useState(false);
   const [checkedAll, setCheckedAll] = useState(false);
 
-  const showAll = (sort) => {
+  const showAll = () => {
     setSearchItemCode("");
     sortItems("code", true);
     setFilteredItem(itemList);
@@ -57,9 +57,8 @@ const ItemList = ({
     itemsToSort.sort((a, b) => {
       let valA, valB;
       if (key === "code") {
-        return ascending
-          ? a[key].localeCompare(b[key])
-          : b[key].localeCompare(a[key]);
+        valA = parseInt(a["id"], 10);
+        valB = parseInt(b["id"], 10);
       }
       if (key === "name") {
         valA = a[key].toLowerCase();
@@ -130,17 +129,7 @@ const ItemList = ({
                     size="large"
                     icon={<AppstoreOutlined style={{ fontSize: "20px" }} />}
                     className="btn-normal"
-                    onClick={() =>
-                      showAll(
-                        codeAscending !== ""
-                          ? `code-${codeAscending}`
-                          : nameAscending !== ""
-                          ? `name-${nameAscending}`
-                          : costAscending !== ""
-                          ? `cost-${costAscending}`
-                          : ""
-                      )
-                    }
+                    onClick={() => showAll()}
                   />
                 </Tooltip>
               </Col>
