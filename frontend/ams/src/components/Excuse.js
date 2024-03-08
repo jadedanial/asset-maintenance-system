@@ -33,6 +33,8 @@ const layout = {
 const Excuse = ({ excuses, attendances, empid, theme }) => {
   const dateFormat = "YYYY-MM-DD";
   const timeFormat = "HH:mm:ss";
+  const displayDateFormat = "MMMM DD, YYYY";
+  const datePickerFormat = (value) => `${value.format(displayDateFormat)}`;
   const [excusedate, setExcuseDate] = useState("");
   const [starttime, setStartTime] = useState("");
   const [endtime, setEndTime] = useState("");
@@ -294,6 +296,7 @@ const Excuse = ({ excuses, attendances, empid, theme }) => {
       title: "Excuse Date",
       dataIndex: "date",
       key: "date",
+      width: "200px",
     },
     {
       title: "Start Time",
@@ -340,6 +343,7 @@ const Excuse = ({ excuses, attendances, empid, theme }) => {
           >
             <DatePicker
               placeholder=""
+              format={datePickerFormat}
               onChange={(value) => setExcuseDate(moment(value))}
               inputReadOnly
             />
@@ -409,7 +413,7 @@ const Excuse = ({ excuses, attendances, empid, theme }) => {
               ),
               description: (
                 <p className="medium-font text">
-                  {moment(excusedate).format(dateFormat)}
+                  {moment(excusedate).format(displayDateFormat)}
                 </p>
               ),
             },
@@ -456,7 +460,9 @@ const Excuse = ({ excuses, attendances, empid, theme }) => {
           icon={<CheckOutlined style={{ color: "#318ce7" }} />}
           status="success"
           title={"Successfully applied employee excuse."}
-          subTitle={`From ${moment(starttime).format(timeFormat)} To ${moment(
+          subTitle={`${moment(excusedate).format(
+            displayDateFormat
+          )} From ${moment(starttime).format(timeFormat)} To ${moment(
             endtime
           ).format(timeFormat)} (${
             hours > 1 ? hours + " hours" : hours + " hour"
@@ -565,7 +571,7 @@ const Excuse = ({ excuses, attendances, empid, theme }) => {
                 .filter((res) => res.id === empid)
                 .map((exc) => {
                   return {
-                    date: exc.date,
+                    date: moment(exc.date).format(displayDateFormat),
                     start: exc.start,
                     end: exc.end,
                     reason: exc.reason,

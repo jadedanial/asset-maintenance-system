@@ -42,9 +42,12 @@ const AddAttendance = ({
   viewAttendance,
   theme,
 }) => {
-  const dateTimeFormat = "YYYY-MM-DD HH:mm:ss";
   const dateFormat = "YYYY-MM-DD";
   const timeFormat = "HH:mm:ss";
+  const dateTimeFormat = "YYYY-MM-DD HH:mm:ss";
+  const displayDateFormat = "MMMM DD, YYYY";
+  const datePickerFormat = (value) =>
+    `${value.format(displayDateFormat + " HH:mm:ss")}`;
   const attendDate = moment(attenddate).format(dateFormat);
   const [attendCheckin, setAttendCheckIn] = useState(checkInTime);
   const [attendCheckout, setAttendCheckOut] = useState(checkOutTime);
@@ -52,19 +55,21 @@ const AddAttendance = ({
   const [api, contextHolder] = notification.useNotification();
 
   const loadSchedules = () => {
-    return schedules.map((res) =>
-      res.id === schedid
-        ? {
-            sched_sun: res.sched_sun,
-            sched_mon: res.sched_mon,
-            sched_tue: res.sched_tue,
-            sched_wed: res.sched_wed,
-            sched_thu: res.sched_thu,
-            sched_fri: res.sched_fri,
-            sched_sat: res.sched_sat,
-          }
-        : ""
-    );
+    return schedules
+      .map((res) =>
+        res.id === schedid
+          ? {
+              sched_sun: res.sched_sun,
+              sched_mon: res.sched_mon,
+              sched_tue: res.sched_tue,
+              sched_wed: res.sched_wed,
+              sched_thu: res.sched_thu,
+              sched_fri: res.sched_fri,
+              sched_sat: res.sched_sat,
+            }
+          : null
+      )
+      .filter(Boolean);
   };
 
   const loadVacations =
@@ -346,7 +351,7 @@ const AddAttendance = ({
           )
         ).split(" - ")[1];
       if (shiftStart > shiftEnd) {
-        shiftEnd = moment(shiftEnd).add(1, "days");
+        shiftEnd = moment(shiftEnd).add(1, "days").format(dateTimeFormat);
       }
       var date = attendDate;
       var checkin = attendCheckin;
@@ -441,15 +446,14 @@ const AddAttendance = ({
           status="success"
           title={"Successfully applied employee attendance."}
           subTitle={
-            "Date " +
-            String(moment(attendDate).format(dateFormat)) +
+            String(moment(attendDate).format(displayDateFormat)) +
             " From " +
             String(
               moment(attendCheckin).isValid()
                 ? moment(attendCheckin).format(timeFormat)
                 : "--:--:--"
             ) +
-            " - " +
+            " To " +
             String(
               moment(attendCheckout).isValid()
                 ? moment(attendCheckout).format(timeFormat)
@@ -509,13 +513,16 @@ const AddAttendance = ({
               <Form.Item
                 name="date"
                 label="Date"
-                initialValue={String(moment(attenddate).format(dateFormat))}
+                initialValue={String(
+                  moment(attenddate).format(displayDateFormat)
+                )}
               >
                 <Input readOnly />
               </Form.Item>
               <Form.Item label="Check In">
                 <DatePicker
                   placeholder=""
+                  format={datePickerFormat}
                   onChange={(value) =>
                     setAttendCheckIn(moment(value).format(dateTimeFormat))
                   }
@@ -531,6 +538,7 @@ const AddAttendance = ({
               <Form.Item label="Check Out">
                 <DatePicker
                   placeholder=""
+                  format={datePickerFormat}
                   onChange={(value) =>
                     setAttendCheckOut(moment(value).format(dateTimeFormat))
                   }

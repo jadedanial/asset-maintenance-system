@@ -590,9 +590,7 @@ h1.ant-typography {
 .ant-timeline-item-tail {
   border-left: 1px solid #318ce7 !important;
 }
-.ant-input {
-  padding: 20px !important;
-}
+
 .ant-input-number {
   padding: 2px !important;
 }

@@ -197,13 +197,14 @@ const Profile = ({
                         <Row style={{ marginTop: "12px" }}>
                           <CalendarOutlined className="detail-icon-label" />
                           <p className="small-font text">
-                            Hired {moment(e.emp_hired).format("MMMM DD, YYYY")}
+                            Hired on{" "}
+                            {moment(e.emp_hired).format("MMMM DD, YYYY")}
                           </p>
                         </Row>
                         <Row style={{ marginTop: "12px" }}>
                           <HeartOutlined className="detail-icon-label" />
                           <p className="small-font text">
-                            {expYears(e.emp_bdate)} years old
+                            {expYears(e.emp_bdate)} Years old
                           </p>
                         </Row>
                       </Col>

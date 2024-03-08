@@ -32,6 +32,8 @@ const layout = {
 
 const Vacation = ({ vacations, options, empid, theme }) => {
   const dateFormat = "YYYY-MM-DD";
+  const displayDateFormat = "MMMM DD, YYYY";
+  const datePickerFormat = (value) => `${value.format(displayDateFormat)}`;
   const [vacation, setVacation] = useState("");
   const [startdate, setStartDate] = useState("");
   const [enddate, setEndDate] = useState("");
@@ -232,11 +234,13 @@ const Vacation = ({ vacations, options, empid, theme }) => {
       title: "Start Date",
       dataIndex: "start",
       key: "start",
+      width: "200px",
     },
     {
       title: "End Date",
       dataIndex: "end",
       key: "end",
+      width: "200px",
     },
     {
       title: "Reason",
@@ -313,6 +317,7 @@ const Vacation = ({ vacations, options, empid, theme }) => {
           >
             <DatePicker
               placeholder=""
+              format={datePickerFormat}
               onChange={(value) => setStartDate(moment(value))}
               inputReadOnly
             />
@@ -330,6 +335,7 @@ const Vacation = ({ vacations, options, empid, theme }) => {
           >
             <DatePicker
               placeholder=""
+              format={datePickerFormat}
               onChange={(value) => setEndDate(moment(value))}
               inputReadOnly
             />
@@ -397,8 +403,8 @@ const Vacation = ({ vacations, options, empid, theme }) => {
               ),
               description: (
                 <p className="medium-font text">
-                  From {moment(startdate).format(dateFormat)} To{" "}
-                  {moment(enddate).format(dateFormat)} (
+                  From {moment(startdate).format(displayDateFormat)} To{" "}
+                  {moment(enddate).format(displayDateFormat)} (
                   {days > 1 ? days + " days" : days + " day"})
                 </p>
               ),
@@ -448,9 +454,11 @@ const Vacation = ({ vacations, options, empid, theme }) => {
           icon={<CheckOutlined style={{ color: "#318ce7" }} />}
           status="success"
           title={"Successfully applied employee vacation."}
-          subTitle={`From ${moment(startdate).format(dateFormat)} To ${moment(
-            enddate
-          ).format(dateFormat)} (${days > 1 ? days + " days" : days + " day"})`}
+          subTitle={`From ${moment(startdate).format(
+            displayDateFormat
+          )} To ${moment(enddate).format(displayDateFormat)} (${
+            days > 1 ? days + " days" : days + " day"
+          })`}
           extra={
             <Row className="space-between-row" style={{ width: "40%" }}>
               <Col span={12}>
@@ -562,8 +570,8 @@ const Vacation = ({ vacations, options, empid, theme }) => {
                 .map((vac) => {
                   return {
                     type: vac.type,
-                    start: vac.start,
-                    end: vac.end,
+                    start: moment(vac.start).format(displayDateFormat),
+                    end: moment(vac.end).format(displayDateFormat),
                     reason: vac.reason,
                     attach: vac.attach,
                     total: vac.total,

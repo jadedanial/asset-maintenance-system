@@ -54,7 +54,7 @@ const Shift = ({ shifts, collapsed, theme }) => {
 
   const shiftDuration = (from, to) => {
     var end = to;
-    if (moment(from, 'HH:mm"ss') > moment(to, "HH:mm:ss")) {
+    if (moment(from, "HH:mm:ss") > moment(to, "HH:mm:ss")) {
       end = moment(to, "HH:mm:ss").add(24, "hours");
     }
     return moment

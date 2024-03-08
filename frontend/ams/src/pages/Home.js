@@ -103,90 +103,22 @@ const HomePage = () => {
     return useQuery("transactions", () => fetchData("transactions", token));
   };
 
-  const { data: componentsData, isError: componentsError } =
-    useComponentsData(token);
-  const { data: modulesData, isError: modulesError } = useModulesData(token);
-  const { data: categoriesData, isError: categoriesError } =
-    useCategoriesData(token);
-  const { data: optionsData, isError: optionsError } = useOptionsData(token);
-  const { data: branchesData, isError: branchesError } = useBranchesData(token);
-  const { data: sectionsData, isError: sectionsError } = useSectionsData(token);
-  const { data: shiftsData, isError: shiftsError } = useShiftsData(token);
-  const { data: schedulesData, isError: schedulesError } =
-    useSchedulesData(token);
-  const { data: employeesData, isError: employeesError } =
-    useEmployeesData(token);
-  const { data: attendancesData, isError: attendancesError } =
-    useAttendancesData(token);
-  const { data: vacationsData, isError: vacationsError } =
-    useVacationsData(token);
-  const { data: excusesData, isError: excusesError } = useExcusesData(token);
-  const { data: itemsData, isError: itemsError } = useItemsData(token);
-  const { data: warehouseitemsData, isError: warehouseitemsError } =
-    useWarehouseitemsData(token);
-  const { data: vehiclesData, isError: vehiclesError } = useVehiclesData(token);
-  const { data: transactionsData, isError: transactionsError } =
-    useTransactionsData(token);
-
-  if (
-    componentsError ||
-    modulesError ||
-    categoriesError ||
-    optionsError ||
-    branchesError ||
-    sectionsError ||
-    shiftsError ||
-    schedulesError ||
-    employeesError ||
-    attendancesError ||
-    vacationsError ||
-    excusesError ||
-    itemsError ||
-    warehouseitemsError ||
-    vehiclesError ||
-    transactionsError
-  ) {
-    console.log(
-      "Error fetching data:",
-      componentsError ||
-        modulesError ||
-        categoriesError ||
-        optionsError ||
-        branchesError ||
-        sectionsError ||
-        shiftsError ||
-        schedulesError ||
-        employeesError ||
-        attendancesError ||
-        vacationsError ||
-        excusesError ||
-        itemsError ||
-        warehouseitemsError ||
-        vehiclesError ||
-        transactionsError
-    );
-  }
-
-  if (
-    !componentsData ||
-    !modulesData ||
-    !categoriesData ||
-    !optionsData ||
-    !branchesData ||
-    !sectionsData ||
-    !shiftsData ||
-    !schedulesData ||
-    !employeesData ||
-    !attendancesData ||
-    !vacationsData ||
-    !excusesData ||
-    !itemsData ||
-    !warehouseitemsData ||
-    !vehiclesData ||
-    !transactionsData
-  ) {
-    console.log("Loading data...");
-  }
+  const { data: componentsData } = useComponentsData(token);
+  const { data: modulesData } = useModulesData(token);
+  const { data: categoriesData } = useCategoriesData(token);
+  const { data: optionsData } = useOptionsData(token);
+  const { data: branchesData } = useBranchesData(token);
+  const { data: sectionsData } = useSectionsData(token);
+  const { data: shiftsData } = useShiftsData(token);
+  const { data: schedulesData } = useSchedulesData(token);
+  const { data: employeesData } = useEmployeesData(token);
+  const { data: attendancesData } = useAttendancesData(token);
+  const { data: vacationsData } = useVacationsData(token);
+  const { data: excusesData } = useExcusesData(token);
+  const { data: itemsData } = useItemsData(token);
+  const { data: warehouseitemsData } = useWarehouseitemsData(token);
+  const { data: vehiclesData } = useVehiclesData(token);
+  const { data: transactionsData } = useTransactionsData(token);
 
   useEffect(() => {
     const mode = document.cookie

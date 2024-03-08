@@ -35,6 +35,7 @@ const Attendance = ({
   theme,
 }) => {
   const dateTimeFormat = "YYYY-MM-DD HH:mm:ss";
+  const displayDateFormat = "MMMM DD, YYYY";
   const [selectedDate, setSelectedDate] = useState(
     String(moment().format("YYYY-MM-DD"))
   );
@@ -84,7 +85,7 @@ const Attendance = ({
   const onSelect = (newValue) => {
     setWithData(true);
     setAttendButton("");
-    setSelectedDate(String(moment(newValue).format("MMMM DD, YYYY")));
+    setSelectedDate(String(moment(newValue).format(displayDateFormat)));
     updateStatus("No Attendance Data", [], "ADD ATTENDANCE");
     setCheckInTime("--:--:--");
     setCheckOutTime("--:--:--");
@@ -94,7 +95,21 @@ const Attendance = ({
       ) {
         var attendData = [];
         for (let key in value) {
-          attendData.push(key + " : " + value[key]);
+          if (key === "Date") {
+            attendData.push(
+              key + " : " + moment(value[key]).format(displayDateFormat)
+            );
+          } else if (key === "Check In" || key === "Check Out") {
+            if (value[key] !== "--:--:--") {
+              attendData.push(
+                key + " : " + moment(value[key]).format("HH:mm:ss")
+              );
+            } else {
+              attendData.push(key + " : " + value[key]);
+            }
+          } else {
+            attendData.push(key + " : " + value[key]);
+          }
         }
         updateStatus(String(value["Status"]), attendData, "UPDATE ATTENDANCE");
         setCheckInTime(String(value["Check In"]));
