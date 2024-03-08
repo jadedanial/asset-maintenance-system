@@ -128,14 +128,12 @@ const RegisterPage = () => {
                     rules={[
                       {
                         required: true,
-                        message: "Please input employee ID!",
+                        message: "Input employee ID!",
                       },
                     ]}
                   >
                     <Input
-                      prefix={
-                        <IdcardOutlined className="site-form-item-icon" />
-                      }
+                      prefix={<IdcardOutlined />}
                       placeholder="Employee ID"
                       onChange={(e) => setUserId(e.target.value)}
                     />
@@ -145,12 +143,12 @@ const RegisterPage = () => {
                     rules={[
                       {
                         required: true,
-                        message: "Please input employee username!",
+                        message: "Input employee username!",
                       },
                     ]}
                   >
                     <Input
-                      prefix={<UserOutlined className="site-form-item-icon" />}
+                      prefix={<UserOutlined />}
                       placeholder="Username"
                       maxLength={100}
                       onChange={(e) => setUserName(e.target.value)}
@@ -165,12 +163,12 @@ const RegisterPage = () => {
                       },
                       {
                         required: true,
-                        message: "Please input employee email!",
+                        message: "Input employee email!",
                       },
                     ]}
                   >
                     <Input
-                      prefix={<MailOutlined className="site-form-item-icon" />}
+                      prefix={<MailOutlined />}
                       type="email"
                       placeholder="Email"
                       maxLength={100}
@@ -182,13 +180,13 @@ const RegisterPage = () => {
                     rules={[
                       {
                         required: true,
-                        message: "Please input employee password!",
+                        message: "Input employee password!",
                       },
                     ]}
                     hasFeedback
                   >
                     <Input
-                      prefix={<LockOutlined className="site-form-item-icon" />}
+                      prefix={<LockOutlined />}
                       type="password"
                       placeholder="Password"
                       maxLength={100}
@@ -202,7 +200,7 @@ const RegisterPage = () => {
                     rules={[
                       {
                         required: true,
-                        message: "Please confirm employee password!",
+                        message: "Confirm employee password!",
                       },
                       ({ getFieldValue }) => ({
                         validator(_, value) {
@@ -219,7 +217,7 @@ const RegisterPage = () => {
                     ]}
                   >
                     <Input
-                      prefix={<LockOutlined className="site-form-item-icon" />}
+                      prefix={<LockOutlined />}
                       type="password"
                       placeholder="Confirm Password"
                     />

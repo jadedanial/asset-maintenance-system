@@ -84,12 +84,12 @@ const LoginPage = () => {
                   rules={[
                     {
                       required: true,
-                      message: "Please input username!",
+                      message: "Input username!",
                     },
                   ]}
                 >
                   <Input
-                    prefix={<UserOutlined className="site-form-item-icon" />}
+                    prefix={<UserOutlined />}
                     placeholder="Username"
                     onChange={(e) => setUsername(e.target.value)}
                   />
@@ -99,12 +99,12 @@ const LoginPage = () => {
                   rules={[
                     {
                       required: true,
-                      message: "Please input password!",
+                      message: "Input password!",
                     },
                   ]}
                 >
                   <Input
-                    prefix={<LockOutlined className="site-form-item-icon" />}
+                    prefix={<LockOutlined />}
                     type="password"
                     placeholder="Password"
                     onChange={(e) => setPassword(e.target.value)}
