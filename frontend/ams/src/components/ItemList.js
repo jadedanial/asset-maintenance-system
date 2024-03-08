@@ -96,14 +96,13 @@ const ItemList = ({
     <>
       {!view ? (
         <Row
-          className="card-with-background"
+          className="card-with-background space-between-row"
           style={{
-            maxHeight: "fit-content",
             padding: "10px",
             marginBottom: "30px",
           }}
         >
-          <Col span={17} style={{ margin: "0 20px" }}>
+          <Col span={17}>
             <Input
               placeholder="Search Item Code"
               value={searchItemCode}

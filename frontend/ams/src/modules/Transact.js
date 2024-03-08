@@ -670,99 +670,92 @@ const Transact = ({
               </Title>
             }
           >
-            <div style={{ padding: "20px" }}>
-              <Row
-                className="space-between-row"
-                style={{ marginBottom: "20px" }}
-              >
-                <Col span={segment === "Reorder" ? 17 : 24}>
-                  <Input
-                    placeholder={placeholderLabel()}
-                    value={searchValue}
-                    style={{ borderRadius: "50px" }}
-                    onChange={(e) => {
-                      setSearchValue(e.target.value);
-                      searchItem(e.target.value, segment);
-                    }}
-                  />
-                </Col>
-                {segment === "Reorder" ? (
-                  <Col span={6}>
-                    <Row className="space-between-row ">
-                      <Col span={18} className="flex-end-row">
-                        <Select
-                          size="large"
-                          placeholder="To Warehouse"
-                          value={warehouseCode}
-                          showSearch
-                          className="bordered-select"
-                          optionFilterProp="children"
-                          filterOption={(input, option) =>
-                            (option?.label ?? "").toLowerCase().includes(input)
-                          }
-                          filterSort={(optionA, optionB) =>
-                            (optionA?.label ?? "")
-                              .toLowerCase()
-                              .localeCompare(
-                                (optionB?.label ?? "").toLowerCase()
-                              )
-                          }
-                          options={sections
-                            .filter((sec) => sec.section_type === "warehouse")
-                            .map((sec) => ({
-                              value: sec.section_code,
-                              label: sec.section_code,
-                            }))}
-                          style={{ width: "100%" }}
-                          onChange={onWarehouseChange}
-                        />
-                      </Col>
-                      <Col span={5} className="flex-end-row">
-                        <Tooltip
-                          title={
-                            reorderItemCount > 1
-                              ? "Cart (" +
-                                reorderItemCount.toString() +
-                                " Items)"
-                              : "Cart (" +
-                                reorderItemCount.toString() +
-                                " Item)"
-                          }
+            <Row
+              className="card-with-background space-between-row"
+              style={{
+                padding: "10px",
+                marginBottom: "30px",
+              }}
+            >
+              <Col span={segment === "Reorder" ? 17 : 24}>
+                <Input
+                  placeholder={placeholderLabel()}
+                  value={searchValue}
+                  style={{ borderRadius: "50px" }}
+                  onChange={(e) => {
+                    setSearchValue(e.target.value);
+                    searchItem(e.target.value, segment);
+                  }}
+                />
+              </Col>
+              {segment === "Reorder" ? (
+                <Col span={6}>
+                  <Row className="space-between-row ">
+                    <Col span={18} className="flex-end-row">
+                      <Select
+                        size="large"
+                        placeholder="To Warehouse"
+                        value={warehouseCode}
+                        showSearch
+                        className="bordered-select"
+                        optionFilterProp="children"
+                        filterOption={(input, option) =>
+                          (option?.label ?? "").toLowerCase().includes(input)
+                        }
+                        filterSort={(optionA, optionB) =>
+                          (optionA?.label ?? "")
+                            .toLowerCase()
+                            .localeCompare((optionB?.label ?? "").toLowerCase())
+                        }
+                        options={sections
+                          .filter((sec) => sec.section_type === "warehouse")
+                          .map((sec) => ({
+                            value: sec.section_code,
+                            label: sec.section_code,
+                          }))}
+                        style={{ width: "100%" }}
+                        onChange={onWarehouseChange}
+                      />
+                    </Col>
+                    <Col span={5} className="flex-end-row">
+                      <Tooltip
+                        title={
+                          reorderItemCount > 1
+                            ? "Cart (" + reorderItemCount.toString() + " Items)"
+                            : "Cart (" + reorderItemCount.toString() + " Item)"
+                        }
+                      >
+                        <Badge
+                          count={reorderItemCount}
+                          color="#318ce7"
+                          onClick={showDrawer}
                         >
-                          <Badge
-                            count={reorderItemCount}
-                            color="#318ce7"
-                            onClick={showDrawer}
-                          >
-                            <Avatar
-                              className="avatar-btn"
-                              shape="square"
-                              size="large"
-                              style={{
-                                background: "#318ce7",
-                                cursor: "pointer",
-                                width: "50px",
-                              }}
-                              icon={
-                                <ShoppingCartOutlined
-                                  className="big-card-title"
-                                  style={{ color: "#fff" }}
-                                />
-                              }
-                            />
-                          </Badge>
-                        </Tooltip>
-                      </Col>
-                    </Row>
-                  </Col>
-                ) : (
-                  ""
-                )}
-              </Row>
-              <div style={{ paddingTop: "20px" }}>
-                {componentSwitch(checkResult())}
-              </div>
-            </div>
+                          <Avatar
+                            className="avatar-btn"
+                            shape="square"
+                            size="large"
+                            style={{
+                              background: "#318ce7",
+                              cursor: "pointer",
+                              width: "50px",
+                            }}
+                            icon={
+                              <ShoppingCartOutlined
+                                className="big-card-title"
+                                style={{ color: "#fff" }}
+                              />
+                            }
+                          />
+                        </Badge>
+                      </Tooltip>
+                    </Col>
+                  </Row>
+                </Col>
+              ) : (
+                ""
+              )}
+            </Row>
+            <div>{componentSwitch(checkResult())}</div>
           </Card>
         </div>
       </div>

@@ -57,83 +57,65 @@ const SearchTableEvent = ({
       {contextHolder}
       <div className={theme}>
         <Card className="card-main-layout" size="large">
-          <div
-            span={24}
-            style={{ position: "sticky", top: "87px", zIndex: "1" }}
-          >
-            <div
-              style={{
-                background: theme === "light" ? "#f8f9fa" : "#161d40",
-                width: "100%",
-                height: "65px",
-                padding: "12px",
-              }}
-            >
-              <Row>
-                <Col span={1} style={{ marginLeft: "15px" }}>
-                  <Tooltip title={tooltipTitle}>
-                    <Badge
-                      size="large"
-                      offset={[10, 10]}
-                      count={
-                        <PlusOutlined
-                          style={{
-                            color: "#6841f5",
-                            cursor: "pointer",
-                          }}
-                        />
-                      }
-                      onClick={() => {
-                        if (
-                          compItemAdd !== "AddUpdateItem" ||
-                          sectionCategory === "main"
-                        ) {
-                          showDrawer();
-                          setCompItem(compItemAdd);
-                        } else {
-                          api.info(
-                            NotificationEvent(
-                              false,
-                              "Item addition access is limited only to employee in main warehouse branch."
-                            )
-                          );
-                        }
-                      }}
-                    >
-                      <Avatar
-                        className="avatar-btn"
-                        shape="square"
-                        size="large"
-                        style={{
-                          background: "#318ce7",
-                          cursor: "pointer",
-                          width: "50px",
-                        }}
-                        icon={tooltipIcon}
-                      />
-                    </Badge>
-                  </Tooltip>
-                </Col>
-                <Col span={21} style={{ marginLeft: "50px" }}>
-                  <Input
-                    placeholder={inputPlaceHolder}
-                    style={{ borderRadius: "50px" }}
-                    onChange={(e) => searchedText(e.target.value)}
-                  />
-                </Col>
-              </Row>
-            </div>
-          </div>
-          <div
+          <Row
+            className="card-with-background space-between-row"
             style={{
-              height: "20px",
-              background: theme === "light" ? "#f8f9fa" : "#161d40",
-              position: "sticky",
-              top: "176px",
-              zIndex: "1",
-              padding: "0 24px 24px 24px",
+              padding: "10px",
+              marginBottom: "30px",
             }}
-          ></div>
+          >
+            <Col span={1}>
+              <Tooltip title={tooltipTitle}>
+                <Badge
+                  size="large"
+                  offset={[10, 10]}
+                  count={
+                    <PlusOutlined
+                      style={{
+                        color: "#6841f5",
+                        cursor: "pointer",
+                      }}
+                    />
+                  }
+                  onClick={() => {
+                    if (
+                      compItemAdd !== "AddUpdateItem" ||
+                      sectionCategory === "main"
+                    ) {
+                      showDrawer();
+                      setCompItem(compItemAdd);
+                    } else {
+                      api.info(
+                        NotificationEvent(
+                          false,
+                          "Item addition access is limited only to employee in main warehouse branch."
+                        )
+                      );
+                    }
+                  }}
+                >
+                  <Avatar
+                    className="avatar-btn"
+                    shape="square"
+                    size="large"
+                    style={{
+                      background: "#318ce7",
+                      cursor: "pointer",
+                      width: "50px",
+                    }}
+                    icon={tooltipIcon}
+                  />
+                </Badge>
+              </Tooltip>
+            </Col>
+            <Col span={22}>
+              <Input
+                placeholder={inputPlaceHolder}
+                style={{ borderRadius: "50px" }}
+                onChange={(e) => searchedText(e.target.value)}
+              />
+            </Col>
+          </Row>
           <Table
             rowClassName={() => "table-row"}
             columns={tableColumns}
