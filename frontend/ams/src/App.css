@@ -664,11 +664,8 @@ textarea.ant-input {
 }
 .ant-table-cell {
   text-align: center !important;
-  padding: 5px 20px !important;
 }
-.ant-table-cell:first-child {
-  padding: 10px 0 !important;
-}
+
 .detail-icon-label {
   font-size: 20px;
   color: #318ce7 !important;
