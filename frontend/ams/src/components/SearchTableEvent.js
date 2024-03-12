@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Col,
   Row,
@@ -129,16 +129,12 @@ const SearchTableEvent = ({
                 },
               };
             }}
-            style={{ marginBottom: "30px" }}
             pagination={{
               pageSize: 10,
               showSizeChanger: true,
             }}
             size="large"
-            scroll={{
-              x: "calc(0px + 100%)",
-              y: 300,
-            }}
+            scroll={{ x: "100%", y: "calc(-324px + 100vh)" }}
           />
         </Card>
       </div>

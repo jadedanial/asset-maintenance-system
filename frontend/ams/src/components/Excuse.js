@@ -584,7 +584,7 @@ const Excuse = ({ excuses, attendances, empid, theme }) => {
               }}
               size="large"
               scroll={{
-                x: "calc(0px + 100%)",
+                x: "100%",
                 y: 300,
               }}
             />
