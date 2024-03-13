@@ -61,67 +61,85 @@ const ItemDetail = ({
       <>
         <Row className={`space-between-row ${theme}`}>
           <Col span={view ? 24 : 13}>
-            <div
-              className="space-between-row card-with-background"
-              style={{ padding: view ? 0 : "20px" }}
-            >
-              <Col
-                span={13}
+            <div className="card-with-background">
+              <div
+                className="space-between-row "
+                style={{ padding: view ? 0 : "20px" }}
+              >
+                <Col
+                  span={13}
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <div>
+                    <p className="big-font" style={{ paddingBottom: "24px" }}>
+                      {i.item_name}
+                    </p>
+                    <p
+                      className="large-card-title"
+                      style={{ paddingBottom: "6px" }}
+                    >
+                      Php. {i.item_cost}
+                    </p>
+                    <Descriptions
+                      layout="horizontal"
+                      column={1}
+                      className="small-font"
+                    >
+                      <Descriptions.Item label="On Hand">
+                        {wi.item_onhand}
+                      </Descriptions.Item>
+                      <Descriptions.Item label="Location">
+                        {wi.item_location}
+                      </Descriptions.Item>
+                      <Descriptions.Item label="Unit Of Measurement">
+                        {i.item_measurement}
+                      </Descriptions.Item>
+                      <Descriptions.Item label="Reorder Quantity">
+                        {i.item_reorder}
+                      </Descriptions.Item>
+                    </Descriptions>
+                  </div>
+                  <div>
+                    <Tag color="blue">
+                      <p className="small-font" style={{ padding: "2px" }}>
+                        {i.item_category}
+                      </p>
+                    </Tag>
+                  </div>
+                </Col>
+                <Col
+                  span={9}
+                  className="justified-row flex-end-row align-items-end"
+                >
+                  <QRCode
+                    value={i.item_code}
+                    style={{
+                      height: "100%",
+                      width: "100%",
+                    }}
+                  />
+                </Col>
+              </div>
+              <div
                 style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "space-between",
+                  padding: "0px 20px 20px 20px",
+                  display: view ? "none" : "block",
                 }}
               >
-                <div>
-                  <p className="big-font" style={{ paddingBottom: "24px" }}>
-                    {i.item_name}
-                  </p>
-                  <p
-                    className="large-card-title"
-                    style={{ paddingBottom: "6px" }}
-                  >
-                    Php. {i.item_cost}
-                  </p>
-                  <Descriptions
-                    layout="horizontal"
-                    column={1}
-                    className="small-font"
-                  >
-                    <Descriptions.Item label="On Hand">
-                      {wi.item_onhand}
-                    </Descriptions.Item>
-                    <Descriptions.Item label="Location">
-                      {wi.item_location}
-                    </Descriptions.Item>
-                    <Descriptions.Item label="Unit Of Measurement">
-                      {i.item_measurement}
-                    </Descriptions.Item>
-                    <Descriptions.Item label="Reorder Quantity">
-                      {i.item_reorder}
-                    </Descriptions.Item>
-                  </Descriptions>
-                </div>
-                <div>
-                  <Tag color="blue">
-                    <p className="small-font" style={{ padding: "2px" }}>
-                      {i.item_category}
-                    </p>
-                  </Tag>
-                </div>
-              </Col>
-              <Col
-                span={9}
-                className="justified-row flex-end-row align-items-end"
-              >
-                <QRCode
-                  value={i.item_code}
+                <p
+                  className="small-font"
                   style={{
-                    height: "100%",
-                    width: "100%",
+                    margin: "0",
+                    color: theme === "light" ? "#000" : "#fff",
                   }}
-                />
-              </Col>
+                >
+                  {i.item_description}
+                </p>
+              </div>
             </div>
           </Col>
           <Col
@@ -141,7 +159,7 @@ const ItemDetail = ({
               size="small"
               scroll={{
                 x: "100%",
-                y: "100%",
+                y: "fit-content",
               }}
             />
           </Col>
