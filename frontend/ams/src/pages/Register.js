@@ -92,7 +92,7 @@ const RegisterPage = () => {
                 style={{ width: "60%", top: "15%", left: "22%" }}
               >
                 <ResultEvent
-                  icon={<CheckOutlined style={{ color: "#318ce7" }} />}
+                  icon={<CheckOutlined />}
                   status="success"
                   title="Successfully added new User."
                   subTitle={"Username: " + userName + "\nEmail: " + email}
@@ -101,6 +101,7 @@ const RegisterPage = () => {
                       Login
                     </Button>
                   }
+                  theme={theme}
                 />
               </Card>
             ) : (

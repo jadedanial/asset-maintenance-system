@@ -337,7 +337,7 @@ const MainPage = ({
                         <Col>
                           <p
                             className="medium-font"
-                            style={{ cursor: "pointer", color: "#318ce7" }}
+                            style={{ cursor: "pointer" }}
                           >
                             {userId}
                           </p>
@@ -345,7 +345,7 @@ const MainPage = ({
                         <Col>
                           <p
                             className="medium-font"
-                            style={{ cursor: "pointer", color: "#318ce7" }}
+                            style={{ cursor: "pointer" }}
                           >
                             {userName}
                           </p>

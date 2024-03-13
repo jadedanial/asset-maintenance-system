@@ -123,7 +123,7 @@ const Attendance = ({
       case "Attended Today":
         return (
           <>
-            <CheckOutlined style={{ color: "#318ce7" }} />
+            <CheckOutlined />
           </>
         );
       case "Absent Today":
@@ -135,13 +135,13 @@ const Attendance = ({
       case "Day Off Today":
         return (
           <>
-            <CheckSquareOutlined style={{ color: "#318ce7" }} />
+            <CheckSquareOutlined />
           </>
         );
       case "Vacation Today":
         return (
           <>
-            <CarryOutOutlined style={{ color: "#318ce7" }} />
+            <CarryOutOutlined />
           </>
         );
       case "Incomplete Attendance":
@@ -235,37 +235,37 @@ const Attendance = ({
           {
             title: "Work Days",
             value: workdays,
-            icon: <CheckOutlined style={{ color: "#318ce7" }} />,
+            icon: <CheckOutlined />,
           },
           {
             title: "Absences",
             value: absences,
-            icon: <CloseOutlined style={{ color: "#318ce7" }} />,
+            icon: <CloseOutlined />,
           },
           {
             title: "Day Offs",
             value: dayoffs,
-            icon: <CheckSquareOutlined style={{ color: "#318ce7" }} />,
+            icon: <CheckSquareOutlined />,
           },
           {
             title: "Vacations",
             value: vacations,
-            icon: <CarryOutOutlined style={{ color: "#318ce7" }} />,
+            icon: <CarryOutOutlined />,
           },
           {
             title: "Hours Worked",
             value: hoursworked.toFixed(2),
-            icon: <ClockCircleOutlined style={{ color: "#318ce7" }} />,
+            icon: <ClockCircleOutlined />,
           },
           {
             title: "Hours Required",
             value: hoursrequired.toFixed(2),
-            icon: <HourglassOutlined style={{ color: "#318ce7" }} />,
+            icon: <HourglassOutlined />,
           },
           {
             title: "Hours Excused",
             value: hoursexcused.toFixed(2),
-            icon: <MinusCircleOutlined style={{ color: "#318ce7" }} />,
+            icon: <MinusCircleOutlined />,
           },
         ].map((item) => (
           <Col>

@@ -253,9 +253,7 @@ const Profile = ({
                               </Title>
                             }
                             value={expYears(e.emp_hired)}
-                            prefix={
-                              <TrophyOutlined style={{ color: "#318ce7" }} />
-                            }
+                            prefix={<TrophyOutlined />}
                           />
                         </Row>
                         <Row>
@@ -271,7 +269,7 @@ const Profile = ({
                       <Col>
                         <p
                           className="biggest-card-title"
-                          style={{ color: "#318ce7", textAlign: "right" }}
+                          style={{ textAlign: "right" }}
                         >
                           {getInitials(e.emp_name)}
                         </p>

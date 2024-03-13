@@ -1,19 +1,16 @@
 import React from "react";
 import { Result } from "antd";
 
-const ResultEvent = (props) => {
+const ResultEvent = ({ icon, status, title, subTitle, extra, theme }) => {
   return (
     <>
-      <div
-        className={props.theme}
-        style={{ paddingTop: "30px", minHeight: "460px" }}
-      >
+      <div className={theme} style={{ paddingTop: "30px", minHeight: "460px" }}>
         <Result
-          icon={props.icon}
-          status={props.status}
-          title={props.title}
-          subTitle={props.subTitle}
-          extra={props.extra}
+          icon={icon}
+          status={status}
+          title={title}
+          subTitle={subTitle}
+          extra={extra}
         />
       </div>
     </>

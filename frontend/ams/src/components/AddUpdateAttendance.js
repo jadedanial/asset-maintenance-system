@@ -442,7 +442,7 @@ const AddUpdateAttendance = ({
     return (
       <>
         <ResultEvent
-          icon={<CheckOutlined style={{ color: "#318ce7" }} />}
+          icon={<CheckOutlined />}
           status="success"
           title={"Successfully applied employee attendance."}
           subTitle={

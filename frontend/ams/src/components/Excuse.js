@@ -406,11 +406,7 @@ const Excuse = ({ excuses, attendances, empid, theme }) => {
           itemLayout="horizontal"
           dataSource={[
             {
-              title: (
-                <p className="small-font" style={{ color: "#318ce7" }}>
-                  Date
-                </p>
-              ),
+              title: <p className="small-font">Date</p>,
               description: (
                 <p className="medium-font text">
                   {moment(excusedate).format(displayDateFormat)}
@@ -418,11 +414,7 @@ const Excuse = ({ excuses, attendances, empid, theme }) => {
               ),
             },
             {
-              title: (
-                <p className="small-font" style={{ color: "#318ce7" }}>
-                  Time
-                </p>
-              ),
+              title: <p className="small-font">Time</p>,
               description: (
                 <p className="medium-font text">
                   From {moment(starttime).format(timeFormat)} To{" "}
@@ -432,11 +424,7 @@ const Excuse = ({ excuses, attendances, empid, theme }) => {
               ),
             },
             {
-              title: (
-                <p className="small-font" style={{ color: "#318ce7" }}>
-                  Reason
-                </p>
-              ),
+              title: <p className="small-font">Reason</p>,
               description: <p className="medium-font text">{reason}</p>,
             },
           ]}
@@ -457,7 +445,7 @@ const Excuse = ({ excuses, attendances, empid, theme }) => {
     return (
       <>
         <ResultEvent
-          icon={<CheckOutlined style={{ color: "#318ce7" }} />}
+          icon={<CheckOutlined />}
           status="success"
           title={"Successfully applied employee excuse."}
           subTitle={`${moment(excusedate).format(

@@ -141,7 +141,7 @@ const Cart = ({
     return (
       <>
         <ResultEvent
-          icon={<CheckOutlined style={{ color: "#318ce7" }} />}
+          icon={<CheckOutlined />}
           status="success"
           title={message}
           subTitle={"Transaction ID " + String(transactionCode)}

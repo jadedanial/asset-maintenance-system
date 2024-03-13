@@ -8,24 +8,63 @@ import ItemDetail from "./ItemDetail";
 import AddUpdateItem from "./AddUpdateItem";
 import Cart from "./Cart";
 
-const DrawerEvent = (props) => {
+const DrawerEvent = ({
+  items,
+  warehouseitems,
+  employees,
+  attendances,
+  schedules,
+  shifts,
+  vacations,
+  excuses,
+  sections,
+  options,
+  userId,
+  getSection,
+  sectionCode,
+  sectionCategory,
+  segment,
+  setQueryItem,
+  setSearchValue,
+  addItem,
+  removeItem,
+  itemCount,
+  itemList,
+  setFilteredItem,
+  filteredItem,
+  handleCheckChange,
+  reorderOrder,
+  receiveOrder,
+  success,
+  transactionCode,
+  warehouseCode,
+  warehouseCategory,
+  clearOrder,
+  rowIndex,
+  comp,
+  overflow,
+  collapsed,
+  showDrawer,
+  onCloseDrawer,
+  theme,
+}) => {
   function drawerSwitch(key) {
     switch (key) {
       case "User":
         return (
           <>
             <Profile
-              employees={props.employees}
-              attendances={props.attendances}
-              schedules={props.schedules}
-              vacations={props.vacations}
-              excuses={props.excuses}
-              sections={props.sections}
-              options={props.options}
-              empid={props.userId}
-              getSection={props.getSection}
-              onCloseDrawer={props.onCloseDrawer}
-              theme={props.theme}
+              employees={employees}
+              attendances={attendances}
+              schedules={schedules}
+              vacations={vacations}
+              excuses={excuses}
+              sections={sections}
+              options={options}
+              empid={userId}
+              getSection={getSection}
+              onCloseDrawer={onCloseDrawer}
+              theme={theme}
             ></Profile>
           </>
         );
@@ -33,17 +72,17 @@ const DrawerEvent = (props) => {
         return (
           <>
             <Profile
-              employees={props.employees}
-              attendances={props.attendances}
-              schedules={props.schedules}
-              vacations={props.vacations}
-              excuses={props.excuses}
-              sections={props.sections}
-              options={props.options}
-              empid={props.rowIndex["id"]}
-              getSection={props.getSection}
-              onCloseDrawer={props.onCloseDrawer}
-              theme={props.theme}
+              employees={employees}
+              attendances={attendances}
+              schedules={schedules}
+              vacations={vacations}
+              excuses={excuses}
+              sections={sections}
+              options={options}
+              empid={rowIndex["id"]}
+              getSection={getSection}
+              onCloseDrawer={onCloseDrawer}
+              theme={theme}
             ></Profile>
           </>
         );
@@ -51,12 +90,12 @@ const DrawerEvent = (props) => {
         return (
           <>
             <AddUpdateEmployee
-              sections={props.sections}
-              options={props.options}
+              sections={sections}
+              options={options}
               update={false}
-              getSection={props.getSection}
-              onCloseDrawer={props.onCloseDrawer}
-              theme={props.theme}
+              getSection={getSection}
+              onCloseDrawer={onCloseDrawer}
+              theme={theme}
             />
           </>
         );
@@ -65,8 +104,8 @@ const DrawerEvent = (props) => {
           <>
             <AddUpdateShift
               update={false}
-              onCloseDrawer={props.onCloseDrawer}
-              theme={props.theme}
+              onCloseDrawer={onCloseDrawer}
+              theme={theme}
             />
           </>
         );
@@ -75,12 +114,12 @@ const DrawerEvent = (props) => {
           <>
             <AddUpdateShift
               update={true}
-              id={props.rowIndex["id"]}
-              name={props.rowIndex["name"]}
-              from={props.rowIndex["from"]}
-              to={props.rowIndex["to"]}
-              onCloseDrawer={props.onCloseDrawer}
-              theme={props.theme}
+              id={rowIndex["id"]}
+              name={rowIndex["name"]}
+              from={rowIndex["from"]}
+              to={rowIndex["to"]}
+              onCloseDrawer={onCloseDrawer}
+              theme={theme}
             />
           </>
         );
@@ -88,10 +127,10 @@ const DrawerEvent = (props) => {
         return (
           <>
             <AddUpdateSchedule
-              shifts={props.shifts}
+              shifts={shifts}
               update={false}
-              onCloseDrawer={props.onCloseDrawer}
-              theme={props.theme}
+              onCloseDrawer={onCloseDrawer}
+              theme={theme}
             />
           </>
         );
@@ -99,19 +138,19 @@ const DrawerEvent = (props) => {
         return (
           <>
             <AddUpdateSchedule
-              shifts={props.shifts}
+              shifts={shifts}
               update={true}
-              id={props.rowIndex["id"]}
-              name={props.rowIndex["name"]}
-              sun={props.rowIndex["sun"]}
-              mon={props.rowIndex["mon"]}
-              tue={props.rowIndex["tue"]}
-              wed={props.rowIndex["wed"]}
-              thu={props.rowIndex["thu"]}
-              fri={props.rowIndex["fri"]}
-              sat={props.rowIndex["sat"]}
-              onCloseDrawer={props.onCloseDrawer}
-              theme={props.theme}
+              id={rowIndex["id"]}
+              name={rowIndex["name"]}
+              sun={rowIndex["sun"]}
+              mon={rowIndex["mon"]}
+              tue={rowIndex["tue"]}
+              wed={rowIndex["wed"]}
+              thu={rowIndex["thu"]}
+              fri={rowIndex["fri"]}
+              sat={rowIndex["sat"]}
+              onCloseDrawer={onCloseDrawer}
+              theme={theme}
             />
           </>
         );
@@ -119,15 +158,15 @@ const DrawerEvent = (props) => {
         return (
           <>
             <ItemDetail
-              items={props.items}
-              warehouseitems={props.warehouseitems}
-              options={props.options}
-              itemcode={props.rowIndex["code"]}
+              items={items}
+              warehouseitems={warehouseitems}
+              options={options}
+              itemcode={rowIndex["code"]}
               view={false}
-              sectionCode={props.sectionCode}
-              sectionCategory={props.sectionCategory}
-              onCloseDrawer={props.onCloseDrawer}
-              theme={props.theme}
+              sectionCode={sectionCode}
+              sectionCategory={sectionCategory}
+              onCloseDrawer={onCloseDrawer}
+              theme={theme}
             />
           </>
         );
@@ -135,12 +174,12 @@ const DrawerEvent = (props) => {
         return (
           <>
             <AddUpdateItem
-              options={props.options}
+              options={options}
               update={false}
-              sectionCode={props.sectionCode}
-              sectionCategory={props.sectionCategory}
-              onCloseDrawer={props.onCloseDrawer}
-              theme={props.theme}
+              sectionCode={sectionCode}
+              sectionCategory={sectionCategory}
+              onCloseDrawer={onCloseDrawer}
+              theme={theme}
             />
           </>
         );
@@ -148,26 +187,26 @@ const DrawerEvent = (props) => {
         return (
           <>
             <Cart
-              segment={props.segment}
-              setQueryItem={props.setQueryItem}
-              setSearchValue={props.setSearchValue}
-              addItem={props.addItem}
-              removeItem={props.removeItem}
-              itemCount={props.itemCount}
-              itemList={props.itemList}
-              setFilteredItem={props.setFilteredItem}
-              filteredItem={props.filteredItem}
-              handleCheckChange={props.handleCheckChange}
-              reorderOrder={props.reorderOrder}
-              receiveOrder={props.receiveOrder}
-              success={props.success}
-              transactionCode={props.transactionCode}
-              warehouseCode={props.warehouseCode}
-              warehouseCategory={props.warehouseCategory}
-              sectionCode={props.sectionCode}
-              clearOrder={props.clearOrder}
-              onCloseDrawer={props.onCloseDrawer}
-              theme={props.theme}
+              segment={segment}
+              setQueryItem={setQueryItem}
+              setSearchValue={setSearchValue}
+              addItem={addItem}
+              removeItem={removeItem}
+              itemCount={itemCount}
+              itemList={itemList}
+              setFilteredItem={setFilteredItem}
+              filteredItem={filteredItem}
+              handleCheckChange={handleCheckChange}
+              reorderOrder={reorderOrder}
+              receiveOrder={receiveOrder}
+              success={success}
+              transactionCode={transactionCode}
+              warehouseCode={warehouseCode}
+              warehouseCategory={warehouseCategory}
+              sectionCode={sectionCode}
+              clearOrder={clearOrder}
+              onCloseDrawer={onCloseDrawer}
+              theme={theme}
             ></Cart>
           </>
         );
@@ -182,19 +221,17 @@ const DrawerEvent = (props) => {
         width="100%"
         height="fit-content"
         placement="right"
-        className={`${props.overflow ? "overflow" : "no-overflow"} ${
-          props.theme
-        }`}
+        className={`${overflow ? "overflow" : "no-overflow"} ${theme}`}
         style={{
           marginTop: "85px",
-          marginLeft: props.collapsed ? "100px" : "220px",
+          marginLeft: collapsed ? "100px" : "220px",
           marginRight: "10px",
           transition: "0.2s ease-in-out",
         }}
-        open={props.showDrawer}
+        open={showDrawer}
         destroyOnClose={true}
       >
-        {drawerSwitch(props.comp)}
+        {drawerSwitch(comp)}
       </Drawer>
     </>
   );

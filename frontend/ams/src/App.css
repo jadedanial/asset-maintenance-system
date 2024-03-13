@@ -11,31 +11,27 @@
 .card-no-padding .ant-card-body {
   padding: 0 !important;
 }
-
 @font-face {
   font-family: ralewaylight;
-  src: url("/public/fonts/ralewaylight.ttf");
+  src: url(/public/fonts/ralewaylight.ttf);
 }
 @font-face {
   font-family: ralewayregular;
-  src: url("/public/fonts/ralewayregular.ttf");
+  src: url(/public/fonts/ralewayregular.ttf);
 }
 @font-face {
   font-family: ralewaymedium;
-  src: url("/public/fonts/ralewaymedium.ttf");
+  src: url(/public/fonts/ralewaymedium.ttf);
 }
 body {
   overflow: hidden;
 }
-
 .dark .text {
   color: #fff !important;
 }
-
 .light .text {
   color: #000 !important;
 }
-
 .ant-btn {
   background-color: #318ce7 !important;
   border: 1px #318ce7 solid !important;
@@ -44,15 +40,12 @@ body {
   display: flex !important;
   justify-content: center !important;
 }
-
 .dark .ant-badge-status-text {
   color: #fff !important;
 }
-
 .light .ant-badge-status-text {
   color: #000 !important;
 }
-
 .ant-btn,
 .dark,
 .dark .ant-descriptions-item-content,
@@ -114,20 +107,16 @@ h1 {
 .light .ant-menu {
   background: #f0ffff !important;
 }
-
 .ant-menu-submenu-title:hover .ant-menu-title-content {
   color: #6841f5 !important;
 }
-
 .ant-menu-submenu-title:hover .anticon {
   color: #6841f5 !important;
 }
-
 .anticon-menu-fold:hover,
 .anticon-menu-unfold:hover {
   color: #6841f5 !important;
 }
-
 .ant-drawer-close,
 .ant-menu-submenu-arrow,
 .ant-picker-calendar-mode-switch {
@@ -147,30 +136,24 @@ h1 {
   font-family: ralewayregular !important;
   font-size: 16px !important;
 }
-
 .dark .ant-menu-title-content {
   color: #fff !important;
 }
-
 .light .ant-menu-title-content {
   color: #000 !important;
 }
-
 .ant-menu-item .ant-menu-title-content:hover {
   color: #6841f5 !important;
 }
-
 .ant-menu-item-icon {
   font-size: 20px !important;
 }
-
 .dark .ant-menu-item-icon {
   color: #fff !important;
 }
 .light .ant-menu-item-icon {
   color: #000 !important;
 }
-
 .ant-btn,
 .ant-btn-default {
   font-size: 15px !important;
@@ -182,13 +165,11 @@ h1 {
 .ant-menu-item:after {
   border: none !important;
 }
-
 .ant-menu-item-selected .ant-menu-title-content {
   color: #6841f5 !important;
   font-size: 18px !important;
   font-family: ralewayregular !important;
 }
-
 .trigger svg {
   width: 1.5em;
   height: 1.5em;
@@ -224,7 +205,18 @@ h1.ant-typography {
 .ant-picker-cell {
   color: #318ce7 !important;
 }
-
+.anticon {
+  color: #318ce7 !important;
+}
+.ant-rate-star-half .anticon {
+  color: #318ce77a !important;
+}
+.ant-rate-star-zero .anticon {
+  color: #318ce741 !important;
+}
+.ant-avatar .anticon {
+  color: #fff !important;
+}
 .ant-input-affix-wrapper {
   background: 0 0 !important;
   padding: 0 !important;
@@ -248,18 +240,15 @@ h1.ant-typography {
   border: 0 !important;
   margin: 0 !important;
 }
-
 .btn-normal:hover {
   color: #fff !important;
   background: #6841f5 !important;
 }
-
 .no-hover:hover {
   color: #6841f5 !important;
   background: none !important;
   border: none !important;
 }
-
 .card-main-layout {
   width: 100%;
   min-height: calc(100vh);
@@ -275,7 +264,6 @@ h1.ant-typography {
   height: fit-content !important;
   border-bottom: 1px solid #318ce750 !important;
 }
-
 .dark .card-with-background,
 .dark .ant-card .card-with-background {
   background: #182348 !important;
@@ -283,7 +271,6 @@ h1.ant-typography {
 .ant-steps-item-content {
   min-height: fit-content !important;
 }
-
 .ant-notification-notice,
 .light .card-with-background,
 .light .ant-card .card-with-background,
@@ -294,7 +281,6 @@ h1.ant-typography {
   margin: 0 !important;
   width: 60% !important;
 }
-
 .card-custom-size-full {
   margin: 0 !important;
   width: 100% !important;
@@ -314,7 +300,6 @@ h1.ant-typography {
   height: fit-content !important;
   padding: 0 !important;
 }
-
 .biggest-card-title {
   font-size: 80px !important;
 }
@@ -405,21 +390,18 @@ h1.ant-typography {
   top: 109px !important;
   z-index: 1 !important;
 }
-
 .table-row:hover td,
 .table-row:hover td p {
   color: #fff;
   background: #6841f5 !important;
   cursor: pointer;
 }
-
 .dark .ant-table-thead tr th {
   border-bottom: 1px solid #000c17 !important;
 }
 .light .ant-table-thead tr th {
   border-bottom: 1px solid #318ce750 !important;
 }
-
 .dark .ant-table-thead .ant-table-cell {
   color: #318ce7 !important;
   font-size: 14px;
@@ -508,7 +490,6 @@ h1.ant-typography {
   padding: 0 !important;
   border-bottom: none !important;
 }
-
 .dark .ant-card,
 .dark .ant-drawer-body,
 .dark .ant-drawer-header,
@@ -590,7 +571,6 @@ h1.ant-typography {
 .ant-timeline-item-tail {
   border-left: 1px solid #318ce7 !important;
 }
-
 .ant-input-number {
   padding: 2px !important;
 }
@@ -612,7 +592,6 @@ h1.ant-typography {
   height: 40px !important;
   border: 1px solid #318ce750 !important;
 }
-
 .bordered-select .ant-select-selector {
   border: 1px solid #318ce7 !important;
 }
@@ -665,7 +644,6 @@ textarea.ant-input {
 .ant-table-cell {
   text-align: center !important;
 }
-
 .detail-icon-label {
   font-size: 20px;
   color: #318ce7 !important;
@@ -681,7 +659,6 @@ input::file-selector-button {
   color: #6841f5 !important;
   text-decoration: underline !important;
 }
-
 .ant-segmented-thumb {
   background: none !important;
   border-bottom: 1px solid #6841f5 !important;
@@ -706,7 +683,6 @@ input::file-selector-button {
 .ant-segmented-item-selected .ant-segmented-item-label:hover {
   text-decoration: none !important;
 }
-
 .ant-segmented-item-selected .ant-segmented-item-label {
   color: #6841f5 !important;
   border-bottom: 1px solid #6841f5 !important;
@@ -717,48 +693,38 @@ input::file-selector-button {
 .light .ant-segmented-item-selected .ant-segmented-item-label {
   background: #f8f9fa !important;
 }
-
 .ant-checkbox-inner {
   border: 1px solid #318ce750 !important;
 }
-
 .warning .ant-checkbox-inner {
   border: 1px solid #e65c5c !important;
 }
-
 .ant-checkbox-checked .ant-checkbox-input:hover {
   opacity: 1 !important;
 }
-
 .ant-checkbox-inner,
 .ant-checkbox-input {
   transform: scale(2) !important;
 }
-
 .small-checkbox .ant-checkbox-inner,
 .small-checkbox .ant-checkbox-input {
   transform: scale(1.5) !important;
 }
-
 .ant-checkbox + span {
   padding-left: 16px !important;
 }
-
 .dark .ant-checkbox-inner::after {
   border-color: #fff !important;
 }
 .light .ant-checkbox-inner::after {
   border-color: #318ce7 !important;
 }
-
 .dark .ant-checkbox:hover .ant-checkbox-inner {
   border-color: #fff !important;
 }
-
 .light .ant-checkbox:hover .ant-checkbox-inner {
   border-color: #6841f5 !important;
 }
-
 .dark .ant-menu-item-selected,
 .dark
   .ant-picker-calendar-full

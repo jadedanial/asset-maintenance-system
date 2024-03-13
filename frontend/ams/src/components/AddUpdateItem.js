@@ -217,7 +217,7 @@ const AddUpdateItem = ({
       return (
         <>
           <ResultEvent
-            icon={<CheckOutlined style={{ color: "#318ce7" }} />}
+            icon={<CheckOutlined />}
             status="success"
             title={
               updateData

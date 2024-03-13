@@ -354,12 +354,7 @@ const Vacation = ({ vacations, options, empid, theme }) => {
                 suffix={
                   <Button
                     className="align-items-center "
-                    icon={
-                      <CloseOutlined
-                        className="medium-card-title"
-                        style={{ color: "#318ce7" }}
-                      />
-                    }
+                    icon={<CloseOutlined className="medium-card-title" />}
                     style={{
                       width: "16px",
                       height: "16px",
@@ -388,19 +383,11 @@ const Vacation = ({ vacations, options, empid, theme }) => {
           itemLayout="horizontal"
           dataSource={[
             {
-              title: (
-                <p className="small-font" style={{ color: "#318ce7" }}>
-                  Vacation Type
-                </p>
-              ),
+              title: <p className="small-font">Vacation Type</p>,
               description: <p className="medium-font text">{vacation}</p>,
             },
             {
-              title: (
-                <p className="small-font" style={{ color: "#318ce7" }}>
-                  Date
-                </p>
-              ),
+              title: <p className="small-font">Date</p>,
               description: (
                 <p className="medium-font text">
                   From {moment(startdate).format(displayDateFormat)} To{" "}
@@ -410,11 +397,7 @@ const Vacation = ({ vacations, options, empid, theme }) => {
               ),
             },
             {
-              title: (
-                <p className="small-font" style={{ color: "#318ce7" }}>
-                  Reason
-                </p>
-              ),
+              title: <p className="small-font">Reason</p>,
               description: (
                 <p className="medium-font text">
                   {reason ? reason : "No Reason"}
@@ -422,11 +405,7 @@ const Vacation = ({ vacations, options, empid, theme }) => {
               ),
             },
             {
-              title: (
-                <p className="small-font" style={{ color: "#318ce7" }}>
-                  Attachment
-                </p>
-              ),
+              title: <p className="small-font">Attachment</p>,
               description: (
                 <p className="medium-font text">
                   {attachment ? attachment : "No Attachment"}
@@ -451,7 +430,7 @@ const Vacation = ({ vacations, options, empid, theme }) => {
     return (
       <>
         <ResultEvent
-          icon={<CheckOutlined style={{ color: "#318ce7" }} />}
+          icon={<CheckOutlined />}
           status="success"
           title={"Successfully applied employee vacation."}
           subTitle={`From ${moment(startdate).format(
