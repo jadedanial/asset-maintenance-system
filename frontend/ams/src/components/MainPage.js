@@ -173,7 +173,6 @@ const MainPage = ({
               onCloseDrawer={onCloseDrawer}
               comp={"User"}
               overflow={true}
-              showClose={true}
               getSection={getSection}
               collapsed={collapsed}
               theme={theme}

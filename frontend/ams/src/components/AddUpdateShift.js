@@ -166,7 +166,7 @@ const AddUpdateShift = ({
 
   return (
     <>
-      <div className="justified-row">
+      <div className="justified-row" style={{ paddingTop: "12px" }}>
         <div className="card-custom-size-60">
           <Form
             {...layout}

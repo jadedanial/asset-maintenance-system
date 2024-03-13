@@ -169,13 +169,26 @@ const Profile = ({
                       </Title>
                     }
                     extra={
-                      <Button
-                        size="large"
-                        type="primary"
-                        onClick={() => setUpdate(true)}
-                      >
-                        UPDATE
-                      </Button>
+                      <div className="space-between-row">
+                        <Button
+                          size="large"
+                          type="default"
+                          style={{
+                            marginRight: "10px",
+                          }}
+                          onClick={onCloseDrawer}
+                          block
+                        >
+                          CANCEL
+                        </Button>
+                        <Button
+                          size="large"
+                          type="primary"
+                          onClick={() => setUpdate(true)}
+                        >
+                          UPDATE
+                        </Button>
+                      </div>
                     }
                     style={{ width: "100%", borderTop: "0" }}
                   >

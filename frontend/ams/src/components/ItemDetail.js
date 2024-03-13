@@ -59,12 +59,12 @@ const ItemDetail = ({
   const itemDetails = (i, wi) => {
     return (
       <>
-        <Row
-          className={`space-between-row card-with-background ${theme}`}
-          style={{ padding: view ? 0 : "40px" }}
-        >
+        <Row className={`space-between-row ${theme}`}>
           <Col span={view ? 24 : 13}>
-            <div className="space-between-row">
+            <div
+              className="space-between-row card-with-background"
+              style={{ padding: view ? 0 : "20px" }}
+            >
               <Col
                 span={13}
                 style={{
@@ -74,7 +74,7 @@ const ItemDetail = ({
                 }}
               >
                 <div>
-                  <p className="big-font" style={{ paddingBottom: "18px" }}>
+                  <p className="big-font" style={{ paddingBottom: "24px" }}>
                     {i.item_name}
                   </p>
                   <p
@@ -117,27 +117,11 @@ const ItemDetail = ({
                 <QRCode
                   value={i.item_code}
                   style={{
-                    height: "auto",
+                    height: "100%",
                     width: "100%",
                   }}
                 />
               </Col>
-            </div>
-            <div
-              style={{
-                padding: "20px 0 0 0",
-                display: view ? "none" : "block",
-              }}
-            >
-              <p
-                className="small-font"
-                style={{
-                  margin: "0",
-                  color: theme === "light" ? "#000" : "#fff",
-                }}
-              >
-                {i.item_description}
-              </p>
             </div>
           </Col>
           <Col
@@ -201,7 +185,7 @@ const ItemDetail = ({
                             <div
                               className="card-with-background"
                               style={{
-                                padding: "40px",
+                                padding: "20px",
                                 height: "fit-content",
                               }}
                             >
@@ -233,13 +217,26 @@ const ItemDetail = ({
                                   </Title>
                                 }
                                 extra={
-                                  <Button
-                                    size="large"
-                                    type="primary"
-                                    onClick={() => setUpdate(true)}
-                                  >
-                                    UPDATE
-                                  </Button>
+                                  <div className="space-between-row">
+                                    <Button
+                                      size="large"
+                                      type="default"
+                                      style={{
+                                        marginRight: "10px",
+                                      }}
+                                      onClick={onCloseDrawer}
+                                      block
+                                    >
+                                      CANCEL
+                                    </Button>
+                                    <Button
+                                      size="large"
+                                      type="primary"
+                                      onClick={() => setUpdate(true)}
+                                    >
+                                      UPDATE
+                                    </Button>
+                                  </div>
                                 }
                               >
                                 {itemDetails(i, wi)}

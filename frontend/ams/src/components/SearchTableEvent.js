@@ -159,7 +159,6 @@ const SearchTableEvent = ({
         collapsed={collapsed}
         theme={theme}
         overflow={true}
-        showClose={true}
       />
     </>
   );

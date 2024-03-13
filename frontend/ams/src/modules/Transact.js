@@ -492,7 +492,7 @@ const Transact = ({
                   span={24}
                   className="card-with-background"
                   style={{
-                    padding: "40px",
+                    padding: "20px",
                     maxHeight: "274px",
                   }}
                 >
@@ -564,7 +564,7 @@ const Transact = ({
                   span={24}
                   className="card-with-background"
                   style={{
-                    padding: "40px",
+                    padding: "20px",
                     maxHeight: "274px",
                   }}
                 >
@@ -796,7 +796,6 @@ const Transact = ({
         collapsed={collapsed}
         theme={theme}
         overflow={false}
-        showClose={false}
       />
     </>
   );

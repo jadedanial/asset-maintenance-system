@@ -344,7 +344,7 @@ const Attendance = ({
               <div className="justified-row">
                 <Space size={70}>{monthlyAttendanceData(selectedDate)}</Space>
               </div>
-              <div style={{ marginTop: "40px" }}>
+              <div style={{ marginTop: "20px" }}>
                 <div className="space-between-row">
                   <Col span={withData ? 8 : 0}>
                     <Card

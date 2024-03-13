@@ -1,6 +1,5 @@
 import React from "react";
-import { Drawer, Tooltip, Button } from "antd";
-import { CloseOutlined } from "@ant-design/icons";
+import { Drawer } from "antd";
 import Profile from "./Profile";
 import AddUpdateEmployee from "./AddUpdateEmployee";
 import AddUpdateShift from "./AddUpdateShift";
@@ -194,19 +193,6 @@ const DrawerEvent = (props) => {
         }}
         open={props.showDrawer}
         destroyOnClose={true}
-        extra={
-          props.showClose ? (
-            <Tooltip title={"Close"}>
-              <Button
-                className="btn-normal"
-                icon={<CloseOutlined className="bigger-font" />}
-                onClick={props.onCloseDrawer}
-              />
-            </Tooltip>
-          ) : (
-            ""
-          )
-        }
       >
         {drawerSwitch(props.comp)}
       </Drawer>
