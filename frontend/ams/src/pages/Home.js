@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useCustomQueryClient } from "../useQueryClient";
 import { useQuery } from "react-query";
-import { Button, Col, Row } from "antd";
-import { FrownOutlined } from "@ant-design/icons";
 import axios from "axios";
 import MainPage from "../components/MainPage";
-import ResultEvent from "../components/ResultEvent";
 
 const HomePage = () => {
-  const [theme, setTheme] = useState("light");
+  let navigate = useNavigate();
+  const queryClient = useCustomQueryClient();
   const [userId, setUserId] = useState(0);
   const [userName, setUserName] = useState("");
   const [loginFailed, setLoginFailed] = useState(false);
@@ -31,11 +31,13 @@ const HomePage = () => {
         setLoginFailed(false);
       } catch (err) {
         console.log(err.response.data.detail);
+        queryClient.clear();
         setLoginFailed(true);
+        navigate("/login");
       }
     };
     fetchDataForUser();
-  }, [token]);
+  }, [token, navigate, queryClient]);
 
   const fetchData = async (endpoint, token) => {
     try {
@@ -120,72 +122,31 @@ const HomePage = () => {
   const { data: vehiclesData } = useVehiclesData(token);
   const { data: transactionsData } = useTransactionsData(token);
 
-  useEffect(() => {
-    const mode = document.cookie
-      .split("; ")
-      .find((row) => row.startsWith("mode="))
-      ?.split("=")[1];
-    setTheme(mode || "light");
-  }, []);
-
   return (
     <>
-      {loginFailed ? (
-        <>
-          <div
-            className={theme}
-            style={{
-              paddingTop: "50px",
-              background: theme === "light" ? "#ecf3f9" : "#1c2755",
-              height: "100vh",
-            }}
-          >
-            <ResultEvent
-              icon={<FrownOutlined style={{ color: "#ecf3f9" }} />}
-              status="403"
-              title="Unauthorized User!"
-              subTitle="Sorry, you are not authorized to access this page. Please login or register."
-              extra={
-                <Row className="space-between-row" style={{ width: "30%" }}>
-                  <Col span={12}>
-                    <Button size="large" type="default" href="/login" block>
-                      LOGIN
-                    </Button>
-                  </Col>
-                  <Col span={11}>
-                    <Button size="large" type="primary" href="/register" block>
-                      REGISTER
-                    </Button>
-                  </Col>
-                </Row>
-              }
-              theme={theme}
-            />
-          </div>
-        </>
+      {!loginFailed ? (
+        <MainPage
+          userId={userId}
+          userName={userName}
+          components={componentsData}
+          modules={modulesData}
+          categories={categoriesData}
+          options={optionsData}
+          branches={branchesData}
+          sections={sectionsData}
+          shifts={shiftsData}
+          schedules={schedulesData}
+          employees={employeesData}
+          attendances={attendancesData}
+          vacations={vacationsData}
+          excuses={excusesData}
+          items={itemsData}
+          warehouseitems={warehouseitemsData}
+          vehicles={vehiclesData}
+          transactions={transactionsData}
+        />
       ) : (
-        <>
-          <MainPage
-            userId={userId}
-            userName={userName}
-            components={componentsData}
-            modules={modulesData}
-            categories={categoriesData}
-            options={optionsData}
-            branches={branchesData}
-            sections={sectionsData}
-            shifts={shiftsData}
-            schedules={schedulesData}
-            employees={employeesData}
-            attendances={attendancesData}
-            vacations={vacationsData}
-            excuses={excusesData}
-            items={itemsData}
-            warehouseitems={warehouseitemsData}
-            vehicles={vehiclesData}
-            transactions={transactionsData}
-          />
-        </>
+        <></>
       )}
     </>
   );
