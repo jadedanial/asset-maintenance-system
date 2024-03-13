@@ -126,7 +126,7 @@ const ItemDetail = ({
               </div>
               <div
                 style={{
-                  padding: "0px 20px 20px 20px",
+                  padding: "8px 20px 20px 20px",
                   display: view ? "none" : "block",
                 }}
               >
