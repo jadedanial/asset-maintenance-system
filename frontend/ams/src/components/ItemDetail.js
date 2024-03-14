@@ -59,8 +59,8 @@ const ItemDetail = ({
   const itemDetails = (i, wi) => {
     return (
       <>
-        <Row className={`space-between-row ${theme}`}>
-          <Col span={view ? 24 : 13}>
+        <Row className={theme}>
+          <Col span={view ? 24 : 14} style={{ paddingRight: "20px" }}>
             <div className="card-with-background">
               <div
                 className="space-between-row "
@@ -103,12 +103,27 @@ const ItemDetail = ({
                       </Descriptions.Item>
                     </Descriptions>
                   </div>
-                  <div>
+                  <div style={{ padding: "14px 0" }}>
                     <Tag color="blue">
                       <p className="small-font" style={{ padding: "2px" }}>
                         {i.item_category}
                       </p>
                     </Tag>
+                  </div>
+                  <div
+                    style={{
+                      display: view ? "none" : "block",
+                    }}
+                  >
+                    <p
+                      className="small-font"
+                      style={{
+                        margin: "0",
+                        color: theme === "light" ? "#000" : "#fff",
+                      }}
+                    >
+                      {i.item_description}
+                    </p>
                   </div>
                 </Col>
                 <Col
@@ -123,22 +138,6 @@ const ItemDetail = ({
                     }}
                   />
                 </Col>
-              </div>
-              <div
-                style={{
-                  padding: "8px 20px 20px 20px",
-                  display: view ? "none" : "block",
-                }}
-              >
-                <p
-                  className="small-font"
-                  style={{
-                    margin: "0",
-                    color: theme === "light" ? "#000" : "#fff",
-                  }}
-                >
-                  {i.item_description}
-                </p>
               </div>
             </div>
           </Col>
@@ -204,7 +203,6 @@ const ItemDetail = ({
                               className="card-with-background"
                               style={{
                                 padding: "20px",
-                                height: "fit-content",
                               }}
                             >
                               <Card
