@@ -476,7 +476,7 @@ const Transact = ({
         return queryItem.length > 0 ? (
           <>
             <Row>
-              <Col span={14} style={{ paddingRight: "20px" }}>
+              <Col span={14} style={{ paddingRight: "24px" }}>
                 <ItemDetail
                   items={items}
                   warehouseitems={warehouseitems}
@@ -492,19 +492,19 @@ const Transact = ({
                   span={24}
                   className="card-with-background"
                   style={{
-                    padding: "20px",
-                    maxHeight: "274px",
+                    padding: "24px",
+                    height: "fit-content",
                   }}
                 >
                   <p
                     className="large-card-title"
-                    style={{ paddingBottom: "50px" }}
+                    style={{ paddingBottom: "24px" }}
                   >
                     Item Code: {queryItem["0"]["code"]}
                   </p>
                   <p
                     className="big-card-title"
-                    style={{ paddingBottom: "15px" }}
+                    style={{ paddingBottom: "10px" }}
                   >
                     Php. {total}
                   </p>
@@ -549,7 +549,7 @@ const Transact = ({
         return queryItem.length > 0 ? (
           <>
             <Row>
-              <Col span={14} style={{ paddingRight: "20px" }}>
+              <Col span={14} style={{ paddingRight: "24px" }}>
                 <ItemList
                   view={true}
                   segment={segment}
@@ -564,13 +564,13 @@ const Transact = ({
                   span={24}
                   className="card-with-background"
                   style={{
-                    padding: "20px",
-                    maxHeight: "274px",
+                    padding: "24px",
+                    height: "fit-content",
                   }}
                 >
                   <p
                     className="large-card-title"
-                    style={{ paddingBottom: "20px" }}
+                    style={{ paddingBottom: "24px" }}
                   >
                     Transaction Code: {queryItem["0"]["code"]}
                   </p>

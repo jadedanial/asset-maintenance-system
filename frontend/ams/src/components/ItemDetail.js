@@ -60,11 +60,14 @@ const ItemDetail = ({
     return (
       <>
         <Row className={theme}>
-          <Col span={view ? 24 : 14} style={{ paddingRight: "20px" }}>
+          <Col
+            span={view ? 24 : 14}
+            style={{ paddingRight: view ? "0" : "24px" }}
+          >
             <div className="card-with-background">
               <div
                 className="space-between-row "
-                style={{ padding: view ? 0 : "20px" }}
+                style={{ padding: view ? 0 : "24px" }}
               >
                 <Col
                   span={13}
@@ -147,7 +150,7 @@ const ItemDetail = ({
               display: view ? "none" : "block",
             }}
           >
-            <p className="small-card-title" style={{ paddingBottom: "20px" }}>
+            <p className="small-card-title" style={{ paddingBottom: "24px" }}>
               Stock On Other Warehouse
             </p>
             <Table
@@ -202,7 +205,7 @@ const ItemDetail = ({
                             <div
                               className="card-with-background"
                               style={{
-                                padding: "20px",
+                                padding: "24px",
                               }}
                             >
                               <Card

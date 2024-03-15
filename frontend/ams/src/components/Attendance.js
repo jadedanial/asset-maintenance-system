@@ -315,7 +315,7 @@ const Attendance = ({
   return (
     <>
       {contextHolder}
-      <div style={{ marginTop: "20px" }}>
+      <div style={{ marginTop: "24px" }}>
         <Card size="small" style={{ width: "100%" }}>
           {add ? (
             <AddUpdateAttendance
@@ -344,7 +344,7 @@ const Attendance = ({
               <div className="justified-row">
                 <Space size={70}>{monthlyAttendanceData(selectedDate)}</Space>
               </div>
-              <div style={{ marginTop: "20px" }}>
+              <div style={{ marginTop: "24px" }}>
                 <div className="space-between-row">
                   <Col span={withData ? 8 : 0}>
                     <Card

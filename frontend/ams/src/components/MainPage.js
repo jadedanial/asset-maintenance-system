@@ -285,7 +285,7 @@ const MainPage = ({
               height: "100vh",
             }}
           >
-            <div style={{ margin: "20px 0 15px 32px" }}>
+            <div style={{ margin: "24px 0 15px 32px" }}>
               <img
                 src={"images/ams.png"}
                 alt="logo"
@@ -316,7 +316,7 @@ const MainPage = ({
                 zIndex: "1",
               }}
             >
-              <div className="space-between-row" style={{ padding: "0 20px" }}>
+              <div className="space-between-row" style={{ padding: "0 24px" }}>
                 <Col style={{ color: "#318ce7" }}>
                   {React.createElement(
                     collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
@@ -333,7 +333,7 @@ const MainPage = ({
                     arrow
                   >
                     <Badge>
-                      <Space style={{ marginRight: "20px" }}>
+                      <Space style={{ marginRight: "24px" }}>
                         <Col>
                           <p
                             className="medium-font"
@@ -386,7 +386,7 @@ const MainPage = ({
                 minHeight: "300%",
               }}
             >
-              <Content style={{ margin: "20px" }}>
+              <Content style={{ margin: "24px" }}>
                 {componentSwitch(selectedMenuItem)}
               </Content>
             </Layout>

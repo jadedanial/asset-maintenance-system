@@ -21,6 +21,7 @@ const EmptyData = () => {
             style={{
               textAlign: "center",
               paddingTop: "10px",
+              color: "#318ce741",
             }}
           >
             Empty Data

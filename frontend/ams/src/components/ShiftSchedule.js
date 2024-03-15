@@ -65,7 +65,7 @@ const ShiftSchedule = ({ schedules, employees, empid }) => {
     return schedules.map((schedule) =>
       schedule.id === id ? (
         <>
-          <div style={{ paddingTop: "20px", flexWrap: "wrap" }}>
+          <div style={{ paddingTop: "24px", flexWrap: "wrap" }}>
             <List
               grid={{ gutter: 20, column: 3 }}
               dataSource={[
@@ -216,7 +216,7 @@ const ShiftSchedule = ({ schedules, employees, empid }) => {
   return (
     <>
       {contextHolder}
-      <div style={{ marginTop: "20px" }}>
+      <div style={{ marginTop: "24px" }}>
         <Card size="small" style={{ width: "100%", minHeight: "460px" }}>
           <div className="justified-row">
             <div className="card-custom-size-60">
@@ -235,7 +235,7 @@ const ShiftSchedule = ({ schedules, employees, empid }) => {
                     </Title>
                   }
                 >
-                  <div style={{ marginBottom: "10px" }}>
+                  <div>
                     <Select
                       size="large"
                       showSearch

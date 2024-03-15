@@ -212,12 +212,7 @@ const Vacation = ({ vacations, options, empid, theme }) => {
   const addVactionButton = () => {
     return (
       <div className="flex-end-row">
-        <Button
-          icon={<PlusOutlined />}
-          size="medium"
-          type="primary"
-          onClick={newVacation}
-        >
+        <Button size="medium" type="primary" onClick={newVacation}>
           ADD
         </Button>
       </div>
@@ -466,7 +461,7 @@ const Vacation = ({ vacations, options, empid, theme }) => {
   return (
     <>
       {contextHolder}
-      <div style={{ marginTop: "20px" }}>
+      <div style={{ marginTop: "24px" }}>
         <Card size="small" style={{ width: "100%", minHeight: "460px" }}>
           {add ? (
             <div className="justified-row">

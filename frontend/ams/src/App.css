@@ -211,7 +211,8 @@ h1.ant-typography {
 .ant-rate-star-half .anticon {
   color: #318ce77a !important;
 }
-.ant-rate-star-zero .anticon {
+.ant-rate-star-zero .anticon,
+.anticon-inbox {
   color: #318ce741 !important;
 }
 .ant-avatar .anticon {
@@ -558,7 +559,7 @@ h1.ant-typography {
   background: #fff !important;
 }
 .ant-picker-panel {
-  padding-top: 20px;
+  padding-top: 24px;
 }
 .ant-segmented {
   padding: 0 !important;
@@ -670,7 +671,7 @@ input::file-selector-button {
 .ant-segmented-item-label {
   font-size: 24px !important;
   color: #318ce7 !important;
-  padding: 10px 20px 22px 20px !important;
+  padding: 10px 24px 22px 24px !important;
 }
 .ant-segmented-item-label:hover {
   color: #6841f5 !important;

@@ -279,12 +279,7 @@ const Excuse = ({ excuses, attendances, empid, theme }) => {
   const addExcuseButton = () => {
     return (
       <div className="flex-end-row">
-        <Button
-          icon={<PlusOutlined />}
-          size="medium"
-          type="primary"
-          onClick={newExcuse}
-        >
+        <Button size="medium" type="primary" onClick={newExcuse}>
           ADD
         </Button>
       </div>
@@ -478,7 +473,7 @@ const Excuse = ({ excuses, attendances, empid, theme }) => {
   return (
     <>
       {contextHolder}
-      <div style={{ marginTop: "20px" }}>
+      <div style={{ marginTop: "24px" }}>
         <Card size="small" style={{ width: "100%", minHeight: "460px" }}>
           {add ? (
             <div className="justified-row">

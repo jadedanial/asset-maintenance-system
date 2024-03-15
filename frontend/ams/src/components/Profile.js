@@ -158,7 +158,7 @@ const Profile = ({
                     size="large"
                     title={
                       <Title>
-                        <Row style={{ paddingLeft: "20px" }}>
+                        <Row style={{ paddingLeft: "24px" }}>
                           <p
                             className="big-card-title"
                             style={{ textTransform: "capitalize" }}
@@ -195,11 +195,11 @@ const Profile = ({
                     <Row
                       style={{
                         justifyContent: "space-between",
-                        padding: "20px 20px 0 20px",
+                        padding: "24px 24px 0 24px",
                       }}
                     >
                       <Col>
-                        <Row style={{ marginTop: "12px" }}>
+                        <Row>
                           <UserOutlined className="detail-icon-label" />
                           <p className="medium-font text">{e.emp_position}</p>
                         </Row>
@@ -222,7 +222,7 @@ const Profile = ({
                         </Row>
                       </Col>
                       <Col>
-                        <Row style={{ marginTop: "12px" }}>
+                        <Row>
                           <MailOutlined className="detail-icon-label" />
                           <p className="small-font text">{e.emp_email}</p>
                         </Row>
@@ -243,11 +243,8 @@ const Profile = ({
                         <Row>
                           <Statistic
                             title={
-                              <Title style={{ margin: 0 }}>
-                                <p
-                                  className="small-font text"
-                                  style={{ margin: 0 }}
-                                >
+                              <Title>
+                                <p className="small-font text">
                                   Years of Experience
                                 </p>
                               </Title>

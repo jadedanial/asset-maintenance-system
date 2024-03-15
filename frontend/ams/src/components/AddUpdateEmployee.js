@@ -46,6 +46,7 @@ const AddUpdateEmployee = ({
   theme,
 }) => {
   const dateFormat = "YYYY-MM-DD";
+  const datePickerFormat = (value) => `${value.format("MMMM DD, YYYY")}`;
   const [updateData, setUpdateData] = useState(update);
   const [label, setLabel] = useState(
     updateData ? "Update Employee" : "Add New Employee"
@@ -439,6 +440,7 @@ const AddUpdateEmployee = ({
                   >
                     <DatePicker
                       placeholder=""
+                      format={datePickerFormat}
                       value={
                         employeeDateHired === ""
                           ? ""
@@ -499,6 +501,7 @@ const AddUpdateEmployee = ({
                   >
                     <DatePicker
                       placeholder=""
+                      format={datePickerFormat}
                       value={
                         employeeBirthdate === ""
                           ? ""
