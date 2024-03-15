@@ -11,6 +11,7 @@ import {
 import axios from "axios";
 import ResultEvent from "../components/ResultEvent";
 import Slogan from "../components/Slogan";
+import Footer from "../components/Footer";
 
 const { Title } = Typography;
 
@@ -69,27 +70,18 @@ const RegisterPage = () => {
       <div className={theme}>
         <Row
           style={{
-            height: "100vh",
+            height: "calc(100vh - 80px)",
+            background: theme === "light" ? "#ecf3f9" : "#1c2755",
           }}
         >
-          <Col
-            span={10}
-            style={{
-              background: theme === "light" ? "#ecf3f9" : "#1c2755",
-            }}
-          >
+          <Col span={10}>
             <Slogan />
           </Col>
-          <Col
-            span={14}
-            style={{
-              background: theme === "light" ? "#f8f9fa" : "#161d40",
-            }}
-          >
+          <Col span={14}>
             {success ? (
               <Card
                 size="large"
-                style={{ width: "60%", top: "15%", left: "22%" }}
+                style={{ width: "60%", top: "16%", left: "22%" }}
               >
                 <ResultEvent
                   icon={<CheckOutlined />}
@@ -98,7 +90,7 @@ const RegisterPage = () => {
                   subTitle={"Username: " + userName + "\nEmail: " + email}
                   extra={
                     <Button size="large" type="primary" href="/login">
-                      Login
+                      LOGIN
                     </Button>
                   }
                   theme={theme}
@@ -114,7 +106,7 @@ const RegisterPage = () => {
                     </p>
                   </Title>
                 }
-                style={{ width: "60%", top: "10%", left: "22%" }}
+                style={{ width: "60%", top: "16%", left: "22%" }}
               >
                 <Form
                   name="register"
@@ -124,37 +116,43 @@ const RegisterPage = () => {
                   onFinish={onFinish}
                   onFieldsChange={onFieldsChange}
                 >
-                  <Form.Item
-                    name="id"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Input employee ID!",
-                      },
-                    ]}
-                  >
-                    <Input
-                      prefix={<IdcardOutlined />}
-                      placeholder="Employee ID"
-                      onChange={(e) => setUserId(e.target.value)}
-                    />
-                  </Form.Item>
-                  <Form.Item
-                    name="username"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Input employee username!",
-                      },
-                    ]}
-                  >
-                    <Input
-                      prefix={<UserOutlined />}
-                      placeholder="Username"
-                      maxLength={100}
-                      onChange={(e) => setUserName(e.target.value)}
-                    />
-                  </Form.Item>
+                  <Row className="space-between-row">
+                    <Col span={9}>
+                      <Form.Item
+                        name="id"
+                        rules={[
+                          {
+                            required: true,
+                            message: "Input employee ID!",
+                          },
+                        ]}
+                      >
+                        <Input
+                          prefix={<IdcardOutlined />}
+                          placeholder="Employee ID"
+                          onChange={(e) => setUserId(e.target.value)}
+                        />
+                      </Form.Item>
+                    </Col>
+                    <Col span={14}>
+                      <Form.Item
+                        name="username"
+                        rules={[
+                          {
+                            required: true,
+                            message: "Input employee username!",
+                          },
+                        ]}
+                      >
+                        <Input
+                          prefix={<UserOutlined />}
+                          placeholder="Username"
+                          maxLength={100}
+                          onChange={(e) => setUserName(e.target.value)}
+                        />
+                      </Form.Item>
+                    </Col>
+                  </Row>
                   <Form.Item
                     name="email"
                     rules={[
@@ -176,53 +174,62 @@ const RegisterPage = () => {
                       onChange={(e) => setEmail(e.target.value)}
                     />
                   </Form.Item>
-                  <Form.Item
-                    name="password"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Input employee password!",
-                      },
-                    ]}
-                    hasFeedback
-                  >
-                    <Input
-                      prefix={<LockOutlined />}
-                      type="password"
-                      placeholder="Password"
-                      maxLength={100}
-                      onChange={(e) => setPassword(e.target.value)}
-                    />
-                  </Form.Item>
-                  <Form.Item
-                    name="confirm"
-                    dependencies={["password"]}
-                    hasFeedback
-                    rules={[
-                      {
-                        required: true,
-                        message: "Confirm employee password!",
-                      },
-                      ({ getFieldValue }) => ({
-                        validator(_, value) {
-                          if (!value || getFieldValue("password") === value) {
-                            return Promise.resolve();
-                          }
-                          return Promise.reject(
-                            new Error(
-                              "The two Passwords that you entered do not match!"
-                            )
-                          );
-                        },
-                      }),
-                    ]}
-                  >
-                    <Input
-                      prefix={<LockOutlined />}
-                      type="password"
-                      placeholder="Confirm Password"
-                    />
-                  </Form.Item>
+                  <Row className="space-between-row">
+                    <Col span={12}>
+                      <Form.Item
+                        name="password"
+                        rules={[
+                          {
+                            required: true,
+                            message: "Input employee password!",
+                          },
+                        ]}
+                        hasFeedback
+                      >
+                        <Input
+                          prefix={<LockOutlined />}
+                          type="password"
+                          placeholder="Password"
+                          maxLength={100}
+                          onChange={(e) => setPassword(e.target.value)}
+                        />
+                      </Form.Item>
+                    </Col>
+                    <Col span={11}>
+                      <Form.Item
+                        name="confirm"
+                        dependencies={["password"]}
+                        hasFeedback
+                        rules={[
+                          {
+                            required: true,
+                            message: "Confirm employee password!",
+                          },
+                          ({ getFieldValue }) => ({
+                            validator(_, value) {
+                              if (
+                                !value ||
+                                getFieldValue("password") === value
+                              ) {
+                                return Promise.resolve();
+                              }
+                              return Promise.reject(
+                                new Error(
+                                  "The two Passwords that you entered do not match!"
+                                )
+                              );
+                            },
+                          }),
+                        ]}
+                      >
+                        <Input
+                          prefix={<LockOutlined />}
+                          type="password"
+                          placeholder="Confirm Password"
+                        />
+                      </Form.Item>
+                    </Col>
+                  </Row>
                   <Form.Item>
                     <Button
                       style={{ marginTop: "24px" }}
@@ -235,17 +242,23 @@ const RegisterPage = () => {
                     </Button>
                   </Form.Item>
                 </Form>
-                <Link
-                  to="/login"
-                  className="justified-row medium-card-title hover-underline"
-                  style={{ padding: "10px" }}
+                <div
+                  className="justified-row medium-card-title"
+                  style={{
+                    color: theme === "light" ? "#000" : "#fff",
+                    paddingTop: "10px",
+                  }}
                 >
-                  Already have an account
-                </Link>
+                  <p style={{ margin: "0" }}>Already have an account?&nbsp;</p>
+                  <Link to="/login" className="hover-underline">
+                    Login
+                  </Link>
+                </div>
               </Card>
             )}
           </Col>
         </Row>
+        <Footer theme={theme} />
       </div>
     </>
   );

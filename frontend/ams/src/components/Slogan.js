@@ -5,9 +5,8 @@ const Slogan = () => {
     <>
       <Col
         style={{
-          top: "28%",
-          textAlign: "center",
-          padding: "0 80px",
+          top: "24%",
+          textAlign: "right",
         }}
       >
         <div>

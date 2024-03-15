@@ -106,7 +106,7 @@ const ItemDetail = ({
                       </Descriptions.Item>
                     </Descriptions>
                   </div>
-                  <div style={{ padding: "14px 0" }}>
+                  <div style={{ padding: "6px 0" }}>
                     <Tag color="blue">
                       <p className="small-font" style={{ padding: "2px" }}>
                         {i.item_category}

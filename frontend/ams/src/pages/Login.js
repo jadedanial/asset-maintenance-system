@@ -6,6 +6,7 @@ import { UserOutlined, LockOutlined, FrownOutlined } from "@ant-design/icons";
 import axios from "axios";
 import Slogan from "../components/Slogan";
 import ResultEvent from "../components/ResultEvent";
+import Footer from "../components/Footer";
 
 const { Title } = Typography;
 
@@ -49,7 +50,6 @@ const LoginPage = () => {
         {loginFailed ? (
           <div
             style={{
-              paddingTop: "50px",
               background: theme === "light" ? "#ecf3f9" : "#1c2755",
               height: "100vh",
             }}
@@ -77,94 +77,93 @@ const LoginPage = () => {
             />
           </div>
         ) : (
-          <Row
-            style={{
-              height: "100vh",
-            }}
-          >
-            <Col
-              span={10}
+          <>
+            <Row
               style={{
+                height: "calc(100vh - 80px)",
                 background: theme === "light" ? "#ecf3f9" : "#1c2755",
               }}
             >
-              <Slogan />
-            </Col>
-            <Col
-              span={14}
-              style={{
-                background: theme === "light" ? "#f8f9fa" : "#161d40",
-              }}
-            >
-              <Card
-                size="large"
-                title={
-                  <Title>
-                    <p className="big-card-title">Authenticate User</p>
-                  </Title>
-                }
-                style={{ width: "60%", top: "20%", left: "22%" }}
-              >
-                <Form
-                  name="login"
-                  className="login-form ant-form-item-space-bottom-normal"
-                  size="small"
-                  initialValues={{ remember: true }}
-                  onFinish={onFinish}
+              <Col span={10}>
+                <Slogan />
+              </Col>
+              <Col span={14}>
+                <Card
+                  size="large"
+                  title={
+                    <Title>
+                      <p className="big-card-title">Authenticate User</p>
+                    </Title>
+                  }
+                  style={{ width: "60%", top: "16%", left: "22%" }}
                 >
-                  <Form.Item
-                    name="username"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Input username!",
-                      },
-                    ]}
+                  <Form
+                    name="login"
+                    className="login-form ant-form-item-space-bottom-normal"
+                    size="small"
+                    initialValues={{ remember: true }}
+                    onFinish={onFinish}
                   >
-                    <Input
-                      prefix={<UserOutlined />}
-                      placeholder="Username"
-                      onChange={(e) => setUsername(e.target.value)}
-                    />
-                  </Form.Item>
-                  <Form.Item
-                    name="password"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Input password!",
-                      },
-                    ]}
-                  >
-                    <Input
-                      prefix={<LockOutlined />}
-                      type="password"
-                      placeholder="Password"
-                      onChange={(e) => setPassword(e.target.value)}
-                    />
-                  </Form.Item>
-                  <Form.Item>
-                    <Button
-                      style={{ marginTop: "24px" }}
-                      size="large"
-                      type="primary"
-                      htmlType="submit"
-                      block
+                    <Form.Item
+                      name="username"
+                      rules={[
+                        {
+                          required: true,
+                          message: "Input username!",
+                        },
+                      ]}
                     >
-                      LOGIN
-                    </Button>
-                  </Form.Item>
-                </Form>
-                <Link
-                  to="/register"
-                  className="justified-row medium-card-title hover-underline"
-                  style={{ padding: "10px" }}
-                >
-                  Create a new account
-                </Link>
-              </Card>
-            </Col>
-          </Row>
+                      <Input
+                        prefix={<UserOutlined />}
+                        placeholder="Username"
+                        onChange={(e) => setUsername(e.target.value)}
+                      />
+                    </Form.Item>
+                    <Form.Item
+                      name="password"
+                      rules={[
+                        {
+                          required: true,
+                          message: "Input password!",
+                        },
+                      ]}
+                    >
+                      <Input
+                        prefix={<LockOutlined />}
+                        type="password"
+                        placeholder="Password"
+                        onChange={(e) => setPassword(e.target.value)}
+                      />
+                    </Form.Item>
+                    <Form.Item>
+                      <Button
+                        style={{ marginTop: "24px" }}
+                        size="large"
+                        type="primary"
+                        htmlType="submit"
+                        block
+                      >
+                        LOGIN
+                      </Button>
+                    </Form.Item>
+                  </Form>
+                  <div
+                    className="justified-row medium-card-title"
+                    style={{
+                      color: theme === "light" ? "#000" : "#fff",
+                      paddingTop: "10px",
+                    }}
+                  >
+                    <p style={{ margin: "0" }}>New user?&nbsp;</p>
+                    <Link to="/register" className="hover-underline">
+                      Create a new account
+                    </Link>
+                  </div>
+                </Card>
+              </Col>
+            </Row>
+            <Footer theme={theme} />
+          </>
         )}
       </div>
     </>

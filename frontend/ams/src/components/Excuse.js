@@ -14,7 +14,7 @@ import {
   Col,
   notification,
 } from "antd";
-import { CheckOutlined, PlusOutlined } from "@ant-design/icons";
+import { CheckOutlined } from "@ant-design/icons";
 import NotificationEvent from "./NotificationEvent";
 import ResultEvent from "./ResultEvent";
 import moment from "moment";

@@ -620,10 +620,14 @@ h1.ant-typography {
 .dark .ant-input-prefix,
 .light .ant-input-prefix {
   padding: 10px !important;
+  margin: 0 !important;
   background: none !important;
 }
 textarea.ant-input {
   height: auto !important;
+}
+.ant-input-affix-wrapper > .ant-input {
+  padding-left: 10px !important;
 }
 .ant-list-header {
   border-bottom: none !important;
