@@ -8,7 +8,6 @@ const EmptyData = () => {
         <div
           style={{
             textAlign: "center",
-            margin: "50px 0",
           }}
         >
           <InboxOutlined
