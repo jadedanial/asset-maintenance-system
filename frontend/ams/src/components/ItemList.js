@@ -228,7 +228,7 @@ const ItemList = ({
         itemLayout="horizontal"
         pagination={false}
         style={{
-          height: "calc(100vh - 350px)",
+          height: "calc(-324px + 100vh)",
           overflowY: "auto",
           overflowX: "hidden",
         }}
@@ -241,7 +241,7 @@ const ItemList = ({
         }
         renderItem={(item) => (
           <List.Item>
-            <Card className="card-no-padding" hoverable>
+            <Card className="card-no-padding card-no-padding-top" hoverable>
               <Row>
                 <Col
                   span={!view ? 3 : 6}
@@ -252,12 +252,12 @@ const ItemList = ({
                     value={item.code}
                     style={{
                       height: "auto",
-                      width: "35%",
+                      width: "40%",
                     }}
                   />
                 </Col>
                 <Col
-                  className="card-with-background"
+                  className="card-with-background align-items-center"
                   span={!view ? (segment === "Receive" ? 19 : 21) : 18}
                 >
                   <Card

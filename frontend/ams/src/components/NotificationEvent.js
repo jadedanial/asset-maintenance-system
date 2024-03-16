@@ -1,9 +1,9 @@
 import React from "react";
-import { CheckSquareFilled, CloseSquareFilled } from "@ant-design/icons";
+import { CheckSquareOutlined, CloseSquareOutlined } from "@ant-design/icons";
 
 function NotificationEvent(status, desc) {
   const color = status ? "#318ce7" : "#ff0000";
-  const icon = status ? <CheckSquareFilled /> : <CloseSquareFilled />;
+  const icon = status ? <CheckSquareOutlined /> : <CloseSquareOutlined />;
 
   const message = (
     <p className="small-font" style={{ color: color }}>
@@ -14,7 +14,7 @@ function NotificationEvent(status, desc) {
   return {
     message: message,
     placement: "topRight",
-    duration: 3,
+    duration: 5,
     icon: icon,
   };
 }
