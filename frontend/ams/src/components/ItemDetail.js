@@ -136,7 +136,7 @@ const ItemDetail = ({
                   <QRCode
                     value={i.item_code}
                     style={{
-                      height: "100%",
+                      height: "auto",
                       width: "100%",
                     }}
                   />

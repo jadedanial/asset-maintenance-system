@@ -246,13 +246,13 @@ const ItemList = ({
                 <Col
                   span={!view ? 3 : 6}
                   className="justified-row card-with-background"
+                  style={{ padding: "12px 0" }}
                 >
                   <QRCode
                     value={item.code}
                     style={{
                       height: "auto",
-                      width: "40%",
-                      padding: "10px 0",
+                      width: "35%",
                     }}
                   />
                 </Col>
@@ -334,7 +334,6 @@ const ItemList = ({
                       </Title>
                     }
                     style={{
-                      height: "80px",
                       paddingRight: "30px",
                     }}
                   >
@@ -342,7 +341,6 @@ const ItemList = ({
                       className="space-between-row medium-font"
                       style={{
                         alignItems: "center",
-                        paddingBottom: "12px",
                         color: theme === "light" ? "#000" : "#fff",
                       }}
                     >
