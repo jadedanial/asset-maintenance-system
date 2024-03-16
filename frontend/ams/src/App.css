@@ -221,6 +221,9 @@ h1.ant-typography {
 .ant-avatar .anticon {
   color: #fff !important;
 }
+.anticon-close-square {
+  color: #ff0000 !important;
+}
 .ant-input-affix-wrapper {
   background: 0 0 !important;
   padding: 0 !important;
