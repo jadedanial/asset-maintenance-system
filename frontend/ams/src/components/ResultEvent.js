@@ -4,7 +4,7 @@ import { Result } from "antd";
 const ResultEvent = ({ icon, status, title, subTitle, extra, theme }) => {
   return (
     <>
-      <div className={theme}>
+      <div className={theme} style={{ paddingTop: "5%" }}>
         <Result
           icon={icon}
           status={status}

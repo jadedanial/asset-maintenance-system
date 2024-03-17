@@ -234,8 +234,8 @@ const AddUpdateEmployee = ({
             status="success"
             title={
               updateData
-                ? "Successfully updated Employee."
-                : "Successfully added new Employee."
+                ? "Successfully updated employee."
+                : "Successfully added new employee."
             }
             subTitle={
               "Employee name " + employeeName + " with ID " + employeeID

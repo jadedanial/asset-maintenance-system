@@ -86,8 +86,8 @@ const RegisterPage = () => {
                 <ResultEvent
                   icon={<CheckOutlined />}
                   status="success"
-                  title="Successfully added new User."
-                  subTitle={"Username: " + userName + "\nEmail: " + email}
+                  title="Successfully added new user."
+                  subTitle={"Username: " + userName + " and Email: " + email}
                   extra={
                     <Button size="large" type="primary" href="/login">
                       LOGIN

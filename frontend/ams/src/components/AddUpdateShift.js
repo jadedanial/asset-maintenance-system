@@ -129,8 +129,8 @@ const AddUpdateShift = ({
             status="success"
             title={
               updateData
-                ? "Successfully updated Shift."
-                : "Successfully added new Shift."
+                ? "Successfully updated shift."
+                : "Successfully added new shift."
             }
             subTitle={shiftName}
             extra={

@@ -221,8 +221,8 @@ const AddUpdateItem = ({
             status="success"
             title={
               updateData
-                ? "Successfully updated Item."
-                : "Successfully added new Item."
+                ? "Successfully updated item."
+                : "Successfully added new item."
             }
             subTitle={"Item name " + itemName + " with code " + String(idCode)}
             extra={

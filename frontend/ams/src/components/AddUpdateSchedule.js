@@ -175,8 +175,8 @@ const AddUpdateSchedule = ({
             status="success"
             title={
               updateData
-                ? "Successfully updated Schedule."
-                : "Successfully added new Schedule."
+                ? "Successfully updated schedule."
+                : "Successfully added new schedule."
             }
             subTitle={schedName}
             extra={
