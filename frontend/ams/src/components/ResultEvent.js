@@ -4,8 +4,16 @@ import { Result } from "antd";
 const ResultEvent = ({ icon, status, title, subTitle, extra, theme }) => {
   return (
     <>
-      <div className={theme} style={{ paddingTop: "5%" }}>
+      <div
+        className={`align-items-center justified-row ${theme}`}
+        style={{
+          height: "100%",
+        }}
+      >
         <Result
+          style={{
+            width: "500px",
+          }}
           icon={icon}
           status={status}
           title={title}

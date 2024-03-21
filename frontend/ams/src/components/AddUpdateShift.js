@@ -134,8 +134,8 @@ const AddUpdateShift = ({
             }
             subTitle={shiftName}
             extra={
-              <Row className="space-between-row" style={{ width: "40%" }}>
-                <Col span={12}>
+              <Row className="space-between-row">
+                <Col span={12} style={{ paddingRight: "10px" }}>
                   <Button
                     size="large"
                     type="default"
@@ -145,7 +145,7 @@ const AddUpdateShift = ({
                     CLOSE
                   </Button>
                 </Col>
-                <Col span={11}>
+                <Col span={12}>
                   <Button
                     size="large"
                     type="primary"

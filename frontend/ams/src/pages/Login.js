@@ -60,13 +60,13 @@ const LoginPage = () => {
               title="Unauthorized User!"
               subTitle="Sorry, you are not authorized to access this page. Please login or register."
               extra={
-                <Row className="space-between-row" style={{ width: "30%" }}>
-                  <Col span={12}>
+                <Row className="space-between-row">
+                  <Col span={12} style={{ paddingRight: "10px" }}>
                     <Button size="large" type="default" href="/login" block>
                       LOGIN
                     </Button>
                   </Col>
-                  <Col span={11}>
+                  <Col span={12}>
                     <Button size="large" type="primary" href="/register" block>
                       REGISTER
                     </Button>
@@ -87,7 +87,13 @@ const LoginPage = () => {
               <Col span={10}>
                 <Slogan />
               </Col>
-              <Col span={14}>
+              <Col
+                span={14}
+                className="align-items-center"
+                style={{
+                  height: "calc(100vh - 80px)",
+                }}
+              >
                 <Card
                   size="large"
                   title={
@@ -95,7 +101,7 @@ const LoginPage = () => {
                       <p className="big-card-title">Authenticate User</p>
                     </Title>
                   }
-                  style={{ width: "60%", top: "16%", left: "22%" }}
+                  style={{ width: "60%", left: "18%" }}
                 >
                   <Form
                     name="login"

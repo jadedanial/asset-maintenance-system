@@ -424,36 +424,43 @@ const Vacation = ({ vacations, options, empid, theme }) => {
   if (success) {
     return (
       <>
-        <ResultEvent
-          icon={<CheckOutlined />}
-          status="success"
-          title={"Successfully applied employee vacation."}
-          subTitle={`From ${moment(startdate).format(
-            displayDateFormat
-          )} To ${moment(enddate).format(displayDateFormat)} (${
-            days > 1 ? days + " days" : days + " day"
-          })`}
-          extra={
-            <Row className="space-between-row" style={{ width: "40%" }}>
-              <Col span={12}>
-                <Button
-                  size="large"
-                  type="default"
-                  onClick={viewVacation}
-                  block
-                >
-                  CLOSE
-                </Button>
-              </Col>
-              <Col span={11}>
-                <Button size="large" type="primary" onClick={newVacation} block>
-                  NEW VACATION
-                </Button>
-              </Col>
-            </Row>
-          }
-          theme={theme}
-        />
+        <div style={{ minHeight: "460px" }}>
+          <ResultEvent
+            icon={<CheckOutlined />}
+            status="success"
+            title={"Successfully applied employee vacation."}
+            subTitle={`From ${moment(startdate).format(
+              displayDateFormat
+            )} To ${moment(enddate).format(displayDateFormat)} (${
+              days > 1 ? days + " days" : days + " day"
+            })`}
+            extra={
+              <Row className="space-between-row">
+                <Col span={12} style={{ paddingRight: "10px" }}>
+                  <Button
+                    size="large"
+                    type="default"
+                    onClick={viewVacation}
+                    block
+                  >
+                    CLOSE
+                  </Button>
+                </Col>
+                <Col span={12}>
+                  <Button
+                    size="large"
+                    type="primary"
+                    onClick={newVacation}
+                    block
+                  >
+                    NEW VACATION
+                  </Button>
+                </Col>
+              </Row>
+            }
+            theme={theme}
+          />
+        </div>
       </>
     );
   }
@@ -462,7 +469,11 @@ const Vacation = ({ vacations, options, empid, theme }) => {
     <>
       {contextHolder}
       <div style={{ marginTop: "24px" }}>
-        <Card size="small" style={{ width: "100%", minHeight: "460px" }}>
+        <Card
+          className="card-no-padding"
+          size="small"
+          style={{ width: "100%", minHeight: "460px" }}
+        >
           {add ? (
             <div className="justified-row">
               <div className="card-custom-size-60">

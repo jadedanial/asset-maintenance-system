@@ -439,33 +439,40 @@ const Excuse = ({ excuses, attendances, empid, theme }) => {
   if (success) {
     return (
       <>
-        <ResultEvent
-          icon={<CheckOutlined />}
-          status="success"
-          title={"Successfully applied employee excuse."}
-          subTitle={`${moment(excusedate).format(
-            displayDateFormat
-          )} From ${moment(starttime).format(timeFormat)} To ${moment(
-            endtime
-          ).format(timeFormat)} (${
-            hours > 1 ? hours + " hours" : hours + " hour"
-          })`}
-          extra={
-            <Row className="space-between-row" style={{ width: "40%" }}>
-              <Col span={12}>
-                <Button size="large" type="default" onClick={viewExcuse} block>
-                  CLOSE
-                </Button>
-              </Col>
-              <Col span={11}>
-                <Button size="large" type="primary" onClick={newExcuse} block>
-                  NEW EXCUSE
-                </Button>
-              </Col>
-            </Row>
-          }
-          theme={theme}
-        />
+        <div style={{ minHeight: "460px" }}>
+          <ResultEvent
+            icon={<CheckOutlined />}
+            status="success"
+            title={"Successfully applied employee excuse."}
+            subTitle={`${moment(excusedate).format(
+              displayDateFormat
+            )} From ${moment(starttime).format(timeFormat)} To ${moment(
+              endtime
+            ).format(timeFormat)} (${
+              hours > 1 ? hours + " hours" : hours + " hour"
+            })`}
+            extra={
+              <Row className="space-between-row">
+                <Col span={12} style={{ paddingRight: "10px" }}>
+                  <Button
+                    size="large"
+                    type="default"
+                    onClick={viewExcuse}
+                    block
+                  >
+                    CLOSE
+                  </Button>
+                </Col>
+                <Col span={12}>
+                  <Button size="large" type="primary" onClick={newExcuse} block>
+                    NEW EXCUSE
+                  </Button>
+                </Col>
+              </Row>
+            }
+            theme={theme}
+          />
+        </div>
       </>
     );
   }
@@ -474,7 +481,11 @@ const Excuse = ({ excuses, attendances, empid, theme }) => {
     <>
       {contextHolder}
       <div style={{ marginTop: "24px" }}>
-        <Card size="small" style={{ width: "100%", minHeight: "460px" }}>
+        <Card
+          className="card-no-padding"
+          size="small"
+          style={{ width: "100%", minHeight: "460px" }}
+        >
           {add ? (
             <div className="justified-row">
               <div className="card-custom-size-60">

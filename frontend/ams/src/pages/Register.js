@@ -77,12 +77,15 @@ const RegisterPage = () => {
           <Col span={10}>
             <Slogan />
           </Col>
-          <Col span={14}>
+          <Col
+            span={14}
+            className="align-items-center"
+            style={{
+              height: "calc(100vh - 80px)",
+            }}
+          >
             {success ? (
-              <Card
-                size="large"
-                style={{ width: "60%", top: "16%", left: "22%" }}
-              >
+              <Card size="large" style={{ width: "60%", left: "18%" }}>
                 <ResultEvent
                   icon={<CheckOutlined />}
                   status="success"
@@ -106,7 +109,7 @@ const RegisterPage = () => {
                     </p>
                   </Title>
                 }
-                style={{ width: "60%", top: "16%", left: "22%" }}
+                style={{ width: "60%", left: "18%" }}
               >
                 <Form
                   name="register"
