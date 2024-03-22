@@ -7,7 +7,7 @@ const ResultEvent = ({ icon, status, title, subTitle, extra, theme }) => {
       <div
         className={`align-items-center justified-row ${theme}`}
         style={{
-          height: "100%",
+          height: "60%",
         }}
       >
         <Result

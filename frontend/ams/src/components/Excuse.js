@@ -480,13 +480,9 @@ const Excuse = ({ excuses, attendances, empid, theme }) => {
   return (
     <>
       {contextHolder}
-      <div style={{ marginTop: "24px" }}>
-        <Card
-          className="card-no-padding"
-          size="small"
-          style={{ width: "100%", minHeight: "460px" }}
-        >
-          {add ? (
+      <div style={{ marginTop: "24px", minHeight: "460px" }}>
+        {add ? (
+          <Card size="small">
             <div className="justified-row">
               <div className="card-custom-size-60">
                 <Form
@@ -557,7 +553,9 @@ const Excuse = ({ excuses, attendances, empid, theme }) => {
                 </Form>
               </div>
             </div>
-          ) : (
+          </Card>
+        ) : (
+          <Card className="card-no-padding" size="small">
             <Table
               rowClassName={() => "table-row"}
               columns={columns}
@@ -582,8 +580,8 @@ const Excuse = ({ excuses, attendances, empid, theme }) => {
                 y: 300,
               }}
             />
-          )}
-        </Card>
+          </Card>
+        )}
       </div>
     </>
   );

@@ -315,13 +315,9 @@ const Attendance = ({
   return (
     <>
       {contextHolder}
-      <div style={{ marginTop: "24px" }}>
-        <Card
-          className="card-no-padding"
-          size="small"
-          style={{ width: "100%" }}
-        >
-          {add ? (
+      <div style={{ marginTop: "24px", minHeight: "460px" }}>
+        {add ? (
+          <Card size="small">
             <AddUpdateAttendance
               schedules={schedules}
               vacations={vacations}
@@ -337,74 +333,72 @@ const Attendance = ({
               viewAttendance={viewAttendance}
               theme={theme}
             />
-          ) : (
-            <>
-              <div className="justified-row" style={{ margin: "24px 0" }}>
-                <p className="medium-card-title">
-                  {String(moment(selectedDate).format("MMMM YYYY"))} Attendance
-                  Summary
-                </p>
+          </Card>
+        ) : (
+          <Card className="card-no-padding" size="small">
+            <div className="justified-row" style={{ margin: "24px 0" }}>
+              <p className="medium-card-title">
+                {String(moment(selectedDate).format("MMMM YYYY"))} Attendance
+                Summary
+              </p>
+            </div>
+            <div className="justified-row">
+              <Space size={70}>{monthlyAttendanceData(selectedDate)}</Space>
+            </div>
+            <div style={{ marginTop: "24px" }}>
+              <div className="space-between-row">
+                <Col span={withData ? 8 : 0}>
+                  <Card
+                    style={{
+                      padding: "0 10px",
+                    }}
+                  >
+                    <div>
+                      <p className="medium-card-title">{attendStatus}</p>
+                    </div>
+                    <div style={{ marginTop: "10px" }}>
+                      <Button
+                        size="large"
+                        type="primary"
+                        className="custom-hover"
+                        style={{ margin: "0", display: attendButton }}
+                        onClick={newAttendance}
+                      >
+                        {attendanceMode}
+                      </Button>
+                    </div>
+                    <div style={{ marginTop: "38px" }}>
+                      <Timeline>
+                        {attendanceData.map((data) => (
+                          <div>
+                            <Timeline.Item
+                              dot={
+                                <ClockCircleOutlined style={{ fontSize: "" }} />
+                              }
+                              className="small-font text"
+                            >
+                              {data}
+                            </Timeline.Item>
+                          </div>
+                        ))}
+                      </Timeline>
+                    </div>
+                  </Card>
+                </Col>
+                <Col span={withData ? 16 : 24}>
+                  <Card>
+                    <Calendar
+                      fullscreen={true}
+                      mode="month"
+                      onSelect={onSelect}
+                      dateCellRender={dateCellRender}
+                    />
+                  </Card>
+                </Col>
               </div>
-              <div className="justified-row">
-                <Space size={70}>{monthlyAttendanceData(selectedDate)}</Space>
-              </div>
-              <div style={{ marginTop: "24px" }}>
-                <div className="space-between-row">
-                  <Col span={withData ? 8 : 0}>
-                    <Card
-                      style={{
-                        padding: "0 10px",
-                      }}
-                    >
-                      <div>
-                        <p className="medium-card-title">{attendStatus}</p>
-                      </div>
-                      <div style={{ marginTop: "10px" }}>
-                        <Button
-                          size="large"
-                          type="primary"
-                          className="custom-hover"
-                          style={{ margin: "0", display: attendButton }}
-                          onClick={newAttendance}
-                        >
-                          {attendanceMode}
-                        </Button>
-                      </div>
-                      <div style={{ marginTop: "38px" }}>
-                        <Timeline>
-                          {attendanceData.map((data) => (
-                            <div>
-                              <Timeline.Item
-                                dot={
-                                  <ClockCircleOutlined
-                                    style={{ fontSize: "" }}
-                                  />
-                                }
-                                className="small-font text"
-                              >
-                                {data}
-                              </Timeline.Item>
-                            </div>
-                          ))}
-                        </Timeline>
-                      </div>
-                    </Card>
-                  </Col>
-                  <Col span={withData ? 16 : 24}>
-                    <Card>
-                      <Calendar
-                        fullscreen={true}
-                        mode="month"
-                        onSelect={onSelect}
-                        dateCellRender={dateCellRender}
-                      />
-                    </Card>
-                  </Col>
-                </div>
-              </div>
-            </>
-          )}
-        </Card>
+            </div>
+          </Card>
+        )}
       </div>
     </>
   );

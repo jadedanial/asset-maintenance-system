@@ -90,7 +90,7 @@ const RegisterPage = () => {
                   icon={<CheckOutlined />}
                   status="success"
                   title="Successfully added new user."
-                  subTitle={"Username: " + userName + " and Email: " + email}
+                  subTitle={"Username " + userName + " and Email " + email}
                   extra={
                     <Button size="large" type="primary" href="/login">
                       LOGIN
