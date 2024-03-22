@@ -82,22 +82,22 @@ h1 {
   width: 50%;
 }
 ::-webkit-scrollbar {
-  width: 3px;
-  height: 3px;
+  width: 3px !important;
+  height: 3px !important;
 }
 .dark ::-webkit-scrollbar-track {
-  background: #161d40;
+  background: #182348 !important;
 }
 .dark ::-webkit-scrollbar-thumb {
-  background: #161d40;
-  border: 3px solid #318ce7;
+  background: #182348 !important;
+  border: 3px solid #318ce7 !important;
 }
 .light ::-webkit-scrollbar-track {
-  background: #f8f9fa;
+  background: #fff !important;
 }
 .light ::-webkit-scrollbar-thumb {
-  background: #f8f9fa;
-  border: 3px solid #318ce7;
+  background: #fff !important;
+  border: 3px solid #318ce7 !important;
 }
 .ant-menu {
   border-right: none !important;

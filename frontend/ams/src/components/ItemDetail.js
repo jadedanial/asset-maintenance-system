@@ -150,20 +150,22 @@ const ItemDetail = ({
               display: view ? "none" : "block",
             }}
           >
-            <p className="small-card-title" style={{ paddingBottom: "24px" }}>
-              Stock On Other Warehouse
-            </p>
-            <Table
-              rowClassName={() => "table-row"}
-              columns={columns}
-              dataSource={data}
-              pagination={false}
-              size="small"
-              scroll={{
-                x: "100%",
-                y: "fit-content",
-              }}
-            />
+            <div className="card-with-background" style={{ padding: "24px" }}>
+              <p className="small-card-title" style={{ paddingBottom: "24px" }}>
+                Stock On Other Warehouse
+              </p>
+              <Table
+                rowClassName={() => "table-row"}
+                columns={columns}
+                dataSource={data}
+                pagination={false}
+                size="small"
+                scroll={{
+                  x: "100%",
+                  y: "fit-content",
+                }}
+              />
+            </div>
           </Col>
         </Row>
       </>

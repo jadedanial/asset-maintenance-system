@@ -444,6 +444,10 @@ const AddUpdateItem = ({
                     required: updateData ? descriptionReq : true,
                     message: "Required!",
                   },
+                  {
+                    max: 120,
+                    message: "Description must be 120 characters or less.",
+                  },
                 ]}
               >
                 <Input.TextArea
