@@ -350,7 +350,7 @@ const Attendance = ({
                 <Col span={withData ? 8 : 0} className="card-with-background">
                   <Card
                     className="card-with-background"
-                    style={{ padding: "24px" }}
+                    style={{ padding: "36px 24px" }}
                   >
                     <div>
                       <p className="medium-card-title">{attendStatus}</p>
