@@ -492,7 +492,7 @@ const Vacation = ({ vacations, options, empid, theme }) => {
                     <div>{steps[current].content}</div>
                     <div
                       className="space-between-row"
-                      style={{ paddingTop: "30px" }}
+                      style={{ paddingTop: "24px" }}
                     >
                       <Button
                         size="large"

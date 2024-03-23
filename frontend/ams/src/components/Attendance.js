@@ -346,12 +346,11 @@ const Attendance = ({
               <Space size={70}>{monthlyAttendanceData(selectedDate)}</Space>
             </div>
             <div style={{ marginTop: "24px" }}>
-              <div className="space-between-row">
-                <Col span={withData ? 8 : 0}>
+              <div className="space-between-row ">
+                <Col span={withData ? 8 : 0} className="card-with-background">
                   <Card
-                    style={{
-                      padding: "0 10px",
-                    }}
+                    className="card-with-background"
+                    style={{ padding: "24px" }}
                   >
                     <div>
                       <p className="medium-card-title">{attendStatus}</p>

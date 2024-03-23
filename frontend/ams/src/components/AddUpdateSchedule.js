@@ -516,7 +516,7 @@ const AddUpdateSchedule = ({
                   </Form.Item>
                 </Col>
               </div>
-              <div className="space-between-row" style={{ paddingTop: "30px" }}>
+              <div className="space-between-row" style={{ paddingTop: "24px" }}>
                 <Button
                   size="large"
                   type="default"

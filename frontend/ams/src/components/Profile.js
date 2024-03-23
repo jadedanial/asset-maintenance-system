@@ -263,12 +263,17 @@ const Profile = ({
                         </Row>
                       </Col>
                       <Col>
-                        <p
-                          className="biggest-card-title"
-                          style={{ textAlign: "right" }}
+                        <div
+                          className="card-with-background"
+                          style={{ padding: "24px 48px" }}
                         >
-                          {getInitials(e.emp_name)}
-                        </p>
+                          <p
+                            className="biggest-card-title"
+                            style={{ textAlign: "right" }}
+                          >
+                            {getInitials(e.emp_name)}
+                          </p>
+                        </div>
                       </Col>
                     </Row>
                   </Card>

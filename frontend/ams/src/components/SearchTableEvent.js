@@ -61,7 +61,7 @@ const SearchTableEvent = ({
             className="card-with-background space-between-row"
             style={{
               padding: "10px",
-              marginBottom: "30px",
+              marginBottom: "24px",
             }}
           >
             <Col span={1}>

@@ -99,7 +99,7 @@ const ItemList = ({
           className="card-with-background space-between-row"
           style={{
             padding: "10px",
-            marginBottom: "30px",
+            marginBottom: "24px",
           }}
         >
           <Col span={17}>
@@ -334,7 +334,7 @@ const ItemList = ({
                       </Title>
                     }
                     style={{
-                      paddingRight: "30px",
+                      paddingRight: "24px",
                     }}
                   >
                     <div
@@ -350,7 +350,7 @@ const ItemList = ({
                         <Row>
                           <Col
                             span={!view ? 8 : 13}
-                            style={{ marginRight: "30px" }}
+                            style={{ marginRight: "24px" }}
                           >
                             <p style={{ textAlign: "left", margin: "0" }}>
                               {item.name}

@@ -263,7 +263,7 @@ const ShiftSchedule = ({ schedules, employees, empid }) => {
                   <div>{scheduleSwitch(schedid)}</div>
                   <div
                     className="space-between-row"
-                    style={{ paddingTop: "30px" }}
+                    style={{ paddingTop: "24px" }}
                   >
                     <Button size="large" type="primary" htmlType="submit" block>
                       SAVE

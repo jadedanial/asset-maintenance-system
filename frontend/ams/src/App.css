@@ -545,7 +545,7 @@ h1.ant-typography {
   padding: 8px !important;
 }
 .ant-picker-calendar {
-  padding: 30px !important;
+  padding: 24px !important;
 }
 .ant-picker-calendar-header {
   padding-top: 0;
@@ -569,6 +569,9 @@ h1.ant-typography {
 }
 .ant-segmented {
   padding: 0 !important;
+}
+.ant-timeline-item {
+  padding-bottom: 12px !important;
 }
 .ant-segmented,
 .ant-tag,

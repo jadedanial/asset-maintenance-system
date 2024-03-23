@@ -301,7 +301,7 @@ const MainPage = ({
               items={newModules}
               style={{
                 fontSize: "12px",
-                marginTop: "30px",
+                marginTop: "24px",
               }}
               onClick={(e) => setSelectedMenuItem(e.key)}
             />

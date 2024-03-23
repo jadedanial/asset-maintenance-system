@@ -674,7 +674,7 @@ const Transact = ({
               className="card-with-background space-between-row"
               style={{
                 padding: "10px",
-                marginBottom: "30px",
+                marginBottom: "24px",
               }}
             >
               <Col span={segment === "Reorder" ? 17 : 24}>
