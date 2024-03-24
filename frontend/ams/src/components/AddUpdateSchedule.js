@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { useCustomQueryClient } from "../useQueryClient";
+import { useMutation } from "react-query";
 import axios from "axios";
 import { Typography, Button, Form, Card, Col, Row, Input, Select } from "antd";
 import { CheckOutlined } from "@ant-design/icons";
@@ -30,6 +32,7 @@ const AddUpdateSchedule = ({
   onCloseDrawer,
   theme,
 }) => {
+  const queryClient = useCustomQueryClient();
   const [updateData, setUpdateData] = useState(update);
   const [label, setLabel] = useState(
     updateData ? "Update Schedule" : "Add New Schedule"
@@ -130,7 +133,7 @@ const AddUpdateSchedule = ({
     changeLabel();
   };
 
-  const onFinish = () => {
+  const createSchedule = () => {
     setSubmit(true);
     changeLabel();
     var scheduleData = {
@@ -156,6 +159,7 @@ const AddUpdateSchedule = ({
       withCredentials: true,
     })
       .then(() => {
+        queryClient.invalidateQueries("schedules");
         setSuccess(true);
       })
       .catch((err) => {
@@ -164,6 +168,12 @@ const AddUpdateSchedule = ({
         setLabel(err.response.data[0]);
         setColor("#ff0000");
       });
+  };
+
+  const { mutate } = useMutation(createSchedule);
+
+  const onFinish = () => {
+    mutate();
   };
 
   if (submit) {

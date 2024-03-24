@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { useCustomQueryClient } from "../useQueryClient";
+import { useMutation } from "react-query";
 import axios from "axios";
 import {
   Typography,
@@ -34,6 +36,7 @@ const AddUpdateShift = ({
   onCloseDrawer,
   theme,
 }) => {
+  const queryClient = useCustomQueryClient();
   const timeFormat = "HH:mm:ss";
   const [updateData, setUpdateData] = useState(update);
   const [label, setLabel] = useState(
@@ -85,7 +88,7 @@ const AddUpdateShift = ({
     changeLabel();
   };
 
-  const onFinish = () => {
+  const createShift = () => {
     setSubmit(true);
     changeLabel();
     var shiftData = {
@@ -110,6 +113,7 @@ const AddUpdateShift = ({
       withCredentials: true,
     })
       .then(() => {
+        queryClient.invalidateQueries("shifts");
         setSuccess(true);
       })
       .catch((err) => {
@@ -118,6 +122,12 @@ const AddUpdateShift = ({
         setLabel(err.response.data[0]);
         setColor("#ff0000");
       });
+  };
+
+  const { mutate } = useMutation(createShift);
+
+  const onFinish = () => {
+    mutate();
   };
 
   if (submit) {

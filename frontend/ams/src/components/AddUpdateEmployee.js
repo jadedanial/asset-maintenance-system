@@ -186,7 +186,7 @@ const AddUpdateEmployee = ({
     changeLabel();
   };
 
-  const createItem = () => {
+  const createEmployee = () => {
     setSubmit(true);
     changeLabel();
     var employeeData = {
@@ -229,7 +229,7 @@ const AddUpdateEmployee = ({
       });
   };
 
-  const { mutate } = useMutation(createItem);
+  const { mutate } = useMutation(createEmployee);
 
   const onFinish = () => {
     mutate();
