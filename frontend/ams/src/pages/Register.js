@@ -119,43 +119,37 @@ const RegisterPage = () => {
                   onFinish={onFinish}
                   onFieldsChange={onFieldsChange}
                 >
-                  <Row className="space-between-row">
-                    <Col span={9}>
-                      <Form.Item
-                        name="id"
-                        rules={[
-                          {
-                            required: true,
-                            message: "Input employee ID!",
-                          },
-                        ]}
-                      >
-                        <Input
-                          prefix={<IdcardOutlined />}
-                          placeholder="Employee ID"
-                          onChange={(e) => setUserId(e.target.value)}
-                        />
-                      </Form.Item>
-                    </Col>
-                    <Col span={14}>
-                      <Form.Item
-                        name="username"
-                        rules={[
-                          {
-                            required: true,
-                            message: "Input employee username!",
-                          },
-                        ]}
-                      >
-                        <Input
-                          prefix={<UserOutlined />}
-                          placeholder="Username"
-                          maxLength={100}
-                          onChange={(e) => setUserName(e.target.value)}
-                        />
-                      </Form.Item>
-                    </Col>
-                  </Row>
+                  <Form.Item
+                    name="id"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Input employee ID!",
+                      },
+                    ]}
+                  >
+                    <Input
+                      prefix={<IdcardOutlined />}
+                      placeholder="Employee ID"
+                      onChange={(e) => setUserId(e.target.value)}
+                    />
+                  </Form.Item>
+                  <Form.Item
+                    name="username"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Input employee username!",
+                      },
+                    ]}
+                  >
+                    <Input
+                      prefix={<UserOutlined />}
+                      placeholder="Username"
+                      maxLength={100}
+                      onChange={(e) => setUserName(e.target.value)}
+                    />
+                  </Form.Item>
                   <Form.Item
                     name="email"
                     rules={[
