@@ -1,7 +1,7 @@
 import React, { useState } from "react";
+import { useCustomQueryClient } from "../useQueryClient";
 import { useMutation } from "react-query";
 import axios from "axios";
-import { useCustomQueryClient } from "../useQueryClient";
 import {
   Typography,
   Button,
@@ -151,7 +151,7 @@ const AddUpdateItem = ({
     return main;
   };
 
-  const createItem = () => {
+  const createEmployee = () => {
     setSubmit(true);
     changeLabel();
     var itemData = {
@@ -193,7 +193,7 @@ const AddUpdateItem = ({
             Authorization: `Token ${token}`,
           },
           withCredentials: true,
-        }).then((response) => {
+        }).then(() => {
           queryClient.invalidateQueries("warehouseitems");
           setSuccess(true);
         });
@@ -206,7 +206,7 @@ const AddUpdateItem = ({
       });
   };
 
-  const { mutate } = useMutation(createItem);
+  const { mutate } = useMutation(createEmployee);
 
   const onFinish = () => {
     mutate();

@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { useCustomQueryClient } from "../useQueryClient";
+import { useMutation } from "react-query";
 import axios from "axios";
 import {
   Typography,
@@ -45,6 +47,7 @@ const AddUpdateEmployee = ({
   onCloseDrawer,
   theme,
 }) => {
+  const queryClient = useCustomQueryClient();
   const dateFormat = "YYYY-MM-DD";
   const datePickerFormat = (value) => `${value.format("MMMM DD, YYYY")}`;
   const [updateData, setUpdateData] = useState(update);
@@ -183,7 +186,7 @@ const AddUpdateEmployee = ({
     changeLabel();
   };
 
-  const onFinish = () => {
+  const createItem = () => {
     setSubmit(true);
     changeLabel();
     var employeeData = {
@@ -211,6 +214,7 @@ const AddUpdateEmployee = ({
       withCredentials: true,
     })
       .then((response) => {
+        queryClient.invalidateQueries("employees");
         setEmployeeID(response.data["emp_id"]);
         if (updateData) {
           getSection();
@@ -223,6 +227,12 @@ const AddUpdateEmployee = ({
         setLabel(err.response.data[0]);
         setColor("#ff0000");
       });
+  };
+
+  const { mutate } = useMutation(createItem);
+
+  const onFinish = () => {
+    mutate();
   };
 
   if (submit) {
