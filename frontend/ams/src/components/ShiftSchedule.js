@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { useCustomQueryClient } from "../useQueryClient";
+import { useMutation } from "react-query";
 import axios from "axios";
 import {
   Card,
@@ -25,36 +27,13 @@ const layout = {
 };
 
 const ShiftSchedule = ({ schedules, employees, empid }) => {
+  const queryClient = useCustomQueryClient();
   const timeFormat = "HH:mm:ss";
   const schedId = employees.find((res) => res.emp_id === empid)?.emp_sched;
   const schedName = schedules.find((res) => res.id === schedId)?.sched_name;
   const [schedid, setSchedId] = useState(schedId);
   const [schedname, setSchedName] = useState(schedName);
   const [api, contextHolder] = notification.useNotification();
-
-  const applySchedule = () => {
-    var empData = {
-      empid: empid,
-      schedid: schedid,
-    };
-    const token = sessionStorage.getItem("token");
-    axios({
-      method: "PATCH",
-      url: `${process.env.REACT_APP_API_URL}/api/emp_schedule`,
-      data: empData,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Token ${token}`,
-      },
-      withCredentials: true,
-    })
-      .then(() => {
-        api.info(NotificationEvent(true, "Employee shift schedule updated."));
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
 
   const onChange = (value, label) => {
     setSchedId(value);
@@ -213,6 +192,37 @@ const ShiftSchedule = ({ schedules, employees, empid }) => {
     );
   };
 
+  const createShiftSchedule = () => {
+    var empData = {
+      empid: empid,
+      schedid: schedid,
+    };
+    const token = sessionStorage.getItem("token");
+    axios({
+      method: "PATCH",
+      url: `${process.env.REACT_APP_API_URL}/api/emp_schedule`,
+      data: empData,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Token ${token}`,
+      },
+      withCredentials: true,
+    })
+      .then(() => {
+        queryClient.invalidateQueries("employees");
+        api.info(NotificationEvent(true, "Employee shift schedule updated."));
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const { mutate } = useMutation(createShiftSchedule);
+
+  const onFinish = () => {
+    mutate();
+  };
+
   return (
     <>
       {contextHolder}
@@ -225,7 +235,7 @@ const ShiftSchedule = ({ schedules, employees, empid }) => {
                 layout="vertical"
                 size="large"
                 name="add-new-shiftschedule"
-                onFinish={applySchedule}
+                onFinish={onFinish}
               >
                 <Card
                   size="large"

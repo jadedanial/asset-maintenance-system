@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { useCustomQueryClient } from "../useQueryClient";
+import { useMutation } from "react-query";
 import axios from "axios";
 import {
   Form,
@@ -31,6 +33,7 @@ const layout = {
 };
 
 const Vacation = ({ vacations, options, empid, theme }) => {
+  const queryClient = useCustomQueryClient();
   const dateFormat = "YYYY-MM-DD";
   const displayDateFormat = "MMMM DD, YYYY";
   const datePickerFormat = (value) => `${value.format(displayDateFormat)}`;
@@ -174,39 +177,6 @@ const Vacation = ({ vacations, options, empid, theme }) => {
 
   const prev = () => {
     setCurrent(current - 1);
-  };
-
-  const applyVacation = () => {
-    var vacData = {
-      emp_id: empid,
-      vac_type: vacation,
-      vac_start: moment(startdate).format(dateFormat),
-      vac_end: moment(enddate).format(dateFormat),
-      vac_reason: reason ? reason : "No Reason",
-      vac_attachment: attachment ? attachment : "No Attachment",
-      vac_total: days,
-    };
-    const token = sessionStorage.getItem("token");
-    axios({
-      method: "POST",
-      url: `${process.env.REACT_APP_API_URL}/api/vacation`,
-      data: vacData,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Token ${token}`,
-      },
-      withCredentials: true,
-    })
-      .then(() => {
-        setSuccess(true);
-      })
-      .catch((err) => {
-        console.log(err);
-        setSuccess(false);
-        api.info(
-          NotificationEvent(false, "Employee vacation failed to apply.")
-        );
-      });
   };
 
   const addVactionButton = () => {
@@ -421,6 +391,46 @@ const Vacation = ({ vacations, options, empid, theme }) => {
     },
   ];
 
+  const createVacation = () => {
+    var vacData = {
+      emp_id: empid,
+      vac_type: vacation,
+      vac_start: moment(startdate).format(dateFormat),
+      vac_end: moment(enddate).format(dateFormat),
+      vac_reason: reason ? reason : "No Reason",
+      vac_attachment: attachment ? attachment : "No Attachment",
+      vac_total: days,
+    };
+    const token = sessionStorage.getItem("token");
+    axios({
+      method: "POST",
+      url: `${process.env.REACT_APP_API_URL}/api/vacation`,
+      data: vacData,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Token ${token}`,
+      },
+      withCredentials: true,
+    })
+      .then(() => {
+        queryClient.invalidateQueries("vacations");
+        setSuccess(true);
+      })
+      .catch((err) => {
+        console.log(err);
+        setSuccess(false);
+        api.info(
+          NotificationEvent(false, "Employee vacation failed to apply.")
+        );
+      });
+  };
+
+  const { mutate } = useMutation(createVacation);
+
+  const onFinish = () => {
+    mutate();
+  };
+
   if (success) {
     return (
       <>
@@ -531,7 +541,7 @@ const Vacation = ({ vacations, options, empid, theme }) => {
                         <Button
                           size="large"
                           type="primary"
-                          onClick={applyVacation}
+                          onClick={onFinish}
                           block
                         >
                           APPLY

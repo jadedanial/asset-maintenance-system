@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { useCustomQueryClient } from "../useQueryClient";
+import { useMutation } from "react-query";
 import axios from "axios";
 import {
   Form,
@@ -31,6 +33,7 @@ const layout = {
 };
 
 const Excuse = ({ excuses, attendances, empid, theme }) => {
+  const queryClient = useCustomQueryClient();
   const dateFormat = "YYYY-MM-DD";
   const timeFormat = "HH:mm:ss";
   const displayDateFormat = "MMMM DD, YYYY";
@@ -46,6 +49,15 @@ const Excuse = ({ excuses, attendances, empid, theme }) => {
   const [api, contextHolder] = notification.useNotification();
   const [current, setCurrent] = useState(0);
 
+  const loadAttendances = attendances.map((res) => {
+    return {
+      id: res.emp_id,
+      date: res.attend_date,
+      under: res.attend_under,
+      status: res.attend_status,
+    };
+  });
+
   const loadExcuses = excuses.map((res) => {
     return {
       id: res.emp_id,
@@ -56,37 +68,6 @@ const Excuse = ({ excuses, attendances, empid, theme }) => {
       total: res.exc_total,
     };
   });
-
-  const loadAttendances = attendances.map((res) => {
-    return {
-      id: res.emp_id,
-      date: res.attend_date,
-      under: res.attend_under,
-      status: res.attend_status,
-    };
-  });
-
-  const updateAttendance = () => {
-    var attendData = {
-      emp_id: empid,
-      attend_date: excusedate.format(dateFormat),
-      attend_under: under - hours,
-      attend_excuse: hours,
-    };
-    const token = sessionStorage.getItem("token");
-    axios({
-      method: "PATCH",
-      url: `${process.env.REACT_APP_API_URL}/api/emp_attendance`,
-      data: attendData,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Token ${token}`,
-      },
-      withCredentials: true,
-    }).catch((err) => {
-      console.log(err);
-    });
-  };
 
   const newExcuse = () => {
     setSuccess(false);
@@ -153,6 +134,7 @@ const Excuse = ({ excuses, attendances, empid, theme }) => {
         if (statusAttend === "Attended Today") {
           onAttend = false;
           setUnder(underAttend);
+          break;
         } else {
           onAttend = true;
           break;
@@ -226,7 +208,16 @@ const Excuse = ({ excuses, attendances, empid, theme }) => {
     } else if (checkExcuse()) {
       valid = false;
       api.info(NotificationEvent(false, "Excuse exist for this date."));
-    } else if (parseFloat(countExcuse()) > 8) {
+    } else if (
+      parseFloat(countExcuse()) +
+        parseFloat(
+          moment
+            .duration(moment(endtime).diff(moment(starttime)))
+            .asHours()
+            .toFixed(2)
+        ) >
+      8
+    ) {
       valid = false;
       api.info(
         NotificationEvent(false, "Total excuse hours limit already reached.")
@@ -243,37 +234,6 @@ const Excuse = ({ excuses, attendances, empid, theme }) => {
 
   const prev = () => {
     setCurrent(current - 1);
-  };
-
-  const applyExcuse = () => {
-    var excData = {
-      emp_id: empid,
-      exc_date: moment(excusedate).format(dateFormat),
-      exc_start: moment(starttime).format(timeFormat),
-      exc_end: moment(endtime).format(timeFormat),
-      exc_reason: reason,
-      exc_total: hours,
-    };
-    const token = sessionStorage.getItem("token");
-    axios({
-      method: "POST",
-      url: `${process.env.REACT_APP_API_URL}/api/excuse`,
-      data: excData,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Token ${token}`,
-      },
-      withCredentials: true,
-    })
-      .then(() => {
-        updateAttendance();
-        setSuccess(true);
-      })
-      .catch((err) => {
-        console.log(err);
-        setSuccess(false);
-        api.info(NotificationEvent(false, "Employee excuse failed to apply."));
-      });
   };
 
   const addExcuseButton = () => {
@@ -436,6 +396,62 @@ const Excuse = ({ excuses, attendances, empid, theme }) => {
     },
   ];
 
+  const createExcuse = () => {
+    var excData = {
+      emp_id: empid,
+      exc_date: moment(excusedate).format(dateFormat),
+      exc_start: moment(starttime).format(timeFormat),
+      exc_end: moment(endtime).format(timeFormat),
+      exc_reason: reason,
+      exc_total: hours,
+    };
+    const token = sessionStorage.getItem("token");
+    axios({
+      method: "POST",
+      url: `${process.env.REACT_APP_API_URL}/api/excuse`,
+      data: excData,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Token ${token}`,
+      },
+      withCredentials: true,
+    })
+      .then(() => {
+        queryClient.invalidateQueries("excuses");
+        var attendData = {
+          emp_id: empid,
+          attend_date: excusedate.format(dateFormat),
+          attend_under: under - hours,
+          attend_excuse: hours,
+        };
+        const token = sessionStorage.getItem("token");
+        axios({
+          method: "PATCH",
+          url: `${process.env.REACT_APP_API_URL}/api/emp_attendance`,
+          data: attendData,
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Token ${token}`,
+          },
+          withCredentials: true,
+        }).then(() => {
+          queryClient.invalidateQueries("attendances");
+          setSuccess(true);
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+        setSuccess(false);
+        api.info(NotificationEvent(false, "Employee excuse failed to apply."));
+      });
+  };
+
+  const { mutate } = useMutation(createExcuse);
+
+  const onFinish = () => {
+    mutate();
+  };
+
   if (success) {
     return (
       <>
@@ -542,7 +558,7 @@ const Excuse = ({ excuses, attendances, empid, theme }) => {
                         <Button
                           size="large"
                           type="primary"
-                          onClick={applyExcuse}
+                          onClick={onFinish}
                           block
                         >
                           APPLY

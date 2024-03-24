@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { useCustomQueryClient } from "../useQueryClient";
+import { useMutation } from "react-query";
 import axios from "axios";
 import {
   Form,
@@ -42,6 +44,7 @@ const AddUpdateAttendance = ({
   viewAttendance,
   theme,
 }) => {
+  const queryClient = useCustomQueryClient();
   const dateFormat = "YYYY-MM-DD";
   const timeFormat = "HH:mm:ss";
   const dateTimeFormat = "YYYY-MM-DD HH:mm:ss";
@@ -295,12 +298,16 @@ const AddUpdateAttendance = ({
         Authorization: `Token ${token}`,
       },
       withCredentials: true,
-    }).catch((err) => {
-      console.log(err);
-    });
+    })
+      .then(() => {
+        queryClient.invalidateQueries("attendances");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
-  const onFinish = () => {
+  const createAttendance = () => {
     var valid = true;
     var err = 0;
     if (
@@ -436,6 +443,12 @@ const AddUpdateAttendance = ({
         )
       );
     }
+  };
+
+  const { mutate } = useMutation(createAttendance);
+
+  const onFinish = () => {
+    mutate();
   };
 
   if (success) {
