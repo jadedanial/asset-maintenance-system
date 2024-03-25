@@ -214,6 +214,9 @@ const ShiftSchedule = ({ schedules, employees, empid }) => {
       })
       .catch((err) => {
         console.log(err);
+        api.info(
+          NotificationEvent(false, "Employee shift schedule failed to apply.")
+        );
       });
   };
 

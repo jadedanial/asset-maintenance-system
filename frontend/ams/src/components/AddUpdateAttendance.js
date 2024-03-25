@@ -304,6 +304,7 @@ const AddUpdateAttendance = ({
       })
       .catch((err) => {
         console.log(err);
+        NotificationEvent(false, "Employee attendance failed to apply.");
       });
   };
 
