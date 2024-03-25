@@ -14,7 +14,7 @@ const HomePage = () => {
   const [userName, setUserName] = useState("");
   const [loginFailed, setLoginFailed] = useState(false);
   const [loading, setLoading] = useState(false);
-  const antIcon = <LoadingOutlined style={{ fontSize: 48 }} spin />;
+  const antIcon = <LoadingOutlined style={{ fontSize: 100 }} spin />;
   const token = sessionStorage.getItem("token");
 
   useEffect(() => {
@@ -137,6 +137,14 @@ const HomePage = () => {
             className="justified-row align-items-center"
             style={{ height: "100vh" }}
           >
+            <img
+              src={"images/ams.png"}
+              alt="logo"
+              style={{
+                width: "60px",
+                position: "fixed",
+              }}
+            />
             <Spin indicator={antIcon} />
           </div>
         ) : (
