@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useCustomQueryClient } from "../useQueryClient";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "react-query";
+import { Spin } from "antd";
+import { LoadingOutlined } from "@ant-design/icons";
 import axios from "axios";
 import MainPage from "../components/MainPage";
 
@@ -11,6 +13,8 @@ const HomePage = () => {
   const [userId, setUserId] = useState(0);
   const [userName, setUserName] = useState("");
   const [loginFailed, setLoginFailed] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const antIcon = <LoadingOutlined style={{ fontSize: 48 }} spin />;
   const token = sessionStorage.getItem("token");
 
   useEffect(() => {
@@ -40,6 +44,7 @@ const HomePage = () => {
   }, [token, navigate, queryClient]);
 
   const fetchData = async (endpoint, token) => {
+    setLoading(true);
     try {
       const response = await axios({
         method: "GET",
@@ -50,8 +55,10 @@ const HomePage = () => {
         },
         withCredentials: true,
       });
+      setLoading(false);
       return response.data;
     } catch (error) {
+      setLoading(false);
       throw new Error(error);
     }
   };
@@ -125,26 +132,35 @@ const HomePage = () => {
   return (
     <>
       {!loginFailed ? (
-        <MainPage
-          userId={userId}
-          userName={userName}
-          components={componentsData}
-          modules={modulesData}
-          categories={categoriesData}
-          options={optionsData}
-          branches={branchesData}
-          sections={sectionsData}
-          shifts={shiftsData}
-          schedules={schedulesData}
-          employees={employeesData}
-          attendances={attendancesData}
-          vacations={vacationsData}
-          excuses={excusesData}
-          items={itemsData}
-          warehouseitems={warehouseitemsData}
-          vehicles={vehiclesData}
-          transactions={transactionsData}
-        />
+        loading ? (
+          <div
+            className="justified-row align-items-center"
+            style={{ height: "100vh" }}
+          >
+            <Spin indicator={antIcon} />
+          </div>
+        ) : (
+          <MainPage
+            userId={userId}
+            userName={userName}
+            components={componentsData}
+            modules={modulesData}
+            categories={categoriesData}
+            options={optionsData}
+            branches={branchesData}
+            sections={sectionsData}
+            shifts={shiftsData}
+            schedules={schedulesData}
+            employees={employeesData}
+            attendances={attendancesData}
+            vacations={vacationsData}
+            excuses={excusesData}
+            items={itemsData}
+            warehouseitems={warehouseitemsData}
+            vehicles={vehiclesData}
+            transactions={transactionsData}
+          />
+        )
       ) : (
         <></>
       )}
