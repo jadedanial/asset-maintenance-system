@@ -55,6 +55,7 @@ const Profile = ({
             employees={employees}
             schedules={schedules}
             vacations={vacations}
+            excuses={excuses}
             empid={empid}
             theme={theme}
           />

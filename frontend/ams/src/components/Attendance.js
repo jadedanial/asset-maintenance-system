@@ -31,13 +31,15 @@ const Attendance = ({
   employees,
   schedules,
   vacations,
+  excuses,
   empid,
   theme,
 }) => {
+  const dateFormat = "YYYY-MM-DD";
   const dateTimeFormat = "YYYY-MM-DD HH:mm:ss";
   const displayDateFormat = "MMMM DD, YYYY";
   const [selectedDate, setSelectedDate] = useState(
-    String(moment().format("YYYY-MM-DD"))
+    String(moment().format(dateFormat))
   );
   const [schedid, setSchedId] = useState(0);
   const [attendStatus, setAttendStatus] = useState("");
@@ -72,6 +74,43 @@ const Attendance = ({
       }));
   };
 
+  const loadExcuses = excuses.map((res) => {
+    return {
+      id: res.emp_id,
+      date: res.exc_date,
+      start: res.exc_start,
+      end: res.exc_end,
+      reason: res.exc_reason,
+      total: res.exc_total,
+    };
+  });
+
+  const checkExcuse = () => {
+    var onExcuse = false;
+    var excs = loadExcuses
+      .filter((res) => res.id === empid)
+      .map((excuse) => {
+        return {
+          date: excuse.date,
+          start: excuse.start,
+          end: excuse.end,
+        };
+      });
+    for (var i = 0; i < excs.length; i++) {
+      var dateExc = excs[i]["date"];
+      if (
+        moment(selectedDate).format(dateFormat) ===
+        moment(dateExc).format(dateFormat)
+      ) {
+        onExcuse = true;
+        break;
+      } else {
+        onExcuse = false;
+      }
+    }
+    return onExcuse;
+  };
+
   const [employeeAttendance, setEmployeeAttendance] = useState(
     loadAttendances()
   );
@@ -91,7 +130,7 @@ const Attendance = ({
     setCheckOutTime("--:--:--");
     for (const [, value] of Object.entries(employeeAttendance)) {
       if (
-        String(value["Date"]) === String(moment(newValue).format("YYYY-MM-DD"))
+        String(value["Date"]) === String(moment(newValue).format(dateFormat))
       ) {
         var attendData = [];
         for (let key in value) {
@@ -158,7 +197,7 @@ const Attendance = ({
   const getListData = (value) => {
     let listData;
     employeeAttendance?.forEach((attendance) => {
-      switch (String(moment(value).format("YYYY-MM-DD"))) {
+      switch (String(moment(value).format(dateFormat))) {
         case attendance.Date:
           listData = [
             {
@@ -295,8 +334,17 @@ const Attendance = ({
   const newAttendance = () => {
     const schedule = getSchedule();
     if (schedule) {
-      setSchedId(schedule);
-      setAdd(true);
+      if (!checkExcuse()) {
+        setSchedId(schedule);
+        setAdd(true);
+      } else {
+        api.info(
+          NotificationEvent(
+            false,
+            "Not allowed to update attendance with excuse applied."
+          )
+        );
+      }
     } else {
       api.info(
         NotificationEvent(false, "No shift schedule assigned to this employee.")
