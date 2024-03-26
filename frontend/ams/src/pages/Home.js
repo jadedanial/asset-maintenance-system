@@ -13,54 +13,56 @@ const HomePage = () => {
   const [userId, setUserId] = useState(0);
   const [userName, setUserName] = useState("");
   const [loginFailed, setLoginFailed] = useState(false);
+  const token = sessionStorage.getItem("token");
   const [loading, setLoading] = useState(false);
   const antIcon = <LoadingOutlined style={{ fontSize: 100 }} spin />;
-  const token = sessionStorage.getItem("token");
 
   useEffect(() => {
-    const fetchDataForUser = async () => {
-      try {
-        const userResponse = await axios({
-          method: "GET",
-          url: `${process.env.REACT_APP_API_URL}/api/user`,
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Token ${token}`,
-          },
-          withCredentials: true,
-        });
-        const userData = userResponse.data;
-        setUserId(userData.userid);
-        setUserName(userData.username);
-        setLoginFailed(false);
-      } catch (err) {
-        console.log(err.response.data.detail);
-        queryClient.clear();
-        setLoginFailed(true);
-        navigate("/login");
-      }
-    };
-    fetchDataForUser();
-  }, [token, navigate, queryClient]);
-
-  const fetchData = async (endpoint, token) => {
-    setLoading(true);
-    try {
-      const response = await axios({
+    const fetchDataForUser = () => {
+      axios({
         method: "GET",
-        url: `${process.env.REACT_APP_API_URL}/api/${endpoint}`,
+        url: `${process.env.REACT_APP_API_URL}/api/user`,
         headers: {
           "Content-Type": "application/json",
           Authorization: `Token ${token}`,
         },
         withCredentials: true,
+      })
+        .then((userResponse) => {
+          const userData = userResponse.data;
+          setUserId(userData.userid);
+          setUserName(userData.username);
+          setLoginFailed(false);
+        })
+        .catch((err) => {
+          console.log(err.response.data.detail);
+          queryClient.clear();
+          setLoginFailed(true);
+          navigate("/login");
+        });
+    };
+    fetchDataForUser();
+  }, [token, navigate, queryClient]);
+
+  const fetchData = (endpoint, token) => {
+    setLoading(true);
+    return axios({
+      method: "GET",
+      url: `${process.env.REACT_APP_API_URL}/api/${endpoint}`,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Token ${token}`,
+      },
+      withCredentials: true,
+    })
+      .then((response) => {
+        setLoading(false);
+        return response.data;
+      })
+      .catch((error) => {
+        setLoading(false);
+        throw new Error(error);
       });
-      setLoading(false);
-      return response.data;
-    } catch (error) {
-      setLoading(false);
-      throw new Error(error);
-    }
   };
 
   const useComponentsData = (token) => {
