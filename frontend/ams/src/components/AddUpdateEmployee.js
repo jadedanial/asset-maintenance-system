@@ -221,6 +221,7 @@ const AddUpdateEmployee = ({
           getSection();
         }
         setSuccess(true);
+        setSubmit(true);
       })
       .catch((err) => {
         console.log(err.response.data[0]);
@@ -233,7 +234,6 @@ const AddUpdateEmployee = ({
   const { mutate } = useMutation(createEmployee);
 
   const onFinish = () => {
-    setSubmit(true);
     mutate();
   };
 
