@@ -16,6 +16,7 @@ import {
 import { CheckOutlined } from "@ant-design/icons";
 import ResultEvent from "./ResultEvent";
 import moment from "moment";
+import Spinner from "./Spinner";
 
 const { Title } = Typography;
 
@@ -29,6 +30,7 @@ const layout = {
 };
 
 const AddUpdateEmployee = ({
+  loading,
   sections,
   options,
   update,
@@ -239,43 +241,47 @@ const AddUpdateEmployee = ({
     if (success) {
       return (
         <>
-          <ResultEvent
-            icon={<CheckOutlined />}
-            status="success"
-            title={
-              updateData
-                ? "Successfully updated employee."
-                : "Successfully added new employee."
-            }
-            subTitle={
-              "Employee name " + employeeName + " with ID " + employeeID
-            }
-            extra={
-              <Row className="space-between-row">
-                <Col span={12} style={{ paddingRight: "10px" }}>
-                  <Button
-                    size="large"
-                    type="default"
-                    onClick={onCloseDrawer}
-                    block
-                  >
-                    CLOSE
-                  </Button>
-                </Col>
-                <Col span={12}>
-                  <Button
-                    size="large"
-                    type="primary"
-                    onClick={() => newEmployee()}
-                    block
-                  >
-                    NEW EMPLOYEE
-                  </Button>
-                </Col>
-              </Row>
-            }
-            theme={theme}
-          />
+          {loading ? (
+            <Spinner theme={theme} />
+          ) : (
+            <ResultEvent
+              icon={<CheckOutlined />}
+              status="success"
+              title={
+                updateData
+                  ? "Successfully updated employee."
+                  : "Successfully added new employee."
+              }
+              subTitle={
+                "Employee name " + employeeName + " with ID " + employeeID
+              }
+              extra={
+                <Row className="space-between-row">
+                  <Col span={12} style={{ paddingRight: "10px" }}>
+                    <Button
+                      size="large"
+                      type="default"
+                      onClick={onCloseDrawer}
+                      block
+                    >
+                      CLOSE
+                    </Button>
+                  </Col>
+                  <Col span={12}>
+                    <Button
+                      size="large"
+                      type="primary"
+                      onClick={() => newEmployee()}
+                      block
+                    >
+                      NEW EMPLOYEE
+                    </Button>
+                  </Col>
+                </Row>
+              }
+              theme={theme}
+            />
+          )}
         </>
       );
     }

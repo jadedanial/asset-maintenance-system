@@ -33,7 +33,6 @@ import Item from "../modules/Item";
 import Transact from "../modules/Transact";
 import DrawerEvent from "./DrawerEvent";
 import EmptyData from "./EmptyData";
-import Spinner from "./Spinner";
 
 const { Header, Sider, Content } = Layout;
 
@@ -163,6 +162,7 @@ const MainPage = ({
         return (
           <>
             <DrawerEvent
+              loading={loading}
               employees={employees}
               attendances={attendances}
               schedules={schedules}
@@ -277,131 +277,124 @@ const MainPage = ({
 
   return (
     <>
-      {loading ? (
-        <Spinner theme={theme} />
-      ) : (
-        <ConfigProvider renderEmpty={emptyImage}>
-          <Layout className={theme}>
-            <Sider
-              trigger={null}
-              collapsible
-              collapsed={collapsed}
+      <ConfigProvider renderEmpty={emptyImage}>
+        <Layout className={theme}>
+          <Sider
+            trigger={null}
+            collapsible
+            collapsed={collapsed}
+            style={{
+              height: "100vh",
+            }}
+          >
+            <div style={{ margin: "24px 0 15px 32px" }}>
+              <img
+                src={"images/ams.png"}
+                alt="logo"
+                style={{
+                  width: "35%",
+                }}
+              />
+            </div>
+            <Menu
+              defaultSelectedKeys={[1]}
+              mode="inline"
+              theme={theme}
+              items={newModules}
               style={{
-                height: "100vh",
+                fontSize: "12px",
+                marginTop: "24px",
+              }}
+              onClick={(e) => setSelectedMenuItem(e.key)}
+            />
+          </Sider>
+          <Layout>
+            <Header
+              style={{
+                padding: "0",
+                height: "65px",
+                position: "sticky",
+                top: "0",
+                zIndex: "1",
               }}
             >
-              <div style={{ margin: "24px 0 15px 32px" }}>
-                <img
-                  src={"images/ams.png"}
-                  alt="logo"
-                  style={{
-                    width: "35%",
-                  }}
-                />
+              <div className="space-between-row" style={{ padding: "0 24px" }}>
+                <Col style={{ color: "#318ce7" }}>
+                  {React.createElement(
+                    collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
+                    {
+                      className: "trigger",
+                      onClick: () => setCollapsed(!collapsed),
+                    }
+                  )}
+                </Col>
+                <Col>
+                  <Dropdown
+                    menu={{ items: dropDownItems, onClick }}
+                    placement="bottomRight"
+                    arrow
+                  >
+                    <Badge>
+                      <Space style={{ marginRight: "24px" }}>
+                        <Col>
+                          <p
+                            className="medium-font"
+                            style={{ cursor: "pointer" }}
+                          >
+                            {userId}
+                          </p>
+                        </Col>
+                        <Col>
+                          <p
+                            className="medium-font"
+                            style={{ cursor: "pointer" }}
+                          >
+                            {userName}
+                          </p>
+                        </Col>
+                        <Col>
+                          <Avatar
+                            size="small"
+                            style={{
+                              background: "#318ce7",
+                              cursor: "pointer",
+                            }}
+                            icon={<UserOutlined />}
+                          />
+                        </Col>
+                      </Space>
+                    </Badge>
+                  </Dropdown>
+                  <Button
+                    icon={
+                      theme === "light" ? <BulbOutlined /> : <AlertOutlined />
+                    }
+                    className="btn-normal"
+                    onClick={() => changeMode()}
+                  />
+                </Col>
               </div>
-              <Menu
-                defaultSelectedKeys={[1]}
-                mode="inline"
-                theme={theme}
-                items={newModules}
+              <div
                 style={{
-                  fontSize: "12px",
-                  marginTop: "24px",
-                }}
-                onClick={(e) => setSelectedMenuItem(e.key)}
-              />
-            </Sider>
-            <Layout>
-              <Header
-                style={{
-                  padding: "0",
-                  height: "65px",
-                  position: "sticky",
-                  top: "0",
-                  zIndex: "1",
-                }}
-              >
-                <div
-                  className="space-between-row"
-                  style={{ padding: "0 24px" }}
-                >
-                  <Col style={{ color: "#318ce7" }}>
-                    {React.createElement(
-                      collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
-                      {
-                        className: "trigger",
-                        onClick: () => setCollapsed(!collapsed),
-                      }
-                    )}
-                  </Col>
-                  <Col>
-                    <Dropdown
-                      menu={{ items: dropDownItems, onClick }}
-                      placement="bottomRight"
-                      arrow
-                    >
-                      <Badge>
-                        <Space style={{ marginRight: "24px" }}>
-                          <Col>
-                            <p
-                              className="medium-font"
-                              style={{ cursor: "pointer" }}
-                            >
-                              {userId}
-                            </p>
-                          </Col>
-                          <Col>
-                            <p
-                              className="medium-font"
-                              style={{ cursor: "pointer" }}
-                            >
-                              {userName}
-                            </p>
-                          </Col>
-                          <Col>
-                            <Avatar
-                              size="small"
-                              style={{
-                                background: "#318ce7",
-                                cursor: "pointer",
-                              }}
-                              icon={<UserOutlined />}
-                            />
-                          </Col>
-                        </Space>
-                      </Badge>
-                    </Dropdown>
-                    <Button
-                      icon={
-                        theme === "light" ? <BulbOutlined /> : <AlertOutlined />
-                      }
-                      className="btn-normal"
-                      onClick={() => changeMode()}
-                    />
-                  </Col>
-                </div>
-                <div
-                  style={{
-                    marginTop: "1px",
-                    height: "22px",
-                    background: theme === "light" ? "#ecf3f9" : "#1c2755",
-                  }}
-                ></div>
-              </Header>
-              <Layout
-                style={{
+                  marginTop: "1px",
+                  height: "22px",
                   background: theme === "light" ? "#ecf3f9" : "#1c2755",
-                  minHeight: "300%",
                 }}
-              >
-                <Content style={{ margin: "24px" }}>
-                  {componentSwitch(selectedMenuItem)}
-                </Content>
-              </Layout>
+              ></div>
+            </Header>
+            <Layout
+              style={{
+                background: theme === "light" ? "#ecf3f9" : "#1c2755",
+                minHeight: "300%",
+              }}
+            >
+              <Content style={{ margin: "24px" }}>
+                {componentSwitch(selectedMenuItem)}
+              </Content>
             </Layout>
           </Layout>
-        </ConfigProvider>
-      )}
+        </Layout>
+      </ConfigProvider>
     </>
   );
 };
