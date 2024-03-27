@@ -382,20 +382,20 @@ const MainPage = ({
                 }}
               ></div>
             </Header>
-            <Layout
-              style={{
-                background: theme === "light" ? "#ecf3f9" : "#1c2755",
-                minHeight: "300%",
-              }}
-            >
-              <Content style={{ margin: "24px" }}>
-                {loading ? (
-                  <Spinner theme={theme} />
-                ) : (
-                  <Spinner theme={theme} />
-                )}
-              </Content>
-            </Layout>
+            {loading ? (
+              <Spinner theme={theme} />
+            ) : (
+              <Layout
+                style={{
+                  background: theme === "light" ? "#ecf3f9" : "#1c2755",
+                  minHeight: "300%",
+                }}
+              >
+                <Content style={{ margin: "24px" }}>
+                  {componentSwitch(selectedMenuItem)}
+                </Content>
+              </Layout>
+            )}
           </Layout>
         </Layout>
       </ConfigProvider>
