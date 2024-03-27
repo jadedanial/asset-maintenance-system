@@ -189,6 +189,7 @@ const AddUpdateEmployee = ({
   };
 
   const createEmployee = () => {
+    setSubmit(true);
     changeLabel();
     var employeeData = {
       emp_id: employeeID,
@@ -221,7 +222,6 @@ const AddUpdateEmployee = ({
           getSection();
         }
         setSuccess(true);
-        setSubmit(true);
       })
       .catch((err) => {
         console.log(err.response.data[0]);
