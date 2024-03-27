@@ -238,6 +238,7 @@ const AddUpdateEmployee = ({
   };
 
   if (submit) {
+    console.log(loading);
     if (success) {
       return (
         <>
