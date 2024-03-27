@@ -30,6 +30,7 @@ const layout = {
 };
 
 const AddUpdateEmployee = ({
+  loading,
   sections,
   options,
   update,
@@ -49,7 +50,6 @@ const AddUpdateEmployee = ({
   theme,
 }) => {
   const queryClient = useCustomQueryClient();
-  const [loading, setLoading] = useState(false);
   const dateFormat = "YYYY-MM-DD";
   const datePickerFormat = (value) => `${value.format("MMMM DD, YYYY")}`;
   const [updateData, setUpdateData] = useState(update);
@@ -189,7 +189,6 @@ const AddUpdateEmployee = ({
   };
 
   const createEmployee = () => {
-    setLoading(true);
     setSubmit(true);
     changeLabel();
     var employeeData = {
@@ -222,11 +221,9 @@ const AddUpdateEmployee = ({
         if (updateData) {
           getSection();
         }
-        setLoading(false);
         setSuccess(true);
       })
       .catch((err) => {
-        setLoading(false);
         console.log(err.response.data[0]);
         setSuccess(false);
         setLabel(err.response.data[0]);

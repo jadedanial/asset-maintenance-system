@@ -53,7 +53,9 @@ const HomePage = () => {
       withCredentials: true,
     })
       .then((response) => {
-        setLoading(false);
+        setTimeout(() => {
+          setLoading(false);
+        }, 3000);
         return response.data;
       })
       .catch((error) => {
