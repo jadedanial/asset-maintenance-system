@@ -392,7 +392,7 @@ const MainPage = ({
                 {loading ? (
                   <Spinner theme={theme} />
                 ) : (
-                  componentSwitch(selectedMenuItem)
+                  <Spinner theme={theme} />
                 )}
               </Content>
             </Layout>
