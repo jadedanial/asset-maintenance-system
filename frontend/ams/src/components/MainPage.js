@@ -37,7 +37,6 @@ import EmptyData from "./EmptyData";
 const { Header, Sider, Content } = Layout;
 
 const MainPage = ({
-  hideSpinner,
   userId,
   userName,
   components,
@@ -162,7 +161,6 @@ const MainPage = ({
         return (
           <>
             <DrawerEvent
-              hideSpinner={hideSpinner}
               employees={employees}
               attendances={attendances}
               schedules={schedules}
@@ -185,7 +183,6 @@ const MainPage = ({
         return (
           <>
             <Employee
-              hideSpinner={hideSpinner}
               employees={employees}
               attendances={attendances}
               schedules={schedules}

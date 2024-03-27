@@ -9,7 +9,6 @@ import AddUpdateItem from "./AddUpdateItem";
 import Cart from "./Cart";
 
 const DrawerEvent = ({
-  hideSpinner,
   items,
   warehouseitems,
   employees,
@@ -55,7 +54,6 @@ const DrawerEvent = ({
         return (
           <>
             <Profile
-              hideSpinner={hideSpinner}
               employees={employees}
               attendances={attendances}
               schedules={schedules}
@@ -74,7 +72,6 @@ const DrawerEvent = ({
         return (
           <>
             <Profile
-              hideSpinner={hideSpinner}
               employees={employees}
               attendances={attendances}
               schedules={schedules}
@@ -93,7 +90,6 @@ const DrawerEvent = ({
         return (
           <>
             <AddUpdateEmployee
-              hideSpinner={hideSpinner}
               sections={sections}
               options={options}
               update={false}

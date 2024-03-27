@@ -15,7 +15,6 @@ import DrawerEvent from "./DrawerEvent";
 import NotificationEvent from "./NotificationEvent";
 
 const SearchTableEvent = ({
-  hideSpinner,
   employees,
   attendances,
   schedules,
@@ -140,7 +139,6 @@ const SearchTableEvent = ({
         </Card>
       </div>
       <DrawerEvent
-        hideSpinner={hideSpinner}
         employees={employees}
         attendances={attendances}
         schedules={schedules}

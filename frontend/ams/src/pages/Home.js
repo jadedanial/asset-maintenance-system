@@ -15,10 +15,6 @@ const HomePage = () => {
   const [loading, setLoading] = useState(true);
   const token = sessionStorage.getItem("token");
 
-  const hideSpinner = () => {
-    setLoading(false);
-  };
-
   const fetchData = (endpoint, token) => {
     return axios({
       method: "GET",
@@ -139,8 +135,6 @@ const HomePage = () => {
           <Spinner />
         ) : (
           <MainPage
-            loading={loading}
-            hideSpinner={hideSpinner}
             userId={userId}
             userName={userName}
             components={componentsData}

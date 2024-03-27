@@ -3,7 +3,6 @@ import { UserOutlined } from "@ant-design/icons";
 import SearchTableEvent from "../components/SearchTableEvent";
 
 const Employee = ({
-  hideSpinner,
   employees,
   attendances,
   schedules,
@@ -77,7 +76,6 @@ const Employee = ({
   return (
     <>
       <SearchTableEvent
-        hideSpinner={hideSpinner}
         employees={employees}
         attendances={attendances}
         schedules={schedules}
