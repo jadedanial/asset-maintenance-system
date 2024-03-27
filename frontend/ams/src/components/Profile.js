@@ -30,7 +30,6 @@ import moment from "moment";
 const { Title } = Typography;
 
 const Profile = ({
-  loading,
   employees,
   attendances,
   schedules,
@@ -136,7 +135,6 @@ const Profile = ({
               {update ? (
                 <>
                   <AddUpdateEmployee
-                    loading={loading}
                     sections={sections}
                     options={options}
                     update={true}

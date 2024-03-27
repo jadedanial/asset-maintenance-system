@@ -16,7 +16,6 @@ import {
 import { CheckOutlined } from "@ant-design/icons";
 import ResultEvent from "./ResultEvent";
 import moment from "moment";
-import Spinner from "./Spinner";
 
 const { Title } = Typography;
 
@@ -30,7 +29,6 @@ const layout = {
 };
 
 const AddUpdateEmployee = ({
-  loading,
   sections,
   options,
   update,
@@ -236,10 +234,6 @@ const AddUpdateEmployee = ({
   const onFinish = () => {
     mutate();
   };
-
-  if (loading) {
-    return <Spinner theme={theme} />;
-  }
 
   if (submit) {
     if (success) {
