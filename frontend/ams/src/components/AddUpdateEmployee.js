@@ -189,7 +189,6 @@ const AddUpdateEmployee = ({
   };
 
   const createEmployee = () => {
-    setSubmit(true);
     changeLabel();
     var employeeData = {
       emp_id: employeeID,
@@ -234,6 +233,7 @@ const AddUpdateEmployee = ({
   const { mutate } = useMutation(createEmployee);
 
   const onFinish = () => {
+    setSubmit(true);
     mutate();
   };
 
