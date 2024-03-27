@@ -29,6 +29,7 @@ const layout = {
 };
 
 const AddUpdateEmployee = ({
+  hideSpinner,
   sections,
   options,
   update,
@@ -187,6 +188,7 @@ const AddUpdateEmployee = ({
   };
 
   const createEmployee = () => {
+    hideSpinner();
     setSubmit(true);
     changeLabel();
     var employeeData = {

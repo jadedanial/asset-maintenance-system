@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useQuery } from "react-query";
 import axios from "axios";
 import MainPage from "../components/MainPage";
+import Spinner from "../components/Spinner";
 
 const HomePage = () => {
   let navigate = useNavigate();
@@ -11,38 +12,14 @@ const HomePage = () => {
   const [userId, setUserId] = useState(0);
   const [userName, setUserName] = useState("");
   const [loginFailed, setLoginFailed] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const token = sessionStorage.getItem("token");
 
-  useEffect(() => {
-    const fetchDataForUser = () => {
-      axios({
-        method: "GET",
-        url: `${process.env.REACT_APP_API_URL}/api/user`,
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Token ${token}`,
-        },
-        withCredentials: true,
-      })
-        .then((userResponse) => {
-          const userData = userResponse.data;
-          setUserId(userData.userid);
-          setUserName(userData.username);
-          setLoginFailed(false);
-        })
-        .catch((err) => {
-          console.log(err.response.data.detail);
-          queryClient.clear();
-          setLoginFailed(true);
-          navigate("/login");
-        });
-    };
-    fetchDataForUser();
-  }, [token, navigate, queryClient]);
+  const hideSpinner = () => {
+    setLoading(false);
+  };
 
   const fetchData = (endpoint, token) => {
-    setLoading(true);
     return axios({
       method: "GET",
       url: `${process.env.REACT_APP_API_URL}/api/${endpoint}`,
@@ -128,30 +105,62 @@ const HomePage = () => {
   const { data: vehiclesData } = useVehiclesData(token);
   const { data: transactionsData } = useTransactionsData(token);
 
+  useEffect(() => {
+    const fetchDataForUser = () => {
+      axios({
+        method: "GET",
+        url: `${process.env.REACT_APP_API_URL}/api/user`,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Token ${token}`,
+        },
+        withCredentials: true,
+      })
+        .then((userResponse) => {
+          const userData = userResponse.data;
+          setUserId(userData.userid);
+          setUserName(userData.username);
+          setLoginFailed(false);
+        })
+        .catch((err) => {
+          console.log(err.response.data.detail);
+          queryClient.clear();
+          setLoginFailed(true);
+          navigate("/login");
+        });
+    };
+    fetchDataForUser();
+  }, [token, navigate, queryClient]);
+
   return (
     <>
       {!loginFailed ? (
-        <MainPage
-          loading={loading}
-          userId={userId}
-          userName={userName}
-          components={componentsData}
-          modules={modulesData}
-          categories={categoriesData}
-          options={optionsData}
-          branches={branchesData}
-          sections={sectionsData}
-          shifts={shiftsData}
-          schedules={schedulesData}
-          employees={employeesData}
-          attendances={attendancesData}
-          vacations={vacationsData}
-          excuses={excusesData}
-          items={itemsData}
-          warehouseitems={warehouseitemsData}
-          vehicles={vehiclesData}
-          transactions={transactionsData}
-        />
+        loading ? (
+          <Spinner />
+        ) : (
+          <MainPage
+            loading={loading}
+            hideSpinner={hideSpinner}
+            userId={userId}
+            userName={userName}
+            components={componentsData}
+            modules={modulesData}
+            categories={categoriesData}
+            options={optionsData}
+            branches={branchesData}
+            sections={sectionsData}
+            shifts={shiftsData}
+            schedules={schedulesData}
+            employees={employeesData}
+            attendances={attendancesData}
+            vacations={vacationsData}
+            excuses={excusesData}
+            items={itemsData}
+            warehouseitems={warehouseitemsData}
+            vehicles={vehiclesData}
+            transactions={transactionsData}
+          />
+        )
       ) : (
         <></>
       )}

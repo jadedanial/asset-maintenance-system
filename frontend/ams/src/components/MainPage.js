@@ -33,12 +33,11 @@ import Item from "../modules/Item";
 import Transact from "../modules/Transact";
 import DrawerEvent from "./DrawerEvent";
 import EmptyData from "./EmptyData";
-import Spinner from "./Spinner";
 
 const { Header, Sider, Content } = Layout;
 
 const MainPage = ({
-  loading,
+  hideSpinner,
   userId,
   userName,
   components,
@@ -163,6 +162,7 @@ const MainPage = ({
         return (
           <>
             <DrawerEvent
+              hideSpinner={hideSpinner}
               employees={employees}
               attendances={attendances}
               schedules={schedules}
@@ -185,6 +185,7 @@ const MainPage = ({
         return (
           <>
             <Employee
+              hideSpinner={hideSpinner}
               employees={employees}
               attendances={attendances}
               schedules={schedules}
@@ -382,20 +383,16 @@ const MainPage = ({
                 }}
               ></div>
             </Header>
-            {loading ? (
-              <Spinner theme={theme} />
-            ) : (
-              <Layout
-                style={{
-                  background: theme === "light" ? "#ecf3f9" : "#1c2755",
-                  minHeight: "300%",
-                }}
-              >
-                <Content style={{ margin: "24px" }}>
-                  {componentSwitch(selectedMenuItem)}
-                </Content>
-              </Layout>
-            )}
+            <Layout
+              style={{
+                background: theme === "light" ? "#ecf3f9" : "#1c2755",
+                minHeight: "300%",
+              }}
+            >
+              <Content style={{ margin: "24px" }}>
+                {componentSwitch(selectedMenuItem)}
+              </Content>
+            </Layout>
           </Layout>
         </Layout>
       </ConfigProvider>

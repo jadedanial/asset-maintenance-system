@@ -30,6 +30,7 @@ import moment from "moment";
 const { Title } = Typography;
 
 const Profile = ({
+  hideSpinner,
   employees,
   attendances,
   schedules,
@@ -135,6 +136,7 @@ const Profile = ({
               {update ? (
                 <>
                   <AddUpdateEmployee
+                    hideSpinner={hideSpinner}
                     sections={sections}
                     options={options}
                     update={true}
