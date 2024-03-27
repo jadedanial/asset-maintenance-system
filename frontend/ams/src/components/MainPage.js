@@ -185,6 +185,7 @@ const MainPage = ({
         return (
           <>
             <Employee
+              loading={loading}
               employees={employees}
               attendances={attendances}
               schedules={schedules}

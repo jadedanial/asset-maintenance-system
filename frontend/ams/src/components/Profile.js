@@ -153,6 +153,7 @@ const Profile = ({
                     section={e.emp_section}
                     getSection={getSection}
                     onCloseDrawer={onCloseDrawer}
+                    theme={theme}
                   />
                 </>
               ) : (
