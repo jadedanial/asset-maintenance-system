@@ -521,32 +521,39 @@ const AddUpdateItem = ({
                         {
                           title: "Item Name",
                           description: itemName === "" ? " " : itemName,
+                          status: itemName === "" ? "error" : "finish",
                         },
                         {
                           title: "Unit Cost",
                           description: itemCost === "" ? " " : itemCost,
+                          status: itemCost === "" ? "error" : "finish",
                         },
                         {
                           title: "Category",
                           description: itemCategory === "" ? " " : itemCategory,
+                          status: itemCategory === "" ? "error" : "finish",
                         },
                         {
                           title: "Unit Of Measurement",
                           description:
                             itemMeasurement === "" ? " " : itemMeasurement,
+                          status: itemMeasurement === "" ? "error" : "finish",
                         },
                         {
                           title: "Location",
                           description: itemLocation === "" ? " " : itemLocation,
+                          status: itemLocation === "" ? "error" : "finish",
                         },
                         {
                           title: "Reorder Quantity",
                           description: itemReorder === "" ? " " : itemReorder,
+                          status: itemReorder === "" ? "error" : "finish",
                         },
                         {
                           title: "Description",
                           description:
                             itemDescription === "" ? " " : itemDescription,
+                          status: itemDescription === "" ? "error" : "finish",
                         },
                       ]}
                     />
