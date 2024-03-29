@@ -8,6 +8,7 @@ import Spinner from "../components/Spinner";
 
 const HomePage = () => {
   let navigate = useNavigate();
+  const [theme, setTheme] = useState("light");
   const queryClient = useCustomQueryClient();
   const [userId, setUserId] = useState(0);
   const [userName, setUserName] = useState("");
@@ -128,11 +129,19 @@ const HomePage = () => {
     fetchDataForUser();
   }, [token, navigate, queryClient]);
 
+  useEffect(() => {
+    const mode = document.cookie
+      .split("; ")
+      .find((row) => row.startsWith("mode="))
+      ?.split("=")[1];
+    setTheme(mode || "light");
+  }, []);
+
   return (
     <>
       {!loginFailed ? (
         loading ? (
-          <Spinner />
+          <Spinner theme={theme} />
         ) : (
           <MainPage
             userId={userId}

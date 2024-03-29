@@ -213,6 +213,7 @@ const AddUpdateSchedule = ({
                 </Col>
               </Row>
             }
+            height="70%"
             theme={theme}
           />
         </>

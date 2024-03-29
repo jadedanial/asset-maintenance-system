@@ -249,6 +249,7 @@ const AddUpdateItem = ({
                 </Col>
               </Row>
             }
+            height="70%"
             theme={theme}
           />
         </>

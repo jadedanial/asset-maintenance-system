@@ -468,6 +468,7 @@ const Vacation = ({ vacations, options, empid, theme }) => {
                 </Col>
               </Row>
             }
+            height="70%"
             theme={theme}
           />
         </div>

@@ -1,13 +1,21 @@
 import React from "react";
 import { Result } from "antd";
 
-const ResultEvent = ({ icon, status, title, subTitle, extra, theme }) => {
+const ResultEvent = ({
+  icon,
+  status,
+  title,
+  subTitle,
+  extra,
+  height,
+  theme,
+}) => {
   return (
     <>
       <div
         className={`align-items-center justified-row ${theme}`}
         style={{
-          height: "100%",
+          height: height,
         }}
       >
         <Result

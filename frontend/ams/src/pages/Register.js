@@ -96,6 +96,7 @@ const RegisterPage = () => {
                       LOGIN
                     </Button>
                   }
+                  height="100%"
                   theme={theme}
                 />
               </Card>

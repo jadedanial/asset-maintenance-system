@@ -73,6 +73,7 @@ const LoginPage = () => {
                   </Col>
                 </Row>
               }
+              height="100vh"
               theme={theme}
             />
           </div>

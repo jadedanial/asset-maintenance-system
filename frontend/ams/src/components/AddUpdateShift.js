@@ -167,6 +167,7 @@ const AddUpdateShift = ({
                 </Col>
               </Row>
             }
+            height="70%"
             theme={theme}
           />
         </>

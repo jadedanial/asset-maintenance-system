@@ -274,6 +274,7 @@ const AddUpdateEmployee = ({
                 </Col>
               </Row>
             }
+            height="70%"
             theme={theme}
           />
         </>
