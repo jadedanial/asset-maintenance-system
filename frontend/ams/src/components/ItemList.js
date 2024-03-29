@@ -286,7 +286,7 @@ const ItemList = ({
                               </Col>
                               <Col
                                 span={
-                                  !view ? (segment === "Receive" ? 5 : 7) : 7
+                                  !view ? (segment === "Receive" ? 5 : 6) : 6
                                 }
                               >
                                 <p
@@ -297,7 +297,11 @@ const ItemList = ({
                                 </p>
                               </Col>
                               {!view ? (
-                                <Col span={6}>
+                                <Col
+                                  span={
+                                    !view ? (segment === "Receive" ? 5 : 6) : 6
+                                  }
+                                >
                                   <p
                                     className="medium-card-title"
                                     style={{ textAlign: "right" }}
