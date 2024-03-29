@@ -278,6 +278,20 @@ h1.ant-typography {
 .ant-steps-item-content {
   min-height: fit-content !important;
 }
+.ant-steps-item-icon {
+  font-size: 12px !important;
+  background: none !important;
+}
+.ant-steps-item-description {
+  font-size: 13px !important;
+  font-family: ralewayregular !important;
+}
+.light .ant-steps-item-description {
+  color: #000 !important;
+}
+.dark .ant-steps-item-description {
+  color: #fff !important;
+}
 .ant-notification-notice,
 .light .card-with-background,
 .light .ant-card .card-with-background,
@@ -592,7 +606,7 @@ h1.ant-typography {
 .ant-select,
 .ant-select-item-option-content {
   font-family: ralewayregular !important;
-  font-size: 16px !important;
+  font-size: 14px !important;
 }
 .ant-input,
 .ant-input-number,
@@ -614,7 +628,7 @@ h1.ant-typography {
 .dark .ant-select-selector,
 .dark .ant-checkbox-inner {
   color: #fff !important;
-  background: #13162952 !important;
+  background: #161f3e !important;
 }
 .light .ant-input,
 .light .ant-input-number,
@@ -624,7 +638,7 @@ h1.ant-typography {
 .light .ant-select-selector,
 .light .ant-checkbox-inner {
   color: #000 !important;
-  background: #fff !important;
+  background: #f7f8f9 !important;
 }
 .dark .ant-input-prefix,
 .light .ant-input-prefix {

@@ -12,6 +12,7 @@ import {
   Select,
   Col,
   Row,
+  Steps,
 } from "antd";
 import { CheckOutlined } from "@ant-design/icons";
 import ResultEvent from "./ResultEvent";
@@ -46,6 +47,7 @@ const AddUpdateItem = ({
 }) => {
   const queryClient = useCustomQueryClient();
   const [updateData, setUpdateData] = useState(update);
+  const [step, setStep] = useState(updateData ? 7 : 0);
   const [label, setLabel] = useState(
     updateData ? "Update Item" : "Add New Item"
   );
@@ -104,42 +106,49 @@ const AddUpdateItem = ({
   const onNameChange = (value) => {
     setItemName(value);
     setNameReq(true);
-    changeLabel();
-  };
-
-  const onCategoryChange = (value) => {
-    setItemCategory(value);
-    setCategoryReq(true);
-    changeLabel();
-  };
-
-  const onMeasurementChange = (value) => {
-    setItemMeasurement(value);
-    setMeasurementReq(true);
-    changeLabel();
-  };
-
-  const onLocationChange = (value) => {
-    setItemLocation(value);
-    setLocationReq(true);
-    changeLabel();
-  };
-
-  const onReorderChange = (value) => {
-    setItemReorder(value);
-    setReorderReq(true);
+    setStep(1);
     changeLabel();
   };
 
   const onCostChange = (value) => {
     setItemCost(value);
     setCostReq(true);
+    setStep(2);
+    changeLabel();
+  };
+
+  const onCategoryChange = (value) => {
+    setItemCategory(value);
+    setCategoryReq(true);
+    setStep(3);
+    changeLabel();
+  };
+
+  const onMeasurementChange = (value) => {
+    setItemMeasurement(value);
+    setMeasurementReq(true);
+    setStep(4);
+    changeLabel();
+  };
+
+  const onLocationChange = (value) => {
+    setItemLocation(value);
+    setLocationReq(true);
+    setStep(5);
+    changeLabel();
+  };
+
+  const onReorderChange = (value) => {
+    setItemReorder(value);
+    setReorderReq(true);
+    setStep(6);
     changeLabel();
   };
 
   const onDescriptionChange = (value) => {
     setItemDescription(value);
     setDescriptionReq(true);
+    setStep(7);
     changeLabel();
   };
 
@@ -260,7 +269,7 @@ const AddUpdateItem = ({
   return (
     <>
       <div className="justified-row" style={{ paddingTop: "12px" }}>
-        <div className="card-custom-size-60">
+        <div className="card-custom-size-full">
           <Form
             {...layout}
             layout="vertical"
@@ -281,198 +290,269 @@ const AddUpdateItem = ({
                 </Title>
               }
             >
-              <div className="space-between-row">
-                <Col span={14}>
-                  <Form.Item
-                    name={["name"]}
-                    label="Item Name"
-                    initialValue={itemName}
-                    rules={[
-                      {
-                        required: updateData ? nameReq : true,
-                        message: "Required!",
-                      },
-                    ]}
+              <Row>
+                <Col span={16} style={{ paddingRight: "24px" }}>
+                  <div
+                    className=" card-with-background"
+                    style={{ padding: "24px" }}
                   >
-                    <Input
-                      value={itemName}
-                      maxLength={55}
-                      onChange={(e) => onNameChange(e.target.value)}
-                      disabled={checkMain()}
-                    />
-                  </Form.Item>
-                  <Form.Item
-                    name={["category"]}
-                    label="Category"
-                    initialValue={itemCategory}
-                    rules={[
-                      {
-                        required: updateData ? categoryReq : true,
-                        message: "Required!",
-                      },
-                    ]}
-                  >
-                    <Select
-                      size="large"
-                      showSearch
-                      style={{ width: "100%" }}
-                      optionFilterProp="children"
-                      filterOption={(input, option) =>
-                        (option?.label ?? "").toLowerCase().includes(input)
-                      }
-                      filterSort={(optionA, optionB) =>
-                        (optionA?.label ?? "")
-                          .toLowerCase()
-                          .localeCompare((optionB?.label ?? "").toLowerCase())
-                      }
-                      value={itemCategory}
-                      options={options
-                        .filter((res) => res.opt_category === "Category")
-                        .map((cat) => {
-                          return {
-                            value: cat.opt_name,
-                            label: cat.opt_name,
-                          };
-                        })}
-                      onChange={onCategoryChange}
-                      disabled={checkMain()}
-                    />
-                  </Form.Item>
-                  <Form.Item
-                    name={["location"]}
-                    label="Location"
-                    initialValue={itemLocation}
-                    rules={[
-                      {
-                        required: updateData ? locationReq : true,
-                        message: "Required!",
-                      },
-                    ]}
-                  >
-                    <Input
-                      value={itemLocation}
-                      maxLength={300}
-                      onChange={(e) => onLocationChange(e.target.value)}
-                    />
-                  </Form.Item>
+                    <div className="space-between-row">
+                      <Col span={14}>
+                        <Form.Item
+                          name={["name"]}
+                          label="Item Name"
+                          initialValue={itemName}
+                          rules={[
+                            {
+                              required: updateData ? nameReq : true,
+                              message: "Required!",
+                            },
+                          ]}
+                        >
+                          <Input
+                            value={itemName}
+                            maxLength={55}
+                            onChange={(e) => onNameChange(e.target.value)}
+                            disabled={checkMain()}
+                          />
+                        </Form.Item>
+                        <Form.Item
+                          name={["category"]}
+                          label="Category"
+                          initialValue={itemCategory}
+                          rules={[
+                            {
+                              required: updateData ? categoryReq : true,
+                              message: "Required!",
+                            },
+                          ]}
+                        >
+                          <Select
+                            size="large"
+                            showSearch
+                            style={{ width: "100%" }}
+                            optionFilterProp="children"
+                            filterOption={(input, option) =>
+                              (option?.label ?? "")
+                                .toLowerCase()
+                                .includes(input)
+                            }
+                            filterSort={(optionA, optionB) =>
+                              (optionA?.label ?? "")
+                                .toLowerCase()
+                                .localeCompare(
+                                  (optionB?.label ?? "").toLowerCase()
+                                )
+                            }
+                            value={itemCategory}
+                            options={options
+                              .filter((res) => res.opt_category === "Category")
+                              .map((cat) => {
+                                return {
+                                  value: cat.opt_name,
+                                  label: cat.opt_name,
+                                };
+                              })}
+                            onChange={onCategoryChange}
+                            disabled={checkMain()}
+                          />
+                        </Form.Item>
+                        <Form.Item
+                          name={["location"]}
+                          label="Location"
+                          initialValue={itemLocation}
+                          rules={[
+                            {
+                              required: updateData ? locationReq : true,
+                              message: "Required!",
+                            },
+                          ]}
+                        >
+                          <Input
+                            value={itemLocation}
+                            maxLength={300}
+                            onChange={(e) => onLocationChange(e.target.value)}
+                          />
+                        </Form.Item>
+                      </Col>
+                      <Col span={9}>
+                        <Form.Item
+                          name={["cost"]}
+                          label="Unit Cost"
+                          initialValue={itemCost}
+                          rules={[
+                            {
+                              required: updateData ? costReq : true,
+                              message: "Required numeric!",
+                              type: "number",
+                            },
+                          ]}
+                        >
+                          <InputNumber
+                            min={1}
+                            max={1000000}
+                            value={itemCost}
+                            onChange={onCostChange}
+                            disabled={checkMain()}
+                          />
+                        </Form.Item>
+                        <Form.Item
+                          name={["measurement"]}
+                          label="Unit Of Measurement"
+                          initialValue={itemMeasurement}
+                          rules={[
+                            {
+                              required: updateData ? measurementReq : true,
+                              message: "Required!",
+                            },
+                          ]}
+                        >
+                          <Select
+                            size="large"
+                            showSearch
+                            style={{ width: "100%" }}
+                            optionFilterProp="children"
+                            filterOption={(input, option) =>
+                              (option?.label ?? "")
+                                .toLowerCase()
+                                .includes(input)
+                            }
+                            filterSort={(optionA, optionB) =>
+                              (optionA?.label ?? "")
+                                .toLowerCase()
+                                .localeCompare(
+                                  (optionB?.label ?? "").toLowerCase()
+                                )
+                            }
+                            value={itemMeasurement}
+                            options={options
+                              .filter(
+                                (res) => res.opt_category === "Measurement"
+                              )
+                              .map((mes) => {
+                                return {
+                                  value: mes.opt_name,
+                                  label: mes.opt_name,
+                                };
+                              })}
+                            onChange={onMeasurementChange}
+                            disabled={checkMain()}
+                          />
+                        </Form.Item>
+                        <Form.Item
+                          name={["reorder"]}
+                          label="Reorder Quantity"
+                          initialValue={itemReorder}
+                          rules={[
+                            {
+                              required: updateData ? reorderReq : true,
+                              message: "Required numeric!",
+                              type: "number",
+                            },
+                          ]}
+                        >
+                          <InputNumber
+                            min={1}
+                            max={1000000}
+                            value={itemReorder}
+                            onChange={onReorderChange}
+                            disabled={checkMain()}
+                          />
+                        </Form.Item>
+                      </Col>
+                    </div>
+                    <Form.Item
+                      name={["description"]}
+                      label="Description"
+                      initialValue={itemDescription}
+                      rules={[
+                        {
+                          required: updateData ? descriptionReq : true,
+                          message: "Required!",
+                        },
+                        {
+                          max: 120,
+                          message:
+                            "Description must be 120 characters or less.",
+                        },
+                      ]}
+                    >
+                      <Input.TextArea
+                        value={itemDescription}
+                        onChange={(e) => onDescriptionChange(e.target.value)}
+                        disabled={checkMain()}
+                      />
+                    </Form.Item>
+                    <div
+                      className="space-between-row"
+                      style={{ paddingTop: "24px" }}
+                    >
+                      <Button
+                        size="large"
+                        type="default"
+                        style={{
+                          marginRight: "10px",
+                        }}
+                        onClick={onCloseDrawer}
+                        block
+                      >
+                        CANCEL
+                      </Button>
+                      <Button
+                        size="large"
+                        type="primary"
+                        htmlType="submit"
+                        block
+                      >
+                        SAVE
+                      </Button>
+                    </div>
+                  </div>
                 </Col>
-                <Col span={9}>
-                  <Form.Item
-                    name={["cost"]}
-                    label="Unit Cost"
-                    initialValue={itemCost}
-                    rules={[
-                      {
-                        required: updateData ? costReq : true,
-                        message: "Required numeric!",
-                        type: "number",
-                      },
-                    ]}
+                <Col span={8}>
+                  <div
+                    className="card-with-background"
+                    style={{ padding: "24px" }}
                   >
-                    <InputNumber
-                      min={1}
-                      max={1000000}
-                      value={itemCost}
-                      onChange={onCostChange}
-                      disabled={checkMain()}
+                    <Steps
+                      current={step}
+                      direction="vertical"
+                      items={[
+                        {
+                          title: "Item Name",
+                          description: itemName === "" ? " " : itemName,
+                        },
+                        {
+                          title: "Unit Cost",
+                          description: itemCost === "" ? " " : itemCost,
+                        },
+                        {
+                          title: "Category",
+                          description: itemCategory === "" ? " " : itemCategory,
+                        },
+                        {
+                          title: "Unit Of Measurement",
+                          description:
+                            itemMeasurement === "" ? " " : itemMeasurement,
+                        },
+                        {
+                          title: "Location",
+                          description: itemLocation === "" ? " " : itemLocation,
+                        },
+                        {
+                          title: "Reorder Quantity",
+                          description: itemReorder === "" ? " " : itemReorder,
+                        },
+                        {
+                          title: "Description",
+                          description:
+                            itemDescription === "" ? " " : itemDescription,
+                        },
+                      ]}
                     />
-                  </Form.Item>
-                  <Form.Item
-                    name={["measurement"]}
-                    label="Unit Of Measurement"
-                    initialValue={itemMeasurement}
-                    rules={[
-                      {
-                        required: updateData ? measurementReq : true,
-                        message: "Required!",
-                      },
-                    ]}
-                  >
-                    <Select
-                      size="large"
-                      showSearch
-                      style={{ width: "100%" }}
-                      optionFilterProp="children"
-                      filterOption={(input, option) =>
-                        (option?.label ?? "").toLowerCase().includes(input)
-                      }
-                      filterSort={(optionA, optionB) =>
-                        (optionA?.label ?? "")
-                          .toLowerCase()
-                          .localeCompare((optionB?.label ?? "").toLowerCase())
-                      }
-                      value={itemMeasurement}
-                      options={options
-                        .filter((res) => res.opt_category === "Measurement")
-                        .map((mes) => {
-                          return {
-                            value: mes.opt_name,
-                            label: mes.opt_name,
-                          };
-                        })}
-                      onChange={onMeasurementChange}
-                      disabled={checkMain()}
-                    />
-                  </Form.Item>
-                  <Form.Item
-                    name={["reorder"]}
-                    label="Reorder Quantity"
-                    initialValue={itemReorder}
-                    rules={[
-                      {
-                        required: updateData ? reorderReq : true,
-                        message: "Required numeric!",
-                        type: "number",
-                      },
-                    ]}
-                  >
-                    <InputNumber
-                      min={1}
-                      max={1000000}
-                      value={itemReorder}
-                      onChange={onReorderChange}
-                      disabled={checkMain()}
-                    />
-                  </Form.Item>
+                  </div>
                 </Col>
-              </div>
-              <Form.Item
-                name={["description"]}
-                label="Description"
-                initialValue={itemDescription}
-                rules={[
-                  {
-                    required: updateData ? descriptionReq : true,
-                    message: "Required!",
-                  },
-                  {
-                    max: 120,
-                    message: "Description must be 120 characters or less.",
-                  },
-                ]}
-              >
-                <Input.TextArea
-                  value={itemDescription}
-                  onChange={(e) => onDescriptionChange(e.target.value)}
-                  disabled={checkMain()}
-                />
-              </Form.Item>
-              <div className="space-between-row" style={{ paddingTop: "24px" }}>
-                <Button
-                  size="large"
-                  type="default"
-                  style={{
-                    marginRight: "10px",
-                  }}
-                  onClick={onCloseDrawer}
-                  block
-                >
-                  CANCEL
-                </Button>
-                <Button size="large" type="primary" htmlType="submit" block>
-                  SAVE
-                </Button>
-              </div>
+              </Row>
             </Card>
           </Form>
         </div>
