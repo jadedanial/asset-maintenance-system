@@ -124,10 +124,10 @@ const AddUpdateShift = ({
       });
   };
 
-  const { mutate } = useMutation(createShift);
+  const { mutateShift } = useMutation(createShift);
 
   const onFinish = () => {
-    mutate();
+    mutateShift();
   };
 
   if (submit) {

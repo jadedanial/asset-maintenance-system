@@ -425,10 +425,10 @@ const Vacation = ({ vacations, options, empid, theme }) => {
       });
   };
 
-  const { mutate } = useMutation(createVacation);
+  const { mutateVacation } = useMutation(createVacation);
 
   const onFinish = () => {
-    mutate();
+    mutateVacation();
   };
 
   if (success) {

@@ -446,10 +446,10 @@ const AddUpdateAttendance = ({
     }
   };
 
-  const { mutate } = useMutation(createAttendance);
+  const { mutateAttendance } = useMutation(createAttendance);
 
   const onFinish = () => {
-    mutate();
+    mutateAttendance();
   };
 
   if (success) {

@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { useCustomQueryClient } from "../useQueryClient";
+import { useMutation } from "react-query";
 import axios from "axios";
 import {
   Card,
@@ -38,6 +40,7 @@ const Transact = ({
   collapsed,
   theme,
 }) => {
+  const queryClient = useCustomQueryClient();
   const [segment, setSegment] = useState("Issue");
   const [searchValue, setSearchValue] = useState("");
   const [filteredItem, setFilteredItem] = useState([]);
@@ -190,10 +193,14 @@ const Transact = ({
         Authorization: `Token ${token}`,
       },
       withCredentials: true,
-    }).catch((err) => {
-      console.log(err);
-      setSuccess(false);
-    });
+    })
+      .then(() => {
+        queryClient.invalidateQueries("transactions");
+      })
+      .catch((err) => {
+        console.log(err);
+        setSuccess(false);
+      });
   };
 
   const addTransaction = (action, detail, status) => {
@@ -217,6 +224,7 @@ const Transact = ({
       withCredentials: true,
     })
       .then((response) => {
+        queryClient.invalidateQueries("transactions");
         setTransactionCode("TRA" + String(response.data["id"]));
       })
       .catch((err) => {
@@ -225,7 +233,7 @@ const Transact = ({
       });
   };
 
-  const reorderOrder = (itemList, warehouseCode) => {
+  const createReorder = ({ itemList, warehouseCode }) => {
     addTransaction(
       "Reorder",
       transactionDetail("Reorder", itemList, warehouseCode),
@@ -239,7 +247,13 @@ const Transact = ({
     clearOrder();
   };
 
-  const receiveOrder = (itemList) => {
+  const mutateReorder = useMutation(createReorder);
+
+  const reorderOrder = (itemList, warehouseCode) => {
+    mutateReorder.mutate({ itemList, warehouseCode });
+  };
+
+  const createReceive = (itemList) => {
     transactionStatus(queryCode, "Complete")
       .then(() => {
         return addTransaction(
@@ -271,6 +285,7 @@ const Transact = ({
         });
       })
       .then(() => {
+        queryClient.invalidateQueries("warehouseitems");
         setSuccess(true);
         setQueryItem([]);
         setSearchValue("");
@@ -280,6 +295,12 @@ const Transact = ({
         console.log(err);
         setSuccess(false);
       });
+  };
+
+  const mutateReceive = useMutation(createReceive);
+
+  const receiveOrder = (itemList) => {
+    mutateReceive.mutate(itemList);
   };
 
   const clearOrder = () => {
