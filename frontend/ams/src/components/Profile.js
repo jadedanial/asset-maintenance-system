@@ -160,7 +160,7 @@ const Profile = ({
                     size="large"
                     title={
                       <Title>
-                        <Row style={{ paddingLeft: "24px" }}>
+                        <Row>
                           <p
                             className="big-card-title"
                             style={{ textTransform: "capitalize" }}
