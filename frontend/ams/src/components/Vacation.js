@@ -241,7 +241,7 @@ const Vacation = ({ vacations, options, empid, theme }) => {
             rules={[
               {
                 required: true,
-                message: "Required!",
+                message: "Vacation type required",
               },
             ]}
           >
@@ -276,7 +276,7 @@ const Vacation = ({ vacations, options, empid, theme }) => {
             rules={[
               {
                 required: true,
-                message: "Required!",
+                message: "Start date required",
               },
             ]}
           >
@@ -294,7 +294,7 @@ const Vacation = ({ vacations, options, empid, theme }) => {
             rules={[
               {
                 required: true,
-                message: "Required!",
+                message: "End date required",
               },
             ]}
           >

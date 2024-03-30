@@ -2,7 +2,17 @@ import React, { useState } from "react";
 import { useCustomQueryClient } from "../useQueryClient";
 import { useMutation } from "react-query";
 import axios from "axios";
-import { Typography, Button, Form, Card, Col, Row, Input, Select } from "antd";
+import {
+  Typography,
+  Button,
+  Form,
+  Card,
+  Col,
+  Row,
+  Input,
+  Select,
+  Steps,
+} from "antd";
 import { CheckOutlined } from "@ant-design/icons";
 import ResultEvent from "./ResultEvent";
 
@@ -34,6 +44,7 @@ const AddUpdateSchedule = ({
 }) => {
   const queryClient = useCustomQueryClient();
   const [updateData, setUpdateData] = useState(update);
+  const [step, setStep] = useState(updateData ? 8 : 0);
   const [label, setLabel] = useState(
     updateData ? "Update Schedule" : "Add New Schedule"
   );
@@ -88,48 +99,56 @@ const AddUpdateSchedule = ({
   const onNameChange = (value) => {
     setSchedName(value);
     setNameReq(true);
+    setStep(1);
     changeLabel();
   };
 
   const onSunChange = (value) => {
     setSchedSun(value);
     setSunReq(true);
+    setStep(2);
     changeLabel();
   };
 
   const onMonChange = (value) => {
     setSchedMon(value);
     setMonReq(true);
+    setStep(3);
     changeLabel();
   };
 
   const onTueChange = (value) => {
     setSchedTue(value);
     setTueReq(true);
+    setStep(4);
     changeLabel();
   };
 
   const onWedChange = (value) => {
     setSchedWed(value);
     setWedReq(true);
+    setStep(5);
     changeLabel();
   };
 
   const onThuChange = (value) => {
     setSchedThu(value);
     setThuReq(true);
+    setStep(6);
     changeLabel();
   };
 
   const onFriChange = (value) => {
     setSchedFri(value);
     setFriReq(true);
+    setStep(7);
     changeLabel();
   };
 
   const onSatChange = (value) => {
     setSchedSat(value);
     setSatReq(true);
+    setStep(8);
     changeLabel();
   };
 
@@ -224,7 +243,7 @@ const AddUpdateSchedule = ({
   return (
     <>
       <div className="justified-row" style={{ paddingTop: "12px" }}>
-        <div className="card-custom-size-60">
+        <div className="card-custom-size-full">
           <Form
             {...layout}
             layout="vertical"
@@ -245,304 +264,404 @@ const AddUpdateSchedule = ({
                 </Title>
               }
             >
-              <Form.Item
-                name={["name"]}
-                label="Schedule Name"
-                initialValue={schedName}
-                rules={[
-                  {
-                    required: updateData ? nameReq : true,
-                    message: "Required!",
-                  },
-                ]}
-              >
-                <Input
-                  value={schedName}
-                  maxLength={300}
-                  onChange={(e) => onNameChange(e.target.value)}
-                />
-              </Form.Item>
-              <div className="space-between-row">
-                <Col span={12}>
-                  <Form.Item
-                    name={["sunday"]}
-                    label="Sunday"
-                    initialValue={schedSun}
-                    rules={[
-                      {
-                        required: updateData ? sunReq : true,
-                        message: "Required!",
-                      },
-                    ]}
+              <Row>
+                <Col span={16} style={{ paddingRight: "24px" }}>
+                  <div
+                    className=" card-with-background"
+                    style={{ padding: "24px" }}
                   >
-                    <Select
-                      size="large"
-                      showSearch
-                      style={{ width: "100%" }}
-                      value={schedSun}
-                      filterOption={(input, option) =>
-                        (option?.label ?? "").toLowerCase().includes(input)
-                      }
-                      filterSort={(optionA, optionB) =>
-                        (optionA?.label ?? "")
-                          .toLowerCase()
-                          .localeCompare((optionB?.label ?? "").toLowerCase())
-                      }
-                      options={
-                        shifts
-                          ? shifts.map((shift) => {
-                              return {
-                                value: shift.shift_description,
-                                label: shift.shift_description,
-                              };
-                            })
-                          : ""
-                      }
-                      onChange={onSunChange}
-                    />
-                  </Form.Item>
-                  <Form.Item
-                    name={["tuesday"]}
-                    label="Tuesday"
-                    initialValue={schedTue}
-                    rules={[
-                      {
-                        required: updateData ? tueReq : true,
-                        message: "Required!",
-                      },
-                    ]}
-                  >
-                    <Select
-                      size="large"
-                      showSearch
-                      style={{ width: "100%" }}
-                      value={schedTue}
-                      filterOption={(input, option) =>
-                        (option?.label ?? "").toLowerCase().includes(input)
-                      }
-                      filterSort={(optionA, optionB) =>
-                        (optionA?.label ?? "")
-                          .toLowerCase()
-                          .localeCompare((optionB?.label ?? "").toLowerCase())
-                      }
-                      options={
-                        shifts
-                          ? shifts.map((shift) => {
-                              return {
-                                value: shift.shift_description,
-                                label: shift.shift_description,
-                              };
-                            })
-                          : ""
-                      }
-                      onChange={onTueChange}
-                    />
-                  </Form.Item>
-                  <Form.Item
-                    name={["thursday"]}
-                    label="Thursday"
-                    initialValue={schedThu}
-                    rules={[
-                      {
-                        required: updateData ? thuReq : true,
-                        message: "Required!",
-                      },
-                    ]}
-                  >
-                    <Select
-                      size="large"
-                      showSearch
-                      style={{ width: "100%" }}
-                      value={schedThu}
-                      filterOption={(input, option) =>
-                        (option?.label ?? "").toLowerCase().includes(input)
-                      }
-                      filterSort={(optionA, optionB) =>
-                        (optionA?.label ?? "")
-                          .toLowerCase()
-                          .localeCompare((optionB?.label ?? "").toLowerCase())
-                      }
-                      options={
-                        shifts
-                          ? shifts.map((shift) => {
-                              return {
-                                value: shift.shift_description,
-                                label: shift.shift_description,
-                              };
-                            })
-                          : ""
-                      }
-                      onChange={onThuChange}
-                    />
-                  </Form.Item>
-                  <Form.Item
-                    name={["saturday"]}
-                    label="Saturday"
-                    initialValue={schedSat}
-                    rules={[
-                      {
-                        required: updateData ? satReq : true,
-                        message: "Required!",
-                      },
-                    ]}
-                  >
-                    <Select
-                      size="large"
-                      showSearch
-                      style={{ width: "100%" }}
-                      value={schedSat}
-                      filterOption={(input, option) =>
-                        (option?.label ?? "").toLowerCase().includes(input)
-                      }
-                      filterSort={(optionA, optionB) =>
-                        (optionA?.label ?? "")
-                          .toLowerCase()
-                          .localeCompare((optionB?.label ?? "").toLowerCase())
-                      }
-                      options={
-                        shifts
-                          ? shifts.map((shift) => {
-                              return {
-                                value: shift.shift_description,
-                                label: shift.shift_description,
-                              };
-                            })
-                          : ""
-                      }
-                      onChange={onSatChange}
-                    />
-                  </Form.Item>
+                    <Form.Item
+                      name={["name"]}
+                      label="Schedule Name"
+                      initialValue={schedName}
+                      rules={[
+                        {
+                          required: updateData ? nameReq : true,
+                          message: "Schedule name required",
+                        },
+                      ]}
+                    >
+                      <Input
+                        value={schedName}
+                        maxLength={300}
+                        onChange={(e) => onNameChange(e.target.value)}
+                      />
+                    </Form.Item>
+                    <div className="space-between-row">
+                      <Col span={12}>
+                        <Form.Item
+                          name={["sunday"]}
+                          label="Sunday"
+                          initialValue={schedSun}
+                          rules={[
+                            {
+                              required: updateData ? sunReq : true,
+                              message: "Shift required",
+                            },
+                          ]}
+                        >
+                          <Select
+                            size="large"
+                            showSearch
+                            style={{ width: "100%" }}
+                            value={schedSun}
+                            filterOption={(input, option) =>
+                              (option?.label ?? "")
+                                .toLowerCase()
+                                .includes(input)
+                            }
+                            filterSort={(optionA, optionB) =>
+                              (optionA?.label ?? "")
+                                .toLowerCase()
+                                .localeCompare(
+                                  (optionB?.label ?? "").toLowerCase()
+                                )
+                            }
+                            options={
+                              shifts
+                                ? shifts.map((shift) => {
+                                    return {
+                                      value: shift.shift_description,
+                                      label: shift.shift_description,
+                                    };
+                                  })
+                                : ""
+                            }
+                            onChange={onSunChange}
+                          />
+                        </Form.Item>
+                        <Form.Item
+                          name={["tuesday"]}
+                          label="Tuesday"
+                          initialValue={schedTue}
+                          rules={[
+                            {
+                              required: updateData ? tueReq : true,
+                              message: "Shift required",
+                            },
+                          ]}
+                        >
+                          <Select
+                            size="large"
+                            showSearch
+                            style={{ width: "100%" }}
+                            value={schedTue}
+                            filterOption={(input, option) =>
+                              (option?.label ?? "")
+                                .toLowerCase()
+                                .includes(input)
+                            }
+                            filterSort={(optionA, optionB) =>
+                              (optionA?.label ?? "")
+                                .toLowerCase()
+                                .localeCompare(
+                                  (optionB?.label ?? "").toLowerCase()
+                                )
+                            }
+                            options={
+                              shifts
+                                ? shifts.map((shift) => {
+                                    return {
+                                      value: shift.shift_description,
+                                      label: shift.shift_description,
+                                    };
+                                  })
+                                : ""
+                            }
+                            onChange={onTueChange}
+                          />
+                        </Form.Item>
+                        <Form.Item
+                          name={["thursday"]}
+                          label="Thursday"
+                          initialValue={schedThu}
+                          rules={[
+                            {
+                              required: updateData ? thuReq : true,
+                              message: "Shift required",
+                            },
+                          ]}
+                        >
+                          <Select
+                            size="large"
+                            showSearch
+                            style={{ width: "100%" }}
+                            value={schedThu}
+                            filterOption={(input, option) =>
+                              (option?.label ?? "")
+                                .toLowerCase()
+                                .includes(input)
+                            }
+                            filterSort={(optionA, optionB) =>
+                              (optionA?.label ?? "")
+                                .toLowerCase()
+                                .localeCompare(
+                                  (optionB?.label ?? "").toLowerCase()
+                                )
+                            }
+                            options={
+                              shifts
+                                ? shifts.map((shift) => {
+                                    return {
+                                      value: shift.shift_description,
+                                      label: shift.shift_description,
+                                    };
+                                  })
+                                : ""
+                            }
+                            onChange={onThuChange}
+                          />
+                        </Form.Item>
+                        <Form.Item
+                          name={["saturday"]}
+                          label="Saturday"
+                          initialValue={schedSat}
+                          rules={[
+                            {
+                              required: updateData ? satReq : true,
+                              message: "Shift required",
+                            },
+                          ]}
+                        >
+                          <Select
+                            size="large"
+                            showSearch
+                            style={{ width: "100%" }}
+                            value={schedSat}
+                            filterOption={(input, option) =>
+                              (option?.label ?? "")
+                                .toLowerCase()
+                                .includes(input)
+                            }
+                            filterSort={(optionA, optionB) =>
+                              (optionA?.label ?? "")
+                                .toLowerCase()
+                                .localeCompare(
+                                  (optionB?.label ?? "").toLowerCase()
+                                )
+                            }
+                            options={
+                              shifts
+                                ? shifts.map((shift) => {
+                                    return {
+                                      value: shift.shift_description,
+                                      label: shift.shift_description,
+                                    };
+                                  })
+                                : ""
+                            }
+                            onChange={onSatChange}
+                          />
+                        </Form.Item>
+                      </Col>
+                      <Col span={11}>
+                        <Form.Item
+                          name={["monday"]}
+                          label="Monday"
+                          initialValue={schedMon}
+                          rules={[
+                            {
+                              required: updateData ? monReq : true,
+                              message: "Shift required",
+                            },
+                          ]}
+                        >
+                          <Select
+                            size="large"
+                            showSearch
+                            style={{ width: "100%" }}
+                            value={schedMon}
+                            filterOption={(input, option) =>
+                              (option?.label ?? "")
+                                .toLowerCase()
+                                .includes(input)
+                            }
+                            filterSort={(optionA, optionB) =>
+                              (optionA?.label ?? "")
+                                .toLowerCase()
+                                .localeCompare(
+                                  (optionB?.label ?? "").toLowerCase()
+                                )
+                            }
+                            options={
+                              shifts
+                                ? shifts.map((shift) => {
+                                    return {
+                                      value: shift.shift_description,
+                                      label: shift.shift_description,
+                                    };
+                                  })
+                                : ""
+                            }
+                            onChange={onMonChange}
+                          />
+                        </Form.Item>
+                        <Form.Item
+                          name={["wednesday"]}
+                          label="Wednesday"
+                          initialValue={schedWed}
+                          rules={[
+                            {
+                              required: updateData ? wedReq : true,
+                              message: "Shift required",
+                            },
+                          ]}
+                        >
+                          <Select
+                            size="large"
+                            showSearch
+                            style={{ width: "100%" }}
+                            value={schedWed}
+                            filterOption={(input, option) =>
+                              (option?.label ?? "")
+                                .toLowerCase()
+                                .includes(input)
+                            }
+                            filterSort={(optionA, optionB) =>
+                              (optionA?.label ?? "")
+                                .toLowerCase()
+                                .localeCompare(
+                                  (optionB?.label ?? "").toLowerCase()
+                                )
+                            }
+                            options={
+                              shifts
+                                ? shifts.map((shift) => {
+                                    return {
+                                      value: shift.shift_description,
+                                      label: shift.shift_description,
+                                    };
+                                  })
+                                : ""
+                            }
+                            onChange={onWedChange}
+                          />
+                        </Form.Item>
+                        <Form.Item
+                          name={["friday"]}
+                          label="Friday"
+                          initialValue={schedFri}
+                          rules={[
+                            {
+                              required: updateData ? friReq : true,
+                              message: "Shift required",
+                            },
+                          ]}
+                        >
+                          <Select
+                            size="large"
+                            showSearch
+                            style={{ width: "100%" }}
+                            value={schedFri}
+                            filterOption={(input, option) =>
+                              (option?.label ?? "")
+                                .toLowerCase()
+                                .includes(input)
+                            }
+                            filterSort={(optionA, optionB) =>
+                              (optionA?.label ?? "")
+                                .toLowerCase()
+                                .localeCompare(
+                                  (optionB?.label ?? "").toLowerCase()
+                                )
+                            }
+                            options={
+                              shifts
+                                ? shifts.map((shift) => {
+                                    return {
+                                      value: shift.shift_description,
+                                      label: shift.shift_description,
+                                    };
+                                  })
+                                : ""
+                            }
+                            onChange={onFriChange}
+                          />
+                        </Form.Item>
+                      </Col>
+                    </div>
+                    <div
+                      className="space-between-row"
+                      style={{ paddingTop: "24px" }}
+                    >
+                      <Button
+                        size="large"
+                        type="default"
+                        style={{
+                          marginRight: "10px",
+                        }}
+                        onClick={onCloseDrawer}
+                        block
+                      >
+                        CANCEL
+                      </Button>
+                      <Button
+                        size="large"
+                        type="primary"
+                        htmlType="submit"
+                        block
+                      >
+                        SAVE
+                      </Button>
+                    </div>
+                  </div>
                 </Col>
-                <Col span={11}>
-                  <Form.Item
-                    name={["monday"]}
-                    label="Monday"
-                    initialValue={schedMon}
-                    rules={[
-                      {
-                        required: updateData ? monReq : true,
-                        message: "Required!",
-                      },
-                    ]}
-                  >
-                    <Select
-                      size="large"
-                      showSearch
-                      style={{ width: "100%" }}
-                      value={schedMon}
-                      filterOption={(input, option) =>
-                        (option?.label ?? "").toLowerCase().includes(input)
-                      }
-                      filterSort={(optionA, optionB) =>
-                        (optionA?.label ?? "")
-                          .toLowerCase()
-                          .localeCompare((optionB?.label ?? "").toLowerCase())
-                      }
-                      options={
-                        shifts
-                          ? shifts.map((shift) => {
-                              return {
-                                value: shift.shift_description,
-                                label: shift.shift_description,
-                              };
-                            })
-                          : ""
-                      }
-                      onChange={onMonChange}
-                    />
-                  </Form.Item>
-                  <Form.Item
-                    name={["wednesday"]}
-                    label="Wednesday"
-                    initialValue={schedWed}
-                    rules={[
-                      {
-                        required: updateData ? wedReq : true,
-                        message: "Required!",
-                      },
-                    ]}
-                  >
-                    <Select
-                      size="large"
-                      showSearch
-                      style={{ width: "100%" }}
-                      value={schedWed}
-                      filterOption={(input, option) =>
-                        (option?.label ?? "").toLowerCase().includes(input)
-                      }
-                      filterSort={(optionA, optionB) =>
-                        (optionA?.label ?? "")
-                          .toLowerCase()
-                          .localeCompare((optionB?.label ?? "").toLowerCase())
-                      }
-                      options={
-                        shifts
-                          ? shifts.map((shift) => {
-                              return {
-                                value: shift.shift_description,
-                                label: shift.shift_description,
-                              };
-                            })
-                          : ""
-                      }
-                      onChange={onWedChange}
-                    />
-                  </Form.Item>
-                  <Form.Item
-                    name={["friday"]}
-                    label="Friday"
-                    initialValue={schedFri}
-                    rules={[
-                      {
-                        required: updateData ? friReq : true,
-                        message: "Required!",
-                      },
-                    ]}
-                  >
-                    <Select
-                      size="large"
-                      showSearch
-                      style={{ width: "100%" }}
-                      value={schedFri}
-                      filterOption={(input, option) =>
-                        (option?.label ?? "").toLowerCase().includes(input)
-                      }
-                      filterSort={(optionA, optionB) =>
-                        (optionA?.label ?? "")
-                          .toLowerCase()
-                          .localeCompare((optionB?.label ?? "").toLowerCase())
-                      }
-                      options={
-                        shifts
-                          ? shifts.map((shift) => {
-                              return {
-                                value: shift.shift_description,
-                                label: shift.shift_description,
-                              };
-                            })
-                          : ""
-                      }
-                      onChange={onFriChange}
-                    />
-                  </Form.Item>
+                <Col span={8}>
+                  <div>
+                    <div
+                      className="card-with-background"
+                      style={{ padding: "24px" }}
+                    >
+                      <Steps
+                        current={step}
+                        direction="vertical"
+                        items={[
+                          {
+                            title: "Schedule Name",
+                            description: schedName === "" ? " " : schedName,
+                            status: schedName === "" ? "error" : "finish",
+                          },
+                          {
+                            title: "Sunday",
+                            description: schedSun === "" ? " " : schedSun,
+                            status: schedSun === "" ? "error" : "finish",
+                          },
+                          {
+                            title: "Monday",
+                            description: schedMon === "" ? " " : schedMon,
+                            status: schedMon === "" ? "error" : "finish",
+                          },
+                          {
+                            title: "Tuesday",
+                            description: schedTue === "" ? " " : schedTue,
+                            status: schedTue === "" ? "error" : "finish",
+                          },
+                          {
+                            title: "Wednesday",
+                            description: schedWed === "" ? " " : schedWed,
+                            status: schedWed === "" ? "error" : "finish",
+                          },
+                          {
+                            title: "Thursday",
+                            description: schedThu === "" ? " " : schedThu,
+                            status: schedThu === "" ? "error" : "finish",
+                          },
+                          {
+                            title: "Friday",
+                            description: schedFri === "" ? " " : schedFri,
+                            status: schedFri === "" ? "error" : "finish",
+                          },
+                          {
+                            title: "Saturday",
+                            description: schedSat === "" ? " " : schedSat,
+                            status: schedSat === "" ? "error" : "finish",
+                          },
+                        ]}
+                      />
+                    </div>
+                  </div>
                 </Col>
-              </div>
-              <div className="space-between-row" style={{ paddingTop: "24px" }}>
-                <Button
-                  size="large"
-                  type="default"
-                  style={{
-                    marginRight: "10px",
-                  }}
-                  onClick={onCloseDrawer}
-                  block
-                >
-                  CANCEL
-                </Button>
-                <Button size="large" type="primary" htmlType="submit" block>
-                  SAVE
-                </Button>
-              </div>
+              </Row>
             </Card>
           </Form>
         </div>

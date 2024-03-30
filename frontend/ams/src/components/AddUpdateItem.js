@@ -305,7 +305,7 @@ const AddUpdateItem = ({
                           rules={[
                             {
                               required: updateData ? nameReq : true,
-                              message: "Required!",
+                              message: "Item name required",
                             },
                           ]}
                         >
@@ -323,7 +323,7 @@ const AddUpdateItem = ({
                           rules={[
                             {
                               required: updateData ? categoryReq : true,
-                              message: "Required!",
+                              message: "Item category required",
                             },
                           ]}
                         >
@@ -364,7 +364,7 @@ const AddUpdateItem = ({
                           rules={[
                             {
                               required: updateData ? locationReq : true,
-                              message: "Required!",
+                              message: "Item location required",
                             },
                           ]}
                         >
@@ -383,7 +383,7 @@ const AddUpdateItem = ({
                           rules={[
                             {
                               required: updateData ? costReq : true,
-                              message: "Required numeric!",
+                              message: "Numeric value required",
                               type: "number",
                             },
                           ]}
@@ -403,7 +403,7 @@ const AddUpdateItem = ({
                           rules={[
                             {
                               required: updateData ? measurementReq : true,
-                              message: "Required!",
+                              message: "Unit of measurement required",
                             },
                           ]}
                         >
@@ -446,7 +446,7 @@ const AddUpdateItem = ({
                           rules={[
                             {
                               required: updateData ? reorderReq : true,
-                              message: "Required numeric!",
+                              message: "Numeric value required",
                               type: "number",
                             },
                           ]}
@@ -468,7 +468,7 @@ const AddUpdateItem = ({
                       rules={[
                         {
                           required: updateData ? descriptionReq : true,
-                          message: "Required!",
+                          message: "Item description required",
                         },
                         {
                           max: 120,
@@ -525,8 +525,8 @@ const AddUpdateItem = ({
                         },
                         {
                           title: "Unit Cost",
-                          description: itemCost === "" ? " " : itemCost,
-                          status: itemCost === "" ? "error" : "finish",
+                          description: itemCost < 1 ? " " : itemCost,
+                          status: itemCost < 1 ? "error" : "finish",
                         },
                         {
                           title: "Category",
@@ -546,8 +546,8 @@ const AddUpdateItem = ({
                         },
                         {
                           title: "Reorder Quantity",
-                          description: itemReorder === "" ? " " : itemReorder,
-                          status: itemReorder === "" ? "error" : "finish",
+                          description: itemReorder < 1 ? " " : itemReorder,
+                          status: itemReorder < 1 ? "error" : "finish",
                         },
                         {
                           title: "Description",

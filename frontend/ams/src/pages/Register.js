@@ -125,7 +125,7 @@ const RegisterPage = () => {
                     rules={[
                       {
                         required: true,
-                        message: "Input employee ID!",
+                        message: "Input employee ID",
                       },
                     ]}
                   >
@@ -140,7 +140,7 @@ const RegisterPage = () => {
                     rules={[
                       {
                         required: true,
-                        message: "Input employee username!",
+                        message: "Input employee username",
                       },
                     ]}
                   >
@@ -156,11 +156,11 @@ const RegisterPage = () => {
                     rules={[
                       {
                         type: "email",
-                        message: "The input is not valid Email!",
+                        message: "The input is not valid email",
                       },
                       {
                         required: true,
-                        message: "Input employee email!",
+                        message: "Input employee email",
                       },
                     ]}
                   >
@@ -179,7 +179,7 @@ const RegisterPage = () => {
                         rules={[
                           {
                             required: true,
-                            message: "Input employee password!",
+                            message: "Input employee password",
                           },
                         ]}
                         hasFeedback
@@ -201,7 +201,7 @@ const RegisterPage = () => {
                         rules={[
                           {
                             required: true,
-                            message: "Confirm employee password!",
+                            message: "Confirm employee password",
                           },
                           ({ getFieldValue }) => ({
                             validator(_, value) {

@@ -292,7 +292,7 @@ const Excuse = ({ excuses, attendances, empid, theme }) => {
             rules={[
               {
                 required: true,
-                message: "Required!",
+                message: "Excuse date required",
               },
             ]}
           >
@@ -310,7 +310,7 @@ const Excuse = ({ excuses, attendances, empid, theme }) => {
             rules={[
               {
                 required: true,
-                message: "Required!",
+                message: "Start time required",
               },
             ]}
           >
@@ -327,7 +327,7 @@ const Excuse = ({ excuses, attendances, empid, theme }) => {
             rules={[
               {
                 required: true,
-                message: "Required!",
+                message: "End time required",
               },
             ]}
           >
@@ -344,7 +344,7 @@ const Excuse = ({ excuses, attendances, empid, theme }) => {
             rules={[
               {
                 required: true,
-                message: "Required!",
+                message: "Vacation reason required",
               },
             ]}
           >

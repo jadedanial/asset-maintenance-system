@@ -6,16 +6,15 @@ import {
   Card,
   Select,
   Button,
-  Typography,
   List,
   Badge,
   Form,
+  Row,
+  Col,
   notification,
 } from "antd";
 import NotificationEvent from "./NotificationEvent";
 import moment from "moment";
-
-const { Title } = Typography;
 
 const layout = {
   labelCol: {
@@ -177,7 +176,11 @@ const ShiftSchedule = ({ schedules, employees, empid }) => {
               ]}
               renderItem={(item) => (
                 <List.Item style={{ marginBottom: "0" }}>
-                  <Card size="small" className="card-with-background">
+                  <Card
+                    className="card-with-background"
+                    size="small"
+                    style={{ padding: "12px" }}
+                  >
                     <p className="small-card-title">{item.title}</p>
                     <p className="small-font text">{item.description}</p>
                   </Card>
@@ -232,7 +235,7 @@ const ShiftSchedule = ({ schedules, employees, empid }) => {
       <div style={{ marginTop: "24px" }}>
         <Card size="small" style={{ width: "100%", minHeight: "460px" }}>
           <div className="justified-row">
-            <div className="card-custom-size-60">
+            <div className="card-custom-size-full">
               <Form
                 {...layout}
                 layout="vertical"
@@ -240,47 +243,51 @@ const ShiftSchedule = ({ schedules, employees, empid }) => {
                 name="add-new-shiftschedule"
                 onFinish={onFinish}
               >
-                <Card
-                  size="large"
-                  title={
-                    <Title>
-                      <p className="big-card-title">Shift Schedule</p>
-                    </Title>
-                  }
-                >
-                  <div>
-                    <Select
-                      size="large"
-                      showSearch
-                      placeholder="Search Schedule"
-                      style={{ width: "100%" }}
-                      optionFilterProp="children"
-                      filterOption={(input, option) =>
-                        (option?.label ?? "").toLowerCase().includes(input)
-                      }
-                      filterSort={(optionA, optionB) =>
-                        (optionA?.label ?? "")
-                          .toLowerCase()
-                          .localeCompare((optionB?.label ?? "").toLowerCase())
-                      }
-                      value={schedname}
-                      options={schedules.map((sched) => {
-                        return {
-                          value: sched.id,
-                          label: sched.sched_name,
-                        };
-                      })}
-                      onChange={onChange}
-                    />
-                  </div>
-                  <div>{scheduleSwitch(schedid)}</div>
+                <Card className="card-no-padding" size="large">
                   <div
-                    className="space-between-row"
-                    style={{ paddingTop: "24px" }}
+                    className="card-with-background"
+                    style={{ padding: "24px" }}
                   >
-                    <Button size="large" type="primary" htmlType="submit" block>
-                      SAVE
-                    </Button>
+                    <Row>
+                      <Col span={20} style={{ paddingRight: "24px" }}>
+                        <Select
+                          size="large"
+                          showSearch
+                          placeholder="Search Schedule"
+                          style={{ width: "100%" }}
+                          optionFilterProp="children"
+                          filterOption={(input, option) =>
+                            (option?.label ?? "").toLowerCase().includes(input)
+                          }
+                          filterSort={(optionA, optionB) =>
+                            (optionA?.label ?? "")
+                              .toLowerCase()
+                              .localeCompare(
+                                (optionB?.label ?? "").toLowerCase()
+                              )
+                          }
+                          value={schedname}
+                          options={schedules.map((sched) => {
+                            return {
+                              value: sched.id,
+                              label: sched.sched_name,
+                            };
+                          })}
+                          onChange={onChange}
+                        />
+                      </Col>
+                      <Col span={4}>
+                        <Button
+                          size="large"
+                          type="primary"
+                          htmlType="submit"
+                          block
+                        >
+                          SAVE
+                        </Button>
+                      </Col>
+                    </Row>
+                    <div>{scheduleSwitch(schedid)}</div>
                   </div>
                 </Card>
               </Form>

@@ -11,6 +11,7 @@ import {
   Row,
   Input,
   TimePicker,
+  Steps,
 } from "antd";
 import { CheckOutlined } from "@ant-design/icons";
 import ResultEvent from "./ResultEvent";
@@ -39,6 +40,7 @@ const AddUpdateShift = ({
   const queryClient = useCustomQueryClient();
   const timeFormat = "HH:mm:ss";
   const [updateData, setUpdateData] = useState(update);
+  const [step, setStep] = useState(updateData ? 3 : 0);
   const [label, setLabel] = useState(
     updateData ? "Update Shift" : "Add New Shift"
   );
@@ -73,18 +75,21 @@ const AddUpdateShift = ({
   const onNameChange = (value) => {
     setShiftName(value);
     setNameReq(true);
+    setStep(1);
     changeLabel();
   };
 
   const onFromChange = (value) => {
     setShiftFrom(value);
     setFromReq(true);
+    setStep(2);
     changeLabel();
   };
 
   const onToChange = (value) => {
     setShiftTo(value);
     setToReq(true);
+    setStep(3);
     changeLabel();
   };
 
@@ -178,7 +183,7 @@ const AddUpdateShift = ({
   return (
     <>
       <div className="justified-row" style={{ paddingTop: "12px" }}>
-        <div className="card-custom-size-60">
+        <div className="card-custom-size-full">
           <Form
             {...layout}
             layout="vertical"
@@ -199,85 +204,136 @@ const AddUpdateShift = ({
                 </Title>
               }
             >
-              <Form.Item
-                name={["name"]}
-                label="Shift Name"
-                initialValue={shiftName}
-                rules={[
-                  {
-                    required: updateData ? nameReq : true,
-                    message: "Required!",
-                  },
-                ]}
-              >
-                <Input
-                  value={shiftName}
-                  maxLength={300}
-                  onChange={(e) => onNameChange(e.target.value)}
-                />
-              </Form.Item>
-              <div className="space-between-row">
-                <Col span={12}>
-                  <Form.Item
-                    name={["shiftFrom"]}
-                    label="Shift From"
-                    initialValue={
-                      shiftFrom === "" ? "" : moment(shiftFrom, timeFormat)
-                    }
-                    rules={[
-                      {
-                        required: updateData ? fromReq : true,
-                        message: "Required!",
-                      },
-                    ]}
+              <Row>
+                <Col span={16} style={{ paddingRight: "24px" }}>
+                  <div
+                    className=" card-with-background"
+                    style={{ padding: "24px" }}
                   >
-                    <TimePicker
-                      placeholder=""
-                      value={
-                        shiftFrom === "" ? "" : moment(shiftFrom, timeFormat)
-                      }
-                      onChange={onFromChange}
-                    />
-                  </Form.Item>
+                    <Form.Item
+                      name={["name"]}
+                      label="Shift Name"
+                      initialValue={shiftName}
+                      rules={[
+                        {
+                          required: updateData ? nameReq : true,
+                          message: "Shift name required",
+                        },
+                      ]}
+                    >
+                      <Input
+                        value={shiftName}
+                        maxLength={300}
+                        onChange={(e) => onNameChange(e.target.value)}
+                      />
+                    </Form.Item>
+                    <div className="space-between-row">
+                      <Col span={12}>
+                        <Form.Item
+                          name={["shiftFrom"]}
+                          label="Shift From"
+                          initialValue={
+                            shiftFrom === ""
+                              ? ""
+                              : moment(shiftFrom, timeFormat)
+                          }
+                          rules={[
+                            {
+                              required: updateData ? fromReq : true,
+                              message: "Shift from required",
+                            },
+                          ]}
+                        >
+                          <TimePicker
+                            placeholder=""
+                            value={
+                              shiftFrom === ""
+                                ? ""
+                                : moment(shiftFrom, timeFormat)
+                            }
+                            onChange={onFromChange}
+                          />
+                        </Form.Item>
+                      </Col>
+                      <Col span={11}>
+                        <Form.Item
+                          name={["shiftTo"]}
+                          label="Shift To"
+                          initialValue={
+                            shiftTo === "" ? "" : moment(shiftTo, timeFormat)
+                          }
+                          rules={[
+                            {
+                              required: updateData ? toReq : true,
+                              message: "Shift to required",
+                            },
+                          ]}
+                        >
+                          <TimePicker
+                            placeholder=""
+                            value={
+                              shiftTo === "" ? "" : moment(shiftTo, timeFormat)
+                            }
+                            onChange={onToChange}
+                          />
+                        </Form.Item>
+                      </Col>
+                    </div>
+                    <div
+                      className="space-between-row"
+                      style={{ paddingTop: "24px" }}
+                    >
+                      <Button
+                        size="large"
+                        type="default"
+                        style={{
+                          marginRight: "10px",
+                        }}
+                        onClick={onCloseDrawer}
+                        block
+                      >
+                        CANCEL
+                      </Button>
+                      <Button
+                        size="large"
+                        type="primary"
+                        htmlType="submit"
+                        block
+                      >
+                        SAVE
+                      </Button>
+                    </div>
+                  </div>
                 </Col>
-                <Col span={11}>
-                  <Form.Item
-                    name={["shiftTo"]}
-                    label="Shift To"
-                    initialValue={
-                      shiftTo === "" ? "" : moment(shiftTo, timeFormat)
-                    }
-                    rules={[
-                      {
-                        required: updateData ? toReq : true,
-                        message: "Required!",
-                      },
-                    ]}
+                <Col span={8}>
+                  <div
+                    className="card-with-background"
+                    style={{ padding: "24px" }}
                   >
-                    <TimePicker
-                      placeholder=""
-                      value={shiftTo === "" ? "" : moment(shiftTo, timeFormat)}
-                      onChange={onToChange}
+                    <Steps
+                      current={step}
+                      direction="vertical"
+                      items={[
+                        {
+                          title: "Shift Name",
+                          description: shiftName === "" ? " " : shiftName,
+                          status: shiftName === "" ? "error" : "finish",
+                        },
+                        {
+                          title: "Shift From",
+                          description: shiftFrom === "" ? " " : shiftFrom,
+                          status: shiftFrom === "" ? "error" : "finish",
+                        },
+                        {
+                          title: "Shift To",
+                          description: shiftTo === "" ? " " : shiftTo,
+                          status: shiftTo === "" ? "error" : "finish",
+                        },
+                      ]}
                     />
-                  </Form.Item>
+                  </div>
                 </Col>
-              </div>
-              <div className="space-between-row" style={{ paddingTop: "24px" }}>
-                <Button
-                  size="large"
-                  type="default"
-                  style={{
-                    marginRight: "10px",
-                  }}
-                  onClick={onCloseDrawer}
-                  block
-                >
-                  CANCEL
-                </Button>
-                <Button size="large" type="primary" htmlType="submit" block>
-                  SAVE
-                </Button>
-              </div>
+              </Row>
             </Card>
           </Form>
         </div>

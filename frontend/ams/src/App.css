@@ -285,6 +285,7 @@ h1.ant-typography {
 .ant-steps-item-description {
   font-size: 13px !important;
   font-family: ralewayregular !important;
+  padding-bottom: 18px !important;
 }
 .light .ant-steps-item-description {
   color: #000 !important;
@@ -633,7 +634,8 @@ h1.ant-typography {
 .light .ant-input,
 .light .ant-input-number,
 .light .ant-input-prefix,
-.light .ant-picker .light .ant-picker-input input,
+.light .ant-picker,
+.light .ant-picker-input input,
 .light .ant-select-arrow,
 .light .ant-select-selector,
 .light .ant-checkbox-inner {

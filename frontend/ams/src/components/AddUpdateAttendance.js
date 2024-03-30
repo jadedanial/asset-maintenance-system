@@ -5,20 +5,18 @@ import axios from "axios";
 import {
   Form,
   Button,
-  Typography,
   DatePicker,
   Input,
   Card,
   Col,
   Row,
+  Steps,
   notification,
 } from "antd";
 import { CheckOutlined } from "@ant-design/icons";
 import NotificationEvent from "./NotificationEvent";
 import ResultEvent from "./ResultEvent";
 import moment from "moment";
-
-const { Title } = Typography;
 
 const layout = {
   labelCol: {
@@ -45,6 +43,7 @@ const AddUpdateAttendance = ({
   theme,
 }) => {
   const queryClient = useCustomQueryClient();
+  const [step, setStep] = useState(0);
   const dateFormat = "YYYY-MM-DD";
   const timeFormat = "HH:mm:ss";
   const dateTimeFormat = "YYYY-MM-DD HH:mm:ss";
@@ -509,7 +508,7 @@ const AddUpdateAttendance = ({
     <>
       {contextHolder}
       <div className="justified-row">
-        <div className="card-custom-size-60">
+        <div className="card-custom-size-full">
           <Form
             {...layout}
             layout="vertical"
@@ -517,71 +516,128 @@ const AddUpdateAttendance = ({
             name="add-new-attendance"
             onFinish={onFinish}
           >
-            <Card
-              size="large"
-              title={
-                <Title>
-                  <p className="big-card-title">Update Attendance</p>
-                </Title>
-              }
-            >
-              <Form.Item
-                name="date"
-                label="Date"
-                initialValue={String(
-                  moment(attenddate).format(displayDateFormat)
-                )}
-              >
-                <Input readOnly />
-              </Form.Item>
-              <Form.Item label="Check In">
-                <DatePicker
-                  placeholder=""
-                  format={datePickerFormat}
-                  onChange={(value) =>
-                    setAttendCheckIn(moment(value).format(dateTimeFormat))
-                  }
-                  defaultValue={
-                    attendCheckin !== "--:--:--"
-                      ? moment(attendCheckin, dateTimeFormat)
-                      : ""
-                  }
-                  showTime
-                  inputReadOnly
-                />
-              </Form.Item>
-              <Form.Item label="Check Out">
-                <DatePicker
-                  placeholder=""
-                  format={datePickerFormat}
-                  onChange={(value) =>
-                    setAttendCheckOut(moment(value).format(dateTimeFormat))
-                  }
-                  defaultValue={
-                    attendCheckout !== "--:--:--"
-                      ? moment(attendCheckout, dateTimeFormat)
-                      : ""
-                  }
-                  showTime
-                  inputReadOnly
-                />
-              </Form.Item>
-              <div className="space-between-row" style={{ paddingTop: "24px" }}>
-                <Button
-                  size="large"
-                  type="default"
-                  style={{
-                    marginRight: "10px",
-                  }}
-                  onClick={viewAttendance}
-                  block
-                >
-                  CANCEL
-                </Button>
-                <Button size="large" type="primary" htmlType="submit" block>
-                  SAVE
-                </Button>
-              </div>
+            <Card className="card-no-padding" size="large">
+              <Row>
+                <Col span={16} style={{ paddingRight: "24px" }}>
+                  <div
+                    className=" card-with-background"
+                    style={{ padding: "24px" }}
+                  >
+                    <Form.Item
+                      name="date"
+                      label="Attendance Date"
+                      initialValue={String(
+                        moment(attenddate).format(displayDateFormat)
+                      )}
+                    >
+                      <Input readOnly />
+                    </Form.Item>
+                    <Form.Item label="Check In Time">
+                      <DatePicker
+                        placeholder=""
+                        format={datePickerFormat}
+                        onChange={(value) => {
+                          setAttendCheckIn(
+                            moment(value).format(dateTimeFormat)
+                          );
+                          setStep(2);
+                        }}
+                        defaultValue={
+                          attendCheckin !== "--:--:--"
+                            ? moment(attendCheckin, dateTimeFormat)
+                            : ""
+                        }
+                        showTime
+                        inputReadOnly
+                      />
+                    </Form.Item>
+                    <Form.Item label="Check Out Time">
+                      <DatePicker
+                        placeholder=""
+                        format={datePickerFormat}
+                        onChange={(value) => {
+                          setAttendCheckOut(
+                            moment(value).format(dateTimeFormat)
+                          );
+                          setStep(3);
+                        }}
+                        defaultValue={
+                          attendCheckout !== "--:--:--"
+                            ? moment(attendCheckout, dateTimeFormat)
+                            : ""
+                        }
+                        showTime
+                        inputReadOnly
+                      />
+                    </Form.Item>
+                    <div
+                      className="space-between-row"
+                      style={{ paddingTop: "24px" }}
+                    >
+                      <Button
+                        size="large"
+                        type="default"
+                        style={{
+                          marginRight: "10px",
+                        }}
+                        onClick={viewAttendance}
+                        block
+                      >
+                        CANCEL
+                      </Button>
+                      <Button
+                        size="large"
+                        type="primary"
+                        htmlType="submit"
+                        block
+                      >
+                        SAVE
+                      </Button>
+                    </div>
+                  </div>
+                </Col>
+                <Col span={8}>
+                  <div
+                    className="card-with-background"
+                    style={{ padding: "24px" }}
+                  >
+                    <Steps
+                      current={step}
+                      direction="vertical"
+                      items={[
+                        {
+                          title: "Attendance Date",
+                          description:
+                            attendDate === ""
+                              ? " "
+                              : moment(attendDate).format(displayDateFormat),
+                          status: attendDate === "" ? "error" : "finish",
+                        },
+                        {
+                          title: "Check In Time",
+                          description:
+                            attendCheckin === ""
+                              ? " "
+                              : moment(attendCheckin).format(
+                                  displayDateFormat + " HH:mm:ss"
+                                ),
+                          status: attendCheckin === "" ? "error" : "finish",
+                        },
+                        {
+                          title: "Check Out Time",
+                          description:
+                            attendCheckout === ""
+                              ? " "
+                              : moment(attendCheckout).format(
+                                  displayDateFormat + " HH:mm:ss"
+                                ),
+                          status: attendCheckout === "" ? "error" : "finish",
+                        },
+                      ]}
+                    />
+                  </div>
+                </Col>
+              </Row>
             </Card>
           </Form>
         </div>

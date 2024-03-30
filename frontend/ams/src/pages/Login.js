@@ -116,7 +116,7 @@ const LoginPage = () => {
                       rules={[
                         {
                           required: true,
-                          message: "Input username!",
+                          message: "Input username",
                         },
                       ]}
                     >
@@ -131,7 +131,7 @@ const LoginPage = () => {
                       rules={[
                         {
                           required: true,
-                          message: "Input password!",
+                          message: "Input password",
                         },
                       ]}
                     >
