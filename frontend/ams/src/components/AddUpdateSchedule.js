@@ -170,10 +170,10 @@ const AddUpdateSchedule = ({
       });
   };
 
-  const { mutateSchedule } = useMutation(createSchedule);
+  const { mutate } = useMutation(createSchedule);
 
   const onFinish = () => {
-    mutateSchedule();
+    mutate();
   };
 
   if (submit) {

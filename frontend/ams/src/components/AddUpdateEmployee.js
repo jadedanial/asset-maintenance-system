@@ -229,10 +229,10 @@ const AddUpdateEmployee = ({
       });
   };
 
-  const { mutateEmployee } = useMutation(createEmployee);
+  const { mutate } = useMutation(createEmployee);
 
   const onFinish = () => {
-    mutateEmployee();
+    mutate();
   };
 
   if (submit) {

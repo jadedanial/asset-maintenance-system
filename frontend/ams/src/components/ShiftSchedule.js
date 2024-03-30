@@ -220,10 +220,10 @@ const ShiftSchedule = ({ schedules, employees, empid }) => {
       });
   };
 
-  const { mutateShiftSchedule } = useMutation(createShiftSchedule);
+  const { mutate } = useMutation(createShiftSchedule);
 
   const onFinish = () => {
-    mutateShiftSchedule();
+    mutate();
   };
 
   return (

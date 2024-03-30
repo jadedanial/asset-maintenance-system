@@ -215,10 +215,10 @@ const AddUpdateItem = ({
       });
   };
 
-  const { mutateItem } = useMutation(createItem);
+  const { mutate } = useMutation(createItem);
 
   const onFinish = () => {
-    mutateItem();
+    mutate();
   };
 
   if (submit) {

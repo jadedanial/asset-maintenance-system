@@ -446,10 +446,10 @@ const Excuse = ({ excuses, attendances, empid, theme }) => {
       });
   };
 
-  const { mutateExcuse } = useMutation(createExcuse);
+  const { mutate } = useMutation(createExcuse);
 
   const onFinish = () => {
-    mutateExcuse();
+    mutate();
   };
 
   if (success) {
