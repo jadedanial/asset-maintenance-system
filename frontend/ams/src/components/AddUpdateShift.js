@@ -321,12 +321,18 @@ const AddUpdateShift = ({
                         },
                         {
                           title: "Shift From",
-                          description: shiftFrom === "" ? " " : shiftFrom,
+                          description:
+                            shiftFrom === ""
+                              ? " "
+                              : moment(shiftFrom).format(timeFormat),
                           status: shiftFrom === "" ? "error" : "finish",
                         },
                         {
                           title: "Shift To",
-                          description: shiftTo === "" ? " " : shiftTo,
+                          description:
+                            shiftTo === ""
+                              ? " "
+                              : moment(shiftTo).format(timeFormat),
                           status: shiftTo === "" ? "error" : "finish",
                         },
                       ]}

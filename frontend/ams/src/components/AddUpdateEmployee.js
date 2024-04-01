@@ -50,6 +50,7 @@ const AddUpdateEmployee = ({
 }) => {
   const queryClient = useCustomQueryClient();
   const dateFormat = "YYYY-MM-DD";
+  const displayDateFormat = "MMMM DD, YYYY";
   const datePickerFormat = (value) => `${value.format("MMMM DD, YYYY")}`;
   const [updateData, setUpdateData] = useState(update);
   const [step, setStep] = useState(updateData ? 10 : 0);
@@ -660,7 +661,11 @@ const AddUpdateEmployee = ({
                         {
                           title: "Date Hired",
                           description:
-                            employeeDateHired === "" ? " " : employeeDateHired,
+                            employeeDateHired === ""
+                              ? " "
+                              : moment(employeeDateHired).format(
+                                  displayDateFormat
+                                ),
                           status: employeeDateHired === "" ? "error" : "finish",
                         },
                         {
@@ -687,7 +692,11 @@ const AddUpdateEmployee = ({
                         {
                           title: "Birthdate",
                           description:
-                            employeeBirthdate === "" ? " " : employeeBirthdate,
+                            employeeBirthdate === ""
+                              ? " "
+                              : moment(employeeBirthdate).format(
+                                  displayDateFormat
+                                ),
                           status: employeeBirthdate === "" ? "error" : "finish",
                         },
                         {

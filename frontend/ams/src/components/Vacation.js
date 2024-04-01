@@ -9,19 +9,16 @@ import {
   Select,
   Card,
   Button,
-  Typography,
-  List,
   Table,
   Col,
   Row,
+  Steps,
   notification,
 } from "antd";
 import { CloseOutlined, CheckOutlined } from "@ant-design/icons";
 import NotificationEvent from "./NotificationEvent";
 import ResultEvent from "./ResultEvent";
 import moment from "moment";
-
-const { Title } = Typography;
 
 const layout = {
   labelCol: {
@@ -34,6 +31,7 @@ const layout = {
 
 const Vacation = ({ vacations, options, empid, theme }) => {
   const queryClient = useCustomQueryClient();
+  const [step, setStep] = useState(0);
   const dateFormat = "YYYY-MM-DD";
   const displayDateFormat = "MMMM DD, YYYY";
   const datePickerFormat = (value) => `${value.format(displayDateFormat)}`;
@@ -47,7 +45,6 @@ const Vacation = ({ vacations, options, empid, theme }) => {
   const [add, setAdd] = useState(false);
   const [days, setDays] = useState(0);
   const [api, contextHolder] = notification.useNotification();
-  const [current, setCurrent] = useState(0);
   const [form] = Form.useForm();
 
   const loadVacations = vacations.map((res) => {
@@ -62,25 +59,6 @@ const Vacation = ({ vacations, options, empid, theme }) => {
     };
   });
 
-  const onVacationChange = (value) => {
-    setVacation(value);
-  };
-
-  const onReasonChange = (value) => {
-    setReason(value);
-  };
-
-  const onAttachmentChange = (value) => {
-    setAttachment(value);
-    setShowAttachment(true);
-  };
-
-  const removeAttachment = () => {
-    form.resetFields(["select_attachment"]);
-    setAttachment("");
-    setShowAttachment(false);
-  };
-
   const newVacation = () => {
     form.resetFields(["vacation"]);
     form.resetFields(["startdate"]);
@@ -88,7 +66,6 @@ const Vacation = ({ vacations, options, empid, theme }) => {
     form.resetFields(["reason"]);
     form.resetFields(["select_attachment"]);
     setSuccess(false);
-    setCurrent(0);
     setVacation("");
     setStartDate("");
     setEndDate("");
@@ -97,6 +74,38 @@ const Vacation = ({ vacations, options, empid, theme }) => {
     setShowAttachment(false);
     setAdd(true);
     setDays(0);
+  };
+
+  const onVacationChange = (value) => {
+    setVacation(value);
+    setStep(1);
+  };
+
+  const onStartDateChange = (value) => {
+    setStartDate(value);
+    setStep(2);
+  };
+
+  const onEndDateChange = (value) => {
+    setEndDate(value);
+    setStep(3);
+  };
+
+  const onReasonChange = (value) => {
+    setReason(value);
+    setStep(4);
+  };
+
+  const onAttachmentChange = (value) => {
+    setAttachment(value);
+    setShowAttachment(true);
+    setStep(5);
+  };
+
+  const removeAttachment = () => {
+    form.resetFields(["select_attachment"]);
+    setAttachment("");
+    setShowAttachment(false);
   };
 
   const viewVacation = () => {
@@ -138,45 +147,6 @@ const Vacation = ({ vacations, options, empid, theme }) => {
       }
     }
     return onVacation;
-  };
-
-  const next = () => {
-    var valid = true;
-    if (vacation === "") {
-      valid = false;
-      api.info(NotificationEvent(false, "No vacation type selected."));
-    } else if (startdate === "") {
-      valid = false;
-      api.info(NotificationEvent(false, "No start date selected."));
-    } else if (enddate === "") {
-      valid = false;
-      api.info(NotificationEvent(false, "No end date selected."));
-    } else if (startdate > enddate) {
-      valid = false;
-      api.info(NotificationEvent(false, "End date must be after start date."));
-    } else if (startdate.isBefore(moment(), "day")) {
-      valid = false;
-      api.info(
-        NotificationEvent(false, "Cannot apply vacation for previous date.")
-      );
-    } else if (checkVacation()) {
-      valid = false;
-      api.info(NotificationEvent(false, "Vacation exist for this date."));
-    }
-    if (valid) {
-      var d =
-        moment
-          .duration(
-            moment(enddate, "YYYY-MM-DD").diff(moment(startdate, "YYYY-MM-DD"))
-          )
-          .asDays() + 1;
-      setDays(parseFloat(d).toFixed(0));
-      setCurrent(current + 1);
-    }
-  };
-
-  const prev = () => {
-    setCurrent(current - 1);
   };
 
   const addVactionButton = () => {
@@ -229,168 +199,6 @@ const Vacation = ({ vacations, options, empid, theme }) => {
     },
   ];
 
-  const steps = [
-    {
-      title: "Details",
-      content: (
-        <>
-          <Form.Item
-            name={["vacation"]}
-            label="Type"
-            initialValue={vacation}
-            rules={[
-              {
-                required: true,
-                message: "Vacation type required",
-              },
-            ]}
-          >
-            <Select
-              size="large"
-              showSearch
-              style={{ width: "100%" }}
-              optionFilterProp="children"
-              filterOption={(input, option) =>
-                (option?.label ?? "").toLowerCase().includes(input)
-              }
-              filterSort={(optionA, optionB) =>
-                (optionA?.label ?? "")
-                  .toLowerCase()
-                  .localeCompare((optionB?.label ?? "").toLowerCase())
-              }
-              options={options
-                .filter((res) => res.opt_category === "Vacation")
-                .map((vac) => {
-                  return {
-                    value: vac.opt_name,
-                    label: vac.opt_name,
-                  };
-                })}
-              onChange={onVacationChange}
-            />
-          </Form.Item>
-          <Form.Item
-            name={["startdate"]}
-            label="Start Date"
-            initialValue={startdate === "" ? "" : moment(startdate)}
-            rules={[
-              {
-                required: true,
-                message: "Start date required",
-              },
-            ]}
-          >
-            <DatePicker
-              placeholder=""
-              format={datePickerFormat}
-              onChange={(value) => setStartDate(moment(value))}
-              inputReadOnly
-            />
-          </Form.Item>
-          <Form.Item
-            name={["enddate"]}
-            label="End Date"
-            initialValue={enddate === "" ? "" : moment(enddate)}
-            rules={[
-              {
-                required: true,
-                message: "End date required",
-              },
-            ]}
-          >
-            <DatePicker
-              placeholder=""
-              format={datePickerFormat}
-              onChange={(value) => setEndDate(moment(value))}
-              inputReadOnly
-            />
-          </Form.Item>
-          <Form.Item name={["reason"]} label="Reason" initialValue={reason}>
-            <Input onChange={(e) => onReasonChange(e.target.value)} />
-          </Form.Item>
-          {showAttachment ? (
-            <Form.Item
-              name={["attachment"]}
-              label="Attachment"
-              initialValue={attachment}
-            >
-              <Input
-                readOnly
-                suffix={
-                  <Button
-                    className="align-items-center "
-                    icon={<CloseOutlined className="medium-card-title" />}
-                    style={{
-                      width: "16px",
-                      height: "16px",
-                    }}
-                    onClick={removeAttachment}
-                  />
-                }
-              />
-            </Form.Item>
-          ) : (
-            <Form.Item name={["select_attachment"]} label="Attachment">
-              <Input
-                type="file"
-                onChange={(e) => onAttachmentChange(e.target.value)}
-              />
-            </Form.Item>
-          )}
-        </>
-      ),
-    },
-    {
-      title: "Confirm",
-      content: (
-        <List
-          style={{ width: "100%" }}
-          itemLayout="horizontal"
-          dataSource={[
-            {
-              title: <p className="small-font">Vacation Type</p>,
-              description: <p className="medium-font text">{vacation}</p>,
-            },
-            {
-              title: <p className="small-font">Date</p>,
-              description: (
-                <p className="medium-font text">
-                  From {moment(startdate).format(displayDateFormat)} To{" "}
-                  {moment(enddate).format(displayDateFormat)} (
-                  {days > 1 ? days + " days" : days + " day"})
-                </p>
-              ),
-            },
-            {
-              title: <p className="small-font">Reason</p>,
-              description: (
-                <p className="medium-font text">
-                  {reason ? reason : "No Reason"}
-                </p>
-              ),
-            },
-            {
-              title: <p className="small-font">Attachment</p>,
-              description: (
-                <p className="medium-font text">
-                  {attachment ? attachment : "No Attachment"}
-                </p>
-              ),
-            },
-          ]}
-          renderItem={(item) => (
-            <List.Item>
-              <List.Item.Meta
-                title={item.title}
-                description={item.description}
-              />
-            </List.Item>
-          )}
-        />
-      ),
-    },
-  ];
-
   const createVacation = () => {
     var vacData = {
       emp_id: empid,
@@ -428,7 +236,38 @@ const Vacation = ({ vacations, options, empid, theme }) => {
   const { mutate } = useMutation(createVacation);
 
   const onFinish = () => {
-    mutate();
+    var valid = true;
+    if (vacation === "") {
+      valid = false;
+      api.info(NotificationEvent(false, "No vacation type selected."));
+    } else if (startdate === "") {
+      valid = false;
+      api.info(NotificationEvent(false, "No start date selected."));
+    } else if (enddate === "") {
+      valid = false;
+      api.info(NotificationEvent(false, "No end date selected."));
+    } else if (startdate > enddate) {
+      valid = false;
+      api.info(NotificationEvent(false, "End date must be after start date."));
+    } else if (startdate.isBefore(moment(), "day")) {
+      valid = false;
+      api.info(
+        NotificationEvent(false, "Cannot apply vacation for previous date.")
+      );
+    } else if (checkVacation()) {
+      valid = false;
+      api.info(NotificationEvent(false, "Vacation exist for this date."));
+    }
+    if (valid) {
+      var d =
+        moment
+          .duration(
+            moment(enddate, "YYYY-MM-DD").diff(moment(startdate, "YYYY-MM-DD"))
+          )
+          .asDays() + 1;
+      setDays(parseFloat(d).toFixed(0));
+      mutate();
+    }
   };
 
   if (success) {
@@ -481,79 +320,220 @@ const Vacation = ({ vacations, options, empid, theme }) => {
       {contextHolder}
       <div style={{ marginTop: "24px", minHeight: "460px" }}>
         {add ? (
-          <Card size="small">
-            <div className="justified-row">
-              <div className="card-custom-size-60">
-                <Form
-                  {...layout}
-                  form={form}
-                  layout="vertical"
-                  size="large"
-                  name="add-vacation"
-                  style={{ width: "100%" }}
-                >
-                  <Card
-                    size="large"
-                    title={
-                      <Title>
-                        <p className="big-card-title">Vacation Application</p>
-                      </Title>
-                    }
-                  >
-                    <div>{steps[current].content}</div>
-                    <div
-                      className="space-between-row"
-                      style={{ paddingTop: "24px" }}
-                    >
-                      <Button
-                        size="large"
-                        type="default"
-                        style={{
-                          marginRight: "10px",
-                          display: current > 0 ? "none" : "inline",
-                        }}
-                        onClick={viewVacation}
-                        block
+          <div className="justified-row">
+            <div className="card-custom-size-full">
+              <Form
+                {...layout}
+                layout="vertical"
+                size="large"
+                name="add-new-shift"
+                onFinish={onFinish}
+                form={form}
+              >
+                <Card size="large" className="card-no-padding">
+                  <Row>
+                    <Col span={16} style={{ paddingRight: "24px" }}>
+                      <div
+                        className=" card-with-background"
+                        style={{ padding: "24px" }}
                       >
-                        CANCEL
-                      </Button>
-                      {current < steps.length - 1 && (
-                        <Button
-                          size="large"
-                          type="primary"
-                          onClick={next}
-                          block
+                        <Form.Item
+                          name={["vacation"]}
+                          label="Vacation Type"
+                          initialValue={vacation}
+                          rules={[
+                            {
+                              required: true,
+                              message: "Vacation type required",
+                            },
+                          ]}
                         >
-                          NEXT
-                        </Button>
-                      )}
-                      {current > 0 && (
-                        <Button
-                          style={{ marginRight: "10px" }}
-                          size="large"
-                          type="default"
-                          onClick={prev}
-                          block
+                          <Select
+                            size="large"
+                            showSearch
+                            style={{ width: "100%" }}
+                            optionFilterProp="children"
+                            filterOption={(input, option) =>
+                              (option?.label ?? "")
+                                .toLowerCase()
+                                .includes(input)
+                            }
+                            filterSort={(optionA, optionB) =>
+                              (optionA?.label ?? "")
+                                .toLowerCase()
+                                .localeCompare(
+                                  (optionB?.label ?? "").toLowerCase()
+                                )
+                            }
+                            options={options
+                              .filter((res) => res.opt_category === "Vacation")
+                              .map((vac) => {
+                                return {
+                                  value: vac.opt_name,
+                                  label: vac.opt_name,
+                                };
+                              })}
+                            onChange={onVacationChange}
+                          />
+                        </Form.Item>
+                        <Form.Item
+                          name={["startdate"]}
+                          label="Start Date"
+                          initialValue={
+                            startdate === "" ? "" : moment(startdate)
+                          }
+                          rules={[
+                            {
+                              required: true,
+                              message: "Start date required",
+                            },
+                          ]}
                         >
-                          BACK
-                        </Button>
-                      )}
-                      {current === steps.length - 1 && (
-                        <Button
-                          size="large"
-                          type="primary"
-                          onClick={onFinish}
-                          block
+                          <DatePicker
+                            placeholder=""
+                            format={datePickerFormat}
+                            onChange={onStartDateChange}
+                            inputReadOnly
+                          />
+                        </Form.Item>
+                        <Form.Item
+                          name={["enddate"]}
+                          label="End Date"
+                          initialValue={enddate === "" ? "" : moment(enddate)}
+                          rules={[
+                            {
+                              required: true,
+                              message: "End date required",
+                            },
+                          ]}
                         >
-                          APPLY
-                        </Button>
-                      )}
-                    </div>
-                  </Card>
-                </Form>
-              </div>
+                          <DatePicker
+                            placeholder=""
+                            format={datePickerFormat}
+                            onChange={onEndDateChange}
+                            inputReadOnly
+                          />
+                        </Form.Item>
+                        <Form.Item
+                          name={["reason"]}
+                          label="Vacation Reason"
+                          initialValue={reason}
+                        >
+                          <Input
+                            onChange={(e) => onReasonChange(e.target.value)}
+                          />
+                        </Form.Item>
+                        {showAttachment ? (
+                          <Form.Item
+                            name={["attachment"]}
+                            label="Attachment"
+                            initialValue={attachment}
+                          >
+                            <Input
+                              readOnly
+                              suffix={
+                                <Button
+                                  className="align-items-center "
+                                  icon={
+                                    <CloseOutlined className="medium-card-title" />
+                                  }
+                                  style={{
+                                    width: "16px",
+                                    height: "16px",
+                                  }}
+                                  onClick={removeAttachment}
+                                />
+                              }
+                            />
+                          </Form.Item>
+                        ) : (
+                          <Form.Item
+                            name={["select_attachment"]}
+                            label="Attachment"
+                          >
+                            <Input
+                              type="file"
+                              onChange={(e) =>
+                                onAttachmentChange(e.target.value)
+                              }
+                            />
+                          </Form.Item>
+                        )}
+                        <div
+                          className="space-between-row"
+                          style={{ paddingTop: "24px" }}
+                        >
+                          <Button
+                            size="large"
+                            type="default"
+                            style={{
+                              marginRight: "10px",
+                            }}
+                            onClick={viewVacation}
+                            block
+                          >
+                            CANCEL
+                          </Button>
+                          <Button
+                            size="large"
+                            type="primary"
+                            htmlType="submit"
+                            block
+                          >
+                            SAVE
+                          </Button>
+                        </div>
+                      </div>
+                    </Col>
+                    <Col span={8}>
+                      <div
+                        className="card-with-background"
+                        style={{ padding: "24px" }}
+                      >
+                        <Steps
+                          current={step}
+                          direction="vertical"
+                          items={[
+                            {
+                              title: "Vaction Type",
+                              description: vacation === "" ? " " : vacation,
+                              status: vacation === "" ? "error" : "finish",
+                            },
+                            {
+                              title: "Start Date",
+                              description:
+                                startdate === ""
+                                  ? " "
+                                  : moment(startdate).format(displayDateFormat),
+                              status: startdate === "" ? "error" : "finish",
+                            },
+                            {
+                              title: "End Date",
+                              description:
+                                enddate === ""
+                                  ? " "
+                                  : moment(enddate).format(displayDateFormat),
+                              status: enddate === "" ? "error" : "finish",
+                            },
+                            {
+                              title: "Vacation Reason",
+                              description: reason === "" ? " " : reason,
+                              status: reason === "" ? "error" : "finish",
+                            },
+                            {
+                              title: "Attachment",
+                              description: attachment === "" ? " " : attachment,
+                              status: attachment === "" ? "error" : "finish",
+                            },
+                          ]}
+                        />
+                      </div>
+                    </Col>
+                  </Row>
+                </Card>
+              </Form>
             </div>
-          </Card>
+          </div>
         ) : (
           <Card className="card-no-padding" size="small">
             <Table
