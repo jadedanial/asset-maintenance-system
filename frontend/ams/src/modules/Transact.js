@@ -247,10 +247,10 @@ const Transact = ({
     clearOrder();
   };
 
-  const mutateReorder = useMutation(createReorder);
+  const { mutate: mutateReorder } = useMutation(createReorder);
 
   const reorderOrder = (itemList, warehouseCode) => {
-    mutateReorder.mutate({ itemList, warehouseCode });
+    mutateReorder({ itemList, warehouseCode });
   };
 
   const createReceive = (itemList) => {
@@ -297,10 +297,10 @@ const Transact = ({
       });
   };
 
-  const mutateReceive = useMutation(createReceive);
+  const { mutate: mutateReceive } = useMutation(createReceive);
 
   const receiveOrder = (itemList) => {
-    mutateReceive.mutate(itemList);
+    mutateReceive(itemList);
   };
 
   const clearOrder = () => {
