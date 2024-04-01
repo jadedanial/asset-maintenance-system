@@ -365,7 +365,7 @@ const Attendance = ({
       {contextHolder}
       <div style={{ marginTop: "24px", minHeight: "460px" }}>
         {add ? (
-          <Card size="small">
+          <Card className="card-no-padding" size="small">
             <AddUpdateAttendance
               schedules={schedules}
               vacations={vacations}

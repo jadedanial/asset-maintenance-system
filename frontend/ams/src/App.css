@@ -658,7 +658,7 @@ textarea.ant-input {
   border-bottom: none !important;
 }
 .ant-list-item {
-  padding: 0 0 16px 0 !important;
+  padding: 0 0 24px 0 !important;
 }
 .dark .ant-list-item-meta-description {
   color: #f0f2f58e !important;

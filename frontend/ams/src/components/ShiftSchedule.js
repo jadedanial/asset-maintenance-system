@@ -45,7 +45,7 @@ const ShiftSchedule = ({ schedules, employees, empid }) => {
         <>
           <div style={{ paddingTop: "24px", flexWrap: "wrap" }}>
             <List
-              grid={{ gutter: 20, column: 3 }}
+              grid={{ gutter: 24, column: 3 }}
               dataSource={[
                 {
                   title: "SUNDAY",
@@ -179,7 +179,7 @@ const ShiftSchedule = ({ schedules, employees, empid }) => {
                   <Card
                     className="card-with-background"
                     size="small"
-                    style={{ padding: "12px" }}
+                    style={{ padding: "24px" }}
                   >
                     <p className="small-card-title">{item.title}</p>
                     <p className="small-font text">{item.description}</p>
@@ -233,7 +233,11 @@ const ShiftSchedule = ({ schedules, employees, empid }) => {
     <>
       {contextHolder}
       <div style={{ marginTop: "24px" }}>
-        <Card size="small" style={{ width: "100%", minHeight: "460px" }}>
+        <Card
+          className="card-no-padding"
+          size="small"
+          style={{ width: "100%", minHeight: "460px" }}
+        >
           <div className="justified-row">
             <div className="card-custom-size-full">
               <Form
@@ -244,51 +248,47 @@ const ShiftSchedule = ({ schedules, employees, empid }) => {
                 onFinish={onFinish}
               >
                 <Card className="card-no-padding" size="large">
-                  <div
+                  <Row
                     className="card-with-background"
                     style={{ padding: "24px" }}
                   >
-                    <Row>
-                      <Col span={20} style={{ paddingRight: "24px" }}>
-                        <Select
-                          size="large"
-                          showSearch
-                          placeholder="Search Schedule"
-                          style={{ width: "100%" }}
-                          optionFilterProp="children"
-                          filterOption={(input, option) =>
-                            (option?.label ?? "").toLowerCase().includes(input)
-                          }
-                          filterSort={(optionA, optionB) =>
-                            (optionA?.label ?? "")
-                              .toLowerCase()
-                              .localeCompare(
-                                (optionB?.label ?? "").toLowerCase()
-                              )
-                          }
-                          value={schedname}
-                          options={schedules.map((sched) => {
-                            return {
-                              value: sched.id,
-                              label: sched.sched_name,
-                            };
-                          })}
-                          onChange={onChange}
-                        />
-                      </Col>
-                      <Col span={4}>
-                        <Button
-                          size="large"
-                          type="primary"
-                          htmlType="submit"
-                          block
-                        >
-                          SAVE
-                        </Button>
-                      </Col>
-                    </Row>
-                    <div>{scheduleSwitch(schedid)}</div>
-                  </div>
+                    <Col span={20} style={{ paddingRight: "24px" }}>
+                      <Select
+                        size="large"
+                        showSearch
+                        placeholder="Search Schedule"
+                        style={{ width: "100%" }}
+                        optionFilterProp="children"
+                        filterOption={(input, option) =>
+                          (option?.label ?? "").toLowerCase().includes(input)
+                        }
+                        filterSort={(optionA, optionB) =>
+                          (optionA?.label ?? "")
+                            .toLowerCase()
+                            .localeCompare((optionB?.label ?? "").toLowerCase())
+                        }
+                        value={schedname}
+                        options={schedules.map((sched) => {
+                          return {
+                            value: sched.id,
+                            label: sched.sched_name,
+                          };
+                        })}
+                        onChange={onChange}
+                      />
+                    </Col>
+                    <Col span={4}>
+                      <Button
+                        size="large"
+                        type="primary"
+                        htmlType="submit"
+                        block
+                      >
+                        SAVE
+                      </Button>
+                    </Col>
+                  </Row>
+                  <div>{scheduleSwitch(schedid)}</div>
                 </Card>
               </Form>
             </div>
