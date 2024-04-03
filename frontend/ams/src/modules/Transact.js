@@ -206,7 +206,7 @@ const Transact = ({
   const createTransaction = ({ action, detail, status, userid, username }) => {
     console.log(action, detail, status, userid, username);
     var transactionData = {
-      trans_code: "",
+      trans_code: "0",
       trans_action: action,
       trans_date: moment().format("YYYY-MM-DD HH:mm:ss"),
       trans_user: String(userid) + " - " + username,
