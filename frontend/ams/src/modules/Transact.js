@@ -203,8 +203,7 @@ const Transact = ({
       });
   };
 
-  const createTransaction = ({ action, detail, status, userid, username }) => {
-    console.log(action, detail, status, userid, username);
+  const createTransaction = (action, detail, status, userid, username) => {
     var transactionData = {
       trans_code: "0",
       trans_action: action,
@@ -225,7 +224,6 @@ const Transact = ({
       withCredentials: true,
     })
       .then((response) => {
-        console.log(response);
         queryClient.invalidateQueries("transactions");
         setTransactionCode("TRA" + String(response.data["id"]));
       })
@@ -235,14 +233,8 @@ const Transact = ({
       });
   };
 
-  const { mutate: mutateTransaction } = useMutation(createTransaction);
-
-  const addTransaction = (action, detail, status, userid, username) => {
-    mutateTransaction({ action, detail, status, userid, username });
-  };
-
   const createReorder = ({ itemList, warehouseCode }) => {
-    addTransaction(
+    createTransaction(
       "Reorder",
       transactionDetail("Reorder", itemList, warehouseCode),
       "Pending",
@@ -264,7 +256,7 @@ const Transact = ({
   const createReceive = (itemList) => {
     transactionStatus(queryCode, "Complete")
       .then(() => {
-        return addTransaction(
+        return createTransaction(
           "Reorder",
           transactionDetail("Receive", itemList, ""),
           "Complete",
