@@ -308,6 +308,7 @@ const Transact = ({
       case "Reorder":
         setReorderItemList([]);
         setReorderItemCount(0);
+        setWarehouseCode("Select Warehouse");
         break;
       case "Receive":
         setReceiveItemList([]);

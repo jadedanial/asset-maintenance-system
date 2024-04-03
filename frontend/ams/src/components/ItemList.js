@@ -297,11 +297,7 @@ const ItemList = ({
                                 </p>
                               </Col>
                               {!view ? (
-                                <Col
-                                  span={
-                                    !view ? (segment === "Receive" ? 5 : 6) : 6
-                                  }
-                                >
+                                <Col span={5}>
                                   <p
                                     className="medium-card-title"
                                     style={{ textAlign: "right" }}
@@ -371,11 +367,9 @@ const ItemList = ({
                           {!view ? (
                             <Col
                               span={segment === "Receive" ? 3 : 6}
-                              className="flex-end-row"
+                              className="justified-row"
                             >
-                              <p style={{ textAlign: "right", margin: "0" }}>
-                                {item.total}
-                              </p>
+                              <p style={{ margin: "0" }}>{item.total}</p>
                             </Col>
                           ) : (
                             ""
