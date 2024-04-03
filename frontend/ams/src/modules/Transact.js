@@ -203,12 +203,13 @@ const Transact = ({
       });
   };
 
-  const addTransaction = (action, detail, status) => {
+  const createTransaction = ({ action, detail, status, userid, username }) => {
+    console.log(action, detail, status, userid, username);
     var transactionData = {
       trans_code: "",
       trans_action: action,
       trans_date: moment().format("YYYY-MM-DD HH:mm:ss"),
-      trans_user: String(userId) + " - " + userName,
+      trans_user: String(userid) + " - " + username,
       trans_detail: detail,
       trans_status: status,
     };
@@ -231,6 +232,12 @@ const Transact = ({
         console.log(err);
         setSuccess(false);
       });
+  };
+
+  const { mutate: mutateTransaction } = useMutation(createTransaction);
+
+  const addTransaction = (action, detail, status, userid, username) => {
+    mutateTransaction({ action, detail, status, userid, username });
   };
 
   const createReorder = ({ itemList, warehouseCode }) => {
@@ -257,7 +264,7 @@ const Transact = ({
     transactionStatus(queryCode, "Complete")
       .then(() => {
         return addTransaction(
-          "Receive",
+          "Reorder",
           transactionDetail("Receive", itemList, ""),
           "Complete",
           userId,
