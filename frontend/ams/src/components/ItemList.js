@@ -297,7 +297,7 @@ const ItemList = ({
                                 </p>
                               </Col>
                               {!view ? (
-                                <Col span={4}>
+                                <Col span={5}>
                                   <p
                                     className="medium-card-title"
                                     style={{ textAlign: "right" }}
