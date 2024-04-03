@@ -9,19 +9,16 @@ import {
   TimePicker,
   Card,
   Button,
-  Typography,
-  List,
   Table,
   Row,
   Col,
+  Steps,
   notification,
 } from "antd";
 import { CheckOutlined } from "@ant-design/icons";
 import NotificationEvent from "./NotificationEvent";
 import ResultEvent from "./ResultEvent";
 import moment from "moment";
-
-const { Title } = Typography;
 
 const layout = {
   labelCol: {
@@ -34,6 +31,7 @@ const layout = {
 
 const Excuse = ({ excuses, attendances, empid, theme }) => {
   const queryClient = useCustomQueryClient();
+  const [step, setStep] = useState(0);
   const dateFormat = "YYYY-MM-DD";
   const timeFormat = "HH:mm:ss";
   const displayDateFormat = "MMMM DD, YYYY";
@@ -47,7 +45,6 @@ const Excuse = ({ excuses, attendances, empid, theme }) => {
   const [hours, setHours] = useState(0);
   const [under, setUnder] = useState(0);
   const [api, contextHolder] = notification.useNotification();
-  const [current, setCurrent] = useState(0);
 
   const loadAttendances = attendances.map((res) => {
     return {
@@ -71,7 +68,6 @@ const Excuse = ({ excuses, attendances, empid, theme }) => {
 
   const newExcuse = () => {
     setSuccess(false);
-    setCurrent(0);
     setExcuseDate("");
     setStartTime("");
     setEndTime("");
@@ -79,6 +75,26 @@ const Excuse = ({ excuses, attendances, empid, theme }) => {
     setAdd(true);
     setHours(0);
     setUnder(0);
+  };
+
+  const onExcuseDateChange = (value) => {
+    setExcuseDate(value);
+    setStep(1);
+  };
+
+  const onStartTimeChange = (value) => {
+    setStartTime(value);
+    setStep(2);
+  };
+
+  const onEndTimeChange = (value) => {
+    setEndTime(value);
+    setStep(3);
+  };
+
+  const onReasonChange = (value) => {
+    setReason(value);
+    setStep(4);
   };
 
   const viewExcuse = () => {
@@ -169,7 +185,103 @@ const Excuse = ({ excuses, attendances, empid, theme }) => {
     return onExcuse;
   };
 
-  const next = () => {
+  const addExcuseButton = () => {
+    return (
+      <div className="flex-end-row">
+        <Button size="medium" type="primary" onClick={newExcuse}>
+          ADD
+        </Button>
+      </div>
+    );
+  };
+
+  const columns = [
+    {
+      title: "Excuse Date",
+      dataIndex: "date",
+      key: "date",
+      width: "200px",
+    },
+    {
+      title: "Start Time",
+      dataIndex: "start",
+      key: "start",
+    },
+    {
+      title: "End Time",
+      dataIndex: "end",
+      key: "end",
+    },
+    {
+      title: "Reason",
+      dataIndex: "reason",
+      key: "reason",
+    },
+    {
+      title: "Total",
+      dataIndex: "total",
+      key: "total",
+    },
+    {
+      title: addExcuseButton,
+      dataIndex: "addExcuseButton",
+      key: "addExcuseButton",
+    },
+  ];
+
+  const createExcuse = () => {
+    var excData = {
+      emp_id: empid,
+      exc_date: moment(excusedate).format(dateFormat),
+      exc_start: moment(starttime).format(timeFormat),
+      exc_end: moment(endtime).format(timeFormat),
+      exc_reason: reason,
+      exc_total: hours,
+    };
+    const token = sessionStorage.getItem("token");
+    axios({
+      method: "POST",
+      url: `${process.env.REACT_APP_API_URL}/api/excuse`,
+      data: excData,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Token ${token}`,
+      },
+      withCredentials: true,
+    })
+      .then(() => {
+        queryClient.invalidateQueries("excuses");
+        var attendData = {
+          emp_id: empid,
+          attend_date: excusedate.format(dateFormat),
+          attend_under: under - hours,
+          attend_excuse: hours,
+        };
+        const token = sessionStorage.getItem("token");
+        axios({
+          method: "PATCH",
+          url: `${process.env.REACT_APP_API_URL}/api/emp_attendance`,
+          data: attendData,
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Token ${token}`,
+          },
+          withCredentials: true,
+        }).then(() => {
+          queryClient.invalidateQueries("attendances");
+          setSuccess(true);
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+        setSuccess(false);
+        api.info(NotificationEvent(false, "Employee excuse failed to apply."));
+      });
+  };
+
+  const { mutate } = useMutation(createExcuse);
+
+  const onFinish = () => {
     var valid = true;
     if (excusedate === "") {
       valid = false;
@@ -228,228 +340,8 @@ const Excuse = ({ excuses, attendances, empid, theme }) => {
         .duration(moment(endtime).diff(moment(starttime)))
         .asHours();
       setHours(parseFloat(h).toFixed(2));
-      setCurrent(current + 1);
+      mutate();
     }
-  };
-
-  const prev = () => {
-    setCurrent(current - 1);
-  };
-
-  const addExcuseButton = () => {
-    return (
-      <div className="flex-end-row">
-        <Button size="medium" type="primary" onClick={newExcuse}>
-          ADD
-        </Button>
-      </div>
-    );
-  };
-
-  const columns = [
-    {
-      title: "Excuse Date",
-      dataIndex: "date",
-      key: "date",
-      width: "200px",
-    },
-    {
-      title: "Start Time",
-      dataIndex: "start",
-      key: "start",
-    },
-    {
-      title: "End Time",
-      dataIndex: "end",
-      key: "end",
-    },
-    {
-      title: "Reason",
-      dataIndex: "reason",
-      key: "reason",
-    },
-    {
-      title: "Total",
-      dataIndex: "total",
-      key: "total",
-    },
-    {
-      title: addExcuseButton,
-      dataIndex: "addExcuseButton",
-      key: "addExcuseButton",
-    },
-  ];
-
-  const steps = [
-    {
-      title: "Details",
-      content: (
-        <>
-          <Form.Item
-            name={["excusedate"]}
-            label="Excuse Date"
-            initialValue={excusedate === "" ? "" : moment(excusedate)}
-            rules={[
-              {
-                required: true,
-                message: "Excuse date required",
-              },
-            ]}
-          >
-            <DatePicker
-              placeholder=""
-              format={datePickerFormat}
-              onChange={(value) => setExcuseDate(moment(value))}
-              inputReadOnly
-            />
-          </Form.Item>
-          <Form.Item
-            name={["starttime"]}
-            label="Start Time"
-            initialValue={starttime === "" ? "" : moment(starttime)}
-            rules={[
-              {
-                required: true,
-                message: "Start time required",
-              },
-            ]}
-          >
-            <TimePicker
-              placeholder=""
-              onChange={(value) => setStartTime(moment(value))}
-              inputReadOnly
-            />
-          </Form.Item>
-          <Form.Item
-            name={["endtime"]}
-            label="End Time"
-            initialValue={endtime === "" ? "" : moment(endtime)}
-            rules={[
-              {
-                required: true,
-                message: "End time required",
-              },
-            ]}
-          >
-            <TimePicker
-              placeholder=""
-              onChange={(value) => setEndTime(moment(value))}
-              inputReadOnly
-            />
-          </Form.Item>
-          <Form.Item
-            name={["reason"]}
-            label="Reason"
-            initialValue={reason}
-            rules={[
-              {
-                required: true,
-                message: "Vacation reason required",
-              },
-            ]}
-          >
-            <Input value={reason} onChange={(e) => setReason(e.target.value)} />
-          </Form.Item>
-        </>
-      ),
-    },
-    {
-      title: "Confirm",
-      content: (
-        <List
-          style={{ width: "100%" }}
-          itemLayout="horizontal"
-          dataSource={[
-            {
-              title: <p className="small-font">Date</p>,
-              description: (
-                <p className="medium-font text">
-                  {moment(excusedate).format(displayDateFormat)}
-                </p>
-              ),
-            },
-            {
-              title: <p className="small-font">Time</p>,
-              description: (
-                <p className="medium-font text">
-                  From {moment(starttime).format(timeFormat)} To{" "}
-                  {moment(endtime).format(timeFormat)} (
-                  {hours > 1 ? hours + " hours" : hours + " hour"})
-                </p>
-              ),
-            },
-            {
-              title: <p className="small-font">Reason</p>,
-              description: <p className="medium-font text">{reason}</p>,
-            },
-          ]}
-          renderItem={(item) => (
-            <List.Item>
-              <List.Item.Meta
-                title={item.title}
-                description={item.description}
-              />
-            </List.Item>
-          )}
-        />
-      ),
-    },
-  ];
-
-  const createExcuse = () => {
-    var excData = {
-      emp_id: empid,
-      exc_date: moment(excusedate).format(dateFormat),
-      exc_start: moment(starttime).format(timeFormat),
-      exc_end: moment(endtime).format(timeFormat),
-      exc_reason: reason,
-      exc_total: hours,
-    };
-    const token = sessionStorage.getItem("token");
-    axios({
-      method: "POST",
-      url: `${process.env.REACT_APP_API_URL}/api/excuse`,
-      data: excData,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Token ${token}`,
-      },
-      withCredentials: true,
-    })
-      .then(() => {
-        queryClient.invalidateQueries("excuses");
-        var attendData = {
-          emp_id: empid,
-          attend_date: excusedate.format(dateFormat),
-          attend_under: under - hours,
-          attend_excuse: hours,
-        };
-        const token = sessionStorage.getItem("token");
-        axios({
-          method: "PATCH",
-          url: `${process.env.REACT_APP_API_URL}/api/emp_attendance`,
-          data: attendData,
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Token ${token}`,
-          },
-          withCredentials: true,
-        }).then(() => {
-          queryClient.invalidateQueries("attendances");
-          setSuccess(true);
-        });
-      })
-      .catch((err) => {
-        console.log(err);
-        setSuccess(false);
-        api.info(NotificationEvent(false, "Employee excuse failed to apply."));
-      });
-  };
-
-  const { mutate } = useMutation(createExcuse);
-
-  const onFinish = () => {
-    mutate();
   };
 
   if (success) {
@@ -499,78 +391,168 @@ const Excuse = ({ excuses, attendances, empid, theme }) => {
       {contextHolder}
       <div style={{ marginTop: "24px", minHeight: "460px" }}>
         {add ? (
-          <Card size="small">
-            <div className="justified-row">
-              <div className="card-custom-size-60">
-                <Form
-                  {...layout}
-                  layout="vertical"
-                  size="large"
-                  name="add-vacation"
-                  style={{ width: "100%" }}
-                >
-                  <Card
-                    size="large"
-                    title={
-                      <Title>
-                        <p className="big-card-title">Excuse Application</p>
-                      </Title>
-                    }
-                  >
-                    <div>{steps[current].content}</div>
-                    <div
-                      className="space-between-row"
-                      style={{ paddingTop: "24px" }}
-                    >
-                      <Button
-                        size="large"
-                        type="default"
-                        style={{
-                          marginRight: "10px",
-                          display: current > 0 ? "none" : "inline",
-                        }}
-                        onClick={viewExcuse}
-                        block
+          <div className="justified-row">
+            <div className="card-custom-size-full">
+              <Form
+                {...layout}
+                layout="vertical"
+                size="large"
+                name="add-new-shift"
+                onFinish={onFinish}
+              >
+                <Card size="large" className="card-no-padding">
+                  <Row>
+                    <Col span={16} style={{ paddingRight: "24px" }}>
+                      <div
+                        className=" card-with-background"
+                        style={{ padding: "24px" }}
                       >
-                        CANCEL
-                      </Button>
-                      {current < steps.length - 1 && (
-                        <Button
-                          size="large"
-                          type="primary"
-                          onClick={next}
-                          block
+                        <Form.Item
+                          name={["excusedate"]}
+                          label="Excuse Date"
+                          initialValue={
+                            excusedate === "" ? "" : moment(excusedate)
+                          }
+                          rules={[
+                            {
+                              required: true,
+                              message: "Excuse date required",
+                            },
+                          ]}
                         >
-                          NEXT
-                        </Button>
-                      )}
-                      {current > 0 && (
-                        <Button
-                          size="large"
-                          type="default"
-                          style={{ marginRight: "10px" }}
-                          onClick={prev}
-                          block
+                          <DatePicker
+                            placeholder=""
+                            format={datePickerFormat}
+                            onChange={onExcuseDateChange}
+                            inputReadOnly
+                          />
+                        </Form.Item>
+                        <Form.Item
+                          name={["starttime"]}
+                          label="Start Time"
+                          initialValue={
+                            starttime === "" ? "" : moment(starttime)
+                          }
+                          rules={[
+                            {
+                              required: true,
+                              message: "Start time required",
+                            },
+                          ]}
                         >
-                          BACK
-                        </Button>
-                      )}
-                      {current === steps.length - 1 && (
-                        <Button
-                          size="large"
-                          type="primary"
-                          onClick={onFinish}
-                          block
+                          <TimePicker
+                            placeholder=""
+                            onChange={onStartTimeChange}
+                            inputReadOnly
+                          />
+                        </Form.Item>
+                        <Form.Item
+                          name={["endtime"]}
+                          label="End Time"
+                          initialValue={endtime === "" ? "" : moment(endtime)}
+                          rules={[
+                            {
+                              required: true,
+                              message: "End time required",
+                            },
+                          ]}
                         >
-                          APPLY
-                        </Button>
-                      )}
-                    </div>
-                  </Card>
-                </Form>
-              </div>
+                          <TimePicker
+                            placeholder=""
+                            onChange={onEndTimeChange}
+                            inputReadOnly
+                          />
+                        </Form.Item>
+                        <Form.Item
+                          name={["reason"]}
+                          label="Excuse Reason"
+                          initialValue={reason}
+                          rules={[
+                            {
+                              required: true,
+                              message: "Vacation reason required",
+                            },
+                          ]}
+                        >
+                          <Input
+                            onChange={(e) => onReasonChange(e.target.value)}
+                          />
+                        </Form.Item>
+                        <div
+                          className="space-between-row"
+                          style={{ paddingTop: "24px" }}
+                        >
+                          <Button
+                            size="large"
+                            type="default"
+                            style={{
+                              marginRight: "10px",
+                            }}
+                            onClick={viewExcuse}
+                            block
+                          >
+                            CANCEL
+                          </Button>
+                          <Button
+                            size="large"
+                            type="primary"
+                            htmlType="submit"
+                            block
+                          >
+                            SAVE
+                          </Button>
+                        </div>
+                      </div>
+                    </Col>
+                    <Col span={8}>
+                      <div
+                        className="card-with-background"
+                        style={{ padding: "24px" }}
+                      >
+                        <Steps
+                          current={step}
+                          direction="vertical"
+                          items={[
+                            {
+                              title: "Excuse Date",
+                              description:
+                                excusedate === ""
+                                  ? " "
+                                  : moment(excusedate).format(
+                                      displayDateFormat
+                                    ),
+                              status: excusedate === "" ? "error" : "finish",
+                            },
+                            {
+                              title: "Start Time",
+                              description:
+                                starttime === ""
+                                  ? " "
+                                  : moment(starttime).format(timeFormat),
+                              status: starttime === "" ? "error" : "finish",
+                            },
+                            {
+                              title: "End Time",
+                              description:
+                                endtime === ""
+                                  ? " "
+                                  : moment(endtime).format(timeFormat),
+                              status: endtime === "" ? "error" : "finish",
+                            },
+                            {
+                              title: "Excuse Reason",
+                              description: reason === "" ? " " : reason,
+                              status: reason === "" ? "error" : "finish",
+                            },
+                          ]}
+                        />
+                      </div>
+                    </Col>
+                  </Row>
+                </Card>
+              </Form>
             </div>
-          </Card>
+          </div>
         ) : (
           <Card className="card-no-padding" size="small">
             <Table

@@ -35,7 +35,7 @@ const Vacation = ({ vacations, options, empid, theme }) => {
   const dateFormat = "YYYY-MM-DD";
   const displayDateFormat = "MMMM DD, YYYY";
   const datePickerFormat = (value) => `${value.format(displayDateFormat)}`;
-  const [vacation, setVacation] = useState("");
+  const [vacationtype, setVacationType] = useState("");
   const [startdate, setStartDate] = useState("");
   const [enddate, setEndDate] = useState("");
   const [reason, setReason] = useState("");
@@ -60,13 +60,13 @@ const Vacation = ({ vacations, options, empid, theme }) => {
   });
 
   const newVacation = () => {
-    form.resetFields(["vacation"]);
+    form.resetFields(["vacationtype"]);
     form.resetFields(["startdate"]);
     form.resetFields(["enddate"]);
     form.resetFields(["reason"]);
     form.resetFields(["select_attachment"]);
     setSuccess(false);
-    setVacation("");
+    setVacationType("");
     setStartDate("");
     setEndDate("");
     setReason("");
@@ -76,8 +76,8 @@ const Vacation = ({ vacations, options, empid, theme }) => {
     setDays(0);
   };
 
-  const onVacationChange = (value) => {
-    setVacation(value);
+  const onVacationTypeChange = (value) => {
+    setVacationType(value);
     setStep(1);
   };
 
@@ -202,7 +202,7 @@ const Vacation = ({ vacations, options, empid, theme }) => {
   const createVacation = () => {
     var vacData = {
       emp_id: empid,
-      vac_type: vacation,
+      vac_type: vacationtype,
       vac_start: moment(startdate).format(dateFormat),
       vac_end: moment(enddate).format(dateFormat),
       vac_reason: reason ? reason : "No Reason",
@@ -237,7 +237,7 @@ const Vacation = ({ vacations, options, empid, theme }) => {
 
   const onFinish = () => {
     var valid = true;
-    if (vacation === "") {
+    if (vacationtype === "") {
       valid = false;
       api.info(NotificationEvent(false, "No vacation type selected."));
     } else if (startdate === "") {
@@ -338,9 +338,9 @@ const Vacation = ({ vacations, options, empid, theme }) => {
                         style={{ padding: "24px" }}
                       >
                         <Form.Item
-                          name={["vacation"]}
+                          name={["vacationtype"]}
                           label="Vacation Type"
-                          initialValue={vacation}
+                          initialValue={vacationtype}
                           rules={[
                             {
                               required: true,
@@ -373,7 +373,7 @@ const Vacation = ({ vacations, options, empid, theme }) => {
                                   label: vac.opt_name,
                                 };
                               })}
-                            onChange={onVacationChange}
+                            onChange={onVacationTypeChange}
                           />
                         </Form.Item>
                         <Form.Item
@@ -496,8 +496,9 @@ const Vacation = ({ vacations, options, empid, theme }) => {
                           items={[
                             {
                               title: "Vaction Type",
-                              description: vacation === "" ? " " : vacation,
-                              status: vacation === "" ? "error" : "finish",
+                              description:
+                                vacationtype === "" ? " " : vacationtype,
+                              status: vacationtype === "" ? "error" : "finish",
                             },
                             {
                               title: "Start Date",
