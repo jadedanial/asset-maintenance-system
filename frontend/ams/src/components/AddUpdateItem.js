@@ -185,6 +185,7 @@ const AddUpdateItem = ({
     })
       .then((response) => {
         queryClient.invalidateQueries("items");
+        queryClient.invalidateQueries("sections");
         setIDCode("ITM" + response.data["id"]);
         var itemWarehouse = {
           item_code: "ITM" + response.data["id"],
