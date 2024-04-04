@@ -489,7 +489,6 @@ const AddUpdateAttendance = ({
                   size="large"
                   type="primary"
                   onClick={() => {
-                    queryClient.invalidateQueries("attendances");
                     viewAttendance();
                   }}
                   block

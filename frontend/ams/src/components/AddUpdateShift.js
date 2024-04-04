@@ -168,7 +168,6 @@ const AddUpdateShift = ({
                     size="large"
                     type="primary"
                     onClick={() => {
-                      queryClient.invalidateQueries("shifts");
                       newShift();
                     }}
                     block

@@ -228,7 +228,6 @@ const AddUpdateSchedule = ({
                     size="large"
                     type="primary"
                     onClick={() => {
-                      queryClient.invalidateQueries("schedules");
                       newSchedule();
                     }}
                     block

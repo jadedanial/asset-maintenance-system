@@ -302,7 +302,6 @@ const Vacation = ({ vacations, options, empid, theme }) => {
                     size="large"
                     type="primary"
                     onClick={() => {
-                      queryClient.invalidateQueries("vacations");
                       newVacation();
                     }}
                     block

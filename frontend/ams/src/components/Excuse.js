@@ -378,8 +378,6 @@ const Excuse = ({ excuses, attendances, empid, theme }) => {
                     size="large"
                     type="primary"
                     onClick={() => {
-                      queryClient.invalidateQueries("excuses");
-                      queryClient.invalidateQueries("attendances");
                       newExcuse();
                     }}
                     block
