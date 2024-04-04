@@ -162,6 +162,7 @@ const AddUpdateItem = ({
 
   const createItem = () => {
     setSubmit(true);
+    setSuccess(false);
     changeLabel();
     var itemData = {
       item_code: itemCode,
@@ -184,6 +185,7 @@ const AddUpdateItem = ({
       withCredentials: true,
     })
       .then((response) => {
+        queryClient.invalidateQueries("items");
         setIDCode("ITM" + response.data["id"]);
         var itemWarehouse = {
           item_code: "ITM" + response.data["id"],
@@ -202,7 +204,6 @@ const AddUpdateItem = ({
           },
           withCredentials: true,
         }).then(() => {
-          queryClient.invalidateQueries("items");
           queryClient.invalidateQueries("warehouseitems");
           setSuccess(true);
         });
