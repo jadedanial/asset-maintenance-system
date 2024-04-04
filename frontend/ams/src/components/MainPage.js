@@ -256,7 +256,6 @@ const MainPage = ({
       const section = sections.find(
         (res) => res.section_code === employee?.emp_section
       );
-
       if (section) {
         setSectionCode(section.section_code);
         setSectionCategory(section.section_category);
