@@ -273,8 +273,6 @@ const AddUpdateItem = ({
                     size="large"
                     type="primary"
                     onClick={() => {
-                      queryClient.invalidateQueries("items");
-                      queryClient.invalidateQueries("warehouseitems");
                       newItem();
                     }}
                     block
