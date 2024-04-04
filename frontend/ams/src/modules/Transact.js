@@ -196,6 +196,7 @@ const Transact = ({
     })
       .then(() => {
         queryClient.invalidateQueries("transactions");
+        setSuccess(true);
       })
       .catch((err) => {
         console.log(err);
@@ -226,6 +227,7 @@ const Transact = ({
       .then((response) => {
         queryClient.invalidateQueries("transactions");
         setTransactionCode("TRA" + String(response.data["id"]));
+        setSuccess(true);
       })
       .catch((err) => {
         console.log(err);
@@ -241,7 +243,6 @@ const Transact = ({
       userId,
       userName
     );
-    setSuccess(true);
     setQueryItem([]);
     setSearchValue("");
     clearOrder();
@@ -286,7 +287,6 @@ const Transact = ({
       })
       .then(() => {
         queryClient.invalidateQueries("warehouseitems");
-        setSuccess(true);
         setQueryItem([]);
         setSearchValue("");
         clearOrder();
