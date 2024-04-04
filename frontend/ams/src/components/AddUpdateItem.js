@@ -52,6 +52,7 @@ const AddUpdateItem = ({
     updateData ? "Update Item" : "Add New Item"
   );
   const [color, setColor] = useState("#318ce7");
+  const [idCode, setIDCode] = useState(updateData ? code : "");
   const [itemCode, setItemCode] = useState(updateData ? code : "");
   const [itemName, setItemName] = useState(updateData ? name : "");
   const [itemCategory, setItemCategory] = useState(updateData ? category : "");
@@ -217,6 +218,7 @@ const AddUpdateItem = ({
     })
       .then((response) => {
         queryClient.invalidateQueries("items");
+        setIDCode("ITM" + response.data["id"]);
         createWarehouseItem(
           "ITM" + response.data["id"],
           sectionCode,
@@ -251,7 +253,7 @@ const AddUpdateItem = ({
                 ? "Successfully updated item."
                 : "Successfully added new item."
             }
-            subTitle={"Item name " + itemName}
+            subTitle={"Item name " + itemName + " with code " + String(idCode)}
             extra={
               <Row className="space-between-row">
                 <Col span={12} style={{ paddingRight: "10px" }}>

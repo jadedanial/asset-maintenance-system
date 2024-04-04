@@ -226,7 +226,8 @@ const AddUpdateEmployee = ({
       },
       withCredentials: true,
     })
-      .then(() => {
+      .then((response) => {
+        setEmployeeID(response.data["emp_id"]);
         if (updateData) {
           getSection();
         }
@@ -259,7 +260,9 @@ const AddUpdateEmployee = ({
                 ? "Successfully updated employee."
                 : "Successfully added new employee."
             }
-            subTitle={"Employee name " + employeeName}
+            subTitle={
+              "Employee name " + employeeName + " with ID " + employeeID
+            }
             extra={
               <Row className="space-between-row">
                 <Col span={12} style={{ paddingRight: "10px" }}>
