@@ -249,7 +249,6 @@ const AddUpdateEmployee = ({
   };
 
   if (submit) {
-    queryClient.invalidateQueries("employees");
     if (success) {
       return (
         <>
@@ -270,7 +269,10 @@ const AddUpdateEmployee = ({
                   <Button
                     size="large"
                     type="default"
-                    onClick={onCloseDrawer}
+                    onClick={() => {
+                      onCloseDrawer();
+                      queryClient.invalidateQueries("employees");
+                    }}
                     block
                   >
                     CLOSE
