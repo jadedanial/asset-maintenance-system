@@ -227,8 +227,9 @@ const AddUpdateEmployee = ({
       withCredentials: true,
     })
       .then(() => {
-        queryClient.invalidateQueries("employees");
-
+        if (updateData) {
+          getSection();
+        }
         setSuccess(true);
       })
       .catch((err) => {
