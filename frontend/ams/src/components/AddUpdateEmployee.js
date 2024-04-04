@@ -282,7 +282,10 @@ const AddUpdateEmployee = ({
                   <Button
                     size="large"
                     type="primary"
-                    onClick={() => newEmployee()}
+                    onClick={() => {
+                      newEmployee();
+                      queryClient.invalidateQueries("employees");
+                    }}
                     block
                   >
                     NEW EMPLOYEE
