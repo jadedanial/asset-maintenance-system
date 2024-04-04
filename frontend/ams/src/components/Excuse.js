@@ -250,7 +250,6 @@ const Excuse = ({ excuses, attendances, empid, theme }) => {
       withCredentials: true,
     })
       .then(() => {
-        queryClient.invalidateQueries("excuses");
         var attendData = {
           emp_id: empid,
           attend_date: excusedate.format(dateFormat),
@@ -268,7 +267,6 @@ const Excuse = ({ excuses, attendances, empid, theme }) => {
           },
           withCredentials: true,
         }).then(() => {
-          queryClient.invalidateQueries("attendances");
           setSuccess(true);
         });
       })
@@ -365,14 +363,27 @@ const Excuse = ({ excuses, attendances, empid, theme }) => {
                   <Button
                     size="large"
                     type="default"
-                    onClick={viewExcuse}
+                    onClick={() => {
+                      queryClient.invalidateQueries("excuses");
+                      queryClient.invalidateQueries("attendances");
+                      viewExcuse();
+                    }}
                     block
                   >
                     CLOSE
                   </Button>
                 </Col>
                 <Col span={12}>
-                  <Button size="large" type="primary" onClick={newExcuse} block>
+                  <Button
+                    size="large"
+                    type="primary"
+                    onClick={() => {
+                      queryClient.invalidateQueries("excuses");
+                      queryClient.invalidateQueries("attendances");
+                      newExcuse();
+                    }}
+                    block
+                  >
                     NEW EXCUSE
                   </Button>
                 </Col>

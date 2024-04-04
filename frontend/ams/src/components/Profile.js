@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useCustomQueryClient } from "../useQueryClient";
 import {
   Col,
   Row,
@@ -42,6 +43,7 @@ const Profile = ({
   onCloseDrawer,
   theme,
 }) => {
+  const queryClient = useCustomQueryClient();
   const [update, setUpdate] = useState(false);
 
   const items = [
@@ -283,6 +285,9 @@ const Profile = ({
                       size="large"
                       tabBarGutter={4}
                       items={items}
+                      onClick={() => {
+                        queryClient.invalidateQueries("employees");
+                      }}
                       destroyInactiveTabPane
                     />
                   </Card>

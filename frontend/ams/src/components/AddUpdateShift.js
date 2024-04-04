@@ -118,7 +118,6 @@ const AddUpdateShift = ({
       withCredentials: true,
     })
       .then(() => {
-        queryClient.invalidateQueries("shifts");
         setSuccess(true);
       })
       .catch((err) => {
@@ -155,7 +154,10 @@ const AddUpdateShift = ({
                   <Button
                     size="large"
                     type="default"
-                    onClick={onCloseDrawer}
+                    onClick={() => {
+                      queryClient.invalidateQueries("shifts");
+                      onCloseDrawer();
+                    }}
                     block
                   >
                     CLOSE
@@ -165,7 +167,10 @@ const AddUpdateShift = ({
                   <Button
                     size="large"
                     type="primary"
-                    onClick={() => newShift()}
+                    onClick={() => {
+                      queryClient.invalidateQueries("shifts");
+                      newShift();
+                    }}
                     block
                   >
                     NEW SHIFT

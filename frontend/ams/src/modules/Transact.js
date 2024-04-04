@@ -236,7 +236,6 @@ const Transact = ({
   };
 
   const createReorder = ({ itemList, warehouseCode }) => {
-    setSuccess(false);
     createTransaction(
       "Reorder",
       transactionDetail("Reorder", itemList, warehouseCode),

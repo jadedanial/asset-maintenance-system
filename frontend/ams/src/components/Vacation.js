@@ -221,7 +221,6 @@ const Vacation = ({ vacations, options, empid, theme }) => {
       withCredentials: true,
     })
       .then(() => {
-        queryClient.invalidateQueries("vacations");
         setSuccess(true);
       })
       .catch((err) => {
@@ -289,7 +288,10 @@ const Vacation = ({ vacations, options, empid, theme }) => {
                   <Button
                     size="large"
                     type="default"
-                    onClick={viewVacation}
+                    onClick={() => {
+                      queryClient.invalidateQueries("vacations");
+                      viewVacation();
+                    }}
                     block
                   >
                     CLOSE
@@ -299,7 +301,10 @@ const Vacation = ({ vacations, options, empid, theme }) => {
                   <Button
                     size="large"
                     type="primary"
-                    onClick={newVacation}
+                    onClick={() => {
+                      queryClient.invalidateQueries("vacations");
+                      newVacation();
+                    }}
                     block
                   >
                     NEW VACATION

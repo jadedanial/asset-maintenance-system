@@ -184,7 +184,6 @@ const AddUpdateItem = ({
       withCredentials: true,
     })
       .then(() => {
-        queryClient.invalidateQueries("warehouseitems");
         setSuccess(true);
       })
       .catch((err) => {
@@ -217,7 +216,6 @@ const AddUpdateItem = ({
       withCredentials: true,
     })
       .then((response) => {
-        queryClient.invalidateQueries("items");
         setIDCode("ITM" + response.data["id"]);
         createWarehouseItem(
           "ITM" + response.data["id"],
@@ -260,7 +258,11 @@ const AddUpdateItem = ({
                   <Button
                     size="large"
                     type="default"
-                    onClick={onCloseDrawer}
+                    onClick={() => {
+                      queryClient.invalidateQueries("items");
+                      queryClient.invalidateQueries("warehouseitems");
+                      onCloseDrawer();
+                    }}
                     block
                   >
                     CLOSE
@@ -270,7 +272,11 @@ const AddUpdateItem = ({
                   <Button
                     size="large"
                     type="primary"
-                    onClick={() => newItem()}
+                    onClick={() => {
+                      queryClient.invalidateQueries("items");
+                      queryClient.invalidateQueries("warehouseitems");
+                      newItem();
+                    }}
                     block
                   >
                     NEW ITEM

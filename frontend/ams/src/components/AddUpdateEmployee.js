@@ -270,8 +270,8 @@ const AddUpdateEmployee = ({
                     size="large"
                     type="default"
                     onClick={() => {
-                      onCloseDrawer();
                       queryClient.invalidateQueries("employees");
+                      onCloseDrawer();
                     }}
                     block
                   >
@@ -283,8 +283,8 @@ const AddUpdateEmployee = ({
                     size="large"
                     type="primary"
                     onClick={() => {
-                      newEmployee();
                       queryClient.invalidateQueries("employees");
+                      newEmployee();
                     }}
                     block
                   >

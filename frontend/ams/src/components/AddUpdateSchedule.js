@@ -178,7 +178,6 @@ const AddUpdateSchedule = ({
       withCredentials: true,
     })
       .then(() => {
-        queryClient.invalidateQueries("schedules");
         setSuccess(true);
       })
       .catch((err) => {
@@ -215,7 +214,10 @@ const AddUpdateSchedule = ({
                   <Button
                     size="large"
                     type="default"
-                    onClick={onCloseDrawer}
+                    onClick={() => {
+                      queryClient.invalidateQueries("schedules");
+                      onCloseDrawer();
+                    }}
                     block
                   >
                     CLOSE
@@ -225,7 +227,10 @@ const AddUpdateSchedule = ({
                   <Button
                     size="large"
                     type="primary"
-                    onClick={() => newSchedule()}
+                    onClick={() => {
+                      queryClient.invalidateQueries("schedules");
+                      newSchedule();
+                    }}
                     block
                   >
                     NEW SCHEDULE
