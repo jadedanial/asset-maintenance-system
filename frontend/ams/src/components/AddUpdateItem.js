@@ -160,6 +160,38 @@ const AddUpdateItem = ({
     return main;
   };
 
+  const createWarehouseItem = (
+    itemcode,
+    warehousecode,
+    itemlocation,
+    itemonhand
+  ) => {
+    var itemWarehouse = {
+      item_code: itemcode,
+      warehouse_code: warehousecode,
+      item_location: itemlocation,
+      item_onhand: itemonhand,
+    };
+    const token = sessionStorage.getItem("token");
+    return axios({
+      method: updateData ? "PATCH" : "POST",
+      url: `${process.env.REACT_APP_API_URL}/api/warehouseitem`,
+      data: itemWarehouse,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Token ${token}`,
+      },
+      withCredentials: true,
+    })
+      .then(() => {
+        queryClient.invalidateQueries("warehouseitems");
+      })
+      .catch((err) => {
+        console.log(err);
+        setSuccess(false);
+      });
+  };
+
   const createItem = () => {
     setSubmit(true);
     changeLabel();
@@ -185,28 +217,14 @@ const AddUpdateItem = ({
     })
       .then((response) => {
         queryClient.invalidateQueries("items");
-        queryClient.invalidateQueries("sections");
         setIDCode("ITM" + response.data["id"]);
-        var itemWarehouse = {
-          item_code: "ITM" + response.data["id"],
-          warehouse_code: sectionCode,
-          item_location: itemLocation,
-          item_onhand: itemOnHand,
-        };
-        const token = sessionStorage.getItem("token");
-        axios({
-          method: updateData ? "PATCH" : "POST",
-          url: `${process.env.REACT_APP_API_URL}/api/warehouseitem`,
-          data: itemWarehouse,
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Token ${token}`,
-          },
-          withCredentials: true,
-        }).then(() => {
-          queryClient.invalidateQueries("warehouseitems");
-          setSuccess(true);
-        });
+        createWarehouseItem(
+          "ITM" + response.data["id"],
+          sectionCode,
+          itemLocation,
+          itemOnHand
+        );
+        setSuccess(true);
       })
       .catch((err) => {
         console.log(err.response.data[0]);
