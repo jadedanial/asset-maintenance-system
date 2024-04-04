@@ -249,6 +249,7 @@ const AddUpdateEmployee = ({
   };
 
   if (submit) {
+    queryClient.invalidateQueries("employees");
     if (success) {
       return (
         <>
