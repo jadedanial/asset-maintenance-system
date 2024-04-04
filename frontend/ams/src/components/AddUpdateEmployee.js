@@ -232,7 +232,6 @@ const AddUpdateEmployee = ({
           getSection();
         }
         setSuccess(true);
-        setEmployeeID(response.data["emp_id"]);
       })
       .catch((err) => {
         console.log(err.response.data[0]);
@@ -261,9 +260,7 @@ const AddUpdateEmployee = ({
                 ? "Successfully updated employee."
                 : "Successfully added new employee."
             }
-            subTitle={
-              "Employee name " + employeeName + " with ID " + employeeID
-            }
+            subTitle={"Employee name " + employeeName}
             extra={
               <Row className="space-between-row">
                 <Col span={12} style={{ paddingRight: "10px" }}>
