@@ -228,11 +228,11 @@ const AddUpdateItem = ({
       })
       .catch((err) => {
         console.log(err.response.data[0]);
+        setSubmit(false);
         setSuccess(false);
         setLabel(err.response.data[0]);
         setColor("#ff0000");
       });
-    setSubmit(false);
   };
 
   const { mutate } = useMutation(createItem);
