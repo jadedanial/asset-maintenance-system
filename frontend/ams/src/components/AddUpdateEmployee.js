@@ -232,6 +232,7 @@ const AddUpdateEmployee = ({
           getSection();
         }
         setSuccess(true);
+        setEmployeeID(response.data["emp_id"]);
       })
       .catch((err) => {
         console.log(err.response.data[0]);
