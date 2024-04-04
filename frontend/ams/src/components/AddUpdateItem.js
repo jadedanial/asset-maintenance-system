@@ -162,7 +162,6 @@ const AddUpdateItem = ({
 
   const createItem = () => {
     setSubmit(true);
-    setSuccess(false);
     changeLabel();
     var itemData = {
       item_code: itemCode,
@@ -210,7 +209,7 @@ const AddUpdateItem = ({
       })
       .catch((err) => {
         console.log(err.response.data[0]);
-        setSuccess(false);
+        setSubmit(false);
         setLabel(err.response.data[0]);
         setColor("#ff0000");
       });
