@@ -292,8 +292,13 @@ const AddUpdateSchedule = ({
                         onChange={(e) => onNameChange(e.target.value)}
                       />
                     </Form.Item>
-                    <div className="space-between-row">
-                      <Col span={12}>
+                    <Row>
+                      <Col
+                        span={12}
+                        style={{
+                          paddingRight: "24px",
+                        }}
+                      >
                         <Form.Item
                           name={["sunday"]}
                           label="Sunday"
@@ -459,7 +464,7 @@ const AddUpdateSchedule = ({
                           />
                         </Form.Item>
                       </Col>
-                      <Col span={11}>
+                      <Col span={12}>
                         <Form.Item
                           name={["monday"]}
                           label="Monday"
@@ -584,7 +589,7 @@ const AddUpdateSchedule = ({
                           />
                         </Form.Item>
                       </Col>
-                    </div>
+                    </Row>
                     <div
                       className="space-between-row"
                       style={{ paddingTop: "24px" }}

@@ -320,8 +320,13 @@ const AddUpdateItem = ({
                     className=" card-with-background"
                     style={{ padding: "24px" }}
                   >
-                    <div className="space-between-row">
-                      <Col span={14}>
+                    <Row>
+                      <Col
+                        span={14}
+                        style={{
+                          paddingRight: "24px",
+                        }}
+                      >
                         <Form.Item
                           name={["name"]}
                           label="Item Name"
@@ -399,7 +404,7 @@ const AddUpdateItem = ({
                           />
                         </Form.Item>
                       </Col>
-                      <Col span={9}>
+                      <Col span={10}>
                         <Form.Item
                           name={["cost"]}
                           label="Unit Cost"
@@ -484,7 +489,7 @@ const AddUpdateItem = ({
                           />
                         </Form.Item>
                       </Col>
-                    </div>
+                    </Row>
                     <Form.Item
                       name={["description"]}
                       label="Description"

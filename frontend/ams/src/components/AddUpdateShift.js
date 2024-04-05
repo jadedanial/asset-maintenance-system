@@ -232,8 +232,13 @@ const AddUpdateShift = ({
                         onChange={(e) => onNameChange(e.target.value)}
                       />
                     </Form.Item>
-                    <div className="space-between-row">
-                      <Col span={12}>
+                    <Row>
+                      <Col
+                        span={12}
+                        style={{
+                          paddingRight: "24px",
+                        }}
+                      >
                         <Form.Item
                           name={["shiftFrom"]}
                           label="Shift From"
@@ -260,7 +265,7 @@ const AddUpdateShift = ({
                           />
                         </Form.Item>
                       </Col>
-                      <Col span={11}>
+                      <Col span={12}>
                         <Form.Item
                           name={["shiftTo"]}
                           label="Shift To"
@@ -283,7 +288,7 @@ const AddUpdateShift = ({
                           />
                         </Form.Item>
                       </Col>
-                    </div>
+                    </Row>
                     <div
                       className="space-between-row"
                       style={{ paddingTop: "24px" }}

@@ -347,8 +347,13 @@ const AddUpdateEmployee = ({
                         onChange={(e) => onNameChange(e.target.value)}
                       />
                     </Form.Item>
-                    <div className="space-between-row">
-                      <Col span={14}>
+                    <Row>
+                      <Col
+                        span={14}
+                        style={{
+                          paddingRight: "24px",
+                        }}
+                      >
                         <Form.Item
                           name={["salary"]}
                           label="Monthly Salary"
@@ -467,7 +472,7 @@ const AddUpdateEmployee = ({
                           />
                         </Form.Item>
                       </Col>
-                      <Col span={9}>
+                      <Col span={10}>
                         <Form.Item
                           name={["datehired"]}
                           label="Date Hired"
@@ -582,7 +587,7 @@ const AddUpdateEmployee = ({
                           />
                         </Form.Item>
                       </Col>
-                    </div>
+                    </Row>
                     <Form.Item
                       name={["section"]}
                       label="Section"
