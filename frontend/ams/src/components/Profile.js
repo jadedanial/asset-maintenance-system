@@ -285,7 +285,7 @@ const Profile = ({
                       size="large"
                       tabBarGutter={4}
                       items={items}
-                      onClick={() => {
+                      onTabClick={() => {
                         queryClient.invalidateQueries("employees");
                       }}
                       destroyInactiveTabPane

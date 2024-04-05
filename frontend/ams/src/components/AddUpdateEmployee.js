@@ -627,7 +627,10 @@ const AddUpdateEmployee = ({
                         style={{
                           marginRight: "10px",
                         }}
-                        onClick={onCloseDrawer}
+                        onClick={() => {
+                          queryClient.invalidateQueries("employees");
+                          onCloseDrawer();
+                        }}
                         block
                       >
                         CANCEL

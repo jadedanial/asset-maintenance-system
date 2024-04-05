@@ -517,7 +517,11 @@ const AddUpdateItem = ({
                         style={{
                           marginRight: "10px",
                         }}
-                        onClick={onCloseDrawer}
+                        onClick={() => {
+                          queryClient.invalidateQueries("items");
+                          queryClient.invalidateQueries("warehouseitems");
+                          onCloseDrawer();
+                        }}
                         block
                       >
                         CANCEL

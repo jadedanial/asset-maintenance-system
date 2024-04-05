@@ -595,7 +595,10 @@ const AddUpdateSchedule = ({
                         style={{
                           marginRight: "10px",
                         }}
-                        onClick={onCloseDrawer}
+                        onClick={() => {
+                          queryClient.invalidateQueries("schedules");
+                          onCloseDrawer();
+                        }}
                         block
                       >
                         CANCEL

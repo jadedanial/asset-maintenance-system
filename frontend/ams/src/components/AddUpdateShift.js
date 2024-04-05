@@ -294,7 +294,10 @@ const AddUpdateShift = ({
                         style={{
                           marginRight: "10px",
                         }}
-                        onClick={onCloseDrawer}
+                        onClick={() => {
+                          queryClient.invalidateQueries("shifts");
+                          onCloseDrawer();
+                        }}
                         block
                       >
                         CANCEL
