@@ -205,7 +205,7 @@ const AddUpdateEmployee = ({
     changeLabel();
   };
 
-  const createEmployee = async () => {
+  const createEmployee = () => {
     setSubmit(true);
     setLoading(true);
     changeLabel();
@@ -224,7 +224,7 @@ const AddUpdateEmployee = ({
     };
     const token = sessionStorage.getItem("token");
     try {
-      const response = await axios({
+      axios({
         method: updateData ? "PATCH" : "POST",
         url: `${process.env.REACT_APP_API_URL}/api/employee`,
         data: employeeData,
@@ -248,21 +248,10 @@ const AddUpdateEmployee = ({
     }
   };
 
-  const { mutate } = useMutation(createEmployee, {
-    onSuccess: () => {
-      // Invalidate the "employees" query
-      queryClient.invalidateQueries("employees");
-    },
-  });
+  const { mutate } = useMutation(createEmployee);
 
-  const onFinish = async () => {
-    try {
-      await mutate();
-      // Handle any post-mutation actions here
-    } catch (error) {
-      console.error("Mutation error:", error);
-      // Handle the error appropriately
-    }
+  const onFinish = () => {
+    mutate();
   };
 
   return (
