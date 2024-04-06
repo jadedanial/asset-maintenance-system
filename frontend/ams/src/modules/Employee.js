@@ -1,5 +1,4 @@
-import React, { useState, useCallback, useEffect } from "react";
-import { useCustomQueryClient } from "../useQueryClient";
+import React, { useState, useCallback } from "react";
 import { UserOutlined } from "@ant-design/icons";
 import SearchTableEvent from "../components/SearchTableEvent";
 
@@ -15,7 +14,6 @@ const Employee = ({
   collapsed,
   theme,
 }) => {
-  const queryClient = useCustomQueryClient();
   const [searchedtext, setSearchedText] = useState("");
 
   const columns = [
@@ -74,10 +72,6 @@ const Employee = ({
   const searchedText = (text) => {
     setSearchedText(text);
   };
-
-  useEffect(() => {
-    queryClient.invalidateQueries("employees");
-  });
 
   return (
     <>
