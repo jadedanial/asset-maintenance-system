@@ -234,7 +234,6 @@ const AddUpdateEmployee = ({
         },
         withCredentials: true,
       });
-      queryClient.invalidateQueries("employees");
       setEmployeeID(response.data["emp_id"]);
       if (updateData) {
         getSection();
