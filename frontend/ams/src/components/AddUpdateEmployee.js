@@ -14,7 +14,11 @@ import {
   Row,
   Steps,
 } from "antd";
-import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
+import {
+  CheckOutlined,
+  CloseOutlined,
+  LoadingOutlined,
+} from "@ant-design/icons";
 import ResultEvent from "./ResultEvent";
 import moment from "moment";
 
@@ -84,6 +88,7 @@ const AddUpdateEmployee = ({
     updateData ? section : ""
   );
   const [submit, setSubmit] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [success, setSuccess] = useState(false);
   const [nameReq, setNameReq] = useState(false);
   const [birthdateReq, setBirthdateReq] = useState(false);
@@ -201,6 +206,7 @@ const AddUpdateEmployee = ({
 
   const createEmployee = async () => {
     setSubmit(true);
+    setLoading(true);
     changeLabel();
     const employeeData = {
       emp_id: employeeID,
@@ -228,7 +234,7 @@ const AddUpdateEmployee = ({
     })
       .then((response) => {
         queryClient.invalidateQueries("employees");
-        setEmployeeID(response.emp_id);
+        setEmployeeID(response.data["emp_id"]);
         if (updateData) {
           getSection();
         }
@@ -241,6 +247,7 @@ const AddUpdateEmployee = ({
         setLabel(err.response.data[0]);
         setColor("#ff0000");
       });
+    setLoading(false);
   };
 
   const { mutate } = useMutation(createEmployee);
@@ -253,7 +260,15 @@ const AddUpdateEmployee = ({
     <>
       {submit ? (
         <ResultEvent
-          icon={success ? <CheckOutlined /> : <CloseOutlined />}
+          icon={
+            loading ? (
+              <LoadingOutlined />
+            ) : success ? (
+              <CheckOutlined />
+            ) : (
+              <CloseOutlined />
+            )
+          }
           status="success"
           title={
             updateData
