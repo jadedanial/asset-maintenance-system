@@ -43,7 +43,7 @@ const ShiftSchedule = ({ schedules, employees, empid }) => {
         <>
           <div style={{ paddingTop: "24px", flexWrap: "wrap" }}>
             <List
-              grid={{ gutter: 24, column: 3 }}
+              grid={{ gutter: 24, column: 4 }}
               dataSource={[
                 {
                   title: "SUNDAY",

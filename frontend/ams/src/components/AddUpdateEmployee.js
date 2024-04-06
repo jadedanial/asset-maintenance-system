@@ -230,7 +230,7 @@ const AddUpdateEmployee = ({
         },
         withCredentials: true,
       });
-      //setEmployeeID(response.data["emp_id"]);
+      setEmployeeID(response.data["emp_id"]);
       if (updateData) {
         getSection();
       }
@@ -245,10 +245,10 @@ const AddUpdateEmployee = ({
   };
 
   const { mutate } = useMutation(createEmployee, {
-    onSuccess: () => {
+    onSuccess: React.useCallback(() => {
       // Invalidate the "employees" query
       queryClient.invalidateQueries("employees");
-    },
+    }, []), // Empty dependency array ensures this function is memoized
   });
 
   const onFinish = async () => {
