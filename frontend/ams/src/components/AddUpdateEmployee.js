@@ -14,11 +14,7 @@ import {
   Row,
   Steps,
 } from "antd";
-import {
-  CheckOutlined,
-  CloseOutlined,
-  LoadingOutlined,
-} from "@ant-design/icons";
+import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import ResultEvent from "./ResultEvent";
 import Spinner from "../components/Spinner";
 import moment from "moment";
@@ -223,29 +219,30 @@ const AddUpdateEmployee = ({
       emp_section: employeeSection,
     };
     const token = sessionStorage.getItem("token");
-    try {
-      axios({
-        method: updateData ? "PATCH" : "POST",
-        url: `${process.env.REACT_APP_API_URL}/api/employee`,
-        data: employeeData,
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Token ${token}`,
-        },
-        withCredentials: true,
+    axios({
+      method: updateData ? "PATCH" : "POST",
+      url: `${process.env.REACT_APP_API_URL}/api/employee`,
+      data: employeeData,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Token ${token}`,
+      },
+      withCredentials: true,
+    })
+      .then((response) => {
+        queryClient.invalidateQueries("employees");
+        setEmployeeID(response.data["emp_id"]);
+        if (updateData) {
+          getSection();
+        }
+        setSuccess(true);
+        setLoading(true);
+      })
+      .catch((err) => {
+        console.log(err.response.data[0]);
+        setSubmit(false);
+        setSuccess(false);
       });
-      setEmployeeID(response.data["emp_id"]);
-      if (updateData) {
-        getSection();
-      }
-      setSuccess(true);
-    } catch (err) {
-      console.log(err.response.data[0]);
-      setSubmit(false);
-      setSuccess(false);
-    } finally {
-      setLoading(false);
-    }
   };
 
   const { mutate } = useMutation(createEmployee);
