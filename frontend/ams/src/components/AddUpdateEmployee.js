@@ -199,10 +199,10 @@ const AddUpdateEmployee = ({
     changeLabel();
   };
 
-  const createEmployee = () => {
+  const createEmployee = async () => {
     setSubmit(true);
     changeLabel();
-    var employeeData = {
+    const employeeData = {
       emp_id: employeeID,
       emp_name: employeeName,
       emp_bdate: moment(employeeBirthdate).format(dateFormat),
@@ -215,31 +215,40 @@ const AddUpdateEmployee = ({
       emp_salary: employeeSalary,
       emp_section: employeeSection,
     };
-    const token = sessionStorage.getItem("token");
-    axios({
-      method: updateData ? "PATCH" : "POST",
-      url: `${process.env.REACT_APP_API_URL}/api/employee`,
-      data: employeeData,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Token ${token}`,
-      },
-      withCredentials: true,
-    })
-      .then((response) => {
-        setEmployeeID(response.data["emp_id"]);
-        if (updateData) {
-          getSection();
-        }
-        setSuccess(true);
-      })
-      .catch((err) => {
-        console.log(err.response.data[0]);
-        setSubmit(false);
-        setSuccess(false);
-        setLabel(err.response.data[0]);
-        setColor("#ff0000");
+
+    try {
+      // Optimistic update: Update the local cache immediately
+      queryClient.setQueryData("employees", (prevData) => {
+        // Assuming 'employees' is your query key
+        return [...prevData, employeeData];
       });
+
+      // Perform the actual API call
+      const token = sessionStorage.getItem("token");
+      await axios({
+        method: updateData ? "PATCH" : "POST",
+        url: `${process.env.REACT_APP_API_URL}/api/employee`,
+        data: employeeData,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Token ${token}`,
+        },
+        withCredentials: true,
+      });
+
+      // On success
+      setEmployeeID(employeeData.emp_id);
+      if (updateData) {
+        getSection();
+      }
+      setSuccess(true);
+    } catch (error) {
+      console.log(error.response.data[0]);
+      setSubmit(false);
+      setSuccess(false);
+      setLabel(error.response.data[0]);
+      setColor("#ff0000");
+    }
   };
 
   const { mutate } = useMutation(createEmployee);
@@ -633,6 +642,7 @@ const AddUpdateEmployee = ({
                           marginRight: "10px",
                         }}
                         onClick={() => {
+                          queryClient.invalidateQueries("employees");
                           onCloseDrawer();
                         }}
                         block
