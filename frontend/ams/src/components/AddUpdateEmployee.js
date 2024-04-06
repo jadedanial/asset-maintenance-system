@@ -230,7 +230,6 @@ const AddUpdateEmployee = ({
       withCredentials: true,
     })
       .then((response) => {
-        queryClient.invalidateQueries("employees");
         setEmployeeID(response.data["emp_id"]);
         if (updateData) {
           getSection();
@@ -245,7 +244,12 @@ const AddUpdateEmployee = ({
       });
   };
 
-  const { mutate } = useMutation(createEmployee);
+  const { mutate } = useMutation(createEmployee, {
+    onSuccess: () => {
+      // Invalidate the "employees" query
+      queryClient.invalidateQueries("employees");
+    },
+  });
 
   const onFinish = () => {
     mutate();
