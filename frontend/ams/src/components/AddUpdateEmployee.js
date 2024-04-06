@@ -223,38 +223,43 @@ const AddUpdateEmployee = ({
       emp_section: employeeSection,
     };
     const token = sessionStorage.getItem("token");
-    axios({
-      method: updateData ? "PATCH" : "POST",
-      url: `${process.env.REACT_APP_API_URL}/api/employee`,
-      data: employeeData,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Token ${token}`,
-      },
-      withCredentials: true,
-    })
-      .then((response) => {
-        queryClient.invalidateQueries("employees");
-        setEmployeeID(response.data["emp_id"]);
-        if (updateData) {
-          getSection();
-        }
-        setSuccess(true);
-      })
-      .catch((err) => {
-        console.log(err.response.data[0]);
-        setSubmit(false);
-        setSuccess(false);
-        setLabel(err.response.data[0]);
-        setColor("#ff0000");
+    try {
+      const response = await axios({
+        method: updateData ? "PATCH" : "POST",
+        url: `${process.env.REACT_APP_API_URL}/api/employee`,
+        data: employeeData,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Token ${token}`,
+        },
+        withCredentials: true,
       });
-    setLoading(false);
+      queryClient.invalidateQueries("employees");
+      setEmployeeID(response.data["emp_id"]);
+      if (updateData) {
+        getSection();
+      }
+      setSuccess(true);
+    } catch (err) {
+      console.log(err.response.data[0]);
+      setSubmit(false);
+      setSuccess(false);
+      setLabel(err.response.data[0]);
+      setColor("#ff0000");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const { mutate } = useMutation(createEmployee);
 
-  const onFinish = () => {
-    mutate();
+  const onFinish = async () => {
+    try {
+      mutate(); // Wait for the mutation to complete
+      // Handle any post-mutation actions here
+    } catch (error) {
+      // Handle any errors during mutation
+    }
   };
 
   return (
