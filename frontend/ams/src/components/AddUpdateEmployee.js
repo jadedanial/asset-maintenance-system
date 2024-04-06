@@ -243,8 +243,6 @@ const AddUpdateEmployee = ({
       console.log(err.response.data[0]);
       setSubmit(false);
       setSuccess(false);
-      setLabel(err.response.data[0]);
-      setColor("#ff0000");
     } finally {
       setLoading(false);
     }
@@ -259,10 +257,11 @@ const AddUpdateEmployee = ({
 
   const onFinish = async () => {
     try {
-      mutate(); // Wait for the mutation to complete
+      await mutate();
       // Handle any post-mutation actions here
     } catch (error) {
-      // Handle any errors during mutation
+      console.error("Mutation error:", error);
+      // Handle the error appropriately
     }
   };
 
