@@ -236,7 +236,7 @@ const AddUpdateEmployee = ({
           getSection();
         }
         setSuccess(true);
-        setLoading(true);
+        setLoading(false);
       })
       .catch((err) => {
         console.log(err.response.data[0]);
