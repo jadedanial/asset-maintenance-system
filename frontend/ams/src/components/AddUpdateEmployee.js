@@ -230,7 +230,7 @@ const AddUpdateEmployee = ({
         },
         withCredentials: true,
       });
-      setEmployeeID(response.data["emp_id"]);
+      //setEmployeeID(response.data["emp_id"]);
       if (updateData) {
         getSection();
       }
