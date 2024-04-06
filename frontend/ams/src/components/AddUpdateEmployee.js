@@ -20,6 +20,7 @@ import {
   LoadingOutlined,
 } from "@ant-design/icons";
 import ResultEvent from "./ResultEvent";
+import Spinner from "../components/Spinner";
 import moment from "moment";
 
 const { Title } = Typography;
@@ -259,54 +260,52 @@ const AddUpdateEmployee = ({
   return (
     <>
       {submit ? (
-        <ResultEvent
-          icon={
-            loading ? (
-              <LoadingOutlined />
-            ) : success ? (
-              <CheckOutlined />
-            ) : (
-              <CloseOutlined />
-            )
-          }
-          status="success"
-          title={
-            updateData
-              ? "Successfully updated employee."
-              : "Successfully added new employee."
-          }
-          subTitle={"Employee name " + employeeName + " with ID " + employeeID}
-          extra={
-            <Row className="space-between-row">
-              <Col span={12} style={{ paddingRight: "10px" }}>
-                <Button
-                  size="large"
-                  type="default"
-                  onClick={() => {
-                    onCloseDrawer();
-                  }}
-                  block
-                >
-                  CLOSE
-                </Button>
-              </Col>
-              <Col span={12}>
-                <Button
-                  size="large"
-                  type="primary"
-                  onClick={() => {
-                    newEmployee();
-                  }}
-                  block
-                >
-                  NEW EMPLOYEE
-                </Button>
-              </Col>
-            </Row>
-          }
-          height="70%"
-          theme={theme}
-        />
+        loading ? (
+          <Spinner theme={theme} />
+        ) : (
+          <ResultEvent
+            icon={success ? <CheckOutlined /> : <CloseOutlined />}
+            status="success"
+            title={
+              updateData
+                ? "Successfully updated employee."
+                : "Successfully added new employee."
+            }
+            subTitle={
+              "Employee name " + employeeName + " with ID " + employeeID
+            }
+            extra={
+              <Row className="space-between-row">
+                <Col span={12} style={{ paddingRight: "10px" }}>
+                  <Button
+                    size="large"
+                    type="default"
+                    onClick={() => {
+                      onCloseDrawer();
+                    }}
+                    block
+                  >
+                    CLOSE
+                  </Button>
+                </Col>
+                <Col span={12}>
+                  <Button
+                    size="large"
+                    type="primary"
+                    onClick={() => {
+                      newEmployee();
+                    }}
+                    block
+                  >
+                    NEW EMPLOYEE
+                  </Button>
+                </Col>
+              </Row>
+            }
+            height="70%"
+            theme={theme}
+          />
+        )
       ) : (
         <div className="justified-row" style={{ paddingTop: "12px" }}>
           <div className="card-custom-size-full">
