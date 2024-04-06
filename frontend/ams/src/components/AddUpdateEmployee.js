@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { useCustomQueryClient } from "../useQueryClient";
 import { useMutation } from "react-query";
 import axios from "axios";
@@ -244,11 +244,12 @@ const AddUpdateEmployee = ({
     }
   };
 
+  const onSuccessCallback = useCallback(() => {
+    queryClient.invalidateQueries("employees");
+  }, [queryClient]);
+
   const { mutate } = useMutation(createEmployee, {
-    onSuccess: React.useCallback(() => {
-      // Invalidate the "employees" query
-      queryClient.invalidateQueries("employees");
-    }, []), // Empty dependency array ensures this function is memoized
+    onSuccess: onSuccessCallback, // Call the callback on successful mutation
   });
 
   const onFinish = async () => {
