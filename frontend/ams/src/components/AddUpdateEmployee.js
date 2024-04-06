@@ -633,7 +633,6 @@ const AddUpdateEmployee = ({
                           marginRight: "10px",
                         }}
                         onClick={() => {
-                          queryClient.invalidateQueries("employees");
                           onCloseDrawer();
                         }}
                         block
