@@ -201,7 +201,7 @@ const AddUpdateEmployee = ({
     changeLabel();
   };
 
-  const createEmployee = () => {
+  const createEmployee = async () => {
     setSubmit(true);
     setLoading(true);
     changeLabel();
@@ -219,29 +219,29 @@ const AddUpdateEmployee = ({
       emp_section: employeeSection,
     };
     const token = sessionStorage.getItem("token");
-    axios({
-      method: updateData ? "PATCH" : "POST",
-      url: `${process.env.REACT_APP_API_URL}/api/employee`,
-      data: employeeData,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Token ${token}`,
-      },
-      withCredentials: true,
-    })
-      .then((response) => {
-        setEmployeeID(response.data["emp_id"]);
-        if (updateData) {
-          getSection();
-        }
-        setSuccess(true);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.log(err.response.data[0]);
-        setSubmit(false);
-        setSuccess(false);
+    try {
+      const response = await axios({
+        method: updateData ? "PATCH" : "POST",
+        url: `${process.env.REACT_APP_API_URL}/api/employee`,
+        data: employeeData,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Token ${token}`,
+        },
+        withCredentials: true,
       });
+      setEmployeeID(response.data["emp_id"]);
+      if (updateData) {
+        getSection();
+      }
+      setSuccess(true);
+    } catch (err) {
+      console.log(err.response.data[0]);
+      setSubmit(false);
+      setSuccess(false);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const { mutate } = useMutation(createEmployee, {
@@ -251,8 +251,14 @@ const AddUpdateEmployee = ({
     },
   });
 
-  const onFinish = () => {
-    mutate();
+  const onFinish = async () => {
+    try {
+      await mutate();
+      // Handle any post-mutation actions here
+    } catch (error) {
+      console.error("Mutation error:", error);
+      // Handle the error appropriately
+    }
   };
 
   return (
