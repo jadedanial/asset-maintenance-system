@@ -234,7 +234,6 @@ const AddUpdateEmployee = ({
         },
         withCredentials: true,
       });
-      queryClient.invalidateQueries("employees");
       setEmployeeID(response.data["emp_id"]);
       if (updateData) {
         getSection();
@@ -257,6 +256,7 @@ const AddUpdateEmployee = ({
     try {
       mutate(); // Wait for the mutation to complete
       // Handle any post-mutation actions here
+      queryClient.invalidateQueries("employees");
     } catch (error) {
       // Handle any errors during mutation
     }
