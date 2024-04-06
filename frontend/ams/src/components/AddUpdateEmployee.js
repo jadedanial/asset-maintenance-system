@@ -230,6 +230,7 @@ const AddUpdateEmployee = ({
         },
         withCredentials: true,
       });
+      queryClient.setQueryData(["employees"], employeeData);
       setEmployeeID(response.data["emp_id"]);
       if (updateData) {
         getSection();
@@ -250,9 +251,9 @@ const AddUpdateEmployee = ({
     },
   });
 
-  const onFinish = async () => {
+  const onFinish = () => {
     try {
-      await mutate();
+      mutate();
       // Handle any post-mutation actions here
     } catch (error) {
       console.error("Mutation error:", error);
