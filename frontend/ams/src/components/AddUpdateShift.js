@@ -119,6 +119,7 @@ const AddUpdateShift = ({
     })
       .then(() => {
         queryClient.invalidateQueries("shifts");
+        queryClient.invalidateQueries("schedules");
         setSuccess(true);
       })
       .catch((err) => {

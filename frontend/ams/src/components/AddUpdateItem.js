@@ -184,6 +184,8 @@ const AddUpdateItem = ({
       withCredentials: true,
     })
       .then(() => {
+        queryClient.invalidateQueries("items");
+        queryClient.invalidateQueries("warehouseitems");
         setSuccess(true);
       })
       .catch((err) => {
@@ -217,7 +219,6 @@ const AddUpdateItem = ({
     })
       .then((response) => {
         setIDCode("ITM" + response.data["id"]);
-        queryClient.invalidateQueries("items");
         createWarehouseItem(
           "ITM" + response.data["id"],
           sectionCode,
