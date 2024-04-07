@@ -221,6 +221,7 @@ const Vacation = ({ vacations, options, empid, theme }) => {
       withCredentials: true,
     })
       .then(() => {
+        queryClient.invalidateQueries("vacations");
         setSuccess(true);
       })
       .catch((err) => {
@@ -289,7 +290,6 @@ const Vacation = ({ vacations, options, empid, theme }) => {
                     size="large"
                     type="default"
                     onClick={() => {
-                      queryClient.invalidateQueries("vacations");
                       viewVacation();
                     }}
                     block

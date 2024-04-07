@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useCustomQueryClient } from "../useQueryClient";
 import { useMutation } from "react-query";
 import axios from "axios";
 import {
@@ -37,7 +36,6 @@ const AddUpdateShift = ({
   onCloseDrawer,
   theme,
 }) => {
-  const queryClient = useCustomQueryClient();
   const timeFormat = "HH:mm:ss";
   const [updateData, setUpdateData] = useState(update);
   const [step, setStep] = useState(updateData ? 3 : 0);
@@ -155,7 +153,6 @@ const AddUpdateShift = ({
                     size="large"
                     type="default"
                     onClick={() => {
-                      queryClient.invalidateQueries("shifts");
                       onCloseDrawer();
                     }}
                     block
@@ -300,7 +297,6 @@ const AddUpdateShift = ({
                           marginRight: "10px",
                         }}
                         onClick={() => {
-                          queryClient.invalidateQueries("shifts");
                           onCloseDrawer();
                         }}
                         block

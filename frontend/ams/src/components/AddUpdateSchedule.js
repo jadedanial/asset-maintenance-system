@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useCustomQueryClient } from "../useQueryClient";
 import { useMutation } from "react-query";
 import axios from "axios";
 import {
@@ -42,7 +41,6 @@ const AddUpdateSchedule = ({
   onCloseDrawer,
   theme,
 }) => {
-  const queryClient = useCustomQueryClient();
   const [updateData, setUpdateData] = useState(update);
   const [step, setStep] = useState(updateData ? 8 : 0);
   const [label, setLabel] = useState(
@@ -215,7 +213,6 @@ const AddUpdateSchedule = ({
                     size="large"
                     type="default"
                     onClick={() => {
-                      queryClient.invalidateQueries("schedules");
                       onCloseDrawer();
                     }}
                     block
@@ -601,7 +598,6 @@ const AddUpdateSchedule = ({
                           marginRight: "10px",
                         }}
                         onClick={() => {
-                          queryClient.invalidateQueries("schedules");
                           onCloseDrawer();
                         }}
                         block

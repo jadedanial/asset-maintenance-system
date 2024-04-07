@@ -90,7 +90,6 @@ const Schedule = ({ schedules, shifts, collapsed, theme }) => {
   };
 
   useEffect(() => {
-    queryClient.invalidateQueries("shifts");
     queryClient.invalidateQueries("schedules");
   });
 

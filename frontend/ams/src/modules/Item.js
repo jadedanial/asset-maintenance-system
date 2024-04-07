@@ -79,7 +79,6 @@ const Item = ({
 
   useEffect(() => {
     queryClient.invalidateQueries("items");
-    queryClient.invalidateQueries("warehouseitems");
   });
 
   return (

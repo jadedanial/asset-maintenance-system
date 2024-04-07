@@ -297,10 +297,14 @@ const AddUpdateAttendance = ({
         Authorization: `Token ${token}`,
       },
       withCredentials: true,
-    }).catch((err) => {
-      console.log(err);
-      NotificationEvent(false, "Employee attendance failed to apply.");
-    });
+    })
+      .then(() => {
+        queryClient.invalidateQueries("attendances");
+      })
+      .catch((err) => {
+        console.log(err);
+        NotificationEvent(false, "Employee attendance failed to apply.");
+      });
   };
 
   const createAttendance = () => {
@@ -476,7 +480,6 @@ const AddUpdateAttendance = ({
                   size="large"
                   type="default"
                   onClick={() => {
-                    queryClient.invalidateQueries("attendances");
                     viewAttendance();
                   }}
                   block
