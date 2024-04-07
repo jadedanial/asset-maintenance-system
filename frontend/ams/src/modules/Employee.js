@@ -75,9 +75,9 @@ const Employee = ({
     setSearchedText(text);
   };
 
-  //useEffect(() => {
-  //queryClient.invalidateQueries("employees");
-  //});
+  useEffect(() => {
+    queryClient.invalidateQueries("employees");
+  });
 
   return (
     <>
