@@ -1,9 +1,11 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
+import { useCustomQueryClient } from "../useQueryClient";
 import { FieldTimeOutlined } from "@ant-design/icons";
 import SearchTableEvent from "../components/SearchTableEvent";
 import moment from "moment";
 
 const Shift = ({ shifts, collapsed, theme }) => {
+  const queryClient = useCustomQueryClient();
   const timeFormat = "HH:mm:ss";
   const [searchedtext, setSearchedText] = useState("");
 
@@ -62,6 +64,10 @@ const Shift = ({ shifts, collapsed, theme }) => {
   const searchedText = (text) => {
     setSearchedText(text);
   };
+
+  useEffect(() => {
+    queryClient.invalidateQueries("shifts");
+  });
 
   return (
     <>

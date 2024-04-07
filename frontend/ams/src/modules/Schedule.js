@@ -1,8 +1,10 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
+import { useCustomQueryClient } from "../useQueryClient";
 import { CalendarOutlined } from "@ant-design/icons";
 import SearchTableEvent from "../components/SearchTableEvent";
 
 const Schedule = ({ schedules, shifts, collapsed, theme }) => {
+  const queryClient = useCustomQueryClient();
   const [searchedtext, setSearchedText] = useState("");
 
   const columns = [
@@ -86,6 +88,11 @@ const Schedule = ({ schedules, shifts, collapsed, theme }) => {
   const searchedText = (text) => {
     setSearchedText(text);
   };
+
+  useEffect(() => {
+    queryClient.invalidateQueries("shifts");
+    queryClient.invalidateQueries("schedules");
+  });
 
   return (
     <>
