@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useCustomQueryClient } from "../useQueryClient";
 import { useMutation } from "react-query";
 import axios from "axios";
 import {
@@ -25,6 +26,7 @@ const layout = {
 };
 
 const ShiftSchedule = ({ schedules, employees, empid }) => {
+  const queryClient = useCustomQueryClient();
   const timeFormat = "HH:mm:ss";
   const schedId = employees.find((res) => res.emp_id === empid)?.emp_sched;
   const schedName = schedules.find((res) => res.id === schedId)?.sched_name;
@@ -210,6 +212,7 @@ const ShiftSchedule = ({ schedules, employees, empid }) => {
       withCredentials: true,
     })
       .then(() => {
+        queryClient.invalidateQueries("employees");
         api.info(NotificationEvent(true, "Employee shift schedule updated."));
       })
       .catch((err) => {

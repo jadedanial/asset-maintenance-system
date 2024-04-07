@@ -1,5 +1,4 @@
-import React, { useState, useCallback, useEffect } from "react";
-import { useCustomQueryClient } from "../useQueryClient";
+import React, { useState, useCallback } from "react";
 import { ShoppingOutlined } from "@ant-design/icons";
 import SearchTableEvent from "../components/SearchTableEvent";
 
@@ -12,7 +11,6 @@ const Item = ({
   collapsed,
   theme,
 }) => {
-  const queryClient = useCustomQueryClient();
   const [searchedtext, setSearchedText] = useState("");
 
   const columns = [
@@ -76,10 +74,6 @@ const Item = ({
   const searchedText = (text) => {
     setSearchedText(text);
   };
-
-  useEffect(() => {
-    queryClient.invalidateQueries("items");
-  });
 
   return (
     <>

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useCustomQueryClient } from "../useQueryClient";
 import { useMutation } from "react-query";
 import axios from "axios";
 import {
@@ -44,6 +45,7 @@ const AddUpdateItem = ({
   onCloseDrawer,
   theme,
 }) => {
+  const queryClient = useCustomQueryClient();
   const [updateData, setUpdateData] = useState(update);
   const [step, setStep] = useState(updateData ? 7 : 0);
   const [label, setLabel] = useState(
@@ -215,6 +217,7 @@ const AddUpdateItem = ({
     })
       .then((response) => {
         setIDCode("ITM" + response.data["id"]);
+        queryClient.invalidateQueries("items");
         createWarehouseItem(
           "ITM" + response.data["id"],
           sectionCode,
