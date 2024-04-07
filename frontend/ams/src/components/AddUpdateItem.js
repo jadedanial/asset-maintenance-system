@@ -185,7 +185,6 @@ const AddUpdateItem = ({
     })
       .then(() => {
         queryClient.invalidateQueries("items");
-        queryClient.invalidateQueries("warehouseitems");
         setSuccess(true);
       })
       .catch((err) => {
