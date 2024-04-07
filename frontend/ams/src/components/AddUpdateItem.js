@@ -519,9 +519,6 @@ const AddUpdateItem = ({
                       <Button
                         size="large"
                         type="default"
-                        style={{
-                          marginRight: "10px",
-                        }}
                         onClick={() => {
                           onCloseDrawer();
                         }}
@@ -533,6 +530,9 @@ const AddUpdateItem = ({
                         size="large"
                         type="primary"
                         htmlType="submit"
+                        style={{
+                          marginLeft: "10px",
+                        }}
                         block
                       >
                         SAVE

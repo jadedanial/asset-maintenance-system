@@ -470,9 +470,6 @@ const Vacation = ({ vacations, options, empid, theme }) => {
                           <Button
                             size="large"
                             type="default"
-                            style={{
-                              marginRight: "10px",
-                            }}
                             onClick={viewVacation}
                             block
                           >
@@ -482,6 +479,9 @@ const Vacation = ({ vacations, options, empid, theme }) => {
                             size="large"
                             type="primary"
                             htmlType="submit"
+                            style={{
+                              marginLeft: "10px",
+                            }}
                             block
                           >
                             SAVE

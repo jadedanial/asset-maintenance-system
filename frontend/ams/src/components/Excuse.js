@@ -493,9 +493,6 @@ const Excuse = ({ excuses, attendances, empid, theme }) => {
                           <Button
                             size="large"
                             type="default"
-                            style={{
-                              marginRight: "10px",
-                            }}
                             onClick={viewExcuse}
                             block
                           >
@@ -505,6 +502,9 @@ const Excuse = ({ excuses, attendances, empid, theme }) => {
                             size="large"
                             type="primary"
                             htmlType="submit"
+                            style={{
+                              marginLeft: "10px",
+                            }}
                             block
                           >
                             SAVE

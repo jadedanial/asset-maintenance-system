@@ -175,9 +175,6 @@ const Profile = ({
                         <Button
                           size="large"
                           type="default"
-                          style={{
-                            marginRight: "10px",
-                          }}
                           onClick={onCloseDrawer}
                           block
                         >
@@ -187,6 +184,10 @@ const Profile = ({
                           size="large"
                           type="primary"
                           onClick={() => setUpdate(true)}
+                          style={{
+                            marginLeft: "10px",
+                          }}
+                          block
                         >
                           UPDATE
                         </Button>

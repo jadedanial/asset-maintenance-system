@@ -198,9 +198,6 @@ const Cart = ({
                 <Button
                   size="large"
                   type="default"
-                  style={{
-                    marginRight: "10px",
-                  }}
                   onClick={onCloseDrawer}
                   block
                 >
@@ -223,6 +220,9 @@ const Cart = ({
                               )
                             );
                           }
+                        }}
+                        style={{
+                          marginLeft: "10px",
                         }}
                         block
                       >

@@ -297,9 +297,6 @@ const AddUpdateShift = ({
                       <Button
                         size="large"
                         type="default"
-                        style={{
-                          marginRight: "10px",
-                        }}
                         onClick={() => {
                           onCloseDrawer();
                         }}
@@ -311,6 +308,9 @@ const AddUpdateShift = ({
                         size="large"
                         type="primary"
                         htmlType="submit"
+                        style={{
+                          marginLeft: "10px",
+                        }}
                         block
                       >
                         SAVE
