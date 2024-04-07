@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useCustomQueryClient } from "../useQueryClient";
 import { useMutation } from "react-query";
 import axios from "axios";
 import {
@@ -48,6 +49,7 @@ const AddUpdateEmployee = ({
   onCloseDrawer,
   theme,
 }) => {
+  const queryClient = useCustomQueryClient();
   const dateFormat = "YYYY-MM-DD";
   const displayDateFormat = "MMMM DD, YYYY";
   const datePickerFormat = (value) => `${value.format("MMMM DD, YYYY")}`;
@@ -229,6 +231,7 @@ const AddUpdateEmployee = ({
     })
       .then((response) => {
         setEmployeeID(response.data["emp_id"]);
+        queryClient.invalidateQueries("employees");
         if (updateData) {
           getSection();
         }

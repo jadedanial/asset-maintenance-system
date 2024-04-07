@@ -229,14 +229,14 @@ const Excuse = ({ excuses, attendances, empid, theme }) => {
     },
   ];
 
-  const createExcuse = () => {
+  const createExcuse = (h) => {
     var excData = {
       emp_id: empid,
       exc_date: moment(excusedate).format(dateFormat),
       exc_start: moment(starttime).format(timeFormat),
       exc_end: moment(endtime).format(timeFormat),
       exc_reason: reason,
-      exc_total: hours,
+      exc_total: h,
     };
     const token = sessionStorage.getItem("token");
     axios({
@@ -253,8 +253,8 @@ const Excuse = ({ excuses, attendances, empid, theme }) => {
         var attendData = {
           emp_id: empid,
           attend_date: excusedate.format(dateFormat),
-          attend_under: under - hours,
-          attend_excuse: hours,
+          attend_under: under - h,
+          attend_excuse: h,
         };
         const token = sessionStorage.getItem("token");
         axios({
@@ -339,7 +339,7 @@ const Excuse = ({ excuses, attendances, empid, theme }) => {
         .duration(moment(endtime).diff(moment(starttime)))
         .asHours();
       setHours(parseFloat(h).toFixed(2));
-      mutate();
+      mutate(parseFloat(h).toFixed(2));
     }
   };
 
