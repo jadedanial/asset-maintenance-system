@@ -251,6 +251,8 @@ const AddUpdateEmployee = ({
     mutate();
   };
 
+  console.log(submit);
+
   return (
     <>
       {submit ? (
