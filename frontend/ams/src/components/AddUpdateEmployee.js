@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useCustomQueryClient } from "../useQueryClient";
 import { useMutation } from "react-query";
 import axios from "axios";
@@ -49,8 +49,6 @@ const AddUpdateEmployee = ({
   onCloseDrawer,
   theme,
 }) => {
-  const [apiResult, setApiResult] = useState(null);
-
   const queryClient = useCustomQueryClient();
   const dateFormat = "YYYY-MM-DD";
   const displayDateFormat = "MMMM DD, YYYY";
@@ -239,19 +237,11 @@ const AddUpdateEmployee = ({
         }
         setLoading(false);
         setSuccess(true);
-        setApiResult({
-          status: "success",
-          message: "Employee data posted successfully",
-        });
       })
       .catch((err) => {
         console.log(err.response.data[0]);
         setSubmit(false);
         setSuccess(false);
-        setApiResult({
-          status: "success",
-          message: "Employee data posted successfully",
-        });
       });
   };
 
@@ -261,13 +251,9 @@ const AddUpdateEmployee = ({
     mutate();
   };
 
-  useEffect(() => {
-    // You can perform additional actions here if needed
-  }, [apiResult]);
-
   return (
     <>
-      {apiResult ? (
+      {submit ? (
         loading ? (
           <Spinner height={"100%"} theme={theme} />
         ) : (
