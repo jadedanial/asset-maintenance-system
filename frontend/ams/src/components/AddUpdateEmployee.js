@@ -231,7 +231,7 @@ const AddUpdateEmployee = ({
     })
       .then((response) => {
         setEmployeeID(response.data["emp_id"]);
-        queryClient.invalidateQueries("employees");
+        //queryClient.invalidateQueries("employees");
         if (updateData) {
           getSection();
         }
