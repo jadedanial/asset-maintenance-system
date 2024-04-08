@@ -2,7 +2,7 @@ import React from "react";
 import { Spin } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 
-const Spinner = ({ theme }) => {
+const Spinner = ({ height, theme }) => {
   const antIcon = <LoadingOutlined style={{ fontSize: 100 }} spin />;
 
   return (
@@ -10,7 +10,7 @@ const Spinner = ({ theme }) => {
       <div
         className="justified-row align-items-center"
         style={{
-          height: "100%",
+          height: height,
           background: theme === "light" ? "#f8f9fa" : "#161d40",
         }}
       >

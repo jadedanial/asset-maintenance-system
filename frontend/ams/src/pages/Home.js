@@ -141,7 +141,7 @@ const HomePage = () => {
     <>
       {!loginFailed ? (
         loading ? (
-          <Spinner theme={theme} />
+          <Spinner height={"100vh"} theme={theme} />
         ) : (
           <MainPage
             userId={userId}
