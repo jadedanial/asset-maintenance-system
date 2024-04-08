@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useCustomQueryClient } from "../useQueryClient";
 import { useMutation } from "react-query";
 import axios from "axios";
@@ -260,6 +260,10 @@ const AddUpdateEmployee = ({
   const onFinish = () => {
     mutate();
   };
+
+  useEffect(() => {
+    // You can perform additional actions here if needed
+  }, [apiResult]);
 
   return (
     <>
