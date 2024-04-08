@@ -10,8 +10,8 @@ const Spinner = ({ theme }) => {
       <div
         className="justified-row align-items-center"
         style={{
-          height: "100vh",
-          background: theme === "light" ? "#ecf3f9" : "#1c2755",
+          height: "100%",
+          background: theme === "light" ? "#f8f9fa" : "#161d40",
         }}
       >
         <img
