@@ -231,7 +231,6 @@ const AddUpdateEmployee = ({
     })
       .then((response) => {
         setEmployeeID(response.data["emp_id"]);
-        //queryClient.invalidateQueries("employees");
         if (updateData) {
           getSection();
         }
@@ -276,6 +275,7 @@ const AddUpdateEmployee = ({
                     type="default"
                     onClick={() => {
                       onCloseDrawer();
+                      queryClient.invalidateQueries("employees");
                     }}
                     block
                   >
@@ -634,6 +634,7 @@ const AddUpdateEmployee = ({
                           type="default"
                           onClick={() => {
                             onCloseDrawer();
+                            queryClient.invalidateQueries("employees");
                           }}
                           block
                         >
