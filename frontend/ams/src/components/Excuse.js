@@ -267,7 +267,6 @@ const Excuse = ({ excuses, attendances, empid, theme }) => {
           },
           withCredentials: true,
         }).then(() => {
-          queryClient.invalidateQueries("excuses");
           setSuccess(true);
         });
       })
@@ -366,6 +365,7 @@ const Excuse = ({ excuses, attendances, empid, theme }) => {
                     type="default"
                     onClick={() => {
                       viewExcuse();
+                      queryClient.invalidateQueries("excuses");
                     }}
                     block
                   >
@@ -493,7 +493,10 @@ const Excuse = ({ excuses, attendances, empid, theme }) => {
                           <Button
                             size="large"
                             type="default"
-                            onClick={viewExcuse}
+                            onClick={() => {
+                              viewExcuse();
+                              queryClient.invalidateQueries("excuses");
+                            }}
                             block
                           >
                             CANCEL

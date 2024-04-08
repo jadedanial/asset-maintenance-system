@@ -118,8 +118,6 @@ const AddUpdateShift = ({
       withCredentials: true,
     })
       .then(() => {
-        queryClient.invalidateQueries("shifts");
-        queryClient.invalidateQueries("schedules");
         setSuccess(true);
       })
       .catch((err) => {
@@ -158,6 +156,8 @@ const AddUpdateShift = ({
                     type="default"
                     onClick={() => {
                       onCloseDrawer();
+                      queryClient.invalidateQueries("shifts");
+                      queryClient.invalidateQueries("schedules");
                     }}
                     block
                   >
@@ -299,6 +299,8 @@ const AddUpdateShift = ({
                         type="default"
                         onClick={() => {
                           onCloseDrawer();
+                          queryClient.invalidateQueries("shifts");
+                          queryClient.invalidateQueries("schedules");
                         }}
                         block
                       >

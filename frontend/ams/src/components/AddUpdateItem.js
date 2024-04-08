@@ -184,7 +184,6 @@ const AddUpdateItem = ({
       withCredentials: true,
     })
       .then(() => {
-        queryClient.invalidateQueries("items");
         setSuccess(true);
       })
       .catch((err) => {
@@ -261,6 +260,7 @@ const AddUpdateItem = ({
                     type="default"
                     onClick={() => {
                       onCloseDrawer();
+                      queryClient.invalidateQueries("items");
                     }}
                     block
                   >
@@ -520,6 +520,7 @@ const AddUpdateItem = ({
                         type="default"
                         onClick={() => {
                           onCloseDrawer();
+                          queryClient.invalidateQueries("items");
                         }}
                         block
                       >

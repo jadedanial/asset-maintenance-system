@@ -178,7 +178,6 @@ const AddUpdateSchedule = ({
       withCredentials: true,
     })
       .then(() => {
-        queryClient.invalidateQueries("schedules");
         setSuccess(true);
       })
       .catch((err) => {
@@ -217,6 +216,7 @@ const AddUpdateSchedule = ({
                     type="default"
                     onClick={() => {
                       onCloseDrawer();
+                      queryClient.invalidateQueries("schedules");
                     }}
                     block
                   >
@@ -599,6 +599,7 @@ const AddUpdateSchedule = ({
                         type="default"
                         onClick={() => {
                           onCloseDrawer();
+                          queryClient.invalidateQueries("schedules");
                         }}
                         block
                       >
