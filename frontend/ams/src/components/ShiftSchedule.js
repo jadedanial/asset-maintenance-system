@@ -212,6 +212,7 @@ const ShiftSchedule = ({ schedules, employees, empid }) => {
       withCredentials: true,
     })
       .then(() => {
+        queryClient.invalidateQueries("employees");
         api.info(NotificationEvent(true, "Employee shift schedule updated."));
       })
       .catch((err) => {
