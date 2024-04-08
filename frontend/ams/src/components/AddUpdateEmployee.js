@@ -84,8 +84,8 @@ const AddUpdateEmployee = ({
   const [employeeSection, setEmployeeSection] = useState(
     updateData ? section : ""
   );
-  const [loading, setLoading] = useState(true);
   const [submit, setSubmit] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [success, setSuccess] = useState(false);
   const [nameReq, setNameReq] = useState(false);
   const [birthdateReq, setBirthdateReq] = useState(false);
@@ -99,8 +99,8 @@ const AddUpdateEmployee = ({
   const [sectionReq, setSectionReq] = useState(false);
 
   const newEmployee = () => {
-    setSubmit(false);
     setUpdateData(false);
+    setSubmit(false);
     setLabel("Add New Employee");
     setColor("#318ce7");
     setEmployeeID("");
@@ -202,7 +202,7 @@ const AddUpdateEmployee = ({
   };
 
   const createEmployee = () => {
-    let submitted = true;
+    setSubmit(true);
     setLoading(true);
     changeLabel();
     const employeeData = {
@@ -240,10 +240,9 @@ const AddUpdateEmployee = ({
       })
       .catch((err) => {
         console.log(err.response.data[0]);
-        submitted = false;
+        setSubmit(false);
         setSuccess(false);
       });
-    setSubmit(submitted);
   };
 
   const { mutate } = useMutation(createEmployee);
