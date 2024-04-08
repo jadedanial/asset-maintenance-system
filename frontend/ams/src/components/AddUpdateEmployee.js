@@ -49,6 +49,8 @@ const AddUpdateEmployee = ({
   onCloseDrawer,
   theme,
 }) => {
+  const [apiResult, setApiResult] = useState(null);
+
   const queryClient = useCustomQueryClient();
   const dateFormat = "YYYY-MM-DD";
   const displayDateFormat = "MMMM DD, YYYY";
@@ -237,11 +239,19 @@ const AddUpdateEmployee = ({
         }
         setLoading(false);
         setSuccess(true);
+        setApiResult({
+          status: "success",
+          message: "Employee data posted successfully",
+        });
       })
       .catch((err) => {
         console.log(err.response.data[0]);
         setSubmit(false);
         setSuccess(false);
+        setApiResult({
+          status: "success",
+          message: "Employee data posted successfully",
+        });
       });
   };
 
@@ -253,7 +263,7 @@ const AddUpdateEmployee = ({
 
   return (
     <>
-      {submit ? (
+      {apiResult ? (
         loading ? (
           <Spinner height={"100%"} theme={theme} />
         ) : (
