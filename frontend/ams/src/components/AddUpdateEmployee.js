@@ -61,7 +61,7 @@ const AddUpdateEmployee = ({
   const [employeeID, setEmployeeID] = useState(updateData ? id : "");
   const [employeeName, setEmployeeName] = useState(updateData ? name : "");
   const [employeeBirthdate, setEmployeeBirthdate] = useState(
-    updateData ? birthdate : ""
+    updateData ? moment(birthdate).format(displayDateFormat) : ""
   );
   const [employeeNationality, setEmployeeNationality] = useState(
     updateData ? nationality : ""
@@ -72,7 +72,7 @@ const AddUpdateEmployee = ({
   const [employeeEmail, setEmployeeEmail] = useState(updateData ? email : "");
   const [employeePhone, setEmployeePhone] = useState(updateData ? phone : "");
   const [employeeDateHired, setEmployeeDateHired] = useState(
-    updateData ? datehired : ""
+    updateData ? moment(datehired).format(displayDateFormat) : ""
   );
   const [employeePosition, setEmployeePosition] = useState(
     updateData ? position : ""
