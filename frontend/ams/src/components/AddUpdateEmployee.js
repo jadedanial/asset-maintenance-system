@@ -58,7 +58,6 @@ const AddUpdateEmployee = ({
   const [label, setLabel] = useState(
     updateData ? "Update Employee" : "Add New Employee"
   );
-  const [color, setColor] = useState("#318ce7");
   const [employeeID, setEmployeeID] = useState(updateData ? id : "");
   const [employeeName, setEmployeeName] = useState(updateData ? name : "");
   const [employeeBirthdate, setEmployeeBirthdate] = useState(
@@ -102,7 +101,6 @@ const AddUpdateEmployee = ({
     setUpdateData(false);
     setSubmit(false);
     setLabel("Add New Employee");
-    setColor("#318ce7");
     setEmployeeID("");
     setEmployeeName("");
     setEmployeeBirthdate("");
@@ -126,85 +124,28 @@ const AddUpdateEmployee = ({
     setSectionReq(true);
   };
 
-  const changeLabel = () => {
-    setLabel(updateData ? "Update Employee" : "Add New Employee");
-    setColor("#318ce7");
-  };
-
-  const onNameChange = (value) => {
-    setEmployeeName(value);
-    setNameReq(true);
-    setStep(1);
-    changeLabel();
-  };
-
-  const onSalaryChange = (value) => {
-    setEmployeeSalary(value);
-    setSalaryReq(true);
-    setStep(2);
-    changeLabel();
-  };
-
-  const onDateHiredChange = (value) => {
-    setEmployeeDateHired(value);
-    setDateHiredReq(true);
-    setStep(3);
-    changeLabel();
-  };
-
-  const onPositionChange = (value) => {
-    setEmployeePosition(value);
-    setPositionReq(true);
-    setStep(4);
-    changeLabel();
-  };
-
-  const onNationalityChange = (value) => {
-    setEmployeeNationality(value);
-    setNationalityReq(true);
-    setStep(5);
-    changeLabel();
-  };
-
-  const onAddressChange = (value) => {
-    setEmployeeAddress(value);
-    setAddressReq(true);
-    setStep(6);
-    changeLabel();
-  };
-
-  const onBirthdateChange = (value) => {
-    setEmployeeBirthdate(value);
-    setBirthdateReq(true);
-    setStep(7);
-    changeLabel();
-  };
-
-  const onEmailChange = (value) => {
-    setEmployeeEmail(value);
-    setEmailReq(true);
-    setStep(8);
-    changeLabel();
-  };
-
-  const onPhoneChange = (value) => {
-    setEmployeePhone(value);
-    setPhoneReq(true);
-    setStep(9);
-    changeLabel();
-  };
-
-  const onSectionChange = (value) => {
-    setEmployeeSection(value);
-    setSectionReq(true);
-    setStep(10);
-    changeLabel();
+  const updateField = (value, req, step) => {
+    const fieldMap = {
+      1: [setEmployeeName, setNameReq, setStep],
+      2: [setEmployeeSalary, setSalaryReq, setStep],
+      3: [setEmployeeDateHired, setDateHiredReq, setStep],
+      4: [setEmployeePosition, setPositionReq, setStep],
+      5: [setEmployeeNationality, setNationalityReq, setStep],
+      6: [setEmployeeAddress, setAddressReq, setStep],
+      7: [setEmployeeBirthdate, setBirthdateReq, setStep],
+      8: [setEmployeeEmail, setEmailReq, setStep],
+      9: [setEmployeePhone, setPhoneReq, setStep],
+      10: [setEmployeeSection, setSectionReq, setStep],
+    };
+    const [updateState, setReqState, setStepState] = fieldMap[step];
+    updateState(value);
+    setReqState(req);
+    setStepState(step);
   };
 
   const createEmployee = () => {
     setSubmit(true);
     setLoading(true);
-    changeLabel();
     const employeeData = {
       emp_id: employeeID,
       emp_name: employeeName,
@@ -239,7 +180,7 @@ const AddUpdateEmployee = ({
       })
       .catch((err) => {
         console.log(err.response.data[0]);
-        setSubmit(false);
+        setLoading(false);
         setSuccess(false);
       });
   };
@@ -254,18 +195,24 @@ const AddUpdateEmployee = ({
     <>
       {submit ? (
         loading ? (
-          <Spinner height={"100%"} theme={theme} />
+          <Spinner height={"60%"} theme={theme} />
         ) : (
           <ResultEvent
             icon={success ? <CheckOutlined /> : <CloseOutlined />}
-            status="success"
+            status={success ? "success" : "error"}
             title={
-              updateData
-                ? "Successfully updated employee."
-                : "Successfully added new employee."
+              success
+                ? updateData
+                  ? "Successfully updated employee."
+                  : "Successfully added new employee."
+                : updateData
+                ? "Failed to update employee."
+                : "Failed to add new employee."
             }
             subTitle={
-              "Employee name " + employeeName + " with ID " + employeeID
+              success
+                ? "Employee name " + employeeName + " with ID " + employeeID
+                : ""
             }
             extra={
               <Row className="space-between-row">
@@ -314,12 +261,7 @@ const AddUpdateEmployee = ({
                 size="large"
                 title={
                   <Title>
-                    <p
-                      className="big-card-title"
-                      style={{ textWrap: "wrap", color: color }}
-                    >
-                      {label}
-                    </p>
+                    <p className="big-card-title">{label}</p>
                   </Title>
                 }
               >
@@ -343,7 +285,7 @@ const AddUpdateEmployee = ({
                         <Input
                           value={employeeName}
                           maxLength={50}
-                          onChange={(e) => onNameChange(e.target.value)}
+                          onChange={(e) => updateField(e.target.value, true, 1)}
                         />
                       </Form.Item>
                       <Row>
@@ -389,7 +331,7 @@ const AddUpdateEmployee = ({
                                     label: sal.opt_name,
                                   };
                                 })}
-                              onChange={onSalaryChange}
+                              onChange={(value) => updateField(value, true, 2)}
                             />
                           </Form.Item>
                           <Form.Item
@@ -431,7 +373,7 @@ const AddUpdateEmployee = ({
                                     label: pos.opt_name,
                                   };
                                 })}
-                              onChange={onPositionChange}
+                              onChange={(value) => updateField(value, true, 4)}
                             />
                           </Form.Item>
                           <Form.Item
@@ -448,7 +390,9 @@ const AddUpdateEmployee = ({
                             <Input
                               value={employeeAddress}
                               maxLength={100}
-                              onChange={(e) => onAddressChange(e.target.value)}
+                              onChange={(e) =>
+                                updateField(e.target.value, true, 6)
+                              }
                             />
                           </Form.Item>
                           <Form.Item
@@ -469,7 +413,9 @@ const AddUpdateEmployee = ({
                             <Input
                               value={employeeEmail}
                               maxLength={100}
-                              onChange={(e) => onEmailChange(e.target.value)}
+                              onChange={(e) =>
+                                updateField(e.target.value, true, 8)
+                              }
                             />
                           </Form.Item>
                         </Col>
@@ -497,7 +443,7 @@ const AddUpdateEmployee = ({
                                   ? ""
                                   : moment(employeeDateHired)
                               }
-                              onChange={onDateHiredChange}
+                              onChange={(value) => updateField(value, true, 3)}
                               inputReadOnly
                             />
                           </Form.Item>
@@ -540,7 +486,7 @@ const AddUpdateEmployee = ({
                                     label: nat.opt_name,
                                   };
                                 })}
-                              onChange={onNationalityChange}
+                              onChange={(value) => updateField(value, true, 5)}
                             />
                           </Form.Item>
                           <Form.Item
@@ -566,7 +512,7 @@ const AddUpdateEmployee = ({
                                   ? ""
                                   : moment(employeeBirthdate)
                               }
-                              onChange={onBirthdateChange}
+                              onChange={(value) => updateField(value, true, 7)}
                               inputReadOnly
                             />
                           </Form.Item>
@@ -584,7 +530,9 @@ const AddUpdateEmployee = ({
                             <Input
                               value={employeePhone}
                               maxLength={100}
-                              onChange={(e) => onPhoneChange(e.target.value)}
+                              onChange={(e) =>
+                                updateField(e.target.value, true, 9)
+                              }
                             />
                           </Form.Item>
                         </Col>
@@ -622,7 +570,7 @@ const AddUpdateEmployee = ({
                               label: sec.section_code,
                             };
                           })}
-                          onChange={onSectionChange}
+                          onChange={(value) => updateField(value, true, 10)}
                         />
                       </Form.Item>
                       <div
@@ -666,30 +614,40 @@ const AddUpdateEmployee = ({
                           {
                             title: "Employee Name",
                             description:
-                              employeeName === "" ? " " : employeeName,
+                              employeeName === "" ? "Empty" : employeeName,
                             status: employeeName === "" ? "error" : "finish",
                           },
                           {
                             title: "Monthly Salary",
                             description:
-                              employeeSalary === "" ? " " : employeeSalary,
+                              employeeSalary === "" ? "Empty" : employeeSalary,
                             status: employeeSalary === "" ? "error" : "finish",
                           },
                           {
                             title: "Date Hired",
-                            description:
-                              employeeDateHired === ""
-                                ? " "
-                                : moment(employeeDateHired).format(
-                                    displayDateFormat
-                                  ),
-                            status:
-                              employeeDateHired === "" ? "error" : "finish",
+                            description: moment(
+                              employeeDateHired,
+                              displayDateFormat,
+                              true
+                            ).isValid()
+                              ? moment(employeeDateHired).format(
+                                  displayDateFormat
+                                )
+                              : "Invalid date",
+                            status: moment(
+                              employeeDateHired,
+                              displayDateFormat,
+                              true
+                            ).isValid()
+                              ? "finish"
+                              : "error",
                           },
                           {
                             title: "Position",
                             description:
-                              employeePosition === "" ? " " : employeePosition,
+                              employeePosition === ""
+                                ? "Empty"
+                                : employeePosition,
                             status:
                               employeePosition === "" ? "error" : "finish",
                           },
@@ -697,7 +655,7 @@ const AddUpdateEmployee = ({
                             title: "Nationality",
                             description:
                               employeeNationality === ""
-                                ? " "
+                                ? "Empty"
                                 : employeeNationality,
                             status:
                               employeeNationality === "" ? "error" : "finish",
@@ -705,36 +663,48 @@ const AddUpdateEmployee = ({
                           {
                             title: "Address",
                             description:
-                              employeeAddress === "" ? " " : employeeAddress,
+                              employeeAddress === ""
+                                ? "Empty"
+                                : employeeAddress,
                             status: employeeAddress === "" ? "error" : "finish",
                           },
                           {
                             title: "Birthdate",
-                            description:
-                              employeeBirthdate === ""
-                                ? " "
-                                : moment(employeeBirthdate).format(
-                                    displayDateFormat
-                                  ),
-                            status:
-                              employeeBirthdate === "" ? "error" : "finish",
+                            description: moment(
+                              employeeBirthdate,
+                              displayDateFormat,
+                              true
+                            ).isValid()
+                              ? moment(employeeBirthdate).format(
+                                  displayDateFormat
+                                )
+                              : "Invalid date",
+                            status: moment(
+                              employeeBirthdate,
+                              displayDateFormat,
+                              true
+                            ).isValid()
+                              ? "finish"
+                              : "error",
                           },
                           {
                             title: "Email",
                             description:
-                              employeeEmail === "" ? " " : employeeEmail,
+                              employeeEmail === "" ? "Empty" : employeeEmail,
                             status: employeeEmail === "" ? "error" : "finish",
                           },
                           {
                             title: "Phone",
                             description:
-                              employeePhone === "" ? " " : employeePhone,
+                              employeePhone === "" ? "Empty" : employeePhone,
                             status: employeePhone === "" ? "error" : "finish",
                           },
                           {
                             title: "Section",
                             description:
-                              employeeSection === "" ? " " : employeeSection,
+                              employeeSection === ""
+                                ? "Empty"
+                                : employeeSection,
                             status: employeeSection === "" ? "error" : "finish",
                           },
                         ]}
