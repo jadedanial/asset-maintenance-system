@@ -199,7 +199,7 @@ const Vacation = ({ vacations, options, empid, theme }) => {
     },
   ];
 
-  const createVacation = () => {
+  const createVacation = (d) => {
     var vacData = {
       emp_id: empid,
       vac_type: vacationtype,
@@ -207,7 +207,7 @@ const Vacation = ({ vacations, options, empid, theme }) => {
       vac_end: moment(enddate).format(dateFormat),
       vac_reason: reason ? reason : "No Reason",
       vac_attachment: attachment ? attachment : "No Attachment",
-      vac_total: days,
+      vac_total: d,
     };
     const token = sessionStorage.getItem("token");
     axios({
@@ -265,7 +265,7 @@ const Vacation = ({ vacations, options, empid, theme }) => {
           )
           .asDays() + 1;
       setDays(parseFloat(d).toFixed(0));
-      mutate();
+      mutate(parseFloat(d).toFixed(0));
     }
   };
 
