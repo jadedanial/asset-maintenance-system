@@ -178,8 +178,7 @@ const AddUpdateEmployee = ({
         setLoading(false);
         setSuccess(true);
       })
-      .catch((err) => {
-        console.log(err.response.data[0]);
+      .catch(() => {
         setLoading(false);
         setSuccess(false);
       });

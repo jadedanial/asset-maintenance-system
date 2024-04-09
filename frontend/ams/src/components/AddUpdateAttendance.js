@@ -2,20 +2,10 @@ import React, { useState } from "react";
 import { useCustomQueryClient } from "../useQueryClient";
 import { useMutation } from "react-query";
 import axios from "axios";
-import {
-  Form,
-  Button,
-  DatePicker,
-  Input,
-  Card,
-  Col,
-  Row,
-  Steps,
-  notification,
-} from "antd";
-import { CheckOutlined } from "@ant-design/icons";
-import NotificationEvent from "./NotificationEvent";
+import { Form, Button, DatePicker, Input, Card, Col, Row, Steps } from "antd";
+import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import ResultEvent from "./ResultEvent";
+import Spinner from "../components/Spinner";
 import moment from "moment";
 
 const layout = {
@@ -53,8 +43,10 @@ const AddUpdateAttendance = ({
   const attendDate = moment(attenddate).format(dateFormat);
   const [attendCheckin, setAttendCheckIn] = useState(checkInTime);
   const [attendCheckout, setAttendCheckOut] = useState(checkOutTime);
+  const [submit, setSubmit] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [success, setSuccess] = useState(false);
-  const [api, contextHolder] = notification.useNotification();
+  const [errorMessage, setErrorMessage] = useState("");
 
   const loadSchedules = () => {
     return schedules
@@ -297,22 +289,28 @@ const AddUpdateAttendance = ({
         Authorization: `Token ${token}`,
       },
       withCredentials: true,
-    }).catch((err) => {
-      console.log(err);
-      NotificationEvent(false, "Employee attendance failed to apply.");
-    });
+    })
+      .then(() => {
+        setLoading(false);
+        setSuccess(true);
+      })
+      .catch(() => {
+        setLoading(false);
+        setSuccess(false);
+      });
   };
 
   const createAttendance = () => {
+    setSubmit(true);
+    setLoading(true);
     var valid = true;
-    var err = 0;
     if (
       moment(attendCheckin, dateTimeFormat).isValid() === true &&
       moment(attendCheckout, dateTimeFormat).isValid() === true
     ) {
       if (attendCheckin > attendCheckout) {
         valid = false;
-        err = 0;
+        setErrorMessage("Check-out time must be after check-in time.");
       }
     }
     if (moment(attendCheckin, dateTimeFormat).isValid() === true) {
@@ -321,7 +319,7 @@ const AddUpdateAttendance = ({
         moment(attendDate).format(dateFormat)
       ) {
         valid = false;
-        err = 1;
+        setErrorMessage("Check-in date must be equal to attendance date.");
       }
     }
     if (
@@ -333,7 +331,7 @@ const AddUpdateAttendance = ({
         moment(attendDate).format(dateFormat)
       ) {
         valid = false;
-        err = 2;
+        setErrorMessage("Check-out date must be equal to attendance date.");
       }
     }
     if (valid) {
@@ -423,21 +421,9 @@ const AddUpdateAttendance = ({
       });
       updateAttendance(attendItem);
       updateOnSelect(date);
-      setSuccess(true);
     } else {
+      setLoading(false);
       setSuccess(false);
-      api.info(
-        NotificationEvent(
-          false,
-          err === 0
-            ? "Check-out time must be after check-in time."
-            : err === 1
-            ? "Check-in date must be equal to attendance date."
-            : err === 2
-            ? "Check-out date must be equal to attendance date."
-            : ""
-        )
-      );
     }
   };
 
@@ -447,205 +433,210 @@ const AddUpdateAttendance = ({
     mutate();
   };
 
-  if (success) {
-    return (
-      <>
-        <ResultEvent
-          icon={<CheckOutlined />}
-          status="success"
-          title={"Successfully applied employee attendance."}
-          subTitle={
-            String(moment(attendDate).format(displayDateFormat)) +
-            " From " +
-            String(
-              moment(attendCheckin).isValid()
-                ? moment(attendCheckin).format(timeFormat)
-                : "--:--:--"
-            ) +
-            " To " +
-            String(
-              moment(attendCheckout).isValid()
-                ? moment(attendCheckout).format(timeFormat)
-                : "--:--:--"
-            )
-          }
-          extra={
-            <Row className="space-between-row">
-              <Col span={12} style={{ paddingRight: "10px" }}>
-                <Button
-                  size="large"
-                  type="default"
-                  onClick={() => {
-                    viewAttendance();
-                    queryClient.invalidateQueries("attendances");
-                  }}
-                  block
-                >
-                  CLOSE
-                </Button>
-              </Col>
-              <Col span={12}>
-                <Button
-                  size="large"
-                  type="primary"
-                  onClick={() => {
-                    viewAttendance();
-                  }}
-                  block
-                >
-                  NEW ATTENDANCE
-                </Button>
-              </Col>
-            </Row>
-          }
-          height="70%"
-          theme={theme}
-        />
-      </>
-    );
-  }
-
   return (
     <>
-      {contextHolder}
-      <div className="justified-row">
-        <div className="card-custom-size-full">
-          <Form
-            {...layout}
-            layout="vertical"
-            size="large"
-            name="add-new-attendance"
-            onFinish={onFinish}
-          >
-            <Card className="card-no-padding" size="large">
-              <Row>
-                <Col span={16} style={{ paddingRight: "24px" }}>
-                  <div
-                    className=" card-with-background"
-                    style={{ padding: "24px" }}
+      {submit ? (
+        loading ? (
+          <Spinner height={"60%"} theme={theme} />
+        ) : (
+          <ResultEvent
+            icon={success ? <CheckOutlined /> : <CloseOutlined />}
+            status={success ? "success" : "error"}
+            title={
+              success
+                ? "Successfully applied employee attendance."
+                : "Failed to apply employee attendance."
+            }
+            subTitle={
+              success
+                ? String(moment(attendDate).format(displayDateFormat)) +
+                  " From " +
+                  String(
+                    moment(attendCheckin).isValid()
+                      ? moment(attendCheckin).format(timeFormat)
+                      : "--:--:--"
+                  ) +
+                  " To " +
+                  String(
+                    moment(attendCheckout).isValid()
+                      ? moment(attendCheckout).format(timeFormat)
+                      : "--:--:--"
+                  )
+                : errorMessage
+            }
+            extra={
+              <Row className="space-between-row">
+                <Col span={12} style={{ paddingRight: "10px" }}>
+                  <Button
+                    size="large"
+                    type="default"
+                    onClick={() => {
+                      viewAttendance();
+                      queryClient.invalidateQueries("attendances");
+                    }}
+                    block
                   >
-                    <Form.Item
-                      name="date"
-                      label="Attendance Date"
-                      initialValue={String(
-                        moment(attenddate).format(displayDateFormat)
-                      )}
-                    >
-                      <Input readOnly />
-                    </Form.Item>
-                    <Form.Item label="Check In Time">
-                      <DatePicker
-                        placeholder=""
-                        format={datePickerFormat}
-                        onChange={(value) => {
-                          setAttendCheckIn(
-                            moment(value).format(dateTimeFormat)
-                          );
-                          setStep(2);
-                        }}
-                        defaultValue={
-                          attendCheckin !== "--:--:--"
-                            ? moment(attendCheckin, dateTimeFormat)
-                            : ""
-                        }
-                        showTime
-                        inputReadOnly
-                      />
-                    </Form.Item>
-                    <Form.Item label="Check Out Time">
-                      <DatePicker
-                        placeholder=""
-                        format={datePickerFormat}
-                        onChange={(value) => {
-                          setAttendCheckOut(
-                            moment(value).format(dateTimeFormat)
-                          );
-                          setStep(3);
-                        }}
-                        defaultValue={
-                          attendCheckout !== "--:--:--"
-                            ? moment(attendCheckout, dateTimeFormat)
-                            : ""
-                        }
-                        showTime
-                        inputReadOnly
-                      />
-                    </Form.Item>
-                    <div
-                      className="space-between-row"
-                      style={{ paddingTop: "24px" }}
-                    >
-                      <Button
-                        size="large"
-                        type="default"
-                        onClick={() => {
-                          viewAttendance();
-                          queryClient.invalidateQueries("attendances");
-                        }}
-                        block
-                      >
-                        CANCEL
-                      </Button>
-                      <Button
-                        size="large"
-                        type="primary"
-                        htmlType="submit"
-                        style={{
-                          marginLeft: "10px",
-                        }}
-                        block
-                      >
-                        SAVE
-                      </Button>
-                    </div>
-                  </div>
+                    CLOSE
+                  </Button>
                 </Col>
-                <Col span={8}>
-                  <div
-                    className="card-with-background"
-                    style={{ padding: "24px" }}
+                <Col span={12}>
+                  <Button
+                    size="large"
+                    type="primary"
+                    onClick={() => {
+                      viewAttendance();
+                    }}
+                    block
                   >
-                    <Steps
-                      current={step}
-                      direction="vertical"
-                      items={[
-                        {
-                          title: "Attendance Date",
-                          description:
-                            attendDate === ""
-                              ? " "
-                              : moment(attendDate).format(displayDateFormat),
-                          status: attendDate === "" ? "error" : "finish",
-                        },
-                        {
-                          title: "Check In Time",
-                          description:
-                            attendCheckin === ""
-                              ? " "
-                              : moment(attendCheckin).format(
-                                  displayDateFormat + " HH:mm:ss"
-                                ),
-                          status: attendCheckin === "" ? "error" : "finish",
-                        },
-                        {
-                          title: "Check Out Time",
-                          description:
-                            attendCheckout === ""
-                              ? " "
-                              : moment(attendCheckout).format(
-                                  displayDateFormat + " HH:mm:ss"
-                                ),
-                          status: attendCheckout === "" ? "error" : "finish",
-                        },
-                      ]}
-                    />
-                  </div>
+                    NEW ATTENDANCE
+                  </Button>
                 </Col>
               </Row>
-            </Card>
-          </Form>
+            }
+            height="70%"
+            theme={theme}
+          />
+        )
+      ) : (
+        <div className="justified-row">
+          <div className="card-custom-size-full">
+            <Form
+              {...layout}
+              layout="vertical"
+              size="large"
+              name="add-new-attendance"
+              onFinish={onFinish}
+            >
+              <Card className="card-no-padding" size="large">
+                <Row>
+                  <Col span={16} style={{ paddingRight: "24px" }}>
+                    <div
+                      className=" card-with-background"
+                      style={{ padding: "24px" }}
+                    >
+                      <Form.Item
+                        name="date"
+                        label="Attendance Date"
+                        initialValue={String(
+                          moment(attenddate).format(displayDateFormat)
+                        )}
+                      >
+                        <Input readOnly />
+                      </Form.Item>
+                      <Form.Item label="Check In Time">
+                        <DatePicker
+                          placeholder=""
+                          format={datePickerFormat}
+                          onChange={(value) => {
+                            setAttendCheckIn(
+                              moment(value).format(dateTimeFormat)
+                            );
+                            setStep(2);
+                          }}
+                          defaultValue={
+                            attendCheckin !== "--:--:--"
+                              ? moment(attendCheckin, dateTimeFormat)
+                              : ""
+                          }
+                          showTime
+                          inputReadOnly
+                        />
+                      </Form.Item>
+                      <Form.Item label="Check Out Time">
+                        <DatePicker
+                          placeholder=""
+                          format={datePickerFormat}
+                          onChange={(value) => {
+                            setAttendCheckOut(
+                              moment(value).format(dateTimeFormat)
+                            );
+                            setStep(3);
+                          }}
+                          defaultValue={
+                            attendCheckout !== "--:--:--"
+                              ? moment(attendCheckout, dateTimeFormat)
+                              : ""
+                          }
+                          showTime
+                          inputReadOnly
+                        />
+                      </Form.Item>
+                      <div
+                        className="space-between-row"
+                        style={{ paddingTop: "24px" }}
+                      >
+                        <Button
+                          size="large"
+                          type="default"
+                          onClick={() => {
+                            viewAttendance();
+                            queryClient.invalidateQueries("attendances");
+                          }}
+                          block
+                        >
+                          CANCEL
+                        </Button>
+                        <Button
+                          size="large"
+                          type="primary"
+                          htmlType="submit"
+                          style={{
+                            marginLeft: "10px",
+                          }}
+                          block
+                        >
+                          SAVE
+                        </Button>
+                      </div>
+                    </div>
+                  </Col>
+                  <Col span={8}>
+                    <div
+                      className="card-with-background"
+                      style={{ padding: "24px" }}
+                    >
+                      <Steps
+                        current={step}
+                        direction="vertical"
+                        items={[
+                          {
+                            title: "Attendance Date",
+                            description:
+                              attendDate === ""
+                                ? " "
+                                : moment(attendDate).format(displayDateFormat),
+                            status: attendDate === "" ? "error" : "finish",
+                          },
+                          {
+                            title: "Check In Time",
+                            description:
+                              attendCheckin === ""
+                                ? " "
+                                : moment(attendCheckin).format(
+                                    displayDateFormat + " HH:mm:ss"
+                                  ),
+                            status: attendCheckin === "" ? "error" : "finish",
+                          },
+                          {
+                            title: "Check Out Time",
+                            description:
+                              attendCheckout === ""
+                                ? " "
+                                : moment(attendCheckout).format(
+                                    displayDateFormat + " HH:mm:ss"
+                                  ),
+                            status: attendCheckout === "" ? "error" : "finish",
+                          },
+                        ]}
+                      />
+                    </div>
+                  </Col>
+                </Row>
+              </Card>
+            </Form>
+          </div>
         </div>
-      </div>
+      )}
     </>
   );
 };
