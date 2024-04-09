@@ -14,8 +14,9 @@ import {
   Row,
   Steps,
 } from "antd";
-import { CheckOutlined } from "@ant-design/icons";
+import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import ResultEvent from "./ResultEvent";
+import Spinner from "../components/Spinner";
 
 const { Title } = Typography;
 
@@ -51,7 +52,6 @@ const AddUpdateItem = ({
   const [label, setLabel] = useState(
     updateData ? "Update Item" : "Add New Item"
   );
-  const [color, setColor] = useState("#318ce7");
   const [idCode, setIDCode] = useState(updateData ? code : "");
   const [itemCode, setItemCode] = useState(updateData ? code : "");
   const [itemName, setItemName] = useState(updateData ? name : "");
@@ -67,6 +67,7 @@ const AddUpdateItem = ({
     updateData ? description : ""
   );
   const [submit, setSubmit] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [success, setSuccess] = useState(false);
   const [nameReq, setNameReq] = useState(false);
   const [categoryReq, setCategoryReq] = useState(false);
@@ -80,7 +81,6 @@ const AddUpdateItem = ({
     setUpdateData(false);
     setSubmit(false);
     setLabel("Add New Item");
-    setColor("#318ce7");
     setItemCode("");
     setItemName("");
     setItemCategory("");
@@ -98,66 +98,28 @@ const AddUpdateItem = ({
     setDescriptionReq(true);
   };
 
-  const changeLabel = () => {
-    setLabel(updateData ? "Update Item" : "Add New Item");
-    setColor("#318ce7");
-  };
-
-  const onNameChange = (value) => {
-    setItemName(value);
-    setNameReq(true);
-    setStep(1);
-    changeLabel();
-  };
-
-  const onCostChange = (value) => {
-    setItemCost(value);
-    setCostReq(true);
-    setStep(2);
-    changeLabel();
-  };
-
-  const onCategoryChange = (value) => {
-    setItemCategory(value);
-    setCategoryReq(true);
-    setStep(3);
-    changeLabel();
-  };
-
-  const onMeasurementChange = (value) => {
-    setItemMeasurement(value);
-    setMeasurementReq(true);
-    setStep(4);
-    changeLabel();
-  };
-
-  const onLocationChange = (value) => {
-    setItemLocation(value);
-    setLocationReq(true);
-    setStep(5);
-    changeLabel();
-  };
-
-  const onReorderChange = (value) => {
-    setItemReorder(value);
-    setReorderReq(true);
-    setStep(6);
-    changeLabel();
-  };
-
-  const onDescriptionChange = (value) => {
-    setItemDescription(value);
-    setDescriptionReq(true);
-    setStep(7);
-    changeLabel();
-  };
-
   const checkMain = () => {
     var main = true;
     if (sectionCategory === "main") {
       main = false;
     }
     return main;
+  };
+
+  const updateField = (value, req, step) => {
+    const fieldMap = {
+      1: [setItemName, setNameReq, setStep],
+      2: [setItemCost, setCostReq, setStep],
+      3: [setItemCategory, setCategoryReq, setStep],
+      4: [setItemMeasurement, setMeasurementReq, setStep],
+      5: [setItemLocation, setLocationReq, setStep],
+      6: [setItemReorder, setReorderReq, setStep],
+      7: [setItemDescription, setDescriptionReq, setStep],
+    };
+    const [updateState, setReqState, setStepState] = fieldMap[step];
+    updateState(value);
+    setReqState(req);
+    setStepState(step);
   };
 
   const createWarehouseItem = (
@@ -184,17 +146,18 @@ const AddUpdateItem = ({
       withCredentials: true,
     })
       .then(() => {
+        setLoading(false);
         setSuccess(true);
       })
       .catch((err) => {
-        console.log(err);
+        setLoading(false);
         setSuccess(false);
       });
   };
 
   const createItem = () => {
     setSubmit(true);
-    changeLabel();
+    setLoading(true);
     var itemData = {
       item_code: itemCode,
       item_name: itemName,
@@ -224,12 +187,9 @@ const AddUpdateItem = ({
           itemOnHand
         );
       })
-      .catch((err) => {
-        console.log(err.response.data[0]);
-        setSubmit(false);
+      .catch(() => {
+        setLoading(false);
         setSuccess(false);
-        setLabel(err.response.data[0]);
-        setColor("#ff0000");
       });
   };
 
@@ -239,19 +199,27 @@ const AddUpdateItem = ({
     mutate();
   };
 
-  if (submit) {
-    if (success) {
-      return (
-        <>
+  return (
+    <>
+      {submit ? (
+        loading ? (
+          <Spinner height={"60%"} theme={theme} />
+        ) : (
           <ResultEvent
-            icon={<CheckOutlined />}
-            status="success"
+            icon={success ? <CheckOutlined /> : <CloseOutlined />}
+            status={success ? "success" : "error"}
             title={
-              updateData
-                ? "Successfully updated item."
-                : "Successfully added new item."
+              success
+                ? updateData
+                  ? "Successfully updated item."
+                  : "Successfully added new item."
+                : updateData
+                ? "Failed to update item."
+                : "Failed to add new item."
             }
-            subTitle={"Item name " + itemName + " with code " + String(idCode)}
+            subTitle={
+              success ? "Item name " + itemName + " with code " + idCode : ""
+            }
             extra={
               <Row className="space-between-row">
                 <Col span={12} style={{ paddingRight: "10px" }}>
@@ -284,317 +252,321 @@ const AddUpdateItem = ({
             height="70%"
             theme={theme}
           />
-        </>
-      );
-    }
-  }
-
-  return (
-    <>
-      <div className="justified-row" style={{ paddingTop: "12px" }}>
-        <div className="card-custom-size-full">
-          <Form
-            {...layout}
-            layout="vertical"
-            size="large"
-            name="add-new-item"
-            onFinish={onFinish}
-          >
-            <Card
+        )
+      ) : (
+        <div className="justified-row" style={{ paddingTop: "12px" }}>
+          <div className="card-custom-size-full">
+            <Form
+              {...layout}
+              layout="vertical"
               size="large"
-              title={
-                <Title>
-                  <p
-                    className="big-card-title"
-                    style={{ textWrap: "wrap", color: color }}
-                  >
-                    {label}
-                  </p>
-                </Title>
-              }
+              name="add-new-item"
+              onFinish={onFinish}
             >
-              <Row>
-                <Col span={16} style={{ paddingRight: "24px" }}>
-                  <div
-                    className=" card-with-background"
-                    style={{ padding: "24px" }}
-                  >
-                    <Row>
-                      <Col
-                        span={14}
-                        style={{
-                          paddingRight: "24px",
-                        }}
-                      >
-                        <Form.Item
-                          name={["name"]}
-                          label="Item Name"
-                          initialValue={itemName}
-                          rules={[
-                            {
-                              required: updateData ? nameReq : true,
-                              message: "Item name required",
-                            },
-                          ]}
-                        >
-                          <Input
-                            value={itemName}
-                            maxLength={55}
-                            onChange={(e) => onNameChange(e.target.value)}
-                            disabled={checkMain()}
-                          />
-                        </Form.Item>
-                        <Form.Item
-                          name={["category"]}
-                          label="Category"
-                          initialValue={itemCategory}
-                          rules={[
-                            {
-                              required: updateData ? categoryReq : true,
-                              message: "Item category required",
-                            },
-                          ]}
-                        >
-                          <Select
-                            size="large"
-                            showSearch
-                            style={{ width: "100%" }}
-                            optionFilterProp="children"
-                            filterOption={(input, option) =>
-                              (option?.label ?? "")
-                                .toLowerCase()
-                                .includes(input)
-                            }
-                            filterSort={(optionA, optionB) =>
-                              (optionA?.label ?? "")
-                                .toLowerCase()
-                                .localeCompare(
-                                  (optionB?.label ?? "").toLowerCase()
-                                )
-                            }
-                            value={itemCategory}
-                            options={options
-                              .filter((res) => res.opt_category === "Category")
-                              .map((cat) => {
-                                return {
-                                  value: cat.opt_name,
-                                  label: cat.opt_name,
-                                };
-                              })}
-                            onChange={onCategoryChange}
-                            disabled={checkMain()}
-                          />
-                        </Form.Item>
-                        <Form.Item
-                          name={["location"]}
-                          label="Location"
-                          initialValue={itemLocation}
-                          rules={[
-                            {
-                              required: updateData ? locationReq : true,
-                              message: "Item location required",
-                            },
-                          ]}
-                        >
-                          <Input
-                            value={itemLocation}
-                            maxLength={300}
-                            onChange={(e) => onLocationChange(e.target.value)}
-                          />
-                        </Form.Item>
-                      </Col>
-                      <Col span={10}>
-                        <Form.Item
-                          name={["cost"]}
-                          label="Unit Cost"
-                          initialValue={itemCost}
-                          rules={[
-                            {
-                              required: updateData ? costReq : true,
-                              message: "Numeric value required",
-                              type: "number",
-                            },
-                          ]}
-                        >
-                          <InputNumber
-                            min={1}
-                            max={1000000}
-                            value={itemCost}
-                            onChange={onCostChange}
-                            disabled={checkMain()}
-                          />
-                        </Form.Item>
-                        <Form.Item
-                          name={["measurement"]}
-                          label="Unit Of Measurement"
-                          initialValue={itemMeasurement}
-                          rules={[
-                            {
-                              required: updateData ? measurementReq : true,
-                              message: "Unit of measurement required",
-                            },
-                          ]}
-                        >
-                          <Select
-                            size="large"
-                            showSearch
-                            style={{ width: "100%" }}
-                            optionFilterProp="children"
-                            filterOption={(input, option) =>
-                              (option?.label ?? "")
-                                .toLowerCase()
-                                .includes(input)
-                            }
-                            filterSort={(optionA, optionB) =>
-                              (optionA?.label ?? "")
-                                .toLowerCase()
-                                .localeCompare(
-                                  (optionB?.label ?? "").toLowerCase()
-                                )
-                            }
-                            value={itemMeasurement}
-                            options={options
-                              .filter(
-                                (res) => res.opt_category === "Measurement"
-                              )
-                              .map((mes) => {
-                                return {
-                                  value: mes.opt_name,
-                                  label: mes.opt_name,
-                                };
-                              })}
-                            onChange={onMeasurementChange}
-                            disabled={checkMain()}
-                          />
-                        </Form.Item>
-                        <Form.Item
-                          name={["reorder"]}
-                          label="Reorder Quantity"
-                          initialValue={itemReorder}
-                          rules={[
-                            {
-                              required: updateData ? reorderReq : true,
-                              message: "Numeric value required",
-                              type: "number",
-                            },
-                          ]}
-                        >
-                          <InputNumber
-                            min={1}
-                            max={1000000}
-                            value={itemReorder}
-                            onChange={onReorderChange}
-                            disabled={checkMain()}
-                          />
-                        </Form.Item>
-                      </Col>
-                    </Row>
-                    <Form.Item
-                      name={["description"]}
-                      label="Description"
-                      initialValue={itemDescription}
-                      rules={[
-                        {
-                          required: updateData ? descriptionReq : true,
-                          message: "Item description required",
-                        },
-                        {
-                          max: 120,
-                          message:
-                            "Description must be 120 characters or less.",
-                        },
-                      ]}
-                    >
-                      <Input.TextArea
-                        value={itemDescription}
-                        onChange={(e) => onDescriptionChange(e.target.value)}
-                        disabled={checkMain()}
-                      />
-                    </Form.Item>
+              <Card
+                size="large"
+                title={
+                  <Title>
+                    <p className="big-card-title">{label}</p>
+                  </Title>
+                }
+              >
+                <Row>
+                  <Col span={16} style={{ paddingRight: "24px" }}>
                     <div
-                      className="space-between-row"
-                      style={{ paddingTop: "24px" }}
+                      className=" card-with-background"
+                      style={{ padding: "24px" }}
                     >
-                      <Button
-                        size="large"
-                        type="default"
-                        onClick={() => {
-                          onCloseDrawer();
-                          queryClient.invalidateQueries("items");
-                        }}
-                        block
+                      <Row>
+                        <Col
+                          span={14}
+                          style={{
+                            paddingRight: "24px",
+                          }}
+                        >
+                          <Form.Item
+                            name={["name"]}
+                            label="Item Name"
+                            initialValue={itemName}
+                            rules={[
+                              {
+                                required: updateData ? nameReq : true,
+                                message: "Item name required",
+                              },
+                            ]}
+                          >
+                            <Input
+                              value={itemName}
+                              maxLength={55}
+                              onChange={(e) =>
+                                updateField(e.target.value, true, 1)
+                              }
+                              disabled={checkMain()}
+                            />
+                          </Form.Item>
+                          <Form.Item
+                            name={["category"]}
+                            label="Category"
+                            initialValue={itemCategory}
+                            rules={[
+                              {
+                                required: updateData ? categoryReq : true,
+                                message: "Item category required",
+                              },
+                            ]}
+                          >
+                            <Select
+                              size="large"
+                              showSearch
+                              style={{ width: "100%" }}
+                              optionFilterProp="children"
+                              filterOption={(input, option) =>
+                                (option?.label ?? "")
+                                  .toLowerCase()
+                                  .includes(input)
+                              }
+                              filterSort={(optionA, optionB) =>
+                                (optionA?.label ?? "")
+                                  .toLowerCase()
+                                  .localeCompare(
+                                    (optionB?.label ?? "").toLowerCase()
+                                  )
+                              }
+                              value={itemCategory}
+                              options={options
+                                .filter(
+                                  (res) => res.opt_category === "Category"
+                                )
+                                .map((cat) => {
+                                  return {
+                                    value: cat.opt_name,
+                                    label: cat.opt_name,
+                                  };
+                                })}
+                              onChange={(value) => updateField(value, true, 3)}
+                              disabled={checkMain()}
+                            />
+                          </Form.Item>
+                          <Form.Item
+                            name={["location"]}
+                            label="Location"
+                            initialValue={itemLocation}
+                            rules={[
+                              {
+                                required: updateData ? locationReq : true,
+                                message: "Item location required",
+                              },
+                            ]}
+                          >
+                            <Input
+                              value={itemLocation}
+                              maxLength={300}
+                              onChange={(e) =>
+                                updateField(e.target.value, true, 5)
+                              }
+                            />
+                          </Form.Item>
+                        </Col>
+                        <Col span={10}>
+                          <Form.Item
+                            name={["cost"]}
+                            label="Unit Cost"
+                            initialValue={itemCost}
+                            rules={[
+                              {
+                                required: updateData ? costReq : true,
+                                message: "Numeric value required",
+                                type: "number",
+                              },
+                            ]}
+                          >
+                            <InputNumber
+                              min={1}
+                              max={1000000}
+                              value={itemCost}
+                              onChange={(value) => updateField(value, true, 2)}
+                              disabled={checkMain()}
+                            />
+                          </Form.Item>
+                          <Form.Item
+                            name={["measurement"]}
+                            label="Unit Of Measurement"
+                            initialValue={itemMeasurement}
+                            rules={[
+                              {
+                                required: updateData ? measurementReq : true,
+                                message: "Unit of measurement required",
+                              },
+                            ]}
+                          >
+                            <Select
+                              size="large"
+                              showSearch
+                              style={{ width: "100%" }}
+                              optionFilterProp="children"
+                              filterOption={(input, option) =>
+                                (option?.label ?? "")
+                                  .toLowerCase()
+                                  .includes(input)
+                              }
+                              filterSort={(optionA, optionB) =>
+                                (optionA?.label ?? "")
+                                  .toLowerCase()
+                                  .localeCompare(
+                                    (optionB?.label ?? "").toLowerCase()
+                                  )
+                              }
+                              value={itemMeasurement}
+                              options={options
+                                .filter(
+                                  (res) => res.opt_category === "Measurement"
+                                )
+                                .map((mes) => {
+                                  return {
+                                    value: mes.opt_name,
+                                    label: mes.opt_name,
+                                  };
+                                })}
+                              onChange={(value) => updateField(value, true, 4)}
+                              disabled={checkMain()}
+                            />
+                          </Form.Item>
+                          <Form.Item
+                            name={["reorder"]}
+                            label="Reorder Quantity"
+                            initialValue={itemReorder}
+                            rules={[
+                              {
+                                required: updateData ? reorderReq : true,
+                                message: "Numeric value required",
+                                type: "number",
+                              },
+                            ]}
+                          >
+                            <InputNumber
+                              min={1}
+                              max={1000000}
+                              value={itemReorder}
+                              onChange={(value) => updateField(value, true, 6)}
+                              disabled={checkMain()}
+                            />
+                          </Form.Item>
+                        </Col>
+                      </Row>
+                      <Form.Item
+                        name={["description"]}
+                        label="Description"
+                        initialValue={itemDescription}
+                        rules={[
+                          {
+                            required: updateData ? descriptionReq : true,
+                            message: "Item description required",
+                          },
+                          {
+                            max: 120,
+                            message:
+                              "Description must be 120 characters or less.",
+                          },
+                        ]}
                       >
-                        CANCEL
-                      </Button>
-                      <Button
-                        size="large"
-                        type="primary"
-                        htmlType="submit"
-                        style={{
-                          marginLeft: "10px",
-                        }}
-                        block
+                        <Input.TextArea
+                          value={itemDescription}
+                          onChange={(e) => updateField(e.target.value, true, 7)}
+                          disabled={checkMain()}
+                        />
+                      </Form.Item>
+                      <div
+                        className="space-between-row"
+                        style={{ paddingTop: "24px" }}
                       >
-                        SAVE
-                      </Button>
+                        <Button
+                          size="large"
+                          type="default"
+                          onClick={() => {
+                            onCloseDrawer();
+                            queryClient.invalidateQueries("items");
+                          }}
+                          block
+                        >
+                          CANCEL
+                        </Button>
+                        <Button
+                          size="large"
+                          type="primary"
+                          htmlType="submit"
+                          style={{
+                            marginLeft: "10px",
+                          }}
+                          block
+                        >
+                          SAVE
+                        </Button>
+                      </div>
                     </div>
-                  </div>
-                </Col>
-                <Col span={8}>
-                  <div
-                    className="card-with-background"
-                    style={{ padding: "24px" }}
-                  >
-                    <Steps
-                      current={step}
-                      direction="vertical"
-                      items={[
-                        {
-                          title: "Item Name",
-                          description: itemName === "" ? " " : itemName,
-                          status: itemName === "" ? "error" : "finish",
-                        },
-                        {
-                          title: "Unit Cost",
-                          description: itemCost < 1 ? " " : itemCost,
-                          status: itemCost < 1 ? "error" : "finish",
-                        },
-                        {
-                          title: "Category",
-                          description: itemCategory === "" ? " " : itemCategory,
-                          status: itemCategory === "" ? "error" : "finish",
-                        },
-                        {
-                          title: "Unit Of Measurement",
-                          description:
-                            itemMeasurement === "" ? " " : itemMeasurement,
-                          status: itemMeasurement === "" ? "error" : "finish",
-                        },
-                        {
-                          title: "Location",
-                          description: itemLocation === "" ? " " : itemLocation,
-                          status: itemLocation === "" ? "error" : "finish",
-                        },
-                        {
-                          title: "Reorder Quantity",
-                          description: itemReorder < 1 ? " " : itemReorder,
-                          status: itemReorder < 1 ? "error" : "finish",
-                        },
-                        {
-                          title: "Description",
-                          description:
-                            itemDescription === "" ? " " : itemDescription,
-                          status: itemDescription === "" ? "error" : "finish",
-                        },
-                      ]}
-                    />
-                  </div>
-                </Col>
-              </Row>
-            </Card>
-          </Form>
+                  </Col>
+                  <Col span={8}>
+                    <div
+                      className="card-with-background"
+                      style={{ padding: "24px" }}
+                    >
+                      <Steps
+                        current={step}
+                        direction="vertical"
+                        items={[
+                          {
+                            title: "Item Name",
+                            description: itemName === "" ? "Empty" : itemName,
+                            status: itemName === "" ? "error" : "finish",
+                          },
+                          {
+                            title: "Unit Cost",
+                            description: itemCost < 1 ? "Empty" : itemCost,
+                            status: itemCost < 1 ? "error" : "finish",
+                          },
+                          {
+                            title: "Category",
+                            description:
+                              itemCategory === "" ? "Empty" : itemCategory,
+                            status: itemCategory === "" ? "error" : "finish",
+                          },
+                          {
+                            title: "Unit Of Measurement",
+                            description:
+                              itemMeasurement === ""
+                                ? "Empty"
+                                : itemMeasurement,
+                            status: itemMeasurement === "" ? "error" : "finish",
+                          },
+                          {
+                            title: "Location",
+                            description:
+                              itemLocation === "" ? "Empty" : itemLocation,
+                            status: itemLocation === "" ? "error" : "finish",
+                          },
+                          {
+                            title: "Reorder Quantity",
+                            description:
+                              itemReorder < 1 ? "Empty" : itemReorder,
+                            status: itemReorder < 1 ? "error" : "finish",
+                          },
+                          {
+                            title: "Description",
+                            description:
+                              itemDescription === ""
+                                ? "Empty"
+                                : itemDescription,
+                            status: itemDescription === "" ? "error" : "finish",
+                          },
+                        ]}
+                      />
+                    </div>
+                  </Col>
+                </Row>
+              </Card>
+            </Form>
+          </div>
         </div>
-      </div>
+      )}
     </>
   );
 };
