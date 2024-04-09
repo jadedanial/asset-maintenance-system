@@ -251,6 +251,9 @@ const Cart = ({
                           }, 50);
                         }
                       }}
+                      style={{
+                        marginLeft: "10px",
+                      }}
                       block
                     >
                       APPLY
