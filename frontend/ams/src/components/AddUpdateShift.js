@@ -13,8 +13,9 @@ import {
   TimePicker,
   Steps,
 } from "antd";
-import { CheckOutlined } from "@ant-design/icons";
+import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import ResultEvent from "./ResultEvent";
+import Spinner from "../components/Spinner";
 import moment from "moment";
 
 const { Title } = Typography;
@@ -44,12 +45,16 @@ const AddUpdateShift = ({
   const [label, setLabel] = useState(
     updateData ? "Update Shift" : "Add New Shift"
   );
-  const [color, setColor] = useState("#318ce7");
   const shiftID = updateData ? id : "";
   const [shiftName, setShiftName] = useState(updateData ? name : "");
-  const [shiftFrom, setShiftFrom] = useState(updateData ? from : "");
-  const [shiftTo, setShiftTo] = useState(updateData ? to : "");
+  const [shiftFrom, setShiftFrom] = useState(
+    updateData ? moment(from, timeFormat).format(timeFormat) : ""
+  );
+  const [shiftTo, setShiftTo] = useState(
+    updateData ? moment(to, timeFormat).format(timeFormat) : ""
+  );
   const [submit, setSubmit] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [success, setSuccess] = useState(false);
   const [nameReq, setNameReq] = useState(false);
   const [fromReq, setFromReq] = useState(false);
@@ -59,7 +64,6 @@ const AddUpdateShift = ({
     setUpdateData(false);
     setSubmit(false);
     setLabel("Add New Shift");
-    setColor("#318ce7");
     setShiftName("");
     setShiftFrom("");
     setShiftTo("");
@@ -67,35 +71,21 @@ const AddUpdateShift = ({
     setToReq(true);
   };
 
-  const changeLabel = () => {
-    setLabel(updateData ? "Update Shift" : "Add New Shift");
-    setColor("#318ce7");
-  };
-
-  const onNameChange = (value) => {
-    setShiftName(value);
-    setNameReq(true);
-    setStep(1);
-    changeLabel();
-  };
-
-  const onFromChange = (value) => {
-    setShiftFrom(value);
-    setFromReq(true);
-    setStep(2);
-    changeLabel();
-  };
-
-  const onToChange = (value) => {
-    setShiftTo(value);
-    setToReq(true);
-    setStep(3);
-    changeLabel();
+  const updateField = (value, req, step) => {
+    const fieldMap = {
+      1: [setShiftName, setNameReq, setStep],
+      2: [setShiftFrom, setFromReq, setStep],
+      3: [setShiftTo, setToReq, setStep],
+    };
+    const [updateState, setReqState, setStepState] = fieldMap[step];
+    updateState(value);
+    setReqState(req);
+    setStepState(step);
   };
 
   const createShift = () => {
     setSubmit(true);
-    changeLabel();
+    setLoading(true);
     var shiftData = {
       id: shiftID,
       shift_name: shiftName,
@@ -118,14 +108,12 @@ const AddUpdateShift = ({
       withCredentials: true,
     })
       .then(() => {
+        setLoading(false);
         setSuccess(true);
       })
-      .catch((err) => {
-        console.log(err.response.data[0]);
-        setSubmit(false);
+      .catch(() => {
+        setLoading(false);
         setSuccess(false);
-        setLabel(err.response.data[0]);
-        setColor("#ff0000");
       });
   };
 
@@ -135,19 +123,25 @@ const AddUpdateShift = ({
     mutate();
   };
 
-  if (submit) {
-    if (success) {
-      return (
-        <>
+  return (
+    <>
+      {submit ? (
+        loading ? (
+          <Spinner height={"60%"} theme={theme} />
+        ) : (
           <ResultEvent
-            icon={<CheckOutlined />}
-            status="success"
+            icon={success ? <CheckOutlined /> : <CloseOutlined />}
+            status={success ? "success" : "error"}
             title={
-              updateData
-                ? "Successfully updated shift."
-                : "Successfully added new shift."
+              success
+                ? updateData
+                  ? "Successfully updated shift."
+                  : "Successfully added new shift."
+                : updateData
+                ? "Failed to update shift."
+                : "Failed to add new shift."
             }
-            subTitle={shiftName}
+            subTitle={success ? "Shift name " + shiftName : ""}
             extra={
               <Row className="space-between-row">
                 <Col span={12} style={{ paddingRight: "10px" }}>
@@ -181,184 +175,179 @@ const AddUpdateShift = ({
             height="70%"
             theme={theme}
           />
-        </>
-      );
-    }
-  }
-
-  return (
-    <>
-      <div className="justified-row" style={{ paddingTop: "12px" }}>
-        <div className="card-custom-size-full">
-          <Form
-            {...layout}
-            layout="vertical"
-            size="large"
-            name="add-new-shift"
-            onFinish={onFinish}
-          >
-            <Card
+        )
+      ) : (
+        <div className="justified-row" style={{ paddingTop: "12px" }}>
+          <div className="card-custom-size-full">
+            <Form
+              {...layout}
+              layout="vertical"
               size="large"
-              title={
-                <Title>
-                  <p
-                    className="big-card-title"
-                    style={{ textWrap: "wrap", color: color }}
-                  >
-                    {label}
-                  </p>
-                </Title>
-              }
+              name="add-new-shift"
+              onFinish={onFinish}
             >
-              <Row>
-                <Col span={16} style={{ paddingRight: "24px" }}>
-                  <div
-                    className=" card-with-background"
-                    style={{ padding: "24px" }}
-                  >
-                    <Form.Item
-                      name={["name"]}
-                      label="Shift Name"
-                      initialValue={shiftName}
-                      rules={[
-                        {
-                          required: updateData ? nameReq : true,
-                          message: "Shift name required",
-                        },
-                      ]}
+              <Card
+                size="large"
+                title={
+                  <Title>
+                    <p className="big-card-title">{label}</p>
+                  </Title>
+                }
+              >
+                <Row>
+                  <Col span={16} style={{ paddingRight: "24px" }}>
+                    <div
+                      className=" card-with-background"
+                      style={{ padding: "24px" }}
                     >
-                      <Input
-                        value={shiftName}
-                        maxLength={300}
-                        onChange={(e) => onNameChange(e.target.value)}
-                      />
-                    </Form.Item>
-                    <Row>
-                      <Col
-                        span={12}
-                        style={{
-                          paddingRight: "24px",
-                        }}
+                      <Form.Item
+                        name={["name"]}
+                        label="Shift Name"
+                        initialValue={shiftName}
+                        rules={[
+                          {
+                            required: updateData ? nameReq : true,
+                            message: "Shift name required",
+                          },
+                        ]}
                       >
-                        <Form.Item
-                          name={["shiftFrom"]}
-                          label="Shift From"
-                          initialValue={
-                            shiftFrom === ""
-                              ? ""
-                              : moment(shiftFrom, timeFormat)
-                          }
-                          rules={[
-                            {
-                              required: updateData ? fromReq : true,
-                              message: "Shift from required",
-                            },
-                          ]}
+                        <Input
+                          value={shiftName}
+                          maxLength={300}
+                          onChange={(e) => updateField(e.target.value, true, 1)}
+                        />
+                      </Form.Item>
+                      <Row>
+                        <Col
+                          span={12}
+                          style={{
+                            paddingRight: "24px",
+                          }}
                         >
-                          <TimePicker
-                            placeholder=""
-                            value={
+                          <Form.Item
+                            name={["shiftFrom"]}
+                            label="Shift From"
+                            initialValue={
                               shiftFrom === ""
                                 ? ""
                                 : moment(shiftFrom, timeFormat)
                             }
-                            onChange={onFromChange}
-                          />
-                        </Form.Item>
-                      </Col>
-                      <Col span={12}>
-                        <Form.Item
-                          name={["shiftTo"]}
-                          label="Shift To"
-                          initialValue={
-                            shiftTo === "" ? "" : moment(shiftTo, timeFormat)
-                          }
-                          rules={[
-                            {
-                              required: updateData ? toReq : true,
-                              message: "Shift to required",
-                            },
-                          ]}
-                        >
-                          <TimePicker
-                            placeholder=""
-                            value={
+                            rules={[
+                              {
+                                required: updateData ? fromReq : true,
+                                message: "Shift from required",
+                              },
+                            ]}
+                          >
+                            <TimePicker
+                              placeholder=""
+                              value={
+                                shiftFrom === ""
+                                  ? ""
+                                  : moment(shiftFrom, timeFormat)
+                              }
+                              onChange={(value) => updateField(value, true, 2)}
+                            />
+                          </Form.Item>
+                        </Col>
+                        <Col span={12}>
+                          <Form.Item
+                            name={["shiftTo"]}
+                            label="Shift To"
+                            initialValue={
                               shiftTo === "" ? "" : moment(shiftTo, timeFormat)
                             }
-                            onChange={onToChange}
-                          />
-                        </Form.Item>
-                      </Col>
-                    </Row>
-                    <div
-                      className="space-between-row"
-                      style={{ paddingTop: "24px" }}
-                    >
-                      <Button
-                        size="large"
-                        type="default"
-                        onClick={() => {
-                          onCloseDrawer();
-                          queryClient.invalidateQueries("shifts");
-                          queryClient.invalidateQueries("schedules");
-                        }}
-                        block
+                            rules={[
+                              {
+                                required: updateData ? toReq : true,
+                                message: "Shift to required",
+                              },
+                            ]}
+                          >
+                            <TimePicker
+                              placeholder=""
+                              value={
+                                shiftTo === ""
+                                  ? ""
+                                  : moment(shiftTo, timeFormat)
+                              }
+                              onChange={(value) => updateField(value, true, 3)}
+                            />
+                          </Form.Item>
+                        </Col>
+                      </Row>
+                      <div
+                        className="space-between-row"
+                        style={{ paddingTop: "24px" }}
                       >
-                        CANCEL
-                      </Button>
-                      <Button
-                        size="large"
-                        type="primary"
-                        htmlType="submit"
-                        style={{
-                          marginLeft: "10px",
-                        }}
-                        block
-                      >
-                        SAVE
-                      </Button>
+                        <Button
+                          size="large"
+                          type="default"
+                          onClick={() => {
+                            onCloseDrawer();
+                            queryClient.invalidateQueries("shifts");
+                            queryClient.invalidateQueries("schedules");
+                          }}
+                          block
+                        >
+                          CANCEL
+                        </Button>
+                        <Button
+                          size="large"
+                          type="primary"
+                          htmlType="submit"
+                          style={{
+                            marginLeft: "10px",
+                          }}
+                          block
+                        >
+                          SAVE
+                        </Button>
+                      </div>
                     </div>
-                  </div>
-                </Col>
-                <Col span={8}>
-                  <div
-                    className="card-with-background"
-                    style={{ padding: "24px" }}
-                  >
-                    <Steps
-                      current={step}
-                      direction="vertical"
-                      items={[
-                        {
-                          title: "Shift Name",
-                          description: shiftName === "" ? " " : shiftName,
-                          status: shiftName === "" ? "error" : "finish",
-                        },
-                        {
-                          title: "Shift From",
-                          description:
-                            shiftFrom === ""
-                              ? " "
-                              : moment(shiftFrom).format(timeFormat),
-                          status: shiftFrom === "" ? "error" : "finish",
-                        },
-                        {
-                          title: "Shift To",
-                          description:
-                            shiftTo === ""
-                              ? " "
-                              : moment(shiftTo).format(timeFormat),
-                          status: shiftTo === "" ? "error" : "finish",
-                        },
-                      ]}
-                    />
-                  </div>
-                </Col>
-              </Row>
-            </Card>
-          </Form>
+                  </Col>
+                  <Col span={8}>
+                    <div
+                      className="card-with-background"
+                      style={{ padding: "24px" }}
+                    >
+                      <Steps
+                        current={step}
+                        direction="vertical"
+                        items={[
+                          {
+                            title: "Shift Name",
+                            description: shiftName === "" ? "Empty" : shiftName,
+                            status: shiftName === "" ? "error" : "finish",
+                          },
+                          {
+                            title: "Shift From",
+                            description: moment(shiftFrom, timeFormat).isValid()
+                              ? moment(shiftFrom, timeFormat).format(timeFormat)
+                              : "Invalid time",
+                            status: moment(shiftFrom, timeFormat).isValid()
+                              ? "finish"
+                              : "error",
+                          },
+                          {
+                            title: "Shift From",
+                            description: moment(shiftTo, timeFormat).isValid()
+                              ? moment(shiftTo, timeFormat).format(timeFormat)
+                              : "Invalid time",
+                            status: moment(shiftTo, timeFormat).isValid()
+                              ? "finish"
+                              : "error",
+                          },
+                        ]}
+                      />
+                    </div>
+                  </Col>
+                </Row>
+              </Card>
+            </Form>
+          </div>
         </div>
-      </div>
+      )}
     </>
   );
 };
