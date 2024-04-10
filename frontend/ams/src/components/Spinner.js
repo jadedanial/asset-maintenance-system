@@ -22,7 +22,7 @@ const Spinner = ({ height, theme }) => {
             position: "fixed",
           }}
         />
-        <Spin indicator={antIcon} />
+        <Spin indicator={antIcon} style={{ position: "fixed" }} />
       </div>
     </>
   );
