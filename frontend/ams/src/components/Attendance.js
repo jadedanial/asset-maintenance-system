@@ -363,7 +363,7 @@ const Attendance = ({
   return (
     <>
       {contextHolder}
-      <div style={{ marginTop: "24px", minHeight: "460px" }}>
+      <div style={{ marginTop: "24px", minHeight: "100vh" }}>
         {add ? (
           <Card className="card-no-padding" size="small">
             <AddUpdateAttendance
@@ -383,7 +383,7 @@ const Attendance = ({
             />
           </Card>
         ) : (
-          <Card className="card-no-padding" size="small">
+          <Card className="card-no-padding card-with-background" size="small">
             <div className="justified-row" style={{ margin: "24px 0" }}>
               <p className="medium-card-title">
                 {String(moment(selectedDate).format("MMMM YYYY"))} Attendance
