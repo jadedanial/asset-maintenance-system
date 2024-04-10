@@ -363,26 +363,27 @@ const Attendance = ({
   return (
     <>
       {contextHolder}
-      <div style={{ marginTop: "24px", minHeight: "100vh" }}>
-        {add ? (
-          <Card className="card-no-padding" size="small">
-            <AddUpdateAttendance
-              schedules={schedules}
-              vacations={vacations}
-              empid={empid}
-              schedid={schedid}
-              mode={attendanceMode}
-              attenddate={selectedDate}
-              employeeAttendance={employeeAttendance}
-              updateAttendance={updateAttendance}
-              updateOnSelect={onSelect}
-              checkInTime={checkInTime}
-              checkOutTime={checkOutTime}
-              viewAttendance={viewAttendance}
-              theme={theme}
-            />
-          </Card>
-        ) : (
+
+      {add ? (
+        <Card className="card-no-padding" size="small">
+          <AddUpdateAttendance
+            schedules={schedules}
+            vacations={vacations}
+            empid={empid}
+            schedid={schedid}
+            mode={attendanceMode}
+            attenddate={selectedDate}
+            employeeAttendance={employeeAttendance}
+            updateAttendance={updateAttendance}
+            updateOnSelect={onSelect}
+            checkInTime={checkInTime}
+            checkOutTime={checkOutTime}
+            viewAttendance={viewAttendance}
+            theme={theme}
+          />
+        </Card>
+      ) : (
+        <div style={{ marginTop: "24px", minHeight: "460px" }}>
           <Card className="card-no-padding" size="small">
             <div className="justified-row" style={{ margin: "24px 0" }}>
               <p className="medium-card-title">
@@ -445,8 +446,8 @@ const Attendance = ({
               </div>
             </div>
           </Card>
-        )}
-      </div>
+        </div>
+      )}
     </>
   );
 };
