@@ -438,7 +438,7 @@ const AddUpdateAttendance = ({
       {submit ? (
         <div style={{ marginTop: "24px", minHeight: "460px" }}>
           {loading ? (
-            <Spinner height={"60%"} theme={theme} />
+            <Spinner height={"100vh"} theme={theme} />
           ) : (
             <ResultEvent
               icon={success ? <CheckOutlined /> : <CloseOutlined />}
