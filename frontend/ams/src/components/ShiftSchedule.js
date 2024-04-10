@@ -252,7 +252,7 @@ const ShiftSchedule = ({ schedules, employees, empid }) => {
                     className="card-with-background"
                     style={{ padding: "24px" }}
                   >
-                    <Col span={20} style={{ paddingRight: "24px" }}>
+                    <Col span={22} style={{ paddingRight: "24px" }}>
                       <Select
                         size="large"
                         showSearch
@@ -277,7 +277,7 @@ const ShiftSchedule = ({ schedules, employees, empid }) => {
                         onChange={onChange}
                       />
                     </Col>
-                    <Col span={4}>
+                    <Col span={2}>
                       <Button
                         size="large"
                         type="primary"

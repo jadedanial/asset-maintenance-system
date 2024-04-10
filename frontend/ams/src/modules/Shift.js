@@ -20,21 +20,29 @@ const Shift = ({ shifts, collapsed, theme }) => {
           String(record.to).toLowerCase().includes(value.toLowerCase())
         );
       },
+      sorter: (a, b) => a.name.localeCompare(b.name),
+      defaultSortOrder: "ascend",
     },
     {
       title: "From",
       dataIndex: "from",
       key: "from",
+      sorter: (a, b) => a.from.localeCompare(b.from),
+      defaultSortOrder: "ascend",
     },
     {
       title: "To",
       dataIndex: "to",
       key: "to",
+      sorter: (a, b) => a.to.localeCompare(b.to),
+      defaultSortOrder: "ascend",
     },
     {
       title: "Total Hours",
       dataIndex: "total",
       key: "total",
+      sorter: (a, b) => a.total - b.total,
+      defaultSortOrder: "ascend",
     },
   ];
 

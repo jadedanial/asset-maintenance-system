@@ -32,18 +32,24 @@ const Employee = ({
         );
       },
       width: "80px",
+      sorter: (a, b) => a.id - b.id,
+      defaultSortOrder: "ascend",
     },
     {
       title: "Name",
       dataIndex: "name",
       key: "name",
       width: "150px",
+      sorter: (a, b) => a.name.localeCompare(b.name),
+      defaultSortOrder: "ascend",
     },
     {
       title: "Position",
       dataIndex: "position",
       key: "position",
       width: "100px",
+      sorter: (a, b) => a.position.localeCompare(b.position),
+      defaultSortOrder: "ascend",
     },
     {
       title: "Phone",

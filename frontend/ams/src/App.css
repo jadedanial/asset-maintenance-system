@@ -412,9 +412,19 @@ h1.ant-typography {
   top: 109px !important;
   z-index: 1 !important;
 }
+.ant-table-column-sorters {
+  display: flex !important;
+  justify-content: center !important;
+}
+.ant-table-column-sorter {
+  padding-left: 10px !important;
+}
+.ant-table-cell div span {
+  max-width: fit-content !important;
+}
 .table-row:hover td,
 .table-row:hover td p {
-  color: #fff;
+  color: #fff !important;
   background: #6841f5 !important;
   cursor: pointer;
 }
@@ -431,7 +441,8 @@ h1.ant-typography {
   background: #000c17 !important;
 }
 .dark .ant-table-expanded-row-fixed,
-.dark .table-row {
+.dark .table-row,
+.dark .ant-table-column-sort {
   color: #fff !important;
   text-align: center;
   background: #182348 !important;
@@ -450,7 +461,8 @@ h1.ant-typography {
   background: #f0ffff !important;
 }
 .light .ant-table-expanded-row-fixed,
-.light .table-row {
+.light .table-row,
+.light .ant-table-column-sort {
   color: #000 !important;
   text-align: center;
   background: #fff !important;
@@ -673,9 +685,6 @@ textarea.ant-input {
 }
 .ant-result-icon {
   margin-bottom: 0 !important;
-}
-.ant-table-cell {
-  text-align: center !important;
 }
 .detail-icon-label {
   font-size: 20px;

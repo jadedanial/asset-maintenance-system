@@ -25,27 +25,37 @@ const Item = ({
           String(record.name).toLowerCase().includes(value.toLowerCase())
         );
       },
+      sorter: (a, b) => a.code.localeCompare(b.code),
+      defaultSortOrder: "ascend",
     },
     {
       title: "Name",
       dataIndex: "name",
       key: "name",
       width: "40%",
+      sorter: (a, b) => a.name.localeCompare(b.name),
+      defaultSortOrder: "ascend",
     },
     {
       title: "On Hand",
       dataIndex: "onhand",
       key: "onhand",
+      sorter: (a, b) => a.onhand - b.onhand,
+      defaultSortOrder: "ascend",
     },
     {
       title: "Unit Cost",
       dataIndex: "cost",
       key: "cost",
+      sorter: (a, b) => a.cost - b.cost,
+      defaultSortOrder: "ascend",
     },
     {
       title: "Inventory Value",
       dataIndex: "value",
       key: "value",
+      sorter: (a, b) => a.value - b.value,
+      defaultSortOrder: "ascend",
     },
   ];
 
