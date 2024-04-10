@@ -436,75 +436,70 @@ const AddUpdateAttendance = ({
   return (
     <>
       {submit ? (
-        <div style={{ marginTop: "24px", minHeight: "460px" }}>
-          {loading ? (
-            <Spinner height={"100vh"} theme={theme} />
-          ) : (
-            <ResultEvent
-              icon={success ? <CheckOutlined /> : <CloseOutlined />}
-              status={success ? "success" : "error"}
-              title={
-                success
-                  ? "Successfully applied employee attendance."
-                  : "Failed to apply employee attendance."
-              }
-              subTitle={
-                success
-                  ? "Date " +
-                    String(moment(attendDate).format(displayDateFormat)) +
-                    " from " +
-                    String(
-                      moment(attendCheckin).isValid()
-                        ? moment(attendCheckin).format(timeFormat)
-                        : "--:--:--"
-                    ) +
-                    " to " +
-                    String(
-                      moment(attendCheckout).isValid()
-                        ? moment(attendCheckout).format(timeFormat)
-                        : "--:--:--"
-                    )
-                  : errorMessage
-              }
-              extra={
-                <Row className="space-between-row">
-                  <Col span={12} style={{ paddingRight: "10px" }}>
-                    <Button
-                      size="large"
-                      type="default"
-                      onClick={() => {
-                        viewAttendance();
-                        queryClient.invalidateQueries("attendances");
-                      }}
-                      block
-                    >
-                      CLOSE
-                    </Button>
-                  </Col>
-                  <Col span={12}>
-                    <Button
-                      size="large"
-                      type="primary"
-                      onClick={() => {
-                        viewAttendance();
-                      }}
-                      block
-                    >
-                      NEW ATTENDANCE
-                    </Button>
-                  </Col>
-                </Row>
-              }
-              height="70%"
-              theme={theme}
-            />
-          )}
-        </div>
+        loading ? (
+          <Spinner height={"100%"} theme={theme} />
+        ) : (
+          <ResultEvent
+            icon={success ? <CheckOutlined /> : <CloseOutlined />}
+            status={success ? "success" : "error"}
+            title={
+              success
+                ? "Successfully applied employee attendance."
+                : "Failed to apply employee attendance."
+            }
+            subTitle={
+              success
+                ? "Date " +
+                  String(moment(attendDate).format(displayDateFormat)) +
+                  " from " +
+                  String(
+                    moment(attendCheckin).isValid()
+                      ? moment(attendCheckin).format(timeFormat)
+                      : "--:--:--"
+                  ) +
+                  " to " +
+                  String(
+                    moment(attendCheckout).isValid()
+                      ? moment(attendCheckout).format(timeFormat)
+                      : "--:--:--"
+                  )
+                : errorMessage
+            }
+            extra={
+              <Row className="space-between-row">
+                <Col span={12} style={{ paddingRight: "10px" }}>
+                  <Button
+                    size="large"
+                    type="default"
+                    onClick={() => {
+                      viewAttendance();
+                      queryClient.invalidateQueries("attendances");
+                    }}
+                    block
+                  >
+                    CLOSE
+                  </Button>
+                </Col>
+                <Col span={12}>
+                  <Button
+                    size="large"
+                    type="primary"
+                    onClick={() => {
+                      viewAttendance();
+                    }}
+                    block
+                  >
+                    NEW ATTENDANCE
+                  </Button>
+                </Col>
+              </Row>
+            }
+            height="70%"
+            theme={theme}
+          />
+        )
       ) : (
-        <div
-          className="justified-row"
-          style={{ marginTop: "24px", minHeight: "460px" }}
-        >
+        <div className="justified-row">
           <div className="card-custom-size-full">
             <Form
               {...layout}
