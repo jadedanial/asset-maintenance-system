@@ -499,7 +499,7 @@ const AddUpdateAttendance = ({
           />
         )
       ) : (
-        <div className="justified-row">
+        <div className="justified-row" style={{ minHeight: "100vh" }}>
           <div className="card-custom-size-full">
             <Form
               {...layout}
