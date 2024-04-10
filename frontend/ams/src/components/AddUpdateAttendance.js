@@ -449,14 +449,15 @@ const AddUpdateAttendance = ({
             }
             subTitle={
               success
-                ? String(moment(attendDate).format(displayDateFormat)) +
-                  " From " +
+                ? "Date " +
+                  String(moment(attendDate).format(displayDateFormat)) +
+                  " from " +
                   String(
                     moment(attendCheckin).isValid()
                       ? moment(attendCheckin).format(timeFormat)
                       : "--:--:--"
                   ) +
-                  " To " +
+                  " to " +
                   String(
                     moment(attendCheckout).isValid()
                       ? moment(attendCheckout).format(timeFormat)
