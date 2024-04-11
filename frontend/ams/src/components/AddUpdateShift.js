@@ -63,6 +63,7 @@ const AddUpdateShift = ({
   const newShift = () => {
     setUpdateData(false);
     setSubmit(false);
+    setSuccess(false);
     setLabel("Add New Shift");
     setShiftName("");
     setShiftFrom("");

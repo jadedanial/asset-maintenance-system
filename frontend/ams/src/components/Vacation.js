@@ -13,11 +13,10 @@ import {
   Col,
   Row,
   Steps,
-  notification,
 } from "antd";
-import { CloseOutlined, CheckOutlined } from "@ant-design/icons";
-import NotificationEvent from "./NotificationEvent";
+import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import ResultEvent from "./ResultEvent";
+import Spinner from "../components/Spinner";
 import moment from "moment";
 
 const layout = {
@@ -40,11 +39,12 @@ const Vacation = ({ vacations, options, empid, theme }) => {
   const [enddate, setEndDate] = useState("");
   const [reason, setReason] = useState("");
   const [attachment, setAttachment] = useState("");
-  const [showAttachment, setShowAttachment] = useState(false);
+  const [submit, setSubmit] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const [add, setAdd] = useState(false);
   const [days, setDays] = useState(0);
-  const [api, contextHolder] = notification.useNotification();
   const [form] = Form.useForm();
 
   const loadVacations = vacations.map((res) => {
@@ -60,57 +60,39 @@ const Vacation = ({ vacations, options, empid, theme }) => {
   });
 
   const newVacation = () => {
+    setSubmit(false);
+    setSuccess(false);
+    setAdd(true);
     form.resetFields(["vacationtype"]);
     form.resetFields(["startdate"]);
     form.resetFields(["enddate"]);
     form.resetFields(["reason"]);
-    form.resetFields(["select_attachment"]);
-    setSuccess(false);
+    form.resetFields(["attachment"]);
     setVacationType("");
     setStartDate("");
     setEndDate("");
     setReason("");
     setAttachment("");
-    setShowAttachment(false);
-    setAdd(true);
     setDays(0);
   };
 
-  const onVacationTypeChange = (value) => {
-    setVacationType(value);
-    setStep(1);
-  };
-
-  const onStartDateChange = (value) => {
-    setStartDate(value);
-    setStep(2);
-  };
-
-  const onEndDateChange = (value) => {
-    setEndDate(value);
-    setStep(3);
-  };
-
-  const onReasonChange = (value) => {
-    setReason(value);
-    setStep(4);
-  };
-
-  const onAttachmentChange = (value) => {
-    setAttachment(value);
-    setShowAttachment(true);
-    setStep(5);
-  };
-
-  const removeAttachment = () => {
-    form.resetFields(["select_attachment"]);
-    setAttachment("");
-    setShowAttachment(false);
+  const updateField = (value, step) => {
+    const fieldMap = {
+      1: [setVacationType, setStep],
+      2: [setStartDate, setStep],
+      3: [setEndDate, setStep],
+      4: [setReason, setStep],
+      5: [setAttachment, setStep],
+    };
+    const [updateState, setStepState] = fieldMap[step];
+    updateState(value);
+    setStepState(step);
   };
 
   const viewVacation = () => {
-    setAdd(false);
+    setSubmit(false);
     setSuccess(false);
+    setAdd(false);
   };
 
   const checkVacation = () => {
@@ -164,18 +146,25 @@ const Vacation = ({ vacations, options, empid, theme }) => {
       title: "Vacation Type",
       dataIndex: "type",
       key: "type",
+      width: "200px",
+      sorter: (a, b) => a.type.localeCompare(b.type),
+      defaultSortOrder: "ascend",
     },
     {
       title: "Start Date",
       dataIndex: "start",
       key: "start",
       width: "200px",
+      sorter: (a, b) => new Date(a.start) - new Date(b.start),
+      defaultSortOrder: "ascend",
     },
     {
       title: "End Date",
       dataIndex: "end",
       key: "end",
       width: "200px",
+      sorter: (a, b) => new Date(a.end) - new Date(b.end),
+      defaultSortOrder: "ascend",
     },
     {
       title: "Reason",
@@ -191,6 +180,8 @@ const Vacation = ({ vacations, options, empid, theme }) => {
       title: "Total",
       dataIndex: "total",
       key: "total",
+      sorter: (a, b) => a.total - b.total,
+      defaultSortOrder: "ascend",
     },
     {
       title: addVactionButton,
@@ -199,7 +190,7 @@ const Vacation = ({ vacations, options, empid, theme }) => {
     },
   ];
 
-  const createVacation = (d) => {
+  const addVacation = (d) => {
     var vacData = {
       emp_id: empid,
       vac_type: vacationtype,
@@ -221,41 +212,37 @@ const Vacation = ({ vacations, options, empid, theme }) => {
       withCredentials: true,
     })
       .then(() => {
+        setLoading(false);
         setSuccess(true);
       })
-      .catch((err) => {
-        console.log(err);
+      .catch(() => {
+        setLoading(false);
         setSuccess(false);
-        api.info(
-          NotificationEvent(false, "Employee vacation failed to apply.")
-        );
       });
   };
 
-  const { mutate } = useMutation(createVacation);
-
-  const onFinish = () => {
+  const createVacation = () => {
+    setSubmit(true);
+    setLoading(true);
     var valid = true;
     if (vacationtype === "") {
       valid = false;
-      api.info(NotificationEvent(false, "No vacation type selected."));
+      setErrorMessage("No vacation type selected.");
     } else if (startdate === "") {
       valid = false;
-      api.info(NotificationEvent(false, "No start date selected."));
+      setErrorMessage("No start date selected.");
     } else if (enddate === "") {
       valid = false;
-      api.info(NotificationEvent(false, "No end date selected."));
+      setErrorMessage("No end date selected.");
     } else if (startdate > enddate) {
       valid = false;
-      api.info(NotificationEvent(false, "End date must be after start date."));
+      setErrorMessage("End date must be after start date.");
     } else if (startdate.isBefore(moment(), "day")) {
       valid = false;
-      api.info(
-        NotificationEvent(false, "Cannot apply vacation for previous date.")
-      );
+      setErrorMessage("Cannot apply vacation for previous date.");
     } else if (checkVacation()) {
       valid = false;
-      api.info(NotificationEvent(false, "Vacation exist for this date."));
+      setErrorMessage("Vacation exist for this date.");
     }
     if (valid) {
       var d =
@@ -265,23 +252,42 @@ const Vacation = ({ vacations, options, empid, theme }) => {
           )
           .asDays() + 1;
       setDays(parseFloat(d).toFixed(0));
-      mutate(parseFloat(d).toFixed(0));
+      addVacation(parseFloat(d).toFixed(0));
+    } else {
+      setLoading(false);
+      setSuccess(false);
     }
   };
 
-  if (success) {
-    return (
-      <>
-        <div style={{ minHeight: "460px" }}>
+  const { mutate } = useMutation(createVacation);
+
+  const onFinish = () => {
+    mutate();
+  };
+
+  return (
+    <>
+      {submit ? (
+        loading ? (
+          <Spinner height={"40vh"} theme={theme} />
+        ) : (
           <ResultEvent
-            icon={<CheckOutlined />}
-            status="success"
-            title={"Successfully applied employee vacation."}
-            subTitle={`From ${moment(startdate).format(
-              displayDateFormat
-            )} To ${moment(enddate).format(displayDateFormat)} (${
-              days > 1 ? days + " days" : days + " day"
-            })`}
+            icon={success ? <CheckOutlined /> : <CloseOutlined />}
+            status={success ? "success" : "error"}
+            title={
+              success
+                ? "Successfully applied vacation."
+                : "Failed to apply vacation."
+            }
+            subTitle={
+              success
+                ? `From ${moment(startdate).format(
+                    displayDateFormat
+                  )} to ${moment(enddate).format(displayDateFormat)} (${
+                    days > 1 ? days + " days" : days + " day"
+                  })`
+                : errorMessage
+            }
             extra={
               <Row className="space-between-row">
                 <Col span={12} style={{ paddingRight: "10px" }}>
@@ -309,262 +315,240 @@ const Vacation = ({ vacations, options, empid, theme }) => {
                 </Col>
               </Row>
             }
-            height="70%"
+            height="50vh"
             theme={theme}
           />
-        </div>
-      </>
-    );
-  }
-
-  return (
-    <>
-      {contextHolder}
-      <div style={{ marginTop: "24px", minHeight: "460px" }}>
-        {add ? (
-          <div className="justified-row">
-            <div className="card-custom-size-full">
-              <Form
-                {...layout}
-                layout="vertical"
-                name="add-new-shift"
-                onFinish={onFinish}
-                form={form}
-              >
-                <Card className="card-no-padding">
-                  <Row>
-                    <Col span={16} style={{ paddingRight: "24px" }}>
-                      <div
-                        className=" card-with-background"
-                        style={{ padding: "24px" }}
-                      >
-                        <Form.Item
-                          name={["vacationtype"]}
-                          label="Vacation Type"
-                          initialValue={vacationtype}
-                          rules={[
-                            {
-                              required: true,
-                              message: "Vacation type required",
-                            },
-                          ]}
+        )
+      ) : (
+        <div style={{ marginTop: "24px" }}>
+          {add ? (
+            <div className="justified-row">
+              <div className="card-custom-size-full">
+                <Form
+                  {...layout}
+                  layout="vertical"
+                  name="add-new-shift"
+                  onFinish={onFinish}
+                  form={form}
+                >
+                  <Card className="card-no-padding">
+                    <Row>
+                      <Col span={16} style={{ paddingRight: "24px" }}>
+                        <div
+                          className=" card-with-background"
+                          style={{ padding: "24px" }}
                         >
-                          <Select
-                            showSearch
-                            style={{ width: "100%" }}
-                            optionFilterProp="children"
-                            filterOption={(input, option) =>
-                              (option?.label ?? "")
-                                .toLowerCase()
-                                .includes(input)
-                            }
-                            filterSort={(optionA, optionB) =>
-                              (optionA?.label ?? "")
-                                .toLowerCase()
-                                .localeCompare(
-                                  (optionB?.label ?? "").toLowerCase()
-                                )
-                            }
-                            options={options
-                              .filter((res) => res.opt_category === "Vacation")
-                              .map((vac) => {
-                                return {
-                                  value: vac.opt_name,
-                                  label: vac.opt_name,
-                                };
-                              })}
-                            onChange={onVacationTypeChange}
-                          />
-                        </Form.Item>
-                        <Form.Item
-                          name={["startdate"]}
-                          label="Start Date"
-                          initialValue={
-                            startdate === "" ? "" : moment(startdate)
-                          }
-                          rules={[
-                            {
-                              required: true,
-                              message: "Start date required",
-                            },
-                          ]}
-                        >
-                          <DatePicker
-                            placeholder=""
-                            format={datePickerFormat}
-                            onChange={onStartDateChange}
-                            inputReadOnly
-                          />
-                        </Form.Item>
-                        <Form.Item
-                          name={["enddate"]}
-                          label="End Date"
-                          initialValue={enddate === "" ? "" : moment(enddate)}
-                          rules={[
-                            {
-                              required: true,
-                              message: "End date required",
-                            },
-                          ]}
-                        >
-                          <DatePicker
-                            placeholder=""
-                            format={datePickerFormat}
-                            onChange={onEndDateChange}
-                            inputReadOnly
-                          />
-                        </Form.Item>
-                        <Form.Item
-                          name={["reason"]}
-                          label="Vacation Reason"
-                          initialValue={reason}
-                        >
-                          <Input
-                            onChange={(e) => onReasonChange(e.target.value)}
-                          />
-                        </Form.Item>
-                        {showAttachment ? (
                           <Form.Item
-                            name={["attachment"]}
-                            label="Attachment"
-                            initialValue={attachment}
+                            name={["vacationtype"]}
+                            label="Vacation Type"
+                            rules={[
+                              {
+                                required: true,
+                                message: "Vacation type required",
+                              },
+                            ]}
                           >
-                            <Input
-                              readOnly
-                              suffix={
-                                <Button
-                                  className="align-items-center "
-                                  icon={
-                                    <CloseOutlined className="medium-card-title" />
-                                  }
-                                  style={{
-                                    width: "16px",
-                                    height: "16px",
-                                  }}
-                                  onClick={removeAttachment}
-                                />
+                            <Select
+                              showSearch
+                              style={{ width: "100%" }}
+                              optionFilterProp="children"
+                              filterOption={(input, option) =>
+                                (option?.label ?? "")
+                                  .toLowerCase()
+                                  .includes(input)
                               }
+                              filterSort={(optionA, optionB) =>
+                                (optionA?.label ?? "")
+                                  .toLowerCase()
+                                  .localeCompare(
+                                    (optionB?.label ?? "").toLowerCase()
+                                  )
+                              }
+                              options={options
+                                .filter(
+                                  (res) => res.opt_category === "Vacation"
+                                )
+                                .map((vac) => {
+                                  return {
+                                    value: vac.opt_name,
+                                    label: vac.opt_name,
+                                  };
+                                })}
+                              onChange={(value) => updateField(value, 1)}
                             />
                           </Form.Item>
-                        ) : (
                           <Form.Item
-                            name={["select_attachment"]}
-                            label="Attachment"
+                            name={["startdate"]}
+                            label="Start Date"
+                            rules={[
+                              {
+                                required: true,
+                                message: "Start date required",
+                              },
+                            ]}
                           >
+                            <DatePicker
+                              placeholder=""
+                              format={datePickerFormat}
+                              onChange={(value) => updateField(value, 2)}
+                              inputReadOnly
+                            />
+                          </Form.Item>
+                          <Form.Item
+                            name={["enddate"]}
+                            label="End Date"
+                            rules={[
+                              {
+                                required: true,
+                                message: "End date required",
+                              },
+                            ]}
+                          >
+                            <DatePicker
+                              placeholder=""
+                              format={datePickerFormat}
+                              onChange={(value) => updateField(value, 3)}
+                              inputReadOnly
+                            />
+                          </Form.Item>
+                          <Form.Item name={["reason"]} label="Vacation Reason">
+                            <Input
+                              onChange={(e) => updateField(e.target.value, 4)}
+                            />
+                          </Form.Item>
+                          <Form.Item name={["attachment"]} label="Attachment">
                             <Input
                               type="file"
-                              onChange={(e) =>
-                                onAttachmentChange(e.target.value)
-                              }
+                              onChange={(e) => updateField(e.target.value, 5)}
                             />
                           </Form.Item>
-                        )}
-                        <div
-                          className="space-between-row"
-                          style={{ paddingTop: "24px" }}
-                        >
-                          <Button
-                            type="default"
-                            onClick={() => {
-                              viewVacation();
-                              queryClient.invalidateQueries("vacations");
-                            }}
-                            block
+                          <div
+                            className="space-between-row"
+                            style={{ paddingTop: "24px" }}
                           >
-                            CANCEL
-                          </Button>
-                          <Button
-                            type="primary"
-                            htmlType="submit"
-                            style={{
-                              marginLeft: "10px",
-                            }}
-                            block
-                          >
-                            SAVE
-                          </Button>
+                            <Button
+                              type="default"
+                              onClick={() => {
+                                viewVacation();
+                                queryClient.invalidateQueries("vacations");
+                              }}
+                              block
+                            >
+                              CANCEL
+                            </Button>
+                            <Button
+                              type="primary"
+                              htmlType="submit"
+                              style={{
+                                marginLeft: "10px",
+                              }}
+                              block
+                            >
+                              SAVE
+                            </Button>
+                          </div>
                         </div>
-                      </div>
-                    </Col>
-                    <Col span={8}>
-                      <div
-                        className="card-with-background"
-                        style={{ padding: "24px" }}
-                      >
-                        <Steps
-                          current={step}
-                          direction="vertical"
-                          items={[
-                            {
-                              title: "Vaction Type",
-                              description:
-                                vacationtype === "" ? " " : vacationtype,
-                              status: vacationtype === "" ? "error" : "finish",
-                            },
-                            {
-                              title: "Start Date",
-                              description:
-                                startdate === ""
-                                  ? " "
-                                  : moment(startdate).format(displayDateFormat),
-                              status: startdate === "" ? "error" : "finish",
-                            },
-                            {
-                              title: "End Date",
-                              description:
-                                enddate === ""
-                                  ? " "
-                                  : moment(enddate).format(displayDateFormat),
-                              status: enddate === "" ? "error" : "finish",
-                            },
-                            {
-                              title: "Vacation Reason",
-                              description: reason === "" ? " " : reason,
-                              status: reason === "" ? "error" : "finish",
-                            },
-                            {
-                              title: "Attachment",
-                              description: attachment === "" ? " " : attachment,
-                              status: attachment === "" ? "error" : "finish",
-                            },
-                          ]}
-                        />
-                      </div>
-                    </Col>
-                  </Row>
-                </Card>
-              </Form>
+                      </Col>
+                      <Col span={8}>
+                        <div
+                          className="card-with-background"
+                          style={{ padding: "24px" }}
+                        >
+                          <Steps
+                            current={step}
+                            direction="vertical"
+                            items={[
+                              {
+                                title: "Vaction Type",
+                                description:
+                                  vacationtype === "" ? "Empty" : vacationtype,
+                                status:
+                                  vacationtype === "" ? "error" : "finish",
+                              },
+                              {
+                                title: "Start Date",
+                                description: moment(
+                                  startdate,
+                                  displayDateFormat,
+                                  true
+                                ).isValid()
+                                  ? moment(startdate).format(displayDateFormat)
+                                  : "Invalid date",
+                                status: moment(
+                                  startdate,
+                                  displayDateFormat,
+                                  true
+                                ).isValid()
+                                  ? "finish"
+                                  : "error",
+                              },
+                              {
+                                title: "End Date",
+                                description: moment(
+                                  enddate,
+                                  displayDateFormat,
+                                  true
+                                ).isValid()
+                                  ? moment(enddate).format(displayDateFormat)
+                                  : "Invalid date",
+                                status: moment(
+                                  enddate,
+                                  displayDateFormat,
+                                  true
+                                ).isValid()
+                                  ? "finish"
+                                  : "error",
+                              },
+                              {
+                                title: "Vacation Reason",
+                                description: reason === "" ? "Empty" : reason,
+                                status: reason === "" ? "error" : "finish",
+                              },
+                              {
+                                title: "Attachment",
+                                description:
+                                  attachment === "" ? "Empty" : attachment,
+                                status: attachment === "" ? "error" : "finish",
+                              },
+                            ]}
+                          />
+                        </div>
+                      </Col>
+                    </Row>
+                  </Card>
+                </Form>
+              </div>
             </div>
-          </div>
-        ) : (
-          <Card className="card-no-padding">
-            <Table
-              rowClassName={() => "table-row"}
-              columns={columns}
-              dataSource={loadVacations
-                .filter((res) => res.id === empid)
-                .map((vac) => {
-                  return {
-                    type: vac.type,
-                    start: moment(vac.start).format(displayDateFormat),
-                    end: moment(vac.end).format(displayDateFormat),
-                    reason: vac.reason,
-                    attach: vac.attach,
-                    total: vac.total,
-                  };
-                })}
-              pagination={{
-                pageSize: 10,
-                showSizeChanger: true,
-              }}
-              scroll={{
-                x: "100%",
-                y: 300,
-              }}
-            />
-          </Card>
-        )}
-      </div>
+          ) : (
+            <Card className="card-no-padding">
+              <Table
+                rowClassName={() => "table-row"}
+                columns={columns}
+                dataSource={loadVacations
+                  .filter((res) => res.id === empid)
+                  .map((vac) => {
+                    return {
+                      type: vac.type,
+                      start: moment(vac.start).format(displayDateFormat),
+                      end: moment(vac.end).format(displayDateFormat),
+                      reason: vac.reason,
+                      attach: vac.attach,
+                      total: vac.total,
+                    };
+                  })}
+                pagination={{
+                  pageSize: 10,
+                  showSizeChanger: true,
+                }}
+                scroll={{
+                  x: "100%",
+                  y: 300,
+                }}
+              />
+            </Card>
+          )}
+        </div>
+      )}
     </>
   );
 };

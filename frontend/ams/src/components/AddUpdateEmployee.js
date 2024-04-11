@@ -100,6 +100,7 @@ const AddUpdateEmployee = ({
   const newEmployee = () => {
     setUpdateData(false);
     setSubmit(false);
+    setSuccess(false);
     setLabel("Add New Employee");
     setEmployeeID("");
     setEmployeeName("");

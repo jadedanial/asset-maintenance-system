@@ -466,28 +466,18 @@ const AddUpdateAttendance = ({
                 : errorMessage
             }
             extra={
-              <Row className="space-between-row">
-                <Col span={12} style={{ paddingRight: "10px" }}>
+              <Row style={{ width: "100px" }}>
+                <Col span={24}>
                   <Button
                     type="default"
                     onClick={() => {
+                      setSubmit(false);
                       viewAttendance();
                       queryClient.invalidateQueries("attendances");
                     }}
                     block
                   >
                     CLOSE
-                  </Button>
-                </Col>
-                <Col span={12}>
-                  <Button
-                    type="primary"
-                    onClick={() => {
-                      viewAttendance();
-                    }}
-                    block
-                  >
-                    NEW ATTENDANCE
                   </Button>
                 </Col>
               </Row>
@@ -566,6 +556,7 @@ const AddUpdateAttendance = ({
                         <Button
                           type="default"
                           onClick={() => {
+                            setSubmit(false);
                             viewAttendance();
                             queryClient.invalidateQueries("attendances");
                           }}
@@ -605,23 +596,31 @@ const AddUpdateAttendance = ({
                           },
                           {
                             title: "Check In Time",
-                            description:
-                              attendCheckin === ""
-                                ? " "
-                                : moment(attendCheckin).format(
-                                    displayDateFormat + " HH:mm:ss"
-                                  ),
-                            status: attendCheckin === "" ? "error" : "finish",
+                            description: moment(
+                              attendCheckin,
+                              timeFormat
+                            ).isValid()
+                              ? moment(attendCheckin, timeFormat).format(
+                                  timeFormat
+                                )
+                              : "Invalid time",
+                            status: moment(attendCheckin, timeFormat).isValid()
+                              ? "finish"
+                              : "error",
                           },
                           {
                             title: "Check Out Time",
-                            description:
-                              attendCheckout === ""
-                                ? " "
-                                : moment(attendCheckout).format(
-                                    displayDateFormat + " HH:mm:ss"
-                                  ),
-                            status: attendCheckout === "" ? "error" : "finish",
+                            description: moment(
+                              attendCheckout,
+                              timeFormat
+                            ).isValid()
+                              ? moment(attendCheckout, timeFormat).format(
+                                  timeFormat
+                                )
+                              : "Invalid time",
+                            status: moment(attendCheckout, timeFormat).isValid()
+                              ? "finish"
+                              : "error",
                           },
                         ]}
                       />

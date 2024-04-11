@@ -73,6 +73,7 @@ const AddUpdateSchedule = ({
   const newSchedule = () => {
     setUpdateData(false);
     setSubmit(false);
+    setSuccess(false);
     setLabel("Add New Schedule");
     setSchedName("");
     setSchedSun("");

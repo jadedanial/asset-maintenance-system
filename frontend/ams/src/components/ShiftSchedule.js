@@ -2,18 +2,10 @@ import React, { useState } from "react";
 import { useCustomQueryClient } from "../useQueryClient";
 import { useMutation } from "react-query";
 import axios from "axios";
-import {
-  Card,
-  Select,
-  Button,
-  List,
-  Badge,
-  Form,
-  Row,
-  Col,
-  notification,
-} from "antd";
-import NotificationEvent from "./NotificationEvent";
+import { Card, Select, Button, List, Badge, Form, Row, Col } from "antd";
+import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
+import ResultEvent from "./ResultEvent";
+import Spinner from "../components/Spinner";
 import moment from "moment";
 
 const layout = {
@@ -25,14 +17,16 @@ const layout = {
   },
 };
 
-const ShiftSchedule = ({ schedules, employees, empid }) => {
+const ShiftSchedule = ({ schedules, employees, empid, theme }) => {
   const queryClient = useCustomQueryClient();
   const timeFormat = "HH:mm:ss";
   const schedId = employees.find((res) => res.emp_id === empid)?.emp_sched;
   const schedName = schedules.find((res) => res.id === schedId)?.sched_name;
   const [schedid, setSchedId] = useState(schedId);
   const [schedname, setSchedName] = useState(schedName);
-  const [api, contextHolder] = notification.useNotification();
+  const [submit, setSubmit] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
 
   const onChange = (value, label) => {
     setSchedId(value);
@@ -195,6 +189,8 @@ const ShiftSchedule = ({ schedules, employees, empid }) => {
   };
 
   const createShiftSchedule = () => {
+    setSubmit(true);
+    setLoading(true);
     var empData = {
       empid: empid,
       schedid: schedid,
@@ -211,14 +207,12 @@ const ShiftSchedule = ({ schedules, employees, empid }) => {
       withCredentials: true,
     })
       .then(() => {
-        queryClient.invalidateQueries("employees");
-        api.info(NotificationEvent(true, "Employee shift schedule updated."));
+        setLoading(false);
+        setSuccess(true);
       })
-      .catch((err) => {
-        console.log(err);
-        api.info(
-          NotificationEvent(false, "Employee shift schedule failed to apply.")
-        );
+      .catch(() => {
+        setLoading(false);
+        setSuccess(false);
       });
   };
 
@@ -230,62 +224,95 @@ const ShiftSchedule = ({ schedules, employees, empid }) => {
 
   return (
     <>
-      {contextHolder}
-      <div style={{ marginTop: "24px" }}>
-        <Card
-          className="card-no-padding"
-          style={{ width: "100%", minHeight: "460px" }}
-        >
-          <div className="justified-row">
-            <div className="card-custom-size-full">
-              <Form
-                {...layout}
-                layout="vertical"
-                name="add-new-shiftschedule"
-                onFinish={onFinish}
-              >
-                <Card className="card-no-padding">
-                  <Row
-                    className="card-with-background"
-                    style={{ padding: "24px" }}
+      {submit ? (
+        loading ? (
+          <Spinner height={"40vh"} theme={theme} />
+        ) : (
+          <ResultEvent
+            icon={success ? <CheckOutlined /> : <CloseOutlined />}
+            status={success ? "success" : "error"}
+            title={
+              success
+                ? "Successfully applied schedule."
+                : "Failed to apply schedule."
+            }
+            subTitle={success ? "Schedule name " + schedName : "System error."}
+            extra={
+              <Row style={{ width: "100px" }}>
+                <Col span={24}>
+                  <Button
+                    type="default"
+                    onClick={() => {
+                      setSubmit(false);
+                      queryClient.invalidateQueries("attendances");
+                    }}
+                    block
                   >
-                    <Col span={22} style={{ paddingRight: "24px" }}>
-                      <Select
-                        showSearch
-                        placeholder="Search Schedule"
-                        style={{ width: "100%" }}
-                        optionFilterProp="children"
-                        filterOption={(input, option) =>
-                          (option?.label ?? "").toLowerCase().includes(input)
-                        }
-                        filterSort={(optionA, optionB) =>
-                          (optionA?.label ?? "")
-                            .toLowerCase()
-                            .localeCompare((optionB?.label ?? "").toLowerCase())
-                        }
-                        value={schedname}
-                        options={schedules.map((sched) => {
-                          return {
-                            value: sched.id,
-                            label: sched.sched_name,
-                          };
-                        })}
-                        onChange={onChange}
-                      />
-                    </Col>
-                    <Col span={2}>
-                      <Button type="primary" htmlType="submit" block>
-                        SAVE
-                      </Button>
-                    </Col>
-                  </Row>
-                  <div>{scheduleSwitch(schedid)}</div>
-                </Card>
-              </Form>
+                    CLOSE
+                  </Button>
+                </Col>
+              </Row>
+            }
+            height="50vh"
+            theme={theme}
+          />
+        )
+      ) : (
+        <div style={{ marginTop: "24px" }}>
+          <Card className="card-no-padding">
+            <div className="justified-row">
+              <div className="card-custom-size-full">
+                <Form
+                  {...layout}
+                  layout="vertical"
+                  name="add-new-shiftschedule"
+                  onFinish={onFinish}
+                >
+                  <Card className="card-no-padding">
+                    <Row
+                      className="card-with-background"
+                      style={{ padding: "24px" }}
+                    >
+                      <Col span={22} style={{ paddingRight: "24px" }}>
+                        <Select
+                          showSearch
+                          placeholder="Search Schedule"
+                          style={{ width: "100%" }}
+                          optionFilterProp="children"
+                          filterOption={(input, option) =>
+                            (option?.label ?? "").toLowerCase().includes(input)
+                          }
+                          filterSort={(optionA, optionB) =>
+                            (optionA?.label ?? "")
+                              .toLowerCase()
+                              .localeCompare(
+                                (optionB?.label ?? "").toLowerCase()
+                              )
+                          }
+                          value={schedname}
+                          options={schedules.map((sched) => {
+                            return {
+                              value: sched.id,
+                              label: sched.sched_name,
+                            };
+                          })}
+                          onChange={onChange}
+                        />
+                      </Col>
+                      <Col span={2}>
+                        <Button type="primary" htmlType="submit" block>
+                          SAVE
+                        </Button>
+                      </Col>
+                    </Row>
+                    <div>{scheduleSwitch(schedid)}</div>
+                  </Card>
+                </Form>
+              </div>
             </div>
-          </div>
-        </Card>
-      </div>
+          </Card>
+        </div>
+      )}
     </>
   );
 };

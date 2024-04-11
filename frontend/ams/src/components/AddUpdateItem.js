@@ -80,6 +80,7 @@ const AddUpdateItem = ({
   const newItem = () => {
     setUpdateData(false);
     setSubmit(false);
+    setSuccess(false);
     setLabel("Add New Item");
     setItemCode("");
     setItemName("");
@@ -149,7 +150,7 @@ const AddUpdateItem = ({
         setLoading(false);
         setSuccess(true);
       })
-      .catch((err) => {
+      .catch(() => {
         setLoading(false);
         setSuccess(false);
       });

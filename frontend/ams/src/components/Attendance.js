@@ -363,7 +363,7 @@ const Attendance = ({
   return (
     <>
       {contextHolder}
-      <div style={{ marginTop: "24px", minHeight: "100vh" }}>
+      <div style={{ marginTop: "24px" }}>
         {add ? (
           <Card className="card-no-padding">
             <AddUpdateAttendance
