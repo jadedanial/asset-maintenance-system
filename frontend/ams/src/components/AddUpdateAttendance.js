@@ -437,7 +437,7 @@ const AddUpdateAttendance = ({
     <>
       {submit ? (
         loading ? (
-          <Spinner height={"60%"} theme={theme} />
+          <Spinner height={"40vh"} theme={theme} />
         ) : (
           <ResultEvent
             icon={success ? <CheckOutlined /> : <CloseOutlined />}
@@ -487,12 +487,12 @@ const AddUpdateAttendance = ({
                     }}
                     block
                   >
-                    NEW SHIFT
+                    NEW ATTENDANCE
                   </Button>
                 </Col>
               </Row>
             }
-            height="70%"
+            height="50vh"
             theme={theme}
           />
         )

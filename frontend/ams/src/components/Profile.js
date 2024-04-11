@@ -271,7 +271,7 @@ const Profile = ({
                       </Col>
                     </Row>
                   </Card>
-                  <Card style={{ borderTop: "0" }}>
+                  <Card>
                     <Tabs
                       type="card"
                       defaultActiveKey="1"

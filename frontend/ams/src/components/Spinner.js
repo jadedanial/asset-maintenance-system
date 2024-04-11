@@ -12,6 +12,7 @@ const Spinner = ({ height, theme }) => {
         style={{
           height: height,
           background: theme === "light" ? "#f8f9fa" : "#161d40",
+          position: "relative",
         }}
       >
         <img
@@ -19,10 +20,18 @@ const Spinner = ({ height, theme }) => {
           alt="logo"
           style={{
             width: "60px",
-            position: "fixed",
           }}
         />
-        <Spin indicator={antIcon} style={{ position: "fixed" }} />
+        <Spin
+          indicator={antIcon}
+          style={{
+            position: "absolute",
+            zIndex: 2,
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+          }}
+        />
       </div>
     </>
   );
