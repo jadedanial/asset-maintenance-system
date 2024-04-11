@@ -115,7 +115,6 @@ const RegisterPage = () => {
                 <Form
                   name="register"
                   className="login-form ant-form-item-space-bottom-normal"
-                  size="small"
                   initialValues={{ remember: true }}
                   onFinish={onFinish}
                   onFieldsChange={onFieldsChange}

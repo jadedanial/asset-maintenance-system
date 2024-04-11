@@ -107,7 +107,6 @@ const LoginPage = () => {
                   <Form
                     name="login"
                     className="login-form ant-form-item-space-bottom-normal"
-                    size="small"
                     initialValues={{ remember: true }}
                     onFinish={onFinish}
                   >

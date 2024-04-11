@@ -351,7 +351,6 @@ const MainPage = ({
                         </Col>
                         <Col>
                           <Avatar
-                            size="small"
                             style={{
                               background: "#318ce7",
                               cursor: "pointer",

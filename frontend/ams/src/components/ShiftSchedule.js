@@ -178,7 +178,6 @@ const ShiftSchedule = ({ schedules, employees, empid }) => {
                 <List.Item style={{ marginBottom: "0" }}>
                   <Card
                     className="card-with-background"
-                    size="small"
                     style={{ padding: "24px" }}
                   >
                     <p className="small-card-title">{item.title}</p>
@@ -235,7 +234,6 @@ const ShiftSchedule = ({ schedules, employees, empid }) => {
       <div style={{ marginTop: "24px" }}>
         <Card
           className="card-no-padding"
-          size="small"
           style={{ width: "100%", minHeight: "460px" }}
         >
           <div className="justified-row">

@@ -188,7 +188,7 @@ const Excuse = ({ excuses, attendances, empid, theme }) => {
   const addExcuseButton = () => {
     return (
       <div className="flex-end-row">
-        <Button size="medium" type="primary" onClick={newExcuse}>
+        <Button type="primary" onClick={newExcuse}>
           ADD
         </Button>
       </div>
@@ -565,7 +565,7 @@ const Excuse = ({ excuses, attendances, empid, theme }) => {
             </div>
           </div>
         ) : (
-          <Card className="card-no-padding" size="small">
+          <Card className="card-no-padding">
             <Table
               rowClassName={() => "table-row"}
               columns={columns}

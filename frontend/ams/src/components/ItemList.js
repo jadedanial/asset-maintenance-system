@@ -262,7 +262,6 @@ const ItemList = ({
                 >
                   <Card
                     className="card-item card-with-background"
-                    size="small"
                     title={
                       <Title>
                         <div className="space-between-row align-items-center">
