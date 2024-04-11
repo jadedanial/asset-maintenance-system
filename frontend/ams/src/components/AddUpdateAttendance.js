@@ -44,7 +44,7 @@ const AddUpdateAttendance = ({
   const [attendCheckin, setAttendCheckIn] = useState(checkInTime);
   const [attendCheckout, setAttendCheckOut] = useState(checkOutTime);
   const [submit, setSubmit] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -437,15 +437,15 @@ const AddUpdateAttendance = ({
     <>
       {submit ? (
         loading ? (
-          <Spinner height={"50%"} theme={theme} />
+          <Spinner height={"60%"} theme={theme} />
         ) : (
           <ResultEvent
             icon={success ? <CheckOutlined /> : <CloseOutlined />}
             status={success ? "success" : "error"}
             title={
               success
-                ? "Successfully applied employee attendance."
-                : "Failed to apply employee attendance."
+                ? "Successfully applied attendance."
+                : "Failed to apply attendance."
             }
             subTitle={
               success
@@ -489,7 +489,7 @@ const AddUpdateAttendance = ({
                     }}
                     block
                   >
-                    NEW ATTENDANCE
+                    NEW SHIFT
                   </Button>
                 </Col>
               </Row>

@@ -133,27 +133,25 @@ const Profile = ({
           e.emp_id === empid ? (
             <>
               {update ? (
-                <>
-                  <AddUpdateEmployee
-                    sections={sections}
-                    options={options}
-                    update={true}
-                    id={e.emp_id}
-                    name={e.emp_name}
-                    birthdate={e.emp_bdate}
-                    nationality={e.emp_nation}
-                    address={e.emp_address}
-                    email={e.emp_email}
-                    phone={e.emp_phone}
-                    datehired={e.emp_hired}
-                    position={e.emp_position}
-                    salary={e.emp_salary}
-                    section={e.emp_section}
-                    getSection={getSection}
-                    onCloseDrawer={onCloseDrawer}
-                    theme={theme}
-                  />
-                </>
+                <AddUpdateEmployee
+                  sections={sections}
+                  options={options}
+                  update={true}
+                  id={e.emp_id}
+                  name={e.emp_name}
+                  birthdate={e.emp_bdate}
+                  nationality={e.emp_nation}
+                  address={e.emp_address}
+                  email={e.emp_email}
+                  phone={e.emp_phone}
+                  datehired={e.emp_hired}
+                  position={e.emp_position}
+                  salary={e.emp_salary}
+                  section={e.emp_section}
+                  getSection={getSection}
+                  onCloseDrawer={onCloseDrawer}
+                  theme={theme}
+                />
               ) : (
                 <>
                   <Card

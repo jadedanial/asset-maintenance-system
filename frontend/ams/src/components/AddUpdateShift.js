@@ -54,7 +54,7 @@ const AddUpdateShift = ({
     updateData ? moment(to, timeFormat).format(timeFormat) : ""
   );
   const [submit, setSubmit] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [nameReq, setNameReq] = useState(false);
   const [fromReq, setFromReq] = useState(false);
@@ -141,7 +141,7 @@ const AddUpdateShift = ({
                 ? "Failed to update shift."
                 : "Failed to add new shift."
             }
-            subTitle={success ? "Shift name " + shiftName : ""}
+            subTitle={success ? "Shift name " + shiftName : "System error."}
             extra={
               <Row className="space-between-row">
                 <Col span={12} style={{ paddingRight: "10px" }}>

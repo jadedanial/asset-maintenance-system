@@ -67,7 +67,7 @@ const AddUpdateItem = ({
     updateData ? description : ""
   );
   const [submit, setSubmit] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [nameReq, setNameReq] = useState(false);
   const [categoryReq, setCategoryReq] = useState(false);
@@ -218,7 +218,9 @@ const AddUpdateItem = ({
                 : "Failed to add new item."
             }
             subTitle={
-              success ? "Item name " + itemName + " with code " + idCode : ""
+              success
+                ? "Item name " + itemName + " with code " + idCode
+                : "System error."
             }
             extra={
               <Row className="space-between-row">

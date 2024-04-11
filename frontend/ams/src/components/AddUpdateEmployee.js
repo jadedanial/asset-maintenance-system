@@ -84,7 +84,7 @@ const AddUpdateEmployee = ({
     updateData ? section : ""
   );
   const [submit, setSubmit] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [nameReq, setNameReq] = useState(false);
   const [birthdateReq, setBirthdateReq] = useState(false);
@@ -211,7 +211,7 @@ const AddUpdateEmployee = ({
             subTitle={
               success
                 ? "Employee name " + employeeName + " with ID " + employeeID
-                : ""
+                : "System error."
             }
             extra={
               <Row className="space-between-row">

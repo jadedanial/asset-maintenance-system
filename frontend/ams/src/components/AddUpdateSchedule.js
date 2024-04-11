@@ -59,7 +59,7 @@ const AddUpdateSchedule = ({
   const [schedFri, setSchedFri] = useState(updateData ? fri : "");
   const [schedSat, setSchedSat] = useState(updateData ? sat : "");
   const [submit, setSubmit] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [nameReq, setNameReq] = useState(false);
   const [sunReq, setSunReq] = useState(false);
@@ -167,7 +167,7 @@ const AddUpdateSchedule = ({
                 ? "Failed to update schedule."
                 : "Failed to add new schedule."
             }
-            subTitle={success ? "Schedule name " + schedName : ""}
+            subTitle={success ? "Schedule name " + schedName : "System error."}
             extra={
               <Row className="space-between-row">
                 <Col span={12} style={{ paddingRight: "10px" }}>

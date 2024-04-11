@@ -13,7 +13,7 @@ const HomePage = () => {
   const [userId, setUserId] = useState(0);
   const [userName, setUserName] = useState("");
   const [loginFailed, setLoginFailed] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const token = sessionStorage.getItem("token");
 
   const fetchData = (endpoint, token) => {
