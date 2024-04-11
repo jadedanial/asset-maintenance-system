@@ -127,7 +127,7 @@ const SearchTableEvent = ({
             }}
             pagination={{
               pageSize: 10,
-              showSizeChanger: true,
+              showSizeChanger: false,
             }}
             scroll={{ x: "100%", y: "calc(-324px + 100vh)" }}
           />

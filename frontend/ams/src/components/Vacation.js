@@ -538,7 +538,7 @@ const Vacation = ({ vacations, options, empid, theme }) => {
                   })}
                 pagination={{
                   pageSize: 10,
-                  showSizeChanger: true,
+                  showSizeChanger: false,
                 }}
                 scroll={{
                   x: "100%",
