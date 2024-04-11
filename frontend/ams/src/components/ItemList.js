@@ -309,6 +309,7 @@ const ItemList = ({
                               <Col span={8} className="flex-end-row">
                                 <Tooltip title="Remove">
                                   <Button
+                                    size="small"
                                     className="btn-normal no-hover"
                                     danger
                                     type="link"
