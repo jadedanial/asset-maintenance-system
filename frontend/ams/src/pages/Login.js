@@ -62,12 +62,12 @@ const LoginPage = () => {
               extra={
                 <Row className="space-between-row">
                   <Col span={12} style={{ paddingRight: "10px" }}>
-                    <Button size="large" type="default" href="/login" block>
+                    <Button type="default" href="/login" block>
                       LOGIN
                     </Button>
                   </Col>
                   <Col span={12}>
-                    <Button size="large" type="primary" href="/register" block>
+                    <Button type="primary" href="/register" block>
                       REGISTER
                     </Button>
                   </Col>
@@ -96,7 +96,6 @@ const LoginPage = () => {
                 }}
               >
                 <Card
-                  size="large"
                   title={
                     <Title>
                       <p className="big-card-title">Authenticate User</p>
@@ -144,7 +143,6 @@ const LoginPage = () => {
                     <Form.Item>
                       <Button
                         style={{ marginTop: "24px" }}
-                        size="large"
                         type="primary"
                         htmlType="submit"
                         block

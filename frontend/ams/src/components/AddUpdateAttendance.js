@@ -469,7 +469,6 @@ const AddUpdateAttendance = ({
               <Row className="space-between-row">
                 <Col span={12} style={{ paddingRight: "10px" }}>
                   <Button
-                    size="large"
                     type="default"
                     onClick={() => {
                       viewAttendance();
@@ -482,7 +481,6 @@ const AddUpdateAttendance = ({
                 </Col>
                 <Col span={12}>
                   <Button
-                    size="large"
                     type="primary"
                     onClick={() => {
                       viewAttendance();
@@ -504,11 +502,10 @@ const AddUpdateAttendance = ({
             <Form
               {...layout}
               layout="vertical"
-              size="large"
               name="add-new-attendance"
               onFinish={onFinish}
             >
-              <Card className="card-no-padding" size="large">
+              <Card className="card-no-padding">
                 <Row>
                   <Col span={16} style={{ paddingRight: "24px" }}>
                     <div
@@ -567,7 +564,6 @@ const AddUpdateAttendance = ({
                         style={{ paddingTop: "24px" }}
                       >
                         <Button
-                          size="large"
                           type="default"
                           onClick={() => {
                             viewAttendance();
@@ -578,7 +574,6 @@ const AddUpdateAttendance = ({
                           CANCEL
                         </Button>
                         <Button
-                          size="large"
                           type="primary"
                           htmlType="submit"
                           style={{

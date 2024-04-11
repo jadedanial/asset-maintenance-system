@@ -241,18 +241,16 @@ const ShiftSchedule = ({ schedules, employees, empid }) => {
               <Form
                 {...layout}
                 layout="vertical"
-                size="large"
                 name="add-new-shiftschedule"
                 onFinish={onFinish}
               >
-                <Card className="card-no-padding" size="large">
+                <Card className="card-no-padding">
                   <Row
                     className="card-with-background"
                     style={{ padding: "24px" }}
                   >
                     <Col span={22} style={{ paddingRight: "24px" }}>
                       <Select
-                        size="large"
                         showSearch
                         placeholder="Search Schedule"
                         style={{ width: "100%" }}
@@ -276,12 +274,7 @@ const ShiftSchedule = ({ schedules, employees, empid }) => {
                       />
                     </Col>
                     <Col span={2}>
-                      <Button
-                        size="large"
-                        type="primary"
-                        htmlType="submit"
-                        block
-                      >
+                      <Button type="primary" htmlType="submit" block>
                         SAVE
                       </Button>
                     </Col>

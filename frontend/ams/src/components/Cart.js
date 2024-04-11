@@ -148,22 +148,12 @@ const Cart = ({
           extra={
             <Row className="space-between-row">
               <Col span={12} style={{ paddingRight: "10px" }}>
-                <Button
-                  size="large"
-                  type="default"
-                  onClick={onCloseDrawer}
-                  block
-                >
+                <Button type="default" onClick={onCloseDrawer} block>
                   CLOSE
                 </Button>
               </Col>
               <Col span={12}>
-                <Button
-                  size="large"
-                  type="primary"
-                  onClick={onCloseDrawer}
-                  block
-                >
+                <Button type="primary" onClick={onCloseDrawer} block>
                   NEW TRANSACTION
                 </Button>
               </Col>
@@ -182,7 +172,6 @@ const Cart = ({
       <div className={`justified-row ${theme}`}>
         <div className="card-custom-size-full">
           <Card
-            size="large"
             title={
               <Title>
                 <p className="big-card-title">
@@ -195,19 +184,13 @@ const Cart = ({
             }
             extra={
               <div className="space-between-row">
-                <Button
-                  size="large"
-                  type="default"
-                  onClick={onCloseDrawer}
-                  block
-                >
+                <Button type="default" onClick={onCloseDrawer} block>
                   CANCEL
                 </Button>
                 {totalOrder > 0.0 ? (
                   segment === "Reorder" ? (
                     <div className="space-between-row">
                       <Button
-                        size="large"
                         type="primary"
                         onClick={() => {
                           if (warehouseCode !== "") {
@@ -231,7 +214,6 @@ const Cart = ({
                     </div>
                   ) : segment === "Receive" ? (
                     <Button
-                      size="large"
                       type="primary"
                       onClick={() => {
                         if (checkAllState(itemList)) {

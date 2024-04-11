@@ -125,7 +125,6 @@ const ItemList = ({
               <Col span={4} className="justified-row">
                 <Tooltip title="Show All">
                   <Button
-                    size="large"
                     icon={<AppstoreOutlined style={{ fontSize: "20px" }} />}
                     className="btn-normal"
                     onClick={() => showAll()}
@@ -135,7 +134,6 @@ const ItemList = ({
               <Col span={4} className="justified-row">
                 <Tooltip title="Sort By Code">
                   <Button
-                    size="large"
                     icon={
                       codeAscending ? (
                         <OrderedListOutlined style={{ fontSize: "20px" }} />
@@ -153,7 +151,6 @@ const ItemList = ({
               <Col span={4} className="justified-row">
                 <Tooltip title="Sort By Name">
                   <Button
-                    size="large"
                     icon={
                       nameAscending ? (
                         <SortAscendingOutlined style={{ fontSize: "20px" }} />
@@ -171,7 +168,6 @@ const ItemList = ({
               <Col span={4} className="justified-row">
                 <Tooltip title="Sort By Cost">
                   <Button
-                    size="large"
                     icon={
                       costAscending ? (
                         <DollarOutlined style={{ fontSize: "20px" }} />
@@ -190,7 +186,6 @@ const ItemList = ({
                 <Col span={4} className="justified-row">
                   <Tooltip title={checkedAll ? "Uncheck All" : "Check All"}>
                     <Button
-                      size="large"
                       icon={
                         checkedAll ? (
                           <CheckSquareOutlined style={{ fontSize: "20px" }} />

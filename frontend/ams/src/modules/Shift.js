@@ -75,7 +75,7 @@ const Shift = ({ shifts, collapsed, theme }) => {
     <>
       <SearchTableEvent
         loadAPILists={loadAPILists}
-        tooltipIcon={<FieldTimeOutlined />}
+        tooltipIcon={<FieldTimeOutlined className="large-card-title" />}
         tooltipTitle={"Add New Shift"}
         inputPlaceHolder={"Search Shift"}
         compItemAdd={"AddUpdateShift"}

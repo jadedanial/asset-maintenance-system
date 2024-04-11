@@ -90,7 +90,7 @@ const Employee = ({
         sections={sections}
         options={options}
         loadAPILists={loadAPILists}
-        tooltipIcon={<UserOutlined />}
+        tooltipIcon={<UserOutlined className="large-card-title" />}
         tooltipTitle={"Add New Employee"}
         inputPlaceHolder={"Search Employee"}
         compItemAdd={"AddUpdateEmployee"}

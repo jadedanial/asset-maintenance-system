@@ -361,7 +361,6 @@ const Excuse = ({ excuses, attendances, empid, theme }) => {
               <Row className="space-between-row">
                 <Col span={12} style={{ paddingRight: "10px" }}>
                   <Button
-                    size="large"
                     type="default"
                     onClick={() => {
                       viewExcuse();
@@ -374,7 +373,6 @@ const Excuse = ({ excuses, attendances, empid, theme }) => {
                 </Col>
                 <Col span={12}>
                   <Button
-                    size="large"
                     type="primary"
                     onClick={() => {
                       newExcuse();
@@ -404,11 +402,10 @@ const Excuse = ({ excuses, attendances, empid, theme }) => {
               <Form
                 {...layout}
                 layout="vertical"
-                size="large"
                 name="add-new-shift"
                 onFinish={onFinish}
               >
-                <Card size="large" className="card-no-padding">
+                <Card className="card-no-padding">
                   <Row>
                     <Col span={16} style={{ paddingRight: "24px" }}>
                       <div
@@ -491,7 +488,6 @@ const Excuse = ({ excuses, attendances, empid, theme }) => {
                           style={{ paddingTop: "24px" }}
                         >
                           <Button
-                            size="large"
                             type="default"
                             onClick={() => {
                               viewExcuse();
@@ -502,7 +498,6 @@ const Excuse = ({ excuses, attendances, empid, theme }) => {
                             CANCEL
                           </Button>
                           <Button
-                            size="large"
                             type="primary"
                             htmlType="submit"
                             style={{
@@ -584,7 +579,6 @@ const Excuse = ({ excuses, attendances, empid, theme }) => {
                 pageSize: 10,
                 showSizeChanger: true,
               }}
-              size="large"
               scroll={{
                 x: "100%",
                 y: 300,

@@ -82,7 +82,7 @@ const Vehicle = () => {
     <>
       <SearchTableEvent
         loadAPILists={loadAPILists}
-        tooltipIcon={<ShopOutlined />}
+        tooltipIcon={<ShopOutlined className="large-card-title" />}
         tooltipTitle={"Add New Warehouse"}
         inputPlaceHolder={"Search Warehouse"}
         compItemAdd={"AddUpdateWarehouse"}

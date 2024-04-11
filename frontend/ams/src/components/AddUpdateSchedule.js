@@ -172,7 +172,6 @@ const AddUpdateSchedule = ({
               <Row className="space-between-row">
                 <Col span={12} style={{ paddingRight: "10px" }}>
                   <Button
-                    size="large"
                     type="default"
                     onClick={() => {
                       onCloseDrawer();
@@ -185,7 +184,6 @@ const AddUpdateSchedule = ({
                 </Col>
                 <Col span={12}>
                   <Button
-                    size="large"
                     type="primary"
                     onClick={() => {
                       newSchedule();
@@ -207,12 +205,10 @@ const AddUpdateSchedule = ({
             <Form
               {...layout}
               layout="vertical"
-              size="large"
               name="add-new-schedule"
               onFinish={onFinish}
             >
               <Card
-                size="large"
                 title={
                   <Title>
                     <p className="big-card-title">{label}</p>
@@ -261,7 +257,6 @@ const AddUpdateSchedule = ({
                             ]}
                           >
                             <Select
-                              size="large"
                               showSearch
                               style={{ width: "100%" }}
                               value={schedSun}
@@ -302,7 +297,6 @@ const AddUpdateSchedule = ({
                             ]}
                           >
                             <Select
-                              size="large"
                               showSearch
                               style={{ width: "100%" }}
                               value={schedTue}
@@ -343,7 +337,6 @@ const AddUpdateSchedule = ({
                             ]}
                           >
                             <Select
-                              size="large"
                               showSearch
                               style={{ width: "100%" }}
                               value={schedThu}
@@ -384,7 +377,6 @@ const AddUpdateSchedule = ({
                             ]}
                           >
                             <Select
-                              size="large"
                               showSearch
                               style={{ width: "100%" }}
                               value={schedSat}
@@ -427,7 +419,6 @@ const AddUpdateSchedule = ({
                             ]}
                           >
                             <Select
-                              size="large"
                               showSearch
                               style={{ width: "100%" }}
                               value={schedMon}
@@ -468,7 +459,6 @@ const AddUpdateSchedule = ({
                             ]}
                           >
                             <Select
-                              size="large"
                               showSearch
                               style={{ width: "100%" }}
                               value={schedWed}
@@ -509,7 +499,6 @@ const AddUpdateSchedule = ({
                             ]}
                           >
                             <Select
-                              size="large"
                               showSearch
                               style={{ width: "100%" }}
                               value={schedFri}
@@ -545,7 +534,6 @@ const AddUpdateSchedule = ({
                         style={{ paddingTop: "24px" }}
                       >
                         <Button
-                          size="large"
                           type="default"
                           onClick={() => {
                             onCloseDrawer();
@@ -556,7 +544,6 @@ const AddUpdateSchedule = ({
                           CANCEL
                         </Button>
                         <Button
-                          size="large"
                           type="primary"
                           htmlType="submit"
                           style={{

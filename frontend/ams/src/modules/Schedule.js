@@ -108,7 +108,7 @@ const Schedule = ({ schedules, shifts, collapsed, theme }) => {
       <SearchTableEvent
         shifts={shifts}
         loadAPILists={loadAPILists}
-        tooltipIcon={<CalendarOutlined />}
+        tooltipIcon={<CalendarOutlined className="large-card-title" />}
         tooltipTitle={"Add New Schedule"}
         inputPlaceHolder={"Search Schedule"}
         compItemAdd={"AddUpdateSchedule"}

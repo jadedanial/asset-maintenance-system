@@ -405,7 +405,6 @@ const Attendance = ({
                     </div>
                     <div style={{ marginTop: "10px" }}>
                       <Button
-                        size="large"
                         type="primary"
                         className="custom-hover"
                         style={{ margin: "0", display: attendButton }}

@@ -226,7 +226,6 @@ const AddUpdateItem = ({
               <Row className="space-between-row">
                 <Col span={12} style={{ paddingRight: "10px" }}>
                   <Button
-                    size="large"
                     type="default"
                     onClick={() => {
                       onCloseDrawer();
@@ -239,7 +238,6 @@ const AddUpdateItem = ({
                 </Col>
                 <Col span={12}>
                   <Button
-                    size="large"
                     type="primary"
                     onClick={() => {
                       newItem();
@@ -261,12 +259,10 @@ const AddUpdateItem = ({
             <Form
               {...layout}
               layout="vertical"
-              size="large"
               name="add-new-item"
               onFinish={onFinish}
             >
               <Card
-                size="large"
                 title={
                   <Title>
                     <p className="big-card-title">{label}</p>
@@ -318,7 +314,6 @@ const AddUpdateItem = ({
                             ]}
                           >
                             <Select
-                              size="large"
                               showSearch
                               style={{ width: "100%" }}
                               optionFilterProp="children"
@@ -402,7 +397,6 @@ const AddUpdateItem = ({
                             ]}
                           >
                             <Select
-                              size="large"
                               showSearch
                               style={{ width: "100%" }}
                               optionFilterProp="children"
@@ -482,7 +476,6 @@ const AddUpdateItem = ({
                         style={{ paddingTop: "24px" }}
                       >
                         <Button
-                          size="large"
                           type="default"
                           onClick={() => {
                             onCloseDrawer();
@@ -493,7 +486,6 @@ const AddUpdateItem = ({
                           CANCEL
                         </Button>
                         <Button
-                          size="large"
                           type="primary"
                           htmlType="submit"
                           style={{

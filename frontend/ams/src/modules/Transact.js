@@ -541,7 +541,6 @@ const Transact = ({
                     </Col>
                     <Col span={12}>
                       <Button
-                        size="large"
                         type="primary"
                         onClick={() => {
                           newItem(
@@ -620,7 +619,7 @@ const Transact = ({
                   <p className="big-card-title" style={{ padding: "10px 0" }}>
                     Php. {sumOrder(receiveItemList)}
                   </p>
-                  <Button size="large" type="primary" onClick={showDrawer}>
+                  <Button type="primary" onClick={showDrawer}>
                     CONFIRM
                   </Button>
                 </Col>
@@ -675,7 +674,6 @@ const Transact = ({
         <div className="card-custom-size-full">
           <Card
             className="custom-card-head-title"
-            size="large"
             style={{ minHeight: "100vh" }}
             title={
               <Title>
@@ -714,7 +712,6 @@ const Transact = ({
                   <Row className="space-between-row ">
                     <Col span={18} className="flex-end-row">
                       <Select
-                        size="large"
                         placeholder="To Warehouse"
                         value={warehouseCode}
                         showSearch
@@ -754,17 +751,11 @@ const Transact = ({
                           <Avatar
                             className="avatar-btn"
                             shape="square"
-                            size="large"
                             style={{
-                              background: "#318ce7",
-                              cursor: "pointer",
                               width: "50px",
                             }}
                             icon={
-                              <ShoppingCartOutlined
-                                className="big-card-title"
-                                style={{ color: "#fff" }}
-                              />
+                              <ShoppingCartOutlined className="large-card-title" />
                             }
                           />
                         </Badge>

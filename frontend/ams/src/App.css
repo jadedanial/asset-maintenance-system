@@ -35,9 +35,16 @@ body {
 .light .text {
   color: #000 !important;
 }
-.ant-btn {
+.ant-btn,
+.avatar-btn {
+  font-family: ralewaylight !important;
+  height: 40px !important;
+  padding: 6.4px 15px !important;
+  font-size: 16px !important;
+  border-radius: 2px !important;
   background-color: #318ce7 !important;
   border: 1px #318ce7 solid !important;
+  cursor: pointer !important;
 }
 .ant-result-extra {
   display: flex !important;
@@ -156,11 +163,6 @@ h1 {
 }
 .light .ant-menu-item-icon {
   color: #000 !important;
-}
-.ant-btn,
-.ant-btn-default {
-  font-size: 15px !important;
-  font-family: ralewaylight !important;
 }
 .ant-btn-icon-only,
 .ant-card-bordered,

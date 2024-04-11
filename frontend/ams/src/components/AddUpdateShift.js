@@ -146,7 +146,6 @@ const AddUpdateShift = ({
               <Row className="space-between-row">
                 <Col span={12} style={{ paddingRight: "10px" }}>
                   <Button
-                    size="large"
                     type="default"
                     onClick={() => {
                       onCloseDrawer();
@@ -160,7 +159,6 @@ const AddUpdateShift = ({
                 </Col>
                 <Col span={12}>
                   <Button
-                    size="large"
                     type="primary"
                     onClick={() => {
                       newShift();
@@ -182,12 +180,10 @@ const AddUpdateShift = ({
             <Form
               {...layout}
               layout="vertical"
-              size="large"
               name="add-new-shift"
               onFinish={onFinish}
             >
               <Card
-                size="large"
                 title={
                   <Title>
                     <p className="big-card-title">{label}</p>
@@ -281,7 +277,6 @@ const AddUpdateShift = ({
                         style={{ paddingTop: "24px" }}
                       >
                         <Button
-                          size="large"
                           type="default"
                           onClick={() => {
                             onCloseDrawer();
@@ -293,7 +288,6 @@ const AddUpdateShift = ({
                           CANCEL
                         </Button>
                         <Button
-                          size="large"
                           type="primary"
                           htmlType="submit"
                           style={{

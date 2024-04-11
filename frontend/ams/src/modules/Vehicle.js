@@ -118,7 +118,7 @@ const Vehicle = () => {
     <>
       <SearchTableEvent
         loadAPILists={loadAPILists}
-        tooltipIcon={<CarOutlined />}
+        tooltipIcon={<CarOutlined className="large-card-title" />}
         tooltipTitle={"Add New Vehicle"}
         inputPlaceHolder={"Search Vehicle"}
         compItemAdd={"AddUpdateVehicle"}

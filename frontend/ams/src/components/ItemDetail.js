@@ -225,7 +225,6 @@ const ItemDetail = ({
                           ) : (
                             <div className="card-custom-size-full">
                               <Card
-                                size="large"
                                 className={theme}
                                 title={
                                   <Title>
@@ -240,7 +239,6 @@ const ItemDetail = ({
                                 extra={
                                   <div className="space-between-row">
                                     <Button
-                                      size="large"
                                       type="default"
                                       onClick={onCloseDrawer}
                                       block
@@ -248,7 +246,6 @@ const ItemDetail = ({
                                       CANCEL
                                     </Button>
                                     <Button
-                                      size="large"
                                       type="primary"
                                       onClick={() => setUpdate(true)}
                                       style={{

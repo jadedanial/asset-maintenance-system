@@ -85,14 +85,14 @@ const RegisterPage = () => {
             }}
           >
             {success ? (
-              <Card size="large" style={{ width: "60%", left: "18%" }}>
+              <Card style={{ width: "60%", left: "18%" }}>
                 <ResultEvent
                   icon={<CheckOutlined />}
                   status="success"
                   title="Successfully added new user."
                   subTitle={"Username " + userName + " and Email " + email}
                   extra={
-                    <Button size="large" type="primary" href="/login">
+                    <Button type="primary" href="/login">
                       LOGIN
                     </Button>
                   }
@@ -102,7 +102,6 @@ const RegisterPage = () => {
               </Card>
             ) : (
               <Card
-                size="large"
                 title={
                   <Title>
                     <p className="big-card-title" style={{ color: color }}>
@@ -230,7 +229,6 @@ const RegisterPage = () => {
                   <Form.Item>
                     <Button
                       style={{ marginTop: "24px" }}
-                      size="large"
                       type="primary"
                       htmlType="submit"
                       block

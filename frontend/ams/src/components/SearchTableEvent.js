@@ -56,7 +56,7 @@ const SearchTableEvent = ({
     <>
       {contextHolder}
       <div className={theme}>
-        <Card className="card-main-layout" size="large">
+        <Card className="card-main-layout">
           <Row
             className="card-with-background space-between-row"
             style={{
@@ -67,7 +67,6 @@ const SearchTableEvent = ({
             <Col span={1}>
               <Tooltip title={tooltipTitle}>
                 <Badge
-                  size="large"
                   offset={[10, 10]}
                   count={
                     <PlusOutlined
@@ -97,10 +96,7 @@ const SearchTableEvent = ({
                   <Avatar
                     className="avatar-btn"
                     shape="square"
-                    size="large"
                     style={{
-                      background: "#318ce7",
-                      cursor: "pointer",
                       width: "50px",
                     }}
                     icon={tooltipIcon}
@@ -133,7 +129,6 @@ const SearchTableEvent = ({
               pageSize: 10,
               showSizeChanger: true,
             }}
-            size="large"
             scroll={{ x: "100%", y: "calc(-324px + 100vh)" }}
           />
         </Card>

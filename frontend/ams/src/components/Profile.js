@@ -155,7 +155,6 @@ const Profile = ({
               ) : (
                 <>
                   <Card
-                    size="large"
                     title={
                       <Title>
                         <Row>
@@ -170,16 +169,10 @@ const Profile = ({
                     }
                     extra={
                       <div className="space-between-row">
-                        <Button
-                          size="large"
-                          type="default"
-                          onClick={onCloseDrawer}
-                          block
-                        >
+                        <Button type="default" onClick={onCloseDrawer} block>
                           CANCEL
                         </Button>
                         <Button
-                          size="large"
                           type="primary"
                           onClick={() => setUpdate(true)}
                           style={{
@@ -278,11 +271,10 @@ const Profile = ({
                       </Col>
                     </Row>
                   </Card>
-                  <Card size="large" style={{ borderTop: "0" }}>
+                  <Card style={{ borderTop: "0" }}>
                     <Tabs
                       type="card"
                       defaultActiveKey="1"
-                      size="large"
                       tabBarGutter={4}
                       items={items}
                       destroyInactiveTabPane

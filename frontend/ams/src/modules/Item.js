@@ -91,7 +91,7 @@ const Item = ({
         items={items}
         warehouseitems={warehouseitems}
         options={options}
-        tooltipIcon={<ShoppingOutlined />}
+        tooltipIcon={<ShoppingOutlined className="large-card-title" />}
         tooltipTitle={"Add New Item"}
         inputPlaceHolder={"Search Item"}
         compItemUpdate={"ItemDetail"}
