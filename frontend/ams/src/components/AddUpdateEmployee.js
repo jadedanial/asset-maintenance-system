@@ -216,7 +216,7 @@ const AddUpdateEmployee = ({
             }
             extra={
               <Row className="space-between-row">
-                <Col span={12} style={{ paddingRight: "10px" }}>
+                <Col span={12}>
                   <Button
                     type="default"
                     onClick={() => {
@@ -228,7 +228,7 @@ const AddUpdateEmployee = ({
                     CLOSE
                   </Button>
                 </Col>
-                <Col span={12}>
+                <Col span={12} style={{ paddingLeft: "10px" }}>
                   <Button
                     type="primary"
                     onClick={() => {

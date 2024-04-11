@@ -35,6 +35,8 @@ const DrawerEvent = ({
   handleCheckChange,
   reorderOrder,
   receiveOrder,
+  submit,
+  loading,
   success,
   transactionCode,
   warehouseCode,
@@ -199,6 +201,8 @@ const DrawerEvent = ({
               handleCheckChange={handleCheckChange}
               reorderOrder={reorderOrder}
               receiveOrder={receiveOrder}
+              submit={submit}
+              loading={loading}
               success={success}
               transactionCode={transactionCode}
               warehouseCode={warehouseCode}

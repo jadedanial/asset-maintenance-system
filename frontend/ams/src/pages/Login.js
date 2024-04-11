@@ -61,12 +61,12 @@ const LoginPage = () => {
               subTitle="Sorry, you are not authorized to access this page. Please login or register."
               extra={
                 <Row className="space-between-row">
-                  <Col span={12} style={{ paddingRight: "10px" }}>
+                  <Col span={12}>
                     <Button type="default" href="/login" block>
                       LOGIN
                     </Button>
                   </Col>
-                  <Col span={12}>
+                  <Col span={12} style={{ paddingLeft: "10px" }}>
                     <Button type="primary" href="/register" block>
                       REGISTER
                     </Button>

@@ -372,7 +372,11 @@ const ItemList = ({
                       </Col>
                       {!view ? (
                         segment === "Reorder" ? (
-                          <Col span={8} className="flex-end-row">
+                          <Col
+                            span={8}
+                            className="flex-end-row"
+                            style={{ paddingBottom: "10px" }}
+                          >
                             <Tooltip>
                               <Button
                                 size="small"

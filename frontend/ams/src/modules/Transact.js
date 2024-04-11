@@ -53,6 +53,8 @@ const Transact = ({
   const [receiveItemList, setReceiveItemList] = useState([]);
   const [receiveItemCount, setReceiveItemCount] = useState(0);
   const [inputStatus, setInputStatus] = useState("");
+  const [submit, setSubmit] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [transactionCode, setTransactionCode] = useState("");
   const [warehouseCode, setWarehouseCode] = useState("Select Warehouse");
@@ -193,14 +195,10 @@ const Transact = ({
         Authorization: `Token ${token}`,
       },
       withCredentials: true,
-    })
-      .then(() => {
-        setSuccess(true);
-      })
-      .catch((err) => {
-        console.log(err);
-        setSuccess(false);
-      });
+    }).catch(() => {
+      setLoading(false);
+      setSuccess(false);
+    });
   };
 
   const createTransaction = (action, detail, status, userid, username) => {
@@ -227,15 +225,18 @@ const Transact = ({
         setTransactionCode("TRA" + String(response.data["id"]));
         queryClient.invalidateQueries("transactions");
         queryClient.invalidateQueries("warehouseitems");
+        setLoading(false);
         setSuccess(true);
       })
-      .catch((err) => {
-        console.log(err);
+      .catch(() => {
+        setLoading(false);
         setSuccess(false);
       });
   };
 
   const createReorder = ({ itemList, warehouseCode }) => {
+    setSubmit(true);
+    setLoading(true);
     createTransaction(
       "Reorder",
       transactionDetail("Reorder", itemList, warehouseCode),
@@ -255,6 +256,8 @@ const Transact = ({
   };
 
   const createReceive = (itemList) => {
+    setSubmit(true);
+    setLoading(true);
     transactionStatus(queryCode, "Complete")
       .then(() => {
         return createTransaction(
@@ -283,6 +286,9 @@ const Transact = ({
             Authorization: `Token ${token}`,
           },
           withCredentials: true,
+        }).catch(() => {
+          setLoading(false);
+          setSuccess(false);
         });
       })
       .then(() => {
@@ -290,8 +296,8 @@ const Transact = ({
         setSearchValue("");
         clearOrder();
       })
-      .catch((err) => {
-        console.log(err);
+      .catch(() => {
+        setLoading(false);
         setSuccess(false);
       });
   };
@@ -354,6 +360,8 @@ const Transact = ({
 
   const onCloseDrawer = () => {
     setOpenDrawer(false);
+    setSubmit(false);
+    setLoading(false);
     setSuccess(false);
   };
 
@@ -530,7 +538,7 @@ const Transact = ({
                     Php. {total}
                   </p>
                   <Row>
-                    <Col span={8} style={{ paddingRight: "10px" }}>
+                    <Col span={8}>
                       <InputNumber
                         placeholder="Qnty."
                         status={inputStatus}
@@ -539,7 +547,7 @@ const Transact = ({
                         onChange={onQuantityChange}
                       />
                     </Col>
-                    <Col span={12}>
+                    <Col span={12} style={{ paddingLeft: "10px" }}>
                       <Button
                         type="primary"
                         onClick={() => {
@@ -796,6 +804,8 @@ const Transact = ({
         handleCheckChange={handleCheckChange}
         reorderOrder={reorderOrder}
         receiveOrder={receiveOrder}
+        submit={submit}
+        loading={loading}
         success={success}
         transactionCode={transactionCode}
         warehouseCode={warehouseCode}

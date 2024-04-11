@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { Typography, Card, Button, Col, Row, notification } from "antd";
-import { CheckOutlined } from "@ant-design/icons";
+import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import ResultEvent from "./ResultEvent";
+import Spinner from "../components/Spinner";
 import NotificationEvent from "./NotificationEvent";
 import ItemList from "./ItemList";
 import EmptyData from "./EmptyData";
@@ -18,6 +19,8 @@ const Cart = ({
   addItem,
   filteredItem,
   setFilteredItem,
+  submit,
+  loading,
   success,
   transactionCode,
   reorderOrder,
@@ -137,71 +140,105 @@ const Cart = ({
     sumOrder();
   }, [sumOrder]);
 
-  if (success) {
-    return (
-      <>
-        <ResultEvent
-          icon={<CheckOutlined />}
-          status="success"
-          title={message}
-          subTitle={"Transaction ID " + String(transactionCode)}
-          extra={
-            <Row className="space-between-row">
-              <Col span={12} style={{ paddingRight: "10px" }}>
-                <Button type="default" onClick={onCloseDrawer} block>
-                  CLOSE
-                </Button>
-              </Col>
-              <Col span={12}>
-                <Button type="primary" onClick={onCloseDrawer} block>
-                  NEW TRANSACTION
-                </Button>
-              </Col>
-            </Row>
-          }
-          height="70%"
-          theme={theme}
-        />
-      </>
-    );
-  }
-
   return (
     <>
       {contextHolder}
-      <div className={`justified-row ${theme}`}>
-        <div className="card-custom-size-full">
-          <Card
-            title={
-              <Title>
-                <p className="big-card-title">
-                  Cart ({itemCount}
-                  {itemCount > 1 ? " Items" : " Item"}){" | "}
-                  {"Php. "}
-                  {totalOrder}
-                </p>
-              </Title>
+      {submit ? (
+        loading ? (
+          <Spinner height={"60%"} theme={theme} />
+        ) : (
+          <ResultEvent
+            icon={success ? <CheckOutlined /> : <CloseOutlined />}
+            status={success ? "success" : "error"}
+            title={success ? message : "Transaction failed."}
+            subTitle={
+              success
+                ? "Transaction ID " + String(transactionCode)
+                : "System error."
             }
             extra={
-              <div className="space-between-row">
-                <Button type="default" onClick={onCloseDrawer} block>
-                  CANCEL
-                </Button>
-                {totalOrder > 0.0 ? (
-                  segment === "Reorder" ? (
-                    <div className="space-between-row">
+              <Row className="space-between-row">
+                <Col span={12}>
+                  <Button type="default" onClick={onCloseDrawer} block>
+                    CLOSE
+                  </Button>
+                </Col>
+                <Col span={12} style={{ paddingLeft: "10px" }}>
+                  <Button type="primary" onClick={onCloseDrawer} block>
+                    NEW TRANSACTION
+                  </Button>
+                </Col>
+              </Row>
+            }
+            height="70%"
+            theme={theme}
+          />
+        )
+      ) : (
+        <div className={`justified-row ${theme}`}>
+          <div className="card-custom-size-full">
+            <Card
+              title={
+                <Title>
+                  <p className="big-card-title">
+                    Cart ({itemCount}
+                    {itemCount > 1 ? " Items" : " Item"}){" | "}
+                    {"Php. "}
+                    {totalOrder}
+                  </p>
+                </Title>
+              }
+              extra={
+                <div className="space-between-row">
+                  <Button type="default" onClick={onCloseDrawer} block>
+                    CANCEL
+                  </Button>
+                  {totalOrder > 0.0 ? (
+                    segment === "Reorder" ? (
+                      <div className="space-between-row">
+                        <Button
+                          type="primary"
+                          onClick={() => {
+                            if (warehouseCode !== "") {
+                              reorderOrder(itemList, warehouseCode);
+                            } else {
+                              api.info(
+                                NotificationEvent(
+                                  false,
+                                  "Select the warehouse to which you want to transfer the items."
+                                )
+                              );
+                            }
+                          }}
+                          style={{
+                            marginLeft: "10px",
+                          }}
+                          block
+                        >
+                          CHECK OUT
+                        </Button>
+                      </div>
+                    ) : segment === "Receive" ? (
                       <Button
                         type="primary"
                         onClick={() => {
-                          if (warehouseCode !== "") {
-                            reorderOrder(itemList, warehouseCode);
+                          if (checkAllState(itemList)) {
+                            receiveOrder(itemList);
                           } else {
-                            api.info(
-                              NotificationEvent(
-                                false,
-                                "Select the warehouse to which you want to transfer the items."
+                            setFilteredItem(
+                              itemList.filter(
+                                (item) => item.checked === "false"
                               )
                             );
+                            setWarning(true);
+                            setTimeout(() => {
+                              api.info(
+                                NotificationEvent(
+                                  false,
+                                  "Ensure all item quantities are equal, then confirm by checking the box."
+                                )
+                              );
+                            }, 50);
                           }
                         }}
                         style={{
@@ -209,68 +246,40 @@ const Cart = ({
                         }}
                         block
                       >
-                        CHECK OUT
+                        APPLY
                       </Button>
-                    </div>
-                  ) : segment === "Receive" ? (
-                    <Button
-                      type="primary"
-                      onClick={() => {
-                        if (checkAllState(itemList)) {
-                          receiveOrder(itemList);
-                        } else {
-                          setFilteredItem(
-                            itemList.filter((item) => item.checked === "false")
-                          );
-                          setWarning(true);
-                          setTimeout(() => {
-                            api.info(
-                              NotificationEvent(
-                                false,
-                                "Ensure all item quantities are equal, then confirm by checking the box."
-                              )
-                            );
-                          }, 50);
-                        }
-                      }}
-                      style={{
-                        marginLeft: "10px",
-                      }}
-                      block
-                    >
-                      APPLY
-                    </Button>
+                    ) : (
+                      ""
+                    )
                   ) : (
-                    ""
-                  )
-                ) : (
-                  <></>
-                )}
-              </div>
-            }
-          >
-            {itemCount > 0 ? (
-              <>
-                <ItemList
-                  view={false}
-                  segment={segment}
-                  itemList={itemList}
-                  setFilteredItem={setFilteredItem}
-                  filteredItem={filteredItem}
-                  handleCheckChange={handleCheckChange}
-                  changeQuantity={changeQuantity}
-                  deleteItem={deleteItem}
-                  setWarning={setWarning}
-                  warning={warning}
-                  theme={theme}
-                />
-              </>
-            ) : (
-              <EmptyData theme={theme} />
-            )}
-          </Card>
+                    <></>
+                  )}
+                </div>
+              }
+            >
+              {itemCount > 0 ? (
+                <>
+                  <ItemList
+                    view={false}
+                    segment={segment}
+                    itemList={itemList}
+                    setFilteredItem={setFilteredItem}
+                    filteredItem={filteredItem}
+                    handleCheckChange={handleCheckChange}
+                    changeQuantity={changeQuantity}
+                    deleteItem={deleteItem}
+                    setWarning={setWarning}
+                    warning={warning}
+                    theme={theme}
+                  />
+                </>
+              ) : (
+                <EmptyData theme={theme} />
+              )}
+            </Card>
+          </div>
         </div>
-      </div>
+      )}
     </>
   );
 };

@@ -46,6 +46,11 @@ body {
   border: 1px #318ce7 solid !important;
   cursor: pointer !important;
 }
+.ant-btn-sm {
+  height: 24px !important;
+  padding: 0 7px !important;
+  font-size: 14px !important;
+}
 .ant-result-extra {
   display: flex !important;
   justify-content: center !important;
@@ -630,6 +635,9 @@ h1.ant-typography {
   width: 100% !important;
   height: 40px !important;
   border: 1px solid #318ce750 !important;
+}
+.ant-select-selector {
+  padding: 5px 0 5px 10px !important;
 }
 .bordered-select .ant-select-selector {
   border: 1px solid #318ce7 !important;
