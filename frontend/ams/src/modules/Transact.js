@@ -246,7 +246,6 @@ const Transact = ({
     );
     setQueryItem([]);
     setSearchValue("");
-    clearOrder();
   };
 
   const { mutate: mutateReorder } = useMutation(createReorder);
@@ -294,7 +293,6 @@ const Transact = ({
       .then(() => {
         setQueryItem([]);
         setSearchValue("");
-        clearOrder();
       })
       .catch(() => {
         setLoading(false);

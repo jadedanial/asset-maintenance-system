@@ -15,6 +15,7 @@ const Cart = ({
   itemList,
   warehouseCategory,
   warehouseCode,
+  clearOrder,
   removeItem,
   addItem,
   filteredItem,
@@ -159,12 +160,26 @@ const Cart = ({
             extra={
               <Row className="space-between-row">
                 <Col span={12}>
-                  <Button type="default" onClick={onCloseDrawer} block>
+                  <Button
+                    type="default"
+                    onClick={() => {
+                      onCloseDrawer();
+                      clearOrder();
+                    }}
+                    block
+                  >
                     CLOSE
                   </Button>
                 </Col>
                 <Col span={12} style={{ paddingLeft: "10px" }}>
-                  <Button type="primary" onClick={onCloseDrawer} block>
+                  <Button
+                    type="primary"
+                    onClick={() => {
+                      onCloseDrawer();
+                      clearOrder();
+                    }}
+                    block
+                  >
                     NEW TRANSACTION
                   </Button>
                 </Col>
