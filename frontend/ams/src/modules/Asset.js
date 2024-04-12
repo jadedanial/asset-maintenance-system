@@ -21,6 +21,7 @@ const Asset = ({ assets, options, collapsed, theme }) => {
           String(record.sector).toLowerCase().includes(value.toLowerCase())
         );
       },
+      width: "150px",
       sorter: (a, b) => a.code.localeCompare(b.code),
       defaultSortOrder: "ascend",
     },
@@ -28,6 +29,7 @@ const Asset = ({ assets, options, collapsed, theme }) => {
       title: "Serial",
       dataIndex: "serial",
       key: "serial",
+      width: "200px",
       sorter: (a, b) => a.serial.localeCompare(b.serial),
       defaultSortOrder: "ascend",
     },
@@ -42,6 +44,7 @@ const Asset = ({ assets, options, collapsed, theme }) => {
       title: "Plate",
       dataIndex: "plate",
       key: "plate",
+      width: "100px",
       sorter: (a, b) => a.plate.localeCompare(b.plate),
       defaultSortOrder: "ascend",
     },
