@@ -101,8 +101,8 @@ const Item = ({
         searchedText={searchedText}
         sectionCode={sectionCode}
         sectionCategory={sectionCategory}
-        theme={theme}
         collapsed={collapsed}
+        theme={theme}
       />
     </>
   );

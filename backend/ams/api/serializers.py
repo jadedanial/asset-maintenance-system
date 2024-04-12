@@ -250,19 +250,20 @@ class WarehouseItemSerializer(serializers.ModelSerializer):
         ]
 
 
-class VehicleSerializer(serializers.ModelSerializer):
+class AssetSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Vehicle
+        model = Asset
         fields = [
             "id",
-            "vehicle_code",
-            "vehicle_type",
-            "vehicle_model",
-            "vehicle_serial",
-            "vehicle_plate",
-            "vehicle_area",
-            "vehicle_sector",
-            "vehicle_status",
+            "asset_code",
+            "asset_category",
+            "asset_type",
+            "asset_model",
+            "asset_serial",
+            "asset_plate",
+            "asset_area",
+            "asset_sector",
+            "asset_status",
         ]
 
 

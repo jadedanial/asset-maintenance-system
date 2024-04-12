@@ -78,8 +78,8 @@ const HomePage = () => {
   const useWarehouseitemsData = (token) => {
     return useQuery("warehouseitems", () => fetchData("warehouseitems", token));
   };
-  const useVehiclesData = (token) => {
-    return useQuery("vehicles", () => fetchData("vehicles", token));
+  const useAssetsData = (token) => {
+    return useQuery("assets", () => fetchData("assets", token));
   };
   const useTransactionsData = (token) => {
     return useQuery("transactions", () => fetchData("transactions", token));
@@ -99,7 +99,7 @@ const HomePage = () => {
   const { data: excusesData } = useExcusesData(token);
   const { data: itemsData } = useItemsData(token);
   const { data: warehouseitemsData } = useWarehouseitemsData(token);
-  const { data: vehiclesData } = useVehiclesData(token);
+  const { data: assetsData } = useAssetsData(token);
   const { data: transactionsData } = useTransactionsData(token);
 
   useEffect(() => {
@@ -159,7 +159,7 @@ const HomePage = () => {
             excuses={excusesData}
             items={itemsData}
             warehouseitems={warehouseitemsData}
-            vehicles={vehiclesData}
+            assets={assetsData}
             transactions={transactionsData}
           />
         )

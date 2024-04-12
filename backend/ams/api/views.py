@@ -441,9 +441,9 @@ class WarehouseItemListView(ListAPIView):
     permission_classes = [IsAuthenticated]
 
 
-class VehicleListView(ListAPIView):
-    queryset = Vehicle.objects.all()
-    serializer_class = VehicleSerializer
+class AssetListView(ListAPIView):
+    queryset = Asset.objects.all()
+    serializer_class = AssetSerializer
     permission_classes = [IsAuthenticated]
 
 

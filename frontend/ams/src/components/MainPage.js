@@ -19,7 +19,7 @@ import {
   BarChartOutlined,
   TeamOutlined,
   ShopOutlined,
-  CarOutlined,
+  GoldOutlined,
   MenuUnfoldOutlined,
   MenuFoldOutlined,
   AlertOutlined,
@@ -31,6 +31,7 @@ import Shift from "../modules/Shift";
 import Schedule from "../modules/Schedule";
 import Item from "../modules/Item";
 import Transact from "../modules/Transact";
+import Asset from "../modules/Asset";
 import DrawerEvent from "./DrawerEvent";
 import EmptyData from "./EmptyData";
 
@@ -53,7 +54,7 @@ const MainPage = ({
   excuses,
   items,
   warehouseitems,
-  vehicles,
+  assets,
   transactions,
 }) => {
   const queryClient = useCustomQueryClient();
@@ -139,7 +140,7 @@ const MainPage = ({
     SettingOutlined: <SettingOutlined style={{ fontSize: "20px" }} />,
     ShopOutlined: <ShopOutlined style={{ fontSize: "20px" }} />,
     TeamOutlined: <TeamOutlined style={{ fontSize: "20px" }} />,
-    CarOutlined: <CarOutlined style={{ fontSize: "20px" }} />,
+    GoldOutlined: <GoldOutlined style={{ fontSize: "20px" }} />,
     BarChartOutlined: <BarChartOutlined style={{ fontSize: "20px" }} />,
   };
 
@@ -240,7 +241,17 @@ const MainPage = ({
             />
           </>
         );
-
+      case "Vehicle":
+        return (
+          <>
+            <Asset
+              assets={assets}
+              options={options}
+              collapsed={collapsed}
+              theme={theme}
+            />
+          </>
+        );
       default:
         break;
     }

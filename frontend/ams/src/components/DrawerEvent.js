@@ -6,6 +6,7 @@ import AddUpdateShift from "./AddUpdateShift";
 import AddUpdateSchedule from "./AddUpdateSchedule";
 import ItemDetail from "./ItemDetail";
 import AddUpdateItem from "./AddUpdateItem";
+import AddUpdateAsset from "./AddUpdateAsset";
 import Cart from "./Cart";
 
 const DrawerEvent = ({
@@ -212,6 +213,17 @@ const DrawerEvent = ({
               onCloseDrawer={onCloseDrawer}
               theme={theme}
             ></Cart>
+          </>
+        );
+      case "AddUpdateAsset":
+        return (
+          <>
+            <AddUpdateAsset
+              options={options}
+              update={false}
+              onCloseDrawer={onCloseDrawer}
+              theme={theme}
+            />
           </>
         );
       default:

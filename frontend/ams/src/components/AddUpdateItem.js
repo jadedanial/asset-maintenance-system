@@ -333,7 +333,7 @@ const AddUpdateItem = ({
                               value={itemCategory}
                               options={options
                                 .filter(
-                                  (res) => res.opt_category === "Category"
+                                  (res) => res.opt_category === "Item Category"
                                 )
                                 .map((cat) => {
                                   return {

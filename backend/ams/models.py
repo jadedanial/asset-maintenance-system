@@ -421,35 +421,47 @@ class WarehouseItem(models.Model):
         return str(self.item_code)
 
 
-class Vehicle(models.Model):
+class Asset(models.Model):
     id = models.AutoField(primary_key=True)
-    vehicle_code = models.CharField(
-        max_length=100, blank=True, null=True, verbose_name="Vehicle Code"
+    asset_code = models.CharField(
+        max_length=100, blank=True, null=True, verbose_name="Asset Code"
     )
-    vehicle_type = models.CharField(
+    asset_category = models.CharField(
+        max_length=200, blank=True, null=True, verbose_name="Category"
+    )
+    asset_type = models.CharField(
         max_length=200, blank=True, null=True, verbose_name="Type"
     )
-    vehicle_model = models.CharField(
+    asset_model = models.CharField(
         max_length=200, blank=True, null=True, verbose_name="Model"
     )
-    vehicle_serial = models.CharField(
+    asset_serial = models.CharField(
         max_length=300, blank=True, null=True, verbose_name="Serial"
     )
-    vehicle_plate = models.CharField(
+    asset_plate = models.CharField(
         max_length=100, blank=True, null=True, verbose_name="Plate"
     )
-    vehicle_area = models.CharField(
+    asset_area = models.CharField(
         max_length=200, blank=True, null=True, verbose_name="Area"
     )
-    vehicle_sector = models.CharField(
+    asset_sector = models.CharField(
         max_length=300, blank=True, null=True, verbose_name="Sector"
     )
-    vehicle_status = models.CharField(
+    asset_status = models.CharField(
         max_length=100, blank=True, null=True, verbose_name="Status"
     )
 
     def __str__(self):
-        return str(self.vehicle_code)
+        return str(self.asset_code)
+
+    def update_model(self):
+        test_id = Asset.objects.get(asset_code=self.asset_code).id
+        Asset.objects.filter(id=test_id).update(
+            asset_code="AST" + str(self.id))
+
+    def save(self, *args, **kwargs):
+        super(Asset, self).save(*args, **kwargs)
+        self.update_model()
 
 
 class Transaction(models.Model):
