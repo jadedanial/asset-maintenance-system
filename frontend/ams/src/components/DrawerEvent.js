@@ -10,7 +10,6 @@ import AddUpdateAsset from "./AddUpdateAsset";
 import Cart from "./Cart";
 
 const DrawerEvent = ({
-  code,
   items,
   warehouseitems,
   employees,
@@ -220,7 +219,6 @@ const DrawerEvent = ({
         return (
           <>
             <AddUpdateAsset
-              code={code}
               options={options}
               update={false}
               onCloseDrawer={onCloseDrawer}

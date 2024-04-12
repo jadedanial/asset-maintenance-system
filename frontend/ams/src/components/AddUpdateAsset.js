@@ -55,7 +55,7 @@ const AddUpdateAsset = ({
   const [label, setLabel] = useState(
     updateData ? "Update Asset" : "Add New Asset"
   );
-  const [assetCode, setAssetCode] = useState(code);
+  const [assetCode, setAssetCode] = useState(updateData ? code : "");
   const [assetCategory, setAssetCategory] = useState(
     updateData ? category : ""
   );
@@ -72,7 +72,6 @@ const AddUpdateAsset = ({
   const [submit, setSubmit] = useState(false);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
-  const [codeReq, setCodeReq] = useState(false);
   const [categoryReq, setCategoryReq] = useState(false);
   const [typeReq, setTypeReq] = useState(false);
   const [modelReq, setModelReq] = useState(false);
@@ -98,7 +97,6 @@ const AddUpdateAsset = ({
     setAssetSetor("");
     setAssetStatus("");
     setAssetDatePurchased("");
-    setCodeReq(true);
     setCategoryReq(true);
     setTypeReq(true);
     setModelReq(true);
@@ -112,16 +110,15 @@ const AddUpdateAsset = ({
 
   const updateField = (value, req, step) => {
     const fieldMap = {
-      1: [setAssetCode, setCodeReq, setStep],
+      1: [setAssetSerial, setSerialReq, setStep],
       2: [setAssetCategory, setCategoryReq, setStep],
       3: [setAssetType, setTypeReq, setStep],
       4: [setAssetModel, setModelReq, setStep],
-      5: [setAssetSerial, setSerialReq, setStep],
+      5: [setAssetArea, setAreaReq, setStep],
       6: [setAssetPlate, setPlateReq, setStep],
-      7: [setAssetArea, setAreaReq, setStep],
+      7: [setAssetStatus, setStatusReq, setStep],
       8: [setAssetSetor, setSectorReq, setStep],
-      9: [setAssetStatus, setStatusReq, setStep],
-      10: [setAssetDatePurchased, setDatepurchasedReq, setStep],
+      9: [setAssetDatePurchased, setDatepurchasedReq, setStep],
     };
     const [updateState, setReqState, setStepState] = fieldMap[step];
     updateState(value);
@@ -245,20 +242,19 @@ const AddUpdateAsset = ({
                       style={{ padding: "24px" }}
                     >
                       <Form.Item
-                        name={["code"]}
-                        label="Asset Code"
-                        initialValue={assetCode}
+                        name={["serial"]}
+                        label="Serial"
+                        initialValue={assetSerial}
                         rules={[
                           {
-                            required: updateData ? codeReq : true,
-                            message: "Asset code required",
+                            required: updateData ? serialReq : true,
+                            message: "Asset serial required",
                           },
                         ]}
                       >
                         <Input
-                          value={assetCode}
-                          readOnly
-                          maxLength={50}
+                          value={assetSerial}
+                          maxLength={100}
                           onChange={(e) => updateField(e.target.value, true, 1)}
                         />
                       </Form.Item>
@@ -408,33 +404,6 @@ const AddUpdateAsset = ({
                               onChange={(value) => updateField(value, true, 8)}
                             />
                           </Form.Item>
-                          <Form.Item
-                            name={["datepurchased"]}
-                            label="Date Purchased"
-                            initialValue={
-                              assetDatePurchased === ""
-                                ? ""
-                                : moment(assetDatePurchased)
-                            }
-                            rules={[
-                              {
-                                required: updateData ? datepurchasedReq : true,
-                                message: "Date purchased required",
-                              },
-                            ]}
-                          >
-                            <DatePicker
-                              placeholder=""
-                              format={datePickerFormat}
-                              value={
-                                assetDatePurchased === ""
-                                  ? ""
-                                  : moment(assetDatePurchased)
-                              }
-                              onChange={(value) => updateField(value, true, 10)}
-                              inputReadOnly
-                            />
-                          </Form.Item>
                         </Col>
                         <Col span={10}>
                           <Form.Item
@@ -478,25 +447,6 @@ const AddUpdateAsset = ({
                             />
                           </Form.Item>
                           <Form.Item
-                            name={["serial"]}
-                            label="Serial"
-                            initialValue={assetSerial}
-                            rules={[
-                              {
-                                required: updateData ? serialReq : true,
-                                message: "Asset serial required",
-                              },
-                            ]}
-                          >
-                            <Input
-                              value={assetSerial}
-                              maxLength={100}
-                              onChange={(e) =>
-                                updateField(e.target.value, true, 5)
-                              }
-                            />
-                          </Form.Item>
-                          <Form.Item
                             name={["area"]}
                             label="Area"
                             initialValue={assetArea}
@@ -533,7 +483,7 @@ const AddUpdateAsset = ({
                                     label: sal.opt_name,
                                   };
                                 })}
-                              onChange={(value) => updateField(value, true, 7)}
+                              onChange={(value) => updateField(value, true, 5)}
                             />
                           </Form.Item>
                           <Form.Item
@@ -573,7 +523,34 @@ const AddUpdateAsset = ({
                                     label: sal.opt_name,
                                   };
                                 })}
+                              onChange={(value) => updateField(value, true, 7)}
+                            />
+                          </Form.Item>
+                          <Form.Item
+                            name={["datepurchased"]}
+                            label="Date Purchased"
+                            initialValue={
+                              assetDatePurchased === ""
+                                ? ""
+                                : moment(assetDatePurchased)
+                            }
+                            rules={[
+                              {
+                                required: updateData ? datepurchasedReq : true,
+                                message: "Date purchased required",
+                              },
+                            ]}
+                          >
+                            <DatePicker
+                              placeholder=""
+                              format={datePickerFormat}
+                              value={
+                                assetDatePurchased === ""
+                                  ? ""
+                                  : moment(assetDatePurchased)
+                              }
                               onChange={(value) => updateField(value, true, 9)}
+                              inputReadOnly
                             />
                           </Form.Item>
                         </Col>
@@ -615,9 +592,10 @@ const AddUpdateAsset = ({
                         direction="vertical"
                         items={[
                           {
-                            title: "Asset Code",
-                            description: assetCode === "" ? "Empty" : assetCode,
-                            status: assetCode === "" ? "error" : "finish",
+                            title: "Serial",
+                            description:
+                              assetSerial === "" ? "Empty" : assetSerial,
+                            status: assetSerial === "" ? "error" : "finish",
                           },
                           {
                             title: "Category",
@@ -637,34 +615,27 @@ const AddUpdateAsset = ({
                             status: assetModel === "" ? "error" : "finish",
                           },
                           {
-                            title: "Serial",
-                            description:
-                              assetSerial === "" ? "Empty" : assetSerial,
-                            status: assetSerial === "" ? "error" : "finish",
-                          },
-
-                          {
-                            title: "Plate",
-                            description:
-                              assetPlate === "" ? "Empty" : assetPlate,
-                            status: assetPlate === "" ? "error" : "finish",
-                          },
-                          {
                             title: "Area",
                             description: assetArea === "" ? "Empty" : assetArea,
                             status: assetArea === "" ? "error" : "finish",
                           },
                           {
-                            title: "Sector",
+                            title: "Plate Number",
                             description:
-                              assetSector === "" ? "Empty" : assetSector,
-                            status: assetSector === "" ? "error" : "finish",
+                              assetPlate === "" ? "Empty" : assetPlate,
+                            status: assetPlate === "" ? "error" : "finish",
                           },
                           {
                             title: "Status",
                             description:
                               assetStatus === "" ? "Empty" : assetStatus,
                             status: assetStatus === "" ? "error" : "finish",
+                          },
+                          {
+                            title: "Sector",
+                            description:
+                              assetSector === "" ? "Empty" : assetSector,
+                            status: assetSector === "" ? "error" : "finish",
                           },
                           {
                             title: "Date Purchased",

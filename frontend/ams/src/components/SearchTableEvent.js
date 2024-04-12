@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import axios from "axios";
 import {
   Col,
   Row,
@@ -40,7 +39,6 @@ const SearchTableEvent = ({
   sectionCode,
   collapsed,
 }) => {
-  const [code, setCode] = useState("");
   const [openDrawer, setOpenDrawer] = useState(false);
   const [compItem, setCompItem] = useState("");
   const [rowIndex, setRowIndex] = useState([]);
@@ -93,20 +91,6 @@ const SearchTableEvent = ({
                         )
                       );
                     }
-                    if (compItemAdd === "AddUpdateAsset") {
-                      const token = sessionStorage.getItem("token");
-                      axios({
-                        method: "GET",
-                        url: `${process.env.REACT_APP_API_URL}/api/nextasset`,
-                        headers: {
-                          "Content-Type": "application/json",
-                          Authorization: `Token ${token}`,
-                        },
-                        withCredentials: true,
-                      }).then((response) => {
-                        setCode("AST" + response.data["nextasset"]);
-                      });
-                    }
                   }}
                 >
                   <Avatar
@@ -150,7 +134,6 @@ const SearchTableEvent = ({
         </Card>
       </div>
       <DrawerEvent
-        code={code}
         employees={employees}
         attendances={attendances}
         schedules={schedules}
