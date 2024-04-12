@@ -14,10 +14,21 @@ const Asset = ({ assets, options, collapsed, theme }) => {
       onFilter: (value, record) => {
         return (
           String(record.code).toLowerCase().includes(value.toLowerCase()) ||
-          String(record.name).toLowerCase().includes(value.toLowerCase())
+          String(record.serial).toLowerCase().includes(value.toLowerCase()) ||
+          String(record.model).toLowerCase().includes(value.toLowerCase()) ||
+          String(record.plate).toLowerCase().includes(value.toLowerCase()) ||
+          String(record.area).toLowerCase().includes(value.toLowerCase()) ||
+          String(record.sector).toLowerCase().includes(value.toLowerCase())
         );
       },
       sorter: (a, b) => a.code.localeCompare(b.code),
+      defaultSortOrder: "ascend",
+    },
+    {
+      title: "Serial",
+      dataIndex: "serial",
+      key: "serial",
+      sorter: (a, b) => a.serial.localeCompare(b.serial),
       defaultSortOrder: "ascend",
     },
     {
@@ -54,14 +65,11 @@ const Asset = ({ assets, options, collapsed, theme }) => {
   const loadAPILists = useCallback(() => {
     return assets.map((res) => ({
       code: res.asset_code,
-      name: res.asset_name,
-      type: res.asset_type,
-      model: res.asset_model,
       serial: res.asset_serial,
+      model: res.asset_model,
       plate: res.asset_plate,
       area: res.asset_area,
       sector: res.asset_sector,
-      status: res.asset_status,
     }));
   }, [assets]);
 

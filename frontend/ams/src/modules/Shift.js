@@ -48,7 +48,6 @@ const Shift = ({ shifts, collapsed, theme }) => {
 
   const loadAPILists = useCallback(() => {
     return shifts.map((res) => ({
-      id: res.id,
       name: res.shift_name,
       from: res.shift_from,
       to: res.shift_to,

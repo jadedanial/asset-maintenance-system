@@ -454,6 +454,9 @@ h1.ant-typography {
   text-align: center;
   background: #182348 !important;
 }
+.ant-table-cell {
+  padding: 10px !important;
+}
 .dark .ant-table-tbody tr td {
   border-bottom: 1px solid #000c17 !important;
 }
