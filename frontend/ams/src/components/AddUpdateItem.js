@@ -52,7 +52,6 @@ const AddUpdateItem = ({
   const [label, setLabel] = useState(
     updateData ? "Update Item" : "Add New Item"
   );
-  const [idCode, setIDCode] = useState(updateData ? code : "");
   const [itemCode, setItemCode] = useState(updateData ? code : "");
   const [itemName, setItemName] = useState(updateData ? name : "");
   const [itemCategory, setItemCategory] = useState(updateData ? category : "");
@@ -180,7 +179,7 @@ const AddUpdateItem = ({
       withCredentials: true,
     })
       .then((response) => {
-        setIDCode("ITM" + response.data["id"]);
+        setItemCode("ITM" + response.data["id"]);
         createWarehouseItem(
           "ITM" + response.data["id"],
           sectionCode,
@@ -220,7 +219,7 @@ const AddUpdateItem = ({
             }
             subTitle={
               success
-                ? "Item name " + itemName + " with code " + idCode
+                ? "Item name " + itemName + " with code " + itemCode
                 : "System error."
             }
             extra={
@@ -231,6 +230,7 @@ const AddUpdateItem = ({
                     onClick={() => {
                       onCloseDrawer();
                       queryClient.invalidateQueries("items");
+                      queryClient.invalidateQueries("warehouseitems");
                     }}
                     block
                   >
@@ -481,6 +481,7 @@ const AddUpdateItem = ({
                           onClick={() => {
                             onCloseDrawer();
                             queryClient.invalidateQueries("items");
+                            queryClient.invalidateQueries("warehouseitems");
                           }}
                           block
                         >

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useCustomQueryClient } from "../useQueryClient";
 import { useMutation } from "react-query";
 import axios from "axios";
@@ -55,7 +55,6 @@ const AddUpdateAsset = ({
   const [label, setLabel] = useState(
     updateData ? "Update Asset" : "Add New Asset"
   );
-  const [idCode, setIDCode] = useState(updateData ? code : "");
   const [assetCode, setAssetCode] = useState(updateData ? code : "");
   const [assetCategory, setAssetCategory] = useState(
     updateData ? category : ""
@@ -157,7 +156,7 @@ const AddUpdateAsset = ({
       withCredentials: true,
     })
       .then((response) => {
-        setIDCode("AST" + response.data["id"]);
+        setAssetCode("AST" + response.data["id"]);
         setLoading(false);
         setSuccess(true);
       })
@@ -172,6 +171,21 @@ const AddUpdateAsset = ({
   const onFinish = () => {
     mutate();
   };
+
+  useEffect(() => {
+    const token = sessionStorage.getItem("token");
+    axios({
+      method: "GET",
+      url: `${process.env.REACT_APP_API_URL}/api/nextasset`,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Token ${token}`,
+      },
+      withCredentials: true,
+    }).then((response) => {
+      setAssetCode("AST" + response.data["nextasset"]);
+    });
+  }, []);
 
   return (
     <>
@@ -191,7 +205,7 @@ const AddUpdateAsset = ({
                 ? "Failed to update asset."
                 : "Failed to add new asset."
             }
-            subTitle={success ? "Asset code " + idCode : "System error."}
+            subTitle={success ? "Asset code " + assetCode : "System error."}
             extra={
               <Row className="space-between-row">
                 <Col span={12}>

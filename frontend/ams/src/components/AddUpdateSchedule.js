@@ -177,6 +177,7 @@ const AddUpdateSchedule = ({
                     onClick={() => {
                       onCloseDrawer();
                       queryClient.invalidateQueries("schedules");
+                      queryClient.invalidateQueries("shifts");
                     }}
                     block
                   >
@@ -539,6 +540,7 @@ const AddUpdateSchedule = ({
                           onClick={() => {
                             onCloseDrawer();
                             queryClient.invalidateQueries("schedules");
+                            queryClient.invalidateQueries("shifts");
                           }}
                           block
                         >

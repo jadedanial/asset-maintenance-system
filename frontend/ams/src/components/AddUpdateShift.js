@@ -151,7 +151,6 @@ const AddUpdateShift = ({
                     onClick={() => {
                       onCloseDrawer();
                       queryClient.invalidateQueries("shifts");
-                      queryClient.invalidateQueries("schedules");
                     }}
                     block
                   >
@@ -282,7 +281,6 @@ const AddUpdateShift = ({
                           onClick={() => {
                             onCloseDrawer();
                             queryClient.invalidateQueries("shifts");
-                            queryClient.invalidateQueries("schedules");
                           }}
                           block
                         >
