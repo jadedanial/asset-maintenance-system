@@ -30,8 +30,7 @@ const LoginPage = () => {
         sessionStorage.setItem("token", response.data.token);
         navigate("/");
       })
-      .catch((err) => {
-        console.log(err.response.data.detail);
+      .catch(() => {
         setLoginFailed(true);
       });
   };

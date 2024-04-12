@@ -99,13 +99,9 @@ const MainPage = ({
         Authorization: `Token ${token}`,
       },
       withCredentials: true,
-    })
-      .then(() => {
-        queryClient.clear();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    }).then(() => {
+      queryClient.clear();
+    });
     navigate("/login");
   };
 

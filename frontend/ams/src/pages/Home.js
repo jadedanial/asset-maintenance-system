@@ -119,8 +119,7 @@ const HomePage = () => {
           setUserName(userData.username);
           setLoginFailed(false);
         })
-        .catch((err) => {
-          console.log(err.response.data.detail);
+        .catch(() => {
           queryClient.clear();
           setLoginFailed(true);
           navigate("/login");
