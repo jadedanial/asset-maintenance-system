@@ -32,7 +32,7 @@ const Item = ({
       title: "Name",
       dataIndex: "name",
       key: "name",
-      width: "40%",
+      width: "300px",
       sorter: (a, b) => a.name.localeCompare(b.name),
       defaultSortOrder: "ascend",
     },

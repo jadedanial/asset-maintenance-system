@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useCustomQueryClient } from "../useQueryClient";
 import { useMutation } from "react-query";
 import axios from "axios";
@@ -55,7 +55,7 @@ const AddUpdateAsset = ({
   const [label, setLabel] = useState(
     updateData ? "Update Asset" : "Add New Asset"
   );
-  const [assetCode, setAssetCode] = useState(updateData ? code : "");
+  const [assetCode, setAssetCode] = useState(code);
   const [assetCategory, setAssetCategory] = useState(
     updateData ? category : ""
   );
@@ -171,21 +171,6 @@ const AddUpdateAsset = ({
   const onFinish = () => {
     mutate();
   };
-
-  useEffect(() => {
-    const token = sessionStorage.getItem("token");
-    axios({
-      method: "GET",
-      url: `${process.env.REACT_APP_API_URL}/api/nextasset`,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Token ${token}`,
-      },
-      withCredentials: true,
-    }).then((response) => {
-      setAssetCode("AST" + response.data["nextasset"]);
-    });
-  }, []);
 
   return (
     <>

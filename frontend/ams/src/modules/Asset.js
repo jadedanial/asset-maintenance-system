@@ -21,24 +21,10 @@ const Asset = ({ assets, options, collapsed, theme }) => {
       defaultSortOrder: "ascend",
     },
     {
-      title: "Type",
-      dataIndex: "type",
-      key: "type",
-      sorter: (a, b) => a.type.localeCompare(b.type),
-      defaultSortOrder: "ascend",
-    },
-    {
       title: "Model",
       dataIndex: "model",
       key: "model",
       sorter: (a, b) => a.model.localeCompare(b.model),
-      defaultSortOrder: "ascend",
-    },
-    {
-      title: "Serial",
-      dataIndex: "serial",
-      key: "serial",
-      sorter: (a, b) => a.serial.localeCompare(b.serial),
       defaultSortOrder: "ascend",
     },
     {
@@ -59,14 +45,8 @@ const Asset = ({ assets, options, collapsed, theme }) => {
       title: "Sector",
       dataIndex: "sector",
       key: "sector",
+      width: "300px",
       sorter: (a, b) => a.sector.localeCompare(b.sector),
-      defaultSortOrder: "ascend",
-    },
-    {
-      title: "Status",
-      dataIndex: "status",
-      key: "status",
-      sorter: (a, b) => a.serial.localeCompare(b.status),
       defaultSortOrder: "ascend",
     },
   ];
