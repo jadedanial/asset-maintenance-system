@@ -264,6 +264,7 @@ class AssetSerializer(serializers.ModelSerializer):
             "asset_area",
             "asset_sector",
             "asset_status",
+            "asset_purchased"
         ]
 
 

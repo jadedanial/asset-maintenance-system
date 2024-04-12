@@ -389,6 +389,7 @@ class AssetAdmin(admin.ModelAdmin):
         "asset_area",
         "asset_sector",
         "asset_status",
+        "asset_purchased"
     )
     list_filter = (
         "asset_code",
@@ -400,6 +401,7 @@ class AssetAdmin(admin.ModelAdmin):
         "asset_area",
         "asset_sector",
         "asset_status",
+        "asset_purchased"
     )
     search_fields = (
         "asset_code",
@@ -411,6 +413,7 @@ class AssetAdmin(admin.ModelAdmin):
         "asset_area",
         "asset_sector",
         "asset_status",
+        "asset_purchased"
     )
 
 

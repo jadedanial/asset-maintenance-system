@@ -441,6 +441,42 @@ class WarehouseItemListView(ListAPIView):
     permission_classes = [IsAuthenticated]
 
 
+class AssetView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        serializer = AssetSerializer(data=request.data)
+
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response(serializer.data)
+
+    def patch(self, request, *args, **kwargs):
+        asset = Asset.objects.filter(
+            asset_code=request.data["asset_code"]).first()
+        serializer = AssetSerializer(asset, data=request.data)
+
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response(serializer.data)
+
+
+class NextAssetiew(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        last_asset = Asset.objects.last()
+
+        if last_asset is None:
+            nextasset = 1
+        else:
+            nextasset = last_asset.id + 1
+
+        return Response({"nextasset": nextasset})
+
+
 class AssetListView(ListAPIView):
     queryset = Asset.objects.all()
     serializer_class = AssetSerializer

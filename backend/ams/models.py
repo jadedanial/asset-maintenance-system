@@ -450,6 +450,8 @@ class Asset(models.Model):
     asset_status = models.CharField(
         max_length=100, blank=True, null=True, verbose_name="Status"
     )
+    asset_purchased = models.DateField(
+        blank=True, null=True, verbose_name="Date Purchased")
 
     def __str__(self):
         return str(self.asset_code)

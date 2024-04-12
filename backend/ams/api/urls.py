@@ -40,6 +40,8 @@ urlpatterns = [
     path("warehouseitem", WarehouseItemView.as_view()),
     path("warehouseitemupdate", WarehouseItemUpdateView.as_view()),
     path("warehouseitems", WarehouseItemListView.as_view()),
+    path("asset", AssetView.as_view()),
+    path("nextasset", NextAssetiew.as_view()),
     path("assets", AssetListView.as_view()),
     path("transaction", TransactionView.as_view()),
     path("transactions", TransactionListView.as_view()),
