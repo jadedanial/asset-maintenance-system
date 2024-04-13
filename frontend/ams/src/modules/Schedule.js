@@ -87,6 +87,7 @@ const Schedule = ({ schedules, shifts, collapsed, theme }) => {
 
   const loadAPILists = useCallback(() => {
     return schedules.map((res) => ({
+      id: res.id,
       name: res.sched_name,
       sun: res.sched_sun,
       mon: res.sched_mon,
