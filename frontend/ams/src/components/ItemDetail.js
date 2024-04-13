@@ -1,16 +1,9 @@
 import React, { useState } from "react";
 import QRCode from "react-qr-code";
-import {
-  Card,
-  Typography,
-  Tag,
-  Col,
-  Row,
-  Descriptions,
-  Button,
-  Table,
-} from "antd";
+import { Card, Typography, Tag, Col, Row, Descriptions, Button } from "antd";
+import { PieChart, Pie, Cell, Text } from "recharts";
 import AddUpdateItem from "./AddUpdateItem";
+import EmptyData from "./EmptyData";
 
 const { Title } = Typography;
 
@@ -27,34 +20,41 @@ const ItemDetail = ({
 }) => {
   const [update, setUpdate] = useState(false);
 
-  const columns = [
-    {
-      title: "Warehouse Code",
-      dataIndex: "warehouse_code",
-      key: "warehouse_code",
-    },
-    {
-      title: "On Hand",
-      dataIndex: "item_onhand",
-      key: "item_onhand",
-    },
-    {
-      title: "Location",
-      dataIndex: "item_location",
-      key: "item_location",
-    },
-  ];
-
   const data = warehouseitems
-    .filter(
-      (wi) => wi.item_code === itemcode && wi.warehouse_code !== sectionCode
-    )
+    .filter((wi) => wi.item_code === itemcode)
     .map((wi) => ({
-      key: wi.warehouse_code,
-      warehouse_code: wi.warehouse_code,
-      item_onhand: wi.item_onhand,
-      item_location: wi.item_location,
+      name: wi.warehouse_code,
+      value: wi.item_onhand,
     }));
+
+  const totalValue = data.reduce((acc, entry) => acc + entry.value, 0);
+
+  const RADIAN = Math.PI / 180;
+  const renderCustomizedLabel = ({
+    cx,
+    cy,
+    midAngle,
+    outerRadius,
+    fill,
+    value,
+    name,
+  }) => {
+    const radius = outerRadius + 10; // Label position outside the outerRadius
+    const x = cx + radius * Math.cos(-midAngle * RADIAN);
+    const y = cy + radius * Math.sin(-midAngle * RADIAN);
+
+    return (
+      <Text
+        x={x}
+        y={y}
+        fill={fill}
+        textAnchor={x > cx ? "start" : "end"}
+        dominantBaseline="central"
+      >
+        {`${name}: ${value}`}
+      </Text>
+    );
+  };
 
   const itemDetails = (i, wi) => {
     return (
@@ -151,20 +151,35 @@ const ItemDetail = ({
             }}
           >
             <div className="card-with-background" style={{ padding: "24px" }}>
-              <p className="small-card-title" style={{ paddingBottom: "24px" }}>
-                Stock On Other Warehouse
+              <p className="large-card-title" style={{ textAlign: "center" }}>
+                Stock Available On Warehouses
               </p>
-              <Table
-                rowClassName={() => "table-row"}
-                columns={columns}
-                dataSource={data}
-                pagination={false}
-                size="small"
-                scroll={{
-                  x: "100%",
-                  y: "fit-content",
-                }}
-              />
+              <div
+                className="justified-row"
+                style={{ padding: totalValue === 0 ? "24px" : "0" }}
+              >
+                {totalValue !== 0 ? (
+                  <PieChart width={500} height={250}>
+                    <Pie
+                      data={data}
+                      cx="50%"
+                      cy="50%"
+                      innerRadius={80}
+                      outerRadius={100}
+                      paddingAngle={5}
+                      dataKey="value"
+                      labelLine={false}
+                      label={renderCustomizedLabel}
+                    >
+                      {data.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill="#318ce7" />
+                      ))}
+                    </Pie>
+                  </PieChart>
+                ) : (
+                  <EmptyData theme={theme} />
+                )}
+              </div>
             </div>
           </Col>
         </Row>

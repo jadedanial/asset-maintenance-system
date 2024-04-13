@@ -125,7 +125,7 @@ const ItemList = ({
               <Col span={4} className="justified-row">
                 <Tooltip title="Show All">
                   <Button
-                    icon={<AppstoreOutlined style={{ fontSize: "20px" }} />}
+                    icon={<AppstoreOutlined style={{ fontSize: "22px" }} />}
                     className="btn-normal"
                     onClick={() => showAll()}
                   />
@@ -136,9 +136,9 @@ const ItemList = ({
                   <Button
                     icon={
                       codeAscending ? (
-                        <OrderedListOutlined style={{ fontSize: "20px" }} />
+                        <OrderedListOutlined style={{ fontSize: "22px" }} />
                       ) : (
-                        <UnorderedListOutlined style={{ fontSize: "20px" }} />
+                        <UnorderedListOutlined style={{ fontSize: "22px" }} />
                       )
                     }
                     className="btn-normal"
@@ -153,9 +153,9 @@ const ItemList = ({
                   <Button
                     icon={
                       nameAscending ? (
-                        <SortAscendingOutlined style={{ fontSize: "20px" }} />
+                        <SortAscendingOutlined style={{ fontSize: "22px" }} />
                       ) : (
-                        <SortDescendingOutlined style={{ fontSize: "20px" }} />
+                        <SortDescendingOutlined style={{ fontSize: "22px" }} />
                       )
                     }
                     className="btn-normal"
@@ -170,9 +170,9 @@ const ItemList = ({
                   <Button
                     icon={
                       costAscending ? (
-                        <DollarOutlined style={{ fontSize: "20px" }} />
+                        <DollarOutlined style={{ fontSize: "22px" }} />
                       ) : (
-                        <PoundOutlined style={{ fontSize: "20px" }} />
+                        <PoundOutlined style={{ fontSize: "22px" }} />
                       )
                     }
                     className="btn-normal"
@@ -188,9 +188,9 @@ const ItemList = ({
                     <Button
                       icon={
                         checkedAll ? (
-                          <CheckSquareOutlined style={{ fontSize: "20px" }} />
+                          <CheckSquareOutlined style={{ fontSize: "22px" }} />
                         ) : (
-                          <BorderOutlined style={{ fontSize: "20px" }} />
+                          <BorderOutlined style={{ fontSize: "22px" }} />
                         )
                       }
                       className="btn-normal"

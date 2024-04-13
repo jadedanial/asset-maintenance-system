@@ -120,7 +120,12 @@ const Transact = ({
           removeItem(code);
           addItem(id, code, name, cost, measurement, quantity, max, total);
           setInputStatus("");
-          api.info(NotificationEvent(true, "Item " + code + " added to cart."));
+          api.info(
+            NotificationEvent(
+              true,
+              "Item code " + code + " successfully added to cart."
+            )
+          );
         } else {
           api.info(
             NotificationEvent(

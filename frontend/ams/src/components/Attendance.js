@@ -418,9 +418,7 @@ const Attendance = ({
                         {attendanceData.map((data) => (
                           <div>
                             <Timeline.Item
-                              dot={
-                                <ClockCircleOutlined style={{ fontSize: "" }} />
-                              }
+                              dot={<ClockCircleOutlined />}
                               className="small-font text"
                             >
                               {data}

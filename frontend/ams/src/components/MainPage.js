@@ -137,11 +137,11 @@ const MainPage = ({
   ];
 
   const iconComponents = {
-    SettingOutlined: <SettingOutlined style={{ fontSize: "20px" }} />,
-    ShopOutlined: <ShopOutlined style={{ fontSize: "20px" }} />,
-    TeamOutlined: <TeamOutlined style={{ fontSize: "20px" }} />,
-    GoldOutlined: <GoldOutlined style={{ fontSize: "20px" }} />,
-    BarChartOutlined: <BarChartOutlined style={{ fontSize: "20px" }} />,
+    SettingOutlined: <SettingOutlined />,
+    ShopOutlined: <ShopOutlined />,
+    TeamOutlined: <TeamOutlined />,
+    GoldOutlined: <GoldOutlined />,
+    BarChartOutlined: <BarChartOutlined />,
   };
 
   let newModules = [];

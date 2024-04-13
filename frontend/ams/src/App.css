@@ -169,7 +169,6 @@ h1 {
 .light .ant-menu-item-icon {
   color: #000 !important;
 }
-.ant-btn-icon-only,
 .ant-card-bordered,
 .ant-list-item,
 .ant-menu-item:after {
@@ -228,7 +227,8 @@ h1.ant-typography {
 .ant-avatar .anticon {
   color: #fff !important;
 }
-.anticon-close {
+.anticon-close,
+.anticon-close-square {
   color: #ff0000 !important;
 }
 .ant-input-affix-wrapper {
@@ -255,13 +255,10 @@ h1.ant-typography {
   margin: 0 !important;
 }
 .btn-normal:hover {
-  color: #fff !important;
-  background: #6841f5 !important;
-}
-.no-hover:hover {
   color: #6841f5 !important;
   background: none !important;
   border: none !important;
+  transform: scale(1.2);
 }
 .card-main-layout {
   width: 100%;
@@ -411,7 +408,6 @@ h1.ant-typography {
 .dark .table-row,
 .light .table-row {
   font-size: 14px;
-  font-weight: 500;
   cursor: pointer;
 }
 .ant-table-thead {
@@ -626,7 +622,7 @@ h1.ant-typography {
 .ant-select,
 .ant-select-item-option-content {
   font-family: ralewayregular !important;
-  font-size: 14px !important;
+  font-size: 16px !important;
 }
 .ant-input,
 .ant-input-number,
@@ -792,4 +788,8 @@ input::file-selector-button {
   .ant-picker-cell-selected
   .ant-picker-calendar-date {
   background: #ecf3f9 !important;
+}
+.recharts-text {
+  font-family: ralewaylight !important;
+  font-size: 16px !important;
 }

@@ -25,7 +25,11 @@ const Item = ({
           String(record.name).toLowerCase().includes(value.toLowerCase())
         );
       },
-      sorter: (a, b) => a.code.localeCompare(b.code),
+      sorter: (a, b) => {
+        const numA = parseInt(a.code.replace("ITM", ""), 10);
+        const numB = parseInt(b.code.replace("ITM", ""), 10);
+        return numA - numB;
+      },
       defaultSortOrder: "ascend",
     },
     {
