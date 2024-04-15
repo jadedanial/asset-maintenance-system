@@ -32,6 +32,7 @@ const layout = {
 
 const AddUpdateAsset = ({
   options,
+  branches,
   update,
   code,
   category,
@@ -296,10 +297,10 @@ const AddUpdateAsset = ({
                                 .filter(
                                   (res) => res.opt_category === "Asset Category"
                                 )
-                                .map((sal) => {
+                                .map((cat) => {
                                   return {
-                                    value: sal.opt_name,
-                                    label: sal.opt_name,
+                                    value: cat.opt_name,
+                                    label: cat.opt_name,
                                   };
                                 })}
                               onChange={(value) => updateField(value, true, 2)}
@@ -336,10 +337,10 @@ const AddUpdateAsset = ({
                                 .filter(
                                   (res) => res.opt_category === "Asset Model"
                                 )
-                                .map((sal) => {
+                                .map((mod) => {
                                   return {
-                                    value: sal.opt_name,
-                                    label: sal.opt_name,
+                                    value: mod.opt_name,
+                                    label: mod.opt_name,
                                   };
                                 })}
                               onChange={(value) => updateField(value, true, 4)}
@@ -395,10 +396,10 @@ const AddUpdateAsset = ({
                                 .filter(
                                   (res) => res.opt_category === "Asset Sector"
                                 )
-                                .map((sal) => {
+                                .map((sec) => {
                                   return {
-                                    value: sal.opt_name,
-                                    label: sal.opt_name,
+                                    value: sec.opt_name,
+                                    label: sec.opt_name,
                                   };
                                 })}
                               onChange={(value) => updateField(value, true, 8)}
@@ -437,10 +438,10 @@ const AddUpdateAsset = ({
                                 .filter(
                                   (res) => res.opt_category === "Asset Type"
                                 )
-                                .map((sal) => {
+                                .map((typ) => {
                                   return {
-                                    value: sal.opt_name,
-                                    label: sal.opt_name,
+                                    value: typ.opt_name,
+                                    label: typ.opt_name,
                                   };
                                 })}
                               onChange={(value) => updateField(value, true, 3)}
@@ -461,6 +462,7 @@ const AddUpdateAsset = ({
                               showSearch
                               style={{ width: "100%" }}
                               value={assetArea}
+                              optionFilterProp="children"
                               filterOption={(input, option) =>
                                 (option?.label ?? "")
                                   .toLowerCase()
@@ -473,16 +475,12 @@ const AddUpdateAsset = ({
                                     (optionB?.label ?? "").toLowerCase()
                                   )
                               }
-                              options={options
-                                .filter(
-                                  (res) => res.opt_category === "Asset Area"
-                                )
-                                .map((sal) => {
-                                  return {
-                                    value: sal.opt_name,
-                                    label: sal.opt_name,
-                                  };
-                                })}
+                              options={branches.map((bra) => {
+                                return {
+                                  value: bra.branch_name,
+                                  label: bra.branch_name,
+                                };
+                              })}
                               onChange={(value) => updateField(value, true, 5)}
                             />
                           </Form.Item>
@@ -517,10 +515,10 @@ const AddUpdateAsset = ({
                                 .filter(
                                   (res) => res.opt_category === "Asset Status"
                                 )
-                                .map((sal) => {
+                                .map((sta) => {
                                   return {
-                                    value: sal.opt_name,
-                                    label: sal.opt_name,
+                                    value: sta.opt_name,
+                                    label: sta.opt_name,
                                   };
                                 })}
                               onChange={(value) => updateField(value, true, 7)}

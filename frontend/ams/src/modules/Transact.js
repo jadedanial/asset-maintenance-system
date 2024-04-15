@@ -723,11 +723,11 @@ const Transact = ({
                   <Row className="space-between-row ">
                     <Col span={18} className="flex-end-row">
                       <Select
-                        placeholder="To Warehouse"
-                        value={warehouseCode}
                         showSearch
+                        placeholder="To Warehouse"
+                        style={{ width: "100%" }}
+                        value={warehouseCode}
                         className="bordered-select"
-                        optionFilterProp="children"
                         filterOption={(input, option) =>
                           (option?.label ?? "").toLowerCase().includes(input)
                         }
@@ -742,7 +742,6 @@ const Transact = ({
                             value: sec.section_code,
                             label: sec.section_code,
                           }))}
-                        style={{ width: "100%" }}
                         onChange={onWarehouseChange}
                       />
                     </Col>

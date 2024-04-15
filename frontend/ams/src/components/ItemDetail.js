@@ -159,7 +159,7 @@ const ItemDetail = ({
                 style={{ padding: totalValue === 0 ? "24px" : "0" }}
               >
                 {totalValue !== 0 ? (
-                  <PieChart width={500} height={250}>
+                  <PieChart width={500} height={300}>
                     <Pie
                       data={data}
                       cx="50%"

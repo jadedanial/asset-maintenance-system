@@ -2,7 +2,7 @@ import React, { useState, useCallback } from "react";
 import { CarOutlined } from "@ant-design/icons";
 import SearchTableEvent from "../components/SearchTableEvent";
 
-const Asset = ({ assets, options, collapsed, theme }) => {
+const Asset = ({ assets, options, branches, collapsed, theme }) => {
   const [searchedtext, setSearchedText] = useState("");
 
   const columns = [
@@ -85,6 +85,7 @@ const Asset = ({ assets, options, collapsed, theme }) => {
       <SearchTableEvent
         assets={assets}
         options={options}
+        branches={branches}
         loadAPILists={loadAPILists}
         tooltipIcon={<CarOutlined className="large-card-title" />}
         tooltipTitle={"Add New Asset"}

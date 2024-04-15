@@ -56,7 +56,10 @@ class CategorySerializer(serializers.ModelSerializer):
 
 
 class OptionSerializer(serializers.ModelSerializer):
-    opt_category = serializers.ReadOnlyField(source="opt_category.cat_name")
+    opt_category = serializers.SlugRelatedField(
+        queryset=Category.objects.all(),
+        slug_field='cat_name'
+    )
 
     class Meta:
         model = Option
@@ -68,7 +71,6 @@ class OptionSerializer(serializers.ModelSerializer):
 
 
 class BranchSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Branch
         fields = [
@@ -77,7 +79,6 @@ class BranchSerializer(serializers.ModelSerializer):
 
 
 class SectionSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Section
         fields = [
@@ -251,6 +252,11 @@ class WarehouseItemSerializer(serializers.ModelSerializer):
 
 
 class AssetSerializer(serializers.ModelSerializer):
+    asset_area = serializers.SlugRelatedField(
+        queryset=Branch.objects.all(),
+        slug_field='branch_name'
+    )
+
     class Meta:
         model = Asset
         fields = [

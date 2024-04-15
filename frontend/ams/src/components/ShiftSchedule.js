@@ -278,7 +278,7 @@ const ShiftSchedule = ({ schedules, employees, empid, theme }) => {
                           showSearch
                           placeholder="Search Schedule"
                           style={{ width: "100%" }}
-                          optionFilterProp="children"
+                          value={schedname}
                           filterOption={(input, option) =>
                             (option?.label ?? "").toLowerCase().includes(input)
                           }
@@ -289,7 +289,6 @@ const ShiftSchedule = ({ schedules, employees, empid, theme }) => {
                                 (optionB?.label ?? "").toLowerCase()
                               )
                           }
-                          value={schedname}
                           options={schedules.map((sched) => {
                             return {
                               value: sched.id,

@@ -343,7 +343,7 @@ const AddUpdateEmployee = ({
                             <Select
                               showSearch
                               style={{ width: "100%" }}
-                              optionFilterProp="children"
+                              value={employeePosition}
                               filterOption={(input, option) =>
                                 (option?.label ?? "")
                                   .toLowerCase()
@@ -356,7 +356,6 @@ const AddUpdateEmployee = ({
                                     (optionB?.label ?? "").toLowerCase()
                                   )
                               }
-                              value={employeePosition}
                               options={options
                                 .filter(
                                   (res) => res.opt_category === "Position"
@@ -455,7 +454,7 @@ const AddUpdateEmployee = ({
                             <Select
                               showSearch
                               style={{ width: "100%" }}
-                              optionFilterProp="children"
+                              value={employeeNationality}
                               filterOption={(input, option) =>
                                 (option?.label ?? "")
                                   .toLowerCase()
@@ -468,7 +467,6 @@ const AddUpdateEmployee = ({
                                     (optionB?.label ?? "").toLowerCase()
                                   )
                               }
-                              value={employeeNationality}
                               options={options
                                 .filter(
                                   (res) => res.opt_category === "Nationality"
@@ -544,7 +542,7 @@ const AddUpdateEmployee = ({
                         <Select
                           showSearch
                           style={{ width: "100%" }}
-                          optionFilterProp="children"
+                          value={employeeSection}
                           filterOption={(input, option) =>
                             (option?.label ?? "").toLowerCase().includes(input)
                           }
@@ -555,7 +553,6 @@ const AddUpdateEmployee = ({
                                 (optionB?.label ?? "").toLowerCase()
                               )
                           }
-                          value={employeeSection}
                           options={sections.map((sec) => {
                             return {
                               value: sec.section_code,

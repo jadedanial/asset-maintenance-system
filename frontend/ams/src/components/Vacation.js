@@ -351,7 +351,6 @@ const Vacation = ({ vacations, options, empid, theme }) => {
                             <Select
                               showSearch
                               style={{ width: "100%" }}
-                              optionFilterProp="children"
                               filterOption={(input, option) =>
                                 (option?.label ?? "")
                                   .toLowerCase()

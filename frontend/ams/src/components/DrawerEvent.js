@@ -19,6 +19,7 @@ const DrawerEvent = ({
   vacations,
   excuses,
   sections,
+  branches,
   options,
   userId,
   getSection,
@@ -220,6 +221,7 @@ const DrawerEvent = ({
           <>
             <AddUpdateAsset
               options={options}
+              branches={branches}
               update={false}
               onCloseDrawer={onCloseDrawer}
               theme={theme}

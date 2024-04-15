@@ -247,6 +247,7 @@ const MainPage = ({
             <Asset
               assets={assets}
               options={options}
+              branches={branches}
               collapsed={collapsed}
               theme={theme}
             />

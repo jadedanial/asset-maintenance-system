@@ -317,7 +317,7 @@ const AddUpdateItem = ({
                             <Select
                               showSearch
                               style={{ width: "100%" }}
-                              optionFilterProp="children"
+                              value={itemCategory}
                               filterOption={(input, option) =>
                                 (option?.label ?? "")
                                   .toLowerCase()
@@ -330,7 +330,6 @@ const AddUpdateItem = ({
                                     (optionB?.label ?? "").toLowerCase()
                                   )
                               }
-                              value={itemCategory}
                               options={options
                                 .filter(
                                   (res) => res.opt_category === "Item Category"
@@ -400,7 +399,7 @@ const AddUpdateItem = ({
                             <Select
                               showSearch
                               style={{ width: "100%" }}
-                              optionFilterProp="children"
+                              value={itemMeasurement}
                               filterOption={(input, option) =>
                                 (option?.label ?? "")
                                   .toLowerCase()
@@ -413,7 +412,6 @@ const AddUpdateItem = ({
                                     (optionB?.label ?? "").toLowerCase()
                                   )
                               }
-                              value={itemMeasurement}
                               options={options
                                 .filter(
                                   (res) => res.opt_category === "Measurement"

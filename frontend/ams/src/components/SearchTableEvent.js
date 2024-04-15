@@ -25,6 +25,7 @@ const SearchTableEvent = ({
   warehouseitems,
   sections,
   options,
+  branches,
   theme,
   tooltipTitle,
   compItemAdd,
@@ -144,6 +145,7 @@ const SearchTableEvent = ({
         warehouseitems={warehouseitems}
         sections={sections}
         options={options}
+        branches={branches}
         rowIndex={rowIndex}
         showDrawer={openDrawer}
         onCloseDrawer={onCloseDrawer}

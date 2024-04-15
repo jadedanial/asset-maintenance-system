@@ -329,9 +329,8 @@ class Vacation(models.Model):
     vac_attachment = models.CharField(
         max_length=1000, blank=True, null=True, verbose_name="Attachment"
     )
-    vac_total = models.CharField(
-        max_length=200, blank=True, null=True, verbose_name="Total"
-    )
+    vac_total = models.FloatField(
+        blank=True, null=True, verbose_name="Total")
 
     def __str__(self):
         return str(self.emp_id)
@@ -351,9 +350,8 @@ class Excuse(models.Model):
         blank=True, null=True, verbose_name="Start Time")
     exc_end = models.TimeField(blank=True, null=True, verbose_name="End Time")
     exc_reason = models.TextField(blank=True, null=True, verbose_name="Reason")
-    exc_total = models.CharField(
-        max_length=200, blank=True, null=True, verbose_name="Total"
-    )
+    exc_total = models.FloatField(
+        blank=True, null=True, verbose_name="Total")
 
     def __str__(self):
         return str(self.emp_id)
@@ -441,8 +439,12 @@ class Asset(models.Model):
     asset_plate = models.CharField(
         max_length=100, blank=True, null=True, verbose_name="Plate"
     )
-    asset_area = models.CharField(
-        max_length=200, blank=True, null=True, verbose_name="Area"
+    asset_area = models.ForeignKey(
+        Branch,
+        blank=True,
+        null=True,
+        on_delete=models.CASCADE,
+        verbose_name="Area",
     )
     asset_sector = models.CharField(
         max_length=300, blank=True, null=True, verbose_name="Sector"
@@ -495,4 +497,77 @@ class Transaction(models.Model):
 
     def save(self, *args, **kwargs):
         super(Transaction, self).save(*args, **kwargs)
+        self.update_model()
+
+
+class Workorder(models.Model):
+    id = models.AutoField(primary_key=True)
+    work_code = models.CharField(
+        max_length=300, blank=True, null=True, verbose_name="Workorder Code"
+    )
+    asset_code = models.ForeignKey(
+        Asset,
+        blank=True,
+        null=True,
+        on_delete=models.CASCADE,
+        verbose_name="Asset Code",
+    )
+    asset_kilo = models.IntegerField(
+        blank=True, null=True, verbose_name="Kilometer"
+    )
+    work_date = models.DateTimeField(
+        blank=True, null=True, verbose_name="Date")
+    work_type = models.CharField(
+        max_length=300, blank=True, null=True, verbose_name="Type"
+    )
+    work_status = models.CharField(
+        max_length=300, blank=True, null=True, verbose_name="Status"
+    )
+    work_shop = models.ForeignKey(
+        Section,
+        blank=True,
+        null=True,
+        on_delete=models.CASCADE,
+        verbose_name="Workshop Code",
+    )
+    maint_type = models.CharField(
+        max_length=300, blank=True, null=True, verbose_name="Maintenance Type"
+    )
+    recep_tech = models.ForeignKey(
+        Employee,
+        blank=False,
+        null=False,
+        related_name="recep_tech",
+        on_delete=models.CASCADE,
+        verbose_name="Technician",
+    )
+    recep_sched = models.ForeignKey(
+        Employee,
+        blank=False,
+        null=False,
+        related_name="recep_sched",
+        on_delete=models.CASCADE,
+        verbose_name="Scheduler",
+    )
+    recep_sup = models.ForeignKey(
+        Employee,
+        blank=False,
+        null=False,
+        related_name="recep_sup",
+        on_delete=models.CASCADE,
+        verbose_name="Supervisor",
+    )
+    recep_remarks = models.TextField(
+        blank=True, null=True, verbose_name="Remarks")
+
+    def __str__(self):
+        return str(self.work_code)
+
+    def update_model(self):
+        test_id = Workorder.objects.get(work_code=self.work_code).id
+        Workorder.objects.filter(id=test_id).update(
+            work_code="WRK" + str(self.id))
+
+    def save(self, *args, **kwargs):
+        super(Workorder, self).save(*args, **kwargs)
         self.update_model()
