@@ -270,7 +270,7 @@ class AssetSerializer(serializers.ModelSerializer):
             "asset_area",
             "asset_sector",
             "asset_status",
-            "asset_purchased"
+            "asset_purchased",
         ]
 
 
@@ -285,4 +285,82 @@ class TransactionSerializer(serializers.ModelSerializer):
             "trans_user",
             "trans_detail",
             "trans_status",
+        ]
+
+
+class WorkorderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Workorder
+        fields = [
+            "work_code",
+            "asset_code",
+            "asset_kilo",
+            "work_date",
+            "work_type",
+            "work_status",
+            "workshop_code",
+            "recep_tech",
+            "recep_sched",
+            "recep_supv",
+            "recep_remarks",
+        ]
+
+
+class OperationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Operation
+        fields = [
+            "op_code",
+            "op_description",
+            "op_hours",
+            "op_item",
+            "op_restriction",
+        ]
+
+
+class OperationTypeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Operation
+        fields = [
+            "op_type",
+            "op_rate",
+        ]
+
+
+class WorkorderOperationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = WorkorderOperation
+        fields = [
+            "op_code",
+            "work_code",
+            "op_sched",
+            "op_supv",
+            "op_type",
+        ]
+
+
+class OperationTechnicianSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = OperationTechnician
+        fields = [
+            "op_code",
+            "work_code",
+            "op_tech",
+            "op_rate",
+            "op_hours",
+            "tech_hours",
+            "total_cost",
+        ]
+
+
+class OperationItemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = OperationItem
+        fields = [
+            "op_code",
+            "work_code",
+            "item_code",
+            "item_cost",
+            "item_quantity",
+            "total_cost",
         ]

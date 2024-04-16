@@ -523,15 +523,12 @@ class Workorder(models.Model):
     work_status = models.CharField(
         max_length=300, blank=True, null=True, verbose_name="Status"
     )
-    work_shop = models.ForeignKey(
+    workshop_code = models.ForeignKey(
         Section,
         blank=True,
         null=True,
         on_delete=models.CASCADE,
         verbose_name="Workshop Code",
-    )
-    maint_type = models.CharField(
-        max_length=300, blank=True, null=True, verbose_name="Maintenance Type"
     )
     recep_tech = models.ForeignKey(
         Employee,
@@ -549,11 +546,11 @@ class Workorder(models.Model):
         on_delete=models.CASCADE,
         verbose_name="Scheduler",
     )
-    recep_sup = models.ForeignKey(
+    recep_supv = models.ForeignKey(
         Employee,
-        blank=False,
-        null=False,
-        related_name="recep_sup",
+        blank=True,
+        null=True,
+        related_name="recep_supv",
         on_delete=models.CASCADE,
         verbose_name="Supervisor",
     )
@@ -571,3 +568,147 @@ class Workorder(models.Model):
     def save(self, *args, **kwargs):
         super(Workorder, self).save(*args, **kwargs)
         self.update_model()
+
+
+class Operation(models.Model):
+    op_code = models.CharField(
+        max_length=300, unique=True, blank=True, null=True, verbose_name="Operation Code"
+    )
+    op_description = models.TextField(
+        blank=True, null=True, verbose_name="Description")
+    op_hours = models.FloatField(
+        blank=True, null=True, verbose_name="Standard Hours"
+    )
+    op_item = models.BooleanField(
+        default=False, verbose_name="Item Required")
+    op_restriction = models.TextField(
+        blank=True, null=True, verbose_name="Restriction")
+
+    def __str__(self):
+        return str(self.op_code)
+
+
+class OperationType(models.Model):
+    op_type = models.CharField(
+        max_length=300, unique=True, blank=True, null=True, verbose_name="Type"
+    )
+    op_rate = models.FloatField(
+        blank=True, null=True, verbose_name="Rate")
+
+    def __str__(self):
+        return str(self.op_type)
+
+
+class WorkorderOperation(models.Model):
+    op_code = models.ForeignKey(
+        Operation,
+        blank=False,
+        null=False,
+        on_delete=models.CASCADE,
+        verbose_name="Operation Code",
+    )
+    work_code = models.ForeignKey(
+        Workorder,
+        blank=False,
+        null=False,
+        on_delete=models.CASCADE,
+        verbose_name="Workorder Code",
+    )
+    op_sched = models.ForeignKey(
+        Employee,
+        blank=False,
+        null=False,
+        related_name="op_sched",
+        on_delete=models.CASCADE,
+        verbose_name="Scheduler",
+    )
+    op_supv = models.ForeignKey(
+        Employee,
+        blank=False,
+        null=False,
+        related_name="op_supv",
+        on_delete=models.CASCADE,
+        verbose_name="Supervisor",
+    )
+    op_type = models.ForeignKey(
+        OperationType,
+        blank=False,
+        null=False,
+        on_delete=models.CASCADE,
+        verbose_name="Type",
+    )
+
+    def __str__(self):
+        return str(self.op_code)
+
+
+class OperationTechnician(models.Model):
+    op_code = models.ForeignKey(
+        Operation,
+        blank=False,
+        null=False,
+        on_delete=models.CASCADE,
+        verbose_name="Operation Code",
+    )
+    work_code = models.ForeignKey(
+        Workorder,
+        blank=False,
+        null=False,
+        on_delete=models.CASCADE,
+        verbose_name="Workorder Code",
+    )
+    op_tech = models.ForeignKey(
+        Employee,
+        blank=False,
+        null=False,
+        on_delete=models.CASCADE,
+        verbose_name="Technician",
+    )
+    op_rate = models.FloatField(
+        blank=True, null=True, verbose_name="Rate")
+    op_hours = models.FloatField(
+        blank=True, null=True, verbose_name="Standard Hours"
+    )
+    tech_hours = models.FloatField(
+        blank=True, null=True, verbose_name="Technician Hours"
+    )
+    total_cost = models.FloatField(
+        blank=True, null=True, verbose_name="Total")
+
+    def __str__(self):
+        return str(self.op_code)
+
+
+class OperationItem(models.Model):
+    op_code = models.ForeignKey(
+        Operation,
+        blank=False,
+        null=False,
+        on_delete=models.CASCADE,
+        verbose_name="Operation Code",
+    )
+    work_code = models.ForeignKey(
+        Workorder,
+        blank=False,
+        null=False,
+        on_delete=models.CASCADE,
+        verbose_name="Workorder Code",
+    )
+    item_code = models.ForeignKey(
+        Item,
+        blank=False,
+        null=False,
+        on_delete=models.CASCADE,
+        verbose_name="Item Code",
+    )
+    item_cost = models.FloatField(
+        blank=True, null=True, verbose_name="Unit Cost"
+    )
+    item_quantity = models.FloatField(
+        blank=True, null=True, verbose_name="Item Quantity"
+    )
+    total_cost = models.FloatField(
+        blank=True, null=True, verbose_name="Total")
+
+    def __str__(self):
+        return str(self.op_code)

@@ -389,7 +389,7 @@ class AssetAdmin(admin.ModelAdmin):
         "asset_area",
         "asset_sector",
         "asset_status",
-        "asset_purchased"
+        "asset_purchased",
     )
     list_filter = (
         "asset_code",
@@ -401,7 +401,7 @@ class AssetAdmin(admin.ModelAdmin):
         "asset_area",
         "asset_sector",
         "asset_status",
-        "asset_purchased"
+        "asset_purchased",
     )
     search_fields = (
         "asset_code",
@@ -413,7 +413,7 @@ class AssetAdmin(admin.ModelAdmin):
         "asset_area",
         "asset_sector",
         "asset_status",
-        "asset_purchased"
+        "asset_purchased",
     )
 
 
@@ -455,6 +455,176 @@ class TransactionAdmin(admin.ModelAdmin):
     )
 
 
+class WorkorderAdmin(admin.ModelAdmin):
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == "workshop_code":
+            kwargs["queryset"] = Section.objects.filter(
+                section_type='workshop')
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
+    readonly_fields = (
+        "id",
+    )
+    list_display = (
+        "work_code",
+        "asset_code",
+        "asset_kilo",
+        "work_date",
+        "work_type",
+        "work_status",
+        "workshop_code",
+        "recep_tech",
+        "recep_sched",
+        "recep_supv",
+        "recep_remarks",
+    )
+    list_filter = (
+        "work_code",
+        "asset_code",
+        "asset_kilo",
+        "work_date",
+        "work_type",
+        "work_status",
+        "workshop_code",
+        "recep_tech",
+        "recep_sched",
+        "recep_supv",
+        "recep_remarks",
+    )
+    search_fields = (
+        "work_code",
+        "asset_code",
+        "asset_kilo",
+        "work_date",
+        "work_type",
+        "work_status",
+        "workshop_code",
+        "recep_tech",
+        "recep_sched",
+        "recep_supv",
+        "recep_remarks",
+    )
+
+
+class OperationAdmin(admin.ModelAdmin):
+    list_display = (
+        "op_code",
+        "op_description",
+        "op_hours",
+        "op_item",
+        "op_restriction",
+    )
+    list_filter = (
+        "op_code",
+        "op_description",
+        "op_hours",
+        "op_item",
+        "op_restriction",
+    )
+    search_fields = (
+        "op_code",
+        "op_description",
+        "op_hours",
+        "op_item",
+        "op_restriction",
+    )
+
+
+class OperationTypeAdmin(admin.ModelAdmin):
+    list_display = (
+        "op_type",
+        "op_rate",
+    )
+    list_filter = (
+        "op_type",
+        "op_rate",
+    )
+    search_fields = (
+        "op_type",
+        "op_rate",
+    )
+
+
+class WorkorderOperationAdmin(admin.ModelAdmin):
+    list_display = (
+        "op_code",
+        "work_code",
+        "op_sched",
+        "op_supv",
+        "op_type",
+    )
+    list_filter = (
+        "op_code",
+        "work_code",
+        "op_sched",
+        "op_supv",
+        "op_type",
+    )
+    search_fields = (
+        "op_code",
+        "work_code",
+        "op_sched",
+        "op_supv",
+        "op_type",
+    )
+
+
+class OperationTechnicianAdmin(admin.ModelAdmin):
+    list_display = (
+        "op_code",
+        "work_code",
+        "op_tech",
+        "op_rate",
+        "op_hours",
+        "tech_hours",
+        "total_cost",
+    )
+    list_filter = (
+        "op_code",
+        "work_code",
+        "op_tech",
+        "op_rate",
+        "op_hours",
+        "tech_hours",
+        "total_cost",
+    )
+    search_fields = (
+        "op_code",
+        "work_code",
+        "op_tech",
+        "op_rate",
+        "op_hours",
+        "tech_hours",
+        "total_cost",
+    )
+
+
+class OperationItemAdmin(admin.ModelAdmin):
+    list_display = (
+        "op_code",
+        "work_code",
+        "item_code",
+        "item_cost",
+        "item_quantity",
+        "total_cost",
+    )
+    list_filter = (
+        "op_code",
+        "work_code",
+        "item_code",
+        "item_cost",
+        "item_quantity",
+        "total_cost",
+    )
+    search_fields = (
+        "op_code",
+        "work_code",
+        "item_code",
+        "item_cost",
+        "item_quantity",
+        "total_cost",
+    )
+
+
 admin.site.register(User, UserAdmin)
 admin.site.register(Component, ComponentAdmin)
 admin.site.register(Module, ModuleAdmin)
@@ -472,3 +642,9 @@ admin.site.register(Item, ItemAdmin)
 admin.site.register(WarehouseItem, WarehouseItemAdmin)
 admin.site.register(Asset, AssetAdmin)
 admin.site.register(Transaction, TransactionAdmin)
+admin.site.register(Workorder, WorkorderAdmin)
+admin.site.register(Operation, OperationAdmin)
+admin.site.register(OperationType, OperationTypeAdmin)
+admin.site.register(WorkorderOperation, WorkorderOperationAdmin)
+admin.site.register(OperationTechnician, OperationTechnicianAdmin)
+admin.site.register(OperationItem, OperationItemAdmin)
