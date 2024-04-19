@@ -505,7 +505,7 @@ const Excuse = ({ excuses, attendances, empid, theme }) => {
                               type="primary"
                               htmlType="submit"
                               style={{
-                                marginLeft: "10px",
+                                marginLeft: "8px",
                               }}
                               block
                             >

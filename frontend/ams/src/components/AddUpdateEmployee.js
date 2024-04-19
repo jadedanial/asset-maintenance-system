@@ -286,9 +286,9 @@ const AddUpdateEmployee = ({
                       </Form.Item>
                       <Row>
                         <Col
-                          span={14}
+                          span={12}
                           style={{
-                            paddingRight: "24px",
+                            paddingRight: "8px",
                           }}
                         >
                           <Form.Item
@@ -412,7 +412,7 @@ const AddUpdateEmployee = ({
                             />
                           </Form.Item>
                         </Col>
-                        <Col span={10}>
+                        <Col span={12}>
                           <Form.Item
                             name={["datehired"]}
                             label="Date Hired"
@@ -580,7 +580,7 @@ const AddUpdateEmployee = ({
                           type="primary"
                           htmlType="submit"
                           style={{
-                            marginLeft: "10px",
+                            marginLeft: "8px",
                           }}
                           block
                         >

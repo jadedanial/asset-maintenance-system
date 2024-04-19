@@ -263,7 +263,7 @@ const AddUpdateAsset = ({
                         <Col
                           span={14}
                           style={{
-                            paddingRight: "24px",
+                            paddingRight: "8px",
                           }}
                         >
                           <Form.Item
@@ -571,7 +571,7 @@ const AddUpdateAsset = ({
                           type="primary"
                           htmlType="submit"
                           style={{
-                            marginLeft: "10px",
+                            marginLeft: "8px",
                           }}
                           block
                         >

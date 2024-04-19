@@ -45,4 +45,10 @@ urlpatterns = [
     path("assets", AssetListView.as_view()),
     path("transaction", TransactionView.as_view()),
     path("transactions", TransactionListView.as_view()),
+    path("workorders", WorkorderListView.as_view()),
+    path("operations", OperationListView.as_view()),
+    path("operationtypes", OperationTypeListView.as_view()),
+    path("workorderoperations", WorkorderOperationListView.as_view()),
+    path("operationtechnicians", OperationTechnicianListView.as_view()),
+    path("operationitems", OperationItemListView.as_view()),
 ]

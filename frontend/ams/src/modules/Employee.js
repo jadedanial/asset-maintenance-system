@@ -93,7 +93,7 @@ const Employee = ({
         tooltipIcon={<UserOutlined className="large-card-title" />}
         tooltipTitle={"Add New Employee"}
         inputPlaceHolder={"Search Employee"}
-        compItemUpdate={"Profile"}
+        compItemUpdate={"EmployeeDetail"}
         compItemAdd={"AddUpdateEmployee"}
         tableColumns={columns}
         tableDataSource={loadAPILists()}

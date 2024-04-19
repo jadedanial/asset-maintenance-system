@@ -84,6 +84,28 @@ const HomePage = () => {
   const useTransactionsData = (token) => {
     return useQuery("transactions", () => fetchData("transactions", token));
   };
+  const useWorkordersData = (token) => {
+    return useQuery("workorders", () => fetchData("workorders", token));
+  };
+  const useOperationsData = (token) => {
+    return useQuery("operations", () => fetchData("operations", token));
+  };
+  const useOperationTypesData = (token) => {
+    return useQuery("operationtypes", () => fetchData("operationtypes", token));
+  };
+  const useWorkorderoperationsData = (token) => {
+    return useQuery("workorderoperations", () =>
+      fetchData("workorderoperations", token)
+    );
+  };
+  const useOperationTechniciansData = (token) => {
+    return useQuery("operationtechnicians", () =>
+      fetchData("operationtechnicians", token)
+    );
+  };
+  const useOperationItemsData = (token) => {
+    return useQuery("operationitems", () => fetchData("operationitems", token));
+  };
 
   const { data: componentsData } = useComponentsData(token);
   const { data: modulesData } = useModulesData(token);
@@ -101,6 +123,12 @@ const HomePage = () => {
   const { data: warehouseitemsData } = useWarehouseitemsData(token);
   const { data: assetsData } = useAssetsData(token);
   const { data: transactionsData } = useTransactionsData(token);
+  const { data: workordersData } = useWorkordersData(token);
+  const { data: operationsData } = useOperationsData(token);
+  const { data: operationTypesData } = useOperationTypesData(token);
+  const { data: workorderOperationsData } = useWorkorderoperationsData(token);
+  const { data: operationTechniciansData } = useOperationTechniciansData(token);
+  const { data: operationItemsData } = useOperationItemsData(token);
 
   useEffect(() => {
     const fetchDataForUser = () => {
@@ -161,6 +189,12 @@ const HomePage = () => {
             warehouseitems={warehouseitemsData}
             assets={assetsData}
             transactions={transactionsData}
+            workorders={workordersData}
+            operations={operationsData}
+            operationtypes={operationTypesData}
+            workorderoperations={workorderOperationsData}
+            operationtechnicians={operationTechniciansData}
+            operationitems={operationItemsData}
           />
         )
       ) : (

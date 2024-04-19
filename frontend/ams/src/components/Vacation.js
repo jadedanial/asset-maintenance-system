@@ -439,7 +439,7 @@ const Vacation = ({ vacations, options, empid, theme }) => {
                               type="primary"
                               htmlType="submit"
                               style={{
-                                marginLeft: "10px",
+                                marginLeft: "8px",
                               }}
                               block
                             >

@@ -226,7 +226,7 @@ const Cart = ({
                             }
                           }}
                           style={{
-                            marginLeft: "10px",
+                            marginLeft: "8px",
                           }}
                           block
                         >
@@ -257,7 +257,7 @@ const Cart = ({
                           }
                         }}
                         style={{
-                          marginLeft: "10px",
+                          marginLeft: "8px",
                         }}
                         block
                       >

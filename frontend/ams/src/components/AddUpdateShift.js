@@ -217,7 +217,7 @@ const AddUpdateShift = ({
                         <Col
                           span={12}
                           style={{
-                            paddingRight: "24px",
+                            paddingRight: "8px",
                           }}
                         >
                           <Form.Item
@@ -290,7 +290,7 @@ const AddUpdateShift = ({
                           type="primary"
                           htmlType="submit"
                           style={{
-                            marginLeft: "10px",
+                            marginLeft: "8px",
                           }}
                           block
                         >

@@ -568,7 +568,7 @@ const AddUpdateAttendance = ({
                           type="primary"
                           htmlType="submit"
                           style={{
-                            marginLeft: "10px",
+                            marginLeft: "8px",
                           }}
                           block
                         >

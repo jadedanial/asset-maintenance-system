@@ -26,6 +26,13 @@ const SearchTableEvent = ({
   sections,
   options,
   branches,
+  assets,
+  workorders,
+  operations,
+  operationtypes,
+  workorderoperations,
+  operationtechnicians,
+  operationitems,
   theme,
   tooltipTitle,
   compItemAdd,
@@ -146,6 +153,13 @@ const SearchTableEvent = ({
         sections={sections}
         options={options}
         branches={branches}
+        assets={assets}
+        workorders={workorders}
+        operations={operations}
+        operationtypes={operationtypes}
+        workorderoperations={workorderoperations}
+        operationtechnicians={operationtechnicians}
+        operationitems={operationitems}
         rowIndex={rowIndex}
         showDrawer={openDrawer}
         onCloseDrawer={onCloseDrawer}

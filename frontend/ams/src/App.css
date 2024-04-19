@@ -84,6 +84,10 @@ body {
 h1 {
   margin: 0 !important;
 }
+.ant-divider-horizontal {
+  margin: 0 !important;
+  border-top: 1px solid #318ce750 !important;
+}
 .logo {
   display: flex;
   flex-direction: row;
@@ -98,8 +102,8 @@ h1 {
 }
 ::-webkit-scrollbar {
   width: 3px !important;
-  height: 3px !important;
 }
+
 .dark ::-webkit-scrollbar-track {
   background: #182348 !important;
 }
@@ -218,7 +222,7 @@ h1.ant-typography {
   color: #318ce7 !important;
 }
 .anticon {
-  color: #318ce7 !important;
+  color: #318ce7;
 }
 .ant-rate-star-half .anticon {
   color: #318ce77a !important;
@@ -250,6 +254,23 @@ h1.ant-typography {
   color: #fff !important;
   background: #6841f5 !important;
   border: 1px #6841f5 solid !important;
+}
+.btn-step {
+  font-size: 18px !important;
+  color: #318ce7 !important;
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 4px !important;
+  margin: 4px !important;
+}
+.btn-step:hover {
+  color: #6841f5 !important;
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 4px !important;
+  margin: 4px !important;
 }
 .btn-normal {
   color: #318ce7 !important;
@@ -494,11 +515,15 @@ h1.ant-typography {
   text-align: center;
 }
 .ant-statistic-content-value {
-  color: #318ce7;
+  color: #318ce7 !important;
   font-size: 30px;
 }
 .small-font-statistic .ant-statistic-content-value {
   font-size: 18px;
+}
+.ant-statistic-content,
+.ant-picker-calendar-full .ant-picker-panel .ant-picker-calendar-date-content {
+  color: #318ce7 !important;
 }
 .ant-tabs-tab {
   padding: 4px 4px 2px !important;
@@ -609,7 +634,10 @@ h1.ant-typography {
 .ant-segmented,
 .ant-tag,
 .ant-timeline-item-head {
-  background: 0 0 !important;
+  background: 0 0;
+}
+.ant-tag {
+  font-family: ralewaylight !important;
 }
 .ant-timeline-item-tail {
   border-left: 1px solid #318ce7 !important;
@@ -649,6 +677,7 @@ h1.ant-typography {
 .dark .ant-select-arrow,
 .dark .ant-select-selector,
 .dark .ant-checkbox-inner {
+  text-align: left !important;
   color: #fff !important;
   background: #161f3e !important;
 }
@@ -660,6 +689,7 @@ h1.ant-typography {
 .light .ant-select-arrow,
 .light .ant-select-selector,
 .light .ant-checkbox-inner {
+  text-align: left !important;
   color: #000 !important;
   background: #f7f8f9 !important;
 }
@@ -679,7 +709,7 @@ textarea.ant-input {
   border-bottom: none !important;
 }
 .ant-list-item {
-  padding: 0 0 24px 0 !important;
+  padding: 0 0 8px 0 !important;
 }
 .dark .ant-list-item-meta-description {
   color: #f0f2f58e !important;

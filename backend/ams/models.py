@@ -518,7 +518,7 @@ class Workorder(models.Model):
     work_date = models.DateTimeField(
         blank=True, null=True, verbose_name="Date")
     work_type = models.CharField(
-        max_length=300, blank=True, null=True, verbose_name="Type"
+        max_length=300, blank=True, null=True, verbose_name="Workorder Type"
     )
     work_status = models.CharField(
         max_length=300, blank=True, null=True, verbose_name="Status"
@@ -590,7 +590,7 @@ class Operation(models.Model):
 
 class OperationType(models.Model):
     op_type = models.CharField(
-        max_length=300, unique=True, blank=True, null=True, verbose_name="Type"
+        max_length=300, unique=True, blank=True, null=True, verbose_name="Operation Type"
     )
     op_rate = models.FloatField(
         blank=True, null=True, verbose_name="Rate")
@@ -635,7 +635,7 @@ class WorkorderOperation(models.Model):
         blank=False,
         null=False,
         on_delete=models.CASCADE,
-        verbose_name="Type",
+        verbose_name="Operation Type",
     )
 
     def __str__(self):

@@ -176,7 +176,7 @@ const Profile = ({
                           type="primary"
                           onClick={() => setUpdate(true)}
                           style={{
-                            marginLeft: "10px",
+                            marginLeft: "8px",
                           }}
                           block
                         >

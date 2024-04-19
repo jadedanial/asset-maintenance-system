@@ -509,3 +509,39 @@ class TransactionListView(ListAPIView):
     queryset = Transaction.objects.all()
     serializer_class = TransactionSerializer
     permission_classes = [IsAuthenticated]
+
+
+class WorkorderListView(ListAPIView):
+    queryset = Workorder.objects.all()
+    serializer_class = WorkorderSerializer
+    permission_classes = [IsAuthenticated]
+
+
+class OperationListView(ListAPIView):
+    queryset = Operation.objects.all()
+    serializer_class = OperationSerializer
+    permission_classes = [IsAuthenticated]
+
+
+class OperationTypeListView(ListAPIView):
+    queryset = OperationType.objects.all()
+    serializer_class = OperationTypeSerializer
+    permission_classes = [IsAuthenticated]
+
+
+class WorkorderOperationListView(ListAPIView):
+    queryset = WorkorderOperation.objects.all()
+    serializer_class = WorkorderOperationSerializer
+    permission_classes = [IsAuthenticated]
+
+
+class OperationTechnicianListView(ListAPIView):
+    queryset = OperationTechnician.objects.all()
+    serializer_class = OperationTechnicianSerializer
+    permission_classes = [IsAuthenticated]
+
+
+class OperationItemListView(ListAPIView):
+    queryset = OperationItem.objects.all()
+    serializer_class = OperationItemSerializer
+    permission_classes = [IsAuthenticated]

@@ -78,8 +78,8 @@ const Shift = ({ shifts, collapsed, theme }) => {
         tooltipIcon={<FieldTimeOutlined className="large-card-title" />}
         tooltipTitle={"Add New Shift"}
         inputPlaceHolder={"Search Shift"}
+        compItemUpdate={"ShiftDetail"}
         compItemAdd={"AddUpdateShift"}
-        compItemUpdate={"UpdateShift"}
         tableColumns={columns}
         tableDataSource={loadAPILists()}
         searchedText={searchedText}

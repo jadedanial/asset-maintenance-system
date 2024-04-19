@@ -111,8 +111,8 @@ const Schedule = ({ schedules, shifts, collapsed, theme }) => {
         tooltipIcon={<CalendarOutlined className="large-card-title" />}
         tooltipTitle={"Add New Schedule"}
         inputPlaceHolder={"Search Schedule"}
+        compItemUpdate={"ScheduleDetail"}
         compItemAdd={"AddUpdateSchedule"}
-        compItemUpdate={"UpdateSchedule"}
         tableColumns={columns}
         tableDataSource={loadAPILists()}
         searchedText={searchedText}

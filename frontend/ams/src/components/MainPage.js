@@ -32,6 +32,7 @@ import Schedule from "../modules/Schedule";
 import Item from "../modules/Item";
 import Transact from "../modules/Transact";
 import Asset from "../modules/Asset";
+import Workorder from "../modules/Workorder";
 import DrawerEvent from "./DrawerEvent";
 import EmptyData from "./EmptyData";
 
@@ -56,6 +57,12 @@ const MainPage = ({
   warehouseitems,
   assets,
   transactions,
+  workorders,
+  operations,
+  operationtypes,
+  workorderoperations,
+  operationtechnicians,
+  operationitems,
 }) => {
   const queryClient = useCustomQueryClient();
   const [theme, setTheme] = useState("light");
@@ -253,6 +260,24 @@ const MainPage = ({
             />
           </>
         );
+      case "Workorder":
+        return (
+          <>
+            <Workorder
+              assets={assets}
+              options={options}
+              workorders={workorders}
+              operations={operations}
+              operationtypes={operationtypes}
+              workorderoperations={workorderoperations}
+              operationtechnicians={operationtechnicians}
+              operationitems={operationitems}
+              getSection={getSection}
+              collapsed={collapsed}
+              theme={theme}
+            />
+          </>
+        );
       default:
         break;
     }
@@ -290,6 +315,8 @@ const MainPage = ({
             collapsed={collapsed}
             style={{
               height: "100vh",
+              overflowX: "hidden",
+              overflowY: "scroll",
             }}
           >
             <div style={{ margin: "24px 0 15px 32px" }}>

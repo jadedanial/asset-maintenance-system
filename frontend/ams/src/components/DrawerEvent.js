@@ -7,6 +7,7 @@ import AddUpdateSchedule from "./AddUpdateSchedule";
 import ItemDetail from "./ItemDetail";
 import AddUpdateItem from "./AddUpdateItem";
 import AddUpdateAsset from "./AddUpdateAsset";
+import AddUpdateWorkorder from "./AddUpdateWorkorder";
 import Cart from "./Cart";
 
 const DrawerEvent = ({
@@ -21,6 +22,13 @@ const DrawerEvent = ({
   sections,
   branches,
   options,
+  assets,
+  workorders,
+  operations,
+  operationtypes,
+  workorderoperations,
+  operationtechnicians,
+  operationitems,
   userId,
   getSection,
   sectionCode,
@@ -72,7 +80,7 @@ const DrawerEvent = ({
             ></Profile>
           </>
         );
-      case "Profile":
+      case "EmployeeDetail":
         return (
           <>
             <Profile
@@ -113,7 +121,7 @@ const DrawerEvent = ({
             />
           </>
         );
-      case "UpdateShift":
+      case "ShiftDetail":
         return (
           <>
             <AddUpdateShift
@@ -138,7 +146,7 @@ const DrawerEvent = ({
             />
           </>
         );
-      case "UpdateSchedule":
+      case "ScheduleDetail":
         return (
           <>
             <AddUpdateSchedule
@@ -222,6 +230,24 @@ const DrawerEvent = ({
             <AddUpdateAsset
               options={options}
               branches={branches}
+              update={false}
+              onCloseDrawer={onCloseDrawer}
+              theme={theme}
+            />
+          </>
+        );
+      case "AddUpdateWorkorder":
+        return (
+          <>
+            <AddUpdateWorkorder
+              assets={assets}
+              options={options}
+              workorders={workorders}
+              operations={operations}
+              operationtypes={operationtypes}
+              workorderoperations={workorderoperations}
+              operationtechnicians={operationtechnicians}
+              operationitems={operationitems}
               update={false}
               onCloseDrawer={onCloseDrawer}
               theme={theme}
