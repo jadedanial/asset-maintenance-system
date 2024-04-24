@@ -278,7 +278,7 @@ const AddUpdateItem = ({
                     >
                       <Row>
                         <Col
-                          span={14}
+                          span={12}
                           style={{
                             paddingRight: "8px",
                           }}
@@ -364,7 +364,7 @@ const AddUpdateItem = ({
                             />
                           </Form.Item>
                         </Col>
-                        <Col span={10}>
+                        <Col span={12}>
                           <Form.Item
                             name={["cost"]}
                             label="Unit Cost"

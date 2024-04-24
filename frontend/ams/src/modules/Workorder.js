@@ -3,6 +3,7 @@ import { FileAddOutlined } from "@ant-design/icons";
 import SearchTableEvent from "../components/SearchTableEvent";
 
 const Workorder = ({
+  employees,
   assets,
   options,
   workorders,
@@ -98,6 +99,7 @@ const Workorder = ({
   return (
     <>
       <SearchTableEvent
+        employees={employees}
         assets={assets}
         options={options}
         workorders={workorders}

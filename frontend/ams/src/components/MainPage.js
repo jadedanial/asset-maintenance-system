@@ -264,6 +264,7 @@ const MainPage = ({
         return (
           <>
             <Workorder
+              employees={employees}
               assets={assets}
               options={options}
               workorders={workorders}

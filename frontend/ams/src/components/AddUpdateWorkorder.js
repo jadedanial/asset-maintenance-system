@@ -19,7 +19,9 @@ import {
   FormOutlined,
   FileDoneOutlined,
   ToolOutlined,
+  CaretRightOutlined,
 } from "@ant-design/icons";
+import OperationEvent from "./OperationEvent";
 import moment from "moment";
 
 const { Title } = Typography;
@@ -34,6 +36,7 @@ const layout = {
 };
 
 const AddUpdateWorkorder = ({
+  employees,
   assets,
   options,
   workorders,
@@ -51,29 +54,27 @@ const AddUpdateWorkorder = ({
   onCloseDrawer,
   theme,
 }) => {
-  const displayDateFormat = "MMMM DD, YYYY";
-  const datePickerFormat = (value) =>
-    `${value.format(displayDateFormat + " HH:mm:ss")}`;
+  const displayDateFormat = "MMMM DD, YYYY HH:mm:ss";
   const [updateData, setUpdateData] = useState(update);
   const [assetCode, setAssetCode] = useState(updateData ? code : "");
   const [assetKilometer, setAssetKilometer] = useState(
     updateData ? kilometer : ""
   );
   const [assetCheckindate, setAssetCheckinDate] = useState(
-    updateData ? moment(checkindate).format(displayDateFormat) : moment()
+    updateData
+      ? moment(checkindate).format(displayDateFormat)
+      : moment().format(displayDateFormat)
   );
   const [workorderType, setWorkorderType] = useState(updateData ? type : "");
   const [workorderStatus, setWorkorderStatus] = useState(
-    updateData ? status : ""
+    updateData ? status : "Checked-in"
   );
   const [label, setLabel] = useState(
     updateData ? "Update Workorder" : "Add New Workorder"
   );
   const [codeReq, setCodeReq] = useState(false);
   const [kilometerReq, setKilometerReq] = useState(false);
-  const [checkindateReq, setCheckindateReq] = useState(false);
   const [typeReq, setTypeReq] = useState(false);
-  const [statusReq, setStatusReq] = useState(false);
   const [current, setCurrent] = useState(0);
 
   const onChange = (value) => {
@@ -84,9 +85,7 @@ const AddUpdateWorkorder = ({
     const fieldMap = {
       1: [setAssetCode, setCodeReq],
       2: [setAssetKilometer, setKilometerReq],
-      3: [setAssetCheckinDate, setCheckindateReq],
-      4: [setWorkorderType, setTypeReq],
-      5: [setWorkorderStatus, setStatusReq],
+      3: [setWorkorderType, setTypeReq],
     };
     const [updateState, setReqState] = fieldMap[step];
     updateState(value);
@@ -152,7 +151,7 @@ const AddUpdateWorkorder = ({
                   onChange={(value) => updateField(value, 1)}
                 />
               </Form.Item>
-              <Row>
+              <Row style={{ paddingBottom: "8px" }}>
                 <Col
                   span={12}
                   style={{
@@ -180,35 +179,6 @@ const AddUpdateWorkorder = ({
                   </Form.Item>
                 </Col>
                 <Col span={12}>
-                  <Form.Item
-                    name={["checkindate"]}
-                    label="Check-in Date"
-                    initialValue={assetCheckindate}
-                    rules={[
-                      {
-                        required: updateData ? checkindateReq : true,
-                        message: "Check-in date required",
-                      },
-                    ]}
-                  >
-                    <DatePicker
-                      placeholder=""
-                      format={datePickerFormat}
-                      value={assetCheckindate}
-                      onChange={(value) => updateField(value, true, 3)}
-                      inputReadOnly
-                      disabled
-                    />
-                  </Form.Item>
-                </Col>
-              </Row>
-              <Row>
-                <Col
-                  span={12}
-                  style={{
-                    paddingRight: "8px",
-                  }}
-                >
                   <Form.Item
                     name={["workorderType"]}
                     label="Workorder Type"
@@ -244,26 +214,8 @@ const AddUpdateWorkorder = ({
                     />
                   </Form.Item>
                 </Col>
-                <Col span={12}>
-                  <Form.Item
-                    name={["status"]}
-                    label="Status"
-                    initialValue={workorderStatus}
-                    rules={[
-                      {
-                        required: updateData ? statusReq : true,
-                        message: "Workorder status required",
-                      },
-                    ]}
-                  >
-                    <Input
-                      value={workorderStatus}
-                      maxLength={50}
-                      onChange={(e) => updateField(e.target.value, true, 5)}
-                    />
-                  </Form.Item>
-                </Col>
               </Row>
+              <OperationEvent employees={employees} />
               <div className="space-between-row" style={{ paddingTop: "24px" }}>
                 <Button
                   type="default"
@@ -321,20 +273,12 @@ const AddUpdateWorkorder = ({
 
   const data = [
     {
-      title: "Asset Code",
-      description: "9857",
-    },
-    {
-      title: "Kilometer",
-      description: "587568",
-    },
-    {
-      title: "Workorder Type",
-      description: "Maintenance",
-    },
-    {
       title: "Workshop Code",
       description: "DAMWORKSHOP",
+    },
+    {
+      title: "Check-in Date",
+      description: assetCheckindate,
     },
   ];
 
@@ -396,10 +340,10 @@ const AddUpdateWorkorder = ({
                     WRK1585
                   </p>
                   <Tag className="small-font" color="blue">
-                    Under repair
+                    {workorderStatus}
                   </Tag>
                   <List
-                    style={{ paddingTop: "8px" }}
+                    style={{ paddingTop: "14px" }}
                     itemLayout="horizontal"
                     dataSource={data}
                     renderItem={(item, index) => (
@@ -416,7 +360,7 @@ const AddUpdateWorkorder = ({
                     Total Operations 8
                   </p>
                   <List
-                    style={{ paddingTop: "8px" }}
+                    style={{ paddingTop: "14px" }}
                     itemLayout="horizontal"
                     dataSource={costs}
                     renderItem={(item, index) => (
