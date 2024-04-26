@@ -15,6 +15,7 @@ import DrawerEvent from "./DrawerEvent";
 import NotificationEvent from "./NotificationEvent";
 
 const SearchTableEvent = ({
+  userId,
   employees,
   attendances,
   schedules,
@@ -142,6 +143,7 @@ const SearchTableEvent = ({
         </Card>
       </div>
       <DrawerEvent
+        userId={userId}
         employees={employees}
         attendances={attendances}
         schedules={schedules}

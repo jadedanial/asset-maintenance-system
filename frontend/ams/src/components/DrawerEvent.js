@@ -240,6 +240,7 @@ const DrawerEvent = ({
         return (
           <>
             <AddUpdateWorkorder
+              userId={userId}
               employees={employees}
               assets={assets}
               options={options}

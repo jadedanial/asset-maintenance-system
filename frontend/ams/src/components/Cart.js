@@ -261,7 +261,7 @@ const Cart = ({
                         }}
                         block
                       >
-                        APPLY
+                        SAVE
                       </Button>
                     ) : (
                       ""

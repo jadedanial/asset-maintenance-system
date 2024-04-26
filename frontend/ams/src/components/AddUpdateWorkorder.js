@@ -36,6 +36,7 @@ const layout = {
 };
 
 const AddUpdateWorkorder = ({
+  userId,
   employees,
   assets,
   options,
@@ -215,7 +216,7 @@ const AddUpdateWorkorder = ({
                   </Form.Item>
                 </Col>
               </Row>
-              <OperationEvent employees={employees} />
+              <OperationEvent employees={employees} userId={userId} />
               <div className="space-between-row" style={{ paddingTop: "24px" }}>
                 <Button
                   type="default"
@@ -373,10 +374,7 @@ const AddUpdateWorkorder = ({
                     )}
                   />
                   <Divider />
-                  <p
-                    className="small-font"
-                    style={{ paddingTop: "8px", fontWeight: "600" }}
-                  >
+                  <p className="medium-font" style={{ paddingTop: "8px" }}>
                     Total Cost 68,705.50
                   </p>
                 </div>

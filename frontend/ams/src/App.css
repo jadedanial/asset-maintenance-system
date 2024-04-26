@@ -654,6 +654,10 @@ a span {
 .ant-tag {
   font-family: ralewaylight !important;
 }
+.dark .ant-tag {
+  background: none !important;
+  border: 1px solid #318ce750 !important;
+}
 .ant-timeline-item-tail {
   border-left: 1px solid #318ce7 !important;
 }
@@ -813,6 +817,9 @@ input::file-selector-button {
 }
 .ant-checkbox-checked .ant-checkbox-input:hover {
   opacity: 1 !important;
+}
+.ant-collapse-content-box {
+  padding: 0 !important;
 }
 .ant-collapse,
 .ant-collapse-content {

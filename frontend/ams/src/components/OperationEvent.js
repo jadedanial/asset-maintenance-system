@@ -15,7 +15,7 @@ import {
 } from "antd";
 import {
   CaretRightOutlined,
-  SubnodeOutlined,
+  EditOutlined,
   UserOutlined,
 } from "@ant-design/icons";
 
@@ -28,21 +28,23 @@ const layout = {
   },
 };
 
-const OperationEvent = ({ employees }) => {
+const OperationEvent = ({ employees, userId }) => {
   const [description, setDescription] = useState("");
   const [technician, setTechnician] = useState("");
   const [supervisor, setSupervisor] = useState("");
+  const [desc, setDesc] = useState("");
+  const [tech, setTech] = useState("");
+  const [supv, setSupv] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
 
   const data = Array.from({
-    length: 4,
+    length: 1,
   }).map((_, i) => ({
-    technician: "17983 - Bashir",
-    description: "April 21, 2024 16:49:06",
-    content:
-      "We supply a series of design principles, practical patterns and high quality of the design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.",
-    supervisor: "Supervisor 1393 - Micahel",
-    scheduler: "Scheduler 18106 - Jade",
+    technician: technician,
+    description: "Technician",
+    content: description,
+    supervisor: supervisor,
+    scheduler: userId,
   }));
 
   const IconText = ({ icon, text }) => (
@@ -67,9 +69,9 @@ const OperationEvent = ({ employees }) => {
           >
             Diagnosis
           </p>
-          <Tooltip title="Add Diagnosis">
+          <Tooltip title="Update Diagnosis">
             <Button
-              icon={<SubnodeOutlined style={{ fontSize: "32px" }} />}
+              icon={<EditOutlined style={{ fontSize: "26px" }} />}
               className="btn-normal"
               onClick={() => setModalOpen(true)}
             />
@@ -79,12 +81,9 @@ const OperationEvent = ({ employees }) => {
       children: (
         <>
           <List
-            className="border-bottom"
             itemLayout="vertical"
             size="large"
-            pagination={{
-              pageSize: 3,
-            }}
+            pagination={false}
             dataSource={data}
             renderItem={(item) => (
               <List.Item
@@ -116,6 +115,13 @@ const OperationEvent = ({ employees }) => {
     },
   ];
 
+  const onFinish = () => {
+    setDescription(desc);
+    setTechnician(tech);
+    setSupervisor(supv);
+    setModalOpen(false);
+  };
+
   return (
     <>
       <Collapse
@@ -136,14 +142,14 @@ const OperationEvent = ({ employees }) => {
         ))}
       </Collapse>
       <Modal
-        title="Add Diagnosis"
+        title="Update Diagnosis"
         centered
         open={modalOpen}
         closable={false}
         footer={false}
         width={"600px"}
       >
-        <Form {...layout} layout="vertical" name="add-new">
+        <Form {...layout} layout="vertical" name="add-new" onFinish={onFinish}>
           <Row>
             <Col span={24}>
               <div className=" card-with-background">
@@ -159,8 +165,8 @@ const OperationEvent = ({ employees }) => {
                   ]}
                 >
                   <Input.TextArea
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
+                    value={desc}
+                    onChange={(e) => setDesc(e.target.value)}
                   />
                 </Form.Item>
                 <Row>
@@ -184,7 +190,7 @@ const OperationEvent = ({ employees }) => {
                       <Select
                         showSearch
                         style={{ width: "100%" }}
-                        value={technician}
+                        value={tech}
                         filterOption={(input, option) =>
                           (option?.label ?? "").toLowerCase().includes(input)
                         }
@@ -204,7 +210,7 @@ const OperationEvent = ({ employees }) => {
                               label: emp.emp_name,
                             };
                           })}
-                        onChange={(e) => setTechnician(e)}
+                        onChange={(value) => setTech(value)}
                       />
                     </Form.Item>
                   </Col>
@@ -223,7 +229,7 @@ const OperationEvent = ({ employees }) => {
                       <Select
                         showSearch
                         style={{ width: "100%" }}
-                        value={supervisor}
+                        value={supv}
                         filterOption={(input, option) =>
                           (option?.label ?? "").toLowerCase().includes(input)
                         }
@@ -243,7 +249,7 @@ const OperationEvent = ({ employees }) => {
                               label: emp.emp_name,
                             };
                           })}
-                        onChange={(e) => setSupervisor(e)}
+                        onChange={(value) => setSupv(value)}
                       />
                     </Form.Item>
                   </Col>
