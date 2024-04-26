@@ -1,7 +1,7 @@
 import React from "react";
 import { CheckSquareOutlined, CloseSquareOutlined } from "@ant-design/icons";
 
-const NotificationEvent = ({ status, desc }) => {
+const NotificationEvent = (status, desc) => {
   const color = status ? "#318ce7" : "#ff0000";
   const icon = status ? <CheckSquareOutlined /> : <CloseSquareOutlined />;
 

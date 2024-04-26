@@ -102,8 +102,8 @@ h1 {
 }
 ::-webkit-scrollbar {
   width: 3px !important;
+  height: 6px !important;
 }
-
 .dark ::-webkit-scrollbar-track {
   background: #182348 !important;
 }
@@ -246,7 +246,8 @@ h1.ant-typography {
 .anticon-close-square {
   color: #ff0000 !important;
 }
-.anticon-check {
+.anticon-check,
+.anticon-check-square {
   color: #318ce7 !important;
 }
 .ant-input-affix-wrapper {
@@ -265,6 +266,10 @@ h1.ant-typography {
   color: #fff !important;
   background: #6841f5 !important;
   border: 1px #6841f5 solid !important;
+}
+a span {
+  padding-top: 4px !important;
+  line-height: 30px;
 }
 .btn-step {
   font-size: 18px !important;
