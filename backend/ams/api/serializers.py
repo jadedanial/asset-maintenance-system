@@ -302,7 +302,7 @@ class WorkorderSerializer(serializers.ModelSerializer):
             "recep_tech",
             "recep_sched",
             "recep_supv",
-            "recep_remarks",
+            "recep_diagnosis",
         ]
 
 

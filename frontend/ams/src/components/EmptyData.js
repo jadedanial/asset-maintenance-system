@@ -12,7 +12,7 @@ const EmptyData = () => {
         >
           <InboxOutlined
             style={{
-              fontSize: "50px",
+              fontSize: "40px",
             }}
           />
           <p

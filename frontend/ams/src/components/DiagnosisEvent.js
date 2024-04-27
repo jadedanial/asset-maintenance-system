@@ -4,7 +4,6 @@ import {
   Button,
   Tooltip,
   Modal,
-  Avatar,
   List,
   Space,
   Form,
@@ -28,23 +27,37 @@ const layout = {
   },
 };
 
-const OperationEvent = ({ employees, userId }) => {
-  const [description, setDescription] = useState("");
-  const [technician, setTechnician] = useState("");
-  const [supervisor, setSupervisor] = useState("");
-  const [desc, setDesc] = useState("");
+const DiagnosisEvent = ({
+  employees,
+  userId,
+  technician,
+  scheduler,
+  supervisor,
+  diagnosis,
+  setTechnician,
+  setScheduler,
+  setSupervisor,
+  setDiagnosis,
+  empty,
+  setEmpty,
+}) => {
   const [tech, setTech] = useState("");
+  const sched = employees.find((emp) => emp.emp_id === userId)
+    ? `${employees.find((emp) => emp.emp_id === userId).emp_id} - ${
+        employees.find((emp) => emp.emp_id === userId).emp_name
+      }`
+    : "";
   const [supv, setSupv] = useState("");
+  const [diag, setDiag] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
 
   const data = Array.from({
     length: 1,
   }).map((_, i) => ({
-    technician: technician,
-    description: "Technician",
-    content: description,
-    supervisor: supervisor,
-    scheduler: userId,
+    technician: `Technician: ${technician}`,
+    scheduler: `Scheduler: ${scheduler}`,
+    supervisor: `Supervisor: ${supervisor}`,
+    diagnosis: diagnosis,
   }));
 
   const IconText = ({ icon, text }) => (
@@ -60,14 +73,14 @@ const OperationEvent = ({ employees, userId }) => {
       label: (
         <Row className="space-between-row">
           <p
-            className="medium-card-title"
             style={{
+              fontSize: "14px",
               paddingLeft: "8px",
               paddingTop: "8px",
-              color: "#318ce7",
+              color: empty ? "#ff0000" : "#318ce7",
             }}
           >
-            Diagnosis
+            {empty ? "Diagnosis required" : "Diagnosis"}
           </p>
           <Tooltip title="Update Diagnosis">
             <Button
@@ -84,29 +97,22 @@ const OperationEvent = ({ employees, userId }) => {
             itemLayout="vertical"
             size="large"
             pagination={false}
-            dataSource={data}
+            dataSource={technician !== "" ? data : ""}
             renderItem={(item) => (
               <List.Item
                 style={{ width: "100%" }}
                 key={item.technician}
                 actions={[
-                  <IconText
-                    icon={UserOutlined}
-                    text={item.supervisor}
-                    key="list-vertical-star-o"
-                  />,
-                  <IconText
-                    icon={UserOutlined}
-                    text={item.scheduler}
-                    key="list-vertical-like-o"
-                  />,
+                  <IconText icon={UserOutlined} text={item.scheduler} />,
+                  <IconText icon={UserOutlined} text={item.supervisor} />,
                 ]}
               >
                 <List.Item.Meta
-                  title={item.technician}
-                  description={item.description}
+                  description={
+                    <IconText icon={UserOutlined} text={item.technician} />
+                  }
                 />
-                {item.content}
+                {item.diagnosis}
               </List.Item>
             )}
           />
@@ -116,9 +122,11 @@ const OperationEvent = ({ employees, userId }) => {
   ];
 
   const onFinish = () => {
-    setDescription(desc);
     setTechnician(tech);
+    setScheduler(sched);
     setSupervisor(supv);
+    setDiagnosis(diag);
+    setEmpty(false);
     setModalOpen(false);
   };
 
@@ -154,19 +162,19 @@ const OperationEvent = ({ employees, userId }) => {
             <Col span={24}>
               <div className=" card-with-background">
                 <Form.Item
-                  name={["description"]}
-                  label="Description"
-                  initialValue={description}
+                  name={["diagnosis"]}
+                  label="Diagnosis"
+                  initialValue={diagnosis}
                   rules={[
                     {
                       required: true,
-                      message: "Description required",
+                      message: "Diagnosis required",
                     },
                   ]}
                 >
                   <Input.TextArea
-                    value={desc}
-                    onChange={(e) => setDesc(e.target.value)}
+                    value={diag}
+                    onChange={(e) => setDiag(e.target.value)}
                   />
                 </Form.Item>
                 <Row>
@@ -206,8 +214,8 @@ const OperationEvent = ({ employees, userId }) => {
                           )
                           .map((emp) => {
                             return {
-                              value: emp.emp_name,
-                              label: emp.emp_name,
+                              value: `${emp.emp_id} - ${emp.emp_name}`,
+                              label: `${emp.emp_id} - ${emp.emp_name}`,
                             };
                           })}
                         onChange={(value) => setTech(value)}
@@ -245,8 +253,8 @@ const OperationEvent = ({ employees, userId }) => {
                           )
                           .map((emp) => {
                             return {
-                              value: emp.emp_name,
-                              label: emp.emp_name,
+                              value: `${emp.emp_id} - ${emp.emp_name}`,
+                              label: `${emp.emp_id} - ${emp.emp_name}`,
                             };
                           })}
                         onChange={(value) => setSupv(value)}
@@ -278,4 +286,4 @@ const OperationEvent = ({ employees, userId }) => {
   );
 };
 
-export default OperationEvent;
+export default DiagnosisEvent;

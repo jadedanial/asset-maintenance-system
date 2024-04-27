@@ -21,7 +21,7 @@ import {
   ToolOutlined,
   CaretRightOutlined,
 } from "@ant-design/icons";
-import OperationEvent from "./OperationEvent";
+import DiagnosisEvent from "./DiagnosisEvent";
 import moment from "moment";
 
 const { Title } = Typography;
@@ -52,6 +52,7 @@ const AddUpdateWorkorder = ({
   type,
   status,
   update,
+  sectionCode,
   onCloseDrawer,
   theme,
 }) => {
@@ -70,6 +71,11 @@ const AddUpdateWorkorder = ({
   const [workorderStatus, setWorkorderStatus] = useState(
     updateData ? status : "Checked-in"
   );
+  const workshopCode = sectionCode;
+  const [technician, setTechnician] = useState("");
+  const [scheduler, setScheduler] = useState("");
+  const [supervisor, setSupervisor] = useState("");
+  const [diagnosis, setDiagnosis] = useState("");
   const [label, setLabel] = useState(
     updateData ? "Update Workorder" : "Add New Workorder"
   );
@@ -77,6 +83,7 @@ const AddUpdateWorkorder = ({
   const [kilometerReq, setKilometerReq] = useState(false);
   const [typeReq, setTypeReq] = useState(false);
   const [current, setCurrent] = useState(0);
+  const [empty, setEmpty] = useState(false);
 
   const onChange = (value) => {
     setCurrent(value);
@@ -94,7 +101,12 @@ const AddUpdateWorkorder = ({
   };
 
   const onFinish = () => {
-    console.log("hello");
+    if (diagnosis !== "") {
+      console.log(technician, scheduler, supervisor, diagnosis);
+    } else {
+      setEmpty(true);
+      console.log("empty");
+    }
   };
 
   const steps = [
@@ -149,7 +161,7 @@ const AddUpdateWorkorder = ({
                       label: ass.asset_code,
                     };
                   })}
-                  onChange={(value) => updateField(value, 1)}
+                  onChange={(value) => updateField(value, true, 1)}
                 />
               </Form.Item>
               <Row style={{ paddingBottom: "8px" }}>
@@ -211,12 +223,25 @@ const AddUpdateWorkorder = ({
                             label: typ.opt_name,
                           };
                         })}
-                      onChange={(value) => updateField(value, 4)}
+                      onChange={(value) => updateField(value, true, 3)}
                     />
                   </Form.Item>
                 </Col>
               </Row>
-              <OperationEvent employees={employees} userId={userId} />
+              <DiagnosisEvent
+                employees={employees}
+                userId={userId}
+                technician={technician}
+                scheduler={scheduler}
+                supervisor={supervisor}
+                diagnosis={diagnosis}
+                setTechnician={setTechnician}
+                setScheduler={setScheduler}
+                setSupervisor={setSupervisor}
+                setDiagnosis={setDiagnosis}
+                empty={empty}
+                setEmpty={setEmpty}
+              />
               <div className="space-between-row" style={{ paddingTop: "24px" }}>
                 <Button
                   type="default"
@@ -275,7 +300,7 @@ const AddUpdateWorkorder = ({
   const data = [
     {
       title: "Workshop Code",
-      description: "DAMWORKSHOP",
+      description: workshopCode,
     },
     {
       title: "Check-in Date",

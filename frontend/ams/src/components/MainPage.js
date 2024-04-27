@@ -274,7 +274,7 @@ const MainPage = ({
               workorderoperations={workorderoperations}
               operationtechnicians={operationtechnicians}
               operationitems={operationitems}
-              getSection={getSection}
+              sectionCode={sectionCode}
               collapsed={collapsed}
               theme={theme}
             />

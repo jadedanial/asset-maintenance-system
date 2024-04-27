@@ -251,6 +251,7 @@ const DrawerEvent = ({
               operationtechnicians={operationtechnicians}
               operationitems={operationitems}
               update={false}
+              sectionCode={sectionCode}
               onCloseDrawer={onCloseDrawer}
               theme={theme}
             />

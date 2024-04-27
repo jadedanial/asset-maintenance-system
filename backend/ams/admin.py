@@ -475,7 +475,7 @@ class WorkorderAdmin(admin.ModelAdmin):
         "recep_tech",
         "recep_sched",
         "recep_supv",
-        "recep_remarks",
+        "recep_diagnosis",
     )
     list_filter = (
         "work_code",
@@ -488,7 +488,7 @@ class WorkorderAdmin(admin.ModelAdmin):
         "recep_tech",
         "recep_sched",
         "recep_supv",
-        "recep_remarks",
+        "recep_diagnosis",
     )
     search_fields = (
         "work_code",
@@ -501,7 +501,7 @@ class WorkorderAdmin(admin.ModelAdmin):
         "recep_tech",
         "recep_sched",
         "recep_supv",
-        "recep_remarks",
+        "recep_diagnosis",
     )
 
 

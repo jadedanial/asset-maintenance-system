@@ -13,7 +13,7 @@ const Workorder = ({
   workorderoperations,
   operationtechnicians,
   operationitems,
-  getSection,
+  sectionCode,
   collapsed,
   theme,
 }) => {
@@ -119,7 +119,7 @@ const Workorder = ({
         tableColumns={columns}
         tableDataSource={loadAPILists()}
         searchedText={searchedText}
-        getSection={getSection}
+        sectionCode={sectionCode}
         collapsed={collapsed}
         theme={theme}
       />

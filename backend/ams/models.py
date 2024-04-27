@@ -554,8 +554,8 @@ class Workorder(models.Model):
         on_delete=models.CASCADE,
         verbose_name="Supervisor",
     )
-    recep_remarks = models.TextField(
-        blank=True, null=True, verbose_name="Remarks")
+    recep_diagnosis = models.TextField(
+        blank=True, null=True, verbose_name="Diagnosis")
 
     def __str__(self):
         return str(self.work_code)

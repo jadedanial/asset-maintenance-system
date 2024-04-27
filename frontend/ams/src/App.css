@@ -605,14 +605,16 @@ a span {
 .ant-form-item-space-bottom-normal .ant-form-item {
   margin: 0 0 15px !important;
 }
-.ant-form-item-explain-error {
+.ant-form-item-explain-error,
+.ant-form-item-required {
   color: #ff0000 !important;
-  font-size: 12px;
+  font-size: 14px;
   margin: 5px 0 10px;
+  text-align: left !important;
 }
 .ant-form-item label {
   color: #318ce7 !important;
-  font-size: 13px !important;
+  font-size: 14px !important;
   height: 0 !important;
 }
 .ant-form input[type="file"] {
@@ -719,7 +721,7 @@ a span {
   background: none !important;
 }
 textarea.ant-input {
-  height: auto !important;
+  min-height: 150px !important;
 }
 .ant-input-affix-wrapper > .ant-input {
   padding-left: 10px !important;
