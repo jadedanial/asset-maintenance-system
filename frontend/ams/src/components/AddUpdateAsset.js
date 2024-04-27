@@ -261,7 +261,7 @@ const AddUpdateAsset = ({
                       </Form.Item>
                       <Row>
                         <Col
-                          span={14}
+                          span={12}
                           style={{
                             paddingRight: "8px",
                           }}
@@ -406,7 +406,7 @@ const AddUpdateAsset = ({
                             />
                           </Form.Item>
                         </Col>
-                        <Col span={10}>
+                        <Col span={12}>
                           <Form.Item
                             name={["type"]}
                             label="Type"
