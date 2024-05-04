@@ -51,7 +51,7 @@ const Technician = () => {
               itemLayout="horizontal"
               dataSource={data}
               renderItem={(item, index) => (
-                <List.Item style={{ padding: "16px 16px 0 16px" }}>
+                <List.Item style={{ padding: "12px 12px 0 12px" }}>
                   <List.Item.Meta
                     avatar={
                       <Avatar
