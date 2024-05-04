@@ -21,7 +21,8 @@ import {
   ToolOutlined,
   CaretRightOutlined,
 } from "@ant-design/icons";
-import DiagnosisEvent from "./DiagnosisEvent";
+import Diagnosis from "./Diagnosis";
+import Operation from "./Operation";
 import moment from "moment";
 
 const { Title } = Typography;
@@ -85,7 +86,7 @@ const AddUpdateWorkorder = ({
   const [current, setCurrent] = useState(0);
   const [empty, setEmpty] = useState(false);
 
-  const onChange = (value) => {
+  const onChangeStep = (value) => {
     setCurrent(value);
   };
 
@@ -103,6 +104,7 @@ const AddUpdateWorkorder = ({
   const onFinish = () => {
     if (diagnosis !== "") {
       console.log(technician, scheduler, supervisor, diagnosis);
+      onChangeStep(1);
     } else {
       setEmpty(true);
       console.log("empty");
@@ -115,7 +117,7 @@ const AddUpdateWorkorder = ({
         <Button
           className="btn-step"
           type="primary"
-          icon={<FormOutlined style={{ fontSize: "30px" }} />}
+          icon={<FormOutlined style={{ fontSize: "22px" }} />}
         >
           Reception
         </Button>
@@ -129,8 +131,8 @@ const AddUpdateWorkorder = ({
             onFinish={onFinish}
           >
             <div
-              className=" card-with-background"
-              style={{ padding: "24px", paddingTop: "48px" }}
+              className="card-with-background"
+              style={{ padding: "24px", paddingTop: "24px" }}
             >
               <Form.Item
                 name={["assetcode"]}
@@ -228,7 +230,7 @@ const AddUpdateWorkorder = ({
                   </Form.Item>
                 </Col>
               </Row>
-              <DiagnosisEvent
+              <Diagnosis
                 employees={employees}
                 userId={userId}
                 technician={technician}
@@ -241,8 +243,9 @@ const AddUpdateWorkorder = ({
                 setDiagnosis={setDiagnosis}
                 empty={empty}
                 setEmpty={setEmpty}
+                theme={theme}
               />
-              <div className="space-between-row" style={{ paddingTop: "24px" }}>
+              <div className="space-between-row" style={{ paddingTop: "42px" }}>
                 <Button
                   type="default"
                   onClick={() => {
@@ -274,12 +277,18 @@ const AddUpdateWorkorder = ({
         <Button
           className="btn-step"
           type="primary"
-          icon={<ToolOutlined style={{ fontSize: "30px" }} />}
+          icon={<ToolOutlined style={{ fontSize: "22px" }} />}
         >
-          Workshop
+          Operation
         </Button>
       ),
-      content: "Workshop",
+      content: (
+        <>
+          <div className="card-with-background" style={{ paddingTop: "4px" }}>
+            <Operation />
+          </div>
+        </>
+      ),
       icon: <></>,
     },
     {
@@ -287,7 +296,7 @@ const AddUpdateWorkorder = ({
         <Button
           className="btn-step"
           type="primary"
-          icon={<FileDoneOutlined style={{ fontSize: "30px" }} />}
+          icon={<FileDoneOutlined style={{ fontSize: "22px" }} />}
         >
           Invoiced
         </Button>
@@ -334,24 +343,23 @@ const AddUpdateWorkorder = ({
 
   return (
     <>
-      <div className="justified-row" style={{ paddingTop: "12px" }}>
+      <div className="justified-row" style={{ paddingTop: "10px" }}>
         <div className="card-custom-size-full">
           <Card
+            className="custom-card-head-title"
+            style={{ minHeight: "100vh" }}
             title={
-              <Title>
-                <p className="big-card-title">{label}</p>
-              </Title>
+              <Steps
+                type="navigation"
+                current={current}
+                items={items}
+                style={{ width: "60%" }}
+                onChange={onChangeStep}
+              />
             }
           >
             <Row>
               <Col span={16}>
-                <Steps
-                  className="card-with-background"
-                  type="navigation"
-                  current={current}
-                  items={items}
-                  onChange={onChange}
-                />
                 <div style={contentStyle}>{steps[current].content}</div>
               </Col>
               <Col span={8} style={{ paddingLeft: "24px" }}>

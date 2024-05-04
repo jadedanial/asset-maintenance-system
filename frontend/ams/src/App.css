@@ -84,6 +84,9 @@ body {
 h1 {
   margin: 0 !important;
 }
+.ant-list-item-meta {
+  margin-bottom: 16px !important;
+}
 .ant-divider-horizontal {
   margin: 0 !important;
   border-top: 1px solid #318ce750 !important;
@@ -311,20 +314,22 @@ a span {
 .ant-card-extra {
   margin-left: 50px !important;
 }
-.ant-card-head {
+.ant-card-head,
+.ant-modal-header {
   height: fit-content !important;
   border-bottom: 1px solid #318ce750 !important;
 }
 .dark .card-with-background,
-.dark .ant-card .card-with-background {
+.dark .ant-card .card-with-background,
+.dark .ant-modal-content,
+.dark .ant-modal-header {
   background: #182348 !important;
+}
+.ant-steps-navigation {
+  padding: 0 !important;
 }
 .ant-steps-item-content {
   min-height: fit-content !important;
-}
-.ant-steps-item-icon {
-  font-size: 12px !important;
-  background: none !important;
 }
 .ant-steps-item-description {
   font-size: 13px !important;
@@ -337,10 +342,24 @@ a span {
 .dark .ant-steps-item-description {
   color: #fff !important;
 }
+.ant-steps-item-title button {
+  font-size: 22px !important;
+  text-decoration: underline !important;
+}
+.ant-steps-item .ant-steps-item-title :hover {
+  text-decoration: underline !important;
+}
+.ant-steps-item-active .ant-steps-item-title :hover {
+  text-decoration: none !important;
+}
+.ant-steps-navigation .ant-steps-item:before {
+  height: 1px !important;
+}
 .ant-notification-notice,
 .light .card-with-background,
 .light .ant-card .card-with-background,
-.light .ant-picker-calendar-full .ant-picker-panel {
+.light .ant-modal-content,
+.light .ant-modal-header .light .ant-picker-calendar-full .ant-picker-panel {
   background: #fff !important;
 }
 .card-custom-size-60 {
@@ -599,6 +618,9 @@ a span {
 .ant-drawer-content-wrapper {
   width: 100% !important;
 }
+.ant-drawer {
+  margin-right: 24px !important;
+}
 .ant-form-item {
   margin: 0 0 18px !important;
 }
@@ -721,7 +743,7 @@ a span {
   background: none !important;
 }
 textarea.ant-input {
-  min-height: 150px !important;
+  min-height: 100px !important;
 }
 .ant-input-affix-wrapper > .ant-input {
   padding-left: 10px !important;
@@ -729,8 +751,15 @@ textarea.ant-input {
 .ant-list-header {
   border-bottom: none !important;
 }
-.border-bottom .ant-list-item {
+.bordered .ant-list-item {
+  border: 1px solid #318ce750 !important;
+}
+.no-bordered .ant-list-item {
+  border: none !important;
   border-bottom: 1px solid #318ce750 !important;
+}
+.ant-list-pagination {
+  margin: 12px 0 !important;
 }
 .dark .ant-list-item-meta-description,
 .dark .ant-space-item {
@@ -742,7 +771,7 @@ textarea.ant-input {
 }
 .ant-list-item-action {
   display: flex !important;
-  margin-top: 8px !important;
+  margin-top: 16px !important;
 }
 .dark .ant-list-item {
   color: #fff !important;

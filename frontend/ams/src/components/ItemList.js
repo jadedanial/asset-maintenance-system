@@ -220,6 +220,7 @@ const ItemList = ({
         ""
       )}
       <List
+        className={segment === "Request" ? `no-bordered` : ``}
         itemLayout="horizontal"
         pagination={false}
         style={{
@@ -235,7 +236,9 @@ const ItemList = ({
             : itemList
         }
         renderItem={(item) => (
-          <List.Item>
+          <List.Item
+            style={{ paddingBottom: segment === "Request" ? "12px" : "" }}
+          >
             <Card className="card-no-padding card-no-padding-top" hoverable>
               <Row>
                 <Col
@@ -377,35 +380,7 @@ const ItemList = ({
                             <Tooltip>
                               <Button
                                 size="small"
-                                type="primary"
-                                onClick={() =>
-                                  changeQuantity(
-                                    "add",
-                                    item.id,
-                                    item.code,
-                                    item.name,
-                                    item.cost,
-                                    item.measurement,
-                                    item.quantity,
-                                    item.max,
-                                    codeAscending !== ""
-                                      ? `code-${codeAscending}`
-                                      : nameAscending !== ""
-                                      ? `name-${nameAscending}`
-                                      : costAscending !== ""
-                                      ? `cost-${costAscending}`
-                                      : ""
-                                  )
-                                }
-                              >
-                                ADD
-                              </Button>
-                            </Tooltip>
-                            <Tooltip>
-                              <Button
-                                size="small"
                                 type="default"
-                                style={{ marginLeft: "4px" }}
                                 onClick={() =>
                                   changeQuantity(
                                     "less",
@@ -427,6 +402,34 @@ const ItemList = ({
                                 }
                               >
                                 LESS
+                              </Button>
+                            </Tooltip>
+                            <Tooltip>
+                              <Button
+                                size="small"
+                                type="primary"
+                                style={{ marginLeft: "4px" }}
+                                onClick={() =>
+                                  changeQuantity(
+                                    "add",
+                                    item.id,
+                                    item.code,
+                                    item.name,
+                                    item.cost,
+                                    item.measurement,
+                                    item.quantity,
+                                    item.max,
+                                    codeAscending !== ""
+                                      ? `code-${codeAscending}`
+                                      : nameAscending !== ""
+                                      ? `name-${nameAscending}`
+                                      : costAscending !== ""
+                                      ? `cost-${costAscending}`
+                                      : ""
+                                  )
+                                }
+                              >
+                                ADD
                               </Button>
                             </Tooltip>
                           </Col>

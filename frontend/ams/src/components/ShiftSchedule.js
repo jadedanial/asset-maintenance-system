@@ -169,7 +169,7 @@ const ShiftSchedule = ({ schedules, employees, empid, theme }) => {
                 },
               ]}
               renderItem={(item) => (
-                <List.Item style={{ marginBottom: "0" }}>
+                <List.Item>
                   <Card
                     className="card-with-background"
                     style={{ padding: "24px" }}

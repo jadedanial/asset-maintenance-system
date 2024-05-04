@@ -27,7 +27,7 @@ const layout = {
   },
 };
 
-const DiagnosisEvent = ({
+const Diagnosis = ({
   employees,
   userId,
   technician,
@@ -40,6 +40,7 @@ const DiagnosisEvent = ({
   setDiagnosis,
   empty,
   setEmpty,
+  theme,
 }) => {
   const [tech, setTech] = useState("");
   const sched = employees.find((emp) => emp.emp_id === userId)
@@ -54,7 +55,7 @@ const DiagnosisEvent = ({
   const data = Array.from({
     length: 1,
   }).map((_, i) => ({
-    technician: `Technician: ${technician}`,
+    technician: `Diagnosed by Technician: ${technician}`,
     scheduler: `Scheduler: ${scheduler}`,
     supervisor: `Supervisor: ${supervisor}`,
     diagnosis: diagnosis,
@@ -150,6 +151,7 @@ const DiagnosisEvent = ({
         ))}
       </Collapse>
       <Modal
+        className={theme}
         title="Update Diagnosis"
         centered
         open={modalOpen}
@@ -160,7 +162,7 @@ const DiagnosisEvent = ({
         <Form {...layout} layout="vertical" name="add-new" onFinish={onFinish}>
           <Row>
             <Col span={24}>
-              <div className=" card-with-background">
+              <div className="card-with-background">
                 <Form.Item
                   name={["diagnosis"]}
                   label="Diagnosis"
@@ -286,4 +288,4 @@ const DiagnosisEvent = ({
   );
 };
 
-export default DiagnosisEvent;
+export default Diagnosis;
