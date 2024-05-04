@@ -54,6 +54,7 @@ body {
 .ant-btn-icon-only {
   width: 48px !important;
 }
+
 .ant-result-extra {
   display: flex !important;
   justify-content: center !important;
@@ -85,7 +86,7 @@ h1 {
   margin: 0 !important;
 }
 .ant-list-item-meta {
-  margin-bottom: 16px !important;
+  margin-bottom: 0px !important;
 }
 .ant-divider-horizontal {
   margin: 0 !important;

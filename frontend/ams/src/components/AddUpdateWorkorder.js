@@ -285,7 +285,7 @@ const AddUpdateWorkorder = ({
       content: (
         <>
           <div className="card-with-background" style={{ paddingTop: "4px" }}>
-            <Operation />
+            <Operation theme={theme} />
           </div>
         </>
       ),

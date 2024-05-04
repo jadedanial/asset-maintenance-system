@@ -7,10 +7,9 @@ const data = Array.from({
   length: 23,
 }).map((_, i) => ({
   href: "https://ant.design",
-  title: `ant design part ${i}`,
+  title: `Replace engine oil filter`,
   avatar: `Q586`,
-  description:
-    "Ant Design, a design language for background applications, is refined by Ant UED Team.",
+  description: "Standard Hour: 2 | Operation Type: Accident",
   content: (
     <>
       <Material />
@@ -25,7 +24,7 @@ const IconText = ({ icon, text }) => (
   </Space>
 );
 
-const Operation = () => (
+const Operation = ({ theme }) => (
   <List
     className="bordered"
     itemLayout="vertical"
@@ -39,7 +38,7 @@ const Operation = () => (
     dataSource={data}
     style={{ padding: "24px" }}
     renderItem={(item) => (
-      <Badge.Ribbon placement="start" text="#1">
+      <Badge.Ribbon className="big-font" placement="start" text="#1">
         <List.Item
           style={{ marginBottom: "24px" }}
           key={item.title}
@@ -64,6 +63,7 @@ const Operation = () => (
           <List.Item.Meta
             avatar={
               <Avatar
+                className="bigger-font"
                 size={80}
                 style={{
                   background: "none",
@@ -73,7 +73,17 @@ const Operation = () => (
                 {item.avatar}
               </Avatar>
             }
-            title={<a href={item.href}>{item.title}</a>}
+            title={
+              <p
+                className="big-font"
+                style={{
+                  color: theme === "light" ? "#000" : "#fff",
+                  paddingTop: "18px",
+                }}
+              >
+                {item.title}
+              </p>
+            }
             description={item.description}
           />
           {item.content}

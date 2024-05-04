@@ -236,10 +236,11 @@ const ItemList = ({
             : itemList
         }
         renderItem={(item) => (
-          <List.Item
-            style={{ paddingBottom: segment === "Request" ? "12px" : "" }}
-          >
-            <Card className="card-no-padding card-no-padding-top" hoverable>
+          <List.Item style={{ padding: segment === "Request" ? "0px" : "" }}>
+            <Card
+              className="card-no-padding card-no-padding-top"
+              hoverable={segment === "Request" ? false : true}
+            >
               <Row>
                 <Col
                   span={!view ? 3 : 6}
@@ -336,7 +337,7 @@ const ItemList = ({
                     }}
                   >
                     <div
-                      className="space-between-row medium-font"
+                      className="space-between-row small-font"
                       style={{
                         alignItems: "center",
                         color: theme === "light" ? "#000" : "#fff",
