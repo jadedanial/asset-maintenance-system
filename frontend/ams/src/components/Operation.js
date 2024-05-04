@@ -1,20 +1,16 @@
 import React from "react";
-import { Avatar, List, Space, Badge } from "antd";
-import { LikeOutlined, MessageOutlined, StarOutlined } from "@ant-design/icons";
+import { Avatar, List, Space, Badge, Tooltip, Button, Row } from "antd";
+import { EditOutlined, CloseOutlined, UserOutlined } from "@ant-design/icons";
+import Technician from "./Technician";
 import Material from "./Material";
 
 const data = Array.from({
-  length: 23,
+  length: 3,
 }).map((_, i) => ({
   href: "https://ant.design",
-  title: `Replace engine oil filter`,
+  title: `Replace engine oil filter and clean engine`,
   avatar: `Q586`,
   description: "Standard Hour: 2 | Operation Type: Accident",
-  content: (
-    <>
-      <Material />
-    </>
-  ),
 }));
 
 const IconText = ({ icon, text }) => (
@@ -44,19 +40,12 @@ const Operation = ({ theme }) => (
           key={item.title}
           actions={[
             <IconText
-              icon={StarOutlined}
-              text="156"
-              key="list-vertical-star-o"
+              icon={UserOutlined}
+              text="Scheduler: 18106 - Jade Danial"
             />,
             <IconText
-              icon={LikeOutlined}
-              text="156"
-              key="list-vertical-like-o"
-            />,
-            <IconText
-              icon={MessageOutlined}
-              text="2"
-              key="list-vertical-message"
+              icon={UserOutlined}
+              text="Supervisor: 1393 - Michael Angelo"
             />,
           ]}
         >
@@ -74,19 +63,38 @@ const Operation = ({ theme }) => (
               </Avatar>
             }
             title={
-              <p
-                className="big-font"
-                style={{
-                  color: theme === "light" ? "#000" : "#fff",
-                  paddingTop: "18px",
-                }}
-              >
-                {item.title}
-              </p>
+              <Row className="space-between-row">
+                <p
+                  className="large-font"
+                  style={{
+                    color: theme === "light" ? "#000" : "#fff",
+                    paddingTop: "12px",
+                  }}
+                >
+                  {item.title}
+                </p>
+                <div>
+                  <Tooltip title="Update Operation">
+                    <Button
+                      icon={<EditOutlined style={{ fontSize: "20px" }} />}
+                      className="btn-normal"
+                    />
+                  </Tooltip>
+                  <Tooltip title="Delete Operation">
+                    <Button
+                      icon={<CloseOutlined style={{ fontSize: "20px" }} />}
+                      className="btn-normal"
+                    />
+                  </Tooltip>
+                </div>
+              </Row>
             }
             description={item.description}
           />
-          {item.content}
+          <>
+            <Technician />
+            <Material theme={theme} />
+          </>
         </List.Item>
       </Badge.Ribbon>
     )}

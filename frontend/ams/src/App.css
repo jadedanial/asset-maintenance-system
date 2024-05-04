@@ -85,8 +85,11 @@ body {
 h1 {
   margin: 0 !important;
 }
+.ant-list-item-meta-title {
+  font-size: 18px !important;
+}
 .ant-list-item-meta {
-  margin-bottom: 0px !important;
+  margin-bottom: 16px !important;
 }
 .ant-divider-horizontal {
   margin: 0 !important;
@@ -759,8 +762,18 @@ textarea.ant-input {
   border: none !important;
   border-bottom: 1px solid #318ce750 !important;
 }
+.no-bordered .ant-list-item:last-child {
+  border: none !important;
+  border-bottom: none !important;
+}
 .ant-list-pagination {
   margin: 12px 0 !important;
+}
+.ant-list-item-meta-description {
+  font-size: 14px !important;
+}
+.ant-space {
+  font-family: ralewayregular !important;
 }
 .dark .ant-list-item-meta-description,
 .dark .ant-space-item {
@@ -771,7 +784,6 @@ textarea.ant-input {
   color: #00000081 !important;
 }
 .ant-list-item-action {
-  display: flex !important;
   margin-top: 16px !important;
 }
 .dark .ant-list-item {
@@ -787,7 +799,7 @@ textarea.ant-input {
 .ant-result-subtitle,
 .ant-steps-item-title {
   color: #318ce7 !important;
-  font-size: 14px !important;
+  font-size: 16px !important;
 }
 .ant-result-icon {
   margin-bottom: 0 !important;
@@ -860,8 +872,11 @@ input::file-selector-button {
   border: 1px solid #318ce750 !important;
 }
 .ant-collapse-header {
-  padding: 4px 8px !important;
+  padding: 4px 10px !important;
   border-bottom: none !important;
+}
+.ant-collapse-header-text p {
+  margin: 0 !important;
 }
 .ant-collapse-content,
 .ant-collapse > .ant-collapse-item {

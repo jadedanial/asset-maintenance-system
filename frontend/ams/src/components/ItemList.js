@@ -244,14 +244,19 @@ const ItemList = ({
               <Row>
                 <Col
                   span={!view ? 3 : 6}
-                  className="justified-row card-with-background"
-                  style={{ padding: "12px 0" }}
+                  className={`card-with-background ${
+                    segment === "Request" ? "" : "justified-row"
+                  }`}
+                  style={{
+                    padding:
+                      segment === "Request" ? "12px 0 12px 32px" : "12px 0",
+                  }}
                 >
                   <QRCode
                     value={item.code}
                     style={{
                       height: "auto",
-                      width: "40%",
+                      width: segment === "Request" ? "40%" : "40%",
                     }}
                   />
                 </Col>
@@ -351,12 +356,38 @@ const ItemList = ({
                             span={!view ? 8 : 13}
                             style={{ marginRight: "24px" }}
                           >
-                            <p style={{ textAlign: "left", margin: "0" }}>
+                            <p
+                              style={{
+                                textAlign: "left",
+                                margin: "0",
+                                color:
+                                  segment === "Request"
+                                    ? theme === "light"
+                                      ? "#00000081"
+                                      : "#f0f2f58e"
+                                    : theme === "light"
+                                    ? "#000"
+                                    : "#fff",
+                              }}
+                            >
                               {item.name}
                             </p>
                           </Col>
                           <Col span={8}>
-                            <p style={{ textAlign: "center", margin: "0" }}>
+                            <p
+                              style={{
+                                textAlign: "center",
+                                margin: "0",
+                                color:
+                                  segment === "Request"
+                                    ? theme === "light"
+                                      ? "#00000081"
+                                      : "#f0f2f58e"
+                                    : theme === "light"
+                                    ? "#000"
+                                    : "#fff",
+                              }}
+                            >
                               {item.quantity}{" "}
                               {item.quantity > 1
                                 ? item.measurement + "s"

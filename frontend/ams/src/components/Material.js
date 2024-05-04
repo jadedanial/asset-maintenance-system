@@ -1,6 +1,6 @@
 import React from "react";
-import { List, Collapse, Row, Button, Tooltip } from "antd";
-import { CaretRightOutlined, EditOutlined } from "@ant-design/icons";
+import { Collapse } from "antd";
+import { CaretRightOutlined } from "@ant-design/icons";
 import ItemList from "./ItemList";
 
 const data = [
@@ -61,43 +61,12 @@ const data = [
   },
 ];
 
-const getItems = () => [
-  {
-    key: "1",
-    label: (
-      <Row className="space-between-row">
-        <p
-          style={{
-            fontSize: "14px",
-            paddingLeft: "8px",
-            paddingTop: "8px",
-            color: "#318ce7",
-          }}
-        >
-          Material
-        </p>
-        <Tooltip title="Update Material">
-          <Button
-            icon={<EditOutlined style={{ fontSize: "26px" }} />}
-            className="btn-normal"
-          />
-        </Tooltip>
-      </Row>
-    ),
-    children: (
-      <>
-        <ItemList view={true} segment={"Request"} itemList={data} />
-      </>
-    ),
-  },
-];
-
-const App = () => {
+const Material = ({ theme }) => {
   return (
     <>
       <Collapse
-        defaultActiveKey={["1"]}
         collapsible="icon"
+        style={{ marginBottom: "24px" }}
         expandIcon={({ isActive }) => (
           <CaretRightOutlined
             className="big-card-title"
@@ -106,13 +75,32 @@ const App = () => {
           />
         )}
       >
-        {getItems().map((item) => (
-          <Collapse.Panel key={item.key} header={item.label}>
-            {item.children}
-          </Collapse.Panel>
-        ))}
+        <Collapse.Panel
+          header={
+            <p
+              style={{
+                fontSize: "14px",
+                paddingLeft: "8px",
+                paddingTop: "8px",
+                color: "#318ce7",
+              }}
+            >
+              Material
+            </p>
+          }
+        >
+          {
+            <ItemList
+              view={true}
+              segment={"Request"}
+              itemList={data}
+              theme={theme}
+            />
+          }
+        </Collapse.Panel>
       </Collapse>
     </>
   );
 };
-export default App;
+
+export default Material;

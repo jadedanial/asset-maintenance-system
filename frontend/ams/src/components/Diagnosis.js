@@ -85,7 +85,7 @@ const Diagnosis = ({
           </p>
           <Tooltip title="Update Diagnosis">
             <Button
-              icon={<EditOutlined style={{ fontSize: "26px" }} />}
+              icon={<EditOutlined style={{ fontSize: "20px" }} />}
               className="btn-normal"
               onClick={() => setModalOpen(true)}
             />
