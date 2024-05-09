@@ -22,7 +22,7 @@ const IconText = ({ icon, text }) => (
 
 const Operation = ({ theme }) => (
   <List
-    className="bordered"
+    style={{ background: theme === "light" ? "#f8f9fa" : "#161d40" }}
     itemLayout="vertical"
     size="large"
     pagination={{
@@ -32,11 +32,13 @@ const Operation = ({ theme }) => (
       pageSize: 3,
     }}
     dataSource={data}
-    style={{ padding: "24px" }}
     renderItem={(item) => (
-      <Badge.Ribbon className="big-font" placement="start" text="#1">
+      <Badge.Ribbon className="large-font" placement="start" text="#1">
         <List.Item
-          style={{ marginBottom: "24px" }}
+          style={{
+            marginBottom: "24px",
+            background: theme === "light" ? "#fff" : "#182348",
+          }}
           key={item.title}
           actions={[
             <IconText

@@ -329,6 +329,9 @@ a span {
 .dark .ant-modal-header {
   background: #182348 !important;
 }
+.ant-steps-item-icon {
+  background: none !important;
+}
 .ant-steps-navigation {
   padding: 0 !important;
 }
@@ -777,11 +780,11 @@ textarea.ant-input {
 }
 .dark .ant-list-item-meta-description,
 .dark .ant-space-item {
-  color: #f0f2f58e !important;
+  color: #f0f2f5d5 !important;
 }
 .light .ant-list-item-meta-description,
 .light .ant-space-item {
-  color: #00000081 !important;
+  color: #000000ce !important;
 }
 .ant-list-item-action {
   margin-top: 12px !important;

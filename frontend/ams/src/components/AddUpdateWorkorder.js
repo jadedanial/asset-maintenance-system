@@ -130,10 +130,7 @@ const AddUpdateWorkorder = ({
             name="reception-data"
             onFinish={onFinish}
           >
-            <div
-              className="card-with-background"
-              style={{ padding: "24px", paddingTop: "24px" }}
-            >
+            <div style={{ padding: "24px", paddingTop: "24px" }}>
               <Form.Item
                 name={["assetcode"]}
                 label="Asset Code"
@@ -284,7 +281,7 @@ const AddUpdateWorkorder = ({
       ),
       content: (
         <>
-          <div className="card-with-background" style={{ paddingTop: "4px" }}>
+          <div style={{ paddingTop: "4px" }}>
             <Operation theme={theme} />
           </div>
         </>
