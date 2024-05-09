@@ -1,11 +1,45 @@
 import React from "react";
-import { Collapse, Avatar, List } from "antd";
+import { Collapse, Avatar, List, Row, Col } from "antd";
 import { CaretRightOutlined, UserOutlined } from "@ant-design/icons";
 
 const data = [
   {
-    title: "17983",
-    description: "Bashir Mohammad Bashir",
+    title: (
+      <Row>
+        <Col span={10}>
+          <p>17983</p>
+        </Col>
+        <Col span={7}>
+          <p>Taken Hours</p>
+        </Col>
+        <Col span={7}>
+          <p>Invoiced Hours</p>
+        </Col>
+      </Row>
+    ),
+    description: (
+      <Row>
+        <Col span={10}>
+          <p>Bashir Mohammad Bashir</p>
+        </Col>
+        <Col span={7}>
+          <p>2.00</p>
+        </Col>
+        <Col span={7}>
+          <p>0.50</p>
+        </Col>
+      </Row>
+    ),
+    duration: (
+      <Row>
+        <Col span={10}>
+          <p>
+            Start: February 23, 2024 10:00:40 | Finish: February 23, 2024
+            12:00:40
+          </p>
+        </Col>
+      </Row>
+    ),
   },
   {
     title: "930",
