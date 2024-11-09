@@ -11,6 +11,7 @@ import {
   Row,
   Col,
   Select,
+  Popover,
 } from "antd";
 import {
   CaretRightOutlined,
@@ -55,17 +56,19 @@ const Diagnosis = ({
   const data = Array.from({
     length: 1,
   }).map((_, i) => ({
+    diagnosis: diagnosis,
     technician: `Diagnosed by Technician: ${technician}`,
     scheduler: `Scheduler: ${scheduler}`,
     supervisor: `Supervisor: ${supervisor}`,
-    diagnosis: diagnosis,
   }));
 
-  const IconText = ({ icon, text }) => (
-    <Space>
-      {React.createElement(icon)}
-      {text}
-    </Space>
+  const IconText = ({ icon, id, name }) => (
+    <Popover content={<p>{`${id.split(":")[1]} - ${name}`}</p>}>
+      <Space>
+        {React.createElement(icon)}
+        {id}
+      </Space>
+    </Popover>
   );
 
   const getItems = () => [
@@ -101,18 +104,25 @@ const Diagnosis = ({
             dataSource={technician !== "" ? data : ""}
             renderItem={(item) => (
               <List.Item
-                style={{ width: "100%" }}
                 key={item.technician}
                 actions={[
-                  <IconText icon={UserOutlined} text={item.scheduler} />,
-                  <IconText icon={UserOutlined} text={item.supervisor} />,
+                  <IconText
+                    icon={UserOutlined}
+                    id={item.technician.split(" - ")[0]}
+                    name={item.technician.split(" - ")[1]}
+                  />,
+                  <IconText
+                    icon={UserOutlined}
+                    id={item.scheduler.split(" - ")[0]}
+                    name={item.scheduler.split(" - ")[1]}
+                  />,
+                  <IconText
+                    icon={UserOutlined}
+                    id={item.supervisor.split(" - ")[0]}
+                    name={item.supervisor.split(" - ")[1]}
+                  />,
                 ]}
               >
-                <List.Item.Meta
-                  description={
-                    <IconText icon={UserOutlined} text={item.technician} />
-                  }
-                />
                 {item.diagnosis}
               </List.Item>
             )}

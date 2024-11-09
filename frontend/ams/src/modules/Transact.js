@@ -651,7 +651,7 @@ const Transact = ({
     switch (segment) {
       case "Issue":
       case "Return":
-        return "Search Work Order Code";
+        return "Search Workorder Code";
       case "Adjust":
       case "Reorder":
         return "Search Item Code";

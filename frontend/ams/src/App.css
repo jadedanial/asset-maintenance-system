@@ -369,7 +369,8 @@ a span {
 .light .card-with-background,
 .light .ant-card .card-with-background,
 .light .ant-modal-content,
-.light .ant-modal-header .light .ant-picker-calendar-full .ant-picker-panel {
+.light .ant-modal-header,
+.light .ant-picker-calendar-full .ant-picker-panel {
   background: #fff !important;
 }
 .card-custom-size-60 {
@@ -790,7 +791,7 @@ textarea.ant-input {
   color: #000000ce !important;
 }
 .ant-list-item-action {
-  margin-top: 12px !important;
+  margin-top: 24px !important;
 }
 .dark .ant-list-item {
   color: #fff !important;

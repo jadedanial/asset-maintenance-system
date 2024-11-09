@@ -1,5 +1,14 @@
 import React from "react";
-import { Avatar, List, Space, Badge, Tooltip, Button, Row } from "antd";
+import {
+  Avatar,
+  List,
+  Space,
+  Badge,
+  Tooltip,
+  Button,
+  Row,
+  Popover,
+} from "antd";
 import { EditOutlined, CloseOutlined, UserOutlined } from "@ant-design/icons";
 import Technician from "./Technician";
 import Material from "./Material";
@@ -7,17 +16,20 @@ import Material from "./Material";
 const data = Array.from({
   length: 3,
 }).map((_, i) => ({
-  href: "https://ant.design",
-  title: `Replace engine oil filter and clean engine`,
   avatar: `Q586`,
+  title: `Replace engine oil filter and clean engine`,
   description: "Standard Hour: 2 | Operation Type: Accident",
+  scheduler: `Scheduler: 18106 - Jade Danial`,
+  supervisor: `Supervisor: 1393 - Michael Angelo Acedo`,
 }));
 
-const IconText = ({ icon, text }) => (
-  <Space>
-    {React.createElement(icon)}
-    {text}
-  </Space>
+const IconText = ({ icon, id, name }) => (
+  <Popover content={<p>{`${id.split(":")[1]} - ${name}`}</p>}>
+    <Space>
+      {React.createElement(icon)}
+      {id}
+    </Space>
+  </Popover>
 );
 
 const Operation = ({ theme }) => (
@@ -43,11 +55,13 @@ const Operation = ({ theme }) => (
           actions={[
             <IconText
               icon={UserOutlined}
-              text="Scheduler: 18106 - Jade Danial"
+              id={item.scheduler.split(" - ")[0]}
+              name={item.scheduler.split(" - ")[1]}
             />,
             <IconText
               icon={UserOutlined}
-              text="Supervisor: 1393 - Michael Angelo"
+              id={item.supervisor.split(" - ")[0]}
+              name={item.supervisor.split(" - ")[1]}
             />,
           ]}
         >
