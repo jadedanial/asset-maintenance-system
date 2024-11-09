@@ -11,21 +11,16 @@ import {
   Tag,
   List,
   Divider,
-  DatePicker,
-  Input,
   InputNumber,
 } from "antd";
 import {
   FormOutlined,
   FileDoneOutlined,
   ToolOutlined,
-  CaretRightOutlined,
 } from "@ant-design/icons";
 import Diagnosis from "./Diagnosis";
 import Operation from "./Operation";
 import moment from "moment";
-
-const { Title } = Typography;
 
 const layout = {
   labelCol: {
@@ -282,7 +277,12 @@ const AddUpdateWorkorder = ({
       content: (
         <>
           <div style={{ paddingTop: "4px" }}>
-            <Operation theme={theme} />
+            <Operation
+              theme={theme}
+              employees={employees}
+              userId={userId}
+              operations={operations}
+            />
           </div>
         </>
       ),
