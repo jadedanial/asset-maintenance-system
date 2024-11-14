@@ -57,7 +57,6 @@ body {
 .ant-btn-icon-only {
   width: 48px !important;
 }
-
 .ant-result-extra {
   display: flex !important;
   justify-content: center !important;
@@ -276,6 +275,17 @@ h1.ant-typography {
   color: #fff !important;
   background: #6841f5 !important;
   border: 1px #6841f5 solid !important;
+}
+.ant-btn-text {
+  color: #318ce7 !important;
+  background: none !important;
+  border: none !important;
+}
+.ant-btn-text:hover {
+  font-family: ralewayregular !important;
+  color: #6841f5 !important;
+  background: none !important;
+  border: none !important;
 }
 a span {
   padding-top: 4px !important;
@@ -941,10 +951,10 @@ input::file-selector-button {
   font-size: 14px !important;
 }
 .ant-ribbon {
-  height: 32px !important;
-  padding: 4px !important;
+  height: 36px !important;
+  padding: 6px !important;
 }
 .ant-ribbon-text {
-  font-size: 20px !important;
-  font-family: ralewayregular !important;
+  font-size: 16px !important;
+  font-family: ralewaylight !important;
 }

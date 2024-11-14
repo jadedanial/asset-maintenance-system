@@ -39,7 +39,7 @@ const Operation = ({ theme, operations, employees, userId }) => {
   const [operationCount, setOperationCount] = useState(0);
   const [code, setCode] = useState("");
   const [description, setDescription] = useState("");
-  const [hour, setHours] = useState("");
+  const [hour, setHour] = useState("");
   const [required, setRequired] = useState("");
   const [restriction, setRestriction] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
@@ -56,7 +56,7 @@ const Operation = ({ theme, operations, employees, userId }) => {
   const searchOperation = (value) => {
     const op = operations.find((ops) => ops.op_code === value);
     setDescription(op.op_description);
-    setHours(
+    setHour(
       op.op_hours > 1
         ? "Standard Hours: " + op.op_hours
         : "Standard Hour: " + op.op_hours
@@ -116,7 +116,7 @@ const Operation = ({ theme, operations, employees, userId }) => {
             <Badge.Ribbon
               className="large-font"
               placement="start"
-              text={item.avatar}
+              text={item.avatar + " - " + item.description}
             >
               <List.Item
                 style={{
@@ -133,26 +133,10 @@ const Operation = ({ theme, operations, employees, userId }) => {
                 ]}
               >
                 <List.Item.Meta
-                  description={
-                    <p
-                      className="medium-card-title"
-                      style={{
-                        color: "#000",
-                      }}
-                    >
-                      {item.description}
-                    </p>
-                  }
                   title={
                     <Row className="space-between-row">
                       <div></div>
                       <div>
-                        <Tooltip title="Update Operation">
-                          <Button
-                            icon={<EditOutlined style={{ fontSize: "18px" }} />}
-                            className="btn-normal"
-                          />
-                        </Tooltip>
                         <Tooltip title="Delete Operation">
                           <Button
                             icon={
