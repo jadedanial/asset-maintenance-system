@@ -474,7 +474,6 @@ const ItemList = ({
                     </div>
                   </Card>
                 </Col>
-
                 {!view ? (
                   segment === "Receive" ? (
                     <Col

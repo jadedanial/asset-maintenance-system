@@ -1,6 +1,10 @@
 import React, { useState } from "react";
-import { Collapse, Avatar, List, Row, Col, Modal, Button } from "antd";
-import { CaretRightOutlined, UserOutlined } from "@ant-design/icons";
+import { Collapse, Avatar, List, Row, Col, Modal, Button, Tooltip } from "antd";
+import {
+  CaretRightOutlined,
+  UserOutlined,
+  EditOutlined,
+} from "@ant-design/icons";
 
 const Technician = ({ theme }) => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -45,24 +49,187 @@ const Technician = ({ theme }) => {
       ),
     },
     {
-      title: "930",
-      description: "hassan Salmin Krama",
+      title: (
+        <Row>
+          <Col span={10}>
+            <p>17983</p>
+          </Col>
+          <Col span={7}>
+            <p>Taken Hours</p>
+          </Col>
+          <Col span={7}>
+            <p>Invoiced Hours</p>
+          </Col>
+        </Row>
+      ),
+      description: (
+        <Row>
+          <Col span={10}>
+            <p>Bashir Mohammad Bashir</p>
+          </Col>
+          <Col span={7}>
+            <p>2.00</p>
+          </Col>
+          <Col span={7}>
+            <p>0.50</p>
+          </Col>
+        </Row>
+      ),
+      duration: (
+        <Row>
+          <Col span={10}>
+            <p>
+              Start: February 23, 2024 10:00:40 | Finish: February 23, 2024
+              12:00:40
+            </p>
+          </Col>
+        </Row>
+      ),
     },
     {
-      title: "26111",
-      description: "Ammarudin Hassan",
+      title: (
+        <Row>
+          <Col span={10}>
+            <p>17983</p>
+          </Col>
+          <Col span={7}>
+            <p>Taken Hours</p>
+          </Col>
+          <Col span={7}>
+            <p>Invoiced Hours</p>
+          </Col>
+        </Row>
+      ),
+      description: (
+        <Row>
+          <Col span={10}>
+            <p>Bashir Mohammad Bashir</p>
+          </Col>
+          <Col span={7}>
+            <p>2.00</p>
+          </Col>
+          <Col span={7}>
+            <p>0.50</p>
+          </Col>
+        </Row>
+      ),
+      duration: (
+        <Row>
+          <Col span={10}>
+            <p>
+              Start: February 23, 2024 10:00:40 | Finish: February 23, 2024
+              12:00:40
+            </p>
+          </Col>
+        </Row>
+      ),
+    },
+    {
+      title: (
+        <Row>
+          <Col span={10}>
+            <p>17983</p>
+          </Col>
+          <Col span={7}>
+            <p>Taken Hours</p>
+          </Col>
+          <Col span={7}>
+            <p>Invoiced Hours</p>
+          </Col>
+        </Row>
+      ),
+      description: (
+        <Row>
+          <Col span={10}>
+            <p>Bashir Mohammad Bashir</p>
+          </Col>
+          <Col span={7}>
+            <p>2.00</p>
+          </Col>
+          <Col span={7}>
+            <p>0.50</p>
+          </Col>
+        </Row>
+      ),
+      duration: (
+        <Row>
+          <Col span={10}>
+            <p>
+              Start: February 23, 2024 10:00:40 | Finish: February 23, 2024
+              12:00:40
+            </p>
+          </Col>
+        </Row>
+      ),
+    },
+    {
+      title: (
+        <Row>
+          <Col span={10}>
+            <p>17983</p>
+          </Col>
+          <Col span={7}>
+            <p>Taken Hours</p>
+          </Col>
+          <Col span={7}>
+            <p>Invoiced Hours</p>
+          </Col>
+        </Row>
+      ),
+      description: (
+        <Row>
+          <Col span={10}>
+            <p>Bashir Mohammad Bashir</p>
+          </Col>
+          <Col span={7}>
+            <p>2.00</p>
+          </Col>
+          <Col span={7}>
+            <p>0.50</p>
+          </Col>
+        </Row>
+      ),
+      duration: (
+        <Row>
+          <Col span={10}>
+            <p>
+              Start: February 23, 2024 10:00:40 | Finish: February 23, 2024
+              12:00:40
+            </p>
+          </Col>
+        </Row>
+      ),
     },
   ];
 
   const genExtra = () => (
-    <Button
-      type="text"
-      onClick={() => {
-        setModalOpen(true);
-      }}
-    >
-      Update
-    </Button>
+    <Row>
+      <p
+        className="small-font"
+        style={{ color: "#318ce7", padding: "10px 16px" }}
+      >
+        Total Hours Taken: 8
+      </p>
+      <p
+        className="small-font"
+        style={{ color: "#318ce7", padding: "10px 16px" }}
+      >
+        Standard Hours: 8
+      </p>
+      <Tooltip title={data.length > 1 ? "Update Resources" : "Update Resource"}>
+        <Button
+          icon={
+            <EditOutlined
+              style={{ fontSize: "20px" }}
+              onClick={() => {
+                setModalOpen(true);
+              }}
+            />
+          }
+          className="btn-normal"
+        />
+      </Tooltip>
+    </Row>
   );
 
   return (

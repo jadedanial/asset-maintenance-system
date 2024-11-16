@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { Collapse, Modal, Button } from "antd";
-import { CaretRightOutlined } from "@ant-design/icons";
+import { Collapse, Modal, Button, Tooltip, Row } from "antd";
+import { CaretRightOutlined, EditOutlined } from "@ant-design/icons";
 import ItemList from "./ItemList";
 
 const Material = ({ theme }) => {
@@ -65,14 +65,27 @@ const Material = ({ theme }) => {
   ];
 
   const genExtra = () => (
-    <Button
-      type="text"
-      onClick={() => {
-        setModalOpen(true);
-      }}
-    >
-      Update
-    </Button>
+    <Row>
+      <p
+        className="small-font"
+        style={{ color: "#318ce7", padding: "10px 16px" }}
+      >
+        Total Items: 3
+      </p>
+      <Tooltip title={data.length > 1 ? "Update Items" : "Update Item"}>
+        <Button
+          icon={
+            <EditOutlined
+              style={{ fontSize: "20px" }}
+              onClick={() => {
+                setModalOpen(true);
+              }}
+            />
+          }
+          className="btn-normal"
+        />
+      </Tooltip>
+    </Row>
   );
 
   return (

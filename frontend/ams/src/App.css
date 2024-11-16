@@ -787,7 +787,7 @@ textarea.ant-input {
   margin: 12px 0 !important;
 }
 .ant-list-item-meta-description {
-  font-size: 14px !important;
+  font-size: 18px !important;
 }
 .ant-space {
   font-family: ralewayregular !important;
@@ -893,6 +893,7 @@ input::file-selector-button {
   border-bottom: none !important;
 }
 .ant-collapse-header-text p {
+  font-size: 16px !important;
   margin: 0 !important;
 }
 .ant-collapse-content,

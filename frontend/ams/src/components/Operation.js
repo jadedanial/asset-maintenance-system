@@ -116,7 +116,7 @@ const Operation = ({ theme, operations, employees, userId }) => {
             <Badge.Ribbon
               className="large-font"
               placement="start"
-              text={item.avatar + " - " + item.description}
+              text={item.avatar}
             >
               <List.Item
                 style={{
@@ -148,6 +148,7 @@ const Operation = ({ theme, operations, employees, userId }) => {
                       </div>
                     </Row>
                   }
+                  description={item.description}
                 />
                 <>
                   <Technician /> <Material theme={theme} />
