@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import { Collapse, Modal, Button, Tooltip, Row } from "antd";
-import { CaretRightOutlined, EditOutlined } from "@ant-design/icons";
+import {
+  CaretRightOutlined,
+  EditOutlined,
+  PlusOutlined,
+} from "@ant-design/icons";
 import ItemList from "./ItemList";
 
 const Material = ({ theme }) => {
@@ -76,6 +80,19 @@ const Material = ({ theme }) => {
         <Button
           icon={
             <EditOutlined
+              style={{ fontSize: "20px" }}
+              onClick={() => {
+                setModalOpen(true);
+              }}
+            />
+          }
+          className="btn-normal"
+        />
+      </Tooltip>
+      <Tooltip title="Add Item">
+        <Button
+          icon={
+            <PlusOutlined
               style={{ fontSize: "20px" }}
               onClick={() => {
                 setModalOpen(true);

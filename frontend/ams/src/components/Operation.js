@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import {
-  Avatar,
   List,
   Space,
   Badge,
@@ -14,8 +13,8 @@ import {
   Select,
   Popover,
 } from "antd";
-import { EditOutlined, CloseOutlined, UserOutlined } from "@ant-design/icons";
-import Technician from "./Technician";
+import { CloseOutlined, UserOutlined } from "@ant-design/icons";
+import Resource from "./Resource";
 import Material from "./Material";
 
 const { Paragraph, Text } = Typography;
@@ -43,6 +42,7 @@ const Operation = ({ theme, operations, employees, userId }) => {
   const [required, setRequired] = useState("");
   const [restriction, setRestriction] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
+  const [form] = Form.useForm();
 
   const IconText = ({ icon, id, name }) => (
     <Popover content={<p>{`${id.split(":")[1]} - ${name}`}</p>}>
@@ -75,19 +75,35 @@ const Operation = ({ theme, operations, employees, userId }) => {
     newOperation.push({
       avatar: code,
       description: description,
-      scheduler: `Scheduler: ${scheduler}`,
+      scheduler: `Updated by Scheduler: ${scheduler}`,
     });
     setOperationData(newOperation);
     setOperationCount(newOperation.length);
+  };
+
+  const onReset = () => {
+    form.resetFields();
   };
 
   const handleCancel = () => {
     setModalOpen(false);
   };
 
+  const saveClose = () => {
+    form.validateFields().then(() => {
+      addOperation();
+      setModalOpen(false);
+    });
+  };
+
   const onFinish = () => {
     addOperation();
-    setModalOpen(true);
+    onReset();
+    setCode("");
+    setDescription("");
+    setHour("");
+    setRequired("");
+    setRestriction("");
   };
 
   return (
@@ -151,7 +167,8 @@ const Operation = ({ theme, operations, employees, userId }) => {
                   description={item.description}
                 />
                 <>
-                  <Technician /> <Material theme={theme} />
+                  <Resource theme={theme} employees={employees} />
+                  <Material theme={theme} />
                 </>
               </List.Item>
             </Badge.Ribbon>
@@ -168,7 +185,13 @@ const Operation = ({ theme, operations, employees, userId }) => {
         footer={false}
         width={"550px"}
       >
-        <Form {...layout} layout="vertical" name="add-new" onFinish={onFinish}>
+        <Form
+          {...layout}
+          form={form}
+          layout="vertical"
+          name="add-new"
+          onFinish={onFinish}
+        >
           <Row>
             <Col span={24}>
               <div className="card-with-background">
@@ -220,8 +243,7 @@ const Operation = ({ theme, operations, employees, userId }) => {
             <Button
               type="default"
               onClick={() => {
-                setModalOpen(false);
-                addOperation();
+                saveClose();
               }}
               block
             >
