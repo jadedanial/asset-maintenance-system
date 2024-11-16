@@ -56,7 +56,7 @@ const LoginPage = () => {
             <ResultEvent
               icon={<FrownOutlined style={{ color: "#ecf3f9" }} />}
               status="403"
-              title="Unauthorized User!"
+              title="Unauthorized User."
               subTitle="Sorry, you are not authorized to access this page. Please login or register."
               extra={
                 <Row className="space-between-row">

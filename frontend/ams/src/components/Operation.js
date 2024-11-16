@@ -41,6 +41,10 @@ const Operation = ({ theme, operations, employees, userId }) => {
   const [hour, setHour] = useState("");
   const [required, setRequired] = useState("");
   const [restriction, setRestriction] = useState("");
+  const [confirmationLabel, setConfirmationLabel] = useState(
+    <span style={{ color: "#318ce7" }}>Code</span>
+  );
+  const [disableButton, setDisableButton] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [form] = Form.useForm();
 
@@ -68,6 +72,18 @@ const Operation = ({ theme, operations, employees, userId }) => {
         : "Restriction: No"
     );
     return op.op_description;
+  };
+
+  const checkOperation = (value) => {
+    const codeExist = operationData.some(
+      (operation) => operation.avatar === value
+    );
+    if (codeExist) {
+      setConfirmationLabel(
+        <span style={{ color: "#ff0000" }}>Code already used</span>
+      );
+      setDisableButton(true);
+    }
   };
 
   const addOperation = () => {
@@ -197,7 +213,7 @@ const Operation = ({ theme, operations, employees, userId }) => {
               <div className="card-with-background">
                 <Form.Item
                   name={["code"]}
-                  label="Code"
+                  label={confirmationLabel}
                   rules={[
                     {
                       required: true,
@@ -225,7 +241,12 @@ const Operation = ({ theme, operations, employees, userId }) => {
                     })}
                     onChange={(value) => {
                       setCode(value);
+                      setConfirmationLabel(
+                        <span style={{ color: "#318ce7" }}>Code</span>
+                      );
+                      setDisableButton(false);
                       searchOperation(value);
+                      checkOperation(value);
                     }}
                   />
                 </Form.Item>
@@ -245,6 +266,7 @@ const Operation = ({ theme, operations, employees, userId }) => {
               onClick={() => {
                 saveClose();
               }}
+              disabled={disableButton}
               block
             >
               SAVE AND CLOSE
@@ -252,6 +274,7 @@ const Operation = ({ theme, operations, employees, userId }) => {
             <Button
               type="primary"
               htmlType="submit"
+              disabled={disableButton}
               style={{
                 marginLeft: "8px",
               }}

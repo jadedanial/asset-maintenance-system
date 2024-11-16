@@ -210,7 +210,7 @@ const RegisterPage = () => {
                               }
                               return Promise.reject(
                                 new Error(
-                                  "The two Passwords that you entered do not match!"
+                                  "The two Passwords that you entered do not match."
                                 )
                               );
                             },
