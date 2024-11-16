@@ -115,8 +115,8 @@ const Operation = ({ theme, operations, employees, userId }) => {
   const onFinish = () => {
     addOperation();
     onReset();
+    setDescription("Code " + code + " succesfully added to operation.");
     setCode("");
-    setDescription("");
     setHour("");
     setRequired("");
     setRestriction("");
@@ -252,9 +252,9 @@ const Operation = ({ theme, operations, employees, userId }) => {
                 </Form.Item>
                 <Text className="big-font">{description}</Text>
                 <Paragraph></Paragraph>
-                <Paragraph className="small-card-title">{hour}</Paragraph>
-                <Paragraph className="small-card-title">{required}</Paragraph>
-                <Paragraph className="small-card-title">
+                <Paragraph className="medium-card-title">{hour}</Paragraph>
+                <Paragraph className="medium-card-title">{required}</Paragraph>
+                <Paragraph className="medium-card-title">
                   {restriction}
                 </Paragraph>
               </div>

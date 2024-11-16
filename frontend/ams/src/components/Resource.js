@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import {
-  Form,
   Select,
   Collapse,
   Avatar,
   List,
+  Form,
   Row,
   Col,
   Modal,
@@ -35,7 +35,12 @@ const Resource = ({ theme, employees }) => {
   const [resourceID, setResourceID] = useState("");
   const [resourceName, setResourceName] = useState("");
   const [resourcePosition, setResourcePosition] = useState("");
+  const [confirmationLabel, setConfirmationLabel] = useState(
+    <span style={{ color: "#318ce7" }}>Resource</span>
+  );
+  const [disableButton, setDisableButton] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
+  const [form] = Form.useForm();
 
   const data = [
     {
@@ -274,9 +279,22 @@ const Resource = ({ theme, employees }) => {
     return emp.emp_name;
   };
 
+  const checkResource = (value) => {
+    const resourceExist = resourceData.some(
+      (resource) => resource.resID === value
+    );
+    if (resourceExist) {
+      setConfirmationLabel(
+        <span style={{ color: "#ff0000" }}>Resource already used</span>
+      );
+      setDisableButton(true);
+    }
+  };
+
   const addResource = () => {
     const newResource = [...resourceData];
     newResource.push({
+      resID: resourceID,
       title: (
         <Row>
           <Col span={10}>
@@ -317,13 +335,29 @@ const Resource = ({ theme, employees }) => {
     setResourceData(newResource);
   };
 
+  const onReset = () => {
+    form.resetFields();
+  };
+
   const handleCancel = () => {
     setModalOpen(false);
   };
 
+  const saveClose = () => {
+    form.validateFields().then(() => {
+      addResource();
+      setModalOpen(false);
+    });
+  };
+
   const onFinish = () => {
     addResource();
-    setModalOpen(true);
+    onReset();
+    setResourceName(
+      "Resource " + resourceID + " succesfully added to resources."
+    );
+    setResourceID("");
+    setResourcePosition("");
   };
 
   return (
@@ -383,6 +417,7 @@ const Resource = ({ theme, employees }) => {
           }
         </Collapse.Panel>
       </Collapse>
+
       <Modal
         className={theme}
         title="Add Resource"
@@ -393,13 +428,19 @@ const Resource = ({ theme, employees }) => {
         footer={false}
         width={"550px"}
       >
-        <Form {...layout} layout="vertical" name="add-new" onFinish={onFinish}>
+        <Form
+          {...layout}
+          form={form}
+          layout="vertical"
+          name="add-new"
+          onFinish={onFinish}
+        >
           <Row>
             <Col span={24}>
               <div className="card-with-background">
                 <Form.Item
                   name={["resource"]}
-                  label="Resource"
+                  label={confirmationLabel}
                   rules={[
                     {
                       required: true,
@@ -435,7 +476,12 @@ const Resource = ({ theme, employees }) => {
                       })}
                     onChange={(value) => {
                       setResourceID(value);
+                      setConfirmationLabel(
+                        <span style={{ color: "#318ce7" }}>Resource</span>
+                      );
+                      setDisableButton(false);
                       searchResource(value);
+                      checkResource(value);
                     }}
                   />
                 </Form.Item>
@@ -451,9 +497,9 @@ const Resource = ({ theme, employees }) => {
             <Button
               type="default"
               onClick={() => {
-                setModalOpen(false);
-                addResource();
+                saveClose();
               }}
+              disabled={disableButton}
               block
             >
               SAVE AND CLOSE
@@ -461,6 +507,7 @@ const Resource = ({ theme, employees }) => {
             <Button
               type="primary"
               htmlType="submit"
+              disabled={disableButton}
               style={{
                 marginLeft: "8px",
               }}
