@@ -12,6 +12,7 @@ import {
   Typography,
   Select,
   Popover,
+  Alert,
 } from "antd";
 import { CloseOutlined, UserOutlined } from "@ant-design/icons";
 import Resource from "./Resource";
@@ -45,6 +46,7 @@ const Operation = ({ theme, operations, employees, userId }) => {
     <span style={{ color: "#318ce7" }}>Code</span>
   );
   const [disableButton, setDisableButton] = useState(false);
+  const [success, setSuccess] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [form] = Form.useForm();
 
@@ -99,6 +101,11 @@ const Operation = ({ theme, operations, employees, userId }) => {
 
   const onReset = () => {
     form.resetFields();
+    setCode("");
+    setDescription("");
+    setHour("");
+    setRequired("");
+    setRestriction("");
   };
 
   const handleCancel = () => {
@@ -109,17 +116,14 @@ const Operation = ({ theme, operations, employees, userId }) => {
     form.validateFields().then(() => {
       addOperation();
       setModalOpen(false);
+      onReset();
     });
   };
 
   const onFinish = () => {
     addOperation();
+    setSuccess(true);
     onReset();
-    setDescription("Code " + code + " succesfully added to operation.");
-    setCode("");
-    setHour("");
-    setRequired("");
-    setRestriction("");
   };
 
   return (
@@ -240,6 +244,7 @@ const Operation = ({ theme, operations, employees, userId }) => {
                       };
                     })}
                     onChange={(value) => {
+                      setSuccess(false);
                       setCode(value);
                       setConfirmationLabel(
                         <span style={{ color: "#318ce7" }}>Code</span>
@@ -250,13 +255,30 @@ const Operation = ({ theme, operations, employees, userId }) => {
                     }}
                   />
                 </Form.Item>
-                <Text className="big-font">{description}</Text>
-                <Paragraph></Paragraph>
-                <Paragraph className="medium-card-title">{hour}</Paragraph>
-                <Paragraph className="medium-card-title">{required}</Paragraph>
-                <Paragraph className="medium-card-title">
-                  {restriction}
-                </Paragraph>
+                {success ? (
+                  <Alert
+                    message={<Text className="big-font">Success</Text>}
+                    description={
+                      <Paragraph className="small-card-title">
+                        Code {code} succesfully added to operation.
+                      </Paragraph>
+                    }
+                    type="info"
+                    showIcon
+                  />
+                ) : (
+                  <>
+                    <Text className="big-font">{description}</Text>
+                    <Paragraph />
+                    <Paragraph className="medium-card-title">{hour}</Paragraph>
+                    <Paragraph className="medium-card-title">
+                      {required}
+                    </Paragraph>
+                    <Paragraph className="medium-card-title">
+                      {restriction}
+                    </Paragraph>
+                  </>
+                )}
               </div>
             </Col>
           </Row>

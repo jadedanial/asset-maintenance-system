@@ -11,6 +11,7 @@ import {
   Button,
   Tooltip,
   Typography,
+  Alert,
 } from "antd";
 import {
   CaretRightOutlined,
@@ -39,201 +40,9 @@ const Resource = ({ theme, employees }) => {
     <span style={{ color: "#318ce7" }}>Resource</span>
   );
   const [disableButton, setDisableButton] = useState(false);
+  const [success, setSuccess] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [form] = Form.useForm();
-
-  const data = [
-    {
-      title: (
-        <Row>
-          <Col span={10}>
-            <p>17983</p>
-          </Col>
-          <Col span={7}>
-            <p>Taken Hours</p>
-          </Col>
-          <Col span={7}>
-            <p>Invoiced Hours</p>
-          </Col>
-        </Row>
-      ),
-      description: (
-        <Row>
-          <Col span={10}>
-            <p>Bashir Mohammad Bashir</p>
-          </Col>
-          <Col span={7}>
-            <p>2.00</p>
-          </Col>
-          <Col span={7}>
-            <p>0.50</p>
-          </Col>
-        </Row>
-      ),
-      duration: (
-        <Row>
-          <Col span={10}>
-            <p>
-              Start: February 23, 2024 10:00:40 | Finish: February 23, 2024
-              12:00:40
-            </p>
-          </Col>
-        </Row>
-      ),
-    },
-    {
-      title: (
-        <Row>
-          <Col span={10}>
-            <p>17983</p>
-          </Col>
-          <Col span={7}>
-            <p>Taken Hours</p>
-          </Col>
-          <Col span={7}>
-            <p>Invoiced Hours</p>
-          </Col>
-        </Row>
-      ),
-      description: (
-        <Row>
-          <Col span={10}>
-            <p>Bashir Mohammad Bashir</p>
-          </Col>
-          <Col span={7}>
-            <p>2.00</p>
-          </Col>
-          <Col span={7}>
-            <p>0.50</p>
-          </Col>
-        </Row>
-      ),
-      duration: (
-        <Row>
-          <Col span={10}>
-            <p>
-              Start: February 23, 2024 10:00:40 | Finish: February 23, 2024
-              12:00:40
-            </p>
-          </Col>
-        </Row>
-      ),
-    },
-    {
-      title: (
-        <Row>
-          <Col span={10}>
-            <p>17983</p>
-          </Col>
-          <Col span={7}>
-            <p>Taken Hours</p>
-          </Col>
-          <Col span={7}>
-            <p>Invoiced Hours</p>
-          </Col>
-        </Row>
-      ),
-      description: (
-        <Row>
-          <Col span={10}>
-            <p>Bashir Mohammad Bashir</p>
-          </Col>
-          <Col span={7}>
-            <p>2.00</p>
-          </Col>
-          <Col span={7}>
-            <p>0.50</p>
-          </Col>
-        </Row>
-      ),
-      duration: (
-        <Row>
-          <Col span={10}>
-            <p>
-              Start: February 23, 2024 10:00:40 | Finish: February 23, 2024
-              12:00:40
-            </p>
-          </Col>
-        </Row>
-      ),
-    },
-    {
-      title: (
-        <Row>
-          <Col span={10}>
-            <p>17983</p>
-          </Col>
-          <Col span={7}>
-            <p>Taken Hours</p>
-          </Col>
-          <Col span={7}>
-            <p>Invoiced Hours</p>
-          </Col>
-        </Row>
-      ),
-      description: (
-        <Row>
-          <Col span={10}>
-            <p>Bashir Mohammad Bashir</p>
-          </Col>
-          <Col span={7}>
-            <p>2.00</p>
-          </Col>
-          <Col span={7}>
-            <p>0.50</p>
-          </Col>
-        </Row>
-      ),
-      duration: (
-        <Row>
-          <Col span={10}>
-            <p>
-              Start: February 23, 2024 10:00:40 | Finish: February 23, 2024
-              12:00:40
-            </p>
-          </Col>
-        </Row>
-      ),
-    },
-    {
-      title: (
-        <Row>
-          <Col span={10}>
-            <p>17983</p>
-          </Col>
-          <Col span={7}>
-            <p>Taken Hours</p>
-          </Col>
-          <Col span={7}>
-            <p>Invoiced Hours</p>
-          </Col>
-        </Row>
-      ),
-      description: (
-        <Row>
-          <Col span={10}>
-            <p>Bashir Mohammad Bashir</p>
-          </Col>
-          <Col span={7}>
-            <p>2.00</p>
-          </Col>
-          <Col span={7}>
-            <p>0.50</p>
-          </Col>
-        </Row>
-      ),
-      duration: (
-        <Row>
-          <Col span={10}>
-            <p>
-              Start: February 23, 2024 10:00:40 | Finish: February 23, 2024
-              12:00:40
-            </p>
-          </Col>
-        </Row>
-      ),
-    },
-  ];
 
   const genExtra = () => (
     <Row>
@@ -243,7 +52,9 @@ const Resource = ({ theme, employees }) => {
       >
         Total Hours Taken: 8
       </p>
-      <Tooltip title={data.length > 1 ? "Update Resources" : "Update Resource"}>
+      <Tooltip
+        title={resourceData.length > 1 ? "Update Resources" : "Update Resource"}
+      >
         <Button
           icon={
             <EditOutlined
@@ -311,13 +122,19 @@ const Resource = ({ theme, employees }) => {
       description: (
         <Row>
           <Col span={10}>
-            <p style={{ color: "#00000081" }}>{resourceName}</p>
+            <p className="small-font" style={{ color: "#00000081" }}>
+              {resourceName}
+            </p>
           </Col>
           <Col span={7}>
-            <p style={{ color: "#00000081" }}>Taken Hours</p>
+            <p className="small-font" style={{ color: "#00000081" }}>
+              Taken Hours
+            </p>
           </Col>
           <Col span={7}>
-            <p style={{ color: "#00000081" }}>Invoiced Hours</p>
+            <p className="small-font" style={{ color: "#00000081" }}>
+              Invoiced Hours
+            </p>
           </Col>
         </Row>
       ),
@@ -337,6 +154,9 @@ const Resource = ({ theme, employees }) => {
 
   const onReset = () => {
     form.resetFields();
+    setResourceID("");
+    setResourceName("");
+    setResourcePosition("");
   };
 
   const handleCancel = () => {
@@ -347,17 +167,14 @@ const Resource = ({ theme, employees }) => {
     form.validateFields().then(() => {
       addResource();
       setModalOpen(false);
+      onReset();
     });
   };
 
   const onFinish = () => {
     addResource();
+    setSuccess(true);
     onReset();
-    setResourceName(
-      "Resource " + resourceID + " succesfully added to resources."
-    );
-    setResourceID("");
-    setResourcePosition("");
   };
 
   return (
@@ -383,7 +200,7 @@ const Resource = ({ theme, employees }) => {
                 color: "#318ce7",
               }}
             >
-              {data.length > 1 ? "Resources" : "Resource"}
+              {resourceData.length > 1 ? "Resources" : "Resource"}
             </p>
           }
           extra={genExtra()}
@@ -417,7 +234,6 @@ const Resource = ({ theme, employees }) => {
           }
         </Collapse.Panel>
       </Collapse>
-
       <Modal
         className={theme}
         title="Add Resource"
@@ -475,6 +291,7 @@ const Resource = ({ theme, employees }) => {
                         };
                       })}
                     onChange={(value) => {
+                      setSuccess(false);
                       setResourceID(value);
                       setConfirmationLabel(
                         <span style={{ color: "#318ce7" }}>Resource</span>
@@ -485,11 +302,26 @@ const Resource = ({ theme, employees }) => {
                     }}
                   />
                 </Form.Item>
-                <Text className="big-font">{resourceName}</Text>
-                <Paragraph></Paragraph>
-                <Paragraph className="small-card-title">
-                  {resourcePosition}
-                </Paragraph>
+                {success ? (
+                  <Alert
+                    message={<Text className="big-font">Success</Text>}
+                    description={
+                      <Paragraph className="small-card-title">
+                        Resource {resourceID} succesfully added to resources.
+                      </Paragraph>
+                    }
+                    type="info"
+                    showIcon
+                  />
+                ) : (
+                  <>
+                    <Text className="big-font">{resourceName}</Text>
+                    <Paragraph />
+                    <Paragraph className="medium-card-title">
+                      {resourcePosition}
+                    </Paragraph>
+                  </>
+                )}
               </div>
             </Col>
           </Row>
