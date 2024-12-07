@@ -34,6 +34,7 @@ const layout = {
 const AddUpdateWorkorder = ({
   userId,
   employees,
+  items,
   assets,
   options,
   workorders,
@@ -279,6 +280,7 @@ const AddUpdateWorkorder = ({
           <Operation
             theme={theme}
             employees={employees}
+            items={items}
             userId={userId}
             operations={operations}
           />
@@ -323,7 +325,7 @@ const AddUpdateWorkorder = ({
     },
   ];
 
-  const items = steps.map((item) => ({
+  const sections = steps.map((item) => ({
     key: item.title,
     title: item.title,
     status: item.status,
@@ -347,7 +349,7 @@ const AddUpdateWorkorder = ({
               <Steps
                 type="navigation"
                 current={current}
-                items={items}
+                items={sections}
                 style={{ width: "60%" }}
                 onChange={onChangeStep}
               />

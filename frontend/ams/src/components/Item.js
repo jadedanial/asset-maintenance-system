@@ -25,36 +25,34 @@ const layout = {
   },
 };
 
-const Resource = ({
-  employees,
-  codeResourceData,
-  setResourceData,
-  addResourceToOperation,
+const Item = ({
+  items,
+  codeItemData,
+  setItemData,
+  addItemToOperation,
   setModalOpen,
 }) => {
-  const [localResourceData, setLocalResourceData] = useState([]);
-  const [resourceID, setResourceID] = useState("");
-  const [resourceName, setResourceName] = useState("");
+  const [localItemData, setLocalItemData] = useState([]);
+  const [itemID, setItemID] = useState("");
+  const [itemName, setItemName] = useState("");
   const [confirmationLabel, setConfirmationLabel] = useState("");
   const [form] = Form.useForm();
 
-  const searchResource = (value) => {
-    const emp = employees.find((emp) => emp.emp_id === value);
-    setResourceName(emp.emp_name);
-    return emp.emp_name;
+  const searchItem = (value) => {
+    const itm = items.find((itm) => itm.item_code === value);
+    setItemName(itm.item_name);
+    return itm.item_name;
   };
 
-  const addResource = () => {
-    const resourceExist = localResourceData.some(
-      (resID) => resID.resourceID === resourceID
-    );
-    if (resourceExist) {
+  const addItem = () => {
+    const itemExist = localItemData.some((itmID) => itmID.itemID === itemID);
+    if (itemExist) {
       setConfirmationLabel(
         <Alert
           message={<Text className="big-font">Failed</Text>}
           description={
             <Paragraph className="small-card-title">
-              Resource {resourceID + "-" + resourceName} already added.
+              Item {itemID + " - " + itemName} already added.
             </Paragraph>
           }
           type="error"
@@ -62,19 +60,19 @@ const Resource = ({
         />
       );
     } else {
-      const newResource = [...localResourceData];
-      newResource.push({
-        resourceID: resourceID,
-        resourceName: resourceName,
+      const newItem = [...localItemData];
+      newItem.push({
+        itemID: itemID,
+        itemName: itemName,
       });
-      setLocalResourceData(newResource);
-      setResourceData(newResource);
+      setLocalItemData(newItem);
+      setItemData(newItem);
       setConfirmationLabel(
         <Alert
           message={<Text className="big-font">Success</Text>}
           description={
             <Paragraph className="small-card-title">
-              Resource {resourceID + "-" + resourceName} successfully added.
+              Item {itemID + " - " + itemName} successfully added.
             </Paragraph>
           }
           type="info"
@@ -84,27 +82,26 @@ const Resource = ({
     }
   };
 
-  const removeResource = (item) => {
-    const resourceExist = localResourceData.some(
-      (resID) => resID.resourceID === item.resourceID
+  const removeItem = (item) => {
+    const itemExist = localItemData.some(
+      (itmID) => itmID.itemID === item.itemID
     );
-    if (resourceExist) {
-      const currentResource = [...localResourceData];
-      const index = currentResource.findIndex(
-        (resID) => resID.resourceID === item.resourceID
+    if (itemExist) {
+      const currentItem = [...localItemData];
+      const index = currentItem.findIndex(
+        (itmID) => itmID.itemID === item.itemID
       );
       if (index !== -1) {
-        currentResource.splice(index, 1);
+        currentItem.splice(index, 1);
       }
-      setLocalResourceData(currentResource);
-      setResourceData(currentResource);
+      setLocalItemData(currentItem);
+      setItemData(currentItem);
       setConfirmationLabel(
         <Alert
           message={<Text className="big-font">Success</Text>}
           description={
             <Paragraph className="small-card-title">
-              Resource {item.resourceID + "-" + item.resourceName} successfully
-              removed.
+              Resource {itemID + " - " + itemName} successfully removed.
             </Paragraph>
           }
           type="info"
@@ -114,13 +111,13 @@ const Resource = ({
     }
   };
 
-  const checkResource = () => {
+  const checkItem = () => {
     var updated = true;
-    if (codeResourceData.length !== localResourceData.length) {
+    if (codeItemData.length !== localItemData.length) {
       updated = false;
     }
-    for (const key of codeResourceData) {
-      if (codeResourceData[key] !== localResourceData[key]) {
+    for (const key of codeItemData) {
+      if (codeItemData[key] !== localItemData[key]) {
         updated = false;
       }
     }
@@ -156,12 +153,12 @@ const Resource = ({
   };
 
   const genExtra = (item) => (
-    <Tooltip title="Delete Reosurce">
+    <Tooltip title="Delete Item">
       <Button
         icon={<CloseOutlined style={{ fontSize: "18px" }} />}
         className="btn-normal"
         onClick={() => {
-          removeResource(item);
+          removeItem(item);
         }}
       />
     </Tooltip>
@@ -169,20 +166,21 @@ const Resource = ({
 
   const onReset = () => {
     form.resetFields();
-    setResourceID("");
-    setResourceName("");
+    setItemID("");
+    setItemName("");
     setConfirmationLabel("");
   };
 
   const onFinish = () => {
-    addResourceToOperation();
+    addItemToOperation();
     setModalOpen(false);
     onReset();
   };
 
   useEffect(() => {
-    setLocalResourceData(codeResourceData);
-  }, [codeResourceData]);
+    console.log(items);
+    setLocalItemData(codeItemData);
+  }, [codeItemData, items]);
 
   return (
     <>
@@ -197,7 +195,7 @@ const Resource = ({
           <Col span={24}>
             <div className="card-with-background">
               <Form.Item
-                name={["resource"]}
+                name={["item"]}
                 rules={[
                   {
                     required: false,
@@ -208,7 +206,7 @@ const Resource = ({
                   <Select
                     showSearch
                     style={{ width: "100%" }}
-                    value={resourceID}
+                    value={itemID}
                     filterOption={(input, option) =>
                       (option?.label ?? "").toLowerCase().includes(input)
                     }
@@ -217,26 +215,22 @@ const Resource = ({
                         .toLowerCase()
                         .localeCompare((optionB?.label ?? "").toLowerCase())
                     }
-                    options={employees
-                      .filter(
-                        (pos) => pos.emp_position.toLowerCase() === "technician"
-                      )
-                      .map((emp) => {
-                        return {
-                          value: emp.emp_id,
-                          label: `${emp.emp_id} - ${emp.emp_name}`,
-                        };
-                      })}
+                    options={items.map((itm) => {
+                      return {
+                        value: itm.item_code,
+                        label: `${itm.item_code} - ${itm.item_name}`,
+                      };
+                    })}
                     onChange={(value) => {
-                      setResourceID(value);
-                      searchResource(value);
+                      setItemID(value);
+                      searchItem(value);
                       setConfirmationLabel("");
                     }}
                   />
                   <Button
                     type="primary"
                     onClick={() => {
-                      addResource();
+                      addItem();
                     }}
                     style={{
                       marginLeft: "8px",
@@ -252,7 +246,7 @@ const Resource = ({
               <List
                 className="no-bordered"
                 itemLayout="horizontal"
-                dataSource={localResourceData}
+                dataSource={localItemData}
                 style={{ height: "300px", overflowY: "auto" }}
                 renderItem={(item, index) => (
                   <List.Item
@@ -275,7 +269,7 @@ const Resource = ({
                       title={
                         <Row>
                           <Col span={10}>
-                            <p>{item.resourceID}</p>
+                            <p>{item.itemID}</p>
                           </Col>
                           <Col span={7}>
                             <p>2.00</p>
@@ -292,7 +286,7 @@ const Resource = ({
                               className="small-font"
                               style={{ color: "#00000081" }}
                             >
-                              {item.resourceName}
+                              {item.itemName}
                             </p>
                           </Col>
                           <Col span={7}>
@@ -321,7 +315,7 @@ const Resource = ({
                 <Button
                   type="default"
                   onClick={() => {
-                    checkResource();
+                    checkItem();
                   }}
                   block
                 >
@@ -346,4 +340,4 @@ const Resource = ({
   );
 };
 
-export default Resource;
+export default Item;

@@ -266,6 +266,7 @@ const MainPage = ({
             <Workorder
               userId={userId}
               employees={employees}
+              items={items}
               assets={assets}
               options={options}
               workorders={workorders}

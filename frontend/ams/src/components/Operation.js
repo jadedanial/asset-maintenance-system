@@ -13,7 +13,7 @@ import {
 } from "antd";
 import { CloseOutlined } from "@ant-design/icons";
 import Resource from "./Resource";
-import Material from "./Material";
+import Item from "./Item";
 
 const { Paragraph, Text } = Typography;
 
@@ -26,7 +26,7 @@ const layout = {
   },
 };
 
-const Operation = ({ theme, operations, employees, userId }) => {
+const Operation = ({ theme, operations, employees, items, userId }) => {
   const scheduler = employees.find((emp) => emp.emp_id === userId)
     ? `${employees.find((emp) => emp.emp_id === userId).emp_id} - ${
         employees.find((emp) => emp.emp_id === userId).emp_name
@@ -41,6 +41,8 @@ const Operation = ({ theme, operations, employees, userId }) => {
   const [updateCode, setUpdateCode] = useState("");
   const [codeResourceData, setCodeResourceData] = useState([]);
   const [resourceData, setResourceData] = useState([]);
+  const [codeItemData, setCodeItemData] = useState([]);
+  const [itemData, setItemData] = useState([]);
   const [confirmationLabel, setConfirmationLabel] = useState("");
   const [modal, setModal] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
@@ -158,6 +160,25 @@ const Operation = ({ theme, operations, employees, userId }) => {
     return operation && operation.resource ? operation.resource.length : 0;
   };
 
+  const addItemToOperation = () => {
+    const updatedOperationData = operationData.map((operation) =>
+      operation.code === updateCode
+        ? { ...operation, item: itemData }
+        : operation
+    );
+    setOperationData(updatedOperationData);
+  };
+
+  const copyItemFromOperation = (code) => {
+    const operation = operationData.find((item) => item.code === code);
+    return operation && operation.item ? [...operation.item] : [];
+  };
+
+  const itemLength = (code) => {
+    const operation = operationData.find((item) => item.code === code);
+    return operation && operation.item ? operation.item.length : 0;
+  };
+
   const onReset = () => {
     form.resetFields();
     setCode("");
@@ -235,6 +256,19 @@ const Operation = ({ theme, operations, employees, userId }) => {
                           ? "Resources (" + resourceLength(item.code) + ")"
                           : "Resource (" + resourceLength(item.code) + ")"}
                       </Button>
+                      <Button
+                        type="link"
+                        onClick={() => {
+                          setModal("item");
+                          setUpdateCode(item.code);
+                          setCodeItemData(copyItemFromOperation(item.code));
+                          setModalOpen(true);
+                        }}
+                      >
+                        {itemLength(item.code) > 1
+                          ? "Items (" + itemLength(item.code) + ")"
+                          : "Item (" + itemLength(item.code) + ")"}
+                      </Button>
                       <Paragraph></Paragraph>
                       <Paragraph className="small-card-title">
                         {item.scheduler}
@@ -254,8 +288,8 @@ const Operation = ({ theme, operations, employees, userId }) => {
             ? "Add Operation"
             : modal === "resource"
             ? "Add Resource"
-            : modal === "material"
-            ? "Add Material"
+            : modal === "item"
+            ? "Add Item"
             : ""
         }
         centered
@@ -267,7 +301,7 @@ const Operation = ({ theme, operations, employees, userId }) => {
             ? "550px"
             : modal === "resource"
             ? "750px"
-            : modal === "material"
+            : modal === "item"
             ? "750px"
             : ""
         }
@@ -351,8 +385,14 @@ const Operation = ({ theme, operations, employees, userId }) => {
             addResourceToOperation={addResourceToOperation}
             setModalOpen={setModalOpen}
           />
-        ) : modal === "material" ? (
-          <Material theme={theme} />
+        ) : modal === "item" ? (
+          <Item
+            items={items}
+            codeItemData={codeItemData}
+            setItemData={setItemData}
+            addItemToOperation={addItemToOperation}
+            setModalOpen={setModalOpen}
+          />
         ) : (
           <></>
         )}

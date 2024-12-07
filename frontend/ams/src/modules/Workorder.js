@@ -6,6 +6,7 @@ const Workorder = ({
   userId,
   employees,
   assets,
+  items,
   options,
   workorders,
   operations,
@@ -102,6 +103,7 @@ const Workorder = ({
       <SearchTableEvent
         userId={userId}
         employees={employees}
+        items={items}
         assets={assets}
         options={options}
         workorders={workorders}
