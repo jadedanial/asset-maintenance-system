@@ -276,14 +276,12 @@ const AddUpdateWorkorder = ({
       ),
       content: (
         <>
-          <div style={{ paddingTop: "4px" }}>
-            <Operation
-              theme={theme}
-              employees={employees}
-              userId={userId}
-              operations={operations}
-            />
-          </div>
+          <Operation
+            theme={theme}
+            employees={employees}
+            userId={userId}
+            operations={operations}
+          />
         </>
       ),
       icon: <></>,

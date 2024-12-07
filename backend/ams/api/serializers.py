@@ -320,7 +320,7 @@ class OperationSerializer(serializers.ModelSerializer):
 
 class OperationTypeSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Operation
+        model = OperationType
         fields = [
             "op_type",
             "op_rate",

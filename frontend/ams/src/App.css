@@ -82,6 +82,18 @@ body {
 .light .ant-result-title {
   color: #000 !important;
 }
+.ant-btn-link,
+.ant-btn-link:hover,
+.ant-btn-link:not([disabled]):hover {
+  color: #318ce7 !important;
+  background: none !important;
+  border: none !important;
+  padding: 0 !important;
+}
+.ant-btn-link:hover,
+.ant-btn-link:not([disabled]):hover {
+  color: #6841f5 !important;
+}
 #big-icon .anticon + span,
 .ant-list-item-meta-title,
 h1 {
@@ -885,8 +897,7 @@ input::file-selector-button {
 .ant-collapse,
 .ant-collapse-content {
   font-family: ralewayregular !important;
-  background: none !important;
-  border: 1px solid #318ce750 !important;
+  border: none !important;
 }
 .ant-collapse-header {
   padding: 4px 10px !important;
@@ -907,6 +918,14 @@ input::file-selector-button {
 }
 .light .ant-collapse p {
   color: #000;
+}
+.dark .ant-collapse,
+.dark .ant-collapse-content {
+  background: #182348 !important;
+}
+.light .ant-collapse,
+.light .ant-collapse-content {
+  background: #fff !important;
 }
 .ant-checkbox-inner,
 .ant-checkbox-input {

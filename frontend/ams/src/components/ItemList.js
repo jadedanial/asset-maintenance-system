@@ -236,7 +236,7 @@ const ItemList = ({
             : itemList
         }
         renderItem={(item) => (
-          <List.Item style={{ padding: segment === "Request" ? "0px" : "" }}>
+          <List.Item style={{ padding: segment === "Request" ? "0" : "" }}>
             <Card
               className="card-no-padding card-no-padding-top"
               hoverable={segment === "Request" ? false : true}

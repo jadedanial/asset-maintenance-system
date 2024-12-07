@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import {
   List,
-  Space,
-  Badge,
   Tooltip,
   Button,
   Form,
@@ -11,10 +9,9 @@ import {
   Col,
   Typography,
   Select,
-  Popover,
   Alert,
 } from "antd";
-import { CloseOutlined, UserOutlined } from "@ant-design/icons";
+import { CloseOutlined } from "@ant-design/icons";
 import Resource from "./Resource";
 import Material from "./Material";
 
@@ -41,26 +38,26 @@ const Operation = ({ theme, operations, employees, userId }) => {
   const [description, setDescription] = useState("");
   const [hour, setHour] = useState("");
   const [required, setRequired] = useState("");
-  const [restriction, setRestriction] = useState("");
-  const [confirmationLabel, setConfirmationLabel] = useState(
-    <span style={{ color: "#318ce7" }}>Code</span>
-  );
-  const [disableButton, setDisableButton] = useState(false);
-  const [success, setSuccess] = useState(false);
+  const [updateCode, setUpdateCode] = useState("");
+  const [codeResourceData, setCodeResourceData] = useState([]);
+  const [resourceData, setResourceData] = useState([]);
+  const [confirmationLabel, setConfirmationLabel] = useState("");
+  const [modal, setModal] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const [form] = Form.useForm();
 
-  const IconText = ({ icon, id, name }) => (
-    <Popover content={<p>{`${id.split(":")[1]} - ${name}`}</p>}>
-      <Space>
-        {React.createElement(icon)}
-        {id}
-      </Space>
-    </Popover>
+  const genExtra = () => (
+    <Tooltip title="Delete Operation">
+      <Button
+        icon={<CloseOutlined style={{ fontSize: "18px" }} />}
+        className="btn-normal"
+      />
+    </Tooltip>
   );
 
   const searchOperation = (value) => {
-    const op = operations.find((ops) => ops.op_code === value);
+    const op = operations.find((ops) => ops.op_code === String(value));
+    setCode(op.op_code);
     setDescription(op.op_description);
     setHour(
       op.op_hours > 1
@@ -68,35 +65,97 @@ const Operation = ({ theme, operations, employees, userId }) => {
         : "Standard Hour: " + op.op_hours
     );
     setRequired(op.op_item ? "Item Required: Yes" : "Item Required: No");
-    setRestriction(
-      op.op_restriction
-        ? "Restriction: " + op.op_restriction
-        : "Restriction: No"
+    setConfirmationLabel(
+      <>
+        <Alert
+          message={<Text className="big-font">{op.op_description}</Text>}
+          description={
+            <>
+              <Paragraph className="small-card-title">
+                {op.op_hours > 1
+                  ? "Standard Hours: " + op.op_hours
+                  : "Standard Hour: " + op.op_hours}
+              </Paragraph>
+              <Paragraph className="small-card-title">
+                {op.op_item ? "Item Required: Yes" : "Item Required: No"}
+              </Paragraph>
+              <Paragraph className="small-card-title">
+                {op.op_restriction
+                  ? "Restriction: " + op.op_restriction
+                  : "Restriction: No"}
+              </Paragraph>
+            </>
+          }
+          type="info"
+        />
+      </>
     );
     return op.op_description;
   };
 
-  const checkOperation = (value) => {
+  const addOperation = () => {
     const codeExist = operationData.some(
-      (operation) => operation.avatar === value
+      (operation) => operation.code === code
     );
     if (codeExist) {
       setConfirmationLabel(
-        <span style={{ color: "#ff0000" }}>Code already used</span>
+        <Alert
+          message={<Text className="big-font">Failed</Text>}
+          description={
+            <Paragraph className="small-card-title">
+              Operation code {code} already used in operation.
+            </Paragraph>
+          }
+          type="error"
+          showIcon
+        />
       );
-      setDisableButton(true);
+    } else {
+      const newOperation = [
+        ...operationData,
+        {
+          code: code,
+          description: description,
+          hour: hour,
+          required: required,
+          resource: [],
+          scheduler: `Updated by: ${scheduler}`,
+        },
+      ];
+      setOperationData(newOperation);
+      setOperationCount(newOperation.length);
+      setConfirmationLabel(
+        <Alert
+          message={<Text className="big-font">Success</Text>}
+          description={
+            <Paragraph className="small-card-title">
+              Operation code {code} successfully added to operation.
+            </Paragraph>
+          }
+          type="info"
+          showIcon
+        />
+      );
     }
   };
 
-  const addOperation = () => {
-    const newOperation = [...operationData];
-    newOperation.push({
-      avatar: code,
-      description: description,
-      scheduler: `Updated by Scheduler: ${scheduler}`,
-    });
-    setOperationData(newOperation);
-    setOperationCount(newOperation.length);
+  const addResourceToOperation = () => {
+    const updatedOperationData = operationData.map((operation) =>
+      operation.code === updateCode
+        ? { ...operation, resource: resourceData }
+        : operation
+    );
+    setOperationData(updatedOperationData);
+  };
+
+  const copyResourceFromOperation = (code) => {
+    const operation = operationData.find((item) => item.code === code);
+    return operation && operation.resource ? [...operation.resource] : [];
+  };
+
+  const resourceLength = (code) => {
+    const operation = operationData.find((item) => item.code === code);
+    return operation && operation.resource ? operation.resource.length : 0;
   };
 
   const onReset = () => {
@@ -105,25 +164,10 @@ const Operation = ({ theme, operations, employees, userId }) => {
     setDescription("");
     setHour("");
     setRequired("");
-    setRestriction("");
-  };
-
-  const handleCancel = () => {
-    setModalOpen(false);
-  };
-
-  const saveClose = () => {
-    form.validateFields().then(() => {
-      addOperation();
-      setModalOpen(false);
-      onReset();
-    });
   };
 
   const onFinish = () => {
     addOperation();
-    setSuccess(true);
-    onReset();
   };
 
   return (
@@ -133,6 +177,7 @@ const Operation = ({ theme, operations, employees, userId }) => {
           <Button
             type="default"
             onClick={() => {
+              setModal("operation");
               setModalOpen(true);
             }}
           >
@@ -141,171 +186,176 @@ const Operation = ({ theme, operations, employees, userId }) => {
         </>
       ) : (
         <List
-          style={{ background: theme === "light" ? "#f8f9fa" : "#161d40" }}
+          style={{
+            background: theme === "light" ? "#f8f9fa" : "#161d40",
+          }}
           itemLayout="vertical"
           size="large"
           pagination={{
-            pageSize: 3,
+            pageSize: 10,
           }}
           dataSource={operationData}
           renderItem={(item) => (
-            <Badge.Ribbon
-              className="large-font"
-              placement="start"
-              text={item.avatar}
+            <div
+              className="card-with-background"
+              style={{
+                marginBottom: "24px",
+              }}
             >
-              <List.Item
-                style={{
-                  marginBottom: "24px",
-                  background: theme === "light" ? "#fff" : "#182348",
-                }}
-                key={item.title}
-                actions={[
-                  <IconText
-                    icon={UserOutlined}
-                    id={item.scheduler.split(" - ")[0]}
-                    name={item.scheduler.split(" - ")[1]}
-                  />,
-                ]}
-              >
+              <List.Item extra={genExtra()}>
                 <List.Item.Meta
                   title={
-                    <Row className="space-between-row">
-                      <div></div>
-                      <div>
-                        <Tooltip title="Delete Operation">
-                          <Button
-                            icon={
-                              <CloseOutlined style={{ fontSize: "18px" }} />
-                            }
-                            className="btn-normal"
-                          />
-                        </Tooltip>
-                      </div>
-                    </Row>
+                    <p className="large-card-title">
+                      {item.code + " - " + item.description}
+                    </p>
                   }
-                  description={item.description}
+                  description={
+                    <>
+                      <Paragraph
+                        className="small-font"
+                        style={{ paddingTop: "8px" }}
+                      >
+                        {item.hour}
+                      </Paragraph>
+                      <Paragraph className="small-font">
+                        {item.required}
+                      </Paragraph>
+                      <Button
+                        type="link"
+                        onClick={() => {
+                          setModal("resource");
+                          setUpdateCode(item.code);
+                          setCodeResourceData(
+                            copyResourceFromOperation(item.code)
+                          );
+                          setModalOpen(true);
+                        }}
+                      >
+                        {resourceLength(item.code) > 1
+                          ? "Resources (" + resourceLength(item.code) + ")"
+                          : "Resource (" + resourceLength(item.code) + ")"}
+                      </Button>
+                      <Paragraph></Paragraph>
+                      <Paragraph className="small-card-title">
+                        {item.scheduler}
+                      </Paragraph>
+                    </>
+                  }
                 />
-                <>
-                  <Resource theme={theme} employees={employees} />
-                  <Material theme={theme} />
-                </>
               </List.Item>
-            </Badge.Ribbon>
+            </div>
           )}
         />
       )}
       <Modal
         className={theme}
-        title="Add Operation"
+        title={
+          modal === "operation"
+            ? "Add Operation"
+            : modal === "resource"
+            ? "Add Resource"
+            : modal === "material"
+            ? "Add Material"
+            : ""
+        }
         centered
         open={modalOpen}
-        closable={true}
-        onCancel={handleCancel}
+        closable={false}
         footer={false}
-        width={"550px"}
+        width={
+          modal === "operation"
+            ? "550px"
+            : modal === "resource"
+            ? "750px"
+            : modal === "material"
+            ? "750px"
+            : ""
+        }
       >
-        <Form
-          {...layout}
-          form={form}
-          layout="vertical"
-          name="add-new"
-          onFinish={onFinish}
-        >
-          <Row>
-            <Col span={24}>
-              <div className="card-with-background">
-                <Form.Item
-                  name={["code"]}
-                  label={confirmationLabel}
-                  rules={[
-                    {
-                      required: true,
-                      message: "Code required",
-                    },
-                  ]}
-                >
-                  <Select
-                    showSearch
-                    style={{ width: "100%" }}
-                    value={code}
-                    filterOption={(input, option) =>
-                      (option?.label ?? "").toLowerCase().includes(input)
-                    }
-                    filterSort={(optionA, optionB) =>
-                      (optionA?.label ?? "")
-                        .toLowerCase()
-                        .localeCompare((optionB?.label ?? "").toLowerCase())
-                    }
-                    options={operations.map((ops) => {
-                      return {
-                        value: ops.op_code,
-                        label: ops.op_code,
-                      };
-                    })}
-                    onChange={(value) => {
-                      setSuccess(false);
-                      setCode(value);
-                      setConfirmationLabel(
-                        <span style={{ color: "#318ce7" }}>Code</span>
-                      );
-                      setDisableButton(false);
-                      searchOperation(value);
-                      checkOperation(value);
-                    }}
-                  />
-                </Form.Item>
-                {success ? (
-                  <Alert
-                    message={<Text className="big-font">Success</Text>}
-                    description={
-                      <Paragraph className="small-card-title">
-                        Code {code} succesfully added to operation.
-                      </Paragraph>
-                    }
-                    type="info"
-                    showIcon
-                  />
-                ) : (
-                  <>
-                    <Text className="big-font">{description}</Text>
-                    <Paragraph />
-                    <Paragraph className="medium-card-title">{hour}</Paragraph>
-                    <Paragraph className="medium-card-title">
-                      {required}
-                    </Paragraph>
-                    <Paragraph className="medium-card-title">
-                      {restriction}
-                    </Paragraph>
-                  </>
-                )}
-              </div>
-            </Col>
-          </Row>
-          <div className="space-between-row" style={{ paddingTop: "24px" }}>
-            <Button
-              type="default"
-              onClick={() => {
-                saveClose();
-              }}
-              disabled={disableButton}
-              block
-            >
-              SAVE AND CLOSE
-            </Button>
-            <Button
-              type="primary"
-              htmlType="submit"
-              disabled={disableButton}
-              style={{
-                marginLeft: "8px",
-              }}
-              block
-            >
-              SAVE AND NEW
-            </Button>
-          </div>
-        </Form>
+        {modal === "operation" ? (
+          <Form
+            {...layout}
+            form={form}
+            layout="vertical"
+            name="add-new"
+            onFinish={onFinish}
+          >
+            <Row>
+              <Col span={24}>
+                <div className="card-with-background">
+                  <Form.Item
+                    name={["code"]}
+                    label="Operation Code"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Code required",
+                      },
+                    ]}
+                  >
+                    <Select
+                      showSearch
+                      style={{ width: "100%" }}
+                      value={code}
+                      filterOption={(input, option) =>
+                        (option?.label ?? "").toLowerCase().includes(input)
+                      }
+                      filterSort={(optionA, optionB) =>
+                        (optionA?.label ?? "")
+                          .toLowerCase()
+                          .localeCompare((optionB?.label ?? "").toLowerCase())
+                      }
+                      options={operations.map((ops) => {
+                        return {
+                          value: ops.op_code,
+                          label: ops.op_code,
+                        };
+                      })}
+                      onChange={(value) => {
+                        searchOperation(value);
+                      }}
+                    />
+                  </Form.Item>
+                  {confirmationLabel}
+                </div>
+              </Col>
+            </Row>
+            <div className="space-between-row" style={{ paddingTop: "24px" }}>
+              <Button
+                type="default"
+                onClick={() => {
+                  setModalOpen(false);
+                  onReset();
+                }}
+                block
+              >
+                CANCEL
+              </Button>
+              <Button
+                type="primary"
+                htmlType="submit"
+                style={{
+                  marginLeft: "8px",
+                }}
+                block
+              >
+                ADD
+              </Button>
+            </div>
+          </Form>
+        ) : modal === "resource" ? (
+          <Resource
+            employees={employees}
+            codeResourceData={codeResourceData}
+            setResourceData={setResourceData}
+            addResourceToOperation={addResourceToOperation}
+            setModalOpen={setModalOpen}
+          />
+        ) : modal === "material" ? (
+          <Material theme={theme} />
+        ) : (
+          <></>
+        )}
       </Modal>
     </>
   );
